@@ -1,0 +1,23 @@
+@import '../../_theme_variables';
+.tags_block {
+	.block_content {
+		overflow:hidden;
+
+		a {
+			display:inline-block;
+			font-size:12px;
+			line-height:30px;
+			border:$main_border;
+			padding:0 18px;
+			color:#393939;
+			margin:0 5px 5px 0;
+			text-transform:capitalize;
+			@include pos-transition(300ms);
+
+			&:hover {
+				color:#fff;
+				background:#393939;
+			}
+		}
+	}
+}

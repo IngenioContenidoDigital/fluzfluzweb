@@ -1,0 +1,290 @@
+<pos_static_blocks>
+<!-- static block configuration -->
+	<block>
+		<id_posstaticblock>1</id_posstaticblock>
+		<identify>footer_static_col1</identify>
+		<hook_position>blockFooter1</hook_position>
+		<name_module></name_module>
+		<hook_module>displayFooter</hook_module>
+		<posorder>0</posorder>
+		<insert_module>0</insert_module>
+		<active>0</active>
+		<showhook>1</showhook>
+		<is_default>1</is_default>
+	</block>
+	<block>
+		<id_posstaticblock>2</id_posstaticblock>
+		<identify>footer_static_col2</identify>
+		<hook_position>blockFooter1</hook_position>
+		<name_module></name_module>
+		<hook_module>displayFooter</hook_module>
+		<posorder>0</posorder>
+		<insert_module>0</insert_module>
+		<active>0</active>
+		<showhook>1</showhook>
+		<is_default>1</is_default>
+	</block>
+	<block>
+		<id_posstaticblock>3</id_posstaticblock>
+		<identify>footer_static_col3</identify>
+		<hook_position>blockFooter2</hook_position>
+		<name_module>blocknewsletter</name_module>
+		<hook_module>displayFooter</hook_module>
+		<posorder>0</posorder>
+		<insert_module>1</insert_module>
+		<active>0</active>
+		<showhook>1</showhook>
+		<is_default>1</is_default>
+	</block>
+	<block>
+		<id_posstaticblock>4</id_posstaticblock>
+		<identify>footer_static_col4</identify>
+		<hook_position>blockFooter3</hook_position>
+		<name_module>blockcms</name_module>
+		<hook_module>displayFooter</hook_module>
+		<posorder>0</posorder>
+		<insert_module>1</insert_module>
+		<active>0</active>
+		<showhook>1</showhook>
+		<is_default>1</is_default>
+	</block>
+	<block>
+		<id_posstaticblock>5</id_posstaticblock>
+		<identify>footer_static_col5</identify>
+		<hook_position>blockFooter3</hook_position>
+		<name_module>blockmyaccountfooter</name_module>
+		<hook_module>displayFooter</hook_module>
+		<posorder>0</posorder>
+		<insert_module>1</insert_module>
+		<active>0</active>
+		<showhook>1</showhook>
+		<is_default>1</is_default>
+	</block>
+	
+	<block>
+		<id_posstaticblock>6</id_posstaticblock>
+		<identify>footer_static_col6</identify>
+		<hook_position>blockFooter3</hook_position>
+		<name_module>blockcategories</name_module>
+		<hook_module>displayFooter</hook_module>
+		<posorder>0</posorder>
+		<insert_module>1</insert_module>
+		<active>0</active>
+		<showhook>1</showhook>
+		<is_default>1</is_default>
+	</block>
+	<block>
+		<id_posstaticblock>7</id_posstaticblock>
+		<identify>footer_bottom</identify>
+		<hook_position>blockFooter4</hook_position>
+		<name_module></name_module>
+		<hook_module>displayFooter</hook_module>
+		<posorder>0</posorder>
+		<insert_module>0</insert_module>
+		<active>0</active>
+		<showhook>1</showhook>
+		<is_default>1</is_default>
+	</block>
+
+<!-- block language configuration -->
+<!-- language1-->
+	<block_language>
+		<id_posstaticblock>1</id_posstaticblock>
+		<id_lang>1</id_lang>
+		<title>Footer Static Col1</title>
+		<description>
+			<![CDATA[
+			<div class="footer-block">
+			<div class="logo-footer"><a href="#"><img src="/pos_minoan/img/cms/logo-footer.png" alt="" /></a></div>
+			<div class="footer-static-content ">
+			<div class="footer-contact">
+			<p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>
+			<p>Mirum est notare quam littera gothica, quam nunc putamus parum claram</p>
+			</div>
+			</div>
+			</div>
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>2</id_posstaticblock>
+		<id_lang>1</id_lang>
+		<title>Footer Static Col2</title>
+		<description>
+			<![CDATA[
+			<div class="payment-block">
+			<div class="title-payment"><span>Payments</span></div>
+			<ul class="payment">
+			<li><a href="#"><img src="/pos_minoan/img/cms/payment.png" alt="" /></a></li>
+			</ul>
+			</div>
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>3</id_posstaticblock>
+		<id_lang>1</id_lang>
+		<title>Footer Static Col3</title>
+		<description>
+			<![CDATA[
+				
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>4</id_posstaticblock>
+		<id_lang>1</id_lang>
+		<title>Footer Static Col4</title>
+		<description>
+			<![CDATA[
+			
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>5</id_posstaticblock>
+		<id_lang>1</id_lang>
+		<title>Footer Static Col5</title>
+		<description>
+			<![CDATA[
+				
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>6</id_posstaticblock>
+		<id_lang>1</id_lang>
+		<title>Footer Static Col6</title>
+		<description>
+			<![CDATA[
+				
+				]]>
+		</description>
+	</block_language>	
+	<block_language>
+		<id_posstaticblock>7</id_posstaticblock>
+		<id_lang>1</id_lang>
+		<title>Footer Bottom</title>
+		<description>
+			<![CDATA[
+			<address>Copyright <i class="icon-copyright"></i> <a href="http://posthemes.com/">Posthemes</a>. All Rights Reserved</address>
+				]]>
+		</description>
+	</block_language>
+
+<!-- block language configuration -->
+	<!-- language2-->
+	<block_language>
+		<id_posstaticblock>1</id_posstaticblock>
+		<id_lang>2</id_lang>
+		<title>Footer Static Col1</title>
+		<description>
+			<![CDATA[
+			<div class="footer-block">
+			<div class="logo-footer"><a href="#"><img src="/pos_minoan/img/cms/logo-footer.png" alt="" /></a></div>
+			<div class="footer-static-content ">
+			<div class="footer-contact">
+			<p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>
+			<p>Mirum est notare quam littera gothica, quam nunc putamus parum claram</p>
+			</div>
+			</div>
+			</div>
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>2</id_posstaticblock>
+		<id_lang>2</id_lang>
+		<title>Footer Static Col2</title>
+		<description>
+			<![CDATA[
+			<div class="payment-block">
+			<div class="title-payment"><span>Payments</span></div>
+			<ul class="payment">
+			<li><a href="#"><img src="/pos_minoan/img/cms/payment.png" alt="" /></a></li>
+			</ul>
+			</div>
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>3</id_posstaticblock>
+		<id_lang>2</id_lang>
+		<title>Footer Static Col3</title>
+		<description>
+			<![CDATA[
+				
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>4</id_posstaticblock>
+		<id_lang>2</id_lang>
+		<title>Footer Static Col4</title>
+		<description>
+			<![CDATA[
+			
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>5</id_posstaticblock>
+		<id_lang>2</id_lang>
+		<title>Footer Static Col5</title>
+		<description>
+			<![CDATA[
+				
+				]]>
+		</description>
+	</block_language>
+	<block_language>
+		<id_posstaticblock>6</id_posstaticblock>
+		<id_lang>2</id_lang>
+		<title>Footer Static Col6</title>
+		<description>
+			<![CDATA[
+				
+				]]>
+		</description>
+	</block_language>	
+	<block_language>
+		<id_posstaticblock>7</id_posstaticblock>
+		<id_lang>2</id_lang>
+		<title>Footer Bottom</title>
+		<description>
+			<![CDATA[
+			<address>Copyright <i class="icon-copyright"></i> <a href="http://posthemes.com/">Posthemes</a>. All Rights Reserved</address>
+				]]>
+		</description>
+	</block_language>
+	
+<!-- block shop configuration -->
+	<block_shop>
+		<id_posstaticblock>1</id_posstaticblock>
+		<id_shop>1</id_shop>
+	</block_shop>
+	<block_shop>
+		<id_posstaticblock>2</id_posstaticblock>
+		<id_shop>1</id_shop>
+	</block_shop>
+	<block_shop>
+		<id_posstaticblock>3</id_posstaticblock>
+		<id_shop>1</id_shop>
+	</block_shop>
+	<block_shop>
+		<id_posstaticblock>4</id_posstaticblock>
+		<id_shop>1</id_shop>
+	</block_shop>
+	<block_shop>
+		<id_posstaticblock>5</id_posstaticblock>
+		<id_shop>1</id_shop>
+	</block_shop>
+	<block_shop>
+		<id_posstaticblock>6</id_posstaticblock>
+		<id_shop>1</id_shop>
+	</block_shop>
+	<block_shop>
+		<id_posstaticblock>7</id_posstaticblock>
+		<id_shop>1</id_shop>
+	</block_shop>
+</pos_static_blocks>

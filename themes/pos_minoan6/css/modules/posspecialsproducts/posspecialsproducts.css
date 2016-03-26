@@ -1,0 +1,8 @@
+.oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+#special_products_home .pos-title a { color: #232323; }
+#special_products_home .item-product { margin-bottom: 20px; display: inline-block; width: 100%; }
+#special_products_home .products-inner { width: 80px; float: left; margin-right: 20px; }
+#special_products_home .product-contents { overflow: hidden; display: block; width: auto; }
+#special_products_home .product-contents .product-description { display: none; }
+@media (min-width: 768px) and (max-width: 991px) { #special_products_home .product-contents { overflow: visible; clear: both; margin-top: 20px; } }

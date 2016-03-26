@@ -1,0 +1,30 @@
+@import "compass";
+@import "theme_variables";
+#special_products_home{
+	.pos-title a {
+		color:#232323;
+	}
+	.item-product {
+		margin-bottom:20px;
+		display:inline-block;
+		width:100%;
+	}
+	.products-inner {
+		width:80px;
+		float:left;
+		margin-right:20px;
+	}
+	.product-contents{
+		overflow:hidden;
+		display:block;
+		width:auto;
+		.product-description {
+			display:none;
+		}
+		@media (min-width:$screen-sm) and (max-width:$screen-sm-max) {
+			overflow:visible;
+			clear:both;
+			margin-top:20px;
+		}
+	}
+}

@@ -1,0 +1,11 @@
+.oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+#best-sellers_block_right .item-sellers { display: inline-block; width: 100%; margin-bottom: 20px; }
+#best-sellers_block_right .item-sellers .sellers-img { float: left; margin-right: 30px; width: 80px; }
+#best-sellers_block_right .item-sellers .product-content { overflow: hidden; }
+#best-sellers_block_right .item-sellers .product-content .product-description { display: none; }
+@media (min-width: 768px) and (max-width: 991px) { #best-sellers_block_right .item-sellers .product-content { overflow: visible; clear: both; margin-top: 20px; } }
+#best-sellers_block_right .boxprevnext a { opacity: 1; width: 30px; height: 30px; line-height: 30px; top: -40px; }
+#best-sellers_block_right .boxprevnext a i { line-height: 30px; }
+#best-sellers_block_right .boxprevnext a.next { right: 0; }
+#best-sellers_block_right .boxprevnext a.prev { right: 32px; left: auto; }

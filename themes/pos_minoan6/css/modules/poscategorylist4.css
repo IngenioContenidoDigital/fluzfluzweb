@@ -1,0 +1,5 @@
+.oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+.postabcateslider.block_product.postabcateslider4 .title_block { border-color: #f691b1; }
+.postabcateslider.block_product.postabcateslider4 .title_block h3 { background: #f691b1; }
+.postabcateslider.block_product.postabcateslider4 .cate_title ul li.active { background: #f8a9c2; }

@@ -1,0 +1,13 @@
+.oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+.tabs { position: relative; border: 1px solid #e5e5e5; margin-bottom: 30px; float: left; width: 100%; }
+.tabs li { float: left; position: relative; cursor: pointer; line-height: 50px; padding-right: 25px; background: white; border-right: 1px solid #e5e5e5; color: #cbcaca; text-transform: uppercase; font-size: 20px; font-weight: 400; }
+.tabs li:last-child { border: 0; }
+.tabs li:before { float: left; content: ""; display: block; font-size: 20px; font-family: "FontAwesome"; margin-right: 15px; border-right: 1px solid #e5e5e5; width: 50px; line-height: 50px; text-align: center; }
+.tabs li.new_product:before { content: "\f03e"; }
+.tabs li.special_product:before { content: "\f044"; }
+.tabs li.besseller_product:before { content: "\f005"; }
+.tabs li.feature_product:before { content: "\f03e"; }
+.tabs li.active, .tabs li:hover { background: #f4f4f4; color: #404e53; }
+@media (max-width: 480px) { .tabs li { padding: 0; border: 0; border-bottom: 1px solid #e5e5e5; width: 100%; }
+  .tabs li:last-child { border-bottom: 0; } }

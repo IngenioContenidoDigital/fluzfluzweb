@@ -1,0 +1,8 @@
+Bonjour {firstname} {lastname},
+
+Nous vous rappelons que vous disposez de {rewards} dans votre compte récompenses que vous pouvez convertir en bon de réduction pour vos prochains achats.
+
+
+
+{shop_name}
+{shop_url}
