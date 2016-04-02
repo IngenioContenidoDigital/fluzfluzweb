@@ -2,8 +2,8 @@
 # The following files contain your database credentials and other personal data.
 
 config/settings.*.php
-*.jpg
-*.png
+/img/p/*.jpg
+/img/p/*.png
 *.md
 *.woff
 *.ttf
@@ -26,6 +26,6 @@ admin-dev/backups/
 admin-dev/export/
 admin-dev/import/
 download/
-/img/*
 upload/
-/nbproject/private/
+/nbproject
+/nbproject/*

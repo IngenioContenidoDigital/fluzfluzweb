@@ -58,7 +58,7 @@ if (!Validate::isLoadedObject($customer) || !Validate::isLoadedObject($billing_a
 	die('An unrecoverable error occured while retrieving you data');
 }
 
-$signature = md5(Configuration::get('PAYU_LATAM_API_KEY').'~'.Configuration::get('PAYU_LATAM_MERCHANT_ID').'~'.(int)$cart->id.'~'.
+$signature = md5(Configuration::get('PAYU_LATAM_API_KEY').'~'.Configuration::get('PAYU_LATAM_MERCHANT_ID').'~'.(int)$cart->id.'_abc~'.
 $cart->getordertotal(true).'~'.$currency->iso_code);
 
 if ($cart_details['total_tax'] != 0)
@@ -96,7 +96,7 @@ else
 
 <form class="md-form" id="payu_latam_form" name="payu_latam_form" method="post" action="<?php echo Tools::safeOutput($gateway_url); ?>">
 	<input type="hidden" name="merchantId" id="merchantId" value="<?php echo Tools::safeOutput(Configuration::get('PAYU_LATAM_MERCHANT_ID')); ?>" />
-	<input type="hidden" name="referenceCode" id="referenceCode" value="<?php echo Tools::safeOutput((int)$cart->id); ?>" />
+	<input type="hidden" name="referenceCode" id="referenceCode" value="<?php echo Tools::safeOutput($cart->id.'_abc'); ?>" />
 	<input type="hidden" name="description" id="description" value="<?php echo Tools::safeOutput(trim($description, ',')); ?>" />
 	<input type="hidden" name="amount" id="amount" value="<?php echo Tools::safeOutput($cart->getordertotal(true)); ?>" />
 	<input type="hidden" name="tax" id="tax" value="<?php echo Tools::safeOutput($cart_details['total_tax']); ?>" />

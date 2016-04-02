@@ -63,6 +63,13 @@
 		<![endif]-->
 	</head>
 	<body{if isset($page_name)} itemscope itemtype="http://schema.org/WebPage" id="{$page_name|escape:'html':'UTF-8'}"{/if} class="{if isset($page_name)}{$page_name|escape:'html':'UTF-8'}{/if}{if isset($body_classes) && $body_classes|@count} {implode value=$body_classes separator=' '}{/if}{if $hide_left_column} hide-left-column{else} show-left-column{/if}{if $hide_right_column} hide-right-column{else} show-right-column{/if}{if isset($content_only) && $content_only} content_only{/if} lang_{$lang_iso}">
+            <form id="searchbox" style="display:none;" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
+		<input type="hidden" name="controller" value="search" />
+		<input type="hidden" name="orderby" value="position" />
+		<input type="hidden" name="orderway" value="desc" />
+                <i class="cerrar">X</i>
+		<input class="search_query form-control" type="text" id="search_query_top" name="search_query" placeholder="{l s='Search' mod='blocksearch'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+            </form>
 	{if !isset($content_only) || !$content_only}
 		{if isset($restricted_country_mode) && $restricted_country_mode}
 			<div id="restricted-country">
@@ -74,52 +81,49 @@
 				<header id="header">
 					{capture name='displayBanner'}{hook h='displayBanner'}{/capture}
 					{if $smarty.capture.displayBanner}
-						<div class="banner">
-							<div class="container">
-								<div class="row">
-									{$smarty.capture.displayBanner}
-								</div>
-							</div>
-						</div>
+                                            <div class="banner">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        {$smarty.capture.displayBanner}
+                                                    </div>
+                                                </div>
+                                            </div>
 					{/if}
 					{capture name='displayNav'}{hook h='displayNav'}{/capture}
 					{if $smarty.capture.displayNav}
-						<div class="nav">
-							<div class="container">
-								<div class="row">
-									<nav>{$smarty.capture.displayNav}</nav>
-								</div>
-							</div>
-						</div>
+                                            <div class="nav">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <nav>{$smarty.capture.displayNav}</nav>
+                                                    </div>
+                                                </div>
+                                            </div>
 					{/if}
 					
 					<div class="header-middle">
-						<div class="container">
-							<div class="row">
-								<div class=" pos_logo col-md-3 col-sm-12 col-xs-12">
-									<a href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{$shop_name|escape:'html':'UTF-8'}">
-										<img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
-									</a>
-								</div>
-								<div class="header-middle-right col-md-9 col-sm-12 col-xs-12">
-									{if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
-									<div class="block-megamenu">
-									{capture name='megamenu'}{hook h='megamenu'}{/capture}
-									{if $smarty.capture.megamenu}
-									{$smarty.capture.megamenu}
-									{/if}
-									</div>
-
-								</div>
-
-							</div>
-						</div>
-					</div>
-				
-				</header>
-				
-			</div>
-			<div class="columns-container">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="pos_logo col-md-3 col-sm-12 col-xs-12">
+                                                        <a href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{$shop_name|escape:'html':'UTF-8'}">
+                                                            <img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
+                                                        </a>
+                                                    </div>
+                                                    <div class="block-megamenu col-md-7 col-sm-12 col-xs-12">
+                                                        {capture name='megamenu'}{hook h='megamenu'}{/capture}
+                                                            {if $smarty.capture.megamenu}
+                                                                {$smarty.capture.megamenu}
+                                                            {/if}
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-12 col-xs-12">
+                                                            {if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </header>
+                        </div>
+                    </div>
+                    <div class="columns-container">
 				{if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}
 					{if $smarty.capture.blockPosition1}
