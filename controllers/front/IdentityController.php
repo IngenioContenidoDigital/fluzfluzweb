@@ -50,6 +50,8 @@ class IdentityControllerCore extends FrontController
 
         if (Tools::isSubmit('submitIdentity')) {
             $email = trim(Tools::getValue('email'));
+            $name = trim(Tools::getValue('firstname'));
+            $nameTitular = trim(Tools::getValue('nameTitular'));
 
             if (Tools::getValue('months') != '' && Tools::getValue('days') != '' && Tools::getValue('years') != '') {
                 $this->customer->birthday = (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days');
@@ -65,7 +67,14 @@ class IdentityControllerCore extends FrontController
 
             if (!Validate::isEmail($email)) {
                 $this->errors[] = Tools::displayError('This email address is not valid');
-            } elseif ($this->customer->email != $email && Customer::customerExists($email, true)) {
+            } 
+            if(!Validate::isName($name)){
+                $this->errors[]=  Tools::displayError('Ingrese un nombre Correcto');
+            }
+            elseif ($this->customer->email != $email && Customer::customerExists($email, true)) {
+                $this->errors[] = Tools::displayError('An account using this email address has already been registered.');
+            } 
+            elseif ($this->customer->email != $email && Customer::customerExists($email, true)) {
                 $this->errors[] = Tools::displayError('An account using this email address has already been registered.');
             } elseif (!Tools::getIsset('old_passwd') || (Tools::encrypt($old_passwd) != $this->context->cookie->passwd)) {
                 $this->errors[] = Tools::displayError('The password you entered is incorrect.');

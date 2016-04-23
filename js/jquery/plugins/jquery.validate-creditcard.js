@@ -1,4 +1,4 @@
-﻿/*
+/*
 * jQuery creditcard2 extension for the jQuery Validation plugin (http://plugins.jquery.com/project/validate).
 * Ported from http://www.braemoor.co.uk/software/creditcard.shtml by John Gardner, with some enhancements.
 *

@@ -28,7 +28,7 @@
 		<span class="navigation-pipe">{$navigationPipe}</span>{l s='Create your account'}
 	{/if}
 {/capture}
-<h1 class="page-heading">{if !isset($email_create)}{l s='Authentication'}{else}{l s='Create an account'}{/if}</h1>
+<h1 class="page-heading">{if !isset($email_create)}{l s='Authentication'}{else}{l s='Create'}{/if}</h1>
 {if isset($back) && preg_match("/^http/", $back)}{assign var='current_step' value='login'}{include file="$tpl_dir./order-steps.tpl"}{/if}
 {include file="$tpl_dir./errors.tpl"}
 {assign var='stateExist' value=false}
