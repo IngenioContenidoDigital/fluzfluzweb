@@ -190,7 +190,7 @@ class CustomerCore extends ObjectModel
             'date_upd' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
         ),
     );
-
+    
     protected static $_defaultGroupId = array();
     protected static $_customerHasAddress = array();
     protected static $_customer_groups = array();

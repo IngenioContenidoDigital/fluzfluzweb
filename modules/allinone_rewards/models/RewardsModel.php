@@ -25,6 +25,7 @@ class RewardsModel extends ObjectModel
 	public $id_cart_rule;
 	public $id_payment;
 	public $credits;
+        public $points;
 	public $plugin;
 	public $reason;
 	public $date_add;
@@ -188,6 +189,58 @@ class RewardsModel extends ObjectModel
 		}
 		return $rewards;
 	}
+        
+        public static function getRewardReadyForDisplay($reward,$id_currency,$id_lang=NULL){
+            
+                $context = Context::getContext();
+		$currency = Currency::getCurrency((int)$id_currency);
+
+		$id_template=0;
+		if (isset($customer)) {
+			$id_template = (int)MyConf::getIdTemplate('core', $context->customer->id);
+			if (is_null($id_lang) && version_compare(_PS_VERSION_, '1.5.4.0', '>=') && !empty($context->customer->id_lang))
+				$id_lang = $context->customer->id_lang;
+		}
+
+		if (is_null($id_lang))
+			$id_lang = $context->language->id;
+
+		if ((float)MyConf::get('REWARDS_VIRTUAL', null, $id_template)) {
+			$reward = round($reward*(float)MyConf::get('REWARDS_VIRTUAL_VALUE_'.$currency['id_currency'], null, $id_template), 2);
+			// on ajoute les décimales que si ce n'est pas un entier
+			if ($reward != (int)$reward)
+				$reward = number_format($reward, 2, '.', '');
+                        $points=$reward;
+			return $reward;//.' '.MyConf::get('REWARDS_VIRTUAL_NAME', $id_lang, $id_template);
+		} else
+			return Tools::displayPrice(round(Tools::convertPrice((float)$reward, $currency), 2), (int)$currency['id_currency']);
+        }
+        
+        public static function getMoneyReadyForDisplay($money,$id_currency,$id_lang=NULL){
+            
+                $context = Context::getContext();
+		$currency = Currency::getCurrency((int)$id_currency);
+
+		$id_template=0;
+		if (isset($customer)) {
+			$id_template = (int)MyConf::getIdTemplate('core', $context->customer->id);
+			if (is_null($id_lang) && version_compare(_PS_VERSION_, '1.5.4.0', '>=') && !empty($context->customer->id_lang))
+				$id_lang = $context->customer->id_lang;
+		}
+
+		if (is_null($id_lang))
+			$id_lang = $context->language->id;
+
+		if ((float)MyConf::get('REWARDS_VIRTUAL', null, $id_template)) {
+			$money = round($money/(float)MyConf::get('REWARDS_VIRTUAL_VALUE_'.$currency['id_currency'], null, $id_template), 2);
+			// on ajoute les décimales que si ce n'est pas un entier
+			if ($money != (int)$money)
+				$money = number_format($money, 2, '.', '');
+                        //$points=$money;
+			return $money;//.' '.MyConf::get('REWARDS_VIRTUAL_NAME', $id_lang, $id_template);
+		} else
+			return Tools::displayPrice(round(Tools::convertPrice((float)$money, $currency), 2), (int)$currency['id_currency']);
+        }
 
 	public static function getAllByIdCustomer($id_customer, $admin = false, $onlyValidate = false, $pagination = false, $nb = 10, $page = 1, $currency = NULL, $readyForDisplay = false)
 	{
@@ -296,6 +349,7 @@ class RewardsModel extends ObjectModel
 
 		/* Register order(s) which contributed to create this discount */
 		self::registerDiscount($cartRule);
+                return $cartRule->code;
 	}
 
 	public static function registerDiscount($cartRule)
@@ -516,4 +570,5 @@ class RewardsModel extends ObjectModel
 
 		return $result;
 	}
+       
 }

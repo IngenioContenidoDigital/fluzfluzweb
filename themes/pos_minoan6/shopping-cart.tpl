@@ -151,22 +151,24 @@
 						<tr class="cart_total_price">
 							<td rowspan="{$rowspan_total}" colspan="2" id="cart_voucher" class="cart_voucher">
 								{if $voucherAllowed}
-									<form action="{if $opc}{$link->getPageLink('order-opc', true)}{else}{$link->getPageLink('order', true)}{/if}" method="post" id="voucher">
+									<!--<form action="{if $opc}{$link->getPageLink('order-opc', true)}{else}{/if}" method="post" id="voucher">
 										<fieldset>
 											<h4>{l s='Vouchers'}</h4>
 											<input type="text" class="discount_name form-control" id="discount_name" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" />
 											<input type="hidden" name="submitDiscount" />
-											<button type="submit" name="submitAddDiscount" class="button btn btn-default button-small"><span>{l s='OK'}</span></button>
+                                                                                        <div name="submitAddDiscount" id="submitAddDiscount" class="button btn btn-default button-small btn-danger"><span>{l s='Apply all Points'}</span></div>
+
+                                                                                        <button name="submitAddDiscount" id="submitAddDiscount" class="btn-danger"><span>{l s='Apply all Points'}</span></button>
 										</fieldset>
-									</form>
-									{if $displayVouchers}
+									</form>-->
+									<!--{if $displayVouchers}
 										<p id="title" class="title-offers">{l s='Take advantage of our exclusive offers:'}</p>
 										<div id="display_cart_vouchers">
 											{foreach $displayVouchers as $voucher}
 												{if $voucher.code != ''}<span class="voucher_name" data-code="{$voucher.code|escape:'html':'UTF-8'}">{$voucher.code|escape:'html':'UTF-8'}</span> - {/if}{$voucher.name}<br />
 											{/foreach}
 										</div>
-									{/if}
+									{/if}-->
 								{/if}
 							</td>
 							<td colspan="{$col_span_subtotal}" class="text-right">{if $display_tax_label}{l s='Total products (tax incl.)'}{else}{l s='Total products'}{/if}</td>
@@ -506,7 +508,7 @@
 			{else}
 				{foreach from=$formattedAddresses key=k item=address}
 					<div class="col-xs-12 col-sm-6"{if $k == 'delivery' && !$have_non_virtual_products} style="display: none;"{/if}>
-						<ul class="address {if $address@last}last_item{elseif $address@first}first_item{/if} {if $address@index % 2}alternate_item{else}item{/if} box">
+						<ul class="address {if $address@last}last_item{elseif $address@first}first_item{/if} {if $address@index % 2}alternate_item{else}item{/if} box boxCheck">
 							<li>
 								<h3 class="page-subheading">
 									{if $k eq 'invoice'}
@@ -543,23 +545,45 @@
 		</div>
 	{/if}
 	<div id="HOOK_SHOPPING_CART">{$HOOK_SHOPPING_CART}</div>
+        
 	<p class="cart_navigation clearfix">
 		{if !$opc}
-			<a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" title="{l s='Proceed to checkout'}">
-				<span>{l s='Proceed to checkout'}<i class="icon-chevron-right right"></i></span>
+			<a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" title="{l s='Next Step'}">
+				<span>{l s='NEXT STEP'}<i class="icon-chevron-right right"></i></span>
 			</a>
 		{/if}
-		<a href="{if (isset($smarty.server.HTTP_REFERER) && ($smarty.server.HTTP_REFERER == $link->getPageLink('order', true) || $smarty.server.HTTP_REFERER == $link->getPageLink('order-opc', true) || strstr($smarty.server.HTTP_REFERER, 'step='))) || !isset($smarty.server.HTTP_REFERER)}{$link->getPageLink('index')}{else}{$smarty.server.HTTP_REFERER|escape:'html':'UTF-8'|secureReferrer}{/if}" class="button-exclusive btn btn-default" title="{l s='Continue shopping'}">
+		<!--<a href="{if (isset($smarty.server.HTTP_REFERER) && ($smarty.server.HTTP_REFERER == $link->getPageLink('order', true) || $smarty.server.HTTP_REFERER == $link->getPageLink('order-opc', true) || strstr($smarty.server.HTTP_REFERER, 'step='))) || !isset($smarty.server.HTTP_REFERER)}{$link->getPageLink('index')}{else}{$smarty.server.HTTP_REFERER|escape:'html':'UTF-8'|secureReferrer}{/if}" class="button-exclusive btn btn-default" title="{l s='Continue shopping'}">
 			<i class="icon-chevron-left"></i>{l s='Continue shopping'}
-		</a>
+		</a>-->
 	</p>
 	<div class="clear"></div>
 	<div class="cart_navigation_extra">
 		<div id="HOOK_SHOPPING_CART_EXTRA">{if isset($HOOK_SHOPPING_CART_EXTRA)}{$HOOK_SHOPPING_CART_EXTRA}{/if}</div>
 	</div>
+                
+                
 {strip}
 {addJsDef deliveryAddress=$cart->id_address_delivery|intval}
 {addJsDefL name=txtProduct}{l s='product' js=1}{/addJsDefL}
 {addJsDefL name=txtProducts}{l s='products' js=1}{/addJsDefL}
 {/strip}
 {/if}
+{literal}
+    <script>
+           $('#submitAddDiscount').click(function(){
+               //var credits=$('#cavail').val();           
+               /*$.ajax({
+                  method:"GET",
+                  url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits,
+                  success:function(response){
+                      $('#discount_name').val(response);
+                      $('input[name="submitDiscount"]').val(response)
+                      $('#voucher').submit();
+                  }                
+               });*/
+        alert('Hey');
+               $('#discount_name').val("FLFdQEZU2");
+               $('input[name="submitDiscount"]').val("FLFdQEZU2");
+           })
+    </script>
+{/literal}      
