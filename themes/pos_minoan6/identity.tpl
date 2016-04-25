@@ -22,6 +22,7 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+
 {capture name=path}
     <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">
         {l s='My account'}
@@ -33,9 +34,8 @@
         {l s='Your personal information'}
     </span>
 {/capture}
-
 <div class="box">
-    <h1 class="titleInfo page-subheading">
+    <h1 class="page-subheading">
         {l s='Your personal information'}
     </h1>
 
@@ -47,8 +47,6 @@
             {if isset($pwd_changed)}<br />{l s='Your password has been sent to your email:'} {$email}{/if}
         </p>
     {else}
-        
-        
         <p class="info-title">
             {l s='Please be sure to update your personal information if it has changed.'}
         </p>
@@ -56,63 +54,10 @@
             <sup>*</sup>{l s='Required field'}
         </p>
         <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="std">
-        
-        <div class="allPanelInfo panel panel-default">
-            <div class="panelInfo">
-            <h4 class="panel-title" style="text-align:center;">
-                <span>Registre su tarjeta de crédito</span>
-            </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="required form-group">
-                        <label for="nameTitular" class="required">
-                            {l s='Nombre del Titular'}
-                        </label>
-                        <input class="is_required validate form-control" data-validate="isName" type="text" id="nametitular" name="nametitular" placeholder="Ingrese su nombre"/>
-                    </div>
-                    <div class="required form-group">
-                        <label class="required">
-                            {l s='Nombre de la Tarjeta'}
-                        </label>
-                        <input type="text" id="nameCard" name="nameCard" placeholder="Ingrese nombre de la tarjeta de credito"/>
-                    </div>
-                    <div class="required form-group">
-                        <label class="required">
-                            {l s='Nro Tarjeta de Credito'}
-                        </label>
-                        <input type="text" id="numCard" name="numCard" placeholder="Ingrese Numero de la tarjeta de credito"/>
-                    </div>
-                    <div class="form-group">
-                    <label class="required">
-                        {l s='Fecha Vencimiento'}
-                    </label>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <select name="days" id="days" class="form-control">
-                                <option value="">-</option>
-                                {foreach from=$days item=v}
-                                    <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-xs-4">
-                            <select id="years" name="years" class="form-control">
-                                <option value="">-</option>
-                                {foreach from=$years item=v}
-                                    <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                    </div>
-                </div>             
-                </div>
-            </div>
-            <button type="submit" name="submitIdentity" class="btn button-medium"> Ingresa Nueva tarjeta de credito </button>
-        </div>
-            <fieldset class="fieldInfo">
+            <fieldset>
                 <div class="clearfix">
                     <label>{l s='Social title'}</label>
+                    <br />
                     {foreach from=$genders key=k item=gender}
                         <div class="radio-inline">
                             <label for="id_gender{$gender->id}" class="top">
@@ -248,12 +193,12 @@
                 {if isset($HOOK_CUSTOMER_IDENTITY_FORM)}
 			{$HOOK_CUSTOMER_IDENTITY_FORM}
 		{/if}
-            </fieldset>
-            <div class="formInfo form-group">
-                    <button type="submit" name="submitIdentity" class="btnInfo">
-                        <span>{l s='Save'}<i class="icon-briefcase right"></i></span>
+                <div class="form-group">
+                    <button type="submit" name="submitIdentity" class="btn btn-default button button-medium">
+                        <span>{l s='Save'}<i class="icon-chevron-right right"></i></span>
                     </button>
-            </div>
+                </div>
+            </fieldset>
         </form> <!-- .std -->
     {/if}
 </div>
@@ -273,11 +218,3 @@
         </a>
     </li>
 </ul>
-{literal}
-    <script>
-    $('#submitInfo').click(function(){
-        
-        alert("prueba");
-    });
-    </script>
-{/literal}

@@ -115,7 +115,7 @@ class Blocknewsletter extends Module
 
 	public function install()
 	{
-		if (!parent::install() || !Configuration::updateValue('PS_NEWSLETTER_RAND', rand().rand()) || !$this->registerHook(array('header', 'footer', 'rightColumn', 'actionCustomerAccountAdd')))
+		if (!parent::install() || !Configuration::updateValue('PS_NEWSLETTER_RAND', rand().rand()) || !$this->registerHook(array('header', 'footer', 'actionCustomerAccountAdd')))
 			return false;
 
 		Configuration::updateValue('NW_SALT', Tools::passwdGen(16));

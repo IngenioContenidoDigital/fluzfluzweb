@@ -44,64 +44,13 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 
 		$voucherAllowed = RewardsModel::isCustomerAllowedForVoucher((int)$this->context->customer->id);
 		$paymentAllowed = RewardsModel::isCustomerAllowedForPayment((int)$this->context->customer->id);
-                
-                $ajax=Tools::getValue('ajax');
-                
-                if($_GET['transform-credits'] == 'true' && $_GET['ajax'] == 'true'){
-                    $money=$_GET['credits'];
-                    $cartValue=$_GET['price'];
-                    $points=$_GET['points'];
-                    $use=$_GET['use'];
-                     
-                    if($points>0){
-                        
-                       if($use>0 && $use<=$points){
-                            $money= RewardsModel::getMoneyReadyForDisplay($use, (int)$this->context->currency->id);
-                       }else{
-                           $cartpoints=RewardsModel::getRewardReadyForDisplay($cartValue, (int)$this->context->currency->id);
-                           if($points>=$cartpoints){
-                              $money= RewardsModel::getMoneyReadyForDisplay($cartpoints, (int)$this->context->currency->id);
-                           }else{
-                              $money= RewardsModel::getMoneyReadyForDisplay($points, (int)$this->context->currency->id);
-                           }
-                           
-                       }
-                       
-                       
-                       
-                        $response=RewardsModel::createDiscount($money);
-                        $realmoney= RewardsModel::getMoneyReadyForDisplay($points, (int)$this->context->currency->id);
-                        
-                        if($money<$realmoney){
-                            
-                            $rs="SELECT "._DB_PREFIX_."rewards.id_reward AS last_reward, 
-                            "._DB_PREFIX_."rewards.id_customer,
-                            "._DB_PREFIX_."rewards.id_order,
-                            "._DB_PREFIX_."rewards.credits
-                            FROM "._DB_PREFIX_."rewards
-                            WHERE "._DB_PREFIX_."rewards.id_customer=".(int)$this->context->customer->id." ORDER BY "._DB_PREFIX_."rewards.id_reward DESC";
-                            
-                            if ($row = Db::getInstance()->getRow($rs)){
-                                $rw = $row['last_reward'];
-                            }
-                            
-                            $query = "UPDATE "._DB_PREFIX_."rewards AS R SET R.id_reward_state=2, R.credits=".($realmoney-$money)." WHERE R.id_reward=".$rw;
-                            Db::getInstance()->execute($query);
-                        }
-                       
-                        echo $response;
-                    }
-                    exit;
-                }
-                
 
 		/* transform credits into voucher if needed */
-		if ($voucherAllowed && Tools::getValue('transform-credits') == 'true' && $totalAvailableUserCurrency >= $voucherMininum && Tools::getValue('ajax') == 'false')
+		if ($voucherAllowed && Tools::getValue('transform-credits') == 'true' && $totalAvailableUserCurrency >= $voucherMininum)
 		{
 			RewardsModel::createDiscount($totalAvailable);
 			//Tools::redirect($this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true));
 			Tools::redirect($this->context->link->getPageLink('discount', true));
-                        
 		}
 
 		if ($paymentAllowed && Tools::isSubmit('submitPayment') && $totalAvailableUserCurrency >= $paymentMininum && $totalForPaymentDefaultCurrency > 0) {

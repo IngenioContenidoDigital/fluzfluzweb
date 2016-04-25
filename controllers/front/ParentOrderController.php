@@ -99,14 +99,11 @@ class ParentOrderControllerCore extends FrontController
 
         if ($this->nbProducts) {
             if (CartRule::isFeatureActive()) {
-                //if (Tools::isSubmit('submitAddDiscount')) {
-                    
-                    
-                    
+                if (Tools::isSubmit('submitAddDiscount')) {
                     if (!($code = trim(Tools::getValue('discount_name')))) {
-                        //$this->errors[] = Tools::displayError('You must enter a voucher code.');
+                        $this->errors[] = Tools::displayError('You must enter a voucher code.');
                     } elseif (!Validate::isCleanHtml($code)) {
-                        //$this->errors[] = Tools::displayError('The voucher code is invalid.');
+                        $this->errors[] = Tools::displayError('The voucher code is invalid.');
                     } else {
                         if (($cartRule = new CartRule(CartRule::getIdByCode($code))) && Validate::isLoadedObject($cartRule)) {
                             if ($error = $cartRule->checkValidity($this->context, false, true)) {
@@ -126,13 +123,12 @@ class ParentOrderControllerCore extends FrontController
                         'errors' => $this->errors,
                         'discount_name' => Tools::safeOutput($code)
                     ));
-                } 
-                if (($id_cart_rule = (int)Tools::getValue('deleteDiscount')) && Validate::isUnsignedId($id_cart_rule)) {
+                } elseif (($id_cart_rule = (int)Tools::getValue('deleteDiscount')) && Validate::isUnsignedId($id_cart_rule)) {
                     $this->context->cart->removeCartRule($id_cart_rule);
                     CartRule::autoAddToCart($this->context);
                     Tools::redirect('index.php?controller=order-opc');
                 }
-            //}
+            }
             /* Is there only virtual product in cart */
             if ($isVirtualCart = $this->context->cart->isVirtualCart()) {
                 $this->setNoCarrier();

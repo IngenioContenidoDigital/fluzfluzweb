@@ -142,7 +142,6 @@
 								{/foreach}
 							</table>
 						{/if}
-                                                
 						{assign var='free_ship' value=count($cart->getDeliveryAddressesWithoutCarriers(true, $errors))}
 						<div class="cart-prices">
 							<div class="cart-prices-line first-line">
@@ -318,7 +317,7 @@
 						{/if}
 					</span>
 				</div>
-				<!--<div class="button-container">
+				<div class="button-container">
 					<span class="continue btn btn-default button exclusive-medium" title="{l s='Continue shopping' mod='blockcart'}">
 						<span>
 							<i class="icon-chevron-left left"></i>{l s='Continue shopping' mod='blockcart'}
@@ -329,7 +328,7 @@
 							{l s='Proceed to checkout' mod='blockcart'}<i class="icon-chevron-right right"></i>
 						</span>
 					</a>
-				</div>-->
+				</div>
 			</div>
 		</div>
 		<div class="crossseling"></div>
