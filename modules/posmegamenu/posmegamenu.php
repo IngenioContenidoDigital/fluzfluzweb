@@ -619,7 +619,7 @@ class Posmegamenu extends Module {
 
     public function drawCustomMenuItem($category, $level = 0, $last = false, $item, $lang_id) {
         if ($level > $this->_show_level)
-            continue;
+            //continue;
         $cateCurrent = $this->getCurrentCategoriesId($lang_id);
         $categoryObject = new Category();
         $html = array();
