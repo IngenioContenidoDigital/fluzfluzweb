@@ -26,7 +26,7 @@
 @ini_set('max_input_vars', 3000);
 /* Debug only */
 if (!defined('_PS_MODE_DEV_')) {
-define('_PS_MODE_DEV_', TRUE);
+define('_PS_MODE_DEV_', false);
 }
 /* Compatibility warning */
 define('_PS_DISPLAY_COMPATIBILITY_WARNING_', false);

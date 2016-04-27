@@ -65,7 +65,8 @@
                     {/if}
                     <tr class="alternate_item" colspan="4">
                         <td  class="history_method bold" style="text-align:center; color: #ef4136; width: 20%; font-weight: bold;">
-                            {l s='Puntos Totales'}<br/><p style="font-size:200%;">{$totalAvailable}</p></td>
+                            {l s='Puntos Totales'}<br/><p style="font-size:200%;">{$totalAvailable}</p>
+                        </td>
                         
                         <td style="width: 45%; font-size: 10px;"> 
                             <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
@@ -81,7 +82,6 @@
                                                     <p style="width:100%;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
 
                                                     {*if $displayVouchers}
-							
                                                             <div id="display_cart_vouchers">
                                                                 {foreach from=$displayVouchers item=voucher}
                                                                     <span onclick="$('#discount_name').val('{$voucher.name}');return false;" class="voucher_name">{$voucher.name}</span> - {$voucher.description} <br />
@@ -92,15 +92,32 @@
                                             </form>
                                         {/if}
                                     </div>
-                                </td>
+                        </td>
                             {/if}
+                         
+                        <td style="width: 30%; font-size: 10px;" colspan="2"> 
+                            <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
+                            <input type="hidden" id="avail" value="{$totalAvailable}" />
+                            {if $voucherAllowed}
+                                    <div id="cart_voucher" class="table_block">
+                                        {if $voucherAllowed}
+                                            
+                                            <form action="{if $opc}{$link->getPageLink('order-opc', true)}{/if}" method="post" id="voucher" name="voucher">
+                                                <fieldset>
+                                                    <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
+                                                    <input type="hidden" name="submitDiscount" />
+                                                      <div style="text-align: left; font-size: 10px; width: 100%;" class="item">{l s='Use specific amount of points:'}
+                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
+                                                            <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
+                                                      </div> 
+                                                </fieldset>
+                                            </form>
+                                        {/if}
+                                    </div>
+                        </td>
+                            {/if}
+                    </tr>
                             
-                            <td style="text-align: center; width: 30%; color: #000;" colspan="2">  
-                                <div style="text-align: left; font-size: 10px; width: 100%;" class="item">{l s='Use specific amount of points:'}
-                                    <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
-                                <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button></div>
-                            </td>
-                            </tr>
                     <tr class="cart_total_voucher" {if $total_wrapping == 0}style="display:none"{/if}>
                         <td colspan="4" class="text-right">
                             {if $use_taxes}
@@ -204,7 +221,7 @@
                                                     <h4>{l s='Vouchers'}</h4>
                                                     <input type="text" id="discount_name" class="form-control" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" />
                                                     <input type="hidden" name="submitDiscount" />
-                                                    <button type="submit" name="submitAddDiscount" class="button btn btn-default button-small"><span>{l s='ok'}</span></button>
+                                                    <!--<button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="button btn btn-default button-small"><span>{l s='ok'}</span></button>-->
                                                     {if $displayVouchers}
                                                         <p id="title" class="title_offers">{l s='Take advantage of our offers:'}</p>
                                                         <div id="display_cart_vouchers">
@@ -366,6 +383,32 @@
                var totalCart=$('.tprice').attr("data-selenium-total-price");
                var credits=$('#cavail').val();
                var points=$('#avail').val();
+               
+               $.ajax({
+                    method:"GET",
+                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points,
+                    success:function(response){
+                      $('#discount_name').val(response);
+                      $('input[name="submitDiscount"]').val(response);
+                      $('#voucher').submit(); 
+                      //alert(response);
+                      if(response.success === true ){
+                            alert('true');
+                                } 
+                      else {
+                         alert('false')
+                      };
+                    }
+                  });          
+           });
+    </script>
+    
+    <script>
+         $('#submitLabel').click(function(){
+               
+               var totalCart=$('.tprice').attr("data-selenium-total-price");
+               var credits=$('#cavail').val();
+               var points=$('#avail').val();
                var use = $('#toUse').val();
                //alert('Carrito:'+totalCart+'Creditos:'+credits+'Money:'+money+'use:'+use);
                $.ajax({
@@ -374,31 +417,11 @@
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);
-                      $('#voucher').submit(); 
-                      //alert(response);
-                    }
-                  });          
-           });
-    </script>
-    
-    <script>
-          /* $('#submitLabel').click(function(){
-               
-               var totalCart=$('.tprice').attr("data-selenium-total-price");
-               var credits=$('#cavail').val();
-               var money=$('#avail').val();
-               var use = $('#toUse').val();
-               
-               $.ajax({
-                    method:"GET",
-                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+money+'&use='+use,
-                    success:function(){
-                        
-                       $['#avail'].val();
-                    }
-                  });
-               
-           });*/
+                      $('#voucher').submit();
+                     }
+              });  
+              document.getElementById('#submitLabel').disabled = 'disabled';
+            });
            
     </script> 
 {/literal}
