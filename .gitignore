@@ -30,3 +30,4 @@ upload/*
 /nbproject
 /nbproject/*
 /.htaccess
+*.DS_Store
