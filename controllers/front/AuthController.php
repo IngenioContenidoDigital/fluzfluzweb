@@ -151,6 +151,8 @@ class AuthControllerCore extends FrontController
     {
         $selectedYears = (int)(Tools::getValue('years', 0));
         $years = Tools::dateYears();
+        $selectedYearsExpiration = (int)(Tools::getValue('yearsExpiration', 0));
+        $yearsExpiration= Tools::dateYearsExpiration();
         $selectedMonths = (int)(Tools::getValue('months', 0));
         $months = Tools::dateMonths();
         $selectedDays = (int)(Tools::getValue('days', 0));
@@ -159,6 +161,7 @@ class AuthControllerCore extends FrontController
                 'one_phone_at_least' => (int)Configuration::get('PS_ONE_PHONE_AT_LEAST'),
                 'onr_phone_at_least' => (int)Configuration::get('PS_ONE_PHONE_AT_LEAST'), //retro compat
                 'years' => $years,
+                'yearsExpiration'=>$yearsExpiration,
                 'sl_year' => $selectedYears,
                 'months' => $months,
                 'sl_month' => $selectedMonths,
@@ -352,21 +355,6 @@ class AuthControllerCore extends FrontController
     /**
      * Process submit on an account
      */
-    
-   /* public static $a = array(
-        'table' => 'cards',
-        'primary' => 'id_card',
-        'fields' => array(
-            'id_customer' =>                array('type' => self::TYPE_INT, 'validate' => 'isNullOrUnsignedId', 'copy_post' => false),
-            'nameOwner' =>                  array('type' => self::TYPE_STRING, 'validate' => 'isName', 'required' => true, 'size' => 32),
-            'name_creditCard' =>            array('type' => self::TYPE_STRING, 'validate' => 'isName', 'required' => true, 'size' => 32),
-            'num_creditCard' =>             array('type' => self::TYPE_STRING, 'validate' => 'isEmail', 'required' => true, 'size' => 128),
-            'date_expiration' =>            array('type' => self::TYPE_STRING, 'validate' => 'isDate', 'required' => true, 'size' => 32),
-            ),
-    );
-    */
-    
-    
     
     protected function processSubmitAccount()
     {

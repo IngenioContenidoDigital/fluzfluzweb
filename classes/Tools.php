@@ -1699,6 +1699,15 @@ class ToolsCore
         }
         return $tab;
     }
+    
+    public static function dateYearsExpiration()
+    {
+        $tab = array();
+        for ($i = 2050; $i >= 2016; $i--) {
+            $tab[] = $i;
+        }
+        return $tab;
+    }
 
     public static function dateDays()
     {

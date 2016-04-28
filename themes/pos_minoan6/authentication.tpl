@@ -438,7 +438,7 @@
                                     </div>
                                     <div class="required form-group">
                                             <label for="email">{l s='Email'} <sup>*</sup></label>
-                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" />
+                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
                                     </div>
                                     <div class="required password form-group">
                                             <label for="passwd">{l s='Password'} <sup>*</sup></label>
@@ -662,7 +662,7 @@
                                     </label>
                                     </div>
                                     <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
-                                    <input style="text-align:right;" type="text" class="form-control" id="owner" name="owner" placeholder="Ingrese su nombre" required/>
+                                        <input style="text-align:right;" autocomplete="off" type="text" class="form-control" id="owner" name="owner" placeholder="Ingrese su nombre" required/>
                                     </div>
                                 </div>
                                 </div> 
@@ -694,6 +694,7 @@
                                     {/literal}
                                 </div>    
                                 </div>
+                                <br/>
                                 <div class="row">
                                 <div class="form-group">
                                 <div class="col-xs-12 col-sm-5 col-md-3 col-lg-4">    
@@ -705,7 +706,7 @@
                                     <div class="col-xs-12 col-sm-5 col-md-3 col-lg-4">
                                       
                                         <div style="display:table-cell;">     
-                                        <select name="days" id="days" class="form-control">
+                                        <select name="days" id="days" style="width:120%;" class="form-control">
                                             <option value="">-</option>
                                             {foreach from=$days item=v}
                                                 <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
@@ -713,9 +714,9 @@
                                         </select>
                                         </div>
                                         <div style="display:table-cell; padding-left:8px;">
-                                        <select id="years" name="years" class="form-control">
+                                            <select id="yearsExpiration" name="yearsExpiration" style="width:110%;" class="form-control">
                                             <option value="">-</option>
-                                            {foreach from=$years item=v}
+                                            {foreach from=$yearsExpiration item=v}
                                                 <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
                                             {/foreach}
                                         </select>
