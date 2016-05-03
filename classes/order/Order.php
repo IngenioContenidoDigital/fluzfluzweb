@@ -134,10 +134,6 @@ class OrderCore extends ObjectModel
 
     /** @var float Wrapping total tax excluded */
     public $total_wrapping_tax_excl;
-    
-    /** @var int totalPoints */
-    
-    public $totalAvailable;
 
     /** @var int Invoice number */
     public $invoice_number;
@@ -228,8 +224,8 @@ class OrderCore extends ObjectModel
             'date_add' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
             'date_upd' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
         ),
-    );    
-    
+    );
+
     protected $webserviceParameters = array(
         'objectMethods' => array('add' => 'addWs'),
         'objectNodeName' => 'order',

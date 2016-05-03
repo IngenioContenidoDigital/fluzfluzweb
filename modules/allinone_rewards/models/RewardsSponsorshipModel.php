@@ -322,6 +322,36 @@ class RewardsSponsorshipModel extends ObjectModel
 		}
 		return $sponsorships;
 	}
+        
+        static public function getNumberSponsorship($id_customer){
+            
+            $seguir = true;
+            $identificador=$id_customer;
+            $sponsors=0;
+            
+            
+           while ($seguir){
+                $query = 'SELECT RW.id_sponsor, RW.id_customer FROM '._DB_PREFIX_.'rewards_sponsorship AS RW WHERE RW.id_customer = '.(int)$identificador;
+                $query1 = 'SELECT COUNT(RW.id_sponsorship) AS total FROM ps_rewards_sponsorship AS RW WHERE RW.id_customer='.(int)$identificador;
+                
+                $row1=Db::getInstance()->getRow($query1);
+                if($row1['total']>0){
+                    $row = Db::getInstance()->getRow($query);
+                    $sponsors++;
+                    $identificador=$row['id_sponsor'];
+                }else{
+                    $seguir=false;
+                }
+                 
+                 /*if($row['id_sponsor']!=$row['id_customer']){
+                     
+                 }else{
+                     
+                 }*/
+           }
+           return $sponsors;
+        }
+
 
 	// get all statistics for the given sponsor
 	static public function getStatistics($readyForDisplay = false) {

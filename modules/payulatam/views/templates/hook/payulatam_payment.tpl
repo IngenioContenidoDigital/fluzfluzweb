@@ -54,11 +54,9 @@
   <div class="col-xs-12">
     <div class="panel-group" id="accordion">
         <div class="panel panel-default">
-           
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <img src="../../../../../themes/pos_minoan6/img/bankwire.png" alt=""/>                    
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span>Pagar con tarjeta de crédito</span></a>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Pagar con tarjeta de crédito</a>
                 </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse in">
