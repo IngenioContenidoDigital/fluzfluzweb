@@ -117,11 +117,17 @@ class OrderControllerCore extends ParentOrderController
     {
         parent::initContent();
         $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
-        $totalAvailableCurrency = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
-        $totalAvailable=RewardsModel::getRewardReadyForDisplay($totalAvailableCurrency,(int)$this->context->currency->id);
+        $totalAvailable = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
+        $totalAvailableCurrency=RewardsModel::getmoneyReadyForDisplay($totalAvailableCurrency,(int)$this->context->currency->id);
         $this->context->smarty->assign('totalAvailable', $totalAvailable);
         $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
         
+        /* ESTAS YA FUNCIONAN */
+        //$red= RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id);
+        //$prueba=RewardsModel::getMoneyReadyForDisplayNetwork(100000,$red+1,(int)$this->context->currency->id);
+        //$prueba= RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id);
+        //$this->context->smarty->assign('prueba', $prueba);
+        /* FIN */
         
         if (Tools::isSubmit('ajax') && Tools::getValue('method') == 'updateExtraCarrier') {
             // Change virtualy the currents delivery options

@@ -383,21 +383,17 @@
                var totalCart=$('.tprice').attr("data-selenium-total-price");
                var credits=$('#cavail').val();
                var points=$('#avail').val();
-               
+               var use = $('#toUse').val();
+
                $.ajax({
                     method:"GET",
-                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points,
+                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);
                       $('#voucher').submit(); 
                       //alert(response);
-                      if(response.success === true ){
-                            alert('true');
-                                } 
-                      else {
-                         alert('false')
-                      };
+                      
                     }
                   });          
            });
@@ -420,7 +416,6 @@
                       $('#voucher').submit();
                      }
               });  
-              document.getElementById('#submitLabel').disabled = 'disabled';
             });
            
     </script> 

@@ -16,7 +16,7 @@
 	<p class="text form-group">
 {if !isset($smarty.post.sponsorship_invisible)}
 		<label for="sponsorship">{l s='Code or E-mail address of your sponsor' mod='allinone_rewards'}</label>
-                <input type="text" size="52" maxlength="128" class="form-control text" id="sponsorship" name="sponsorship" placeholder="Ingrese Su sponsor" value="{if isset($smarty.post.sponsorship)}{$smarty.post.sponsorship|escape:'htmlall':'UTF-8'}{/if}" required/>
+		<input type="text" size="52" maxlength="128" class="form-control text" id="sponsorship" name="sponsorship" value="{if isset($smarty.post.sponsorship)}{$smarty.post.sponsorship|escape:'htmlall':'UTF-8'}{/if}" />
 		<script type="text/javascript">
 			/* cant be done in sponsorship.js, because that tpl is loaded in ajax (use live jquery function ?)*/
 			// this variable is necesary because on 1.5.2 it crashs if directly in the code

@@ -98,6 +98,18 @@ class RewardsProductModel extends ObjectModel
 		}
 		return 0;
 	}
+        
+        static public function getProductValue($id_product, $price, $quantity, $id_currency, $id_template)
+	{
+		if (self::isProductRewarded($id_product, $id_template)) {
+			$multiplier = (float)MyConf::get('RLOYALTY_MULTIPLIER', null, $id_template);
+			if (self::$_cache[$id_product]['type']==0)
+				return round($price * $quantity * $multiplier * self::$_cache[$id_product]['value'], 2);
+			else
+				return round($price * $quantity * $multiplier * self::$_cache[$id_product]['value'], 2);
+		}
+		return 0;
+	}
 
 	static public function getProductRewardsList($id_product)
 	{

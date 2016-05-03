@@ -17,7 +17,6 @@
 {/if}
 
 <div id="rewards_account" class="rewards">
-    
 	<h1 class="page-heading">{l s='My rewards account' mod='allinone_rewards'}</h1>
 
 {if isset($payment_error)}

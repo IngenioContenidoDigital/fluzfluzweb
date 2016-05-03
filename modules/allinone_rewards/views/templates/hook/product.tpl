@@ -23,7 +23,7 @@
 {else}
 	{if $display_credits}
 		{l s='Buying this product you will collect ' mod='allinone_rewards'} <b><span id="loyalty_credits">{$credits|escape:'htmlall':'UTF-8'}</span></b> {l s=' with our loyalty program.' mod='allinone_rewards'}
-		{l s='Your cart will total' mod='allinone_rewards'} <b><span id="total_loyalty_credits">{$total_credits|escape:'htmlall':'UTF-8'}</span></b> {l s='that can be converted into a voucher for a future purchase.' mod='allinone_rewards'}
+		{*l s='Your cart will total' mod='allinone_rewards'} <b><span id="total_loyalty_credits">{$total_credits|escape:'htmlall':'UTF-8'}</span></b> {l s='that can be converted into a voucher for a future purchase.' mod='allinone_rewards'*}
 	{else}
 		{if isset($no_pts_discounted) && $no_pts_discounted == 1}
 			{l s='No reward credits for this product because there\'s already a discount.' mod='allinone_rewards'}
