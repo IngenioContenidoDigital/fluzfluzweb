@@ -25,7 +25,9 @@ modules/*/config*.xml
 admin-dev/backups/
 admin-dev/export/
 admin-dev/import/
-download/
-upload/
+download/*
+upload/*
 /nbproject
 /nbproject/*
+/.htaccess
+*.DS_Store

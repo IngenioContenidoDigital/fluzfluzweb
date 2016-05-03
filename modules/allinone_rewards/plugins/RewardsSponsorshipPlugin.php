@@ -1499,7 +1499,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return false;
 	}
-
+        /* ASIGNA LOS PUNTOS A LOS SPONSORS */
 	// Create all sponsorship rewards for an order
 	private function _createAllRewards($order, $customer)
 	{
@@ -1532,17 +1532,21 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$indice = $limit;
 
 				$price = MyConf::get('RSPONSORSHIP_DISCOUNTED_ALLOWED', null, $id_template) ? $totals[MyConf::get('RSPONSORSHIP_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['with_discounted'] : $totals[MyConf::get('RSPONSORSHIP_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['without_discounted'];
+                                
 				if ($price > 0) {
 					$reward = new RewardsModel();
 					$reward->plugin = $this->name;
 					$reward->id_customer = (int)$sponsorship['id_sponsor'];
 					$reward->id_order = (int)$order->id;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
+                                        $price= $reward->getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1);
 
 					$extraParams = array();
 					$extraParams['type'] = (int)$this->_configuration['reward_type'][$indice];
 					$extraParams['value'] = (float)($extraParams['type'] == 1 ? $this->_configuration['reward_value'][$indice][$order->id_currency] : $this->_configuration['reward_percentage'][$indice]);
-					$reward->credits = (float)$this->_getNbCreditsByPrice($price, $order->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'), $extraParams);
+					//$reward->credits = (float)$this->_getNbCreditsByPrice($price, $order->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'), $extraParams);
+                                        $reward->credits=$price;
+                                        
 					// if sponsor's reward=0 (only special offers, voucher used, or % set to 0 in BO)
 					if ($reward->credits == 0)
 						continue;

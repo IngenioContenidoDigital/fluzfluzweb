@@ -34,8 +34,8 @@
 
 {if !$opc && ((!isset($back) || empty($back)) || (isset($back) && preg_match("/[&?]step=/", $back)))}
 <!-- Steps -->
-<ul class="step clearfix" id="order_step">
-	<li class="{if $current_step=='summary'}step_current {elseif $current_step=='login'}step_done_last step_done{else}{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address' || $current_step=='login'}step_done{else}step_todo{/if}{/if} first">
+<ul class="step clearfix" id="order_step" style="padding-left:0px;">
+    <li  class="{if $current_step=='summary'}step_current {elseif $current_step=='login'}step_done_last step_done{else}{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address' || $current_step=='login'}step_done{else}step_todo{/if}{/if} first">
 		{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address' || $current_step=='login'}
 		<a href="{$link->getPageLink('order', true)}">
 			<em>01.</em> {l s='Summary'}
@@ -53,7 +53,7 @@
 			<span><em>02.</em> {l s='Sign in'}</span>
 		{/if}
 	</li>
-	<li class="{if $current_step=='address'}step_current{elseif $current_step=='shipping'}step_done step_done_last{else}{if $current_step=='payment' || $current_step=='shipping'}step_done{else}step_todo{/if}{/if} third">
+	<!--<li class="{if $current_step=='address'}step_current{elseif $current_step=='shipping'}step_done step_done_last{else}{if $current_step=='payment' || $current_step=='shipping'}step_done{else}step_todo{/if}{/if} third">
 		{if $current_step=='payment' || $current_step=='shipping'}
 		<a href="{$link->getPageLink('order', true, NULL, "{$smarty.capture.url_back}&step=1{if $multi_shipping}&multi-shipping={$multi_shipping}{/if}")|escape:'html':'UTF-8'}">
 			<em>03.</em> {l s='Address'}
@@ -70,9 +70,9 @@
 		{else}
 			<span><em>04.</em> {l s='Shipping'}</span>
 		{/if}
-	</li>
+	</li>-->
 	<li id="step_end" class="{if $current_step=='payment'}step_current{else}step_todo{/if} last">
-		<span><em>05.</em> {l s='Payment'}</span>
+		<span><em>03.</em> {l s='Payment'}</span>
 	</li>
 </ul>
 <!-- /Steps -->

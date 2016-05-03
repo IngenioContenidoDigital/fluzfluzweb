@@ -566,7 +566,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 				if (!MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) && ((float)$detail['reduction_amount'] != 0 || (float)$detail['reduction_percent'] != 0))
 					continue;
 				$quantity = $detail['product_quantity'] - $detail['product_quantity_refunded'] - (isset($gifts[$detail['product_id'].'_'.$detail['product_attribute_id']]) ? 1 : 0);
-				$total += (float)RewardsProductModel::getProductReward((int)$detail['product_id'], MyConf::get('RLOYALTY_TAX', null, $id_template) ? $detail['unit_price_tax_incl'] : $detail['unit_price_tax_excl'], $quantity, $order->id_currency, $id_template);
+				$total += (float)RewardsProductModel::getProductValue((int)$detail['product_id'], MyConf::get('RLOYALTY_TAX', null, $id_template) ? $detail['unit_price_tax_incl'] : $detail['unit_price_tax_excl'], $quantity, $order->id_currency, $id_template);
 			}
 		}
 		return round(Tools::convertPrice($total, $order->id_currency, false), 2);
@@ -654,6 +654,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 		$product = new Product((int)$id_product);
 		$product->id_product_attribute = $id_product_attribute;
 		if (Validate::isLoadedObject($this->context->cart)) {
+                    
 			if ($rewards_on_total) {
 				$total_before = $this->_getCartTotalForReward();
 				$total_after = $this->_getCartTotalForReward($product);
@@ -682,11 +683,12 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 		// si pas de crédit, pas un produit discount, et pas en mode tranche, on affiche rien
 		if ($credits == 0 && (int)MyConf::get('RLOYALTY_TYPE', null, $id_template) != 0 && !$this->context->smarty->getTemplateVars('no_pts_discounted'))
 			return '';
-
+                $red= RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id);
+                
 		$this->context->smarty->assign(array(
 			'ajax_loyalty' => true,
 			'display_credits' => ((float)$credits > 0) ? true : false,
-			'credits' => $this->instance->getRewardReadyForDisplay((float)$credits, (int)$this->context->currency->id),
+			'credits' => RewardsModel::getMoneyReadyForDisplayNetwork(round(Product::getPriceStatic($product->id, true, null, 6),0), $red+1, (int)$this->context->currency->id),
 			'total_credits' => $this->instance->getRewardReadyForDisplay((float)$credits_after, (int)$this->context->currency->id),
 			'minimum' => round(Tools::convertPrice((float) MyConf::get('RLOYALTY_POINT_RATE', null, $id_template), $this->context->currency), 2)
 		));
@@ -729,7 +731,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 		}
 		return false;
 	}
-
+        /* ASIGNA LOS PUNTOS AL QUE REALIZA LA COMPRA */
 	public function hookActionValidateOrder($params)
 	{
 		if (!Validate::isLoadedObject($params['customer']) || !Validate::isLoadedObject($params['order']))
@@ -740,14 +742,17 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 			if ((int)MyConf::get('RLOYALTY_TYPE', null, $id_template) != 2) {
 				$totals = RewardsModel::getOrderTotalsForReward($params['order'], $this->_getAllowedCategories());
 				$credits = $this->_getNbCreditsByPrice((int)$params['customer']->id, MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) ? $totals[MyConf::get('RLOYALTY_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['with_discounted'] : $totals[MyConf::get('RLOYALTY_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['without_discounted'], $params['order']->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'));
+                               
 			} else {
 				$credits = $this->_getOrderRewardByProduct($params['order']);
+                        
 			}
 
 			$reward = new RewardsModel();
 			$reward->id_customer = (int)$params['customer']->id;
 			$reward->id_order = (int)$params['order']->id;
-			$reward->credits = $credits;
+			$reward->credits = $reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1);
+
 			$reward->plugin = $this->name;
 			if (!MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) && (float)$reward->credits == 0) {
 				$reward->id_reward_state = RewardsStateModel::getDiscountedId();

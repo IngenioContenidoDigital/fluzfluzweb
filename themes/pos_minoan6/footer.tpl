@@ -54,8 +54,8 @@
 									
 									</div>
 									<div class="top-right col-xs-12 col-md-8 col-sm-8">
-										
-										{capture name='blockFooter2'}{hook h='blockFooter2'}{/capture}
+                                                                          
+                                                                                {capture name='blockFooter2'}{hook h='blockFooter2'}{/capture}
 										{if $smarty.capture.blockFooter2}
 										{$smarty.capture.blockFooter2}
 										{/if}

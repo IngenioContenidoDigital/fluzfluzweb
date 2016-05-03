@@ -22,7 +22,10 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+<!-- MODULE allinone_rewards -->
+
 <div class="paiement_block">
+    
     <div id="HOOK_TOP_PAYMENT">{$HOOK_TOP_PAYMENT}</div>
     {if $HOOK_PAYMENT}
         {if !$opc}
@@ -40,6 +43,7 @@
                         <th class="cart_total last_item text-right">{l s='Total'}</th>
                     </tr>
                     </thead>
+                    
                     <tfoot>
                     {if $use_taxes}
                         {if $priceDisplay}
@@ -59,6 +63,61 @@
                             <td colspan="2" class="price" id="total_product">{displayPrice price=$total_products}</td>
                         </tr>
                     {/if}
+                    <tr class="alternate_item" colspan="4">
+                        <td  class="history_method bold" style="text-align:center; color: #ef4136; width: 20%; font-weight: bold;">
+                            {l s='Puntos Totales'}<br/><p style="font-size:200%;">{$totalAvailable}</p>
+                        </td>
+                        
+                        <td style="width: 45%; font-size: 10px;"> 
+                            <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
+                            <input type="hidden" id="avail" value="{$totalAvailable}" />
+                           {if $voucherAllowed}
+                                    <div id="cart_voucher" class="table_block">
+                                        {if $voucherAllowed}
+                                            
+                                            <form action="{if $opc}{$link->getPageLink('order-opc', true)}{/if}" method="post" id="voucher" name="voucher">
+                                                <fieldset>
+                                                    <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
+                                                    <input type="hidden" name="submitDiscount" />
+                                                    <p style="width:100%;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
+
+                                                    {*if $displayVouchers}
+                                                            <div id="display_cart_vouchers">
+                                                                {foreach from=$displayVouchers item=voucher}
+                                                                    <span onclick="$('#discount_name').val('{$voucher.name}');return false;" class="voucher_name">{$voucher.name}</span> - {$voucher.description} <br />
+                                                                {/foreach}
+                                                            </div>
+                                                    {/if*}
+                                                </fieldset>
+                                            </form>
+                                        {/if}
+                                    </div>
+                        </td>
+                            {/if}
+                         
+                        <td style="width: 30%; font-size: 10px;" colspan="2"> 
+                            <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
+                            <input type="hidden" id="avail" value="{$totalAvailable}" />
+                            {if $voucherAllowed}
+                                    <div id="cart_voucher" class="table_block">
+                                        {if $voucherAllowed}
+                                            
+                                            <form action="{if $opc}{$link->getPageLink('order-opc', true)}{/if}" method="post" id="voucher" name="voucher">
+                                                <fieldset>
+                                                    <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
+                                                    <input type="hidden" name="submitDiscount" />
+                                                      <div style="text-align: left; font-size: 10px; width: 100%;" class="item">{l s='Use specific amount of points:'}
+                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
+                                                            <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
+                                                      </div> 
+                                                </fieldset>
+                                            </form>
+                                        {/if}
+                                    </div>
+                        </td>
+                            {/if}
+                    </tr>
+                            
                     <tr class="cart_total_voucher" {if $total_wrapping == 0}style="display:none"{/if}>
                         <td colspan="4" class="text-right">
                             {if $use_taxes}
@@ -148,11 +207,11 @@
                         <tr class="cart_total_price">
                             <td colspan="4" class="total_price_container text-right"><span>{l s='Total'}</span></td>
                             <td colspan="2" class="price" id="total_price_container">
-                                <span id="total_price" data-selenium-total-price="{$total_price}">{displayPrice price=$total_price}</span>
+                                <span id="total_price" class="tprice" data-selenium-total-price="{$total_price}">{displayPrice price=$total_price}</span>
                             </td>
                         </tr>
                     {else}
-                        <tr class="cart_total_price">
+                       <tr class="cart_total_price">
                             {if $voucherAllowed}
                                 <td colspan="2" id="cart_voucher" class="cart_voucher">
                                     <div id="cart_voucher" class="table_block">
@@ -162,7 +221,7 @@
                                                     <h4>{l s='Vouchers'}</h4>
                                                     <input type="text" id="discount_name" class="form-control" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" />
                                                     <input type="hidden" name="submitDiscount" />
-                                                    <button type="submit" name="submitAddDiscount" class="button btn btn-default button-small"><span>{l s='ok'}</span></button>
+                                                    <!--<button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="button btn btn-default button-small"><span>{l s='ok'}</span></button>-->
                                                     {if $displayVouchers}
                                                         <p id="title" class="title_offers">{l s='Take advantage of our offers:'}</p>
                                                         <div id="display_cart_vouchers">
@@ -305,14 +364,59 @@
     {else}
         <p class="alert alert-warning">{l s='No payment modules have been installed.'}</p>
     {/if}
+    <br/>
     {if !$opc}
     <p class="cart_navigation clearfix">
-        <a href="{$link->getPageLink('order', true, NULL, "step=2")|escape:'html':'UTF-8'}" title="{l s='Previous'}" class="button-exclusive btn btn-default">
-            <i class="icon-chevron-left"></i>
-            {l s='Continue shopping'}
+        <a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=2&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=3')|escape:'html':'UTF-8'}{/if}" class="btnPayment button btn btn-default standard-checkout button-medium" title="{l s='Confirm Purchase'}">
+				<span>{l s='Confirm Purchase'}</span>
         </a>
     </p>
-    {else}
+    
+    {else} 
 </div> <!-- end opc_payment_methods -->
 {/if}
 </div> <!-- end HOOK_TOP_PAYMENT -->
+{literal}
+    <script>
+           $('#submitAddDiscount').click(function(){
+               
+               var totalCart=$('.tprice').attr("data-selenium-total-price");
+               var credits=$('#cavail').val();
+               var points=$('#avail').val();
+               var use = $('#toUse').val();
+
+               $.ajax({
+                    method:"GET",
+                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    success:function(response){
+                      $('#discount_name').val(response);
+                      $('input[name="submitDiscount"]').val(response);
+                      $('#voucher').submit(); 
+                      //alert(response);
+                      
+                    }
+                  });          
+           });
+    </script>
+    
+    <script>
+         $('#submitLabel').click(function(){
+               
+               var totalCart=$('.tprice').attr("data-selenium-total-price");
+               var credits=$('#cavail').val();
+               var points=$('#avail').val();
+               var use = $('#toUse').val();
+               //alert('Carrito:'+totalCart+'Creditos:'+credits+'Money:'+money+'use:'+use);
+               $.ajax({
+                    method:"GET",
+                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    success:function(response){
+                      $('#discount_name').val(response);
+                      $('input[name="submitDiscount"]').val(response);
+                      $('#voucher').submit();
+                     }
+              });  
+            });
+           
+    </script> 
+{/literal}
