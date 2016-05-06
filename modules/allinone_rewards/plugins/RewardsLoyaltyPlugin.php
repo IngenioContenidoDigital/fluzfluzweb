@@ -684,11 +684,11 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 		if ($credits == 0 && (int)MyConf::get('RLOYALTY_TYPE', null, $id_template) != 0 && !$this->context->smarty->getTemplateVars('no_pts_discounted'))
 			return '';
                 $red= RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id);
-                
+                $costo=  RewardsProductModel::getCostDifference($product->id);
 		$this->context->smarty->assign(array(
 			'ajax_loyalty' => true,
 			'display_credits' => ((float)$credits > 0) ? true : false,
-			'credits' => RewardsModel::getMoneyReadyForDisplayNetwork(round(Product::getPriceStatic($product->id, true, null, 6),0), $red+1, (int)$this->context->currency->id),
+			'credits' => RewardsModel::getMoneyReadyForDisplayNetwork((round(Product::getPriceStatic($product->id, true, null, 6),0)-$costo), $red+1, (int)$this->context->currency->id),
 			'total_credits' => $this->instance->getRewardReadyForDisplay((float)$credits_after, (int)$this->context->currency->id),
 			'minimum' => round(Tools::convertPrice((float) MyConf::get('RLOYALTY_POINT_RATE', null, $id_template), $this->context->currency), 2)
 		));
@@ -800,16 +800,16 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 					$template = 'loyalty-cancellation';
 					$subject = $this->l('Reward cancellation', (int)$order->id_lang);
 				}
+                                
 				$reward->save();
-
-				// send notification
+                                // send notification
 				if (Configuration::get('RLOYALTY_MAIL_VALIDATION')) {
 					$data = array(
 						'{customer_firstname}' => $customer->firstname,
 						'{customer_lastname}' => $customer->lastname,
 						'{order}' => $order->reference,
 						'{link_rewards}' => $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true),
-						'{customer_reward}' => $this->instance->getRewardReadyForDisplay((float)$reward->credits, (int)$order->id_currency, (int)$order->id_lang));
+						'{customer_reward}' => $this->instance->getRewardReadyForDisplay($reward->credits/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'), (int)$order->id_currency, (int)$order->id_lang));
 					if ($reward->id_reward_state = RewardsStateModel::getReturnPeriodId()) {
 						$data['{reward_unlock_date}'] = Tools::displayDate($reward->getUnlockDate(), null, true);
 					}

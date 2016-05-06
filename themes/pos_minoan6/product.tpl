@@ -37,8 +37,8 @@
 <div itemscope itemtype="https://schema.org/Product">
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
 	<div class="primary_block row">
-		<div class="{if !$content_only} col-sm-9 col-md-9 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
-			<div class="row">
+		<div class="{if !$content_only}col-lg-12 col-sm-9 col-md-9 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
+			
 			{if !$content_only}
 				<div class="container">
 					<div class="top-hr"></div>
@@ -64,7 +64,7 @@
 				</p>
 			{/if}
 				<!-- left infos-->
-				<div class="pb-left-column col-xs-12 col-sm-6 col-md-6">
+				<div class="pb-left-column col-lg-7 col-xs-12 col-sm-6 col-md-6">
 					<!-- product img-->
 					<div id="image-block" class="clearfix">
 						{if $product->new}
@@ -153,7 +153,7 @@
 				</div> <!-- end pb-left-column -->
 				<!-- end left infos-->
 				<!-- center infos -->
-				<div class="pb-center-column col-xs-12 col-sm-6 col-md-6">
+				<div class="pb-center-column col-lg-5 col-xs-12 col-sm-6 col-md-6">
 					{if $product->online_only}
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
@@ -181,17 +181,7 @@
 						{if $product->show_price && !isset($restricted_country_mode) && !$PS_CATALOG_MODE}
 							<!-- prices -->
 							<div>
-								<p class="our_price_display" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
-									{if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}
-									{if $priceDisplay >= 0 && $priceDisplay <= 2}
-										<span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
-										{if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
-											{if $priceDisplay == 1} {l s='tax excl.'}{else} {l s='tax incl.'}{/if}
-										{/if}
-										<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
-										{hook h="displayProductPriceBlock" product=$product type="price"}
-									{/if}
-								{/strip}</p>
+								
 								<p id="reduction_percent" {if !$product->specificPrice || $product->specificPrice.reduction_type != 'percentage'} style="display:none;"{/if}>{strip}
 									<span id="reduction_percent_display">
 										{if $product->specificPrice && $product->specificPrice.reduction_type == 'percentage'}-{$product->specificPrice.reduction*100}%{/if}
@@ -211,7 +201,7 @@
 									{/if}
 								{/strip}</p>
 								{if $priceDisplay == 2}
-									<br />
+									<br/>
 									<span id="pretaxe_price">{strip}
 										<span id="pretaxe_price_display">{convertPrice price=$product->getPrice(false, $smarty.const.NULL)}</span> {l s='tax excl.'}
 									{/strip}</span>
@@ -281,8 +271,9 @@
 								<div class="box-cart-bottom">
 									<!-- quantity wanted -->
 									{if !$PS_CATALOG_MODE}
-									<p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
-										<label for="quantity_wanted">{l s='Quantity'}</label>
+                                                                        <div class="col-lg-12">
+                                                                        <p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: block;"{/if}>
+										<label for="quantity_wanted">{l s='Quantity: '}</label>
 										<input type="number" min="1" name="qty" id="quantity_wanted" class="text" value="{if isset($quantityBackup)}{$quantityBackup|intval}{else}{if $product->minimal_quantity > 1}{$product->minimal_quantity}{else}1{/if}{/if}" />
 										<a href="#" data-field-qty="qty" class="btn btn-default button-minus product_quantity_down">
 											<span><i class="icon-minus"></i></span>
@@ -292,15 +283,47 @@
 										</a>
 										<span class="clearfix"></span>
 									</p>
+                                                                        </div>
+                                                                        
+                                                                        <div class="col-lg-12">       
+                                                                        <p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: block;"{/if}>
+                                                                            <label for="quantity_wanted">{l s='Price: '}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                                                <input type="number" min="1" name="qty" id="quantity_wanted" class="text" value="{if isset($quantityBackup)}{$quantityBackup|intval}{else}{if $product->minimal_quantity > 1}{$product->minimal_quantity}{else}1{/if}{/if}" />
+										<a href="#" data-field-qty="qty" class="btn btn-default button-minus product_quantity_down">
+											<span><i class="icon-minus"></i></span>
+										</a>
+										<a href="#" data-field-qty="qty" class="btn btn-default button-plus product_quantity_up">
+											<span><i class="icon-plus"></i></span>
+										</a>
+										<span class="clearfix"></span>
+									</p>
+                                                                        </div>
 									{/if}
 									<!-- minimal quantity wanted -->
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
 										{l s='The minimum purchase order quantity for the product is'} <b id="minimal_quantity_label">{$product->minimal_quantity}</b>
 									</p>
-									<div class="cart-product"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
-										<div id="add_to_cart" class="buttons_bottom_block no-print">
+                                                                        <p class="our_price_display col-lg-12" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
+									{if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}
+									{if $priceDisplay >= 0 && $priceDisplay <= 2}
+                                                                                {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
+											{if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
+										{/if}
+                                                                                <span style=" margin-right: 2%;" id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
+										
+										{if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
+											{if $priceDisplay == 1} {l s='tax excl.'}{else} {l s='tax incl.'}{/if}
+										{/if}
+                                                                                <span style="margin-left:1%;" id="our_price_display" class="priceT" itemprop="price" content="{$productPrice}">({convertPrice price=$productPrice|floatval})</span>
+										<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
+										{hook h="displayProductPriceBlock" product=$product type="price"}
+                                                                                <span  class="price" style="margin-left: 1%;">{270} pts.</span>
+									{/if}
+                                                                        {/strip}</p>
+                                                                        <div class="cart-product col-lg-12"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
+										<br/><div id="add_to_cart" class="buttons_bottom_block no-print">
 											<button type="submit" name="Submit" class="exclusive">
-												<span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='Add to cart'}{/if}</span>
+                                                                                            <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
 											</button>
 										</div>
 									</div>
@@ -403,19 +426,25 @@
 				
 				</div>
 				<!-- end center infos-->
-			</div>	
+		
 			<!-- pb-right-column-->
 		</div>
-		<div class=" col-sm-3 col-md-3 col-xs-12">
+                <!-- IMAGEN COLUMNA DERECHA -->                        
+		<!--<div class=" col-sm-3 col-md-3 col-xs-12">
 		{if !$content_only} 
 		{hook h="blockPosition8"}
 		{/if}
-		</div>
+		</div>-->
 	</div> <!-- end primary_block -->
 	{if !$content_only}
 		<div class="more-info">
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
-				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='More info'}</a></span></li>{/if}
+				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Gift Card Instructions'}</a></span></li>{/if}
+				{if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if}
+				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
+				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}
+				{$HOOK_PRODUCT_TAB}
+                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab"><span>{l s='Terms & conditions'}</a></span></li>{/if}
 				{if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if}
 				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
 				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}

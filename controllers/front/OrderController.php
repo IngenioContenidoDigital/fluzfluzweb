@@ -122,13 +122,6 @@ class OrderControllerCore extends ParentOrderController
         $this->context->smarty->assign('totalAvailable', $totalAvailable);
         $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
         
-        /* ESTAS YA FUNCIONAN */
-        //$red= RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id);
-        //$prueba=RewardsModel::getMoneyReadyForDisplayNetwork(100000,$red+1,(int)$this->context->currency->id);
-        //$prueba= RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id);
-        //$this->context->smarty->assign('prueba', $prueba);
-        /* FIN */
-        
         if (Tools::isSubmit('ajax') && Tools::getValue('method') == 'updateExtraCarrier') {
             // Change virtualy the currents delivery options
             $delivery_option = $this->context->cart->getDeliveryOption();

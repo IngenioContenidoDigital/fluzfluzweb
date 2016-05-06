@@ -31,12 +31,15 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 		$totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
 		$totalGlobal = isset($totals['total']) ? (float)$totals['total'] : 0;
 		$totalConverted = isset($totals[RewardsStateModel::getConvertId()]) ? (float)$totals[RewardsStateModel::getConvertId()] : 0;
-		$totalAvailable = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
+                $totalAvailable = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
 		$totalPending = (isset($totals[RewardsStateModel::getDefaultId()]) ? (float)$totals[RewardsStateModel::getDefaultId()] : 0) + (isset($totals[RewardsStateModel::getReturnPeriodId()]) ? $totals[RewardsStateModel::getReturnPeriodId()] : 0);
 		$totalWaitingPayment = isset($totals[RewardsStateModel::getWaitingPaymentId()]) ? (float)$totals[RewardsStateModel::getWaitingPaymentId()] : 0;
 		$totalPaid = isset($totals[RewardsStateModel::getPaidId()]) ? (float)$totals[RewardsStateModel::getPaidId()] : 0;
 		$totalForPaymentDefaultCurrency = round($totalAvailable * MyConf::get('REWARDS_PAYMENT_RATIO', null, $id_template) / 100, 2);
-
+                
+                $totalAvailableCurrency=RewardsModel::getmoneyReadyForDisplay($totalAvailableCurrency,(int)$this->context->currency->id);
+                $this->context->smarty->assign('totalAvailable', $totalAvailable);
+                $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
 		$currency = Currency::getCurrency((int)$this->context->currency->id);
 		$totalAvailableUserCurrency = Tools::convertPrice($totalAvailable, $currency);
 		$voucherMininum = (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) > 0 ? (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) : 0;
@@ -85,7 +88,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                 $rw = $row['last_reward'];
                             }
                             
-                            $query = "UPDATE "._DB_PREFIX_."rewards AS R SET R.id_reward_state=2, R.credits=".($realmoney-$money)." WHERE R.id_reward=".$rw;
+                            $query = "UPDATE "._DB_PREFIX_."rewards AS R SET R.id_reward_state=2, R.credits=".($points-$use)." WHERE R.id_reward=".$rw;
                             Db::getInstance()->execute($query);
                         }
                        

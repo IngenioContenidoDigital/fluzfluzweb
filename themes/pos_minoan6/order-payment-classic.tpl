@@ -107,7 +107,7 @@
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
                                                       <div style="text-align: left; font-size: 10px; width: 100%;" class="item">{l s='Use specific amount of points:'}
-                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
+                                                            <input type="text" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
                                                       </div> 
                                                 </fieldset>

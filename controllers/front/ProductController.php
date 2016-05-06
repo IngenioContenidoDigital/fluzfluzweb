@@ -170,12 +170,16 @@ class ProductControllerCore extends FrontController
     public function initContent()
     {
         parent::initContent();
-
+        
+        
+        $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
+	$totalGlobal = isset($totals['total']) ? (float)$totals['total'] : 0;
+        $this->context->smarty->assign('totalGlobal', $totalGlobal);
         if (!$this->errors) {
             if (Pack::isPack((int)$this->product->id) && !Pack::isInStock((int)$this->product->id)) {
                 $this->product->quantity = 0;
             }
-
+            
             $this->product->description = $this->transformDescriptionWithImg($this->product->description);
 
             // Assign to the template the id of the virtual product. "0" if the product is not downloadable.
