@@ -309,15 +309,15 @@
                                                                                 {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
 											{if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
 										{/if}
-                                                                                <span style=" margin-right: 2%;" id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
+                                                                                <span style=" margin-right: 5%;" id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
 										
 										{if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
-											{if $priceDisplay == 1} {l s='tax excl.'}{else} {l s='tax incl.'}{/if}
+											{if $priceDisplay == 1} {l s='tax excl.'}{else} {l s='tax.'}{/if}
 										{/if}
                                                                                 <span style="margin-left:1%;" id="our_price_display" class="priceT" itemprop="price" content="{$productPrice}">({convertPrice price=$productPrice|floatval})</span>
 										<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
 										{hook h="displayProductPriceBlock" product=$product type="price"}
-                                                                                <span  class="price" style="margin-left: 1%;">{270} pts.</span>
+                                                                                <span  class="price" style="margin-left: 8%;">{270} pts.</span>
 									{/if}
                                                                         {/strip}</p>
                                                                         <div class="cart-product col-lg-12"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
