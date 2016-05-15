@@ -4,7 +4,7 @@
 #config/settings.*.php
 /img/p/[0-9]/*.jpg
 /img/p/[0-9]/*.png
-
+/config/settings.inc.php
 
 *.md
 *.woff
