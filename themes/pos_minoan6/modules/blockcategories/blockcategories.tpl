@@ -26,8 +26,8 @@
 <!-- Block categories module -->
 <div id="categories_block_left" class="block">
 	<h2 class="title_block">
-		{if isset($currentCategory)}
-			{$currentCategory->name|escape}
+		{if isset($Category)}
+			{$Category->name|escape}
 		{else}
 			{l s='Categories' mod='blockcategories'}
 		{/if}

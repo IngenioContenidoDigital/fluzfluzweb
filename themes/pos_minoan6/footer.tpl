@@ -41,9 +41,9 @@
 				<!-- Footer -->
 				<div class="footer-container">
 					<footer id="footer">
-						<div class="footer-static-top">
-							<div class="container">
-								<div class="row">
+                                            <div class="footer-static-top" style="background:#fff;">
+							<div class="container2">
+								<div class="row" style="background:#f9f9f9; margin-left:0;">
 									<div class="col-xs-12 col-md-4 col-sm-4">
 									
 										{capture name='blockFooter1'}{hook h='blockFooter1'}{/capture}
@@ -53,13 +53,13 @@
 										
 									
 									</div>
-									<div class="top-right col-xs-12 col-md-8 col-sm-8">
+                                                                                <div class="top-right col-xs-12 col-md-8 col-sm-8" >
                                                                           
                                                                                 {capture name='blockFooter2'}{hook h='blockFooter2'}{/capture}
 										{if $smarty.capture.blockFooter2}
 										{$smarty.capture.blockFooter2}
 										{/if}
-										<div class="row">
+                                                                                <div class="row">
 										{capture name='blockFooter3'}{hook h='blockFooter3'}{/capture}
 										{if $smarty.capture.blockFooter3}
 										{$smarty.capture.blockFooter3}
@@ -72,7 +72,7 @@
 							</div>
 						
 						</div>
-						<div class="footer-bottom">
+                                                <div class="footer-bottom" style="background:#f9f9f9;">
 							<div class="container">
 								<div class="row">
 									<div class="col-xs-12 col-md-12 col-sm-12">
@@ -85,15 +85,35 @@
 									{if $smarty.capture.posscroll}
 									{$smarty.capture.posscroll}
 									{/if}
-										
+									
+                                                                        {if $page_name=='product'}
+                                                                            <style>
+                                                                            {literal}
+                                                                                
+                                                                                div.footer-bottom{width:80%; float:right;}
+                                                                                div.container{margin-left:2%;}
+                                                                                div.container2{width:80%; float:right;}
+                                                                                
+                                                                                @media (max-width: 1025px){
+                                                                                div.footer-bottom{width:100%;}
+                                                                                div.container{margin-left:2%;}
+                                                                                div.container2{width:100%;}
+                                                                                }
+                                                                            {/literal}
+                                                                            </style>
+                                                                        {/if}    
 									</div>	
 								</div>		
 							</div>
+                                                                   
 						</div>
 					</footer>
 				</div><!-- #footer -->
 			{/if}
+                            
 		</div><!-- #page -->
+                
+                
 {/if}
 {include file="$tpl_dir./global.tpl"}
 {addJsDefL name=min_item}{l s='Please select at least one product' js=1}{/addJsDefL}

@@ -376,6 +376,8 @@
 /***********/
 #product p#loyalty {
 	display: none;
+        text-align:justify;
+        width:92%;
 }
 #product #sponsorship_link a::before {
     content: "\f1e0";

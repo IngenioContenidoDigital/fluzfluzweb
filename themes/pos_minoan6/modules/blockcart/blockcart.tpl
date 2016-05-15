@@ -26,8 +26,23 @@
 {if isset($blockcart_top) && $blockcart_top}
 <div class="block-cart clearfix{if $PS_CATALOG_MODE} header_user_catalog{/if} cambio">
 {/if}
-	<div class="shopping_cart">
-		<a href="{$link->getPageLink($order_process, true)|escape:'html':'UTF-8'}" title="{l s='View my shopping cart' mod='blockcart'}" rel="nofollow">
+
+{if $page_name=='product'}
+
+    <style>
+        {literal}
+                                                                            
+            dt {display: none;}
+            ajax_block_cart_total{display: none;}
+            span.ajax_cart_total{display: none;}
+            div.cart-prices-line{display: none;}
+            p.cart-buttons{display: none;}
+            
+        {/literal}
+    </style>
+{/if}
+<div class="shopping_cart">
+            <a href="{$link->getPageLink($order_process, true)|escape:'html':'UTF-8'}" title="{l s='View my shopping cart' mod='blockcart'}" rel="nofollow">
 			<!--<b>{l s='Cart' mod='blockcart'}</b>-->
 			<span class="ajax_cart_quantity{if $cart_qties == 0} unvisible{/if}">{$cart_qties}</span>
 			<span class="ajax_cart_product_txt{if $cart_qties != 1} unvisible{/if}">{l s='Product' mod='blockcart'}</span>
@@ -59,7 +74,8 @@
 								{foreach from=$products item='product' name='myLoop'}
 									{assign var='productId' value=$product.id_product}
 									{assign var='productAttributeId' value=$product.id_product_attribute}
-									<dt data-id="cart_block_product_{$product.id_product|intval}_{if $product.id_product_attribute}{$product.id_product_attribute|intval}{else}0{/if}_{if $product.id_address_delivery}{$product.id_address_delivery|intval}{else}0{/if}" class="{if $smarty.foreach.myLoop.first}first_item{elseif $smarty.foreach.myLoop.last}last_item{else}item{/if}">
+									
+                                                                        <dt data-id="cart_block_product_{$product.id_product|intval}_{if $product.id_product_attribute}{$product.id_product_attribute|intval}{else}0{/if}_{if $product.id_address_delivery}{$product.id_address_delivery|intval}{else}0{/if}" class="{if $smarty.foreach.myLoop.first}first_item{elseif $smarty.foreach.myLoop.last}last_item{else}item{/if}">
 										<a class="cart-images" href="{$link->getProductLink($product.id_product, $product.link_rewrite, $product.category)|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}"><img src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'cart_default')}" alt="{$product.name|escape:'html':'UTF-8'}" /></a>
 										<div class="cart-info">
 											<div class="product-name">
