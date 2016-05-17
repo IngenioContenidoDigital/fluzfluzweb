@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
 $url_0: url(http://jquerycreditcardvalidator.com/images/images.png);
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline; }
@@ -285,7 +286,7 @@ pre code { padding: 0; font-size: inherit; color: inherit; white-space: pre-wrap
   .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, header .row #header_logo, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11 { float: left; }
   .col-sm-1 { width: 8.33333%; }
   .col-sm-2 { width: 16.66667%; }
-  .col-sm-3 { width: 25%; }
+  .col-sm-3 { width: 20%; background:#f9f9f9; }
   .col-sm-4, header .row #header_logo { width: 33.33333%; }
   .col-sm-5 { width: 41.66667%; }
   .col-sm-6 { width: 50%; }
@@ -2665,7 +2666,7 @@ table.std td, table.table_block td { padding: 12px; border-right: 1px solid #e9e
 @media (max-width: 767px) { .block .block_content { margin-bottom: 20px; } }
 
 @media (max-width: 767px) { .block { margin-bottom: 0; } }
-.block .title_block, .block h4 { position: relative; color: #222222; display: block; line-height: 50px; border-top: 1px solid #e5e5e5; text-transform: uppercase; margin-bottom: 20px; font-size: 20px; font-weight: normal; }
+.block .title_block, .block h4 { position: relative; color: #222222; display: block; line-height: 50px; /*border-top: 1px solid #e5e5e5;*/ text-transform: uppercase; margin-bottom: 20px; font-size: 20px; font-weight: normal; }
 @media (min-width: 768px) and (max-width: 991px) { .block .title_block, .block h4 { font-size: 14px; } }
 @media (max-width: 767px) { .block .title_block, .block h4 { position: relative; margin-bottom: 0; }
   .block .title_block:after, .block h4:after { display: block; font-family: "FontAwesome"; content: ""; position: absolute; right: 0; top: 0; height: 36px; width: 36px; font-size: 18px; font-weight: normal; text-align: center; }
@@ -3246,7 +3247,7 @@ div.star.star_hover:after { content: "\f005"; font-family: "FontAwesome"; displa
 
 a:hover, a:focus { outline: 0; text-decoration: none; }
 
-ul { margin: 0; }
+ul { margin: 0; padding-left:0;}
 
 li { list-style: none; }
 
@@ -3454,7 +3455,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 
 /************** advertising_block ***************/
 .footer-container { background-color: #E8E8E8; }
-.footer-container #footer { color: #777777; font-size: 12px; }
+.footer-container #footer { background:#fff; color: #777777; font-size: 12px; }
 .footer-container #footer .row { position: relative; clear: both; }
 .footer-container #footer ul.row { position: static; }
 .footer-container #footer .top-right { /*border-left: 1px solid #484848;*/ padding-left: 30px; }

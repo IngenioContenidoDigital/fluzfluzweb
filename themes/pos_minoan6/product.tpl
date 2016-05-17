@@ -37,7 +37,7 @@
 <div itemscope itemtype="https://schema.org/Product">
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
 	<div class="primary_block row">
-		<div class="{if !$content_only}col-lg-12 col-sm-9 col-md-9 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
+		<div class="{if !$content_only}col-lg-12 col-sm-12 col-md-9 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
 			
 			{if !$content_only}
 				<div class="container">
@@ -64,7 +64,7 @@
 				</p>
 			{/if}
 				<!-- left infos-->
-				<div class="pb-left-column col-lg-7 col-xs-12 col-sm-6 col-md-6">
+				<div class="pb-left-column col-lg-7 col-xs-12 col-sm-12 col-md-6">
 					<!-- product img-->
 					<div id="image-block" class="clearfix">
 						{if $product->new}
@@ -153,7 +153,7 @@
 				</div> <!-- end pb-left-column -->
 				<!-- end left infos-->
 				<!-- center infos -->
-				<div class="pb-center-column col-lg-5 col-xs-12 col-sm-6 col-md-6">
+				<div class="pb-center-column col-lg-5 col-xs-12 col-sm-12 col-md-12">
 					{if $product->online_only}
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
@@ -197,7 +197,7 @@
 								<p id="old_price"{if (!$product->specificPrice || !$product->specificPrice.reduction)} class="hidden"{/if}>{strip}
 									{if $priceDisplay >= 0 && $priceDisplay <= 2}
 										{hook h="displayProductPriceBlock" product=$product type="old_price"}
-										<span id="old_price_display"><span class="price">{if $productPriceWithoutReduction > $productPrice}{convertPrice price=$productPriceWithoutReduction|floatval}{/if}</span>{if $tax_enabled && $display_tax_label == 1} {if $priceDisplay == 1}{l s='tax excl.'}{else}{l s='tax incl.'}{/if}{/if}</span>
+                                                                                <span id="old_price_display"><span class="price">{if $productPriceWithoutReduction > $productPrice}{convertPrice price=$productPriceWithoutReduction|floatval}{/if}</span>{if $tax_enabled && $display_tax_label == 1} {if $priceDisplay == 1}{l s='tax excl.'}{else}{l s='tax incl.'}{/if}{/if}</span>
 									{/if}
 								{/strip}</p>
 								{if $priceDisplay == 2}
@@ -259,12 +259,14 @@
 						<!-- add to cart form-->
 						<form id="buy_block"{if $PS_CATALOG_MODE && !isset($groups) && $product->quantity > 0} class="hidden"{/if} action="{$link->getPageLink('cart')|escape:'html':'UTF-8'}" method="post">
 							<!-- hidden datas -->
+                                                        {if isset($HOOK_EXTRA_RIGHT) && $HOOK_EXTRA_RIGHT}{$HOOK_EXTRA_RIGHT}{/if}
 							<p class="hidden">
 								<input type="hidden" name="token" value="{$static_token}" />
 								<input type="hidden" name="id_product" value="{$product->id|intval}" id="product_page_product_id" />
 								<input type="hidden" name="add" value="1" />
 								<input type="hidden" name="id_product_attribute" id="idCombination" value="" />
 							</p>
+                                                        
 							<div class="box-info-product">
 			
 						
@@ -284,21 +286,8 @@
 										<span class="clearfix"></span>
 									</p>
                                                                         </div>
-                                                                        
-                                                                        <div class="col-lg-12">       
-                                                                        <p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: block;"{/if}>
-                                                                            <label for="quantity_wanted">{l s='Price: '}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                                                <input type="number" min="1" name="qty" id="quantity_wanted" class="text" value="{if isset($quantityBackup)}{$quantityBackup|intval}{else}{if $product->minimal_quantity > 1}{$product->minimal_quantity}{else}1{/if}{/if}" />
-										<a href="#" data-field-qty="qty" class="btn btn-default button-minus product_quantity_down">
-											<span><i class="icon-minus"></i></span>
-										</a>
-										<a href="#" data-field-qty="qty" class="btn btn-default button-plus product_quantity_up">
-											<span><i class="icon-plus"></i></span>
-										</a>
-										<span class="clearfix"></span>
-									</p>
-                                                                        </div>
 									{/if}
+                                                                        
 									<!-- minimal quantity wanted -->
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
 										{l s='The minimum purchase order quantity for the product is'} <b id="minimal_quantity_label">{$product->minimal_quantity}</b>
@@ -306,22 +295,22 @@
                                                                         <p class="our_price_display col-lg-12" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
 									{if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}
 									{if $priceDisplay >= 0 && $priceDisplay <= 2}
+                                                                            <span class="col-lg-7" style="padding-left:0px; text-align: left;">
                                                                                 {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
 											{if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
 										{/if}
-                                                                                <span style=" margin-right: 5%;" id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
-										
-										{if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
-											{if $priceDisplay == 1} {l s='tax excl.'}{else} {l s='tax.'}{/if}
-										{/if}
-                                                                                <span style="margin-left:1%;" id="our_price_display" class="priceT" itemprop="price" content="{$productPrice}">({convertPrice price=$productPrice|floatval})</span>
+                                                                                
+                                                                                <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
+                                                                            </span>        
 										<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
-										{hook h="displayProductPriceBlock" product=$product type="price"}
-                                                                                <span  class="price" style="margin-left: 8%;">{270} pts.</span>
+                                                                                {hook h="displayProductPriceBlock" product=$product type="price"}
+                                                                                <span  class="price col-lg-5">{$productP} pts.</span>
 									{/if}
-                                                                        {/strip}</p>
-                                                                        <div class="cart-product col-lg-12"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
-										<br/><div id="add_to_cart" class="buttons_bottom_block no-print">
+                                                                        {/strip}
+                                                                        </p>
+                                                                        <div class="cart-product"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
+										<br/>
+                                                                                <div id="add_to_cart" class="col-lg-12 col-md-6 col-sm-6 col-xs-12 buttons_bottom_block no-print">
 											<button type="submit" name="Submit" class="exclusive">
                                                                                             <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
 											</button>
@@ -422,7 +411,7 @@
 					<div id="oosHook"{if $product->quantity > 0} style="display: none;"{/if}>
 						{$HOOK_PRODUCT_OOS}
 					</div>
-					{if isset($HOOK_EXTRA_RIGHT) && $HOOK_EXTRA_RIGHT}{$HOOK_EXTRA_RIGHT}{/if}
+					
 				
 				</div>
 				<!-- end center infos-->

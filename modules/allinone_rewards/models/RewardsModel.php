@@ -233,7 +233,7 @@ class RewardsModel extends ObjectModel
 			$id_lang = $context->language->id;
 
 		if ((float)MyConf::get('REWARDS_VIRTUAL', null, $id_template)) {
-			$reward = round(($reward*(float)MyConf::get('REWARDS_VIRTUAL_VALUE_'.$currency['id_currency'], null, $id_template)), 2);
+			$reward = round($reward*(float)MyConf::get('REWARDS_VIRTUAL_VALUE_'.$currency['id_currency'], null, $id_template), 2);
 			// on ajoute les décimales que si ce n'est pas un entier
 			//if ($reward != (int)$reward)
 			//	$reward = number_format($reward, 2, '.', '');

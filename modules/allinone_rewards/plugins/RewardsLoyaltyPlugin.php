@@ -688,7 +688,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 		$this->context->smarty->assign(array(
 			'ajax_loyalty' => true,
 			'display_credits' => ((float)$credits > 0) ? true : false,
-			'credits' => RewardsModel::getMoneyReadyForDisplayNetwork((round(Product::getPriceStatic($product->id, true, null, 6),0)-$costo), $red+1, (int)$this->context->currency->id),
+			'credits' => RewardsModel::getMoneyReadyForDisplayNetwork((round($product->price)-$costo), $red+1, (int)$this->context->currency->id),
 			'total_credits' => $this->instance->getRewardReadyForDisplay((float)$credits_after, (int)$this->context->currency->id),
 			'minimum' => round(Tools::convertPrice((float) MyConf::get('RLOYALTY_POINT_RATE', null, $id_template), $this->context->currency), 2)
 		));

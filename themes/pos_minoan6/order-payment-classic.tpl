@@ -107,7 +107,7 @@
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
                                                       <div style="text-align: left; font-size: 10px; width: 100%;" class="item">{l s='Use specific amount of points:'}
-                                                            <input type="text" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
+                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
                                                       </div> 
                                                 </fieldset>
@@ -387,7 +387,7 @@
 
                $.ajax({
                     method:"GET",
-                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    url: '/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);
@@ -409,7 +409,7 @@
                //alert('Carrito:'+totalCart+'Creditos:'+credits+'Money:'+money+'use:'+use);
                $.ajax({
                     method:"GET",
-                    url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    url: '/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);

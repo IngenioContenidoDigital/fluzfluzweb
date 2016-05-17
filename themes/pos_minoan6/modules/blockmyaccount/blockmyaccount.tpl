@@ -25,56 +25,73 @@
 
 <!-- Block myaccount module -->
 <div class="block myaccount-column">
-	<p class="title_block">
-		<a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" title="{l s='My account' mod='blockmyaccount'}">
-			{l s='My account' mod='blockmyaccount'}
-		</a>
+    <p class="title_block">
+            <a href="{$link->getPageLink('order', true, true)|escape:'html':'UTF-8'}" title="{l s='View my shopping cart' mod='blockcart'}" rel="nofollow">
+                    <div>
+                        <div class="menuAccountProfile"><i class="icon-shopping-cart iWhite"></i></div>
+                        <div class="menuAccount">
+                            <span class="prueba ajax_cart_quantity{if $cart_qties == 0} unvisible{/if}">{$cart_qties}</span>
+                            {l s='My Cart' mod='blockcart'}
+                        </div>
+                    </div>
+            </a>            
+            <br/>            
+            <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" title="{l s='My account' mod='blockmyaccount'}">
+                    <div>
+                        <div class="menuAccountProfile"><i class="icon-user iWhite"></i></div>
+                        
+                        <div class="menuAccount">
+                            {l s='My account' mod='blockmyaccount'}
+                        </div>
+                    </div>
+            </a>
+                        
+                       
 	</p>
 	<div class="block_content list-block">
 		<ul>
-			<li>
+			<!--<li>
 				<a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='My orders' mod='blockmyaccount'}">
 					{l s='My orders' mod='blockmyaccount'}
 				</a>
-			</li>
+			</li>-->
 			{if $returnAllowed}
-				<li>
+				<!--<li>
 					<a href="{$link->getPageLink('order-follow', true)|escape:'html':'UTF-8'}" title="{l s='My merchandise returns' mod='blockmyaccount'}">
 						{l s='My merchandise returns' mod='blockmyaccount'}
 					</a>
-				</li>
+				</li>-->
 			{/if}
-			<li>
+			<!--<li>
 				<a href="{$link->getPageLink('order-slip', true)|escape:'html':'UTF-8'}" title="{l s='My credit slips' mod='blockmyaccount'}">	{l s='My credit slips' mod='blockmyaccount'}
 				</a>
-			</li>
-			<li>
+			</li>-->
+			<!--<li>
 				<a href="{$link->getPageLink('addresses', true)|escape:'html':'UTF-8'}" title="{l s='My addresses' mod='blockmyaccount'}">
 					{l s='My addresses' mod='blockmyaccount'}
 				</a>
-			</li>
-			<li>
+			</li>-->
+			<!--<li>
 				<a href="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" title="{l s='My personal info' mod='blockmyaccount'}">
 					{l s='My personal info' mod='blockmyaccount'}
 				</a>
-			</li>
-			{if $voucherAllowed}
-				<li>
+			</li>-->			
+                        {if $voucherAllowed}
+				<!--<li>
 					<a href="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" title="{l s='My vouchers' mod='blockmyaccount'}">
 						{l s='My vouchers' mod='blockmyaccount'}
 					</a>
-				</li>
+				</li>-->
 			{/if}
-			{$HOOK_BLOCK_MY_ACCOUNT}
 		</ul>
-		<div class="logout">
+		<!--<div class="logout">
 			<a 
 			class="btn btn-default button button-small" 
 			href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html':'UTF-8'}" 
 			title="{l s='Sign out' mod='blockmyaccount'}">
 				<span>{l s='Sign out' mod='blockmyaccount'}<i class="icon-chevron-right right"></i></span>
 			</a>
-		</div>
+		</div>-->
 	</div>
 </div>
 <!-- /Block myaccount module -->

@@ -24,10 +24,10 @@
 *}
 {if $blockCategTree && $blockCategTree.children|@count}
 <!-- Block categories module -->
-<div id="categories_block_left" class="block">
+<div id="categories_block_left" class="block blockCat">
 	<h2 class="title_block">
-		{if isset($currentCategory)}
-			{$currentCategory->name|escape}
+		{if isset($Category)}
+			{$Category->name|escape}
 		{else}
 			{l s='Categories' mod='blockcategories'}
 		{/if}
