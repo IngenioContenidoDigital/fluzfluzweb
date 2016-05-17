@@ -1685,7 +1685,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						'{sponsor_firstname}' => $sponsor->firstname,
 						'{sponsor_lastname}' => $sponsor->lastname,
 						'{sponsor_email}' => $sponsor->email,
-						'{sponsor_reward}' => $this->instance->getRewardReadyForDisplay((float)$reward->credits, (int)$order->id_currency, $lang),
+						'{sponsor_reward}' => $this->instance->getRewardReadyForDisplay((float)$reward->credits/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'), (int)$order->id_currency, $lang),
 						'{link_rewards}' => $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true));
 					if ($reward->id_reward_state = RewardsStateModel::getReturnPeriodId()) {
 						$data['{reward_unlock_date}'] = Tools::displayDate($reward->getUnlockDate(), null, true);

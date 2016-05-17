@@ -101,7 +101,7 @@
 					{/if}
 					
 					<div class="header-middle">
-                                            <div class="container-fluid">
+                                            <div class="container-fluid" style="background:#fff;">
                                                 <div class="row">
                                                     <div class="pos_logo col-md-3 col-sm-12 col-xs-12">
                                                         <a href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{$shop_name|escape:'html':'UTF-8'}">
@@ -124,15 +124,23 @@
                         </div>
                     </div>
                     <div class="columns-container">
-				{if $page_name =="index"}
+                        
+                                {if isset($left_column_size) && !empty($left_column_size)}
+                                    <div id="left_column" class="column col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}</div>
+				{/if}
+                                {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
+						<div  style="background:#fff;" id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
+                                {if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}
 					{if $smarty.capture.blockPosition1}
 					{$smarty.capture.blockPosition1}
 					{/if}
 
 				{/if}
+                                
 				<div id="columns" class="container">
-					{if $page_name !='index' && $page_name !='pagenotfound'}
+					
+                                        {if $page_name !='index' && $page_name !='pagenotfound'}
 						{include file="$tpl_dir./breadcrumb.tpl"}
 					{/if}
 					{if $page_name =='category'}
@@ -150,12 +158,6 @@
 							<div id="top_column" class="center_column col-xs-12 col-sm-12">{$smarty.capture.displayTopColumn}</div>
 						{/if}
 					</div>
-					<div class="row">
-						{if isset($left_column_size) && !empty($left_column_size)}
-						<div id="left_column" class="column col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}</div>
-						{/if}
-						{if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
-						<div id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
 							
 								
 	{/if}
