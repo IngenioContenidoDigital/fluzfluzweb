@@ -3560,3 +3560,10 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
   .more-info ul li { width: 100%; }
   .more-info ul li a.selected, .more-info ul li a:hover { border-bottom: 1px solid #e5e5e5; }
   .sds_blog_post .blog_content { overflow: visible !important; clear: both; padding: 20px !important; } }
+
+.Cards{background:#f4f4f4; margin-bottom:1%; color:#686969; cursor:pointer; border-radius:5px; margin-right:1%; padding:1%; -webkit-box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow:    2px 2px 3px 0px rgba(50, 50, 50, 0.75); box-shadow:         2px 2px 3px 0px rgba(50, 50, 50, 0.75);}
+.Cards img{width:auto; height:40px; margin-right:10%;}
+.priceCard{text-align:right; margin-top:15px;}
+.priceTotalCard{color:#ef4136; margin-left:5%;}
+.Cards:hover{background:#fff;}
+.popText{text-align:center; color:#ef4136; font-size:18px; font-family:Josefin-Sans;}

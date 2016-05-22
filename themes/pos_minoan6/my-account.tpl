@@ -29,14 +29,14 @@
 
 {foreach from=$manufacturers item=manufacturer}
     <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
-    <div class="col-lg-5">
-        <div class="col-lg-6">
+    <div class="col-lg-5 Cards">
+        <div class="col-lg-6 infoCard">
             <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></a>    
             <span>{$manufacturer.manufacturer_name}</span>
         </div>
-        <div class="col-lg-6">
-            <span>{$manufacturer.products}</span>
-            <span>{displayPrice price=$manufacturer.total}</span>
+        <div class="col-lg-6 priceCard">
+            <span>{$manufacturer.products}{l s=' Cards'}</span>
+            <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
     </a>        

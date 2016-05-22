@@ -21,15 +21,21 @@ class cardsviewControllerCore extends FrontController{
       }
       
       public function getCardsbySupplier($id_customer,$id_manufacturer){
-          $query="SELECT PC.`code` AS card_code, PL.link_rewrite, PL.`name` AS product_name,
-PC.id_product AS id_product, PP.id_manufacturer, PP.id_supplier
-FROM ps_product_code AS PC
-INNER JOIN ps_order_detail AS POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
-INNER JOIN ps_orders AS PO ON POD.id_order = PO.id_order
-INNER JOIN ps_product AS PP ON PC.id_product = PP.id_product
-INNER JOIN ps_product_lang AS PL ON PP.id_product = PL.id_product
-WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer = ".(int)$id_customer.") AND (PP.id_manufacturer =".(int)$id_manufacturer."))
-GROUP BY PC.`code`, PL.link_rewrite, PL.`name` ORDER BY product_name ASC";
+          $query="SELECT PC.`code` AS card_code, 
+	PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,
+	PC.id_product, 
+	PP.id_manufacturer, 
+	PP.id_supplier, 
+	PPI.id_image, 
+	PPI.cover
+FROM ps_product_code PC INNER JOIN ps_order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
+	 INNER JOIN ps_orders PO ON POD.id_order = PO.id_order
+	 INNER JOIN ps_product PP ON PC.id_product = PP.id_product
+	 LEFT JOIN ps_image AS PPI ON PP.id_product = PPI.id_product
+	 INNER JOIN ps_product_lang PL ON PP.id_product = PL.id_product
+WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer =".(int)$id_customer.") AND (PP.id_manufacturer =".(int)$id_manufacturer.") AND (PPI.cover=1) AND (PL.id_lang=".$this->context->language->id."))
+GROUP BY PC.`code`, PL.`name`, PL.link_rewrite
+ORDER BY product_name ASC";
           $cards=Db::getInstance()->executeS($query);
           return $cards;
       }
