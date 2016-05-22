@@ -1539,7 +1539,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->id_customer = (int)$sponsorship['id_sponsor'];
 					$reward->id_order = (int)$order->id;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
-                                        $price= $reward->getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1);
+                                        $price= $reward->getRewardReadyForDisplay($price, $this->context->currency->id)/((RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1));
 
 					$extraParams = array();
 					$extraParams['type'] = (int)$this->_configuration['reward_type'][$indice];
@@ -1685,7 +1685,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						'{sponsor_firstname}' => $sponsor->firstname,
 						'{sponsor_lastname}' => $sponsor->lastname,
 						'{sponsor_email}' => $sponsor->email,
-						'{sponsor_reward}' => $this->instance->getRewardReadyForDisplay((float)$reward->credits, (int)$order->id_currency, $lang),
+						'{sponsor_reward}' => $this->instance->getRewardReadyForDisplay((float)$reward->credits/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'), (int)$order->id_currency, $lang),
 						'{link_rewards}' => $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true));
 					if ($reward->id_reward_state = RewardsStateModel::getReturnPeriodId()) {
 						$data['{reward_unlock_date}'] = Tools::displayDate($reward->getUnlockDate(), null, true);
