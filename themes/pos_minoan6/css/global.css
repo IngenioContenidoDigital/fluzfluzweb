@@ -121,6 +121,10 @@ input, button, select, textarea { font-family: inherit; font-size: inherit; line
 
 button, input, select[multiple], textarea { background-image: none; }
 
+.colorPoint{color:#ef4136; font-family:"Montserrat"; font-size:2em; }
+
+.colorPoint2{color:#ef4136; font-family:"Montserrat";}
+
 .btn-cart{background:transparent; border:1px solid #ef4136; color: #ef4136; padding:1% 10%; width:30%;}
 
 .tprice{color:#ef4136; font-size:80%;}

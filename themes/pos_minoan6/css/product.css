@@ -19,7 +19,7 @@ a.fancybox-nav { outline: 0; }
 .pb-left-column { text-align: center; }
 .pb-left-column #image-block { position: relative; margin: 0 auto; display: block; width: 80%; height: auto; cursor: pointer; padding: 5px; background: white; border: solid 1px #E1E1E1; }
 @media (max-width: 767px) { .pb-left-column #image-block { width: 280px; margin: 0 auto; } }
-.pb-left-column #image-block img { background: #fbfbfb; width: 100%; }
+.pb-left-column #image-block img { background: #fff; width: 80%; height: 100%;}
 .pb-left-column #image-block #view_full_size .span_link { position: absolute; bottom: 20px; left: 50%; margin-left: -68px; display: block; padding: 10px 0; text-align: center; line-height: 22px; color: #777676; width: 136px; text-align: center; font-weight: 700; background: rgba(255, 255, 255, 0.5); -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16); -moz-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16); }
 .pb-left-column #image-block #view_full_size .span_link:after { font-family: "FontAwesome"; color: #c0c0c0; font-size: 20px; line-height: 22px; content: "\f00e"; font-weight: normal; margin: 0 0 0 4px; }
 .pb-left-column #image-block #view_full_size .span_link:hover:after { color: #252525; }
@@ -75,7 +75,7 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 @media (min-width: 768px) and (max-width: 991px) { .view_scroll_spacer { margin-top: 28px; } }
 
 /* link list */
-#usefull_link_block { list-style-type: none; clear: both; margin: 0; }
+#usefull_link_block { list-style-type: none; clear: both; margin: 0; display: none; }
 #usefull_link_block li { margin: 0 0 8px 0; }
 @media (min-width: 768px) and (max-width: 991px) { #usefull_link_block li { float: none !important; } }
 #usefull_link_block li:first-child { margin: 0 0 8px 0; border: none; padding: 0; }
@@ -102,9 +102,9 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .pb-center-column #product_reference { margin-bottom: 6px; margin-left: 15px;}
 .pb-center-column #short_description_block { color: #666666; }
 .pb-center-column #short_description_block .buttons_bottom_block { display: none; }
-.pb-center-column #short_description_block #short_description_content { padding: 15px 0; margin-bottom: 20px; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; word-wrap: break-word; }
+.pb-center-column #short_description_block #short_description_content { padding: 15px 0; margin-bottom: 20px; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; word-wrap: break-word; display: none;}
 .pb-center-column #short_description_block #short_description_content p { line-height: 27px; font-size: 14px; color: #8c8c8c; margin: 0; }
-.pb-center-column #buy_block label { display: inline-block; float: left; font-weight: normal; font-size: 12px; margin-right: 10px; line-height: 35px; }
+.pb-center-column #buy_block label { display: inline-block; text-align: left !important; float: left; font-weight: normal; font-size: 12px; margin-right: 10px; line-height: 35px; }
 .pb-center-column #buy_block p.price { padding: 0; }
 .pb-center-column #color_picker p { padding-bottom: 5px; font-weight: 700; }
 
@@ -182,7 +182,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 .accessories-block div ul li.s_title_block a, .accessories-block div ul li.s_title_block span { font-weight: 700; }
 
 /* quantity_wanted */
-#quantity_wanted_p input { width: 78px; height: 35px; padding: 0 6px; float: left; border: 1px solid #e5e5e5; line-height: 35px; }
+#quantity_wanted_p input { height: 35px; text-align: right; padding: 0 6px; float: left; border: 1px solid #e5e5e5; line-height: 35px; }
 #quantity_wanted_p .btn { float: left; margin-left: 3px; }
 #quantity_wanted_p label { display: block; margin-bottom: 7px; }
 
@@ -200,7 +200,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 #pQuantityAvailable span { font-weight: normal; color: #888889; font-size: 12; font-style: italic; }
 
 /* box-security */
-.box-security { padding: 20px 0; clear: both; }
+.box-security { padding: 20px 0; clear: both; display: none; }
 
 /* prices */
 .discount { display: none; }
