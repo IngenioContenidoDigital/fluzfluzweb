@@ -125,13 +125,26 @@ class RewardsProductModel extends ObjectModel
 
         public static function getCostDifference($id_product){
             
-            //$price = 10;
             $query = 'SELECT `product_supplier_price_te` FROM `'._DB_PREFIX_.'product_supplier` WHERE `id_product`='.(int)$id_product;
             $row= Db::getInstance()->getRow($query);
             $costo = $row['product_supplier_price_te'];
-            //$difference= ($price - $row);
             return $costo;
 
         }
+        
+        public static function getCodeProduct($id_product){
+            
+            $query1 = 'SELECT `id_order` FROM `'._DB_PREFIX_.'order_detail` WHERE `product_id`='.(int)$id_product.'ORDER BY id_order DESC';
+                            $row1= Db::getInstance()->getRow($query1);
+                            $orderId = $row1['id_order'];
+            
+            $query = 'SELECT `code` FROM `'._DB_PREFIX_.'product_code` WHERE `id_product`='.(int)$id_product.' AND id_order='.$orderId;
+            $row= Db::getInstance()->getRow($query);
+            $code = $row['code'];
+            return $code;
+
+        }
+        
+        
         
 }
