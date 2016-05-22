@@ -529,13 +529,21 @@ class AdminOrdersControllerCore extends AdminController
                             $use_existings_payment = true;
                         }
                         $history->changeIdOrderState((int)$order_state->id, $order, $use_existings_payment);
-
                         $carrier = new Carrier($order->id_carrier, $order->id_lang);
                         $templateVars = array();
+                        
                         if ($history->id_order_state == Configuration::get('PS_OS_SHIPPING') && $order->shipping_number) {
                             $templateVars = array('{followup}' => str_replace('@', $order->shipping_number, $carrier->url));
                         }
-
+                        if($current_order_state->id == 2 || $current_order_state->id == 5){
+                            
+                            $query = 'SELECT `product_id` FROM `'._DB_PREFIX_.'order_detail` WHERE `id_order`='.(int)$order->id;
+                            $row= Db::getInstance()->getRow($query);
+                            $productId = $row['product_id'];
+                            
+                            $query2 = Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'product_code` SET id_order='.(int)$order->id.' WHERE `id_product` = '.(int)$productId.' AND id_order = 0');
+                            
+                        }
                         // Save all changes
                         if ($history->addWithemail(true, $templateVars)) {
                             // synchronizes quantities if needed..
@@ -550,13 +558,17 @@ class AdminOrdersControllerCore extends AdminController
                             Tools::redirectAdmin(self::$currentIndex.'&id_order='.(int)$order->id.'&vieworder&token='.$this->token);
                         }
                         $this->errors[] = Tools::displayError('An error occurred while changing order status, or we were unable to send an email to the customer.');
-                    } else {
+                    } 
+                    
+                    else {
                         $this->errors[] = Tools::displayError('The order has already been assigned this status.');
                     }
                 }
+                
             } else {
                 $this->errors[] = Tools::displayError('You do not have permission to edit this.');
             }
+            
         }
 
         /* Add a new message for the current order and send an e-mail to the customer if needed */

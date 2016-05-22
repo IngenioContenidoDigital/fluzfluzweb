@@ -1,0 +1,4 @@
+.card{display:inline-block; width: 250px; height: 50px; background-color: #f6f6f6; font-color:#000; padding-left: 3px; padding-right: 6px; margin-left: 5px; margin-right:5px;}
+.card:hover{box-shadow: 5px 5px 5px #888888;}
+.card a{line-height: 50px; float:right;}
+.card img{line-height: 50px; margin-top:5px;}

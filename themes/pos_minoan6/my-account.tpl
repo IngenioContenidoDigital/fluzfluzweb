@@ -24,8 +24,25 @@
 *}
 
 {capture name=path}{l s='My account'}{/capture}
+<h1 class="page-heading">{l s='My Gift Cards'}</h1>
+<p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 
-<h1 class="page-heading">{l s='My account'}</h1>
+{foreach from=$manufacturers item=manufacturer}
+    <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
+    <div class="col-lg-5">
+        <div class="col-lg-6">
+            <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></a>    
+            <span>{$manufacturer.manufacturer_name}</span>
+        </div>
+        <div class="col-lg-6">
+            <span>{$manufacturer.products}</span>
+            <span>{displayPrice price=$manufacturer.total}</span>
+        </div>
+    </div>
+    </a>        
+{/foreach}
+
+<h1 class="page-heading col-lg-12">{l s='My account'}</h1>
 {if isset($account_created)}
 	<p class="alert alert-success">
 		{l s='Your account has been created.'}
