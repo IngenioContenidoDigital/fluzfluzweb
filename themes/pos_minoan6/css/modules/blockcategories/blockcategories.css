@@ -12,7 +12,7 @@
 #categories_block_top .sf-menu > li .main-level-submenus { position: relative; display: block !important; visibility: visible !important; top: 0; background: none; box-shadow: none; padding: 0; left: 0; }
 #categories_block_top .sf-menu .category_thumb { display: none; }
 
-#categories_block_left h2.title_block { margin-bottom: 0; }
+#categories_block_left h2.title_block { margin-bottom: 0; color: #ef4136; border-bottom: 1px solid #D2D2D2; font-size: 16px;}
 #categories_block_left li { position: relative; }
 #categories_block_left li a { font-weight: normal; color: #6c6c6c; display: block; font-size: 14px; line-height: 50px; text-transform: capitalize; padding: 0 19px 0 30px; border-bottom: 1px dotted #e5e5e5; }
 #categories_block_left li a:hover { color: #ee4a42; }

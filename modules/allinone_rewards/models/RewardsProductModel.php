@@ -91,8 +91,9 @@ class RewardsProductModel extends ObjectModel
 	{
 		if (self::isProductRewarded($id_product, $id_template)) {
 			$multiplier = (float)MyConf::get('RLOYALTY_MULTIPLIER', null, $id_template);
+                        $costo = RewardsProductModel::getCostDifference($id_product);
 			if (self::$_cache[$id_product]['type']==0)
-				return round($price * $quantity * $multiplier * self::$_cache[$id_product]['value'] / 100, 2);
+				return round(($price-$costo) * $quantity * $multiplier * self::$_cache[$id_product]['value'] / 100, 2);
 			else
 				return RewardsModel::getCurrencyValue($quantity * $multiplier * self::$_cache[$id_product]['value'], $id_currency);
 		}
@@ -103,10 +104,11 @@ class RewardsProductModel extends ObjectModel
 	{
 		if (self::isProductRewarded($id_product, $id_template)) {
 			$multiplier = (float)MyConf::get('RLOYALTY_MULTIPLIER', null, $id_template);
+                        $costo = RewardsProductModel::getCostDifference($id_product);
 			if (self::$_cache[$id_product]['type']==0)
-				return round($price * $quantity * $multiplier * self::$_cache[$id_product]['value'], 2);
+				return round(($price-$costo) * $quantity * $multiplier * self::$_cache[$id_product]['value'], 2);
 			else
-				return round($price * $quantity * $multiplier * self::$_cache[$id_product]['value'], 2);
+				return round(($price-$costo) * $quantity * $multiplier * self::$_cache[$id_product]['value'], 2);
 		}
 		return 0;
 	}
@@ -119,4 +121,30 @@ class RewardsProductModel extends ObjectModel
 				ORDER BY date_from ASC';
 		return Db::getInstance()->executeS($query);
 	}
+        
+
+        public static function getCostDifference($id_product){
+            
+            $query = 'SELECT `product_supplier_price_te` FROM `'._DB_PREFIX_.'product_supplier` WHERE `id_product`='.(int)$id_product;
+            $row= Db::getInstance()->getRow($query);
+            $costo = $row['product_supplier_price_te'];
+            return $costo;
+
+        }
+        
+        public static function getCodeProduct($id_product){
+            
+            $query1 = 'SELECT `id_order` FROM `'._DB_PREFIX_.'order_detail` WHERE `product_id`='.(int)$id_product.'ORDER BY id_order DESC';
+                            $row1= Db::getInstance()->getRow($query1);
+                            $orderId = $row1['id_order'];
+            
+            $query = 'SELECT `code` FROM `'._DB_PREFIX_.'product_code` WHERE `id_product`='.(int)$id_product.' AND id_order='.$orderId;
+            $row= Db::getInstance()->getRow($query);
+            $code = $row['code'];
+            return $code;
+
+        }
+        
+        
+        
 }

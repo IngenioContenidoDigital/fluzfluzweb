@@ -50,15 +50,15 @@
 			</tr>
 		</thead>
 		<tr class="alternate_item">
-			<td style="text-align: center">{$totalGlobal|escape:'html':'UTF-8'}</td>
+			<td style="text-align: center">{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</td>
 			{if $convertColumns}
-			<td style="text-align: center">{$totalConverted|escape:'html':'UTF-8'}</td>
+			<td style="text-align: center">{$totalConverted/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</td>
 			{/if}
 			{if $paymentColumns}
 			<td style="text-align: center">{$totalPaid|escape:'html':'UTF-8'}</td>
 			{/if}
-			<td style="text-align: center">{$totalAvailable|escape:'html':'UTF-8'}</td>
-			<td style="text-align: center">{$totalPending|escape:'html':'UTF-8'}</td>
+			<td style="text-align: center">{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</td>
+			<td style="text-align: center">{$totalPending/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</td>
 			{if $paymentColumns}
 			<td style="text-align: center">{$totalWaitingPayment|escape:'html':'UTF-8'}</td>
 			{/if}
@@ -84,7 +84,7 @@
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
 				<td>{$reward.detail|escape:'htmlall':'UTF-8'}</td>
 				<td>{dateFormat date=$reward.date full=1}</td>
-				<td align="right">{displayPrice price=$reward.credits}</td>
+				<td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
 				<td>{$reward.state|escape:'htmlall':'UTF-8'}</td>
 		{if $rewards_duration > 0}
 				<td>{if $reward.id_reward_state==RewardsStateModel::getValidationId()}{dateFormat date=$reward.validity full=1}{else}&nbsp;{/if}</td>
@@ -160,7 +160,7 @@
 
 	{if $voucher_button_allowed}
 <div id="transform" style="clear: both">
-	<a href="{$pagination_link|escape:'htmlall':'UTF-8'}transform-credits=true" onclick="return confirm('{l s='Are you sure you want to transform your rewards into vouchers ?' mod='allinone_rewards' js=1}');">{l s='Transform my rewards into a voucher worth' mod='allinone_rewards'} <span>{displayPrice price=$totalAvailableCurrency}</span></a>
+	<a href="{$pagination_link|escape:'htmlall':'UTF-8'}transform-credits=true" onclick="return confirm('{l s='Are you sure you want to transform your rewards into vouchers ?' mod='allinone_rewards' js=1}');">{l s='Transform my rewards into a voucher worth' mod='allinone_rewards'} <span>{$totalAvailableCurrency}</span></a>
 </div>
 	{/if}
 	{if $payment_button_allowed}
