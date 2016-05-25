@@ -26,6 +26,7 @@
 var responsiveflag = false;
 
 $(document).ready(function(){
+        $('.myfancybox').fancybox();
 	highdpiInit();
 	responsiveResize();
 	$(window).resize(responsiveResize);

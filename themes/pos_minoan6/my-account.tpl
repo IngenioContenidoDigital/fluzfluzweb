@@ -27,6 +27,11 @@
 <h1 class="page-heading">{l s='My Gift Cards'}</h1>
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 
+
+{capture name=path}{l s='My account'}{/capture}
+<h1 class="page-heading">{l s='My Gift Cards'}</h1>
+<p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
+
 {foreach from=$manufacturers item=manufacturer}
     <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
     <div class="col-lg-5 Cards">
@@ -59,7 +64,7 @@
                 <li><a href="{$link->getPageLink('order-follow', true)|escape:'html':'UTF-8'}" title="{l s='Merchandise returns'}"><i class="icon-refresh"></i><span>{l s='My merchandise returns'}</span></a></li>
             {/if}
             <!--<li><a href="{$link->getPageLink('order-slip', true)|escape:'html':'UTF-8'}" title="{l s='Credit slips'}"><i class="icon-file-o"></i><span>{l s='My credit slips'}</span></a></li>-->
-            <li><a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Orders'}"><img src="{$img_dir}icon/rewards.png" class="imgSponsor" /><span class="spanSponsor">{l s='Order history and details'}</span></a></li>
+            <li><a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Orders'}"><img src="{$img_dir}icon/orderList.png" class="imgSponsor" /><span class="spanSponsor">{l s='Order history and details'}</span></a></li>
             <!--<li><a href="{$link->getPageLink('addresses', true)|escape:'html':'UTF-8'}" title="{l s='Addresses'}"><i class="icon-building"></i><span>{l s='My addresses'}</span></a></li>-->
             <li><a href="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" title="{l s='Information'}"><img src="{$img_dir}icon/rewards.png" class="imgSponsor" /><span class="spanSponsor">{l s='My personal information'}</span></a></li>
             <li><a href="{$link->getPageLink('statistics', true)|escape:'html':'UTF-8'}" title="{l s='Statics'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s='Exhange my gift Card'}</span></a></li>
