@@ -1,3 +1,4 @@
+
 {capture name=path}{l s='cardsview'}{/capture}
 {if !$cards}
     <h1>{l s='No hay resultados'}</h1>
@@ -21,24 +22,18 @@
     <script>
 
         $('.myfancybox').click(function(){
-            
             var codeImg2 = $(this).find(".codeImg").html();
             var ruta = $(this).before().find(".oculto").html();
-            
             $("#img-prod").attr("src",ruta)
+	
             $.ajax({
                     method:"POST",
                     data: {'codeImg2': codeImg2},
-                    url: '../raizBarCode.php',
-                    
+                    url: '/raizBarcode.php', 
                     success:function(response){
-                      if(response){
-                          $('#bar-code').attr('src','../'+response');
-                          $('#micode').html(codeImg2);
-                      }else{
-                          alert('Mal')
-                      }
-                     }
+                        $('#bar-code').attr('src','.'+response);
+                        $('#micode').html(codeImg2);
+                    }
               });
         })
         

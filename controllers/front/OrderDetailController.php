@@ -153,9 +153,17 @@ class OrderDetailControllerCore extends FrontController
             if (Validate::isLoadedObject($order) && $order->id_customer == $this->context->customer->id) {
                 $id_order_state = (int)$order->getCurrentState();
                 $carrier = new Carrier((int)$order->id_carrier, (int)$order->id_lang);
+                
+                $query = 'SELECT `product_id` FROM `'._DB_PREFIX_.'order_detail` WHERE `id_order`='.(int)$order->id;
+                            $row= Db::getInstance()->getRow($query);
+                            $productId = $row['product_id']; 
+                        
+                $code = RewardsProductModel::getCodeProduct($productId);
+                $this->context->smarty->assign('code', $code);
+                
                 $addressInvoice = new Address((int)$order->id_address_invoice);
                 $addressDelivery = new Address((int)$order->id_address_delivery);
-
+                
                 $inv_adr_fields = AddressFormat::getOrderedAddressFields($addressInvoice->id_country);
                 $dlv_adr_fields = AddressFormat::getOrderedAddressFields($addressDelivery->id_country);
 
@@ -165,6 +173,7 @@ class OrderDetailControllerCore extends FrontController
                 if ($order->total_discounts > 0) {
                     $this->context->smarty->assign('total_old', (float)$order->total_paid - $order->total_discounts);
                 }
+                
                 $products = $order->getProducts();
 
                 /* DEPRECATED: customizedDatas @since 1.5 */
