@@ -3,11 +3,11 @@
 if (!defined('_PS_VERSION_'))
   exit;
 
-class FluzFluzcodes extends Module{
+class fluzfluzcodes extends Module{
     public $nuevo_archivo;
-    public $folder=__DIR__."/upload/";
+    public $folder=_DIR_."/upload/";
     
-    public function __construct(){
+    public function _construct(){
         $this->name = 'fluzfluzcodes';
         $this->tab = 'FluzFluz';
         $this->version = '1.0.0';
@@ -16,7 +16,7 @@ class FluzFluzcodes extends Module{
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_); 
         $this->bootstrap = true;
 
-        parent::__construct();
+        parent::_construct();
 
         $this->displayName = $this->l('Fluz Fluz Product Codes');
         $this->description = $this->l('This module enables a new product tab in order to upload a CSV file with codes needed to be used by customers after purchase in a BarCode format.');
@@ -80,6 +80,7 @@ class FluzFluzcodes extends Module{
                     $output .= $this->displayConfirmation($this->l('Error al procesar el archivo.'));
             }
         } 
+        //$output .= $this->displayError( "Este tipo de archivo no es valido."); 
         return $output.$this->displayForm();
                 
     }
@@ -130,8 +131,7 @@ class FluzFluzcodes extends Module{
             'save' =>
             array(
                 'desc' => $this->l('Save'),
-                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&save'.$this->name.
-                '&token='.Tools::getAdminTokenLite('AdminModules'),
+                'href' => AdminController::$currentIndex.'&configure='.$this->name.'&save'.$this->name.'&token='.Tools::getAdminTokenLite('AdminModules')
             ),
             'back' => array(
                 'href' => AdminController::$currentIndex.'&token='.Tools::getAdminTokenLite('AdminModules'),
@@ -156,6 +156,24 @@ class FluzFluzcodes extends Module{
       }
       return date("dmY_Hi_").$string;
     }
+    
+    /*public function pathFiles(){
+        // Definir directorio donde almacenar los archivos, debe terminar en "/" 
+        $directorio="/upload/";
+
+        try { 
+            $path="".$directorio; 
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777);
+            }
+            return $path;
+        } catch (Exception $e) {
+            echo $e;
+            return false;
+       }
+    }*/
+    
     
     public function saveFile($arrayDoc,$documento,$dataUser){  
   
