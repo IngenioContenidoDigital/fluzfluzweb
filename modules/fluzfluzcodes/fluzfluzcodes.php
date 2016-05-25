@@ -80,6 +80,7 @@ class FluzFluzcodes extends Module{
                     $output .= $this->displayConfirmation($this->l('Error al procesar el archivo.'));
             }
         } 
+        //$output .= $this->displayError( "Este tipo de archivo no es valido."); 
         return $output.$this->displayForm();
                 
     }
@@ -156,6 +157,24 @@ class FluzFluzcodes extends Module{
       }
       return date("dmY_Hi_").$string;
     }
+    
+    /*public function pathFiles(){
+        // Definir directorio donde almacenar los archivos, debe terminar en "/" 
+        $directorio="/upload/";
+
+        try { 
+            $path="".$directorio; 
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777);
+            }
+            return $path;
+        } catch (Exception $e) {
+            echo $e;
+            return false;
+       }
+    }*/
+    
     
     public function saveFile($arrayDoc,$documento,$dataUser){  
   
