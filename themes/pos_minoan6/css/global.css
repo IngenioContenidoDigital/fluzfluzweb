@@ -3565,8 +3565,8 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 
 .Cards{background:#f4f4f4; margin-bottom:1%; color:#686969; cursor:pointer; border-radius:5px; margin-right:1%; padding:1%; -webkit-box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow:    2px 2px 3px 0px rgba(50, 50, 50, 0.75); box-shadow:         2px 2px 3px 0px rgba(50, 50, 50, 0.75);}
 .Cards img{width:auto; height:40px; margin-right:10%;}
-.priceCard{text-align:right; margin-top:10px;}
-.priceTotalCard{color:#ef4136; margin-left:5%;}
+.priceCard{text-align:right; margin-top:10px; font-size:12px;}
+.priceTotalCard{color:#ef4136; margin-left:5%; font-size:12px;}
 .Cards:hover{background:#fff;}
 .popText{text-align:center; color:#000; font-size:18px; font-family:Josefin-Sans;}
 

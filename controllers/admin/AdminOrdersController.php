@@ -535,14 +535,18 @@ class AdminOrdersControllerCore extends AdminController
                         if ($history->id_order_state == Configuration::get('PS_OS_SHIPPING') && $order->shipping_number) {
                             $templateVars = array('{followup}' => str_replace('@', $order->shipping_number, $carrier->url));
                         }
-                        if($current_order_state->id == 2 || $current_order_state->id == 5){
+                        if($order_state->id == 2 || $order_state->id == 5){
                             
-                            $query = 'SELECT `product_id` FROM `'._DB_PREFIX_.'order_detail` WHERE `id_order`='.(int)$order->id;
-                            $row= Db::getInstance()->getRow($query);
-                            $productId = $row['product_id'];
+                            $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
+                            /*$row= Db::getInstance()->getRow($query);
+                            $productId = $row['product_id'];*/
+                            $productId = Db::getInstance()->executeS($query);
                             
-                            $query2 = Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'product_code` SET id_order='.(int)$order->id.' WHERE `id_product` = '.(int)$productId.' AND id_order = 0');
-                            
+                            foreach ($productId as $valor) {
+                                for($i=0;$i<$valor['product_quantity'];$i++){
+                                    $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
+                                }
+                            }
                         }
                         // Save all changes
                         if ($history->addWithemail(true, $templateVars)) {

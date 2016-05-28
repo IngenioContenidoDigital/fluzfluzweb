@@ -207,7 +207,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 
 .our_price_display { font-weight: 600; font-size: 29px; line-height: 32px; font-family: "Open Sans", sans-serif; color: #252525; }
 @media (max-width: 991px) { .our_price_display { font-size: 26px; line-height: 28px; } }
-.our_price_display .price { font-weight: 600; font-size: 20px; line-height: 32px; color: #ee4a42; text-align: right; padding-right:0px;}
+.our_price_display .price { font-weight: 600; font-size: 16px; line-height: 32px; color: #ee4a42; text-align: right; padding-right:0px; padding-left: 0px;}
 .our_price_display .priceT { font-weight: 600; font-size: 12px; line-height: 32px; color: #ee4a42; }
 @media (max-width: 991px) { .our_price_display .price { font-size: 26px; line-height: 28px; } }
 

@@ -295,16 +295,20 @@
                                                                         <p class="our_price_display col-lg-12" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
 									{if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}
 									{if $priceDisplay >= 0 && $priceDisplay <= 2}
-                                                                            <span class="col-lg-7" style="padding-left:0px; text-align: left;">
+                                                                            <span class="col-lg-4" style="padding-left:0px; text-align: left;">
                                                                                 {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
 											{if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
 										{/if}
                                                                                 
                                                                                 <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
-                                                                            </span>        
+                                                                            </span>
+                                                                            
+                                                                            <span class="col-lg-5" style="color:#ef4136; font-size: 12px; text-align: left;">{l s='Tienda: '}({convertPrice price=$product->price_shop|floatval})</span>
 										<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
-                                                                                <span  class="price col-lg-5">{$productP} pts.</span>
+                                                                                {if $logged}
+                                                                                <span  class="price col-lg-3">{$productPoint} pts.</span>
+                                                                                {else $logger}<span  class="price col-lg-5">{$resultProduct} pts.</span>{/if}
 									{/if}
                                                                         {/strip}
                                                                         </p>

@@ -31,7 +31,7 @@
 
 {foreach from=$manufacturers item=manufacturer}
     <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
-    <div class="col-lg-5 Cards">
+    <div class="col-lg-4 Cards">
         <div class="col-lg-6 infoCard">
             <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></a>    
             <span class="nameCard">{$manufacturer.manufacturer_name}</span>
@@ -41,9 +41,8 @@
             <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
-    </a>        
+    </a>
 {/foreach}
-
 <h1 class="page-heading col-lg-12">{l s='My account'}</h1>
 {if isset($account_created)}
 	<p class="alert alert-success">
@@ -75,7 +74,7 @@
             {/if}
             {$HOOK_CUSTOMER_ACCOUNT}
         </ul>
-    </div>
+        </div>
 {/if}
 </div>
 <ul class="footer_links clearfix">
