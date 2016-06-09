@@ -44,7 +44,21 @@ class MyAccountControllerCore extends FrontController
     public function initContent()
     {
         parent::initContent();
-
+        
+        $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
+        $totalAvailable = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
+        $this->context->smarty->assign('totalAvailable', $totalAvailable);
+        
+        $customerProfile = $this->getProfileCustomer($this->context->customer->id);
+        $this->context->smarty->assign('customerProfile', $customerProfile);
+        
+        $datePoint = $this->getPointsLastDays($this->context->customer->id);
+        $lastPoint = round($datePoint, $precision=0);
+        $this->context->smarty->assign('lastPoint', $lastPoint);
+        
+        /*$arrayCustomer = $this->getCustomerSponsorship($this->context->customer->id);
+        $this->context->smarty->assign('arrayCustomer', $arrayCustomer[0]);*/
+        
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
@@ -84,4 +98,61 @@ class MyAccountControllerCore extends FrontController
         $supplier = Db::getInstance()->executeS($query);
         return $supplier;
     }
+    
+    public function getProfileCustomer($id_customer){
+        
+        
+        $query = 'SELECT firstname FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$id_customer;
+        
+        $row= Db::getInstance()->getRow($query);
+        $name = $row['firstname'];
+        return $name;
+    }
+    
+    public function getPointsLastDays($id_customer){
+        
+        $query = 'SELECT sum(credits) FROM '._DB_PREFIX_.'rewards WHERE id_customer='.(int)$id_customer.' AND date_add >= curdate() + interval -30 day';
+        
+        $row= Db::getInstance()->getRow($query);
+        $datePoint = $row['sum(credits)'];
+        return $datePoint;
+        
+    }
+    
+    /* Encontrar red Hacia abajo
+     * 
+     * static public function getCustomerSponsorship($id_customer){
+            
+            $seguir = true;
+            $childs = array();
+            array_push($childs,$id_customer);
+            $childs2=array();
+            $childs3=array();
+            
+           while ($seguir){
+               
+                $query = 'SELECT id_customer FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor IN ('.implode(',', $childs).')';
+                if($row1=Db::getInstance()->executeS($query)){
+                    foreach ($row1 as $valor){
+                        array_push($childs2,$valor['id_customer']);
+                    }
+                    //print_r(array_values($childs2));
+                    
+                    array_push($childs3,$childs);
+                    
+                    empty($childs);
+                    
+                    print_r(array_values($childs3));
+                    $childs=  array_diff($childs2, $childs);
+                    print_r(array_values($childs));
+                    
+                    empty($childs2);
+                    
+                }
+                else{
+                    $seguir=false;
+                }
+           }
+           return $childs3[0];
+        }*/
 }

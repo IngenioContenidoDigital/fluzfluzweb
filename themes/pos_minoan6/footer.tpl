@@ -86,7 +86,7 @@
 									{$smarty.capture.posscroll}
 									{/if}
 									
-                                                                        {if $page_name!='order'}
+                                                                        {if $page_name=='product'}
                                                                             <style>
                                                                             {literal}
                                                                                 

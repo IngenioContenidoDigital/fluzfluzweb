@@ -7,14 +7,14 @@
 .pt_custommenu .pt_menu { display: inline-block; /*border-top: 1px solid #484848;*/ padding:10px;}
 .pt_custommenu .pt_menu .parentMenu a { display: block; padding: 20px 15px; color: #000; margin: 0 1px; text-transform: uppercase; position: relative; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; font-size: 14px; font-weight: 400; }
 
-
 @media (max-width: 1199px) { 
     .pt_custommenu .pt_menu .parentMenu a { padding: 20px; }
     .pt_custommenu .pt_menu .popup .block2 { max-width: 767px; }
 }
 /*.pt_custommenu .pt_menu .parentMenu a:before { content: ""; position: absolute; left: -2px; top: 20px; width: 2px; height: 25px; background: #484848; }*/
-.pt_custommenu .pt_menu .parentMenu a span { display: inline-block; padding: 0; line-height: 25px; color:#7C7D7E;}
-.parentMenu:hover{border-bottom: solid 2px #ee4a42;}
+.pt_custommenu .pt_menu .parentMenu a span { display: inline-block; padding: 0; line-height: 25px; color:#7C7D7E; font-size: 11px;}
+.pt_custommenu .pt_menu:last-child .parentMenu a span { border: 1px solid #c9b197; padding:3% 15%; color: #c9b197;}
+.parentMenu:hover{border-bottom: solid 2px #c9b197;}
 /*.pt_custommenu .pt_menu .parentMenu a span:before { position: absolute; right: 10px; content: "\f107"; font-family: FontAwesome; font-size: 16px; }*/
 .pt_custommenu .pt_menu:first-child .parentMenu a:before { display: none; }
 /*.pt_custommenu .pt_menu:last-child .parentMenu a { padding-right: 0; }*/

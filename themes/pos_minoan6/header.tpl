@@ -124,6 +124,22 @@
                         </div>
                     </div>
                     <div class="columns-container">
+                                {if $page_name=='my-account'}
+                                    <div class="col-lg-12 profileCustomer">
+                                        <div class="col-lg-12 contProfile">
+                                        <img src="{$img_dir}icon/profile.png" class="imgSponsor2 col-lg-2" />
+                                        <span  class="col-lg-2">{$customerProfile}</span>    
+                                        <div class="col-lg-2">{l s='Total Points'}<br/>
+                                            <span class="ptoCustomer">+{$totalAvailable}</span>
+                                            <span style="color:#000;">{displayPrice price=$totalAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
+                                        </div>
+                                        <div class="col-lg-2">{l s='Pts. From Last 30 Days'}<br/>
+                                            <span class="ptoCustomer">+{$lastPoint}</span>
+                                            <span style="color:#000;">{displayPrice price=$lastPoint * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                {/if}    
                         
                                 {if isset($left_column_size) && !empty($left_column_size)}
                                     <div id="left_column" class="column col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}</div>
@@ -137,8 +153,7 @@
 					{/if}
 
 				{/if}
-                                
-				<div id="columns" class="container">
+                                <div id="columns" class="container">
 					
                                         {if $page_name !='index' && $page_name !='pagenotfound'}
 						{include file="$tpl_dir./breadcrumb.tpl"}

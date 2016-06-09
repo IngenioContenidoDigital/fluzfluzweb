@@ -23,27 +23,34 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-
-
 {capture name=path}{l s='My account'}{/capture}
-<h1 class="page-heading">{l s='My Gift Cards'}</h1>
+<h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='My Gift Cards'}</h1>
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
-
+<div class="row">
 {foreach from=$manufacturers item=manufacturer}
     <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
-    <div class="col-lg-4 Cards">
-        <div class="col-lg-6 infoCard">
+    <div class="col-lg-4 col-md-5 Cards">
+        <div class="col-lg-6 col-md-6 infoCard">
             <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></a>    
             <span class="nameCard">{$manufacturer.manufacturer_name}</span>
         </div>
-        <div class="col-lg-6 priceCard">
+        <div class="col-lg-6 col-md-6 priceCard">
             <span>{$manufacturer.products}{l s=' Cards'}</span>
             <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
     </a>
 {/foreach}
-<h1 class="page-heading col-lg-12">{l s='My account'}</h1>
+<div class="col-lg-4 col-md-12 col-sm-12" style="float: right;">
+    <h1 class="titleFAQ">{l s='Have Question?'}</h1>
+    <div class="pFAQ">
+        <p>{l s='Learn how to redeem digital cards.'}</p>
+        <p>{l s='Learn how to transact with merchants.'}</p>
+    </div>
+</div>
+</div>
+
+<h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin" style="margin-top:5%; ">{l s='My account'}</h1>
 {if isset($account_created)}
 	<p class="alert alert-success">
 		{l s='Your account has been created.'}
@@ -76,7 +83,15 @@
         </ul>
         </div>
 {/if}
+        <div class="col-lg-4">
+            <h1 class="titleFAQ">{l s='Need Support?'}</h1>
+            <div class="pFAQ">
+                <p>{l s='Add a Credit or Debit Card'}</p>
+                <p>{l s='Change Email or Password'}</p>
+                <p>{l s='Learn About the Network'}</p>
+            </div>    
+        </div>
 </div>
-<ul class="footer_links clearfix">
+<ul class="footer_links clearfix" style="display: none;">
 <li><a class="btn btn-default button button-small" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Home'}"><span><i class="icon-chevron-left"></i> {l s='Home'}</span></a></li>
 </ul>

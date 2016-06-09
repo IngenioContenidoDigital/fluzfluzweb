@@ -234,19 +234,6 @@ class AuthControllerCore extends FrontController
             $this->processSubmitLogin();
         }
     }
-    
-    public function prueba(){
-        
-            if (Tools::isSubmit('submitIdentity')) {
-                 
-            $nameOwner = $_POST['owner'];
-            $nameCardCredit= $_POST['nameCard'];
-            $numCardCredit = $_POST['numCard'];
-            $cardExpirationDate= $_POST[''];
-            }
-           $ins='INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, name_creditCard, num_creditCard, date_expiration) VALUES (560, "'.$nameOwner.'", "'.$nameCardCredit.'", "'.$numCardCredit.'", "26/7")';
-            Db::getInstance()->Execute($ins);  
-    }
     /**
      * Process login
      */
@@ -362,10 +349,10 @@ class AuthControllerCore extends FrontController
         $this->create_account = true;
         if (Tools::isSubmit('submitAccount')) {
             $this->context->smarty->assign('email_create', 1);
-            $nameOwner = $_POST['owner'];
-            $nameCardCredit= $_POST['nameCard'];
+            $nameCustomer = $_POST['customer_firstname'];
             $numCardCredit = $_POST['numCard'];
-            $cardExpirationDate= $_POST['days'].'/'.$_POST['years'];
+            $cardExpirationDate= $_POST['daysExpiration'].'/'.$_POST['yearsExpiration'];
+            
         }
         // New Guest customer
         if (!Tools::getValue('is_new_customer', 1) && !Configuration::get('PS_GUEST_CHECKOUT_ENABLED')) {
@@ -433,10 +420,51 @@ class AuthControllerCore extends FrontController
                         }
                         $this->updateContext($customer);
                         
-                        $ins='INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$nameOwner.'","'.$numCardCredit.'", "'.$cardExpirationDate.'")';
+                        $ins='INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$customer->firstname.'","'.$numCardCredit.'", "'.$cardExpirationDate.'")';
                         Db::getInstance()->Execute($ins);
                         
-                        $this->context->cart->update();
+                       if ($this->context->cookie->id_cart)
+                        {
+                            $cart = new Cart($this->context->cookie->id_cart);
+                        }
+                        if (!isset($cart) OR !$cart->id)
+                        {
+                            
+                            $address = new Address();
+                            $address->id_customer = $customer->id;
+                            $address->id_country=69;
+                            $address->country;
+                            $address->alias='Mi Direccion';
+                            $address->lastname = Tools::getValue("customer_lastname");
+                            $address->firstname= Tools::getValue("customer_firstname");
+                            $address->address1= Tools::getValue("address1");
+                            $address->address2= Tools::getValue("address2");
+                            $address->city= Tools::getValue("city");
+                            $address->phone= Tools::getValue("phone_mobile");
+                            $address->add(); 
+                            
+                            $cart = new Cart();
+                            $cart->id_customer = (int)($customer->id);
+                            $cart->id_lang = (int)($this->context->cookie->id_lang);
+                            $cart->id_address_delivery = 7;
+                            $cart->id_address_invoice = 7;
+                            $cart->id_currency = (int)($this->context->cookie->id_currency);
+                            $cart->recyclable = 0;
+                            $cart->gift = 0;
+                            $cart->add();
+                            $this->context->cookie->id_cart = (int)($cart->id);
+                            $cart->update();
+                            
+                            $this->context->cart=$cart;
+                            $this->context->cart->updateQty(1,13,NULL,FALSE);
+                            $cart->update();
+                            
+                            /*$guest = new Guest(Context::getContext()->cookie->id_guest);
+                            $this->context->cart->mobile_theme = $guest->mobile_theme;*/
+                        }
+                        
+                        //$this->context->cart->updateQty(1,13,NULL,FALSE);
+                        //$this->context->cart->update();
                         Hook::exec('actionCustomerAccountAdd', array(
                                 '_POST' => $_POST,
                                 'newCustomer' => $customer
@@ -456,13 +484,15 @@ class AuthControllerCore extends FrontController
                         if (($back = Tools::getValue('back')) && $back == Tools::secureReferrer($back)) {
                             Tools::redirect(html_entity_decode($back));
                         }
+                        
                         // redirection: if cart is not empty : redirection to the cart
                         if (count($this->context->cart->getProducts(true)) > 0) {
-                            $multi = (int)Tools::getValue('multi-shipping');
-                            Tools::redirect('index.php?controller=order'.($multi ? '&multi-shipping='.$multi : ''));
+                            
+                            Tools::redirect('index.php?controller=order');
                         }
                         // else : redirection to the account
                         else {
+                            
                             Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                         }
                         
@@ -472,7 +502,7 @@ class AuthControllerCore extends FrontController
                     }
                     
                 }
-                    
+               
             }
             
         } 
