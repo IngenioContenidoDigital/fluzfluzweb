@@ -101,20 +101,20 @@
 					{/if}
 					
 					<div class="header-middle">
-                                            <div class="container-fluid" style="background:#fff;">
+                                            <div class="container-fluid">
                                                 <div class="row">
-                                                    <div class="pos_logo col-md-3 col-sm-12 col-xs-12">
+                                                    <div class="pos_logo col-md-3 col-lg-3 col-sm-4 col-xs-4">
                                                         <a href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{$shop_name|escape:'html':'UTF-8'}">
                                                             <img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
                                                         </a>
                                                     </div>
-                                                    <div class="block-megamenu col-md-7 col-sm-12 col-xs-12">
+                                                    <div class="block-megamenu col-md-6 col-lg-6 col-sm-12 col-xs-12">
                                                         {capture name='megamenu'}{hook h='megamenu'}{/capture}
                                                             {if $smarty.capture.megamenu}
                                                                 {$smarty.capture.megamenu}
                                                             {/if}
                                                     </div>
-                                                    <div class="col-md-2 col-sm-12 col-xs-12">
+                                                    <div class="col-md-3 col-sm-12 col-lg-3 col-xs-8">
                                                             {if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
                                                     </div>
                                                 </div>
@@ -145,7 +145,7 @@
                                     <div id="left_column" class="column col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}</div>
 				{/if}
                                 {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
-						<div  style="background:#fff;" id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
+						<div  style="background:#fff; padding-left: 0; padding-right: 0;" id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
                                 {if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}
 					{if $smarty.capture.blockPosition1}
