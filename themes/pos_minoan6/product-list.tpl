@@ -22,6 +22,7 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+
 {if isset($products) && $products}
 	{*define number of products per line in other page for desktop*}
 	{if $page_name !='index' && $page_name !='product'}
@@ -38,6 +39,11 @@
 	{math equation="nbLi/nbItemsPerLine" nbLi=$nbLi nbItemsPerLine=$nbItemsPerLine assign=nbLines}
 	{math equation="nbLi/nbItemsPerLineTablet" nbLi=$nbLi nbItemsPerLineTablet=$nbItemsPerLineTablet assign=nbLinesTablet}
 	<!-- Products list -->
+        <section class="page-product-box blockproductscategory">
+        <div class="divTitleFeatured">
+            <h1 class="titleFeatured pos-title">{l s="FEATURED"}</h1>
+        </div>
+        
 	<ul{if isset($id) && $id} id="{$id}"{/if} class="product_list grid row{if isset($class) && $class} {$class}{/if}">
 	{foreach from=$products item=product name=products}
 		{math equation="(total%perLine)" total=$smarty.foreach.products.total perLine=$nbItemsPerLine assign=totModulo}
@@ -52,13 +58,14 @@
 					<div class="product-image-container">
 						<div class="products-inner">
 							<a class="product_img_link" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url">
-								<img class="replace-2x img-responsive" src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'home_default')|escape:'html':'UTF-8'}" alt="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" title="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" {if isset($homeSize)} width="{$homeSize.width}" height="{$homeSize.height}"{/if} itemprop="image" />
+								<img class="img-responsive" src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'home_default')|escape:'html':'UTF-8'}" alt="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" title="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" {if isset($homeSize)} width="{$homeSize.width}" height="{$homeSize.height}"{/if} itemprop="image" />
 							</a>
-							{if isset($quick_view) && $quick_view}
+                                                           
+							{*if isset($quick_view) && $quick_view}
 								<a class="quick-view" title="Quick view" href="{$product.link|escape:'html':'UTF-8'}" >
 									<span>{l s='Quick view'}</span>
 								</a>
-							{/if}
+							{/if*}
 							{if isset($product.new) && $product.new == 1}
 								<a class="new-box" href="{$product.link|escape:'html':'UTF-8'}">
 									<span class="new-label">{l s='New'}</span>
@@ -74,10 +81,10 @@
 						{if (!$PS_CATALOG_MODE && ((isset($product.show_price) && $product.show_price) || (isset($product.available_for_order) && $product.available_for_order)))}
 							<div class="price-box" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 								{if isset($product.show_price) && $product.show_price && !isset($restricted_country_mode)}
-									<span itemprop="price" class="price product-price">
-                                        {hook h="displayProductPriceBlock" product=$product type="before_price"}
+									<!--<span itemprop="price" class="price product-price">
+                                                                                {hook h="displayProductPriceBlock" product=$product type="before_price"}
 										{if !$priceDisplay}{convertPrice price=$product.price}{else}{convertPrice price=$product.price_tax_exc}{/if}
-									</span>
+									</span>-->
 									<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
 									{if isset($product.specific_prices) && $product.specific_prices && isset($product.specific_prices.reduction) && $product.specific_prices.reduction > 0}
 										{hook h="displayProductPriceBlock" product=$product type="old_price"}
@@ -118,17 +125,23 @@
 								{$product.name|truncate:45:'...'|escape:'html':'UTF-8'}
 							</a>
 						</h5>
+                                                {if $logged}
+                                                    <span  class="price">{$productPoint} pts.</span>
+                                                {else $logger}<span  class="price col-lg-5">{$resultProduct} pts.</span>{/if}        
 						<div class="ratings">{hook h='displayProductListReviews' product=$product}</div>	
-						<p class="product-desc" itemprop="description">
-							{$product.description_short|strip_tags:'UTF-8'|truncate:360:'...'}
-						</p>
+						
 						{if (!$PS_CATALOG_MODE AND ((isset($product.show_price) && $product.show_price) || (isset($product.available_for_order) && $product.available_for_order)))}
 						<div class="price-box">
 							{if isset($product.show_price) && $product.show_price && !isset($restricted_country_mode)}
 								{hook h="displayProductPriceBlock" product=$product type='before_price'}
-								<span class="price product-price">
-									{if !$priceDisplay}{convertPrice price=$product.price}{else}{convertPrice price=$product.price_tax_exc}{/if}
+                                                                <span style="color:#000; font-size: 11px; text-align: left;">{l s='PRICE: '}</span><span class="price product-price" style="color:#b5b5bb; font-size: 11px; text-align: left;">
+                                                                    {if !$priceDisplay}{convertPrice price=$product.price}{else}{convertPrice price=$product.price_tax_exc}{/if}
 								</span>
+                                                                </span>
+                                                                <span class="price product-price" style="color:#ef4136; font-size: 11px; text-align: left;float: right;">
+                                                                    {convertPrice price=$product.price_shop|floatval}
+                                                                </span><span style="color:#000; font-size: 11px; text-align: left; float: right; margin-right: 5px;">{l s='VALUE: '}</span>
+								
 								{if isset($product.specific_prices) && $product.specific_prices && isset($product.specific_prices.reduction) && $product.specific_prices.reduction > 0}
 									{hook h="displayProductPriceBlock" product=$product type="old_price"}
 									<span class="old-price product-price">
@@ -145,7 +158,7 @@
 							{/if}
 						</div>
 						{/if}
-						<div class="actions">
+						<!--<div class="actions">
 							<div class="actions-inner">
 								
 								<ul class="add-to-links">
@@ -197,7 +210,7 @@
 					
 						</div>
 				
-					</div>	
+					</div>	-->
 <!-- 					<div class="button-container">
 						
 						<a class="button lnk_view btn btn-default" href="{$product.link|escape:'html':'UTF-8'}" title="{l s='View'}">
@@ -207,7 +220,7 @@
 					{if isset($product.color_list)}
 						<div class="color-list-container">{$product.color_list}</div>
 					{/if}
-					<div class="product-flags">
+					<!--<div class="product-flags">
 						{if (!$PS_CATALOG_MODE AND ((isset($product.show_price) && $product.show_price) || (isset($product.available_for_order) && $product.available_for_order)))}
 							{if isset($product.online_only) && $product.online_only}
 								<span class="online_only">{l s='Online only'}</span>
@@ -217,10 +230,10 @@
 							{elseif isset($product.reduction) && $product.reduction && isset($product.show_price) && $product.show_price && !$PS_CATALOG_MODE}
 								<span class="discount">{l s='Reduced price!'}</span>
 							{/if}
-					</div>
+					</div>-->
 					{if (!$PS_CATALOG_MODE && $PS_STOCK_MANAGEMENT && ((isset($product.show_price) && $product.show_price) || (isset($product.available_for_order) && $product.available_for_order)))}
 						{if isset($product.available_for_order) && $product.available_for_order && !isset($restricted_country_mode)}
-							<span class="availability">
+							<!--<span class="availability">
 								{if ($product.allow_oosp || $product.quantity > 0)}
 									<span class="{if $product.quantity <= 0 && isset($product.allow_oosp) && !$product.allow_oosp} label-danger{elseif $product.quantity <= 0} label-warning{else} label-success{/if}">
 										{if $product.quantity <= 0}{if $product.allow_oosp}{if isset($product.available_later) && $product.available_later}{$product.available_later}{else}{l s='In Stock'}{/if}{else}{l s='Out of stock'}{/if}{else}{if isset($product.available_now) && $product.available_now}{$product.available_now}{else}{l s='In Stock'}{/if}{/if}
@@ -234,7 +247,7 @@
 										{l s='Out of stock'}
 									</span>
 								{/if}
-							</span>
+							</span>-->
 						{/if}
 					{/if}
 				</div>
@@ -252,6 +265,11 @@
 		</li>
 	{/foreach}
 	</ul>
+        <div class="boxprevnext2">
+            <a class="prev prev-product"><i class="icon-chevron-left"></i></a>
+            <a class="next next-product"><i class="icon-chevron-right"></i></a>
+        </div>
+        </section>    
 {addJsDefL name=min_item}{l s='Please select at least one product' js=1}{/addJsDefL}
 {addJsDefL name=max_item}{l s='You cannot add more than %d product(s) to the product comparison' sprintf=$comparator_max_item js=1}{/addJsDefL}
 {addJsDef comparator_max_item=$comparator_max_item}

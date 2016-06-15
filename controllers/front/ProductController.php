@@ -180,7 +180,12 @@ class ProductControllerCore extends FrontController
             
             $price = (int)$this->product->price - RewardsProductModel::getCostDifference($this->product->id);
             $productP=RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1);
-            $this->context->smarty->assign("productP", $productP);
+            $productPoint = round($productP, $precision);
+            $this->context->smarty->assign("productPoint", $productPoint);
+            
+            $productP2=RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/16;
+            $resultProduct = round($productP2, $precision);
+            $this->context->smarty->assign("resultProduct", $resultProduct);
             
             // Assign to the template the id of the virtual product. "0" if the product is not downloadable.
             $this->context->smarty->assign('virtual', ProductDownload::getIdFromIdProduct((int)$this->product->id));

@@ -27,20 +27,6 @@
 <div class="block-cart clearfix{if $PS_CATALOG_MODE} header_user_catalog{/if} cambio">
 {/if}
 
-{if $page_name=='product'}
-
-    <style>
-        {literal}
-                                                                            
-            dt {display: none;}
-            ajax_block_cart_total{display: none;}
-            span.ajax_cart_total{display: none;}
-            div.cart-prices-line{display: none;}
-            p.cart-buttons{display: none;}
-            
-        {/literal}
-    </style>
-{/if}
 <div class="shopping_cart">
             <a href="{$link->getPageLink($order_process, true)|escape:'html':'UTF-8'}" title="{l s='View my shopping cart' mod='blockcart'}" rel="nofollow">
 			<!--<b>{l s='Cart' mod='blockcart'}</b>-->

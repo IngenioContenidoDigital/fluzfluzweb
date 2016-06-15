@@ -143,22 +143,65 @@
 						<textarea name="message" class="text">{if isset($message)}{$message|escape:'html':'UTF-8'}{/if}</textarea>
 						<table class="std">
 						<thead>
+                                                        {if $subscribeFriends|@count == 2}
+                                                            {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count >= 1}
+                                                        {else}        
 							<tr>
 								<th class="first_item">&nbsp;</th>
 								<th class="item">{l s='Last name' mod='allinone_rewards'}</th>
 								<th class="item">{l s='First name' mod='allinone_rewards'}</th>
 								<th class="last_item">{l s='Email' mod='allinone_rewards'}</th>
 							</tr>
+                                                        {/if}
 						</thead>
 						<tbody>
-							{section name=friends start=0 loop=$nbFriends step=1}
-							<tr class="alternate_item">
-								<td class="align_right">{$smarty.section.friends.iteration|escape:'html':'UTF-8'}</td>
-								<td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-								<td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-								<td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-							</tr>
-							{/section}
+                                                    
+							
+                                                            {if $subscribeFriends|@count == 2}
+                                                                <tr class="alternate_item">
+                                                                        <span style="color:#ef4136;"> {l s='Ya tienes tus 2 personas Apadrinadas'} </span>
+                                                                </tr>
+                                                            
+                                                                {elseif $pendingFriends|@count == 2}
+                                                                   <tr class="alternate_item">
+                                                                        <span style="color:#ef4136;"> {l s='Por Confirmar sus amigos en espera'} </span>
+                                                                   </tr>
+                                                                   
+                                                                {elseif $pendingFriends|@count == 1}
+                                                                   <tr class="alternate_item">
+                                                                        <td class="align_right">{$smarty.section.friends.iteration|escape:'html':'UTF-8'}</td>
+                                                                        <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                        <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                        <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                   </tr> 
+                                                                   <tr class="alternate_item">
+                                                                        <span style="color:#ef4136;"> {l s='Por Confirmar sus amigos en espera'} </span>
+                                                                   </tr>   
+                                                                    
+                                                                {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count >= 1}
+                                                                    <tr class="alternate_item">
+                                                                        <span style="color:#ef4136;"> {l s='Tienes Invitaciones Pendientes por Confirmar'} </span>
+                                                                    </tr>
+                                                                    
+                                                                {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 0}
+                                                                    <tr class="alternate_item">
+                                                                        <td class="align_right">{$smarty.section.friends.iteration|escape:'html':'UTF-8'}</td>
+                                                                        <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                        <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                        <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                    </tr>
+                                                                    
+                                                            {else}
+                                                            {section name=friends start=0 loop=$nbFriends step=1}
+                                                                <tr class="alternate_item">
+                                                                            <td class="align_right">{$smarty.section.friends.iteration|escape:'html':'UTF-8'}</td>
+                                                                            <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                            <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                            <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                    </tr>
+                                                            {/section}    
+                                                            {/if}
+                                                    
 						</tbody>
 						</table>
 						<p class="bold">
@@ -173,8 +216,10 @@
 							{l s='Preview' mod='allinone_rewards'} <a href="{$link->getModuleLink('allinone_rewards', 'email', ['sback' => $sback], true)|escape:'html':'UTF-8'}" class="fancybox mail" title="{l s='Invitation email' mod='allinone_rewards'}">{l s='the default email' mod='allinone_rewards'}</a> {l s='that will be sent to your friends.' mod='allinone_rewards'}
 						</p>
 						<p class="submit" align="center">
+                                                    
 							<input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='Send invitations' mod='allinone_rewards'}" />
-						</p>
+						
+                                                </p>
 					</form>
 				</div>
 			</div>

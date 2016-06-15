@@ -28,7 +28,7 @@
 		<span class="navigation-pipe">{$navigationPipe}</span>{l s='Create your account'}
 	{/if}
 {/capture}
-<h1 class="page-heading">{if !isset($email_create)}{l s='Sign In'}{else}{l s='Create an account'}{/if}</h1>
+<h1 class="page-heading pag">{if !isset($email_create)}{l s='Sign In'}{else}{l s='Create an account'}{/if}</h1>
 {if isset($back) && preg_match("/^http/", $back)}{assign var='current_step' value='login'}{include file="$tpl_dir./order-steps.tpl"}{/if}
 {include file="$tpl_dir./errors.tpl"}
 {assign var='stateExist' value=false}
@@ -407,18 +407,75 @@
 		</ol>
 	</div>
 	{/if}-->
-	<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="account-creation_form" class="std box">
+        
+       <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="account-creation_form" class="col-lg-5 col-md-6 col-sm-12 col-xs-12 std box">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
-            <h3 class="page-subheading" style="text-align:center;">{l s='Your personal information'}</h3>
-            <p class="required"><sup>*</sup>{l s='Required field'}</p>
-            <div class="container">
+            <h2 style="padding:5%;">{l s='Why Sign-Up for Fluz Fluz?'}</h2>
+            
+            <div class="container containerForm">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <fieldset class="fieldInfo">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 containerForm">
+                        <fieldset class="fieldInfo"><br/>
+                            <div class="row rowAccount">
+                                <img src="{$img_dir}icon/gift.png" class="imglock col-lg-4 col-md-4" />
+                                <div class="col-lg-8 col-md-8 infRight">
+                                    <h3 class="col-lg-12">{l s="Aﬀordable Shopping!"}</h3>
+                                    <p class="col-lg-12">{l s="Save money when purchasing your favourite household brands"}</p>
+                                </div>
+                            </div>
+                            <div class="row rowAccount">
+                                <img src="{$img_dir}icon/save.png" class="imglock col-lg-4 col-md-4" />
+                                <div class="col-lg-8 col-md-8 infRight">
+                                    <h3 class="col-lg-12">{l s="Save!"}</h3>
+                                    <p class="col-lg-12">{l s="Every time you purchase, you save more."}</p>
+                                </div>
+                            </div>
+                            <div class="row rowAccount">
+                                <img src="{$img_dir}icon/invite.png" class="imglock col-lg-4 col-md-4" />
+                                <div class="col-lg-8 col-md-8 infRight">
+                                    <h3 class="col-lg-12">{l s="Invite Friends!"}</h3>
+                                    <p class="col-lg-12">{l s="The more friends you invite, the more points you recieve."}</p>
+                                </div>
+                            </div>
+                            <div class="row rowAccount">
+                                <img src="{$img_dir}icon/cash.png" class="imglock col-lg-4 col-md-4" />
+                                <div class="col-lg-8 col-md-8 infRight">
+                                    <h3 class="col-lg-12">{l s="Cash Out!"}</h3>
+                                    <p class="col-lg-12">{l s="Convert the network points your earn into real cash!"}</p>
+                                </div>
+                            </div>
+                            <div class="row rowAccount">
+                                <img src="{$img_dir}icon/diagram.png" class="imglock col-lg-4 col-md-4" />
+                                <div class="col-lg-8 col-md-8 infRight">
+                                    <h3 class="col-lg-12">{l s="View Network Statistics"}</h3>
+                                    <p class="col-lg-12">{l s="View your network statistics to improve your point tally. "}</p>
+                                </div>
+                            </div>    
+                                
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="vdoTube row">
+                <iframe width="560" height="315" class="col-lg-12 col-xs-12 col-sm-12 col-md-12" src="https://www.youtube.com/embed/QZnFZyT1jrs" frameborder="0" allowfullscreen></iframe>    
+            </div>         
+	</form>
+        
+	<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="account-creation_form" class="col-lg-6 col-sm-12 col-md-6 col-xs-12 std box" style="float:right;">
+		{$HOOK_CREATE_ACCOUNT_TOP}
+        <div class="account_creation">
+            <h3 class="page-subheading">{l s='Your personal information'}</h3>
+            <p>{l s="Please be sure to update your personal information if it’s changed."}</p>
+            <p class="required"><sup>*</sup>{l s='Required field'}</p>
+            <div class="container containerForm">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 containerForm">
+                        <fieldset class="fieldInfo"><br/>
                                     <div class="clearfix">
                                             <label>{l s='Title'}</label>
-
+                                            <br/>
                                             {foreach from=$genders key=k item=gender}
                                                     <div class="radio-inline">
                                                             <label for="id_gender{$gender->id}" class="top">
@@ -429,26 +486,30 @@
                                             {/foreach}
                                     </div>
                                     <div class="required form-group">
-                                            <label for="customer_firstname">{l s='First name'} <sup>*</sup></label>
+                                            <label class="required" for="customer_firstname">{l s='First name'}</label>
                                             <input onkeyup="$('#firstname').val(this.value);" type="text" class="is_required validate form-control" data-validate="isName" id="customer_firstname" name="customer_firstname" value="{if isset($smarty.post.customer_firstname)}{$smarty.post.customer_firstname}{/if}" />
                                     </div>
                                     <div class="required form-group">
-                                            <label for="customer_lastname">{l s='Last name'} <sup>*</sup></label>
+                                            <label class="required" for="customer_lastname">{l s='Last name'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isName" id="customer_lastname" name="customer_lastname" value="{if isset($smarty.post.customer_lastname)}{$smarty.post.customer_lastname}{/if}" />
                                     </div>
                                     <div class="required form-group">
-                                            <label for="email">{l s='Email'} <sup>*</sup></label>
+                                            <label class="required" for="email">{l s='Email'}</label>
                                             <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
                                     </div>
                                     <div class="required password form-group">
-                                            <label for="passwd">{l s='Password'} <sup>*</sup></label>
+                                            <label class="required" for="passwd">{l s='Password'} </label>
                                             <input type="password" class="is_required validate form-control" data-validate="isPasswd" name="passwd" id="passwd" />
                                             <span class="form_info">{l s='(Five characters minimum)'}</span>
                                     </div>
-                                    <div class="form-group">
-                                            <label>{l s='Date of Birth'}</label>
-                                            <div class="row">
-                                                    <div class="col-xs-4">
+                                    <div class="required form-group">
+                                            <label class="required" for="gover">{l s='Government Id #'}</label>
+                                            <input type="number" class="is_required validate form-control" data-validate="isGover" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>
+                                    </div>
+                                    <div class="form-group col-lg-12" style="padding-left:0px;">
+                                            <label class="col-lg-12 col-md-12 col-xs-12 required" style="padding-left:0px;">{l s='Date of Birth'}</label>
+                                           
+                                                    <div class="col-xs-4 col-lg-4">
                                                             <select id="days" name="days" class="form-control">
                                                                     <option value="">-</option>
                                                                     {foreach from=$days item=day}
@@ -470,7 +531,7 @@
                                                                     {l s='December'}
                                                             *}
                                                     </div>
-                                                    <div class="col-xs-4">
+                                                    <div class="col-xs-4 col-lg-4">
                                                             <select id="months" name="months" class="form-control">
                                                                     <option value="">-</option>
                                                                     {foreach from=$months key=k item=month}
@@ -478,7 +539,7 @@
                                                                     {/foreach}
                                                             </select>
                                                     </div>
-                                                    <div class="col-xs-4">
+                                                    <div class="col-xs-4 col-lg-4">
                                                             <select id="years" name="years" class="form-control">
                                                                     <option value="">-</option>
                                                                     {foreach from=$years item=year}
@@ -486,10 +547,40 @@
                                                                     {/foreach}
                                                             </select>
                                                     </div>
-                                            </div>
+                                           
                                     </div>
+                                    <div class="required form-group">
+                                    <p class="{if isset($one_phone_at_least) && $one_phone_at_least}required {/if}form-group">
+                                        <label class="required col-lg-12" for="phone_mobile" style="padding:0px; margin-top: 5px;">{l s='Mobile phone'}{if isset($one_phone_at_least) && $one_phone_at_least} {/if}</label>
+                                        <input type="text" class="form-control" name="phone_mobile" id="phone_mobile" value="{if isset($smarty.post.phone_mobile)}{$smarty.post.phone_mobile}{/if}" />
+                                    </p>
+                                    </div>
+                                    <div class="required form-group">
+                                            <label class="required" for="address1">{l s='Address'}</label>
+                                            <input type="text" class="form-control" name="address1" id="address1" value="{if isset($smarty.post.address1)}{$smarty.post.address1}{/if}" />
+                                            <span class="inline-infos">{l s='Street address, P.O. Box, Company name, etc.'}</span>
+                                    </div>
+                                    <div class="required form-group">
+                                            <label class="required" for="address2">{l s='Address (Line 2)'}</label>
+                                            <input type="text" class="form-control" name="address2" id="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{/if}" />
+                                            <span class="inline-infos">{l s='Apartment, suite, unit, building, floor, etc...'}</span>
+                                    </div>
+                                    <div class="required form-group">
+                                        <label class="required" for="city">{l s='City'}</label>
+                                        <input type="text" class="form-control" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />
+                                    </div>
+                                    <div class="required select form-group">
+                                        <label class="required" for="id_country">{l s='Country'}</label>
+                                        <select name="id_country" id="id_country" class="form-control">
+                                                <option value="">-</option>
+                                                {foreach from=$countries item=v}
+                                                <option value="{$v.id_country}"{if (isset($smarty.post.id_country) AND $smarty.post.id_country == $v.id_country) OR (!isset($smarty.post.id_country) && $sl_country == $v.id_country)} selected="selected"{/if}>{$v.name}</option>
+                                                {/foreach}
+                                        </select>
+                                    </div>  
+                                    <br/>
                                     {if isset($newsletter) && $newsletter}
-                                            <div class="checkbox">
+                                            <div class="col-lg-12 col-md-12 checkbox">
                                                     <input type="checkbox" name="newsletter" id="newsletter" value="1" {if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1} checked="checked"{/if} />
                                                     <label for="newsletter">{l s='Sign up for our newsletter!'}</label>
                                                     {if array_key_exists('newsletter', $field_required)}
@@ -498,7 +589,7 @@
                                             </div>
                                     {/if}
                                     {if isset($optin) && $optin}
-                                            <div class="checkbox">
+                                            <div class="col-lg-12 col-md-12 checkbox">
                                                     <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) AND $smarty.post.optin == 1} checked="checked"{/if} />
                                                     <label for="optin">{l s='Receive special offers from our partners!'}</label>
                                                     {if array_key_exists('optin', $field_required)}
@@ -506,6 +597,85 @@
                                                     {/if}
                                             </div>
                                     {/if}
+                                    <div>
+                                        <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
+                                            <p>{l s="When you create a Fluz Fluz account, we ask that you deposit a minimum of $5 in your account so we can validate it. This is a firs time only required deposit and will be entirely at your disposal in your account so you can start."}</p>
+                                        <div class="row">
+                                            <span class="col-lg-1 rangePrice">$5</span><input class="rangeslider col-lg-9" type="range" value="25" min="5" max="250" step="5" data-rangeslider><span class="col-lg-2 rangePrice">$250</span>
+                                        </div>
+                                        <br/>
+                                        <div class="col-lg-12">
+                                            <span class="col-lg-9">{l s="Final Deposit Amount:"}</span>
+                                            <span class="output col-lg-3" id="rangeMemberShip" name="rangeMembership"></span>
+                                        </div>
+                                    </div>
+                                    <div class="cardiv col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <label class="depoTitle page-subheading col-lg-12">{l s='PAYMENT INFORMATION'}</label>
+                                        <div class="lock">
+                                            <img src="{$img_dir}icon/lock.png" class="col-lg-6 col-md-6 imglock" />
+                                            <p>{l s='Secure credit card payment'}<p>
+                                            <span class="infLock">{l s='This is a secure 128-bit SSL encrypted payment '}</span>
+                                        </div>
+                                        <div class="row">    
+                                            <div class="required form-group col-lg-6 col-md-6">
+                                                <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">
+                                                <label class="required">
+                                                    {l s='Numero de Tarjeta'}
+                                                </label>
+                                                </div>
+                                                {literal}
+                                                    <div class="col-xs-12 col-sm-7 col-md-12 col-lg-12">
+                                                        <input style="text-align:right;" type="text" pattern="[0-9]{13,16}" class="imageCard form-control" id="numCard" name="numCard" autocomplete="off" required/>
+                                                    </div>
+                                                {/literal}
+                                            </div>        
+                                                
+                                            <div class="required form-group col-lg-6 col-md-12">
+                                                <div class="col-xs-12 col-sm-5 col-md-6 col-lg-12">
+                                                <label class="required">
+                                                    {l s='Codigo de Verificacion'}
+                                                </label>
+                                                </div>
+                                                {literal}
+                                                <div class="col-xs-12 col-sm-7 col-md-6 col-lg-12">    
+                                                    <input style="text-align:right;" type="text" pattern="[0-9]{3,4}" class="form-control" name="codigot" id="codigot" autocomplete="off" required/>
+                                                </div>
+                                                {/literal}
+                                            </div>    
+                                        </div>
+                                            <div class="row">
+                                                <div class="form-group col-lg-12 col-md-12">
+                                                <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">    
+                                                <label class="required">
+                                                    {l s='Fecha Vencimiento'}
+                                                </label>
+                                                </div>
+
+                                                    <div class="col-xs-12 col-sm-5 col-md-12 col-lg-6">
+
+                                                        <div style="display:table-cell;">     
+                                                        <select name="daysExpiration" id="days" style="width:120%;" class="form-control">
+                                                            <option value="">-</option>
+                                                            {foreach from=$days item=v}
+                                                                <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
+                                                            {/foreach}
+                                                        </select>
+                                                        </div>
+                                                        <div style="display:table-cell; padding-left:8px;">
+                                                            <select id="yearsExpiration" name="yearsExpiration" class="form-control">
+                                                            <option value="">-</option>
+                                                            {foreach from=$yearsExpiration item=v}
+                                                                <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
+                                                            {/foreach}
+                                                        </select>
+                                                        </div>
+
+                                                    </div>    
+
+                                                </div>
+                                            </div>            
+                                       
+                                    </div>
                                     {if $b2b_enable}
                                         <div class="account_creation">
                                             <h3 class="page-subheading">{l s='Your company information'}</h3>
@@ -645,108 +815,33 @@
                                 {/if}
                                 </fieldset>
                     </div>
-                    <br/><br/>                
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <div class="allPanelInfo panel panel-default">
-                        <div class="panelInfo">
-                            <h4 class="panel-title" style="text-align:center;">
-                                <span>Registre su tarjeta de crédito</span>
-                            </h4>
-                        </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                <div class="required form-group">
-                                    <div class="col-xs-12 col-sm-5 col-md-3 col-lg-4">
-                                   <label for="owner" class="required">
-                                        {l s='Nombre del Titular'}
-                                    </label>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
-                                        <input style="text-align:right;" autocomplete="off" type="text" class="form-control" id="owner" name="owner" placeholder="Ingrese su nombre" required/>
-                                    </div>
-                                </div>
-                                </div> 
-                                <div class="row">    
-                                <div class="required form-group">
-                                    <div class="col-xs-12 col-sm-5 col-md-3 col-lg-4">
-                                    <label class="required">
-                                        {l s='Numero de Tarjeta'}
-                                    </label>
-                                    </div>
-                                    {literal}
-                                        <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
-                                            <input style="text-align:right;" type="text" pattern="[0-9]{13,16}" class="imageCard form-control" id="numCard" name="numCard" autocomplete="off" placeholder="Numero de Tarjeta" required/>
-                                        </div>
-                                    {/literal}
-                                </div>        
-                                </div>
-                                <div class="row">
-                                <div class="required form-group">
-                                    <div class="col-xs-12 col-sm-5 col-md-3 col-lg-4">
-                                    <label class="required">
-                                        {l s='Codigo de Verificacion'}
-                                    </label>
-                                    </div>
-                                    {literal}
-                                    <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">    
-                                        <input style="text-align:right;" type="text" pattern="[0-9]{3,4}" class="form-control" name="codigot" id="codigot" autocomplete="off" placeholder="Codigo de Verificacion" required/>
-                                    </div>
-                                    {/literal}
-                                </div>    
-                                </div>
-                                <div class="row">
-                                <div class="form-group">
-                                <div class="col-xs-12 col-sm-5 col-md-3 col-lg-4">    
-                                <label class="required">
-                                    {l s='Fecha Vencimiento'}
-                                </label>
-                                </div>
-                                
-                                    <div class="col-xs-12 col-sm-5 col-md-3 col-lg-4">
-                                      
-                                        <div style="display:table-cell;">     
-                                        <select name="days" id="days" style="width:120%;" class="form-control">
-                                            <option value="">-</option>
-                                            {foreach from=$days item=v}
-                                                <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                            {/foreach}
-                                        </select>
-                                        </div>
-                                        <div style="display:table-cell; padding-left:8px;">
-                                            <select id="yearsExpiration" name="yearsExpiration" style="width:110%;" class="form-control">
-                                            <option value="">-</option>
-                                            {foreach from=$yearsExpiration item=v}
-                                                <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                            {/foreach}
-                                        </select>
-                                        </div>
-                                        
-                                    </div>    
-                               
-                            </div>
-                            </div>            
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    {$HOOK_CREATE_ACCOUNT_FORM}
+                        <div style="display:none;">{$HOOK_CREATE_ACCOUNT_FORM}</div>
                     <div class="formInfo submit clearfix">
 			<input type="hidden" name="email_create" value="1" />
 			<input type="hidden" name="is_new_customer" value="1" />
 			{if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
-			<button type="submit" name="submitAccount" id="submitAccount" class="btnInfo">
-				<span>{l s='Register'}<i class="icon-briefcase right"></i></span>
-			</button>
-			<p class="pull-right required"><span><sup>*</sup>{l s='Required field'}</span></p>
+			{if isset($optin) && $optin}
+                            <div class="checkbox">
+                                    <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) AND $smarty.post.optin == 1} checked="checked"{/if} requerid/>
+                                    <label for="optin">{l s='I accept Fluz Fluz’s terms and conditions.'}</label>
+                                    {if array_key_exists('optin', $field_required)}
+                                            <sup> *</sup>
+                                    {/if}
+                            </div>
+                        {/if}
+                        <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount">
+				<span>{l s='Register'}<i class="icon-chevron-right right"></i></span>
+			</button>						
                     </div>
                     </div>
                 </div>
             </div>
         </div>        
 	</form>
-                        
+                       
 {/if}
     
 {strip}
@@ -824,5 +919,30 @@
     </script>
     <script>
         $("#account-creation_form").validate();
+    </script>
+{/literal}
+{literal}
+    <script>
+        $(function() {
+            var $document = $(document);
+            var $r = $('input[type=range]');
+            var output = document.querySelectorAll('.output')[0];
+            
+            
+            // set initial output value
+            output.innerHTML = $r[0].value;
+            
+            // update output value
+            $document.on('input', 'input[type="range"]', function(e) {
+              output.innerHTML = e.currentTarget.value;
+            });
+            
+            
+            // Initialize
+            $r.rangeslider({
+              polyfill: false
+            });
+          });
+
     </script>
 {/literal}

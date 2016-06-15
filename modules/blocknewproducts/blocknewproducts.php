@@ -58,6 +58,7 @@ class BlockNewProducts extends Module
 			&& Configuration::updateValue('NEW_PRODUCTS_NBR', 5)
 			&& $this->registerHook('displayHomeTab')
 			&& $this->registerHook('displayHomeTabContent')
+                        && $this->registerHook('newProductCMS')
 		);
 
 		$this->_clearCache('*');
@@ -105,6 +106,15 @@ class BlockNewProducts extends Module
 			return;
 		return $newProducts;
 	}
+        
+        public function hooknewProductCMS($params)
+	 {
+	 
+	  if (Tools::getValue('id_cms') != 6)
+	   return;
+	 
+	     return $this->display(__FILE__, 'blocknewproducts_home.tpl');
+	 }
 
 	public function hookRightColumn($params)
 	{

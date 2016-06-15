@@ -254,9 +254,9 @@ class OrderControllerCore extends ParentOrderController
      */
     public function autoStep()
     {
-        if ($this->step >= 2 && (!$this->context->cart->id_address_delivery || !$this->context->cart->id_address_invoice)) {
+        /*if ($this->step >= 2 && (!$this->context->cart->id_address_delivery || !$this->context->cart->id_address_invoice)) {
             Tools::redirect('index.php?controller=order&step=1');
-        }
+        }*/
         if ($this->step > 2 && !$this->context->cart->isVirtualCart()) {
             $redirect = false;
             if (count($this->context->cart->getDeliveryOptionList()) == 0) {

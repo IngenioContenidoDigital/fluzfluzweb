@@ -3,13 +3,14 @@
 if (!defined('_PS_VERSION_'))
   exit;
 
-class FluzFluzcodes extends Module{
-    public $nuevo_archivo;
-    public $folder=__DIR__."/upload/";
+class fluzfluzCodes extends Module{
+   public $nuevo_archivo;
+   public $folder="fluzfluzcodes/upload/";
+   public $location=_PS_MODULE_DIR_;
     
     public function __construct(){
         $this->name = 'fluzfluzcodes';
-        $this->tab = 'FluzFluz';
+        $this->tab = 'others';
         $this->version = '1.0.0';
         $this->author = 'Ingenio Contenido Digital';
         $this->need_instance = 0;
@@ -53,7 +54,6 @@ class FluzFluzcodes extends Module{
     $output = null;
  
     if (Tools::isSubmit('submit'.$this->name)){
-       /* validar subida de archivo */
         $file = $_FILES['archivo'];
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
         $allowed = array('txt', 'csv');
@@ -66,10 +66,10 @@ class FluzFluzcodes extends Module{
             $file['name'] = $filename;
             
             $uploader = new UploaderCore();
-            $uploader->setSavePath($this->folder);
+            $uploader->setSavePath($this->location.$this->folder);
             $uploader->upload($file);
             $this->nuevo_archivo=$file['name'];
-            chmod($this->folder.$this->nuevo_archivo, 0777);
+            chmod($this->location.$this->folder.$this->nuevo_archivo, 0777);
         } 
         if (isset($this->nuevo_archivo)){
             $status=$this->uploadCodes();
@@ -80,17 +80,13 @@ class FluzFluzcodes extends Module{
                     $output .= $this->displayConfirmation($this->l('Error al procesar el archivo.'));
             }
         } 
-        //$output .= $this->displayError( "Este tipo de archivo no es valido."); 
         return $output.$this->displayForm();
-                
     }
     
     
     public function displayForm(){
-        // Get default language
         $default_lang = (int)Configuration::get('PS_LANG_DEFAULT');
 
-        // Init Fields form array
         $fields_form[0]['form'] = array(
             'legend' => array(
                 'title' => $this->l('Card Codes'),
@@ -112,17 +108,14 @@ class FluzFluzcodes extends Module{
 
         $helper = new HelperForm();
 
-        // Module, token and currentIndex
         $helper->module = $this;
         $helper->name_controller = $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
         $helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
 
-        // Language
         $helper->default_form_language = $default_lang;
         $helper->allow_employee_form_lang = $default_lang;
 
-        // Title and toolbar
         $helper->title = $this->displayName;
         $helper->show_toolbar = true;        // false -> remove toolbar
         $helper->toolbar_scroll = true;      // yes - > Toolbar is always visible on the top of the screen.
@@ -140,7 +133,6 @@ class FluzFluzcodes extends Module{
             )
         );
 
-        // Load current value
         $helper->fields_value['FLUZFLUZCODES'] = Configuration::get('FLUZFLUZCODES');
 
         return $helper->generateForm($fields_form);
@@ -156,47 +148,17 @@ class FluzFluzcodes extends Module{
         $i++;  
       }
       return date("dmY_Hi_").$string;
-    }
-    
-    /*public function pathFiles(){
-        // Definir directorio donde almacenar los archivos, debe terminar en "/" 
-        $directorio="/upload/";
-
-        try { 
-            $path="".$directorio; 
-
-            if (!file_exists($path)) {
-                mkdir($path, 0777);
-            }
-            return $path;
-        } catch (Exception $e) {
-            echo $e;
-            return false;
-       }
-    }*/
-    
+    }    
     
     public function saveFile($arrayDoc,$documento,$dataUser){  
-  
-        // Sustituir especios por guion
         $archivo_usuario = str_replace(' ','-',$arrayDoc[$documento]['name']); 
         $tipo_archivo = $arrayDoc[$documento]['type']; 
         $tamano_archivo = $arrayDoc[$documento]['size'];
         $extension = strrchr($arrayDoc[$documento]['name'],'.');
 
-        // Rutina que asegura que no se sobre-escriban documentos
-        /*$flag = true;
-        while ($flag){
-            $this->nuevo_archivo=$this->randString().$dataUser.$extension;//.$extencion;
-            if (!file_exists($this->folder.$this->nuevo_archivo)) {
-                $flag= false;
-                
-            }
-        }*/
-        //compruebo si las características del archivo son las que deseo 
         try {
-            if (move_uploaded_file($arrayDoc[$documento]['tmp_name'],$this->folder.$this->nuevo_archivo)){ 
-                chmod($this->folder.$this->nuevo_archivo, 0777);
+            if (move_uploaded_file($arrayDoc[$documento]['tmp_name'],$this->location.$this->folder.$this->nuevo_archivo)){ 
+                chmod($this->location.$this->folder.$this->nuevo_archivo, 0777);
                 return $vector = array ( $this->nuevo_archivo, $archivo_usuario );
             } else { 
                 return $vector = array (false, false );
@@ -208,18 +170,12 @@ class FluzFluzcodes extends Module{
         }
     }
     
-    
     public function uploadCodes(){
         $state =false;
         $headers = array('Reference #','code');
-        $handle = fopen($this->folder.$this->nuevo_archivo, 'a+');
+        $handle = fopen($this->location.$this->folder.$this->nuevo_archivo, 'a+');
 
         while (($results = fgetcsv($handle, 1000, ";")) !== FALSE) {
-            //$row = array(
-            //    $results['reference #'],
-            //    $results['code']
-            //);
-            //fputcsv($handle, $row, ';');
             echo $results[0];
             $query="SELECT ps_product.id_product, ps_product.reference 
                 FROM ps_product WHERE ps_product.reference = '".$results[0]."'";
@@ -230,10 +186,6 @@ class FluzFluzcodes extends Module{
         }
         fclose($handle);
         if($run) $state=true;
-            
-          
         return $state;
     }
-    
-    
 }

@@ -82,6 +82,8 @@ class ProductCore extends ObjectModel
 
     /** @var float Price in euros */
     public $price = 0;
+    
+    public $price_shop=0;
 
     public $specificPrice = 0;
 
@@ -290,6 +292,7 @@ class ProductCore extends ObjectModel
             'ecotax' =>                    array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice'),
             'minimal_quantity' =>            array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedInt'),
             'price' =>                        array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice', 'required' => true),
+            'price_shop' =>                 array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice', 'required' => true),
             'wholesale_price' =>            array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice'),
             'unity' =>                        array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isString'),
             'unit_price_ratio' =>            array('type' => self::TYPE_FLOAT, 'shop' => true),

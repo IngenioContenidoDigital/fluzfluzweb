@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10-jun-2016, 12:26:53
+    Author     : Ingenio
+*/
+
+.btnAccountHeader{
+    background: red;
+    border: none;
+}
+
+.accountHeader{
+    background: transparent;
+    height: 86px;
+    width: 85px;
+    float: right;
+    margin-right: 16%;
+    border-left: 1px solid #d3d3d3;
+    text-align: center;
+    display: flex; justify-content: center; align-content: center; flex-direction: column;
+    }
+
+.block_content2{
+    font-size:30px;
+    background: transparent;
+    border: none;
+}
+
+.block_content2{
+    background: url('avatar.png') no-repeat center;
+    height: 86px;
+    width: auto;
+}
+
+.block_content2:hover{
+    background: url('avatar2.png') no-repeat center;
+    height: 86px;
+    width: auto;
+}
+
+.signUp>a{
+    color: #ef4136 !important;
+}
+
+button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: inline-block; font-size: 20px; color: #808285; text-align: center; width: 75px; height: 86px; line-height: 120px; vertical-align: top; border-right: 0px solid #d3d3d3; border-top:none; border-bottom: none;text-align: center;}

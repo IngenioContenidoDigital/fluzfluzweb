@@ -51,7 +51,6 @@ class HomeFeatured extends Module
 		$this->_clearCache('*');
 		Configuration::updateValue('HOME_FEATURED_NBR', 8);
 		Configuration::updateValue('HOME_FEATURED_CAT', (int)Context::getContext()->shop->getCategory());
-		Configuration::updateValue('HOME_FEATURED_RANDOMIZE', false);
 
 		if (!parent::install()
 			|| !$this->registerHook('header')
@@ -60,6 +59,7 @@ class HomeFeatured extends Module
 			|| !$this->registerHook('deleteproduct')
 			|| !$this->registerHook('categoryUpdate')
 			|| !$this->registerHook('displayHomeTab')
+                        || !$this->registerHook('customCMS')
 			|| !$this->registerHook('displayHomeTabContent')
 		)
 			return false;
@@ -105,6 +105,15 @@ class HomeFeatured extends Module
 
 		return $output.$this->renderForm();
 	}
+        
+        public function hookcustomCMS($params)
+	 {
+	 
+	  if (Tools::getValue('id_cms') != 6)
+	   return;
+	 
+	     return $this->hookDisplayHome($params);
+	 }
 
 	public function hookDisplayHeader($params)
 	{
