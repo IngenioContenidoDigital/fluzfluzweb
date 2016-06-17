@@ -218,7 +218,8 @@ class CustomerCore extends ObjectModel
             if ($this->is_guest) {
                 $this->id_default_group = (int)Configuration::get('PS_GUEST_GROUP');
             } else {
-                $this->id_default_group = (int)Configuration::get('PS_CUSTOMER_GROUP');
+                //$this->id_default_group = (int)Configuration::get('PS_CUSTOMER_GROUP');
+                $this->id_default_group = 4;
             }
         }
 
@@ -230,7 +231,7 @@ class CustomerCore extends ObjectModel
         $this->updateGroup($this->groupBox);
         return $success;
     }
-
+   
     public function update($nullValues = false)
     {
         $this->birthday = (empty($this->years) ? $this->birthday : (int)$this->years.'-'.(int)$this->months.'-'.(int)$this->days);
