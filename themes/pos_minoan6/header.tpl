@@ -77,7 +77,7 @@
 			</div>
 		{/if}
 		<div id="page" {if $page_name !="index"} class="sub-page"{/if}>
-			<div class="header-container">
+			<div class="header-container col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<header id="header">
 					{capture name='displayBanner'}{hook h='displayBanner'}{/capture}
 					{if $smarty.capture.displayBanner}

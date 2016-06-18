@@ -27,15 +27,15 @@
 <div class="accountHeader col-lg-3 col-md-6 col-sm-12 col-xs-12">
         <button class="block_content2" type="button" data-toggle="dropdown"></button>
 		<ul class="bullet dropdown-menu">
-			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccount'}</a></li>
-			{*if $returnAllowed}<li><a href="{$link->getPageLink('order-follow', true)|escape:'html'}" title="{l s='My merchandise returns' mod='blockmyaccount'}">{l s='My merchandise returns' mod='blockmyaccount'}</a></li>{/if*}
-			<li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='My Cards' mod='blockmyaccount'}">{l s='My Cards' mod='blockmyaccount'}</a></li>
-			<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccount'}">{l s='My Network' mod='blockmyaccount'}</a></li>
-			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Sponsor a friend' mod='blockmyaccount'}">{l s='Sponsor a friend' mod='blockmyaccount'}</a></li>
-                        <li><a href="{$link->getPageLink('statistics', true)|escape:'html'}" title="{l s='Statics' mod='blockmyaccount'}">{l s='Statics' mod='blockmyaccount'}</a></li>
-			{*if $voucherAllowed}<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My vouchers' mod='blockmyaccount'}">{l s='My vouchers' mod='blockmyaccount'}</a></li>{/if*}
+			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccountheader'}</a></li>
+			{*if $returnAllowed}<li><a href="{$link->getPageLink('order-follow', true)|escape:'html'}" title="{l s='My merchandise returns' mod='blockmyaccountheader'}">{l s='My merchandise returns' mod='blockmyaccountheader'}</a></li>{/if*}
+			<li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='My Cards' mod='blockmyaccountheader'}">{l s='My Cards' mod='blockmyaccountheader'}</a></li>
+			<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}">{l s='My Network' mod='blockmyaccountheader'}</a></li>
+			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Sponsor a friend' mod='blockmyaccountheader'}">{l s='Sponsor a friend' mod='blockmyaccountheader'}</a></li>
+                        <li><a href="{$link->getPageLink('statistics', true)|escape:'html'}" title="{l s='Statics' mod='blockmyaccountheader'}">{l s='Statics' mod='blockmyaccountheader'}</a></li>
+			{*if $voucherAllowed}<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My vouchers' mod='blockmyaccountheader'}">{l s='My vouchers' mod='blockmyaccountheader'}</a></li>{/if*}
 			{*$HOOK_BLOCK_MY_ACCOUNT*}
-                        <li class="logout signUp"><a href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccount'}">{l s='Sign out' mod='blockmyaccount'}</a></li>
+                        <li class="logout signUp"><a href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccountheader'}">{l s='Sign out' mod='blockmyaccountheader'}</a></li>
 		</ul>
 </div>
 <!-- /Block myaccount module -->
