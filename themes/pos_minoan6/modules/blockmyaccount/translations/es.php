@@ -12,3 +12,5 @@ $_MODULE['<{blockmyaccount}pos_minoan6>blockmyaccount_e45be0a0d4a0b62b15694c1a63
 $_MODULE['<{blockmyaccount}pos_minoan6>blockmyaccount_63b1ba91576576e6cf2da6fab7617e58'] = 'Mis datos personales';
 $_MODULE['<{blockmyaccount}pos_minoan6>blockmyaccount_95d2137c196c7f84df5753ed78f18332'] = 'Mis vales';
 $_MODULE['<{blockmyaccount}pos_minoan6>blockmyaccount_c87aacf5673fada1108c9f809d354311'] = 'Cerrar sesión';
+$_MODULE['<{blockmyaccount}pos_minoan6>blockmyaccount_0c3bf3014aafb90201805e45b5e62881'] = 'Ver Mi carro de compras';
+$_MODULE['<{blockmyaccount}pos_minoan6>blockmyaccount_76b133716b02dfc40f097e722075ddbd'] = 'Mi Carrito';
