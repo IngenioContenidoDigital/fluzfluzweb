@@ -308,7 +308,7 @@
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
                                                                                 <span  class="price col-lg-3">{$productPoint} pts.</span>
-                                                                                {else $logger}<span  class="price col-lg-5">{$resultProduct} pts.</span>{/if}
+                                                                                {else $logged}<span  class="price col-lg-5">{$resultProduct} pts.</span>{/if}
 									{/if}
                                                                         {/strip}
                                                                         </p>

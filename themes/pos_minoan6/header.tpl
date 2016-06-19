@@ -43,6 +43,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<link rel="icon" type="image/vnd.microsoft.icon" href="{$favicon_url}?{$img_update_time}" />
 		<link rel="shortcut icon" type="image/x-icon" href="{$favicon_url}?{$img_update_time}" />
+                
 		{if isset($css_files)}
 			{foreach from=$css_files key=css_uri item=media}
 				<link rel="stylesheet" href="{$css_uri|escape:'html':'UTF-8'}" type="text/css" media="{$media|escape:'html':'UTF-8'}" />
@@ -140,9 +141,39 @@
                                         </div>
                                     </div>
                                 {/if}    
-                        
+                                
                                 {if isset($left_column_size) && !empty($left_column_size)}
-                                    <div id="left_column" class="column col-lg-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}</div>
+                                    <div id="left_column" class="column col-lg-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
+                                                
+                                        {if $cms->id==6}
+                                            <div class="block"><h2 class="title_blockSale">{l s="Sale"}</h2>
+                                            <div id="onSale"> {l s="On Sale"} </div>
+                                            </div>
+                                            
+                                            <div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
+                                                <div data-role="rangeslider">
+                                                    <input name="range-1a" id="range-1a" min="0" max="100" value="20" type="range" style="width:100%;"/>
+                                                    <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />-->
+                                                </div>
+                                            </div>
+                                            
+                                        {/if}
+                                        
+                                        {if $cms->id==8 || $cms->id==9}
+                                        
+                                            {literal}
+                                                <style>
+                                                    #left_column{display: none !important;}
+                                                    .breadcrumb{display: none !important;}
+                                                    #center_column{min-width: 100% !important; margin: 0px;}
+                                                    #columns{margin-bottom: 0px !important; min-width: 100%;}
+                                                    .banner-home{margin: 0px;}
+                                                </style>
+                                            {/literal}
+                                            
+                                        {/if}
+                                        
+                                    </div>
 				{/if}
                                 {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
 						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
@@ -156,6 +187,13 @@
 					{/if}
 
 				{/if}
+                                {if $cms->id==8}
+                                    {literal}
+                                        <style>
+                                            .breadcrumb .clearfix{display: none;}
+                                        </style>  
+                                    {/literal}    
+                                {/if}    
                                 <div id="columns" class="container">
 					
                                         {if $page_name !='index' && $page_name !='pagenotfound'}

@@ -40,6 +40,7 @@
 	{math equation="nbLi/nbItemsPerLineTablet" nbLi=$nbLi nbItemsPerLineTablet=$nbItemsPerLineTablet assign=nbLinesTablet}
 	<!-- Products list -->
         <section class="page-product-box blockproductscategory">
+            
         <div class="divTitleFeatured">
             <h1 class="titleFeatured pos-title">{l s="FEATURED"}</h1>
         </div>
@@ -58,7 +59,7 @@
 					<div class="product-image-container">
 						<div class="products-inner">
 							<a class="product_img_link" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url">
-								<img class="img-responsive" src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'home_default')|escape:'html':'UTF-8'}" alt="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" title="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" {if isset($homeSize)} width="{$homeSize.width}" height="{$homeSize.height}"{/if} itemprop="image" />
+								<img class="img-responsive pruebaImgCategory" src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'home_default')|escape:'html':'UTF-8'}" alt="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" title="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" {if isset($homeSize)} width="{$homeSize.width}" height="{$homeSize.height}"{/if} itemprop="image" />
 							</a>
                                                            
 							{*if isset($quick_view) && $quick_view}
@@ -119,16 +120,20 @@
 				</div>
 				<div class="right-block">
 					<div class="product-contents">
-						<h5 itemprop="name" class="product-name">
-							{if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
-							<a class="product-name" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url" >
+                                            <div class="row">
+                                                <img src="{$img_manu_dir}{$product.id_manufacturer}.jpg" alt="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" class="imgMini col-lg-2"/>
+						<h5 itemprop="name" class="product-name col-lg-5" style="padding-left:0px;">
+                                                    	{if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
+							<a class="product-name" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url" style="padding-left:0px;">
 								{$product.name|truncate:45:'...'|escape:'html':'UTF-8'}
 							</a>
 						</h5>
                                                 {if $logged}
-                                                    <span  class="price">{$productPoint} pts.</span>
-                                                {else $logger}<span  class="price col-lg-5">{$resultProduct} pts.</span>{/if}        
-						<div class="ratings">{hook h='displayProductListReviews' product=$product}</div>	
+                                                    <span  class="priceCategory col-lg-4">{$product.points} {l s=points}</span>
+                                                {else $logged}
+                                                    <span  class="priceCategory col-lg-4">{$product.pointsNl} {l s=points}</span>{/if}        
+                                            </div>
+                                                <div class="ratings">{hook h='displayProductListReviews' product=$product}</div>	
 						
 						{if (!$PS_CATALOG_MODE AND ((isset($product.show_price) && $product.show_price) || (isset($product.available_for_order) && $product.available_for_order)))}
 						<div class="price-box">
@@ -137,7 +142,7 @@
                                                                 <span style="color:#000; font-size: 11px; text-align: left;">{l s='PRICE: '}</span><span class="price product-price" style="color:#b5b5bb; font-size: 11px; text-align: left;">
                                                                     {if !$priceDisplay}{convertPrice price=$product.price}{else}{convertPrice price=$product.price_tax_exc}{/if}
 								</span>
-                                                                </span>
+                                                                    <span style="color:#ef4136; margin-left: 2%;">({l s="Save"}{math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.price}%)</span>
                                                                 <span class="price product-price" style="color:#ef4136; font-size: 11px; text-align: left;float: right;">
                                                                     {convertPrice price=$product.price_shop|floatval}
                                                                 </span><span style="color:#000; font-size: 11px; text-align: left; float: right; margin-right: 5px;">{l s='VALUE: '}</span>

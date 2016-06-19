@@ -37,6 +37,7 @@
 		</div>
                         
 	{/if}
+        <div class="rte{if $content_only} content_only{/if}">
         {if $cms->id==6}
             <div class="banner-box banner2" style="background: url('/img/cms/FluzFluz/categories/bannerCategory.png') #fff no-repeat 20%; background-size: 100% auto; padding: 5%; width: 100%;">
                 <div style="min-height: 304px; width: 100%; text-align: center; display: table;">
@@ -63,6 +64,21 @@
 	<div class="rte{if $content_only} content_only{/if}">
 		{$cms->content}
 	</div>
+        <div class="row containerFeatured">
+        {hook h='customCMS'}
+        </div>
+        <div class="row containerFeatured"> 
+        {hook h='newProductCMS'}
+        </div>
+        {if $cms->id==6}
+        <aside class="asideCategory"><img src="/img/cms/FluzFluz/categories/aside1.png" alt="aside1.png" /><img src="/img/cms/FluzFluz/categories/aside2.png" /></aside>
+            <section>
+                <article class="sectionBanner"><img src="/img/cms/FluzFluz/categories/sectionBanner.png" /></article>
+                <article class="sectionFooter"><img src="/img/cms/FluzFluz/categories/bannerSectionFooter1.png" /> <img src="/img/cms/FluzFluz/categories/bannerSectionFooter2.png" /></article>
+            </section>
+        {$productPoint}
+        {/if}
+	
                
 {elseif isset($cms_category)}
 	<div class="block-cms">
