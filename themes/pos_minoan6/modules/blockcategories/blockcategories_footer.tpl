@@ -25,7 +25,7 @@
 
 <!-- Block categories module -->
 <section class="blockcategories_footer footer-block col-xs-12 col-sm-4">
-	<h4>{l s='Categories' mod='blockcategories'}</h4>
+	<h4>{l s='Categories' mod='blockcategories'}<!--<a href="{$link->getPageLink('categorias', true)|escape:'html':'UTF-8'}" title="{l s='categories fluzfluz' mod='blockcategories'}" rel="nofollow"></a>--></h4>
 	<div class="category_footer toggle-footer">
 		<div class="list">
 			<ul class="tree {if $isDhtml}dhtml{/if}">

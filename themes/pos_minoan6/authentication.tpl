@@ -601,12 +601,12 @@
                                         <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
                                             <p>{l s="When you create a Fluz Fluz account, we ask that you deposit a minimum of $5 in your account so we can validate it. This is a firs time only required deposit and will be entirely at your disposal in your account so you can start."}</p>
                                         <div class="row">
-                                            <span class="col-lg-1 rangePrice">$5</span><input class="rangeslider col-lg-9" type="range" value="25" min="5" max="250" step="5" data-rangeslider><span class="col-lg-2 rangePrice">$250</span>
+                                            <span class="col-lg-2 rangePrice">$20.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="40000" min="20000" max="100000" step="20000" data-rangeslider><span class="col-lg-2 rangePrice">$100.000</span>
                                         </div>
                                         <br/>
                                         <div class="col-lg-12">
                                             <span class="col-lg-9">{l s="Final Deposit Amount:"}</span>
-                                            <span class="output col-lg-3" id="rangeMemberShip" name="rangeMembership"></span>
+                                            <input class="output col-lg-3" type="text" name="valorSlider" id="valorSlider" value="">
                                         </div>
                                     </div>
                                     <div class="cardiv col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -676,6 +676,7 @@
                                             </div>            
                                        
                                     </div>
+                                    
                                     {if $b2b_enable}
                                         <div class="account_creation">
                                             <h3 class="page-subheading">{l s='Your company information'}</h3>
@@ -834,12 +835,24 @@
                         {/if}
                         <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount">
 				<span>{l s='Register'}<i class="icon-chevron-right right"></i></span>
-			</button>						
+			</button>
                     </div>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
+        {literal}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                document.getElementById( 'valorSlider' ).value=40000 ;  
+                
+                $('#rangeSlider').change(function() 
+                {
+                    $('#valorSlider').val($(this).val());
+                });
+            });
+        </script>
+        {/literal}
 	</form>
                        
 {/if}
@@ -930,6 +943,7 @@
             
             
             // set initial output value
+            
             output.innerHTML = $r[0].value;
             
             // update output value

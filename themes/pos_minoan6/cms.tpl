@@ -35,10 +35,27 @@
 			<div class="clear" ></div>
 			<p id="admin-action-result"></p>
 		</div>
+                        
 	{/if}
-	<div class="rte{if $content_only} content_only{/if}">
+        <div class="rte{if $content_only} content_only{/if}">
 		{$cms->content}
 	</div>
+        <div class="row containerFeatured">
+        {hook h='customCMS'}
+        </div>
+        <div class="row containerFeatured"> 
+        {hook h='newProductCMS'}
+        </div>
+        {if $cms->id==6}
+        <aside class="asideCategory"><img src="/img/cms/FluzFluz/categories/aside1.png" alt="aside1.png" /><img src="/img/cms/FluzFluz/categories/aside2.png" /></aside>
+            <section>
+                <article class="sectionBanner"><img src="/img/cms/FluzFluz/categories/sectionBanner.png" /></article>
+                <article class="sectionFooter"><img src="/img/cms/FluzFluz/categories/bannerSectionFooter1.png" /> <img src="/img/cms/FluzFluz/categories/bannerSectionFooter2.png" /></article>
+            </section>
+        {$productPoint}
+        {/if}
+	
+               
 {elseif isset($cms_category)}
 	<div class="block-cms">
 		<h1><a href="{if $cms_category->id eq 1}{$base_dir}{else}{$link->getCMSCategoryLink($cms_category->id, $cms_category->link_rewrite)}{/if}">{$cms_category->name|escape:'html':'UTF-8'}</a></h1>

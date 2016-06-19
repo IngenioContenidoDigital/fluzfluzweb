@@ -23,6 +23,9 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
+require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsSponsorshipModel.php');
+require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsProductModel.php');
 
 class CategoryCore extends ObjectModel
 {
@@ -711,7 +714,8 @@ class CategoryCore extends ObjectModel
 
             return (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
         }
-
+        
+        
         if ($p < 1) {
             $p = 1;
         }
@@ -740,13 +744,14 @@ class CategoryCore extends ObjectModel
         if (!Validate::isUnsignedInt($nb_days_new_product)) {
             $nb_days_new_product = 20;
         }
-
+        
+        /*'.RewardsModel::getRewardReadyForDisplay('p.price', 1).' AS points*/
         $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) AS quantity'.(Combination::isFeatureActive() ? ', IFNULL(product_attribute_shop.id_product_attribute, 0) AS id_product_attribute,
 					product_attribute_shop.minimal_quantity AS product_attribute_minimal_quantity' : '').', pl.`description`, pl.`description_short`, pl.`available_now`,
 					pl.`available_later`, pl.`link_rewrite`, pl.`meta_description`, pl.`meta_keywords`, pl.`meta_title`, pl.`name`, image_shop.`id_image` id_image,
 					il.`legend` as legend, m.`name` AS manufacturer_name, cl.`name` AS category_default,
 					DATEDIFF(product_shop.`date_add`, DATE_SUB("'.date('Y-m-d').' 00:00:00",
-					INTERVAL '.(int)$nb_days_new_product.' DAY)) > 0 AS new, product_shop.price AS orderprice
+					INTERVAL '.(int)$nb_days_new_product.' DAY)) > 0 AS new, product_shop.price AS orderprice   
 				FROM `'._DB_PREFIX_.'category_product` cp
 				LEFT JOIN `'._DB_PREFIX_.'product` p
 					ON p.`id_product` = cp.`id_product`
@@ -780,7 +785,16 @@ class CategoryCore extends ObjectModel
 			LIMIT '.(((int)$p - 1) * (int)$n).','.(int)$n;
         }
 
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
+        $lista=Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
+        $result= array();
+        foreach($lista as $x){
+            $precio = $x['price']-RewardsProductModel::getCostDifference($x['id_product']);
+            $x['points']=round(RewardsModel::getRewardReadyForDisplay($precio, 1)/(RewardsSponsorshipModel::getNumberSponsorship($context->customer->id)+1),0,PHP_ROUND_HALF_UP);
+            $x['pointsNl']=round(RewardsModel::getRewardReadyForDisplay($x['price'], 1)/16,0,PHP_ROUND_HALF_UP);
+            array_push($result,$x);
+         }
+        
+        //$result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
 
         if (!$result) {
             return array();

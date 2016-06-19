@@ -111,7 +111,7 @@ class MyAccountControllerCore extends FrontController
     
     public function getPointsLastDays($id_customer){
         
-        $query = 'SELECT sum(credits) FROM '._DB_PREFIX_.'rewards WHERE id_customer='.(int)$id_customer.' AND date_add >= curdate() + interval -30 day';
+        $query = 'SELECT sum(credits) FROM '._DB_PREFIX_.'rewards WHERE id_customer='.(int)$id_customer.' AND date_add >= curdate() + interval -30 day'.' AND id_reward_state = 2';
         
         $row= Db::getInstance()->getRow($query);
         $datePoint = $row['sum(credits)'];

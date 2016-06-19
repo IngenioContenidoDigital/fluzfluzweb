@@ -31,7 +31,7 @@
     <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
     <div class="col-lg-4 col-md-5 Cards">
         <div class="col-lg-6 col-md-6 infoCard">
-            <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></a>    
+            <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/>   
             <span class="nameCard">{$manufacturer.manufacturer_name}</span>
         </div>
         <div class="col-lg-6 col-md-6 priceCard">

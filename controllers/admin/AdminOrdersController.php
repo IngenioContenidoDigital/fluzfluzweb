@@ -538,8 +538,6 @@ class AdminOrdersControllerCore extends AdminController
                         if($order_state->id == 2 || $order_state->id == 5){
                             
                             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
-                            /*$row= Db::getInstance()->getRow($query);
-                            $productId = $row['product_id'];*/
                             $productId = Db::getInstance()->executeS($query);
                             
                             foreach ($productId as $valor) {
