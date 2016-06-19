@@ -2550,7 +2550,17 @@ label.required:before { content: "*"; color: red; font-size: 14px; position: rel
 .close { opacity: 1; }
 .close:hover { opacity: 1; }
 
-input.button_mini, input.button_small, input.button, input.button_large, input.button_mini_disabled, input.button_small_disabled, input.button_disabled, input.button_large_disabled, input.exclusive_mini, input.exclusive_small, input.exclusive, input.exclusive_large, input.exclusive_mini_disabled, input.exclusive_small_disabled, input.exclusive_disabled, input.exclusive_large_disabled, a.button_mini, a.button_small, a.button, a.button_large, a.exclusive_mini, a.exclusive_small, a.exclusive, a.exclusive_large, span.button_mini, span.button_small, span.button, span.button_large, span.exclusive_mini, span.exclusive_small, span.exclusive, span.exclusive_large, span.exclusive_large_disabled { position: relative; display: inline-block; padding: 5px 7px; border: 1px solid #cc9900; font-weight: bold; color: black; background: url(../img/bg_bt.gif) repeat-x 0 0 #f4b61b; cursor: pointer; white-space: normal; text-align: left; }
+input.button_mini, input.button_small, input.button, input.button_large, input.button_mini_disabled, input.button_small_disabled, input.button_disabled, input.button_large_disabled, input.exclusive_mini, input.exclusive_small, input.exclusive, input.exclusive_large, input.exclusive_mini_disabled, input.exclusive_small_disabled, input.exclusive_disabled, input.exclusive_large_disabled, a.button_mini, a.button_small, a.button, a.button_large, a.exclusive_mini, a.exclusive_small, a.exclusive, a.exclusive_large, span.button_mini, span.button_small, span.button, span.button_large, span.exclusive_mini, span.exclusive_small, span.exclusive, span.exclusive_large, span.exclusive_large_disabled {     position: relative;
+    display: inline-block;
+    padding: 5px 7px;
+    border: 1px solid #c9b197;
+    font-weight: bold;
+    color: white;
+    background: #c9b197;
+    cursor: pointer;
+    white-space: normal;
+    text-align: left;
+    line-height: 29px; }
 
 *:first-child + html input.button_mini, *:first-child + html input.button_small, *:first-child + html input.button, *:first-child + html input.button_large, *:first-child + html input.button_mini_disabled, *:first-child + html input.button_small_disabled, *:first-child + html input.button_disabled, *:first-child + html input.button_large_disabled, *:first-child + html input.exclusive_mini, *:first-child + html input.exclusive_small, *:first-child + html input.exclusive, *:first-child + html input.exclusive_large, *:first-child + html input.exclusive_mini_disabled, *:first-child + html input.exclusive_small_disabled, *:first-child + html input.exclusive_disabled, *:first-child + html input.exclusive_large_disabled { border: none; }
 
@@ -2607,9 +2617,9 @@ table.std, table.table_block { margin-bottom: 20px; width: 100%; border: 1px sol
 
 table.std th, table.table_block th { padding: 14px 12px; font-size: 12px; color: white; font-weight: bold; text-transform: uppercase; text-shadow: 0 1px 0 black; background: #999999; }
 
-table.std tr.alternate_item, table.table_block tr.alternate_item { background-color: #f3f3f3;}
+table.std tr.alternate_item, table.table_block tr.alternate_item { /*background-color: #f3f3f3;*/}
 
-table.std td, table.table_block td { padding: 12px; border-right: 1px solid #e9e9e9; border-bottom: 1px solid #e9e9e9; font-size: 12px; vertical-align: top; }
+table.std td, table.table_block td { padding: 12px; /*border-right: 1px solid #e9e9e9; border-bottom: 1px solid #e9e9e9;*/ font-size: 12px; vertical-align: top; }
 
 .table { margin-bottom: 30px; }
 .table > thead > tr > th { background: #fbfbfb; border-bottom-width: 1px; color: #252525; vertical-align: middle; }
