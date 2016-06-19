@@ -10,10 +10,12 @@
 }
 
 .rewards p {
-	margin: 0.5em 0 !important;
-	padding: 0 !important;
-	width: 100%;
-	border: none;
+    margin: 0.5em 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    border: none;
+    color: #666666;
+    font-family: 'Open sans';
 }
 
 .rewards table.std {
@@ -23,23 +25,23 @@
 
 .rewards table.std thead {
 	border-collapse: collapse;
-	border: solid 1px #BBBBBB !important;
+	border: solid 1px #999999 !important;
 }
 
 .rewards table.std th {
-	font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
-    line-height: 13px;
+    line-height: 25px;
     height: 13px !important;
     padding: 5px !important;
     text-shadow: none !important;
-    background: url("../img/bg_table_th.png") repeat-x scroll 0 0 #999999;
+    background-color: #999999;
     color: #FFFFFF;
     text-transform: uppercase;
 }
 
 .rewards table.std td {
-	border: 1px solid #E9E9E9 !important;
+    /*border: 1px solid #E9E9E9 !important;*/
     font-size: 11px;
     line-height: 13px;
     padding: 5px !important;
@@ -243,9 +245,16 @@
 
 .sponsorshipBlock input[type=text],
 .sponsorshipBlock input[type=password] {
-	height: 18px !important;
-	width: 90%;
+    height: 25px !important;
+    width: 98%;
+    background-color: #f9f9f9;
+    border: none;
 }
+
+.sponsorshipBlock input[type=text]:first-child{
+    margin-top: 5px;
+}
+
 
 .sponsorshipBlock textarea {
 	width: 100%;
@@ -383,4 +392,20 @@
 }
 #product #sponsorship_link a::before {
     content: "\f1e0";
+}
+
+.title-sponsor{
+    font-family: 'Open sans';
+    text-transform: uppercase;
+    font-size: 15px;
+    color:#4d4d4d;
+    font-weight: 700;
+}
+
+.title-sponsor span{
+    color: #ed1c24;
+    margin-left: 5px;
+    text-transform: lowercase;
+    font-size: 11px;
+    font-weight: bold;
 }

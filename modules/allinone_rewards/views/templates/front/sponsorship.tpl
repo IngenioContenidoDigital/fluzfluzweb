@@ -29,9 +29,8 @@
 		{if version_compare($smarty.const._PS_VERSION_,'1.6','>=')}
 	<h1 class="page-heading">{l s='Sponsorship program' mod='allinone_rewards'}</h1>
 		{else}
-		{include file="$tpl_dir./breadcrumb.tpl"}
-
-	<h2>{l s='Sponsorship program' mod='allinone_rewards'}</h2>
+                    {include file="$tpl_dir./breadcrumb.tpl"}
+                    <h2>{l s='Sponsorship program' mod='allinone_rewards'}</h2>
 		{/if}
 	{/if}
 
@@ -100,24 +99,24 @@
 	<div class="sheets">
 		<div id="idTab1" class="sponsorshipBlock">
 		{else}
-		<div class="sponsorshipBlock sponsorshipPopup">
+                    <div class="sponsorshipBlock sponsorshipPopup">
 		{/if}
 
-		{if isset($text)}
-			<div id="sponsorship_text" {if isset($popup) && $afterSubmit}style="display: none"{/if}>
-				{$text|escape:'string':'UTF-8'}
-			{if isset($popup)}
-				<div align="center">
-					<input id="invite" type="button" class="button" value="{l s='Invite my friends' mod='allinone_rewards'}" />
-					<input id="noinvite" type="button" class="button" value="{l s='No, thanks' mod='allinone_rewards'}" />
-				</div>
-			{/if}
-			</div>
-		{/if}
+		{*if isset($text)}
+                    <div id="sponsorship_text" {if isset($popup) && $afterSubmit}style="display: none"{/if}>
+                        {$text|escape:'string':'UTF-8'}
+                        {if isset($popup)}
+                        <div align="center">
+                            <input id="invite" type="button" class="button" value="{l s='Invite my friends' mod='allinone_rewards'}" />
+                            <input id="noinvite" type="button" class="button" value="{l s='No, thanks' mod='allinone_rewards'}" />
+                        </div>
+                        {/if}
+                    </div>
+		{/if*}
 
 		{if $canSendInvitations || isset($popup)}
 			<div id="sponsorship_form"  {if isset($popup) && !$afterSubmit}style="display: none"{/if}>
-				<div>
+				<!--<div>
 				{l s='Sponsorship is quick and easy. You can invite your friends in different ways :' mod='allinone_rewards'}
 				<ul>
 					<li>{l s='Propose your sponsorship on the social networks, by clicking the following links' mod='allinone_rewards'}<br>
@@ -136,27 +135,24 @@
 			{/if}
 					<li>{l s='Fill in the following form and they will receive an mail.' mod='allinone_rewards'}</li>
 				</ul>
-				</div>
+				</div>-->
 				<div>
 					<form id="list_contacts_form" method="post" action="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}">
-						{l s='Your message (optional)' mod='allinone_rewards'}<br/>
-						<textarea name="message" class="text">{if isset($message)}{$message|escape:'html':'UTF-8'}{/if}</textarea>
+                                                <p class="title-sponsor">{l s='Add a friend' mod='allinone_rewards'}<span>{l s='(maximum of two invites per sponsor)' mod='allinone_rewards'}</span></p><br/><br/>
+						<!--<textarea name="message" class="text">{if isset($message)}{$message|escape:'html':'UTF-8'}{/if}</textarea>-->
 						<table class="std">
 						<thead>
                                                         {if $subscribeFriends|@count == 2}
                                                             {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count >= 1}
                                                         {else}        
 							<tr>
-								<th class="first_item">&nbsp;</th>
+                                                                <th class="item">{l s='First name' mod='allinone_rewards'}</th>
 								<th class="item">{l s='Last name' mod='allinone_rewards'}</th>
-								<th class="item">{l s='First name' mod='allinone_rewards'}</th>
 								<th class="last_item">{l s='Email' mod='allinone_rewards'}</th>
 							</tr>
                                                         {/if}
 						</thead>
 						<tbody>
-                                                    
-							
                                                             {if $subscribeFriends|@count == 2}
                                                                 <tr class="alternate_item">
                                                                         <span style="color:#ef4136;"> {l s='Ya tienes tus 2 personas Apadrinadas'} </span>
@@ -169,10 +165,9 @@
                                                                    
                                                                 {elseif $pendingFriends|@count == 1}
                                                                    <tr class="alternate_item">
-                                                                        <td class="align_right">{$smarty.section.friends.iteration|escape:'html':'UTF-8'}</td>
-                                                                        <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                        <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                        <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                       <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                       <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                       <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                    </tr> 
                                                                    <tr class="alternate_item">
                                                                         <span style="color:#ef4136;"> {l s='Por Confirmar sus amigos en espera'} </span>
@@ -185,18 +180,16 @@
                                                                     
                                                                 {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 0}
                                                                     <tr class="alternate_item">
-                                                                        <td class="align_right">{$smarty.section.friends.iteration|escape:'html':'UTF-8'}</td>
-                                                                        <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                         <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                        <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                         <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                     </tr>
                                                                     
                                                             {else}
                                                             {section name=friends start=0 loop=$nbFriends step=1}
                                                                 <tr class="alternate_item">
-                                                                            <td class="align_right">{$smarty.section.friends.iteration|escape:'html':'UTF-8'}</td>
-                                                                            <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                             <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
+                                                                            <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                             <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                     </tr>
                                                             {/section}    
@@ -204,22 +197,20 @@
                                                     
 						</tbody>
 						</table>
-						<p class="bold">
-							{l s='Important: Your friends\' email addresses will only be used in the sponsorship program. They will never be used for other purposes.' mod='allinone_rewards'}
-						</p>
-						<p class="checkbox">
-							<input class="cgv" type="checkbox" name="conditionsValided" id="conditionsValided" value="1" {if isset($smarty.post.conditionsValided) AND $smarty.post.conditionsValided eq 1}checked="checked"{/if} />&nbsp;
-							<label for="conditionsValided">{l s='I agree to the terms of service and adhere to them unconditionally.' mod='allinone_rewards'}</label>
-							<a href="{$link->getModuleLink('allinone_rewards', 'rules', ['sback' => $sback], true)|escape:'html':'UTF-8'}" class="fancybox rules" title="{l s='Conditions of the sponsorship program' mod='allinone_rewards'}">{l s='Read conditions' mod='allinone_rewards'}</a>
-						</p>
-						<p>
-							{l s='Preview' mod='allinone_rewards'} <a href="{$link->getModuleLink('allinone_rewards', 'email', ['sback' => $sback], true)|escape:'html':'UTF-8'}" class="fancybox mail" title="{l s='Invitation email' mod='allinone_rewards'}">{l s='the default email' mod='allinone_rewards'}</a> {l s='that will be sent to your friends.' mod='allinone_rewards'}
-						</p>
-						<p class="submit" align="center">
-                                                    
-							<input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='Send invitations' mod='allinone_rewards'}" />
-						
-                                                </p>
+                                                
+                                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                                        <p class="bold">{l s='Important: Your friends\' email addresses will only be used in the sponsorship program. They will never be used for other purposes.' mod='allinone_rewards'}</p>
+                                                        <p class="checkbox">
+                                                            <input class="cgv" type="checkbox" name="conditionsValided" id="conditionsValided" value="1" {if isset($smarty.post.conditionsValided) AND $smarty.post.conditionsValided eq 1}checked="checked"{/if} />&nbsp;
+                                                            <label for="conditionsValided">{l s='I agree to the terms of service and adhere to them unconditionally.' mod='allinone_rewards'}</label>
+                                                            <a href="{$link->getModuleLink('allinone_rewards', 'rules', ['sback' => $sback], true)|escape:'html':'UTF-8'}" class="fancybox rules" title="{l s='Conditions of the sponsorship program' mod='allinone_rewards'}">{l s='Read conditions' mod='allinone_rewards'}</a>
+                                                        </p>
+                                                        <p>{l s='Preview' mod='allinone_rewards'} <a href="{$link->getModuleLink('allinone_rewards', 'email', ['sback' => $sback], true)|escape:'html':'UTF-8'}" class="fancybox mail" title="{l s='Invitation email' mod='allinone_rewards'}">{l s='the default email' mod='allinone_rewards'}</a> {l s='that will be sent to your friends.' mod='allinone_rewards'}</p>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                                        <p class="submit" align="right"><input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='Send invitations' mod='allinone_rewards'}" /></p>
+                                                    </div>
+                                                
 					</form>
 				</div>
 			</div>
