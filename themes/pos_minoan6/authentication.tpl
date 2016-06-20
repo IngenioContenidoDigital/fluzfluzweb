@@ -103,6 +103,10 @@
 							</div>
 						{/foreach}
 					</div>
+                                        <div class="required form-group">
+						<label for="username">{l s='Username'} <sup>*</sup></label>
+						<input type="text" class="is_required validate form-control" data-validate="isName" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" />
+					</div>
 					<div class="required form-group">
 						<label for="firstname">{l s='First name'} <sup>*</sup></label>
 						<input type="text" class="is_required validate form-control" data-validate="isName" id="firstname" name="firstname" value="{if isset($smarty.post.firstname)}{$smarty.post.firstname}{/if}" />
@@ -484,6 +488,10 @@
                                                             </label>
                                                     </div>
                                             {/foreach}
+                                    </div>
+                                    <div class="required form-group">
+                                            <label class="required" for="username">{l s='Username'}</label>
+                                            <input onkeyup="$('#username').val(this.value);" type="text" class="is_required validate form-control" data-validate="isName" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" />
                                     </div>
                                     <div class="required form-group">
                                             <label class="required" for="customer_firstname">{l s='First name'}</label>

@@ -87,6 +87,9 @@ class AdminCustomersControllerCore extends AdminController
                 'filter_type' => 'int',
                 'order_key' => 'gl!name'
             ),
+            'username' => array(
+                'title' => $this->l('username')
+            ),
             'firstname' => array(
                 'title' => $this->l('First name')
             ),
@@ -364,6 +367,14 @@ class AdminCustomersControllerCore extends AdminController
                     'required' => false,
                     'class' => 't',
                     'values' => $list_genders
+                ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('username'),
+                    'name' => 'username',
+                    'required' => true,
+                    'col' => '4',
+                    'hint' => $this->l('Invalid characters:').' 0-9!&lt;&gt;,;?=+()@#"°{}_$%:'
                 ),
                 array(
                     'type' => 'text',

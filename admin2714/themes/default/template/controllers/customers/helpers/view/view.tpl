@@ -33,6 +33,7 @@
 			<div class="panel clearfix">
 				<div class="panel-heading">
 					<i class="icon-user"></i>
+                                        {$customer->username}
 					{$customer->firstname}
 					{$customer->lastname}
 					[{$customer->id|string_format:"%06d"}]
