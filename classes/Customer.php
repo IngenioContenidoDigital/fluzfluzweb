@@ -780,6 +780,7 @@ class CustomerCore extends ObjectModel
         $this->addGroups(array(Configuration::get('PS_CUSTOMER_GROUP'))); // add default customer group
         if ($this->update()) {
             $vars = array(
+                '{username}' => $this->username,
                 '{firstname}' => $this->firstname,
                 '{lastname}' => $this->lastname,
                 '{email}' => $this->email,

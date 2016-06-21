@@ -69,6 +69,7 @@ class Allinone_rewardsEmailModuleFrontController extends ModuleFrontController
 		$file = str_replace('{shop_url}', $shop_url, $file);
 		$file = str_replace('{shop_logo}', $shop_logo, $file);
 		$file = str_replace('{message}', '', $file);
+                $file = str_replace('{username}', $this->context->customer->username, $file);
 		$file = str_replace('{firstname}', $this->context->customer->firstname, $file);
 		$file = str_replace('{lastname}', $this->context->customer->lastname, $file);
 		$file = str_replace('{email}', $this->context->customer->email, $file);

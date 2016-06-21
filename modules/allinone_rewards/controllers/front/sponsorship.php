@@ -169,6 +169,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 							$vars = array(
 								'{message}' => Tools::nl2br(Tools::getValue('message')),
 								'{email}' => $this->context->customer->email,
+                                                                '{username}' => $this->context->customer->username,
 								'{lastname}' => $this->context->customer->lastname,
 								'{firstname}' => $this->context->customer->firstname,
 								'{email_friend}' => $friendEmail,
@@ -225,6 +226,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 							$sponsorship = new RewardsSponsorshipModel((int)$key);
 							$vars = array(
 								'{email}' => $this->context->customer->email,
+                                                                '{username}' => $this->context->customer->username,
 								'{lastname}' => $this->context->customer->lastname,
 								'{firstname}' => $this->context->customer->firstname,
 								'{email_friend}' => $sponsorship->email,

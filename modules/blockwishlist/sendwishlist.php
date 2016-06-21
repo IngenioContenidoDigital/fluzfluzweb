@@ -61,6 +61,7 @@ if ($context->customer->isLogged())
 				'wishlist',
 				sprintf(Mail::l('Message from %1$s %2$s', $context->language->id), $customer->lastname, $customer->firstname),
 				array(
+                                        '{username}' => $customer->username,
 					'{lastname}' => $customer->lastname,
 					'{firstname}' => $customer->firstname,
 					'{wishlist}' => $wishlist['name'],

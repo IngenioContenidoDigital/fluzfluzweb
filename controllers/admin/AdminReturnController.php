@@ -238,6 +238,7 @@ class AdminReturnControllerCore extends AdminController
                     if ($orderReturn->save()) {
                         $orderReturnState = new OrderReturnState($orderReturn->state);
                         $vars = array(
+                        '{username}' => $customer->username,
                         '{lastname}' => $customer->lastname,
                         '{firstname}' => $customer->firstname,
                         '{id_order_return}' => $id_order_return,

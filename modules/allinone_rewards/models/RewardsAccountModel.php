@@ -50,7 +50,7 @@ class RewardsAccountModel extends ObjectModel
 				GROUP BY id_customer
 				HAVING SUM(r.credits) >= '.(float)Configuration::get('REWARDS_REMINDER_MINIMUM') : ' ra.id_customer='.(int)$id_customer);
 
-			$query = 'SELECT ra.id_customer, email, firstname, lastname, SUM(credits) AS total'.(version_compare(_PS_VERSION_, '1.5.4.0', '>=') ? ', id_lang':'').$where.(Configuration::get('REWARDS_USE_CRON') ? '' : ' LIMIT 20');
+			$query = 'SELECT ra.id_customer, username, email, firstname, lastname, SUM(credits) AS total'.(version_compare(_PS_VERSION_, '1.5.4.0', '>=') ? ', id_lang':'').$where.(Configuration::get('REWARDS_USE_CRON') ? '' : ' LIMIT 20');
 			$rows = Db::getInstance()->ExecuteS($query);
 			if (is_array($rows)) {
 				$module = new allinone_rewards();
@@ -58,6 +58,7 @@ class RewardsAccountModel extends ObjectModel
 					if (version_compare(_PS_VERSION_, '1.5.4.0', '>='))
 						$lang = (int)$row['id_lang'];
 					$data = array(
+                                                        '{username}' => $row['username'],
 							'{firstname}' => $row['firstname'],
 							'{lastname}' => $row['lastname'],
 							'{rewards}' => $module->getRewardReadyForDisplay((float)$row['total'], (int)Configuration::get('PS_CURRENCY_DEFAULT'), $lang),
