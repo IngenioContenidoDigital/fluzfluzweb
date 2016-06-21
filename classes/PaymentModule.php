@@ -577,6 +577,7 @@ abstract class PaymentModuleCore extends Module
                                 $params = array(
                                     '{voucher_amount}' => Tools::displayPrice($voucher->reduction_amount, $this->context->currency, false),
                                     '{voucher_num}' => $voucher->code,
+                                    '{username}' => $this->context->customer->username,
                                     '{firstname}' => $this->context->customer->firstname,
                                     '{lastname}' => $this->context->customer->lastname,
                                     '{id_order}' => $order->reference,
@@ -703,6 +704,7 @@ abstract class PaymentModuleCore extends Module
                         $invoice_state = $invoice->id_state ? new State((int)$invoice->id_state) : false;
 
                         $data = array(
+                        '{username}' => $this->context->customer->username,
                         '{firstname}' => $this->context->customer->firstname,
                         '{lastname}' => $this->context->customer->lastname,
                         '{email}' => $this->context->customer->email,

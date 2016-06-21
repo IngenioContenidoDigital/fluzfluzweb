@@ -1475,6 +1475,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						if (Validate::isLoadedObject($cartRule))
 						{
 							$data = array(
+                                                                '{username}' => $customer->username,
 								'{firstname}' => $customer->firstname,
 								'{lastname}' => $customer->lastname,
 								'{nb_discount}' => $cartRule->quantity_per_user,
