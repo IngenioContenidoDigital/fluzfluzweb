@@ -107,6 +107,7 @@ class RewardsPaymentModel extends ObjectModel
 		// $this->l('Your payment request has been processed')
 		$customer = new Customer($id_customer);
 		$data =  array(
+                        '{username}'	=> $customer->username,
 			'{firstname}'	=> $customer->firstname,
 			'{lastname}'	=> $customer->lastname,
 			'{value}'		=> Tools::displayPrice((float)$payment->credits, (int)Configuration::get('PS_CURRENCY_DEFAULT')),

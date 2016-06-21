@@ -110,6 +110,7 @@ class OrderDetailControllerCore extends FrontController
                     if (Validate::isLoadedObject($customer)) {
                         Mail::Send($this->context->language->id, 'order_customer_comment', Mail::l('Message from a customer'),
                         array(
+                            '{username}' => $customer->username,
                             '{lastname}' => $customer->lastname,
                             '{firstname}' => $customer->firstname,
                             '{email}' => $customer->email,
