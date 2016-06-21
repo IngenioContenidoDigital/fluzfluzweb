@@ -33,3 +33,4 @@ nbproject/*
 .htaccess
 *.DS_Store
 modules/fluzfluzcodes/upload/*
+tmp/*
