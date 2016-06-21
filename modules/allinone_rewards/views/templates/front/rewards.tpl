@@ -11,13 +11,51 @@
 * Support on Skype : Patanock13
 *}
 <!-- MODULE allinone_rewards -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
 {capture name=path}<a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">{l s='My account' mod='allinone_rewards'}</a><span class="navigation-pipe">{$navigationPipe|escape:'html':'UTF-8'}</span>{l s='My rewards account' mod='allinone_rewards'}{/capture}
 {if version_compare($smarty.const._PS_VERSION_,'1.6','<')}
 {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
+<div class="banner-home">
+    <div class="banner-box banner1" style="text-align: right; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
+            <div class='col-lg-12 col-xs-12 col-md-12 col-sm-12 bannerNetwork'>
+            <div class="divNetwork">
+                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}
+                    <br/><p class="pNetwork">{l s="Your Total Points"}</p>
+                </h1>
+            </div>
+            <div class="divNetwork">
+                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}
+                    <br/><p class="pNetwork">{l s="Total Network Points"}</p>
+                </h1>
+            </div>
+            </div>
+    </div>
+</div>
+<div id="rewards_account" class="rewards">	
+<h1 class="page-heading">{l s='My rewards account' mod='allinone_rewards'}</h1>
 
-<div id="rewards_account" class="rewards">
-	<h1 class="page-heading">{l s='My rewards account' mod='allinone_rewards'}</h1>
+<div id="container" class="col-lg-6 graphicStat"></div>
+<div id="container2" class="col-lg-6 graphicStat">
+    <center><h4>{l s="Performance Summary"}</h4></center>
+    <div class="yourPointnet">
+        <div id="yourPoint" class="puntoGrap">
+            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}{l s=" pts."}</span>
+        </div>
+        <p class="pGrap">{l s="YOUR POINT GENERATION: "}</p><br/>
+        <div id="topPoint" class="puntoGrap">
+            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}{l s=" pts."}</span>
+        </div>
+        <p class="pGrap">{l s="TOP POINT GENERATION: "}</p><br/>
+        <div id="worstPoint" class="puntoGrap">
+            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}{l s=" pts."}</span>
+        </div>
+        <p class="pGrap">{l s="WORST POINT GENERATION: "}</p>
+    </div>
+    
+</div>
 
 {if isset($payment_error)}
 	{if $payment_error==1}
@@ -32,7 +70,7 @@
 {if $return_days > 0}
 	<p>{l s='Rewards will be available %s days after the validation of each order.'  sprintf={$return_days|intval} mod='allinone_rewards'}</p>
 {/if}
-	<table class="std">
+	<!--<table class="std">
 		<thead>
 			<tr>
 				<th style="text-align: center" class="first_item">{l s='Total rewards' mod='allinone_rewards'}</th>
@@ -63,9 +101,9 @@
 			<td style="text-align: center">{$totalWaitingPayment|escape:'html':'UTF-8'}</td>
 			{/if}
 		</tr>
-	</table>
+	</table>-->
 {if $rewards}
-	<table class="std">
+	<!--<table class="std">
 		<thead>
 			<tr>
 				<th class="first_item">{l s='Event' mod='allinone_rewards'}</th>
@@ -89,6 +127,29 @@
 		{if $rewards_duration > 0}
 				<td>{if $reward.id_reward_state==RewardsStateModel::getValidationId()}{dateFormat date=$reward.validity full=1}{else}&nbsp;{/if}</td>
 		{/if}
+			</tr>
+	{/foreach}
+		</tbody>
+	</table>-->
+       
+        <table class="std">
+            <h2 class="tituloNet">{l s="Recent Network Activity"}</h2>
+		<thead>
+			<tr>
+				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
+				<th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
+                                <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
+                                <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
+			</tr>
+		</thead>
+		<tbody>
+	{foreach from=$displayrewards item=reward name=myLoop}
+			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+				<td align="right">{$sponsored.firstname|escape:'html':'UTF-8'}</td>
+                                <td>{$reward.detail|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
+                                <td>{dateFormat date=$reward.date full=1}</td>
+				
 			</tr>
 	{/foreach}
 		</tbody>
@@ -184,6 +245,142 @@
 </div>
 	{/if}
 {/if}
+        <table class="std">
+            <h2 class="tituloNet">{l s="Top Network Performers"}</h2>
+		<thead>
+			<tr>
+				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
+				<th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
+                                <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
+                                <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
+			</tr>
+		</thead>
+		<tbody>
+	{foreach from=$displayrewards item=reward name=myLoop}
+			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+				<td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
+                                <td>{$reward.detail|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
+                                <td>{dateFormat date=$reward.date full=1}</td>
+				
+			</tr>
+	{/foreach}
+		</tbody>
+	</table>
+        <table class="std">
+            <h2 class="tituloNet">{l s="Worst Network Performers"}</h2>
+		<thead>
+			<tr>
+				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
+				<th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
+                                <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
+                                <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
+			</tr>
+		</thead>
+		<tbody>
+	{foreach from=$displayrewards item=reward name=myLoop}
+			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+				<td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
+                                <td>{$reward.detail|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
+                                <td>{dateFormat date=$reward.date full=1}</td>
+				
+			</tr>
+	{/foreach}
+		</tbody>
+	</table>
+        <div id="idTab4" class="sponsorshipBlock">
+            {if $multilevel && $statistics.sponsored1}
+            <div class="title">{l s='Details by sponsorship level' mod='allinone_rewards'}</div>
+            <table class="std">
+                    <thead>
+                            <tr>
+                                    <th class="first_item left">{l s='Level' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Friends' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Orders' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Rewards' mod='allinone_rewards'}</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                            {section name=levels start=0 loop=$statistics.maxlevel step=1}
+                                    {assign var="indiceFriends" value="nb`$smarty.section.levels.iteration`"}
+                                    {assign var="indiceOrders" value="nb_orders`$smarty.section.levels.iteration`"}
+                                    {assign var="indiceRewards" value="rewards`$smarty.section.levels.iteration`"}
+                            <tr>
+                                    <td class="left">{l s='Level' mod='allinone_rewards'} {$smarty.section.levels.iteration|escape:'html':'UTF-8'}</td>
+                                    <td class="center">{if isset($statistics[$indiceFriends])}{$statistics[$indiceFriends]|intval}{else}0{/if}</td>
+                                    <td class="center">{if isset($statistics[$indiceOrders])}{$statistics[$indiceOrders]|intval}{else}0{/if}</td>
+                                    <td class="right">{$statistics[$indiceRewards]|escape:'html':'UTF-8'}</td>
+                            </tr>
+                            {/section}
+                            <tr class="total">
+                                    <td class="left">{l s='Total' mod='allinone_rewards'}</td>
+                                    <td class="center">{$statistics.direct_nb1+$statistics.direct_nb2+$statistics.direct_nb3+$statistics.direct_nb4+$statistics.direct_nb5+$statistics.indirect_nb|intval}</td>
+                                    <td class="center">{$statistics.nb_orders_channel1+$statistics.nb_orders_channel2+$statistics.nb_orders_channel3+$statistics.nb_orders_channel4+$statistics.nb_orders_channel5+$statistics.indirect_nb_orders|intval}</td>
+                                    <td class="right">{$statistics.total_global|escape:'html':'UTF-8'}</td>
+                            </tr>
+                    </tbody>
+            </table>
+                    {/if}
+
+                    {if $statistics.sponsored1}
+            <div class="title">{l s='Details for my direct friends' mod='allinone_rewards'}</div>
+            <table class="std">
+                    <thead>
+                            <tr>
+                                    <th class="first_item left">{l s='Name' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Orders' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Rewards' mod='allinone_rewards'}</th>
+                            {if $multilevel}
+                                    <th class="item center">{l s='Friends' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Friends\' orders' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Rewards' mod='allinone_rewards'}</th>
+                                    <th class="item center">{l s='Total' mod='allinone_rewards'}</th>
+                            {/if}
+                            </tr>
+                    </thead>
+                    <tbody>
+                            {foreach from=$statistics.sponsored1 item=sponsored name=myLoop}
+                                    {assign var="indiceDirect" value="direct_customer`$sponsored.id_customer`"}
+                                    {assign var="indiceIndirect" value="indirect_customer`$sponsored.id_customer`"}
+                                    {if isset($statistics[$indiceDirect])}
+                                            {assign var="valueDirect" value=$statistics[$indiceDirect]}
+                                    {else}
+                                            {assign var="valueDirect" value=0}
+                                    {/if}
+                                    {if isset($statistics[$indiceIndirect])}
+                                            {assign var="valueIndirect" value=$statistics[$indiceIndirect]}
+                                    {else}
+                                            {assign var="valueIndirect" value=0}
+                                    {/if}
+                            <tr>
+                                    <td class="left">{$sponsored.lastname|escape:'html':'UTF-8'} {$sponsored.firstname|escape:'html':'UTF-8'}</td>
+                                    <td class="center">{$sponsored.direct_orders|intval}</td>
+                                    <td class="right">{$sponsored.direct|escape:'html':'UTF-8'}</td>
+                                    {if $multilevel}
+                                    <td class="center">{$valueDirect+$valueIndirect|intval}</td>
+                                    <td class="center">{$sponsored.indirect_orders|intval}</td>
+                                    <td class="right">{$sponsored.indirect|escape:'html':'UTF-8'}</td>
+                                    <td class="total right">{$sponsored.total|escape:'html':'UTF-8'}</td>
+                                    {/if}
+                            </tr>
+                            {/foreach}
+                            <tr class="total">
+                                    <td class="left">{l s='Total' mod='allinone_rewards'}</td>
+                                    <td class="center">{$statistics.total_direct_orders|intval}</td>
+                                    <td class="right">{$statistics.total_direct_rewards|escape:'html':'UTF-8'}</td>
+                                    {if $multilevel}
+                                    <td class="center">{$statistics.indirect_nb|intval}</td>
+                                    <td class="center">{$statistics.total_indirect_orders|intval}</td>
+                                    <td class="right">{$statistics.total_indirect_rewards|escape:'html':'UTF-8'}</td>
+                                    <td class="right">{$statistics.total_global|escape:'html':'UTF-8'}</td>
+                                    {/if}
+                            </tr>
+                    </tbody>
+            </table>
+                    {/if}
+        </div>        
+                    
 </div>
 {if version_compare($smarty.const._PS_VERSION_,'1.6','>=')}
 <ul class="footer_links clearfix">
@@ -196,4 +393,81 @@
 	<li class="f_right"><a href="{$base_dir|escape:'html':'UTF-8'}"><img src="{$img_dir|escape:'html':'UTF-8'}icon/home.gif" alt="" class="icon" /> {l s='Home' mod='allinone_rewards'}</a></li>
 </ul>
 {/if}
+{literal}
+    <style>
+        #left_column{display: none !important;}
+        .breadcrumb{display: none !important;}
+        #center_column{min-width: 100% !important; margin: 0px;}
+        #columns{margin-bottom: 0px !important; min-width: 100%;}
+        .banner-home{margin: 0px;}
+        .footer_links{display: none;}
+        #transform {display: none;}
+        #min_payment{display: none;}
+        .rewards{width: 80%; margin: 0 auto;}
+        .page-heading{display: none;}
+    </style>
+{/literal}
+
+{literal}
+    <script>
+    $(function () {
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
+
+        $('#container').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Network Points Trend'
+            },
+            
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: 'Points',
+                data: data
+            }]
+        });
+    });
+});
+    </script>
+{/literal}
+
 <!-- END : MODULE allinone_rewards -->
