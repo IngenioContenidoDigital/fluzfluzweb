@@ -20,13 +20,26 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			Tools::redirect('index.php?controller=authentication');
 		parent::init();
 	}
+        
+        public function setMedia()
+	{
+		parent::setMedia();
+		if (!Tools::getValue('checksponsor')) {
+			$this->addJqueryPlugin(array('idTabs'));
+		}
+                $this->addJS(array(
+            
+                _THEME_JS_DIR_.'authentication.js',
+                _PS_JS_DIR_.'jquery/plugins/jquery.creditCardValidator.js',
+        ));
+	}
 
 	public function initContent()
 	{
 		parent::initContent();
 
 		$id_template = (int)MyConf::getIdTemplate('core', $this->context->customer->id);
-
+                $popup = Tools::getValue('popup');
 		// récupère le nombre de crédits convertibles
 		$totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
 		$totalGlobal = isset($totals['total']) ? (float)$totals['total'] : 0;
@@ -106,6 +119,22 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			Tools::redirect($this->context->link->getPageLink('discount', true));
                         
 		}
+                
+                if (!$popup) {
+				$statistics = RewardsSponsorshipModel::getStatistics(true);
+				$reward_order_allowed = (int)MyConf::get('RSPONSORSHIP_REWARD_ORDER', null, $id_template) || ($statistics['direct_rewards_orders1']+$statistics['direct_rewards_orders2']+$statistics['direct_rewards_orders3']+$statistics['direct_rewards_orders4']+$statistics['direct_rewards_orders5']+$statistics['indirect_rewards']) > 0;
+				$reward_registration_allowed = (int)MyConf::get('RSPONSORSHIP_REWARD_REGISTRATION', null, $id_template) || ($statistics['direct_rewards_registrations1']+$statistics['direct_rewards_registrations2']+$statistics['direct_rewards_registrations3']+$statistics['direct_rewards_registrations4']+$statistics['direct_rewards_registrations5']) > 0;
+
+				$params_s = explode(',', MyConf::get('RSPONSORSHIP_REWARD_TYPE_S', null, $id_template));
+				$multilevel = count($params_s) > 1 || MyConf::get('RSPONSORSHIP_UNLIMITED_LEVELS', null, $id_template) || (float)$statistics['indirect_rewards'] > 0;
+				$smarty_values = array(
+					'statistics' => $statistics,
+					'reward_order_allowed' => $reward_order_allowed,
+					'reward_registration_allowed' => $reward_registration_allowed,
+					'multilevel' => $multilevel
+				);
+				$this->context->smarty->assign($smarty_values);
+			}
 
 		if ($paymentAllowed && Tools::isSubmit('submitPayment') && $totalAvailableUserCurrency >= $paymentMininum && $totalForPaymentDefaultCurrency > 0) {
 			if (Tools::getValue('payment_details') && (!MyConf::get('REWARDS_PAYMENT_INVOICE', null, $id_template) || (isset($_FILES['payment_invoice']['name']) && !empty($_FILES['payment_invoice']['tmp_name'])))) {

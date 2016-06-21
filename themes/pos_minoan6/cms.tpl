@@ -38,16 +38,8 @@
                         
 	{/if}
         <div class="rte{if $content_only} content_only{/if}">
-        {if $cms->id==6}
-            <div class="banner-box banner2" style="background: url('/img/cms/FluzFluz/categories/bannerCategory.png') #fff no-repeat 20%; background-size: 100% auto; padding: 5%; width: 100%;">
-                <div style="min-height: 304px; width: 100%; text-align: center; display: table;">
-                <div style="display: table-cell; vertical-align: middle; text-align: justify;"><center>
-                <img src="../../img/cms/FluzFluz/categories/logoBanner.png" alt=""/>
-                <h2 style="font-size: 4vw; color: #ffffff; width: 100%;">$50 GIFT CARD</h2>
-                </center><br /> <br /><center><button type="button" class="btn btn-danger" style="background: #c9b197; color: #fff; border: none; padding: 2% 10%; font-size: 16px;">Comprar</button></center></div>
-                </div>
-            </div>
-        {/if}
+        {$cms->content}
+        </div>
         <div class="row containerFeatured">
                 {hook h='customCMS'}
         </div>
@@ -61,25 +53,7 @@
                 <article class="sectionFooter"><img src="/img/cms/FluzFluz/categories/bannerSectionFooter1.png" /> <img src="/img/cms/FluzFluz/categories/bannerSectionFooter2.png" /></article>
             </section>
         {/if}
-	<div class="rte{if $content_only} content_only{/if}">
-		{$cms->content}
-	</div>
-        <div class="row containerFeatured">
-        {hook h='customCMS'}
-        </div>
-        <div class="row containerFeatured"> 
-        {hook h='newProductCMS'}
-        </div>
-        {if $cms->id==6}
-        <aside class="asideCategory"><img src="/img/cms/FluzFluz/categories/aside1.png" alt="aside1.png" /><img src="/img/cms/FluzFluz/categories/aside2.png" /></aside>
-            <section>
-                <article class="sectionBanner"><img src="/img/cms/FluzFluz/categories/sectionBanner.png" /></article>
-                <article class="sectionFooter"><img src="/img/cms/FluzFluz/categories/bannerSectionFooter1.png" /> <img src="/img/cms/FluzFluz/categories/bannerSectionFooter2.png" /></article>
-            </section>
-        {$productPoint}
-        {/if}
-	
-               
+	       
 {elseif isset($cms_category)}
 	<div class="block-cms">
 		<h1><a href="{if $cms_category->id eq 1}{$base_dir}{else}{$link->getCMSCategoryLink($cms_category->id, $cms_category->link_rewrite)}{/if}">{$cms_category->name|escape:'html':'UTF-8'}</a></h1>
