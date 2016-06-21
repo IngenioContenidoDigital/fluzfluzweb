@@ -3,6 +3,8 @@
 /*******************/
 .rewards {
 	margin-bottom: 20px;
+        padding-left:2%;
+        padding-right:2%;
 }
 
 .rewards h2 {
@@ -35,7 +37,7 @@
     height: 13px !important;
     padding: 5px !important;
     text-shadow: none !important;
-    background-color: #999999;
+    background-color: #cccccc;
     color: #FFFFFF;
     text-transform: uppercase;
 }
@@ -408,4 +410,75 @@
     text-transform: lowercase;
     font-size: 11px;
     font-weight: bold;
+}
+
+.bannerNetwork{
+    height:210px;
+    width:auto;
+}
+
+.divNetwork{
+    color:white;
+    text-align:center;
+}
+
+.titleNetwork{
+    margin-top:5%;
+    font-size:60px;
+    text-align:center;
+}
+
+.pNetwork{
+    font-size:14px;
+    font-family:san-serif;
+    text-transform: uppercase;
+}
+
+.graphicStat{
+    height: 300px; margin-top: 5%;
+    margin-bottom:3%;
+    border-bottom:1px solid #cccccc;
+    
+}
+
+.tituloNet{
+    margin-bottom:1%; color: #838383; font-size: 16px;
+    margin-top:4%;
+    font-family: san-serif;
+    width:50% !important;
+}
+
+.yourPointnet{
+    height:60px !important;
+    background: transparent !important;
+    padding-top:5%;
+}
+
+.yourPointnet> #yourPoint{
+    height:40px !important;
+    background: #ccc !important;
+    width: 40%;
+}
+
+.yourPointnet> #topPoint{
+    height:40px !important;
+    background: #c9b197 !important;
+    width: 100%;
+}
+
+.yourPointnet> #worstPoint{
+    height:40px !important;
+    background: #ef4136 !important;
+    width: 25%;
+}
+
+.pGrap{
+    font-size:10px;
+}
+
+.puntoGrap{
+    padding:2%;
+    color: #fff;
+    font-size:16px;
+    font-family:san-serif;
 }
