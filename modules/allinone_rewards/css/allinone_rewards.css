@@ -47,11 +47,40 @@
     font-size: 11px;
     line-height: 13px;
     padding: 5px !important;
+    
 }
 
 .rewards div.pagination {
-	padding: 0;
-	margin: 0 0 20px;
+    padding: 0;
+    margin: -10px 0px 15px;
+    width:100%;
+    background: #ccc;
+    text-align:right;
+    height:38px;
+}
+
+.pagination > li > a, .pagination > li > span{
+    line-height: .8 !important;
+    background-color: #ebebec;
+    height:25px;
+}
+
+.pagination > li:last-child > a, .pagination > li:last-child > span{
+    margin-right:20px !important;
+    background: #ebebec;
+    text-align:center;
+    padding:0px;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span{
+    margin-right:0px !important;
+    background: #ebebec;
+    text-align:center;
+    padding:0px !important;
+}
+
+.pagination{
+    margin-top:6px !important;
 }
 
 .rewards form.pagination {
@@ -64,7 +93,7 @@
 }
 
 .rewards div#transform a, .rewards div#payment a {
-	background: url("../img/bg_bt.gif") repeat-x scroll 0 0 #F4B61B;
+    background: url("../img/bg_bt.gif") repeat-x scroll 0 0 #F4B61B;
     border: 1px solid #CC9900;
     border-radius: 3px 3px 3px 3px;
     color: #000000;
@@ -444,7 +473,7 @@
 .tituloNet{
     margin-bottom:1%; color: #838383; font-size: 16px;
     margin-top:4%;
-    font-family: san-serif;
+    font-family: OpenSans;
     width:50% !important;
 }
 

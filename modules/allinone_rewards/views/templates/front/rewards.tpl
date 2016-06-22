@@ -27,7 +27,7 @@
                 </h1>
             </div>
             <div class="divNetwork">
-                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}
+                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$pointMax|number_format:0}
                     <br/><p class="pNetwork">{l s="Total Network Points"}</p>
                 </h1>
             </div>
@@ -42,17 +42,17 @@
     <center><h4>{l s="Performance Summary"}</h4></center>
     <div class="yourPointnet">
         <div id="yourPoint" class="puntoGrap">
-            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}{l s=" pts."}</span>
+            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="YOUR POINT GENERATION: "}</p><br/>
+        <p class="pGrap">{l s="YOUR POINT GENERATION"}</p><br/>
         <div id="topPoint" class="puntoGrap">
-            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}{l s=" pts."}</span>
+            <span>{$pointMax|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="TOP POINT GENERATION: "}</p><br/>
+        <p class="pGrap">{l s="TOP POINT GENERATION: "}{$nameMax}</p><br/>
         <div id="worstPoint" class="puntoGrap">
-            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}{l s=" pts."}</span>
+            <span>{$pointMin|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="WORST POINT GENERATION: "}</p>
+        <p class="pGrap">{l s="WORST POINT GENERATION: "}{$nameMin}</p>
     </div>
     
 </div>
@@ -102,14 +102,14 @@
 			{/if}
 		</tr>
 	</table>-->
-{if $rewards}
+
 	<!--<table class="std">
 		<thead>
 			<tr>
 				<th class="first_item">{l s='Event' mod='allinone_rewards'}</th>
 				<th class="item">{l s='Date' mod='allinone_rewards'}</th>
 				<th class="item">{l s='Reward' mod='allinone_rewards'}</th>
-	{if $rewards_duration > 0}
+	{*if $rewards_duration > 0}
 				<th class="item">{l s='Status' mod='allinone_rewards'}</th>
 				<th class="last_item">{l s='Validity' mod='allinone_rewards'}</th>
 	{else}
@@ -128,13 +128,13 @@
 				<td>{if $reward.id_reward_state==RewardsStateModel::getValidationId()}{dateFormat date=$reward.validity full=1}{else}&nbsp;{/if}</td>
 		{/if}
 			</tr>
-	{/foreach}
+	{/foreach*}
 		</tbody>
 	</table>-->
-       
-        <table class="std">
+    {if $rewards}    
+       <table class="std">
             <h2 class="tituloNet">{l s="Recent Network Activity"}</h2>
-		<thead>
+                <thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
 				<th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
@@ -143,15 +143,15 @@
 			</tr>
 		</thead>
 		<tbody>
-	{foreach from=$displayrewards item=reward name=myLoop}
-			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right">{$sponsored.firstname|escape:'html':'UTF-8'}</td>
-                                <td>{$reward.detail|escape:'htmlall':'UTF-8'}</td>
-                                <td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
-                                <td>{dateFormat date=$reward.date full=1}</td>
-				
-			</tr>
-	{/foreach}
+                    {foreach from=$activityRecent item=activity name=myLoop}
+                            <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$activity.name|escape:'html':'UTF-8'}</td>
+                                    <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$activity.purchase|escape:'htmlall':'UTF-8'}</td>
+                                    <td align="right" style="padding-top:17px !important;">{$activity.points|number_format:0}</td>
+                                    <td style="padding-top:17px !important;">{dateFormat date=$activity.time full=1}</td>
+
+                            </tr>
+                    {/foreach}
 		</tbody>
 	</table>
 
@@ -162,14 +162,14 @@
 			{if $page != 1}
 			{assign var='p_previous' value=$page-1}
 		<li id="pagination_previous"><a href="{$pagination_link|escape:'html':'UTF-8'}p={$p_previous|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">
-			&laquo;&nbsp;{l s='Previous' mod='allinone_rewards'}</a></li>
+			<img src="{$img_dir}icon/Left.png" style="height:auto; width: 48%; padding: 0;"/></a></li>
 			{else}
-		<li id="pagination_previous" class="disabled"><span>&laquo;&nbsp;{l s='Previous' mod='allinone_rewards'}</span></li>
+		<li id="pagination_previous" class="disabled"><span><img src="{$img_dir}icon/Left.png" style="height:auto; width: 48%; padding: 0;"/></span></li>
 			{/if}
 			{if $page > 2}
 		<li><a href="{$pagination_link|escape:'html':'UTF-8'}p=1&n={$nbpagination|escape:'html':'UTF-8'}">1</a></li>
 				{if $page > 3}
-		<li class="truncate">...</li>
+		<!--<li class="truncate">...</li>-->
 				{/if}
 			{/if}
 			{section name=pagination start=$page-1 loop=$page+2 step=1}
@@ -181,15 +181,15 @@
 			{/section}
 			{if $max_page-$page > 1}
 				{if $max_page-$page > 2}
-		<li class="truncate">...</li>
+		<!--<li class="truncate">...</li>-->
 				{/if}
 		<li><a href="{$pagination_link|escape:'html':'UTF-8'}p={$max_page|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">{$max_page|escape:'html':'UTF-8'}</a></li>
 			{/if}
 			{if $rewards|@count > $page * $nbpagination}
 				{assign var='p_next' value=$page+1}
-		<li id="pagination_next"><a href="{$pagination_link|escape:'html':'UTF-8'}p={$p_next|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">{l s='Next' mod='allinone_rewards'}&nbsp;&raquo;</a></li>
+		<li id="pagination_next"><a href="{$pagination_link|escape:'html':'UTF-8'}p={$p_next|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}"><img src="{$img_dir}icon/Right.png" style="height:auto; width: 48%; padding: 0;"/></a></li>
 			{else}
-		<li id="pagination_next" class="disabled"><span>{l s='Next' mod='allinone_rewards'}&nbsp;&raquo;</span></li>
+		<li id="pagination_next" class="disabled"><img src="{$img_dir}icon/Right.png" style="height:auto; width: 48%; padding: 0;"/></li>
 			{/if}
 	</ul>
 		{/if}
@@ -246,7 +246,7 @@
 	{/if}
 {/if}
         <table class="std">
-            <h2 class="tituloNet">{l s="Top Network Performers"}</h2>
+            <h2 class="tituloNet">{l s="Top Network Performance"}</h2>
 		<thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
@@ -256,19 +256,19 @@
 			</tr>
 		</thead>
 		<tbody>
-	{foreach from=$displayrewards item=reward name=myLoop}
+	{foreach from=$topNetwork item=topNet name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
-                                <td>{$reward.detail|escape:'htmlall':'UTF-8'}</td>
-                                <td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
-                                <td>{dateFormat date=$reward.date full=1}</td>
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$topNet.name|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$topNet.purchase|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right" style="padding-top:17px !important;">{$topNet.points|number_format:0}</td>
+                                <td style="padding-top:17px !important;">{dateFormat date=$topNet.time full=1}</td>
 				
 			</tr>
 	{/foreach}
 		</tbody>
 	</table>
         <table class="std">
-            <h2 class="tituloNet">{l s="Worst Network Performers"}</h2>
+            <h2 class="tituloNet">{l s="Worst Network Performance"}</h2>
 		<thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
@@ -278,13 +278,12 @@
 			</tr>
 		</thead>
 		<tbody>
-	{foreach from=$displayrewards item=reward name=myLoop}
+	{foreach from=$topWorst item=worst name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
-                                <td>{$reward.detail|escape:'htmlall':'UTF-8'}</td>
-                                <td align="right">{($reward.credits)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</td>
-                                <td>{dateFormat date=$reward.date full=1}</td>
-				
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.purchase|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right" style="padding-top:17px !important;">{$worst.points|number_format:0}</td>
+                                <td style="padding-top:17px !important;">{dateFormat date=$worst.time full=1}</td>
 			</tr>
 	{/foreach}
 		</tbody>
@@ -380,7 +379,7 @@
             </table>
                     {/if}
         </div>        
-                    
+        
 </div>
 {if version_compare($smarty.const._PS_VERSION_,'1.6','>=')}
 <ul class="footer_links clearfix">
@@ -405,6 +404,8 @@
         #min_payment{display: none;}
         .rewards{width: 80%; margin: 0 auto;}
         .page-heading{display: none;}
+        #payment{display:none;}
+        .rewards table.std td { font-size: 11px; line-height: 13px; padding: 10px !important; background:#f9f9f9; border: #fff 5px solid; border-right:none; border-left:none;}
     </style>
 {/literal}
 
