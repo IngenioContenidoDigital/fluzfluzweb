@@ -110,6 +110,23 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     exit;
                 }
                 
+                $queryMax = 'SELECT MAX(n.credits) AS points, c.firstname AS name 
+                    FROM ps_rewards n 
+                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer ';
+                $rowMax = Db::getInstance()->getRow($queryMax);
+                $pointMax = $rowMax['points'];
+                $nameMax = $rowMax['name'];
+                $this->context->smarty->assign('pointMax', $pointMax);
+                $this->context->smarty->assign('nameMax', $nameMax);
+                
+                $queryMin = 'SELECT MIN(n.credits) AS points, c.firstname AS name 
+                    FROM ps_rewards n 
+                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer ';
+                $rowMin = Db::getInstance()->getRow($queryMin);
+                $pointMin = $rowMin['points'];
+                $nameMin = $rowMin['name'];
+                $this->context->smarty->assign('pointMin', $pointMin);
+                $this->context->smarty->assign('nameMin', $nameMin);
 
 		/* transform credits into voucher if needed */
 		if ($voucherAllowed && Tools::getValue('transform-credits') == 'true' && $totalAvailableUserCurrency >= $voucherMininum && Tools::getValue('ajax') == 'false')
@@ -145,17 +162,35 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			} else
 				$this->context->smarty->assign('payment_error', 1);
 		}
-
+                
+                
+                $datosGraph = 'SELECT  o.credits as point FROM ps_rewards as o
+                    WHERE SUBSTRING(o.date_add FROM 1 FOR 7) =  SUBSTRING(CURRENT_date - INTERVAL 1 MONTH FROM 1 FOR 7) LIMIT 0,4';
+                $result=Db::getInstance()->executeS($datosGraph);
+                $graph=array();
+                foreach($result as $x){
+                    array_push($graph,$x['point']);
+                }
+                
+                $serie=array('Week 4','Week 3','Week 2','This Week');
+                
 		$link = $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true);
 		$rewards = RewardsModel::getAllByIdCustomer((int)$this->context->customer->id);
 		$displayrewards = RewardsModel::getAllByIdCustomer((int)$this->context->customer->id, false, false, true, ((int)(Tools::getValue('n')) > 0 ? (int)(Tools::getValue('n')) : 10), ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1), $this->context->currency->id, true);
-
+                $activityRecent = $this->recentActivity(false, true, ((int)(Tools::getValue('n')) > 0 ? (int)(Tools::getValue('n')) : 10), ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1));
+                
 		$this->context->smarty->assign(array(
 			'return_days' => (Configuration::get('REWARDS_WAIT_RETURN_PERIOD') && Configuration::get('PS_ORDER_RETURN') && (int)Configuration::get('PS_ORDER_RETURN_NB_DAYS') > 0) ? (int)Configuration::get('PS_ORDER_RETURN_NB_DAYS') : 0,
 			'rewards_duration' => (int)Configuration::get('REWARDS_DURATION'),
 			'rewards' => $rewards,
+                        'activityRecent' => $activityRecent,
+                        'arrayGraph'=> $graph,
+                        'arraySeries'=> $serie,
 			'displayrewards' => $displayrewards,
 			'pagination_link' => $link . (strpos($link, '?') !== false ? '&' : '?'),
+                        'topNetwork'=> $this->TopNetwork(),
+                        'topWorst'=> $this->TopWorst(),
+                        'activityNet'=> $this->recentActivity(),
 			'totalGlobal' => $this->module->getRewardReadyForDisplay($totalGlobal, (int)$this->context->currency->id),
 			'totalConverted' => $this->module->getRewardReadyForDisplay($totalConverted, (int)$this->context->currency->id),
 			'totalAvailable' => $this->module->getRewardReadyForDisplay($totalAvailable, (int)$this->context->currency->id),
@@ -184,4 +219,42 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 		));
 		$this->setTemplate('rewards.tpl');
 	}
+        
+        public function TopNetwork() {
+            
+            $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points,  n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
+                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) ORDER BY n.credits DESC LIMIT 0,5';
+          
+            $top=Db::getInstance()->executeS($queryTop);
+            
+            return $top;    
+            
+        }
+        
+        public function TopWorst() {
+            
+            $queryWorst = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points, n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
+                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) ORDER BY n.credits ASC LIMIT 0,5';
+                
+            $worst=Db::getInstance()->executeS($queryWorst);
+            return $worst;    
+            
+        }
+        
+        public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
+            
+            $query = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points, n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
+                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id;
+            if ($onlyValidate === true)
+		$query .= ' AND n.id_reward_state = '.(int)RewardsStateModel::getValidationId();
+		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.
+		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
+             
+            $activity=Db::getInstance()->executeS($query);
+            return $activity;
+            
+        }
 }
