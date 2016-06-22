@@ -412,7 +412,11 @@
 {literal}
     <script>
     $(function () {
-    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
+        series = {/literal}[{foreach from=$arraySeries item=foo}'{$foo}',{/foreach}]
+        {literal}
+        columns = {/literal}[{foreach from=$arrayGraph item=foo}{$foo},{/foreach}]
+            {literal}
+    //$.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
 
         $('#container').highcharts({
             chart: {
@@ -421,9 +425,11 @@
             title: {
                 text: 'Network Points Trend'
             },
-            
+            subtitle: {
+                text: 'Fluz Fluz',
+            },
             xAxis: {
-                type: 'datetime'
+                categories: series,
             },
             yAxis: {
                 title: {
@@ -439,7 +445,7 @@
                         linearGradient: {
                             x1: 0,
                             y1: 0,
-                            x2: 0,
+                            x2: 1,
                             y2: 1
                         },
                         stops: [
@@ -453,7 +459,7 @@
                     lineWidth: 1,
                     states: {
                         hover: {
-                            lineWidth: 1
+                            lineWidth: 2
                         }
                     },
                     threshold: null
@@ -463,12 +469,11 @@
             series: [{
                 type: 'area',
                 name: 'Points',
-                data: data
+                data: columns
             }]
         });
-    });
+    //});
 });
     </script>
 {/literal}
-
 <!-- END : MODULE allinone_rewards -->

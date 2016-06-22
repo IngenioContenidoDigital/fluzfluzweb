@@ -162,7 +162,18 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			} else
 				$this->context->smarty->assign('payment_error', 1);
 		}
-
+                
+                
+                $datosGraph = 'SELECT  o.credits as point FROM ps_rewards as o
+                    WHERE SUBSTRING(o.date_add FROM 1 FOR 7) =  SUBSTRING(CURRENT_date - INTERVAL 1 MONTH FROM 1 FOR 7) LIMIT 0,4';
+                $result=Db::getInstance()->executeS($datosGraph);
+                $graph=array();
+                foreach($result as $x){
+                    array_push($graph,$x['point']);
+                }
+                
+                $serie=array('Week 4','Week 3','Week 2','This Week');
+                
 		$link = $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true);
 		$rewards = RewardsModel::getAllByIdCustomer((int)$this->context->customer->id);
 		$displayrewards = RewardsModel::getAllByIdCustomer((int)$this->context->customer->id, false, false, true, ((int)(Tools::getValue('n')) > 0 ? (int)(Tools::getValue('n')) : 10), ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1), $this->context->currency->id, true);
@@ -173,6 +184,8 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			'rewards_duration' => (int)Configuration::get('REWARDS_DURATION'),
 			'rewards' => $rewards,
                         'activityRecent' => $activityRecent,
+                        'arrayGraph'=> $graph,
+                        'arraySeries'=> $serie,
 			'displayrewards' => $displayrewards,
 			'pagination_link' => $link . (strpos($link, '?') !== false ? '&' : '?'),
                         'topNetwork'=> $this->TopNetwork(),
@@ -209,7 +222,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         
         public function TopNetwork() {
             
-            $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points, n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
+            $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points,  n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
                           LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                           LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) ORDER BY n.credits DESC LIMIT 0,5';
           
