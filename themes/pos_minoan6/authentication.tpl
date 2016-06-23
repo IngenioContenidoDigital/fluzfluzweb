@@ -942,29 +942,3 @@
         $("#account-creation_form").validate();
     </script>
 {/literal}
-{literal}
-    <script>
-        $(function() {
-            var $document = $(document);
-            var $r = $('input[type=range]');
-            var output = document.querySelectorAll('.output')[0];
-            
-            
-            // set initial output value
-            
-            output.innerHTML = $r[0].value;
-            
-            // update output value
-            $document.on('input', 'input[type="range"]', function(e) {
-              output.innerHTML = e.currentTarget.value;
-            });
-            
-            
-            // Initialize
-            $r.rangeslider({
-              polyfill: false
-            });
-          });
-
-    </script>
-{/literal}
