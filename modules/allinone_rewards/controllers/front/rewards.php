@@ -42,9 +42,9 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 $popup = Tools::getValue('popup');
 		// récupère le nombre de crédits convertibles
 		$totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
-		$totalGlobal = isset($totals['total']) ? (float)$totals['total'] : 0;
+		$totalGlobal = round(isset($totals['total']) ? (float)$totals['total'] : 0);
 		$totalConverted = isset($totals[RewardsStateModel::getConvertId()]) ? (float)$totals[RewardsStateModel::getConvertId()] : 0;
-                $totalAvailable = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
+                $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
 		$totalPending = (isset($totals[RewardsStateModel::getDefaultId()]) ? (float)$totals[RewardsStateModel::getDefaultId()] : 0) + (isset($totals[RewardsStateModel::getReturnPeriodId()]) ? $totals[RewardsStateModel::getReturnPeriodId()] : 0);
 		$totalWaitingPayment = isset($totals[RewardsStateModel::getWaitingPaymentId()]) ? (float)$totals[RewardsStateModel::getWaitingPaymentId()] : 0;
 		$totalPaid = isset($totals[RewardsStateModel::getPaidId()]) ? (float)$totals[RewardsStateModel::getPaidId()] : 0;
@@ -112,7 +112,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 
                 $queryMax = 'SELECT MAX(n.credits) AS points, c.firstname AS name 
                     FROM ps_rewards n 
-                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer ';
+                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer';
                 $rowMax = Db::getInstance()->getRow($queryMax);
                 $pointMax = $rowMax['points'];
                 $nameMax = $rowMax['name'];
