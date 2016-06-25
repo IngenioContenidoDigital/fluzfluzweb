@@ -900,7 +900,26 @@
 	$(document).ready(function(){
 		{block name="autoload_tinyMCE"}
 			tinySetup({
-				editor_selector :"autoload_rte"
+                		editor_selector :"autoload_rte",
+                                theme_advanced_buttons1 : "save,newdocument,bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect, fontselect,fontsizeselect",
+                                theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,search,replace,bullist,numlist,outdent,indent,blockquote,undo,redo,link,unlink,anchor,image,cleanup,help,codemagic,insertdate,inserttime,preview,forecolor,backcolor",
+                                theme_advanced_buttons3 : "code,tablecontrols,hr,removeformat,visualaid,sub,sup,charmap,emotions,iespell,media,advhr,print,ltr,rtl,fullscreen",
+                                theme_advanced_buttons4 : "styleprops,cite,abbr,acronym,del,ins,attribs,visualchars,nonbreaking,template,pagebreak,restoredraft,visualblocks",
+                                theme_advanced_toolbar_location : "top",
+                                theme_advanced_toolbar_align : "left",
+                                theme_advanced_statusbar_location : "bottom",
+                                theme_advanced_resizing : false,
+                                extended_valid_elements: 'pre[*],script[*],style[*]',
+                                valid_children: "+body[style|script],pre[script|div|p|br|span|img|style|h1|h2|h3|h4|h5],*[*]",
+                                valid_elements : '*[*]',
+                                force_p_newlines : false,
+                                cleanup: false,
+                                forced_root_block : false,
+                                force_br_newlines : true,
+				verify_html:false,
+				cleanup_on_startup: false,
+    				trim_span_elements: false,
+    				convert_urls: false
 			});
 		{/block}
 	});

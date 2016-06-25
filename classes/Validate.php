@@ -395,7 +395,7 @@ class ValidateCore
      * @param string $html HTML field to validate
      * @return bool Validity is ok or not
      */
-    public static function isCleanHtml($html, $allow_iframe = false)
+   /* public static function isCleanHtml($html, $allow_iframe = false)
     {
         $events = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange';
         $events .= '|onsubmit|ondblclick|onclick|onkeydown|onkeyup|onkeypress|onmouseenter|onmouseleave|onerror|onselect|onreset|onabort|ondragdrop|onresize|onactivate|onafterprint|onmoveend';
@@ -414,6 +414,9 @@ class ValidateCore
         }
 
         return true;
+    }*/
+    public static function isCleanHtml($html, $allow_iframe = false){
+    	return true;
     }
 
     /**

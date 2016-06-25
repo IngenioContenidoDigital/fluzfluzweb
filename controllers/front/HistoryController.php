@@ -61,13 +61,41 @@ class HistoryControllerCore extends FrontController
                 }
             }
         }
+        
+        $query = 'SELECT a.id_product as id_product, a.price as price FROM '._DB_PREFIX_.'product as a
+                  LEFT JOIN '._DB_PREFIX_.'customer b ON b.id_customer = '.$this->context->customer->id;
+                $row = Db::getInstance()->getRow($query);
+                $productId = $row['id_product'];
+                $price = $row['price'];
+                
+                $this->context->smarty->assign('productId', $productId);
+                $this->context->smarty->assign('price', $price);
+                
+        $priceP = (int)$price - RewardsProductModel::getCostDifference($productId);
+        $productP=RewardsModel::getRewardReadyForDisplay($priceP, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1);
+        
         $this->context->smarty->assign(array(
             'orders' => $orders,
+            'productP' => $productP,
             'invoiceAllowed' => (int)Configuration::get('PS_INVOICE'),
             'reorderingAllowed' => !(bool)Configuration::get('PS_DISALLOW_HISTORY_REORDERING'),
+            'products'=>$this->productHistory(),
             'slowValidation' => Tools::isSubmit('slowvalidation')
         ));
 
         $this->setTemplate(_PS_THEME_DIR_.'history.tpl');
+    }
+    
+    public function productHistory(){
+        
+        $query = 'SELECT p.price_shop as price_shop, a.product_id AS idProduct, d.link_rewrite as link_rewrite, b.id_image AS image, a.total_price_tax_incl as total, a.unit_price_tax_incl AS precio, a.product_quantity_in_stock AS cantidad, a.product_name AS purchase, n.reference AS referencia, n.date_add AS time FROM '._DB_PREFIX_.'orders n
+                        LEFT JOIN '._DB_PREFIX_.'order_detail a ON (a.id_order = n.id_order)
+			LEFT JOIN '._DB_PREFIX_.'image b ON (b.id_product=a.product_id)  
+                        LEFT JOIN '._DB_PREFIX_.'product_lang d ON (d.id_product=a.product_id)
+                        LEFT JOIN ps_product p ON (p.id_product = a.product_id) WHERE id_customer = '.$this->context->customer->id.' GROUP BY p.price_shop, a.product_id,d.link_rewrite,b.id_image,
+                        a.total_price_tax_incl,a.product_quantity_in_stock,a.product_name,n.reference, n.date_add ORDER BY n.date_add DESC';
+        
+        $products=Db::getInstance()->executeS($query);
+        return $products;
     }
 }

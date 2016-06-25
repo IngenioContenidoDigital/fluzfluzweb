@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
+
 .oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 /************************************************************
@@ -19,3 +22,9 @@
 
 #sendOrderMessage { margin-bottom: 30px; }
 #sendOrderMessage select.form-control { width: 263px; }
+
+.history_invoice{text-align: left !important; padding-left: 2% !important; font-family:'Open Sans' !important;}
+.history_date{text-align: left !important; padding-left: 2% !important; font-family:'Open Sans' !important;}
+.history_price{text-align: right !important; padding-right: 2% !important; font-family:'Open Sans' !important; font-size: 13px !important;}
+.history_point{color:#ef4136 !important; font-size: 20px !important; padding: 1% !important; font-family:'Open Sans' !important; margin: 0 auto; display: flex;    margin-left: 10%; border: none !important; margin-top: 5%;}
+.btn_history{ color:#fff !important; padding: 1.5% 4% !important; background: #ea3624; border: none; font-family:'Open Sans' !important;}

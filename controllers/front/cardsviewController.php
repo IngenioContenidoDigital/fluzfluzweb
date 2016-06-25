@@ -1,6 +1,6 @@
 <?php
+error_reporting(0);
 class cardsviewControllerCore extends FrontController{
-
     public $auth = true;
     public $php_self = 'cardsview';
     public $authRedirection = 'cardsview';

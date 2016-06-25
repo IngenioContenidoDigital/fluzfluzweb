@@ -1,7 +1,7 @@
 
 .container .c{
     margin-left: 2%;
-    height: 700px;
+    min-height: 700px;
 }
 .card{display:inline-block; width: 40%; height: auto; background-color: #f4f4f4; font-color:#ef4136; padding: 1%; margin-left: 5px; margin-right:5px;-webkit-box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow:    2px 2px 3px 0px rgba(50, 50, 50, 0.75); box-shadow:         2px 2px 3px 0px rgba(50, 50, 50, 0.75);}
 .card img{width: auto; height: 40px;}
