@@ -3867,3 +3867,116 @@ h2.title_blockSale {
     margin-left:3%;
 }
 
+#pOculto{
+    display:none;
+}
+
+.pCode{
+    text-align: justify !important;
+    font-family: 'Open Sans' !important;
+    color: #fff;
+    padding-left: 40px;
+    padding-right:0px;
+    font-size:12px;
+}
+
+.pPrice{
+    text-align: justify !important;
+    color: #fff;
+    font-family: 'Open Sans' !important;
+    float: right;
+    padding-left: 60px;
+    font-size:12px;
+}
+
+.cardDesign{
+    height:auto;
+    background:#c9b197;
+    border-radius:1%;
+    width:55%;
+    margin-bottom:3%;
+    border-radius:2%;
+ }
+
+#bar-code{
+    margin-bottom:15px !important;
+    padding:2%;
+    background:#fff;
+    width:80%;
+    height:105px;
+    
+}
+.imgCardView{
+    
+}
+
+.tCardView{
+    background:#414042 !important;
+    text-align:center;
+    padding:5%;
+    margin-bottom:5%;
+    border-radius: 5px 5px 0 0;
+}
+
+#nameOculto{
+    display:none;
+}
+
+#nameViewCard{
+    color:#fff;
+    font-family: 'Open Sans' !important;
+}
+
+.fancybox-opened .fancybox-skin{width:34.5% !important;}
+
+.CardInstru{
+    width:55%;
+    border: 1px solid #E9E9E9;
+    height:250px;
+    font-size:12px;
+}
+
+.insTitle{
+    background:#f7f7f7;
+    padding:3% 0;
+    padding-left:5%;
+    color:#4d4d4d;
+    text-align:left;
+    width:100%;
+    font-family: 'Open Sans' !important;
+    font-size:16px;
+    border-bottom: 1px solid #E9E9E9;
+}
+
+.divInput{
+    text-align:left;
+    width:71%;
+}
+
+.inputCard{
+    padding: 3px 5px;
+    height: 39.5px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    width: 52%;
+    margin-bottom: 5%;
+    background:#f7f7f7;
+    border:1px solid #E9E9E9;
+}
+
+.btn-card{
+    color: white;
+    background-color: #ef4136;
+    border-color: #ef4136;
+    font-family: 'Open Sans' !important;
+    width:25%;
+    padding:2%;
+    font-size:10px;
+}
+
+.checkCard{
+    width:70%;
+    text-align:left;
+    margin-bottom:4%;
+}
+

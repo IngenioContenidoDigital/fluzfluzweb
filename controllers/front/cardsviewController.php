@@ -26,6 +26,7 @@ class cardsviewControllerCore extends FrontController{
 	PC.id_product, 
 	PP.id_manufacturer, 
 	PP.id_supplier, 
+        PP.price_shop AS price,
 	PPI.id_image, 
 	PPI.cover
 FROM ps_product_code PC INNER JOIN ps_order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id

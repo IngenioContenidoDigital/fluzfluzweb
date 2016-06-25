@@ -12,7 +12,7 @@ $extension=".png";
 if (file_exists($ruta.$archivo.$extension)) unlink($ruta.$archivo.$extension);
         if (!empty($barnumber)) {
             
-            $algo = $barcode->_c128Barcode($barnumber,1,$archivo,$ruta);
+            $algo = $barcode->_c128Barcode($barnumber,2,$archivo,$ruta);
             //if(isset($algo)){
                 
               echo $ruta.$archivo.$extension;
