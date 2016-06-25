@@ -9,3 +9,100 @@
 .card a{line-height: 50px; float:right; color: #ef4136;}
 .infoPopUp{text-align: center;}
 .oculto{display:none;}
+
+
+.checkCard>div>label{
+    font-family: 'Open Sans' !important;
+    color:#ef4136 !important;
+    font-size:10px;
+    width: 79%;
+    margin-left: 2.5%;
+}
+
+.pViewcard{
+    width: 80%; 
+    text-align: justify;
+    color:#808285;
+    margin:0 auto;
+    font-family: 'Open Sans' !important;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.fancybox-skin{
+    margin:0 auto !important;
+}
+
+.containerCard{
+  display: inline;
+  padding: 3%;
+}
+
+.containerCard ul{
+  list-style: none;
+  height: 100%;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 2.5%;
+}
+
+
+ul li{
+  color: #AAAAAA !important;
+  display: inline !important;
+  width: 40% !important;
+  height: auto !important;
+  margin-right: 10px;
+}
+
+ul li input[type=radio]{
+  position: absolute !important;
+  visibility: hidden !important;
+  display: none;
+}
+
+ul li label{
+  display: inline !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  -webkit-transition: all 0.25s linear !important;
+  color:#E79791 !important;
+}
+
+ul li:hover label{
+	color: #ef4136 !important;
+}
+
+ul li .check{
+  display: inline-flex;
+  border: 2px solid #DDDDDD;
+  border-radius: 100% !important;
+  height: 35px !important;
+  width: 35px !important;
+	transition: border .25s linear !important;
+	-webkit-transition: border .25s linear !important;
+}
+
+ul li:hover .check {
+  border: 1px solid #AAAAAA !important;
+}
+
+ul li .check::before {
+  display: inline-block !important;
+  border-radius: 100% !important;
+  height: 15px !important;
+  width: 15px!important;
+  margin: auto !important;
+	transition: background 0.25s linear !important;
+	-webkit-transition: background 0.25s linear !important;
+}
+
+.checkConfirm{
+    background: #DDDDDD;
+    border: 3px solid red;
+}
+
+.labelcard{
+    color: #ef4136 !important;
+}
