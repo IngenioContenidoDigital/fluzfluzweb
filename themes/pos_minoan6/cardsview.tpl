@@ -8,6 +8,7 @@
         <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div></a>
         </div>
         <div id="pOculto">{displayPrice price=$card.price no_utf8=false convert=false}</div>
+        <div id="desc_oculto">{$card.description}</div>
         <div id="nameOculto">{$card.product_name}</div>
         {if $card@iteration mod 2 ==0}<br /><br/>{/if}
     {/foreach}
@@ -19,9 +20,9 @@
                         <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
                     </div>
                     <p class="col-lg-6 pCode">{l s="Your Gift Card ID is: "}<br/><span class="micode" style="font-size:16px;"> </span></p>
-                    <p class="col-lg-6 pPrice">{l s="Value: "}<br/><span id="priceCard"></span></p>
+                    <p class="col-lg-6 pPrice">{l s="Value: "}<br/><span id="priceCard" style="font-size:16px;"></span></p>
                     <img id="bar-code" src=""/><br/>
-                    <span class="popText" class="micode"></span>
+                    <span class="micode popText"></span>
                 </div>
                 <div class="containerCard">
                     <ul>
@@ -32,16 +33,14 @@
                         </li>
                         <li>
                           <input type="radio" id="s-option" name="selector">
-                          <div id="not-used" class="check"><div class="inside"></div></div>
+                          <div id="not-used" class="check"></div>
                           <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
                         </li>
                     </ul>
                 </div>        
                 <div class="CardInstru">
                     <h4 class="insTitle">{l s='Gift Card Instructions'}</h4>
-                    <div class="pViewcard">
-                        {l s="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod"}
-                    </div>
+                    <div class="pViewcard"></div>
                 </div> 
             </div>
     </div>
@@ -53,9 +52,9 @@
             var codeImg2 = $(this).find(".codeImg").html();
             var price = document.getElementById("pOculto").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
+            var description = document.getElementById("desc_oculto").innerHTML;
             var ruta = $(this).before().find(".oculto").html();
             $("#img-prod").attr("src",ruta)
-	
             $.ajax({
                     method:"POST",
                     data: {'codeImg2': codeImg2,'price':price},
@@ -65,15 +64,33 @@
                         $('.micode').html(codeImg2);
                         $('#priceCard').html(price);
                         $('#nameViewCard').html(name);
+                        $('.pViewcard').html(description);
                     }
               });
         });
         
         $('#used').click(function(){
             $(this).addClass('checkConfirm');
+            $('#used').removeClass('check');
             $('#labelCard').addClass('labelcard');
             $('#labelCard2').removeClass('labelcard');
             $('#not-used').removeClass('checkConfirm');
+        });
+        
+        $('#labelCard').click(function(){
+            $(this).addClass('labelcard');
+            $('#used').addClass('checkConfirm');
+            $('#not-used').removeClass('checkConfirm');
+            $('#labelCard2').removeClass('labelcard');
+        
+        });
+        
+        $('#labelCard2').click(function(){
+            $(this).addClass('labelcard');
+            $('#labelCard').removeClass('labelcard');
+            $('#not-used').addClass('checkConfirm');
+            $('#used').removeClass('checkConfirm')
+            
         });
         
         $('#not-used').click(function(){

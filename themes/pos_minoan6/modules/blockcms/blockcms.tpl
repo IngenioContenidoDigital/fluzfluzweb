@@ -104,7 +104,7 @@
 				</a>
 			</li>
 			{/if}
-			{foreach from=$cmslinks item=cmslink}
+			{*foreach from=$cmslinks item=cmslink}
 				{if $cmslink.meta_title != ''}
 					<li class="item">
 						<a href="{$cmslink.link|escape:'html':'UTF-8'}" title="{$cmslink.meta_title|escape:'html':'UTF-8'}">
@@ -119,7 +119,7 @@
 					{l s='Sitemap' mod='blockcms'}
 				</a>
 			</li>
-			{/if}
+			{/if*}
 		</ul>
 		{$footer_text}
 	</section>
