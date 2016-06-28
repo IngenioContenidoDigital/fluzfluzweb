@@ -156,7 +156,12 @@
                                                     <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />-->
                                                 </div>
                                             </div>
-                                            
+                                                
+                                            <div class="redes_sociales">
+                                                    <img src="{$img_dir}icon/facebook.png"/>
+                                                    <img src="{$img_dir}icon/twitter.png"/>
+                                                    <img src="{$img_dir}icon/instagram.png"/>
+                                            </div>
                                         {/if}
                                         
                                         {if $cms->id==8 || $cms->id==9}
@@ -172,6 +177,7 @@
                                             {/literal}
                                             
                                         {/if}
+                                        
                                         
                                     </div>
 				{/if}

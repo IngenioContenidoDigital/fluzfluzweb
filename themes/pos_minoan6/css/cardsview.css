@@ -85,7 +85,7 @@ ul li .check{
 }
 
 ul li:hover .check {
-  border: 1px solid #AAAAAA !important;
+  border: 2px solid #d6d4d4 !important;
 }
 
 ul li .check::before {
@@ -99,10 +99,27 @@ ul li .check::before {
 }
 
 .checkConfirm{
-    background: #DDDDDD;
-    border: 3px solid red;
+    display: inline-flex;
+    border: 2px solid #DDD !important;
+    border-radius: 100% !important;
+    height: 35px !important;
+    width: 35px !important;
+    background-color: #AAAAAA;
+    transition: border .25s linear !important;
+    -webkit-transition: border .25s linear !important;
 }
 
 .labelcard{
     color: #ef4136 !important;
+}
+
+.popText{
+    background: #fff;
+    margin-top: -40px;
+    margin-left: -50px;
+    position: absolute;
+}
+
+#desc_oculto{
+    display:none;
 }

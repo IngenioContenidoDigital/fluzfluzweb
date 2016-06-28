@@ -43,7 +43,7 @@
 					<footer id="footer">
                                             <div class="footer-static-top" style="background:#fff;">
 							<div class="container2">
-								<div class="row" style="background:#f9f9f9; margin-left:0;">
+								<div class="row" style="background:#f9f9f9; margin-left:0; min-height: 400px;">
 									<div class="col-xs-12 col-md-4 col-sm-4">
 									
 										{capture name='blockFooter1'}{hook h='blockFooter1'}{/capture}
@@ -59,7 +59,7 @@
 										{if $smarty.capture.blockFooter2}
 										{$smarty.capture.blockFooter2}
 										{/if}
-                                                                                <div class="row">
+                                                                                <div class="blockFooterPay">
 										{capture name='blockFooter3'}{hook h='blockFooter3'}{/capture}
 										{if $smarty.capture.blockFooter3}
 										{$smarty.capture.blockFooter3}
@@ -72,10 +72,10 @@
 							</div>
 						
 						</div>
-                                                <div class="footer-bottom" style="background:#f9f9f9;">
+                                                <div class="footer-bottom" style="background:#efefef;">
 							<div class="container">
 								<div class="row">
-									<div class="col-xs-12 col-md-12 col-sm-12">
+									<div class="col-xs-12 col-md-12 col-sm-12" style="padding-right: 0px;">
 									{capture name='blockFooter4'}{hook h='blockFooter4'}{/capture}
 									{if $smarty.capture.blockFooter4}
 									{$smarty.capture.blockFooter4}
