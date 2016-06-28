@@ -194,6 +194,6 @@ class fluzfluzCodes extends Module{
         $qr0 = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=0";
         $qr = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product)";
         Db::getInstance()->execute($qr0);
-        Db::getInstance()->execute($qr1);
+        Db::getInstance()->execute($qr);
     }
 }
