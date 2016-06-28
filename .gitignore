@@ -2,6 +2,7 @@
 # The following files contain your database credentials and other personal data.
 
 /config/settings.inc.php
+config/settings.inc.php
 /img/p/*.jpg
 /img/p/*.png
 *.md
