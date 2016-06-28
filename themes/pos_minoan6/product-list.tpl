@@ -120,19 +120,20 @@
 				</div>
 				<div class="right-block">
 					<div class="product-contents">
-                                            <div class="row">
-                                                <img src="{$img_manu_dir}{$product.id_manufacturer}.jpg" alt="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" class="imgMini col-lg-2"/>
-						<h5 itemprop="name" class="product-name col-lg-5" style="padding-left:0px;">
-                                                    	{if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
-							<a class="product-name" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url" style="padding-left:0px;">
-								{$product.name|truncate:45:'...'|escape:'html':'UTF-8'}
-							</a>
-						</h5>
-                                                {if $logged}
-                                                    <span  class="priceCategory col-lg-4">{$product.points} {l s=points}</span>
-                                                {else $logged}
-                                                    <span  class="priceCategory col-lg-4">{$product.pointsNl} {l s=points}</span>{/if}        
-                                            </div>
+                                            <div id="product_categoryAll">
+                                                <div class="row">
+                                                    <img src="{$img_manu_dir}{$product.id_manufacturer}.jpg" alt="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" class="imgMini col-lg-2"/>
+                                                    <h5 itemprop="name" class="product-name col-lg-5" style="padding-left:0px;">
+                                                            {if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
+                                                            <a class="product-name" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url" style="padding-left:0px;">
+                                                                    {$product.name|truncate:45:'...'|escape:'html':'UTF-8'}
+                                                            </a>
+                                                    </h5>
+                                                    {if $logged}
+                                                        <span  class="priceCategory col-lg-4">{$product.points} {l s=points}</span>
+                                                    {else $logged}
+                                                        <span  class="priceCategory col-lg-4">{$product.pointsNl} {l s=points}</span>{/if}        
+                                                </div>
                                                 <div class="ratings">{hook h='displayProductListReviews' product=$product}</div>	
 						
 						{if (!$PS_CATALOG_MODE AND ((isset($product.show_price) && $product.show_price) || (isset($product.available_for_order) && $product.available_for_order)))}
@@ -255,7 +256,7 @@
 							</span>-->
 						{/if}
 					{/if}
-				</div>
+				
 			<!-- 	{if $page_name != 'index'}
 	 				<div class="functional-buttons clearfix">
 						{hook h='displayProductListFunctionalButtons' product=$product}
@@ -266,6 +267,7 @@
 						{/if}
 					</div>
 				{/if} -->
+                            </div>
 			</div><!-- .product-container> -->
 		</li>
 	{/foreach}
@@ -280,3 +282,26 @@
 {addJsDef comparator_max_item=$comparator_max_item}
 {addJsDef comparedProductsIds=$compared_products}
 {/if}
+<script type="text/javascript"> 
+    $(document).ready(function() {
+		var owl = $("#product_categoryAll");
+		owl.owlCarousel({
+		items : 4,
+		 pagination :false,
+		slideSpeed: 1000,
+		itemsDesktop : [1199,3],
+		itemsDesktopSmall : [911,2], 
+		itemsTablet: [767,2], 
+		itemsMobile : [480,1],
+		});
+		 
+		// Custom Navigation Events
+		$(".next-product").click(function(){
+		owl.trigger('owl.next');
+		})
+		$(".prev-product").click(function(){
+		owl.trigger('owl.prev');
+		})     
+    });
+
+</script>
