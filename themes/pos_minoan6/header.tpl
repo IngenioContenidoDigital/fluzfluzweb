@@ -115,7 +115,7 @@
                                                                 {$smarty.capture.megamenu}
                                                             {/if}
                                                     </div>
-                                                    <div class="col-md-3 col-sm-12 col-lg-3 col-xs-8">
+                                                    <div class="col-md-3 col-sm-12 col-lg-3 col-xs-8 hookLeft">
                                                             {if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
                                                     </div>
                                                 </div>
@@ -150,12 +150,12 @@
                                             <div id="onSale"> {l s="On Sale"} </div>
                                             </div>
                                             
-                                            <div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
+                                            <!--<div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
                                                 <div data-role="rangeslider">
                                                     <input name="range-1a" id="range-1a" min="0" max="100" value="20" type="range" style="width:100%;"/>
-                                                    <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />-->
+                                                    <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />
                                                 </div>
-                                            </div>
+                                            </div>-->
                                                 
                                             <div class="redes_sociales">
                                                     <img src="{$img_dir}icon/facebook.png"/>
