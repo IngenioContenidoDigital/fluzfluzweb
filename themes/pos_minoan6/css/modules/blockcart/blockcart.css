@@ -5,8 +5,8 @@
 ********************************************************************/
 #header .block-cart {display: inline-block;width: 5%;height: 86px;float: right;margin-right:20%;}
 .shopping_cart > a:first-child { position: relative; z-index: 11; padding: 0; text-transform: uppercase; font-size: 14px; line-height: 35px; background: transparent; display: block; font-weight: normal; color: #9f9f9f; }
-.shopping_cart > a:first-child:before { content:url("shop.png"); font-family: "FontAwesome"; display: inline-block; font-size: 20px; color: #808285; text-align: center; width: 75px; height: 86px; line-height: 97px; vertical-align: top; border-right: 0px solid #d3d3d3; border-top:none; border-bottom: none;text-align: center;}
-.shopping_cart > a:first-child:hover::before { content:url("shopHover.png"); display: inline-block;font-size: 20px; text-align: center; width: 75px; height: 86px; line-height: 97px; }
+.shopping_cart > a:first-child:before { content:url("shop.png"); font-family: "FontAwesome"; display: inline-block; font-size: 20px; color: #808285; text-align: center; width: 75px; height: 68px; line-height: 78px; vertical-align: top; border-right: 0px solid #d3d3d3; border-top:none; border-bottom: none;text-align: center; -webkit-transition: all 1.4s ease;}
+.shopping_cart > a:first-child:hover::before { content:url("shopHover.png"); display: inline-block;font-size: 20px; text-align: center; width: 75px; height: 86px; line-height: 78px; -webkit-transition: .6s ease-out;}
 
 @media (max-width: 1200px) { 
     .shopping_cart { margin: 0 auto; float: none; width: 100%; } 

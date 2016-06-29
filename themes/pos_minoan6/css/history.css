@@ -23,8 +23,8 @@
 #sendOrderMessage { margin-bottom: 30px; }
 #sendOrderMessage select.form-control { width: 263px; }
 
-.history_invoice{text-align: left !important; padding-left: 2% !important; font-family:'Open Sans' !important;}
+.history_invoice > div > p{text-align: left !important; line-height: 15px; padding-left: 2% !important; font-family:'Open Sans' !important; color: #d6d4d4 !important;}
 .history_date{text-align: left !important; padding-left: 2% !important; font-family:'Open Sans' !important;}
-.history_price{text-align: right !important; padding-right: 2% !important; font-family:'Open Sans' !important; font-size: 13px !important;}
+.history_price>div>p{text-align: right !important; line-height: 15px; padding-right: 2% !important; font-family:'Open Sans' !important; font-size: 13px !important;}
 .history_point{color:#ef4136 !important; font-size: 20px !important; padding: 1% !important; font-family:'Open Sans' !important; margin: 0 auto; display: flex;    margin-left: 10%; border: none !important; margin-top: 5%;}
-.btn_history{ color:#fff !important; padding: 1.5% 4% !important; background: #ea3624; border: none; font-family:'Open Sans' !important;}
+.btn_history{ color:#fff !important; padding: 1.5% 4% !important; Letter-spacing: 1px !important; background: #ea3624; border: none; font-family:'Open Sans' !important;}

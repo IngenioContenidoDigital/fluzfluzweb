@@ -19,7 +19,7 @@
 {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
 <div class="banner-home">
-    <div class="banner-box banner1" style="text-align: right; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
+    <div class="banner-box banner1" style="text-align: right; margin-top: -35px; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
             <div class='col-lg-12 col-xs-12 col-md-12 col-sm-12 bannerNetwork'>
             <div class="divNetwork">
                 <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}
@@ -39,7 +39,7 @@
 
 <div id="container" class="col-lg-6 graphicStat"></div>
 <div id="container2" class="col-lg-6 graphicStat">
-    <center><h4>{l s="Performance Summary"}</h4></center>
+    <h4 class="titleStats">{l s="Performance Summary"}</h4>
     <div class="yourPointnet">
         <div id="yourPoint" class="puntoGrap">
             <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}{l s=" pts."}</span>
@@ -312,7 +312,7 @@
                                     <td class="right">{$statistics[$indiceRewards]|escape:'html':'UTF-8'}</td>
                             </tr>
                             {/section}
-                            <tr class="total">
+                            <tr class="total" style="color:#ef4136;">
                                     <td class="left">{l s='Total' mod='allinone_rewards'}</td>
                                     <td class="center">{$statistics.direct_nb1+$statistics.direct_nb2+$statistics.direct_nb3+$statistics.direct_nb4+$statistics.direct_nb5+$statistics.indirect_nb|intval}</td>
                                     <td class="center">{$statistics.nb_orders_channel1+$statistics.nb_orders_channel2+$statistics.nb_orders_channel3+$statistics.nb_orders_channel4+$statistics.nb_orders_channel5+$statistics.indirect_nb_orders|intval}</td>
@@ -364,7 +364,7 @@
                                     {/if}
                             </tr>
                             {/foreach}
-                            <tr class="total">
+                            <tr class="total" style="color:#ef4136;">
                                     <td class="left">{l s='Total' mod='allinone_rewards'}</td>
                                     <td class="center">{$statistics.total_direct_orders|intval}</td>
                                     <td class="right">{$statistics.total_direct_rewards|escape:'html':'UTF-8'}</td>
@@ -416,7 +416,6 @@
         {literal}
         columns = {/literal}[{foreach from=$arrayGraph item=foo}{$foo},{/foreach}]
             {literal}
-    //$.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=usdeur.json&callback=?', function (data) {
 
         $('#container').highcharts({
             chart: {
@@ -452,6 +451,7 @@
                             [0, Highcharts.getOptions().colors[0]],
                             [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
                         ]
+                        
                     },
                     marker: {
                         radius: 2
