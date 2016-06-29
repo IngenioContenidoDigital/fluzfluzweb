@@ -412,45 +412,45 @@
 	</div>
 	{/if}-->
         
-       <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="account-creation_form" class="col-lg-5 col-md-6 col-sm-12 col-xs-12 std box">
+       <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="account-creation_form" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 std box">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
-            <h2 style="padding:5%;">{l s='Why Sign-Up for Fluz Fluz?'}</h2>
+            <h2>{l s='Why Sign-Up for Fluz Fluz?'}</h2>
             
             <div class="container containerForm">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 containerForm">
                         <fieldset class="fieldInfo"><br/>
                             <div class="row rowAccount">
-                                <img src="{$img_dir}icon/gift.png" class="imglock col-lg-4 col-md-4" />
+                                <img src="{$img_dir}icon/gift.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12">{l s="Aﬀordable Shopping!"}</h3>
                                     <p class="col-lg-12">{l s="Save money when purchasing your favourite household brands"}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
-                                <img src="{$img_dir}icon/save.png" class="imglock col-lg-4 col-md-4" />
+                                <img src="{$img_dir}icon/save.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12">{l s="Save!"}</h3>
                                     <p class="col-lg-12">{l s="Every time you purchase, you save more."}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
-                                <img src="{$img_dir}icon/invite.png" class="imglock col-lg-4 col-md-4" />
+                                <img src="{$img_dir}icon/invite.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12">{l s="Invite Friends!"}</h3>
                                     <p class="col-lg-12">{l s="The more friends you invite, the more points you recieve."}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
-                                <img src="{$img_dir}icon/cash.png" class="imglock col-lg-4 col-md-4" />
+                                <img src="{$img_dir}icon/cash.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12">{l s="Cash Out!"}</h3>
                                     <p class="col-lg-12">{l s="Convert the network points your earn into real cash!"}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
-                                <img src="{$img_dir}icon/diagram.png" class="imglock col-lg-4 col-md-4" />
+                                <img src="{$img_dir}icon/diagram.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12">{l s="View Network Statistics"}</h3>
                                     <p class="col-lg-12">{l s="View your network statistics to improve your point tally. "}</p>
@@ -605,85 +605,6 @@
                                                     {/if}
                                             </div>
                                     {/if}
-                                    <div>
-                                        <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
-                                            <p>{l s="When you create a Fluz Fluz account, we ask that you deposit a minimum of $5 in your account so we can validate it. This is a firs time only required deposit and will be entirely at your disposal in your account so you can start."}</p>
-                                        <div class="row">
-                                            <span class="col-lg-2 rangePrice">$20.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="40000" min="20000" max="100000" step="20000" data-rangeslider><span class="col-lg-2 rangePrice">$100.000</span>
-                                        </div>
-                                        <br/>
-                                        <div class="col-lg-12">
-                                            <span class="col-lg-9">{l s="Final Deposit Amount:"}</span>
-                                            <input class="output col-lg-3" type="text" name="valorSlider" id="valorSlider" value="">
-                                        </div>
-                                    </div>
-                                    <div class="cardiv col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <label class="depoTitle page-subheading col-lg-12">{l s='PAYMENT INFORMATION'}</label>
-                                        <div class="lock">
-                                            <img src="{$img_dir}icon/lock.png" class="col-lg-6 col-md-6 imglock" />
-                                            <p>{l s='Secure credit card payment'}<p>
-                                            <span class="infLock">{l s='This is a secure 128-bit SSL encrypted payment '}</span>
-                                        </div>
-                                        <div class="row">    
-                                            <div class="required form-group col-lg-6 col-md-6">
-                                                <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">
-                                                <label class="required">
-                                                    {l s='Numero de Tarjeta'}
-                                                </label>
-                                                </div>
-                                                {literal}
-                                                    <div class="col-xs-12 col-sm-7 col-md-12 col-lg-12">
-                                                        <input style="text-align:right;" type="text" pattern="[0-9]{13,16}" class="imageCard form-control" id="numCard" name="numCard" autocomplete="off" required/>
-                                                    </div>
-                                                {/literal}
-                                            </div>        
-                                                
-                                            <div class="required form-group col-lg-6 col-md-12">
-                                                <div class="col-xs-12 col-sm-5 col-md-6 col-lg-12">
-                                                <label class="required">
-                                                    {l s='Codigo de Verificacion'}
-                                                </label>
-                                                </div>
-                                                {literal}
-                                                <div class="col-xs-12 col-sm-7 col-md-6 col-lg-12">    
-                                                    <input style="text-align:right;" type="text" pattern="[0-9]{3,4}" class="form-control" name="codigot" id="codigot" autocomplete="off" required/>
-                                                </div>
-                                                {/literal}
-                                            </div>    
-                                        </div>
-                                            <div class="row">
-                                                <div class="form-group col-lg-12 col-md-12">
-                                                <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">    
-                                                <label class="required">
-                                                    {l s='Fecha Vencimiento'}
-                                                </label>
-                                                </div>
-
-                                                    <div class="col-xs-12 col-sm-5 col-md-12 col-lg-6">
-
-                                                        <div style="display:table-cell;">     
-                                                        <select name="daysExpiration" id="days" style="width:120%;" class="form-control">
-                                                            <option value="">-</option>
-                                                            {foreach from=$days item=v}
-                                                                <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                                            {/foreach}
-                                                        </select>
-                                                        </div>
-                                                        <div style="display:table-cell; padding-left:8px;">
-                                                            <select id="yearsExpiration" name="yearsExpiration" class="form-control">
-                                                            <option value="">-</option>
-                                                            {foreach from=$yearsExpiration item=v}
-                                                                <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                                            {/foreach}
-                                                        </select>
-                                                        </div>
-
-                                                    </div>    
-
-                                                </div>
-                                            </div>            
-                                       
-                                    </div>
                                     
                                     {if $b2b_enable}
                                         <div class="account_creation">
@@ -825,6 +746,90 @@
                                 </fieldset>
                     </div>
                 </div>
+                
+            </div>
+                <div>
+                    <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
+                    <div class="containerDepo">
+                        <p>{l s="When you create a Fluz Fluz account, we ask that you deposit a minimum of $5 in your account so we can validate it. This is a firs time only required deposit and will be entirely at your disposal in your account so you can start."}</p>
+                    <div class="row rangeSelect">
+                        <span class="col-lg-2 rangePrice">$20.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="40000" min="20000" max="100000" step="20000" data-rangeslider><span class="col-lg-2 rangePrice">$100.000</span>
+                    </div>
+                    <div class="col-lg-12 finalDeposit">
+                        <span class="col-lg-9" style="font-size:18px;">{l s="Final Deposit Amount:"}</span>
+                        <input class="output col-lg-3" type="text" name="valorSlider" id="valorSlider" value=""/>
+                    </div>
+                    </div>    
+                </div>
+                        
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <label class="depoTitle page-subheading col-lg-12">{l s='PAYMENT INFORMATION'}</label>
+                    <div class="cardiv">
+                    <div class="lock">
+                        <img src="{$img_dir}icon/lock.png" class="col-lg-6 col-md-6 imglock" />
+                        <p>{l s='Secure credit card payment'}<p>
+                        <span class="infLock">{l s='This is a secure 128-bit SSL encrypted payment '}</span>
+                    </div>
+                    <div class="row">    
+                        <div class="required form-group col-lg-6 col-md-6">
+                            <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">
+                            <label class="required">
+                                {l s='Numero de Tarjeta'}
+                            </label>
+                            </div>
+                            {literal}
+                                <div class="col-xs-12 col-sm-7 col-md-12 col-lg-12">
+                                    <input style="text-align:right;" type="text" pattern="[0-9]{13,16}" class="imageCard form-control" id="numCard" name="numCard" autocomplete="off" required/>
+                                </div>
+                            {/literal}
+                        </div>        
+
+                        <div class="required form-group col-lg-6 col-md-12">
+                            <div class="col-xs-12 col-sm-5 col-md-6 col-lg-12">
+                            <label class="required">
+                                {l s='Codigo de Verificacion'}
+                            </label>
+                            </div>
+                            {literal}
+                            <div class="col-xs-12 col-sm-7 col-md-6 col-lg-12">    
+                                <input style="text-align:right;" type="text" pattern="[0-9]{3,4}" class="form-control" name="codigot" id="codigot" autocomplete="off" required/>
+                            </div>
+                            {/literal}
+                        </div>    
+                    </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-12">
+                            <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">    
+                            <label class="required">
+                                {l s='Fecha Vencimiento'}
+                            </label>
+                            </div>
+
+                                <div class="col-xs-12 col-sm-5 col-md-12 col-lg-6">
+
+                                    <div style="display:table-cell;">     
+                                    <select name="daysExpiration" id="days" style="width:120%;" class="form-control">
+                                        <option value="">-</option>
+                                        {foreach from=$days item=v}
+                                            <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
+                                        {/foreach}
+                                    </select>
+                                    </div>
+                                    <div style="display:table-cell; padding-left:8px;">
+                                        <select id="yearsExpiration" name="yearsExpiration" class="form-control">
+                                        <option value="">-</option>
+                                        {foreach from=$yearsExpiration item=v}
+                                            <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
+                                        {/foreach}
+                                    </select>
+                                    </div>
+
+                                </div>    
+
+                            </div>
+                        </div>            
+                    </div>            
+                </div>                
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div style="display:none;">{$HOOK_CREATE_ACCOUNT_FORM}</div>
@@ -847,8 +852,8 @@
                     </div>
                     </div>
                 </div>
-            </div>
         </div>
+                                
         {literal}
         <script type="text/javascript">
             $(document).ready(function(){
@@ -942,3 +947,44 @@
         $("#account-creation_form").validate();
     </script>
 {/literal}
+{literal}
+    <style>
+       h2{ font-size: 20px !important; 
+        color: #505050;
+        font-family: 'Open Sans' !important;
+        text-transform: uppercase;
+       }
+       
+       h3.col-lg-12{
+        padding-bottom:10px !important;
+        color: #505050 !important;
+        font-family:'Open Sans' !important;
+        margin:0px;
+        font-size: 16px;
+       }
+       p.col-lg-12 {
+        font-family: 'Open Sans' !important;
+        font-size:12px !important;
+       }
+       
+       div.account_creation {
+        padding-top:  20px;
+        }
+
+         .page-subheading {
+        font-weight: 400;
+        color: #505050;
+        border:none;
+        }
+
+        .box {
+        border: none;
+        font-family: 'Open Sans' !important;
+        }
+
+        label {
+        margin-top:10px;
+        font-weight:400;
+        }
+    </style>
+{/literal}    

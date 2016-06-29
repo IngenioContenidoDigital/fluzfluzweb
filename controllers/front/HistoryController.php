@@ -92,7 +92,7 @@ class HistoryControllerCore extends FrontController
                         LEFT JOIN '._DB_PREFIX_.'order_detail a ON (a.id_order = n.id_order)
 			LEFT JOIN '._DB_PREFIX_.'image b ON (b.id_product=a.product_id)  
                         LEFT JOIN '._DB_PREFIX_.'product_lang d ON (d.id_product=a.product_id)
-                        LEFT JOIN ps_product p ON (p.id_product = a.product_id) WHERE id_customer = '.$this->context->customer->id.' GROUP BY p.price_shop, a.product_id,d.link_rewrite,b.id_image,
+                        LEFT JOIN ps_product p ON (p.id_product = a.product_id) WHERE id_customer = '.$this->context->customer->id.' AND p.reference != "MFLUZ" GROUP BY p.price_shop, a.product_id,d.link_rewrite,b.id_image,
                         a.total_price_tax_incl,a.product_quantity_in_stock,a.product_name,n.reference, n.date_add ORDER BY n.date_add DESC';
         
         $products=Db::getInstance()->executeS($query);
