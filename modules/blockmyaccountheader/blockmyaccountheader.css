@@ -15,7 +15,7 @@ and open the template in the editor.
 
 .accountHeader{
     background: transparent;
-    height: 86px;
+    height: 68px;
     width: 85px;
     float: right;
     margin-right: 16%;
@@ -34,12 +34,14 @@ and open the template in the editor.
     background: url('avatar.png') no-repeat center;
     height: 86px;
     width: auto;
+    -webkit-transition: all 1.4s ease;
 }
 
 .block_content2:hover{
     background: url('avatar2.png') no-repeat center;
     height: 86px;
     width: auto;
+    -webkit-transition: .6s ease-out;
 }
 
 .signUp>a{

@@ -126,14 +126,14 @@
 					</tr>
                                         <tr>
                                             <td class="history_point">
-                                                    <p style="font-size:30px; margin-right: 5%;">{$productP}</p>
+                                                    <p style="font-size:30px; margin-right: 5%; padding-top: 5%; ">{$productP}</p>
                                                     <p>{l s="Points"}</p>
                                             </td>
                                             <td colspan="4" style="text-align:right;">
                                                 <a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a>
                                             </td>
                                             <td>
-                                                <p style="color:#ef4136; margin-top: 10%;">{l s="Save: "}%{math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.precio}</p>
+                                                <p style="color:#ef4136; margin: 0px;">{l s="Save: "}%{math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.precio}</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -166,7 +166,6 @@
 {literal}
     <style>
         .table > thead > tr > th{color: #414042; font-family:'Open Sans'; background: #f7f7fb;}
-        .table tbody > tr > td{padding:1%; text-align: center;}
         .info-title{display: none;}
         .page-heading{margin-bottom: 5% !important;}
         .breadcrumb{font-size:12px; margin-bottom: 3%;}
