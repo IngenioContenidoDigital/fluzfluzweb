@@ -1883,6 +1883,14 @@ $_LANGADM['AdminProductsfd10b960ca53f536317928d0edf3cbbe'] = '- la gestión avan
 $_LANGADM['AdminProductsc17ed6a82bd63f9dde6ab3572e3c32f4'] = 'Identificación del atributo indefinida';
 $_LANGADM['AdminProductsa17f5bc22553d897f6363867c0165256'] = 'Categoría por defecto';
 $_LANGADM['AdminProductsc32516babc5b6c47eb8ce1bfc223253c'] = 'Catálogo';
+
+$_LANGADM['AdminProducts910dc5f63518257e309ef63881f8091e'] = 'Las cantidades de los productos son administradas a traves del modulo Fluz Fluz Product codes';
+$_LANGADM['AdminProducts94d26b23623d5a7a411fa43f3cd48c9a'] = 'Las cantidades disponibles se basan en los codigos que han sido cargados para cada producto a traves del modulo y que no se encuentran asociados a ningun pedido';
+$_LANGADM['AdminProducts2f6a765bb0d9ad870239456398ae0598'] = 'No es posible especificar las cantidades manualmente. El sistema las gestiona de forma automatizada.';
+$_LANGADM['AdminProductsaedf57039115ddef1e8276425923d6ba'] = 'Cuando las compras han sido validadas, El sistema asociara el numero de orden correspondiente';
+$_LANGADM['AdminProducts166ee0d77c5fb0e92af1b7bc6c30aba0'] = 'Para Cargar unidades, se debe preparar un archivo csv con los encabezados (Reference #, code)';
+$_LANGADM['AdminProducts20a722e0a7a1f2aed3924e23cb2a86cd'] = 'El sistema asociara los codigos a cada producto segun sea necesario. Deben ser coidgos validos para el comercio';
+
 $_LANGADM['AdminProductsb61bd19699eab41bbcdabc42f83af268'] = 'Considere la posibilidad de cambiar la categoría predeterminada.';
 $_LANGADM['AdminProductsde0f4384afec7be3f63e5f62a0b00220'] = 'Seleccione las categorías en las que aparecerá este producto';
 $_LANGADM['AdminProfilesd3b206d196cd6be3a2764c1fb90b200f'] = 'Eliminar selección';
@@ -4517,12 +4525,6 @@ $_LANGADM['AdminProducts004bf6c9a40003140292e97330236c53'] = 'Acción';
 $_LANGADM['AdminProducts4cea165e785a871ad35bec45917215c2'] = '¿quieres realmente borrar la regla de este precio?';
 $_LANGADM['AdminProductscf173b732a2a0377698d631db6185836'] = 'Cantidades disponibles para la venta';
 $_LANGADM['AdminProductsd74838fbbeb384c01d7294db33c36ec3'] = 'La gestión de existencias está deshabilitada';
-$_LANGADM['AdminProducts910dc5f63518257e309ef63881f8091e'] = 'Esta interfaz le permite administrar las cantidades disponibles para la venta de este producto y sus combinaciones en la tienda actual.';
-$_LANGADM['AdminProducts94d26b23623d5a7a411fa43f3cd48c9a'] = 'Puede optar o no por utilizar el sistema de gestión avanzada de existencias para este producto. En caso de no usarlo, deberá indicar cada cantidad de forma manual.';
-$_LANGADM['AdminProducts2f6a765bb0d9ad870239456398ae0598'] = 'Para calcular las cantidades de forma automática, el sistema de gestión avanzado de existencias debe estar activado).';
-$_LANGADM['AdminProductsaedf57039115ddef1e8276425923d6ba'] = 'En este caso, los valores corresponderán a las cantidades reales del inventario de los almacenes asociados a esta tienda o al grupo actual de tiendas.';
-$_LANGADM['AdminProducts166ee0d77c5fb0e92af1b7bc6c30aba0'] = 'Para los paquetes: si estos contienen productos que hacen uso del sistema avanzado de gestión de existencias, usted tiene que especificar un almacén común para estos productos dentro del paquete.';
-$_LANGADM['AdminProducts20a722e0a7a1f2aed3924e23cb2a86cd'] = 'Además, tenga en cuenta que cuando un producto tiene combinaciones, su combinación por defecto se utilizará en los movimientos de inventario.';
 $_LANGADM['AdminProducts66de7ffcf9f515fb047045299ab0b3a3'] = 'Quiero usar el sistema de gestión avanzada de existencias para este producto';
 $_LANGADM['AdminProducts474eeb51bd9f6ed941bcde8129075838'] = 'Esto requiere habilitar la gestión avanzada de existencias.';
 $_LANGADM['AdminProductsd80ebf39e80e164a170987dcd4212136'] = 'Cuando activa la gestión de stock avanzada para un pack, por favor asegúrese de que también esté activada para su(s) producto(s) - si se elige disminuir las cantidades del producto.';

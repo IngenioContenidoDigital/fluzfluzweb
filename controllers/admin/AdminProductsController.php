@@ -89,7 +89,7 @@ class AdminProductsControllerCore extends AdminController
         $this->available_tabs_lang = array(
             'Informations' => $this->l('Information'),
             'Pack' => $this->l('Pack'),
-            'VirtualProduct' => $this->l('Virtual Product'),
+            //'VirtualProduct' => $this->l('Virtual Product'),
             'Prices' => $this->l('Prices'),
             'Seo' => $this->l('SEO'),
             'Images' => $this->l('Images'),
@@ -97,8 +97,8 @@ class AdminProductsControllerCore extends AdminController
             'Shipping' => $this->l('Shipping'),
             'Combinations' => $this->l('Combinations'),
             'Features' => $this->l('Features'),
-            'Customization' => $this->l('Customization'),
-            'Attachments' => $this->l('Attachments'),
+            //'Customization' => $this->l('Customization'),
+            //'Attachments' => $this->l('Attachments'),
             'Quantities' => $this->l('Quantities'),
             'Suppliers' => $this->l('Suppliers'),
             'Warehouses' => $this->l('Warehouses'),
@@ -109,7 +109,7 @@ class AdminProductsControllerCore extends AdminController
             $this->available_tabs = array_merge($this->available_tabs, array(
                 'Informations' => 0,
                 'Pack' => 7,
-                'VirtualProduct' => 8,
+                //'VirtualProduct' => 8,
                 'Prices' => 1,
                 'Seo' => 2,
                 'Associations' => 3,
@@ -117,8 +117,8 @@ class AdminProductsControllerCore extends AdminController
                 'Shipping' => 4,
                 'Combinations' => 5,
                 'Features' => 10,
-                'Customization' => 11,
-                'Attachments' => 12,
+                //'Customization' => 11,
+                //'Attachments' => 12,
                 'Suppliers' => 13,
             ));
         }
