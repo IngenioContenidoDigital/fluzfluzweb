@@ -109,13 +109,20 @@
                                                             <img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
                                                         </a>
                                                     </div>
-                                                    <div class="block-megamenu col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="block-megamenu col-md-5 col-lg-6 col-sm-12 col-xs-12">
                                                         {capture name='megamenu'}{hook h='megamenu'}{/capture}
                                                             {if $smarty.capture.megamenu}
                                                                 {$smarty.capture.megamenu}
                                                             {/if}
+                                                            <button class="block_content3 aprueba" type="button" data-toggle="dropdown"></button>
+                                                            <ul class="bullet dropdown-menu">
+                                                                    <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Members' mod='blockmyaccountheader'}</a></li>
+                                                                    <li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='Merchants' mod='blockmyaccountheader'}">{l s='Merchants' mod='blockmyaccountheader'}</a></li>
+                                                                    <li><a href="{$link->getModuleLink('allinone_rewards', 'rewards', [], true)|escape:'html':'UTF-8'}" title="{l s='Shop Now' mod='blockmyaccountheader'}">{l s='Shop Now' mod='blockmyaccountheader'}</a></li>
+                                                                    <li><a style="border-bottom:none;" href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Search' mod='blockmyaccountheader'}">{l s='Search' mod='blockmyaccountheader'}</a></li>
+                                                            </ul>
                                                     </div>
-                                                    <div class="col-md-3 col-sm-12 col-lg-3 col-xs-8 hookLeft">
+                                                    <div class="col-md-3 col-sm-4 col-lg-3 col-xs-5 hookLeft">
                                                             {if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
                                                     </div>
                                                 </div>
