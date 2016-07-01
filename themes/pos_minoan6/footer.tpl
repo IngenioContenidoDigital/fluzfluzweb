@@ -86,23 +86,7 @@
 									{$smarty.capture.posscroll}
 									{/if}
 									
-                                                                        {if $page_name=='product' || $cms->id==6}
-                                                                            <style>
-                                                                            {literal}
-                                                                                
-                                                                                div.footer-bottom{width:80%; float:right;}
-                                                                                div.container{margin-left:2%;}
-                                                                                div.container2{width:80%; float:right;}
-                                                                                
-                                                                                @media (max-width: 1025px){
-                                                                                div.footer-bottom{width:100%;}
-                                                                                div.container{margin-left:2%;}
-                                                                                div.container2{width:100%;}
-                                                                                }
-                                                                            {/literal}
-                                                                            </style>
-                                                                        {/if}    
-									</div>	
+								</div>	
 								</div>		
 							</div>
                                                                    
