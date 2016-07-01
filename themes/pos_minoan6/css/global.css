@@ -3373,14 +3373,23 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     #search_block_top .btn.button-search{display:none !important;}
 }
 
-@media (min-width:426px) and (max-width:600px){
+@media (min-width:450px) and (max-width:600px){
     .img-responsive{max-width:none;}
     #header .pos_logo img{width:190%;}
 }
 
-@media (min-width:414px) and (max-width:425px){
-    #header .pos_logo{width:60%; margin-top:7px;}
+@media (min-width:416px) and (max-width:426px){
+    #header .pos_logo{width:60% !important; margin-top:7px !important;}
     .block_content3{margin-right:5px; width:15% !important; margin-right:0px !important;}
+    .accountHeader{top:-154.5px; left:295px !important; padding-right:0px !important;}
+    .shopping_cart > a:first-child:before{position:absolute!important; top: -65px!important; left: 111px !important;}
+}
+
+@media (width:414px){
+    #header .pos_logo{width:60% !important; margin-top:7px !important;}
+    .block_content3{margin-right:5px; width:15% !important; margin-right:0px !important;}
+    .accountHeader{    top: -153.5px; left: 205px !important; padding-right:0px !important;}
+    .shopping_cart > a:first-child:before{position:absolute!important; top: -62px!important; left: 289px !important; border-left:none !important;}
 }
 
 @media (min-width:321px) and (max-width:375px){
@@ -4212,32 +4221,34 @@ font-family: 'Open Sans' !important;
 }
 
 .btn-shop {
-  display: inline-block;
+  display: block;
   background-color: #c9b198;
   border: none;
   color: #FFFFFF;
   text-align: center;
   font-size: 12px;
   padding: 12px 15px;
-  width: 31%;
+  width: 50%;
   transition: all 0.2s;
   cursor: pointer;
   margin: 5px;
+  margin-left:16px;
   text-transform:UPPERCASE;
 }
 
 .btn-shop2 {
-  display: inline-block;
+  display: block;
   background-color: #c9b198;
   border: none;
   color: #FFFFFF;
   text-align: center;
   font-size: 12px;
   padding: 12px 15px;
-  width: 38.4%;
+  width: 60%;
   transition: all 0.2s;
   cursor: pointer;
   margin: 5px;
+  margin-left: 16px;
   text-transform:UPPERCASE;
 }
 
@@ -5184,13 +5195,21 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 2560px) {
     #text {
-        line-height: 50px;
+        line-height: 30px;
+        margin-top:120px;
+        font-size:50px;
+        margin-left:18px;
     }
 
     #text1 {
-        margin-top: 15px;
-        margin-left: 10.166209%;
+        margin-top: 35px;
         clear: both;
+        margin-bottom:5%;
+        margin-left:20px;
+    }
+    
+    .btn-shop{
+        margin-left:5%;
     }
 
     #input {
@@ -5452,14 +5471,14 @@ font-family: 'Open Sans' !important;
         height: auto;
         width: 98.266366%;
         margin-top: 15px;
-        margin-left: 0%;
+        margin-left: 16px;
         clear: both;
         font-size: 16px;
     }
 
     #text {
         margin-top: 70px;
-        margin-left: -0.17151923%;
+        margin-left: 12px;
         clear: none;
         font-size: 60px;
         line-height: 30px;
@@ -5701,8 +5720,8 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 1440px) {
     #text {
-        margin-top: 36px;
-        margin-left: 10.167043%;
+        margin-top: 56px;
+        margin-left: 16px;
         clear: none;
         height: auto;
         min-height: 139px;
@@ -5710,7 +5729,7 @@ font-family: 'Open Sans' !important;
         font-size: 60px;
         font-weight: 900;
         text-align: left;
-        line-height: 60px;
+        line-height: 30px;
     }
 
     #text1 {
@@ -5721,7 +5740,7 @@ font-family: 'Open Sans' !important;
         text-align: left;
         font-weight: 600;
         line-height: 26px;
-        margin-left: 11.226179%;
+        margin-left: 18px;
         margin-top: 20px;
         clear: both;
         min-height: 0px;
@@ -6455,15 +6474,15 @@ font-family: 'Open Sans' !important;
 
     #text {
         font-size: 50px;
-        line-height: 50px;
+        line-height: 30px;
         margin-top: 82px;
-        margin-left: 11.110141%;
+        margin-left: 16px;
         clear: none;
     }
 
     #text1 {
         margin-top: 14px;
-        margin-left: 11.223688%;
+        margin-left: 18px;
         clear: both;
     }
 
@@ -6628,6 +6647,18 @@ font-family: 'Open Sans' !important;
         clear: both;
         height: auto;
         width: 76.980015%;
+    }
+    
+    #text12{
+        width:100%;
+    }
+    
+    .btn-shop{
+        width:80%;
+    }
+    
+    .btn-shop2{
+        width:100%;
     }
 
     #box13 {
@@ -6803,6 +6834,17 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 768px) {
+    
+    .btn-shop{
+        width:35%;
+    }
+    
+    .btn-shop2{
+        width:40%;
+        margin-left:26px;
+    }
+
+    
     #box22 {
         margin-top: 0px;
         margin-left: 0%;
@@ -7177,6 +7219,17 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 425px) {
+    
+    .btn-shop{
+        width:60%;
+    }
+    
+    .btn-shop2{
+        width:60%;
+        margin-left:12px;
+    }
+
+    
     #box1 {
         width: 100%;
         margin-top: 0px;
@@ -7445,16 +7498,28 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 375px) {
+     .btn-shop{
+        width:60%;
+    }
+    
+    .btn-shop2{
+        width:70%;
+        margin-left:12px;
+        font-size:12px;
+    }
+    
+    
     #text {
+        margin-top:20px;
         font-size: 40px;
-        line-height: 40px;
+        line-height: 25px;
         height: auto;
         min-height: 122px;
     }
 
     #text1 {
         margin-top: 9px;
-        margin-left: 11.220833%;
+        margin-left: 16px;
         clear: both;
     }
 
@@ -7655,6 +7720,7 @@ font-family: 'Open Sans' !important;
         width: 100%;
         font-size: 15px;
     }
+    
 
     #box2 {
         height: 240px;
@@ -7895,8 +7961,8 @@ font-family: 'Open Sans' !important;
         font-size: 16px;
         height: auto;
         width: 81.074219%;
-        margin-top: 10px;
-        margin-left: 10.375977%;
+        margin-top: 5px;
+        margin-left: 16px;
         clear: both;
     }
 
@@ -7907,8 +7973,8 @@ font-family: 'Open Sans' !important;
     }
 
     #text {
-        margin-top: 82px;
-        margin-left: 10.375977%;
+        margin-top: 52px;
+        margin-left: 14px;
         clear: none;
         height: auto;
         width: 73.78418%;
