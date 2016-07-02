@@ -200,13 +200,6 @@
 					{/if}
 
 				{/if}
-                                {if $cms->id==8}
-                                    {literal}
-                                        <style>
-                                            .breadcrumb .clearfix{display: none;}
-                                        </style>  
-                                    {/literal}    
-                                {/if}
                                 <div id="columns" class="container">
 					
                                         {if $page_name !='index' && $page_name !='pagenotfound'}
