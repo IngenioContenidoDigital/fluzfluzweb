@@ -30,7 +30,7 @@ class fluzfluzCodes extends Module{
     
     public function install(){
         
-        if (!parent::install() || !Configuration::updateValue('FLUZFLUZCODES', '1'))
+        if (!parent::install() || !$this->registerHook('displayAdminProductsExtra') || !Configuration::updateValue('FLUZFLUZCODES', '1'))
                 return false;
         
         $sql="CREATE TABLE IF NOT EXISTS "._DB_PREFIX_."product_code (id_product_code int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY, 
@@ -48,6 +48,15 @@ class fluzfluzCodes extends Module{
             return false;
         Db::getInstance()->Execute("DROP TABLE IF EXISTS "._DB_PREFIX_."product_code");
         return true;
+    }
+    
+    public function hookdisplayAdminProductsExtra($params) {
+        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS("SELECT code
+                    FROM ps_product_code
+                    WHERE id_product = ".Tools::getValue('id_product')."
+                    AND id_order = 0");
+        $this->context->smarty->assign('codes', $result );
+        return $this->display(__FILE__, 'views/fluzfluzcodes_admin.tpl');
     }
     
     public function getContent(){
