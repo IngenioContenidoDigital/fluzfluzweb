@@ -513,8 +513,6 @@ $_MODULE['<{allinone_rewards}pos_minoan6>rewards_44749712dbec183e983dcd78a7736c4
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_35281ac0e8d77e142fdcd41c07ce47dd'] = 'Recompensa';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_ec53a8c4f07baed5d8825072c89799be'] = 'Estado';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_b07cc2801693b2e722906a3db3d9c447'] = 'Validez';
-$_MODULE['<{allinone_rewards}pos_minoan6>rewards_dd1f775e443ff3b9a89270713580a51b'] = 'Anterior';
-$_MODULE['<{allinone_rewards}pos_minoan6>rewards_10ac3d04253ef7e1ddc73e6091c0cd55'] = 'Siguiente';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_e0aa021e21dddbd6d8cecec71e9cf564'] = 'OK';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_6c583afb157e33bfb5b7c3d4114c4dd5'] = 'Número de lineas :';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_2ac05f7d54e27ff6362dd337be85a174'] = 'El mínimo requerido para poder transformar sus premios en vales es';
@@ -563,9 +561,8 @@ $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_b0265b97a19d153ab8c1d8f40f8
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_b55c323c3c03560827328186eb970d1d'] = 'e.j. +34952345098';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_a76483d7286ffbd53a010f1904231f80'] = 'Enviar SMS';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_5a1d5d1d28e16b78d36d14445a1ef32d'] = 'Rellene el siguiente formulario y les llegará un correo de invitación.';
-$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_055f4316b635289dab9f293852776e5f'] = 'Su mensaje (opcional)';
-$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8d3f5eff9c40ee315d452392bed5309b'] = 'Apellidos';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_20db0bfeecd8fe60533206a2b5e9891a'] = 'Nombre';
+$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8d3f5eff9c40ee315d452392bed5309b'] = 'Apellidos';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_080ecc5cfd336b0e51122c9f8783c27f'] = 'Importante : No se utilizarán los datos suministrados para ninguna acción fuera de la pretendida.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_605eef3cad421619ce034ab48415190f'] = 'Acepto las condiciones en su totalidad.';

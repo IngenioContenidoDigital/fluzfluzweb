@@ -23,7 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-@ini_set('max_input_vars', 3000);
+@ini_set('max_input_vars', 5000);
 /* Debug only */
 if (!defined('_PS_MODE_DEV_')) {
 define('_PS_MODE_DEV_',false);

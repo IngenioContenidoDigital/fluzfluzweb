@@ -51,10 +51,11 @@ class fluzfluzCodes extends Module{
     }
     
     public function hookdisplayAdminProductsExtra($params) {
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS("SELECT code
+        $query = "SELECT code
                     FROM ps_product_code
                     WHERE id_product = ".Tools::getValue('id_product')."
-                    AND id_order = 0");
+                    AND id_order = 0";
+        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query);
         $this->context->smarty->assign('codes', $result );
         return $this->display(__FILE__, 'views/fluzfluzcodes_admin.tpl');
     }

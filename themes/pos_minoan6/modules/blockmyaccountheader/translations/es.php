@@ -10,6 +10,5 @@ $_MODULE['<{blockmyaccountheader}pos_minoan6>blockmyaccountheader_4e997b9d3b7152
 $_MODULE['<{blockmyaccountheader}pos_minoan6>blockmyaccountheader_c2b1ef45417a2aac50465e2092e942da'] = 'Mi red';
 $_MODULE['<{blockmyaccountheader}pos_minoan6>blockmyaccountheader_edbf7d305f174d743ff65f18adb4bdb1'] = 'Mi red';
 $_MODULE['<{blockmyaccountheader}pos_minoan6>blockmyaccountheader_e4cdf236281cce8a3c0742cb493c5f82'] = 'Invita a un amigo';
-$_MODULE['<{blockmyaccountheader}pos_minoan6>blockmyaccountheader_4a8111b72a7d033586c16c9357156d10'] = 'Estadisticas';
 $_MODULE['<{blockmyaccountheader}pos_minoan6>blockmyaccountheader_95d2137c196c7f84df5753ed78f18332'] = 'Mis Cupones';
 $_MODULE['<{blockmyaccountheader}pos_minoan6>blockmyaccountheader_c87aacf5673fada1108c9f809d354311'] = 'Salir';
