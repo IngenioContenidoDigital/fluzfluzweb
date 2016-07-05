@@ -3363,8 +3363,13 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .pt_custommenu .pt_menu{padding:0px !important;}
     .pt_custommenu .pt_menu .parentMenu a{padding:12px !important;}
     .pt_custommenu{margin-top:1% !important;}
+    .footer-container #footer ul li a{font-size:10px !important;}
+    .footer-container #footer .footer-block{margin-left:1% !important;}
+    .contenedor>div{font-size: 10px !important; text-align: center !important;}
+    .blockFooterPay{padding-right: 3% !important; margin-top: 2% !important;}
+    .footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}
 }
-@media (min-width:1400px) {#header .pos_logo img { width:auto; margin: auto; height:68px;}}
+@media (min-width:1400px) {#header .pos_logo img { width:auto; margin: auto; height:68px;}.footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}}
 @media (min-width:1026px) and (max-width:3000px){
     .block_content3{display:none;}
 }
@@ -3378,18 +3383,11 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     #header .pos_logo img{width:190%;}
 }
 
-@media (min-width:416px) and (max-width:426px){
+@media (min-width:414px) and (max-width:426px){
     #header .pos_logo{width:60% !important; margin-top:7px !important;}
     .block_content3{margin-right:5px; width:15% !important; margin-right:0px !important;}
     .accountHeader{top:-154.5px; left:295px !important; padding-right:0px !important;}
     .shopping_cart > a:first-child:before{position:absolute!important; top: -65px!important; left: 111px !important;}
-}
-
-@media (width:414px){
-    #header .pos_logo{width:60% !important; margin-top:7px !important;}
-    .block_content3{margin-right:5px; width:15% !important; margin-right:0px !important;}
-    .accountHeader{    top: -153.5px; left: 205px !important; padding-right:0px !important;}
-    .shopping_cart > a:first-child:before{position:absolute!important; top: -62px!important; left: 289px !important; border-left:none !important;}
 }
 
 @media (min-width:321px) and (max-width:375px){
@@ -3418,6 +3416,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .dropdown-menu > li > a{ font-family:'Open Sans'!important; text-transform:uppercase !important; padding:.8% !important; border-bottom: 1px solid #818181;}
     .accountHeader{left:255px; float:left !important; border:none !important;}
     .shopping_cart > a:first-child:before{margin-left:180px; margin-top: -1px !important;}
+    .contenedor>div{text-align:left !important;}
 }
 
 @media (min-width:415px) and (max-width:600px){
@@ -4497,9 +4496,10 @@ font-family: 'Open Sans' !important;
     float: left;
     font-size: 50px;
     width: 89.255079%;
+    font-family:'Montserrat' !important;
     height: auto;
     text-align: left;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 45.5px;
     margin-left: 10.744921%;
     margin-top: 39px;
@@ -4516,7 +4516,7 @@ font-family: 'Open Sans' !important;
     width: 74.808126%;
     height: auto;
     text-align: left;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 26px;
     margin-left: 10.167043%;
     margin-top: 15px;
@@ -4562,18 +4562,20 @@ font-family: 'Open Sans' !important;
     float: left;
     height: 521px;
     margin-left: 0%;
-    margin-top: 148px;
+    margin-top: 2.5%;
+    margin-bottom:6%;
     clear: both;
     width: 100%;
+    height:auto;
     background-color: rgb(255, 255, 255);
 }
 
 #image {
     float: left;
     width: auto;
-    max-width: 35.815574%;
+    max-width: 50%;
     height: auto;
-    margin-left: 15.396516%;
+    margin-left: 8%;
     margin-top: 78px;
     clear: none;
     color: rgb(0, 0, 0);
@@ -4582,27 +4584,28 @@ font-family: 'Open Sans' !important;
 #box4 {
     float: left;
     height: 363.890625px;
-    margin-left: 7.320697%;
-    margin-top: 78px;
+    margin-left: 3%;
+    margin-top: 50px;
     clear: none;
-    width: 26.800205%;
+    width: 33.33%;
 }
 
 #text2 {
     float: left;
-    font-size: 21px;
-    width: 50.326872%;
+    font-size: 28px;
+    width: 80%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 1em;
+    line-height: 40px;
     margin-left: 4.476813%;
     margin-top: 43px;
     clear: none;
     min-height: 0px;
-    color: rgb(133, 133, 133);
+    color: #3d3d3d;
     letter-spacing: 0px;
     font-family: Montserrat;
+    font-weight:400;
 }
 
 #box5 {
@@ -4633,10 +4636,11 @@ font-family: 'Open Sans' !important;
 
 #box6 {
     float: left;
-    height: 499.890625px;
-    margin-left: 0%;
+    height: auto;
+    margin-left: 2.5%;
     margin-top: 0px;
     clear: both;
+    padding: 2% 0 6% 0;
     width: 100%;
     display: block;
     background-color: rgb(245, 245, 245);
@@ -4646,26 +4650,25 @@ font-family: 'Open Sans' !important;
 #box7 {
     float: left;
     height: 363.890625px;
-    margin-left: 15.846311%;
-    margin-top: 53px;
+    margin-left: 6.5%;
     clear: none;
-    width: 26.800205%;
+    width: 33.33%;
     margin-right: 0%;
 }
 
 #text4 {
     float: left;
-    font-size: 21px;
+    font-size: 28px;
     width: 50.326872%;
-    height: auto;
+    height: 80%;
     text-align: left;
     font-weight: 400;
-    line-height: 1em;
+    line-height: 40px;
     margin-left: 4.476813%;
     margin-top: 43px;
     clear: none;
     min-height: 0px;
-    color: rgb(141, 141, 141);
+    color: #3d3d3d;
     letter-spacing: 0px;
     font-family: Montserrat;
 }
@@ -4690,6 +4693,7 @@ font-family: 'Open Sans' !important;
     line-height: 30px;
     margin-left: 4.47299%;
     margin-top: 16px;
+    margin-bottom:30px;
     clear: both;
     min-height: 139px;
     color: rgb(141, 141, 141);
@@ -4979,14 +4983,14 @@ font-family: 'Open Sans' !important;
 
 #text13 {
     float: left;
-    font-size: 15px;
-    width: 74.060481%;
+    font-size: 40px;
+    width: 100%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 30px;
+    line-height: 45px;
     margin-left: 4.47299%;
-    margin-top: 16px;
+    margin-top: 10px;
     clear: both;
     min-height: 139px;
     color: rgb(255, 255, 255);
@@ -5877,10 +5881,10 @@ font-family: 'Open Sans' !important;
         float: left;
         height: 432.890625px;
         margin-left: 13.759766%;
-        margin-top: 42px;
         clear: none;
         width: 26.800205%;
         margin-right: 0%;
+        margin-top:0px;
     }
 
     #text4 {
@@ -6578,6 +6582,7 @@ font-family: 'Open Sans' !important;
     #box7 {
         height: 564px;
         width: 28.90625%;
+        margin-top:0px;
     }
 
     #text6 {
@@ -7986,4 +7991,2209 @@ font-family: 'Open Sans' !important;
         clear: both;
     }
 }
+
+/* ESTILOS COMERCIANTES */
+/* This code is only meant for previewing your Reflow design. */
+.secondContainer {
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 100%;
+    width: 100%;
+}
+
+#caja {
+    float: left;
+    height: 444px;
+    margin-left: 0%;
+    margin-top: 0px;
+    clear: none;
+    width: 100%;
+    background-color: rgb(239, 67, 53);
+    background-image:url("/img/cms/FluzFluz/merchants/merchant-back.png");
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: 0% 0%;
+    background-repeat: no-repeat no-repeat;
+}
+
+#caja1 {
+    float: left;
+    height: 444px;
+    margin-left: 7.332992%;
+    margin-top: 0px;
+    clear: none;
+    width: 22.694672%;
+}
+
+#texto_merchant {
+    float: left;
+    font-size: 50px;
+    width: 89.255079%;
+    height: auto;
+    texto_merchant-align: left;
+    font-weight: 700;
+    line-height: 30px !important;
+    margin-left: 10.744921%;
+    margin-top: 49px;
+    margin-right:16px;
+    clear: none;
+    min-height: 45px;
+    color: rgb(255, 255, 255);
+    letter-spacing: 0px;
+    font-family: Montserrat;
+}
+
+#texto_merchant1 {
+    float: left;
+    font-size: 16px;
+    width: 74.808126%;
+    height: auto;
+    texto_merchant-align: left;
+    font-weight: 600;
+    line-height: 26px;
+    margin-left: 10.743653%;
+    margin-top: 9px;
+    clear: both;
+    min-height: 0px;
+    color: rgb(255, 255, 255);
+    letter-spacing: -0.5px;
+    font-family: 'Montserrat Light';
+}
+
+#input {
+    float: left;
+    height: 36px;
+    font-size: 12px;
+    margin-left: 10.743653%;
+    margin-top: 19px;
+    clear: both;
+    width: 45.65237%;
+    color: rgb(255, 255, 255);
+    background-color: rgb(201, 177, 151);
+    border-style: none;
+    border-width: 0px;
+    font-family: Montserrat;
+}
+
+#caja2 {
+    float: left;
+    height: 444px;
+    margin-left: 2.90329%;
+    margin-top: 0px;
+    clear: none;
+    width: 67.068648%;
+    margin-right: 0%;
+    background-image:url("/img/cms/FluzFluz/merchants/merchant-banner-img-1.png");
+    background-attachment: scroll;
+    -webkit-background-size: 534px;
+    background-size: 534px;
+    background-position: 50.9% 100%;
+    background-repeat: no-repeat no-repeat;
+}
+
+#caja3 {
+    float: left;
+    height: 521px;
+    margin-left: 0%;
+    margin-top: 0px;
+    clear: both;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+}
+
+#texto_merchant2 {
+    float: left;
+    font-size: 32px;
+    width: 50.326872%;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: 400;
+    line-height: 1em;
+    margin-left: 24.878908%;
+    margin-top: 47px;
+    clear: none;
+    min-height: 0px;
+    color: rgb(133, 133, 133);
+    letter-spacing: 0px;
+    font-family: 'Montserrat Light';
+}
+
+#caja8 {
+    float: left;
+    height: 482.890625px!important;
+    margin-left: 0%;
+    margin-top: 0px;
+    clear: both;
+    width: 100%;
+    display: block;
+    background-color: rgb(245, 245, 245);
+    margin-right: 0%;
+}
+
+#caja9 {
+    float: left;
+    height: 363.890625px;
+    margin-left: 10.887776%;
+    margin-top: 148px;
+    clear: none;
+    width: 26.800205%;
+    margin-right: 0%;
+}
+
+#texto_merchant11 {
+    float: left;
+    font-size: 21px;
+    width: 50.326872%;
+    height: auto;
+    texto_merchant-align: left;
+    font-weight: 400;
+    line-height: 1em;
+    margin-left: 4.476813%;
+    margin-top: 43px;
+    clear: none;
+    min-height: 0px;
+    color: rgb(141, 141, 141);
+    letter-spacing: 0px;
+    font-family: Montserrat;
+}
+
+#caja10 {
+    float: left;
+    height: 4px;
+    margin-left: 4.47299%;
+    margin-top: 11px;
+    clear: both;
+    width: 15.659288%;
+    background-color: rgb(201, 177, 151);
+}
+
+#texto_merchant12 {
+    float: left;
+    font-size: 15px !important;
+    width: 74.060481% !important;
+    height: auto !important;
+    texto_merchant-align: left !important;
+    font-weight: 200 !important;
+    line-height: 30px !important;
+    margin-left: 4.47299% !important;
+    margin-top: 16px !important;
+    clear: both !important;
+    min-height: 139px !important;
+    color: rgb(141, 141, 141) !important;
+    font-family: 'Montserrat Light' !important;
+}
+
+#caja11 {
+    float: left;
+    height: 521px !important;
+    margin-left: 0%;
+    margin-top: 0px;
+    clear: both;
+    width: 100%;
+    display: block;
+    background-color: rgb(255, 255, 255);
+    margin-right: 0%;
+}
+
+#image_merchant4 {
+    float: left;
+    width: auto;
+    max-width: 35.815574%;
+    height: auto;
+    margin-left: 9.702008%;
+    margin-top: 40px;
+    clear: none;
+    color: rgb(0, 0, 0);
+}
+
+#caja12 {
+    float: left !important;
+    height: 363.890625px;
+    margin-left: 13.497403%!important;
+    margin-top: 0px !important;
+    clear: none !important;
+    width: 26.800205% !important;
+}
+
+#texto_merchant13 {
+    float: left;
+    font-size: 21px !important;
+    width: 50.326872% !important;
+    height: auto !important;
+    texto_merchant-align: left !important;
+    font-weight: 400 !important;
+    line-height: 1em !important;
+    margin-left: 4.476813% !important;
+    margin-top: 43px !important;
+    clear: none;
+    min-height: 0px;
+    color: rgb(141, 141, 141) !important;
+    letter-spacing: 0px;
+    font-family: Montserrat;
+}
+
+#caja13 {
+    float: left;
+    height: 4px;
+    margin-left: 4.47299%;
+    margin-top: 11px;
+    clear: both;
+    width: 15.659288%;
+    background-color: rgb(201, 177, 151);
+}
+
+#texto_merchant14 {
+    float: left;
+    font-size: 15px !important;
+    width: 74.060481% !important;
+    height: auto !important;
+    texto_merchant-align: left !important;
+    font-weight: 200 !important;
+    line-height: 30px !important;
+    margin-left: 4.47299% !important;
+    margin-top: 16px !important;
+    clear: both !important;
+    min-height: 139px !important;
+    color: rgb(141, 141, 141) !important;
+    font-family: 'Montserrat Light' !important;
+}
+
+#caja14 {
+    float: left;
+    height: 687.890625px;
+    margin-left: 0%;
+    margin-top: 0px;
+    clear: both;
+    width: 100%;
+    display: block;
+    margin-right: 0%;
+    background-color: rgb(245, 245, 245);
+}
+
+#caja15 {
+    float: left;
+    height: 363.890625px;
+    margin-left: 10.666066%;
+    margin-top: 116px;
+    clear: none;
+    width: 26.800205%;
+    margin-right: 0%;
+}
+
+#texto_merchant15 {
+    float: left;
+    font-size: 21px !important;
+    width: 50.326872% !important;
+    height: auto !important;
+    texto_merchant-align: left;
+    font-weight: 400 !important;
+    line-height: 1.1em !important;
+    margin-left: 4.476813% !important;
+    margin-top: 43px;
+    clear: none;
+    min-height: 0px;
+    color: rgb(141, 141, 141) !important;
+    letter-spacing: 0px;
+    font-family: 'Montserrat' !important;
+}
+
+#caja16 {
+    float: left;
+    height: 4px;
+    margin-left: 4.47299%;
+    margin-top: 11px;
+    clear: both;
+    width: 15.659288%;
+    background-color: rgb(201, 177, 151);
+}
+
+#texto_merchant16 {
+    float: left;
+    font-size: 15px !important;
+    width: 74.060481% !important;
+    height: auto !important;
+    texto_merchant-align: left !important;
+    font-weight: 400;
+    line-height: 30px !important;
+    margin-left: 4.47299% !important;
+    margin-top: 16px !important;
+    clear: both;
+    min-height: 139px !important;
+    color: rgb(141, 141, 141) !important;
+    font-family: 'Montserrat Light' !important;
+}
+
+#image_merchant5 {
+    float: left;
+    width: auto;
+    max-width: 35.815574%;
+    height: auto;
+    margin-left: 14.887917%;
+    margin-top: 70.125px;
+    clear: none;
+    color: rgb(0, 0, 0);
+}
+
+#image_merchant3 {
+    float: left;
+    width: auto;
+    max-width: 38%;
+    height: auto;
+    margin-left: 14.666206%;
+    margin-top: 92.125px;
+    clear: none;
+    color: rgb(0, 0, 0);
+}
+
+#texto_merchant3 {
+    float: left;
+    font-size: 16px;
+    width: 32.834201%;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: 400;
+    line-height: 30px;
+    margin-left: 33.615102%;
+    margin-top: 8px;
+    clear: both;
+    min-height: 35px;
+    color: rgb(141, 141, 141);
+    font-family: 'Montserrat Light';
+    margin-right: 0%;
+}
+
+#caja7 {
+    float: left;
+    height: 200px;
+    margin-left: 0%;
+    margin-top: 151.21875px;
+    clear: both;
+    width: 100%;
+    display: block;
+    margin-right: 0%;
+    background-color: rgb(239, 67, 53);
+}
+
+#texto_merchant10 {
+    float: left;
+    font-size: 30px;
+    width: auto;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: normal;
+    line-height: 1em;
+    margin-left: 43.700861%;
+    margin-top: 84.5px;
+    clear: none;
+    min-height: 0px;
+    font-family: 'Montserrat Light';
+    color: rgb(255, 255, 255);
+}
+
+#caja17 {
+    float: left;
+    height: 200px;
+    margin-left: 0%;
+    margin-top: 0px;
+    clear: both;
+    width: 100%;
+    display: block;
+    margin-right: 0%;
+    background-color: rgb(239, 67, 53);
+}
+
+#texto_merchant17 {
+    float: left;
+    font-size: 30px;
+    width: auto;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: normal;
+    line-height: 1em;
+    margin-left: 42.327897%;
+    margin-top: 62.5px;
+    clear: none;
+    min-height: 0px;
+    font-family: Montserrat;
+    color: rgb(255, 255, 255);
+}
+
+#caja4 {
+    float: left;
+    height: 203px;
+    margin-left: 0%;
+    margin-top: 37px;
+    clear: both;
+    width: 31.733199%;
+    background-color: rgb(255, 255, 255);
+}
+
+#caja5 {
+    float: left;
+    height: 203px;
+    margin-left: 5.598325%;
+    margin-top: 37px;
+    clear: none;
+    width: 25.622559%;
+    background-color: rgb(255, 255, 255);
+}
+
+#caja6 {
+    float: left;
+    height: 203px;
+    margin-left: 5.312266%;
+    margin-top: 37px;
+    clear: none;
+    width: 31.709215%;
+    background-color: rgb(255, 255, 255);
+}
+
+#image_merchant {
+    float: left;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin-left: 43.737787%;
+    margin-top: 19px;
+    clear: none;
+    color: rgb(0, 0, 0);
+}
+
+#image_merchant1 {
+    float: left;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin-left: 41.894977%;
+    margin-top: 19px;
+    clear: none;
+    color: rgb(0, 0, 0);
+}
+
+#image_merchant2 {
+    float: left;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin-left: 44.176736%;
+    margin-top: 12px;
+    clear: none;
+    color: rgb(0, 0, 0);
+}
+
+#texto_merchant4 {
+    float: left;
+    font-size: 16px;
+    width: auto;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: normal;
+    line-height: 1em;
+    margin-left: 46.217233%;
+    margin-top: 9px;
+    clear: both;
+    min-height: 0px;
+    color: rgb(133, 133, 133);
+    font-family: Montserrat;
+}
+
+#texto_merchant5 {
+    float: left;
+    font-size: 15px;
+    width: 100%;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: 400;
+    line-height: 30px;
+    margin-left: 0%;
+    margin-top: 15.5px;
+    clear: both;
+    min-height: 35px;
+    color: rgb(141, 141, 141);
+    font-family: 'Montserrat Light';
+    margin-right: 0%;
+    display: block;
+}
+
+#texto_merchant6 {
+    float: left;
+    font-size: 16px;
+    width: auto;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: normal;
+    line-height: 1em;
+    margin-left: 43.456621%;
+    margin-top: 9px;
+    clear: both;
+    min-height: 0px;
+    color: rgb(133, 133, 133);
+    font-family: Montserrat;
+    display: block;
+    margin-right: 0%;
+}
+
+#texto_merchant7 {
+    float: left;
+    font-size: 15px;
+    width: 99.995192%;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: 400;
+    line-height: 30px;
+    margin-left: 0%;
+    margin-top: 15.5px;
+    clear: both;
+    min-height: 35px;
+    color: rgb(141, 141, 141);
+    font-family: 'Montserrat Light';
+    margin-right: 0%;
+    display: block;
+}
+
+#texto_merchant8 {
+    float: left;
+    font-size: 16px;
+    width: 30.794399%;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: normal;
+    line-height: 1em;
+    margin-left: 35.20155%;
+    margin-top: 15.5px;
+    clear: both;
+    min-height: 0px;
+    color: rgb(133, 133, 133);
+    font-family: Montserrat;
+    display: block;
+    margin-right: 0%;
+}
+
+#texto_merchant9 {
+    float: left;
+    font-size: 15px;
+    width: 100.062552%;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: 400;
+    line-height: 30px;
+    margin-left: 0.01291394%;
+    margin-top: 15.5px;
+    clear: both;
+    min-height: 35px;
+    color: rgb(141, 141, 141);
+    font-family: 'Montserrat Light';
+    margin-right: 0%;
+    display: block;
+}
+
+#input1 {
+    float: left;
+    height: 33px;
+    font-size: 12px;
+    margin-left: 4.469624%;
+    margin-top: 12.5px;
+    clear: both;
+    width: 34.193351%;
+    color: rgb(255, 255, 255);
+    border-style: none;
+    border-width: 0px;
+    font-family: Montserrat;
+    display: block;
+    background-color: rgb(201, 177, 151);
+    margin-right: 0%;
+}
+
+#input2 {
+    float: left;
+    height: 33px;
+    font-size: 12px;
+    margin-left: 4.106456%;
+    margin-top: 14px;
+    clear: both;
+    width: 38.362474%;
+    color: rgb(255, 255, 255);
+    border-style: none;
+    border-width: 0px;
+    font-family: Montserrat;
+    display: block;
+    margin-right: 0%;
+    background-color: rgb(201, 177, 151);
+}
+
+#input3 {
+    float: left;
+    height: 33px;
+    font-size: 12px;
+    margin-left: 4.464729%;
+    margin-top: 16.609375px;
+    clear: both;
+    width: 38.144195%;
+    color: rgb(255, 255, 255);
+    border-style: none;
+    border-width: 0px;
+    font-family: Montserrat;
+    display: block;
+    margin-right: 0%;
+    background-color: rgb(201, 177, 151);
+}
+
+#input4 {
+    float: left;
+    height: 33px;
+    font-size: 12px;
+    margin-left: 43.667517%;
+    margin-top: 12.828125px;
+    clear: both;
+    width: 12.597108%;
+    color: rgb(255, 255, 255);
+    border-style: none;
+    border-width: 0px;
+    font-family: Montserrat;
+    display: block;
+    margin-right: 0%;
+    background-color: rgb(201, 177, 151);
+}
+
+@media only screen and (max-width: 1700px) {
+    #texto_merchant {
+        height: auto;
+        min-height: 86px;
+        line-height: 40px !important;
+    }
+
+    #texto_merchant1 {
+        margin-top: 0px;
+        margin-left: 10.167043%;
+        clear: both;
+        height: auto;
+        width: 89.832957%;
+    }
+
+    #input {
+        margin-top: 6px;
+        margin-left: 10.167043%;
+        clear: both;
+    }
+
+    #caja2 {
+        margin-top: 0px;
+        margin-left: 2.903689%;
+        clear: none;
+        height: 444px;
+    }
+}
+
+@media only screen and (max-width: 1440px) {
+    #caja2 {
+        margin-top: 0px;
+        margin-left: 0.43077257%;
+        clear: none;
+        height: 444px;
+        width: 55.401476%;
+    }
+
+    #texto_merchant1 {
+        height: auto;
+        width: 89.835047%;
+        margin-top: 0px;
+        margin-left:23px;
+        clear: both;
+        margin-bottom:30px;
+    }
+
+    #caja1 {
+        margin-top: 0px;
+        margin-left: 5.726997%;
+        clear: none;
+        width: 32.290582%;
+    }
+
+    #texto_merchant {
+        height: auto !important;
+        min-height: 83px !important;
+        line-height: 50px !important;
+        margin-top:20%;
+        margin-bottom:5%;
+        margin-left:16px;
+    }
+
+    #input {
+        margin-top: 10px;
+        margin-left: 10.164992%;
+        clear: both;
+    }
+
+    #caja3 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 491px;
+    }
+
+    #caja7 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 161px;
+    }
+
+    #caja8 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 100%;
+    }
+
+    #caja11 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 100%;
+    }
+
+    #caja14 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 539.890625px !important;
+    }
+
+    #caja17 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #texto_merchant2 {
+        margin-top: 39px;
+        margin-left: 24.672309%;
+        clear: none;
+        text-align:center;
+    }
+
+    #texto_merchant3 {
+        margin-top: 8px;
+        margin-left: 24.398872%;
+        clear: both;
+        height: auto;
+        width: 50.600043%;
+        text-align:center;
+    }
+
+    #caja4 {
+        margin-top: 70px;
+        margin-left: 0%;
+        clear: both;
+        height: 237px;
+        width: 31.732856%;
+        padding:2%;
+        text-align:center;
+    }
+
+    #caja5 {
+        margin-top: 70px;
+        margin-left: 2.399089%;
+        clear: none;
+        height: 237px;
+        width: 31.595052%;
+        padding:2%;
+        text-align:center;
+    }
+
+    #caja6 {
+        margin-top: 70px;
+        margin-left: 2.537977%;
+        clear: none;
+        height: 237px;
+        width: 31.708984%;
+        padding:2%;
+        text-align:center;
+    }
+
+    #image_merchant1 {
+        margin-top: 19px;
+        margin-left: 39.27811% !important;
+        clear: none;
+    }
+
+    #image_merchant2 {
+        margin-top: 13px;
+        margin-left: 42.555248% !important;
+        clear: none;
+    }
+
+    #texto_merchant8 {
+        margin-top: 14.5px;
+        margin-left: 35.198541%;
+        clear: both;
+    }
+
+    #texto_merchant9 {
+        margin-top: 15.5px;
+        margin-left: 0.01272696%;
+        clear: both;
+    }
+
+    #image_merchant {
+        margin-top: 19px;
+        margin-left: 38.594632% !important;
+        clear: none;
+    }
+
+    #texto_merchant10 {
+        margin-top: 60.5px;
+        margin-left: 38.448351%;
+        clear: none;
+    }
+
+    #texto_merchant11 {
+        height: auto;
+        width: 68.840844%;
+    }
+
+    #caja10 {
+        margin-top: 17px;
+        margin-left: 4.469162%;
+        clear: both;
+    }
+
+    #texto_merchant12 {
+        margin-top: 31px;
+        margin-left: 4.469162%;
+        clear: both;
+        height: auto;
+        width: 94.319608%;
+    }
+
+    #input1 {
+        margin-top: 16px;
+        margin-left: 4.421321%;
+        clear: both;
+        width: 48.758447%;
+    }
+
+    #caja9 {
+        width: 27.617188%;
+        margin-top: 53px;
+        margin-left: 5.483941%;
+        clear: none;
+    }
+
+    #image_merchant3 {
+        margin-top: 53px !important;
+        margin-left: 14.665799% !important;
+        clear: none !important;
+        width:38% !important;
+    }
+
+    #caja12 {
+        margin-top: 58.15625px;
+        margin-left: 13.498264%;
+        clear: none;
+        width: 29.204644%;
+    }
+
+    #image_merchant4 {
+        margin-top: 56px !important;
+        margin-left: 4.643012% !important;
+        clear: none;
+        max-width: 38% !important;
+    }
+
+    #texto_merchant13 {
+        height: auto;
+        width: 77.274384%;
+    }
+
+    #caja13 {
+        margin-top: 18px;
+        margin-left: 4.469627%;
+        clear: both;
+    }
+
+    #texto_merchant14 {
+        margin-top: 22px;
+        margin-left: 4.469627%;
+        clear: both;
+        height: auto;
+        width: 89.719487%;
+    }
+
+    #input2 {
+        margin-top: 17px;
+        margin-left: 4.473342%;
+        clear: both;
+        width: 43.94204%;
+    }
+
+    #image_merchant5 {
+        max-width: 38% !important;
+        margin-top: 64.125px !important;
+        margin-left: 14.665799% !important;
+        clear: none !important;
+    }
+
+    #caja15 {
+        margin-top: 53px;
+        margin-left: 5.323351%;
+        clear: none;
+        height: 337.609375px;
+        width: 27.772352%;
+    }
+
+    #texto_merchant15 {
+        height: auto;
+        width: 71.055508%;
+        margin-top: 23px;
+        margin-left: 4.469817%;
+        clear: none;
+    }
+
+    #caja16 {
+        margin-top: 14px;
+        margin-left: 4.469817%;
+        clear: both;
+    }
+
+    #texto_merchant16 {
+        height: auto;
+        width: 94.319608%;
+        margin-top: 18px;
+        margin-left: 4.469817%;
+        clear: both;
+    }
+
+    #input3 {
+        margin-top: 17.21875px;
+        margin-left: 4.166161%;
+        clear: both;
+    }
+
+    #texto_merchant17 {
+        margin-top: 50.5px;
+        margin-left: 36.065538%;
+        clear: none;
+    }
+
+    #input4 {
+        margin-top: 26.828125px;
+        margin-left: 41.255425%;
+        clear: both;
+    }
+
+    #texto_merchant6 {
+        margin-top: 9px;
+        margin-left: 41.256268%;
+        clear: both;
+    }
+
+    #texto_merchant7 {
+        margin-top: 15.5px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #texto_merchant4 {
+        margin-top: 9px;
+        margin-left: 42.496153%;
+        clear: both;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    #texto_merchant2 {
+        height: auto;
+        width: 48.800659%;
+        margin-top: 52px;
+        margin-left: 25.598145%;
+        clear: none;
+    }
+
+    #texto_merchant3 {
+        margin-top: 7px;
+        margin-left: 25.598145%;
+        clear: both;
+        height: auto;
+        width: 48.800659%;
+    }
+
+    #caja3 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 454px;
+    }
+
+    #caja7 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 179px;
+    }
+
+    #caja8 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja11 {
+        margin-top: 0px !important;
+        margin-left: 0% !important;
+        clear: both !important;
+        height: 853px !important;
+    }
+
+    #caja14 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 542.890625px;
+    }
+
+    #caja17 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #texto_merchant {
+        height: auto;
+        width: 95.320975%;
+        font-size: 42px;
+        margin-top: 39px;
+        margin-left: 4.684985%;
+        clear: none;
+        line-height: 35px;
+    }
+
+    #caja4 {
+        float: left;
+        height: 240px;
+        margin-left: 0%;
+        margin-top: 43px;
+        clear: both;
+        width: 31.732178%;
+    }
+
+    #caja5 {
+        float: left;
+        height: 240px;
+        margin-left: 2.397156%;
+        margin-top: 43px;
+        clear: none;
+        width: 31.733704%;
+    }
+
+    #caja6 {
+        float: left;
+        height: 240px;
+        margin-left: 2.397156%;
+        margin-top: 43px;
+        clear: none;
+        width: 31.712341%;
+    }
+
+    #image_merchant {
+        float: left;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        margin-left: 34.429698%;
+        margin-top: 19px;
+        clear: none;
+        color: rgb(0, 0, 0);
+    }
+
+    #image_merchant1 {
+        float: left;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        margin-left: 34.663653%;
+        margin-top: 19px;
+        clear: none;
+        color: rgb(0, 0, 0);
+    }
+
+    #image_merchant2 {
+        float: left;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        margin-left: 35.201848%;
+        margin-top: 11px;
+        clear: none;
+        color: rgb(0, 0, 0);
+    }
+
+    #texto_merchant4 {
+        float: left;
+        font-size: 16px;
+        width: auto;
+        height: auto;
+        font-weight: normal;
+        line-height: 1em;
+        margin-left: 39.613387%;
+        margin-top: 9px;
+        clear: both;
+        min-height: 0px;
+        color: rgb(133, 133, 133);
+        font-family: Montserrat;
+    }
+
+    #texto_merchant5 {
+        margin-top: 15.5px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 100%;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #texto_merchant6 {
+        float: left;
+        font-size: 16px;
+        width: auto;
+        height: auto;
+        font-weight: normal;
+        line-height: 1em;
+        margin-left: 37.14478%;
+        margin-top: 9px;
+        clear: both;
+        min-height: 0px;
+        color: rgb(133, 133, 133);
+        font-family: Montserrat;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #texto_merchant7 {
+        margin-top: 15.5px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 99.995192%;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #texto_merchant8 {
+        float: left;
+        font-size: 16px;
+        width: 30.794399%;
+        height: auto;
+        font-weight: normal;
+        line-height: 1em;
+        margin-left: 35.201848%;
+        margin-top: 16.5px;
+        clear: both;
+        min-height: 0px;
+        color: rgb(133, 133, 133);
+        font-family: Montserrat;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #texto_merchant9 {
+        margin-top: 15.5px;
+        margin-left: 0.01443487%;
+        clear: both;
+        height: auto;
+        width: 100.062552%;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #texto_merchant10 {
+        margin-top: 64.5px;
+        margin-left: 33.695984%;
+        clear: none;
+    }
+
+    #caja9 {
+        margin-top: 53px;
+        margin-left: 7.0755%;
+        clear: none;
+        height: 415.890625px;
+    }
+
+    #image_merchant3 {
+        height: auto !important;
+        width: auto !important;
+        max-width: 45% !important;
+        margin-top: 70.5625px !important;
+        margin-left: 8.633423% !important;
+        clear: none !important;
+    }
+
+    #texto_merchant11 {
+        height: auto;
+        width: 84.000456%;
+        margin-top: 25px;
+        margin-left: 4.469624%;
+        clear: none;
+    }
+
+    #caja10 {
+        margin-top: 14px;
+        margin-left: 4.469624%;
+        clear: both;
+    }
+
+    #texto_merchant12 {
+        margin-top: 14px;
+        margin-left: 4.469624%;
+        clear: both;
+        height: auto;
+        width: 88.481467%;
+    }
+
+    #caja2 {
+        margin-top: 0px;
+        margin-left: 3.613281%;
+        clear: none;
+        width: 60.427856%;
+        height: 444px;
+    }
+
+    #caja1 {
+        width: 28.627014%;
+    }
+
+    #texto_merchant1 {
+        height: auto;
+        width: 94.339321%;
+        margin-top: 11px;
+        margin-left: 5.660679%;
+        clear: both;
+    }
+
+    #input {
+        margin-top: 12px;
+        margin-left: 5.543415%;
+        clear: both;
+        width: 81.509514%;
+    }
+
+    #input1 {
+        margin-top: 12.5px;
+        margin-left: 4.469624%;
+        clear: both;
+        width: 65.586745%;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #texto_merchant13 {
+        height: auto !important;
+        width: 88.56118% !important;
+    }
+
+    #caja13 {
+        margin-top: 16px;
+        margin-left: 4.459923%;
+        clear: both;
+    }
+
+    #caja12 {
+        margin-top: 44px;
+        margin-left: 7.319641%;
+        clear: none;
+        width: 29.354858%;
+        height: 456.890625px;
+    }
+
+    #image_merchant4 {
+        margin-top: 78px !important;
+        margin-left: 3.590393% !important;
+        clear: none !important;
+        height: auto !important;
+        width: auto !important;
+        max-width: 45% !important;
+    }
+
+    #texto_merchant14 {
+        margin-top: 36px !important;
+        margin-left: 4.449527% !important;
+        clear: both !important;
+        height: auto !important;
+        width: 85.393492% !important;
+    }
+
+    #input2 {
+        margin-top: 14px;
+        margin-left: 4.106456%;
+        clear: both;
+        width: 59.876286%;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #image_merchant5 {
+        margin-top: 60.125px !important;
+        margin-left: 8.67157% !important;
+        clear: none !important;
+        max-width: 45%!important;
+    }
+
+    #caja15 {
+        margin-top: 41px;
+        margin-left: 7.035828%;
+        clear: none;
+        width: 30.758667%;
+        height: 441.890625px;
+    }
+
+    #texto_merchant15 {
+        height: auto !important;
+        width: 92.227979% !important;
+        margin-top: 27px !important;
+        margin-left: 4.469624% !important;
+        clear: none !important;
+    }
+
+    #caja16 {
+        margin-top: 19px;
+        margin-left: 4.464729%;
+        clear: both;
+    }
+
+    #texto_merchant16 {
+        margin-top: 30px !important;
+        margin-left: 4.464729% !important;
+        clear: both !important;
+        height: auto !important;
+        width: 80.439528% !important;
+    }
+
+    #input3 {
+        margin-top: 16.609375px;
+        margin-left: 4.464729%;
+        clear: both;
+        width: 57.143565%;
+        display: block;
+        margin-right: 0%;
+    }
+
+    #texto_merchant17 {
+        margin-top: 58.75px;
+        margin-left: 30.592346%;
+        clear: none;
+    }
+
+    #input4 {
+        margin-top: 18.578125px;
+        margin-left: 41.465759%;
+        clear: both;
+        width: 17.576599%;
+        display: block;
+        margin-right: 0%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #caja7 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 133px;
+    }
+
+    #caja8 {
+        margin-top: 0px !important;
+        margin-left: 0% !important;
+        clear: both!important;
+        height: 806.890625px !important;
+    }
+
+    #caja11 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 857.421875px;
+    }
+
+    #caja3 {
+        height: 917.984375px;
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #texto_merchant3 {
+        margin-top: 7px;
+        margin-left: 17.063395%;
+        clear: both;
+        height: auto;
+        width: 65.869141%;
+    }
+
+    #caja14 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 828.890625px !important;
+    }
+
+    #caja17 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja6 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        margin-right: 0%;
+        width: 100%;
+    }
+
+    #caja5 {
+        margin-top: 0px;
+        margin-right: 0%;
+        margin-left: 0%;
+        clear: both;
+        width: 100%;
+    }
+
+    #caja4 {
+        margin-top: 30px;
+        margin-left: 0%;
+        clear: both;
+        width: 100%;
+    }
+
+    #texto_merchant5 {
+        margin-top: 10px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 99.997965%;
+    }
+
+    #texto_merchant4 {
+        margin-top: 29px;
+        margin-left: 45.756022%;
+        clear: both;
+    }
+
+    #image_merchant {
+        margin-top: 28px;
+        margin-left: 43.896484%;
+        clear: none;
+    }
+
+    #image_merchant1 {
+        margin-top: 28px;
+        margin-left: 44.486491%;
+        clear: none;
+    }
+
+    #texto_merchant6 {
+        margin-top: 29px;
+        margin-left: 45.756022%;
+        clear: both;
+    }
+
+    #texto_merchant7 {
+        margin-top: 10px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 99.997965%;
+    }
+
+    #image_merchant2 {
+        margin-top: 28px;
+        margin-left: 43.375651%;
+        clear: none;
+    }
+
+    #texto_merchant8 {
+        margin-top: 29px;
+        margin-left: 34.865316%;
+        clear: both;
+    }
+
+    #texto_merchant9 {
+        margin-top: 10px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 99.997965%;
+    }
+
+    #caja {
+        height: 727px;
+    }
+
+    #caja2 {
+        margin-top: 17px;
+        margin-left: 16.900635%;
+        clear: both;
+        width: 68.44279%;
+        height: 493px;
+    }
+
+    #caja1 {
+        height: 217px;
+        width: 68.95752%;
+        margin-top: 0px;
+        margin-left: 16.333008%;
+        clear: none;
+    }
+
+    #texto_merchant1 {
+        height: auto;
+        width: 91.597333%;
+    }
+
+    #input {
+        width: 48.338939%;
+    }
+
+    #texto_merchant2 {
+        height: auto;
+        width: 65.869141%;
+        margin-top: 48px;
+        margin-left: 17.063395%;
+        clear: none;
+    }
+
+    #texto_merchant10 {
+        margin-top: 51px;
+        margin-left: 28.719076%;
+        clear: none;
+    }
+
+    #caja9 {
+        margin-top: 43px;
+        margin-left: 19.561768%;
+        clear: both;
+        width: 65.698242%;
+        height: 311.890625px;
+    }
+
+    #image_merchant3 {
+        margin-top: 70.25px !important;
+        margin-left: 20.235189% !important;
+        clear: none !important;
+        max-width: 60% !important;
+    }
+
+    #input1 {
+        width: 37.498452%;
+    }
+
+    #caja12 {
+        height: 382.890625px !important;
+        margin-top: 23px !important;
+        margin-left: 19.561768% !important;
+        clear: none !important;
+        width: 69.083659% !important;
+    }
+
+    #image_merchant4 {
+        margin-top: 61.1875px !important;
+        margin-left: 20.235189% !important;
+        clear: both !important;
+        max-width: 60% !important;
+    }
+
+    #texto_merchant13 {
+        height: auto !important;
+        width: 82.503828% !important;
+    }
+
+    #texto_merchant14 {
+        height: auto !important;
+        width: 92.719559% !important;
+    }
+
+    #input2 {
+        margin-top: 14px;
+        margin-left: 4.10628%;
+        clear: both;
+        width: 35.80516%;
+    }
+
+    #caja15 {
+        height: 314.890625px;
+        margin-top: 34px;
+        margin-left: 18.070475%;
+        clear: both;
+        width: 69.356283%;
+    }
+
+    #image_merchant5 {
+        max-width: 60% !important;
+        margin-top: 83.5px !important;
+        margin-left: 19.561768% !important;
+        clear: none !important;
+    }
+
+    #texto_merchant16 {
+        height: auto;
+        width: 92.534468%;
+        margin-top: 20px;
+        margin-left: 4.461719%;
+        clear: both;
+        min-height: 133px;
+    }
+
+    #input3 {
+        margin-top: 24.609375px;
+        margin-left: 4.461719%;
+        clear: both;
+        width: 33.625697%;
+    }
+
+    #texto_merchant15 {
+        height: auto;
+        width: 89.724259%;
+    }
+
+    #caja16 {
+        margin-top: 8px;
+        margin-left: 4.461719%;
+        clear: both;
+    }
+
+    #texto_merchant17 {
+        margin-top: 53.5px;
+        margin-left: 24.397786%;
+        clear: none;
+    }
+
+    #input4 {
+        margin-top: 23.828125px;
+        margin-left: 41.465251%;
+        clear: both;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    #caja2 {
+        margin-top: 0px;
+        margin-left: 6.132353%;
+        clear: both;
+        width: 89.323529%;
+        height: 468px;
+    }
+
+    #caja1 {
+        height: 259px;
+    }
+
+    #input {
+        width: 75.975688%;
+    }
+
+    #texto_merchant1 {
+        height: auto;
+        width: 94.343144%;
+    }
+
+    #image_merchant {
+        margin-top: 28px;
+        margin-left: 38.481618%;
+        clear: none;
+    }
+
+    #texto_merchant4 {
+        margin-top: 29px;
+        margin-left: 42.459559%;
+        clear: both;
+    }
+
+    #texto_merchant6 {
+        margin-top: 29px;
+        margin-left: 39.871324%;
+        clear: both;
+    }
+
+    #image_merchant1 {
+        margin-top: 28px;
+        margin-left: 38.602941%;
+        clear: none;
+    }
+
+    #image_merchant2 {
+        margin-top: 28px;
+        margin-left: 38.433824%;
+        clear: none;
+    }
+
+    #caja6 {
+        height: 228.984375px;
+    }
+
+    #texto_merchant10 {
+        margin-top: 21px;
+        margin-left: 11.441176%;
+        clear: none;
+    }
+
+    #caja8 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 719.890625px;
+    }
+
+    #caja7 {
+        height: 75px;
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja3 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja11 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 724.421875px !important;
+    }
+
+    #caja14 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 729.890625px !important;
+    }
+
+    #caja17 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 156px;
+    }
+
+    #caja9 {
+        height: 379.890625px;
+    }
+
+    #texto_merchant13 {
+        height: auto;
+        width: 90.670569%;
+    }
+
+    #caja13 {
+        margin-top: 16px;
+        margin-left: 4.385311%;
+        clear: both;
+    }
+
+    #texto_merchant14 {
+        margin-top: 18px;
+        margin-left: 4.358701%;
+        clear: both;
+        height: auto;
+        width: 90.856839%;
+    }
+
+    #input2 {
+        margin-top: 21px;
+        margin-left: 4.103246%;
+        clear: both;
+    }
+
+    #image_merchant4 {
+        margin-top: 33px;
+        margin-left: 20.231618%;
+        clear: both;
+    }
+
+    #caja12 {
+        height: 436.890625px;
+    }
+
+    #image_merchant5 {
+        margin-top: 61.5px;
+        margin-left: 19.558824%;
+        clear: none;
+    }
+
+    #texto_merchant15 {
+        height: auto;
+        width: 95.53117%;
+    }
+
+    #caja15 {
+        width: 72.194853%;
+        margin-top: 34px;
+        margin-left: 15.948529%;
+        clear: both;
+        height: 394.890625px;
+    }
+
+    #texto_merchant17 {
+        margin-top: 34px;
+        margin-left: 2.216912%;
+        clear: none;
+    }
+
+    #input4 {
+        margin-top: 23.3125px;
+        margin-left: 29.529412%;
+        clear: both;
+        width: 40.275735%;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    #caja2 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        width: 95.45%;
+    }
+
+    #texto_merchant2 {
+        height: auto;
+        width: 82.933333%;
+        margin-top: 48px;
+        margin-left: 8.533333%;
+        clear: none;
+    }
+
+    #texto_merchant3 {
+        margin-top: 16px;
+        margin-left: 8.529167%;
+        clear: both;
+        height: auto;
+        width: 82.929167%;
+    }
+
+    #caja4 {
+        margin-top: 17px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja5 {
+        margin-top: 3px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja6 {
+        margin-top: 11px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja3 {
+        height: 971.234375px;
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja7 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja8 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 703.890625px;
+    }
+
+    #caja11 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja14 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja17 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #texto_merchant10 {
+        margin-top: 18px;
+        margin-left: 4.533333%;
+        clear: none;
+    }
+
+    #caja9 {
+        margin-top: 32.25px;
+        margin-left: 14.666667%;
+        clear: both;
+        width: 70.6125%;
+    }
+
+    #texto_merchant12 {
+        height: auto;
+        width: 93.910427%;
+        margin-top: 14px;
+        margin-left: 4.466867%;
+        clear: both;
+    }
+
+    #input1 {
+        margin-top: 14px;
+        margin-left: 4.083319%;
+        clear: both;
+    }
+
+    #caja10 {
+        margin-top: 14px;
+        margin-left: 4.466867%;
+        clear: both;
+    }
+
+    #caja12 {
+        margin-top: 18px;
+        margin-left: 12.266667%;
+        clear: none;
+        width: 75.866667%;
+    }
+
+    #image_merchant4 {
+        margin-top: 39px;
+        margin-left: 15.4125%;
+        clear: both;
+        max-width: 70%;
+    }
+
+    #texto_merchant13 {
+        height: auto;
+        width: 95.524764%;
+    }
+
+    #texto_merchant14 {
+        height: auto;
+        width: 95.644772%;
+        margin-top: 18px;
+        margin-left: 4.355228%;
+        clear: both;
+    }
+
+    #caja13 {
+        margin-top: 16px;
+        margin-left: 4.382689%;
+        clear: both;
+    }
+
+    #input2 {
+        margin-top: 14px;
+        margin-left: 4.289323%;
+        clear: both;
+    }
+
+    #image_merchant3 {
+        max-width: 70%;
+        margin-top: 75px;
+        margin-left: 14.666667%;
+        clear: none;
+    }
+
+    #image_merchant5 {
+        max-width: 70%;
+        margin-top: 55px;
+        margin-left: 15.145833%;
+        clear: none;
+    }
+
+    #caja15 {
+        margin-top: 30px;
+        margin-left: 8.533333%;
+        clear: both;
+        width: 82.929167%;
+    }
+
+    #caja16 {
+        margin-top: 8px;
+        margin-left: 4.461639%;
+        clear: both;
+    }
+
+    #texto_merchant16 {
+        margin-top: 20px;
+        margin-left: 4.461639%;
+        clear: both;
+    }
+
+    #input3 {
+        margin-top: 14.21875px;
+        margin-left: 4.351103%;
+        clear: both;
+    }
+
+    #input4 {
+        margin-top: 16.625px;
+        margin-left: 28.870833%;
+        clear: both;
+    }
+
+    #texto_merchant17 {
+        margin-top: 27px;
+        margin-left: 2.216667%;
+        clear: none;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    #caja {
+        height: 764px;
+    }
+
+    #caja2 {
+        margin-top: 37px;
+        margin-left: 0%;
+        clear: both;
+        width: 100%;
+    }
+
+    #caja1 {
+        width: 94.326172%;
+        margin-top: 0px;
+        margin-left: 2.211914%;
+        clear: none;
+    }
+
+    #texto_merchant2 {
+        height: auto;
+        margin-top: 48px;
+        margin-left: 0%;
+        clear: none;
+        width: 99.995117%;
+    }
+
+    #texto_merchant3 {
+        margin-top: 8px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 100%;
+    }
+
+    #caja4 {
+        margin-top: 21px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja5 {
+        margin-top: 3px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja6 {
+        margin-top: 3px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja7 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja3 {
+        height: 957.234375px;
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #caja8 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 643.890625px;
+    }
+
+    #caja11 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 689.421875px;
+    }
+
+    #caja14 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 673.890625px;
+    }
+
+    #caja17 {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+    }
+
+    #texto_merchant10 {
+        margin-top: 8px;
+        margin-left: 0%;
+        clear: none;
+        height: auto;
+        width: 100%;
+    }
+
+    #texto_merchant11 {
+        height: auto;
+        width: 95.532812%;
+    }
+
+    #caja9 {
+        width: 87.236328%;
+        margin-top: 27.5px;
+        margin-left: 6.630859%;
+        clear: both;
+    }
+
+    #image_merchant3 {
+        margin-top: 39.5px;
+        margin-left: 14.482422%;
+        clear: none;
+    }
+
+    #caja12 {
+        margin-top: 13px;
+        margin-left: 6.992187%;
+        clear: none;
+        width: 86.875%;
+        height: 426.890625px;
+    }
+
+    #image_merchant4 {
+        margin-top: 54px;
+        margin-left: 15.410156%;
+        clear: both;
+    }
+
+    #caja15 {
+        width: 85.332031%;
+    }
+}
+
+
 

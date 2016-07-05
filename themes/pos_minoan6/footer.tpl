@@ -44,7 +44,7 @@
                                             <div class="footer-static-top" style="background:#fff;">
 							<div class="container2">
 								<div class="row" style="background:#f9f9f9; margin-left:0; min-height: 400px;">
-									<div class="col-xs-12 col-md-4 col-sm-4">
+									<div class="col-xs-12 col-md-2 col-sm-4">
 									
 										{capture name='blockFooter1'}{hook h='blockFooter1'}{/capture}
 										{if $smarty.capture.blockFooter1}
@@ -53,21 +53,19 @@
 										
 									
 									</div>
-                                                                                <div class="top-right col-xs-12 col-md-8 col-sm-8" >
-                                                                          
+                                                                        <div class="top-right col-xs-12 col-md-5 col-sm-8" >
+                                                                                    
                                                                                 {capture name='blockFooter2'}{hook h='blockFooter2'}{/capture}
 										{if $smarty.capture.blockFooter2}
 										{$smarty.capture.blockFooter2}
 										{/if}
-                                                                                <div class="blockFooterPay">
+									</div>
+                                                                        <div class="blockFooterPay col-md-5 col-sm-12">
 										{capture name='blockFooter3'}{hook h='blockFooter3'}{/capture}
 										{if $smarty.capture.blockFooter3}
 										{$smarty.capture.blockFooter3}
 										{/if}
-										</div>
-									
-									
-									</div>								
+									</div>
 								</div>	
 							</div>
 						

@@ -51,11 +51,18 @@ class fluzfluzCodes extends Module{
     }
     
     public function hookdisplayAdminProductsExtra($params) {
-        $query = "SELECT code
+        $query1 = "SELECT "._DB_PREFIX_."product_code.`code`,(CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN '' ELSE "._DB_PREFIX_."product_code.id_order END AS `order` 
                     FROM ps_product_code
-                    WHERE id_product = ".Tools::getValue('id_product')."
-                    AND id_order = 0";
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query);
+                    WHERE id_product = ".Tools::getValue('id_product');
+        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);
+        
+        $query2 = "SELECT rs.estado, count(rs.code) AS total
+                    FROM (SELECT pc.`code`, (CASE pc.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE pc.id_order WHEN 0 THEN '' ELSE pc.id_order END AS `order` 
+                    FROM "._DB_PREFIX_."product_code AS pc
+                    WHERE id_product = ".Tools::getValue('id_product').") as rs GROUP BY rs.estado";
+        $rtotal = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query2);
+        
+        $this->context->smarty->assign('totals', $rtotal );
         $this->context->smarty->assign('codes', $result );
         return $this->display(__FILE__, 'views/fluzfluzcodes_admin.tpl');
     }
