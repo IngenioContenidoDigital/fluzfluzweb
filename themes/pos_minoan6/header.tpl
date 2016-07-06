@@ -119,7 +119,7 @@
                                                                     <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Members' mod='blockmyaccountheader'}</a></li>
                                                                     <li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='Merchants' mod='blockmyaccountheader'}">{l s='Merchants' mod='blockmyaccountheader'}</a></li>
                                                                     <li><a href="{$link->getModuleLink('allinone_rewards', 'rewards', [], true)|escape:'html':'UTF-8'}" title="{l s='Shop Now' mod='blockmyaccountheader'}">{l s='Shop Now' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a style="border-bottom:none;" href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Search' mod='blockmyaccountheader'}">{l s='Search' mod='blockmyaccountheader'}</a></li>
+                                                                    <li><a style="border-bottom:none;" href="#" title="{l s='Search' mod='blockmyaccountheader'}"><span class="glyphicon glyphicon-search"></span>{l s='Search' mod='blockmyaccountheader'}</a></li>
                                                             </ul>
                                                     </div>
                                                     <div class="col-md-3 col-sm-4 col-lg-3 col-xs-5 hookLeft">
@@ -150,7 +150,7 @@
                                 {/if}    
                                 
                                 {if isset($left_column_size) && !empty($left_column_size)}
-                                    <div id="left_column" class="column col-lg-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
+                                    <div style="margin-top:-22px;" id="left_column" class="menuSticky column col-lg-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
                                                 
                                         {if $cms->id==6}
                                             <div class="block"><h2 class="title_blockSale">{l s="Sale"}</h2>
@@ -190,19 +190,16 @@
 				{/if}
                                 {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
 						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
-                                                {if $cms->id==6}
-                                                <div  style="background:#fff; padding-left: 2%; padding-right: 2%;" id="center_column" class="center_column col-lg-12 col-xs-12 col-sm-{$cols|intval}">
-                                                {/if}    
-                                {if $page_name =="index"}
+                                                                             {if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}
 					{if $smarty.capture.blockPosition1}
 					{$smarty.capture.blockPosition1}
 					{/if}
 
-				{/if}
+                                                                            {/if}
                                 <div id="columns" class="container">
 					
-                                        {if $page_name !='index' && $page_name !='pagenotfound'}
+                                        {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6}
 						{include file="$tpl_dir./breadcrumb.tpl"}
 					{/if}
 					{if $page_name =='category'}
@@ -223,3 +220,36 @@
 							
 								
 	{/if}
+        
+ {literal}
+     <script>
+     // Create a clone of the menu, right next to original.
+            $('.menuSticky').addClass('original').clone().insertAfter('.menuSticky').addClass('cloned').css('position','fixed').css('top','0px').css('margin-top','0px').css('z-index','0').removeClass('original').hide();
+            
+            scrollIntervalID = setInterval(stickIt, 1);
+
+
+            function stickIt() {
+
+              var orgElementPos = $('.original').offset();
+              orgElementTop = orgElementPos.top;               
+
+              if ($(window).scrollTop() >=200) {
+                // scrolled past the original position; now only show the cloned, sticky element.
+
+                // Cloned element should always have same left position and width as original element.     
+                orgElement = $('.original');
+                coordsOrgElement = orgElement.offset();
+                leftOrgElement = coordsOrgElement.left;  
+                widthOrgElement = orgElement.css('width');
+                heightOrgElement = orgElement.css('height');
+                $('.cloned').css('left',leftOrgElement+'px').css('top',0).css('width',widthOrgElement).show();
+                $('.original').css('visibility','hidden');
+              } else {
+                // not scrolled past the menu; only show the original menu.
+                $('.cloned').hide();
+                $('.original').css('visibility','visible');
+              }
+            }
+     </script>
+{/literal}
