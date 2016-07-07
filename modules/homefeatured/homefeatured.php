@@ -131,12 +131,29 @@ class HomeFeatured extends Module
 	{
 		if (!isset(HomeFeatured::$cache_products))
 		{
+                    if ( (int)Configuration::get('HOME_FEATURED_CAT') == 0 ) {
+                        $listProductFeatured = [];
+                        $categories = Category::getSimpleCategories((int)Context::getContext()->language->id);
+                        foreach ( $categories as $cat ) {
+                            $category = new Category((int)$cat['id_category'], (int)Context::getContext()->language->id);
+                            $nb = (int)Configuration::get('HOME_FEATURED_NBR');
+                            if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
+                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), null, null, false, true, true, ($nb ? $nb : 8));
+                            } else {
+                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), 'position');
+                            }
+                            $listProductFeatured = array_merge($listProductFeatured,$listProducts);
+                        }
+                        HomeFeatured::$cache_products = $listProductFeatured;
+                    } else {
 			$category = new Category((int)Configuration::get('HOME_FEATURED_CAT'), (int)Context::getContext()->language->id);
 			$nb = (int)Configuration::get('HOME_FEATURED_NBR');
-			if (Configuration::get('HOME_FEATURED_RANDOMIZE'))
+			if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
 				HomeFeatured::$cache_products = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), null, null, false, true, true, ($nb ? $nb : 8));
-			else
+                        } else {
 				HomeFeatured::$cache_products = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), 'position');
+                        }
+                    }
 		}
 
 		if (HomeFeatured::$cache_products === false || empty(HomeFeatured::$cache_products))
