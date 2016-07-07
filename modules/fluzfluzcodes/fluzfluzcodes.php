@@ -46,7 +46,7 @@ class fluzfluzCodes extends Module{
         
         if (!parent::uninstall() || !Configuration::deleteByName('FLUZFLUZCODES'))
             return false;
-        Db::getInstance()->Execute("DROP TABLE IF EXISTS "._DB_PREFIX_."product_code");
+        // Db::getInstance()->Execute("DROP TABLE IF EXISTS "._DB_PREFIX_."product_code");
         return true;
     }
     
@@ -64,39 +64,40 @@ class fluzfluzCodes extends Module{
         
         $this->context->smarty->assign('totals', $rtotal );
         $this->context->smarty->assign('codes', $result );
+        $this->context->smarty->assign('id_product', Tools::getValue('id_product') );
         return $this->display(__FILE__, 'views/fluzfluzcodes_admin.tpl');
     }
     
     public function getContent(){
-    $output = null;
- 
-    if (Tools::isSubmit('submit'.$this->name)){
-        $file = $_FILES['archivo'];
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $allowed = array('txt', 'csv');
+        $output = null;
 
-        if ( file_exists($file['tmp_name']) && in_array($extension, $allowed) ){
-            $filename = uniqid()."-".basename($file['name']);
-            $filename = str_replace(' ', '-', $filename);
-            $filename = strtolower($filename);
-            $filename = filter_var($filename, FILTER_SANITIZE_STRING);
-            $file['name'] = $filename;
-            
-            $uploader = new UploaderCore();
-            $uploader->setSavePath($this->location.$this->folder);
-            $uploader->upload($file);
-            $this->nuevo_archivo=$file['name'];
-            chmod($this->location.$this->folder.$this->nuevo_archivo, 0777);
-        } 
-        if (isset($this->nuevo_archivo)){
-            $status=$this->uploadCodes();
-        }
-            if ($status) {
-                    $output .= $this->displayConfirmation($this->l('Se realizo la carga de codigos..'));
-            } else {
-                    $output .= $this->displayConfirmation($this->l('Error al procesar el archivo.'));
+        if (Tools::isSubmit('submit'.$this->name)){
+            $file = $_FILES['archivo'];
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $allowed = array('txt', 'csv');
+
+            if ( file_exists($file['tmp_name']) && in_array($extension, $allowed) ){
+                $filename = uniqid()."-".basename($file['name']);
+                $filename = str_replace(' ', '-', $filename);
+                $filename = strtolower($filename);
+                $filename = filter_var($filename, FILTER_SANITIZE_STRING);
+                $file['name'] = $filename;
+
+                $uploader = new UploaderCore();
+                $uploader->setSavePath($this->location.$this->folder);
+                $uploader->upload($file);
+                $this->nuevo_archivo=$file['name'];
+                chmod($this->location.$this->folder.$this->nuevo_archivo, 0777);
+            } 
+            if (isset($this->nuevo_archivo)){
+                $status=$this->uploadCodes();
             }
-        } 
+                if ($status) {
+                        $output .= $this->displayConfirmation($this->l('Se realizo la carga de codigos..'));
+                } else {
+                        $output .= $this->displayConfirmation($this->l('Error al procesar el archivo.'));
+                }
+        }
         return $output.$this->displayForm();
     }
     

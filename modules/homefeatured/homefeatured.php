@@ -85,7 +85,7 @@ class HomeFeatured extends Module
 			$errors[] = $this->l('The number of products is invalid. Please enter a positive number.');
 
 			$cat = Tools::getValue('HOME_FEATURED_CAT');
-			if (!Validate::isInt($cat) || $cat <= 0)
+			if (!Validate::isInt($cat) || $cat < 0)
 				$errors[] = $this->l('The category ID is invalid. Please choose an existing category ID.');
 
 			$rand = Tools::getValue('HOME_FEATURED_RANDOMIZE');
@@ -221,7 +221,7 @@ class HomeFeatured extends Module
 						'label' => $this->l('Category from which to pick products to be displayed'),
 						'name' => 'HOME_FEATURED_CAT',
 						'class' => 'fixed-width-xs',
-						'desc' => $this->l('Choose the category ID of the products that you would like to display on homepage (default: 2 for "Home").'),
+						'desc' => $this->l('Choose the category ID of the products that you would like to display on homepage (default: 2 for "Home").')." Ingrese 0 para seleccionar todas las categorias",
 					),
 					array(
 						'type' => 'switch',
