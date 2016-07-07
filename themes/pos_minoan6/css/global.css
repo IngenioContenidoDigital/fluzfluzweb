@@ -129,7 +129,7 @@ button, input, select[multiple], textarea { background-image: none; }
 
 .tprice{color:#ef4136; font-size:80%;}
 
-a { color: #777777; text-decoration: none; Font-family: 'Montserrat'; Letter-spacing: 1px;}
+a { color: #777777; text-decoration: none; Font-family: ?Montserrat?; Letter-spacing: 2px;}
 a:hover, a:focus { color: #515151; text-decoration: underline; }
 a:focus { outline: thin dotted #333; outline: 5px auto -webkit-focus-ring-color; outline-offset: -2px; }
 
@@ -1020,7 +1020,7 @@ a.thumbnail:hover, a.thumbnail:focus { border-color: #777777; }
 .alert-success hr { border-top-color: #419f49; }
 .alert-success .alert-link { color: #e6e6e6; }
 
-.alert-info {background-color: #c8b79b; border-color: #f2f2f2; color: white; font-family: "san-serif"; font-size: 16px; width: 96%; margin-left: 2%; margin-top: 2%;}
+.alert-info { background-color: #c8b79b; border-color: #f2f2f2; color: white; font-family:"san-serif"; font-size:16px;}
 .alert-info hr { border-top-color: #3d73b7; }
 .alert-info .alert-link { color: #e6e6e6; }
 
@@ -3383,25 +3383,18 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     #header .pos_logo img{width:190%;}
 }
 
-@media (min-width:425px) and (max-width:449px){
+@media (min-width:414px) and (max-width:426px){
     #header .pos_logo{width:60% !important; margin-top:7px !important;}
-    .block_content3{margin-right:5px; width:15% !important; margin-right:8px !important; margin-top:2px !important;}
-    .accountHeader{top:-153.5px; left:290px !important; padding-right:0px !important; border:none !important;}
-    .shopping_cart > a:first-child:before{position:absolute!important; top: -64px!important; left: 111px !important;}
-}
-
-@media (min-width:414px) and (max-width:424px){
-    #header .pos_logo{width:60% !important; margin-top:7px !important;}
-    .block_content3{ width:15% !important; margin-right:20px !important; margin-top:5px !important;}
-    .accountHeader{top:-152.5px; left:216px !important; padding-right:0px !important; border:none !important;}
-    .shopping_cart > a:first-child:before{position:absolute!important; top: -63px!important; left: 296px !important;}
+    .block_content3{margin-right:5px; width:15% !important; margin-right:0px !important;}
+    .accountHeader{top:-154.5px; left:295px !important; padding-right:0px !important;}
+    .shopping_cart > a:first-child:before{position:absolute!important; top: -65px!important; left: 111px !important;}
 }
 
 @media (min-width:321px) and (max-width:375px){
     .hookLeft{text-align:right !important;}
     .accountHeader{border:none !important;}
-    .block_content3{margin-right:13px !important;}
-    .shopping_cart > a:first-child:before{margin-left:12px; margin-top:-2px !important;}
+    .block_content3{margin-right:15px !important;}
+    .shopping_cart > a:first-child:before{margin-left:15px; margin-top:-1px !important;}
     .accountHeader{margin-top: -87px !important; left: 125px !important;}
     .img-responsive{max-width:none !important; width:200% !important; margin-top:10px !important;}
 
@@ -3432,14 +3425,6 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .accountHeader{left:227px; float:left !important; border:none !important;}
     .shopping_cart > a:first-child:before{margin-left:150px; margin-top: -1px !important;}
     .block_content3{margin-right:2%; width:15%;}
-}
-
-@media (min-width:1026px) and (max-width:1199px){
-    
-    .hookLeft {margin-left:85px !important;}
-    .accountHeader {margin-right:18% !important; }
-    #header .pos_logo img {margin-top:4%;}
-    .pt_custommenu{width:125%; margin-top: -12px !important;}
 }
 
 .shopping_cart, .pos-setting, .header_userinfo { text-align: left; }
@@ -3871,12 +3856,12 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .output{color:#ef4136; background:transparent; border:none; text-align:center;}
 .rangePrice{color:#414042;margin-top:5%;}
 
-.divTitleFeatured{    position: relative; left: 2%; border: 1px solid #EBEBEB; margin: 0px auto; display: inline-block; width: 96%; height: 61px; background: #fcfdfd;}
-.titleFeatured{background:#E1382C; width:20.5%; color:#fff; text-align:center;font-size: 14px; padding: 15px 0; margin-top:0; height:61px; display: flex; justify-content: center; align-content: center; flex-direction: column;}
-.titleFeatured2{background:#eabf1e; width:20.5%; color:#fff; text-align:center; font-size: 14px; padding: 15px 0; margin-top:0; height:61px; display: flex; justify-content: center; align-content: center; flex-direction: column;}
+.divTitleFeatured{margin-top:5%;position: relative; border: 1px solid #EBEBEB; margin-bottom: 30px; display: inline-block; width: 100%; height: 100px; background:#fcfdfd;}
+.titleFeatured{background:#E1382C; width:20%; color:#fff; text-align:center;font-size: 14px; padding: 15px 0; margin-top:0;}
+.titleFeatured2{background:#eabf1e; width:20%; color:#fff; text-align:center; font-size: 14px; padding: 15px 0; margin-top:0;}
 .containerFeatured{width:100%; margin:0 auto;}
-.boxprevnext2 a {margin-top: 3px; width: 75px; height: 55px; position: absolute; top: 0; cursor: pointer; border-left: 1px solid #e5e5e5; color: #d2d1d1; background: #fff; font-size: 18px; text-align: center; opacity: 1; z-index: 1; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
-.boxprevnext2 a i { display: block; line-height: 60px; background:#fcfdfd; }
+.boxprevnext2 a {margin-top: 75px; width: 75px; height: 55px; position: absolute; top: 0; cursor: pointer; border-left: 1px solid #e5e5e5; color: #d2d1d1; background: #fff; font-size: 18px; text-align: center; opacity: 1; z-index: 1; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
+.boxprevnext2 a i { display: block; line-height: 60px; }
 .boxprevnext2 a.prev { right: 95px; }
 .boxprevnext2 a.next { right: 20px; }
 .boxprevnext2 a:hover { background: #FCC716; color: white; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
@@ -4040,6 +4025,8 @@ h2.title_blockSale {
    background-size:100% auto;
    background-position: center center;
 }
+
+
 .members3 h1{	
 	font-size:4.5vw;
 	font-weight:bold;
@@ -4633,15 +4620,14 @@ font-family: 'Open Sans' !important;
 
 #text3 {
     float: left;
-    font-size: 27px;
-    width: 100%;
+    font-size: 15px;
+    width: 74.060481%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 41px;
+    line-height: 30px;
     margin-left: 4.47299%;
-    margin-top: 12px;
-    margin-bottom: 5%;
+    margin-top: 16px;
     clear: both;
     min-height: 139px;
     color: rgb(141, 141, 141);
@@ -4651,7 +4637,7 @@ font-family: 'Open Sans' !important;
 #box6 {
     float: left;
     height: auto;
-    margin-left: 0px;
+    margin-left: 2.5%;
     margin-top: 0px;
     clear: both;
     padding: 2% 0 6% 0;
@@ -4664,7 +4650,7 @@ font-family: 'Open Sans' !important;
 #box7 {
     float: left;
     height: 363.890625px;
-    margin-left: 10.5%;
+    margin-left: 6.5%;
     clear: none;
     width: 33.33%;
     margin-right: 0%;
@@ -4674,7 +4660,7 @@ font-family: 'Open Sans' !important;
     float: left;
     font-size: 28px;
     width: 50.326872%;
-    height: 30%;
+    height: 80%;
     text-align: left;
     font-weight: 400;
     line-height: 40px;
@@ -4699,15 +4685,15 @@ font-family: 'Open Sans' !important;
 
 #text5 {
     float: left;
-    font-size: 27px;
-    width: 100%;
+    font-size: 15px;
+    width: 74.060481%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 41px;
+    line-height: 30px;
     margin-left: 4.47299%;
     margin-top: 16px;
-    margin-bottom:18px;
+    margin-bottom:30px;
     clear: both;
     min-height: 139px;
     color: rgb(141, 141, 141);
@@ -4716,7 +4702,7 @@ font-family: 'Open Sans' !important;
 
 #box9 {
     float: left;
-    height: 621px;
+    height: 521px;
     margin-left: 0%;
     margin-top: 0px;
     clear: both;
@@ -4732,7 +4718,7 @@ font-family: 'Open Sans' !important;
     max-width: 35.815574%;
     height: auto;
     margin-left: 15.396516%;
-    margin-top: 75px;
+    margin-top: 78px;
     clear: none;
     color: rgb(0, 0, 0);
 }
@@ -4748,17 +4734,17 @@ font-family: 'Open Sans' !important;
 
 #text6 {
     float: left;
-    font-size: 28px;
+    font-size: 21px;
     width: 50.326872%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 40px;
+    line-height: 1em;
     margin-left: 4.476813%;
     margin-top: 43px;
     clear: none;
     min-height: 0px;
-    color: #3d3d3d;
+    color: rgb(141, 141, 141);
     letter-spacing: 0px;
     font-family: Montserrat;
 }
@@ -4775,15 +4761,14 @@ font-family: 'Open Sans' !important;
 
 #text7 {
     float: left;
-    font-size: 24px;
-    width:100%;
+    font-size: 15px;
+    width: 74.060481%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 41px;
+    line-height: 30px;
     margin-left: 4.47299%;
     margin-top: 16px;
-    margin-bottom:5%;
     clear: both;
     min-height: 139px;
     color: rgb(141, 141, 141);
@@ -4792,7 +4777,7 @@ font-family: 'Open Sans' !important;
 
 #box12 {
     float: left;
-    height: 620px;
+    height: 499.890625px;
     margin-left: 0%;
     margin-top: 0px;
     clear: both;
@@ -4806,7 +4791,7 @@ font-family: 'Open Sans' !important;
     float: left;
     height: 363.890625px;
     margin-left: 15.846311%;
-    margin-top: 28px;
+    margin-top: 53px;
     clear: none;
     width: 26.800205%;
     margin-right: 0%;
@@ -4814,17 +4799,17 @@ font-family: 'Open Sans' !important;
 
 #text8 {
     float: left;
-    font-size: 28px;
+    font-size: 21px;
     width: 50.326872%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 40px;
+    line-height: 1em;
     margin-left: 4.476813%;
     margin-top: 43px;
     clear: none;
     min-height: 0px;
-    color: #3d3d3d;
+    color: rgb(141, 141, 141);
     letter-spacing: 0px;
     font-family: Montserrat;
 }
@@ -4841,17 +4826,16 @@ font-family: 'Open Sans' !important;
 
 #text9 {
     float: left;
-    font-size: 27px;
-    width: 100%;
+    font-size: 15px;
+    width: 74.060481%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 41px;
+    line-height: 30px;
     margin-left: 4.47299%;
     margin-top: 16px;
     clear: both;
     min-height: 139px;
-    margin-bottom:5%;
     color: rgb(141, 141, 141);
     font-family: 'Montserrat Light';
 }
@@ -4869,7 +4853,7 @@ font-family: 'Open Sans' !important;
 
 #box15 {
     float: left;
-    height: 621px;
+    height: 521px;
     margin-left: 0%;
     margin-top: 0px;
     clear: both;
@@ -4901,17 +4885,17 @@ font-family: 'Open Sans' !important;
 
 #text10 {
     float: left;
-    font-size: 28px;
+    font-size: 21px;
     width: 50.326872%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 40px;
+    line-height: 1em;
     margin-left: 4.476813%;
     margin-top: 43px;
     clear: none;
     min-height: 0px;
-    color: #3d3d3d;
+    color: rgb(141, 141, 141);
     letter-spacing: 0px;
     font-family: Montserrat;
 }
@@ -4928,15 +4912,14 @@ font-family: 'Open Sans' !important;
 
 #text11 {
     float: left;
-    font-size: 27px;
-    width: 100%;
+    font-size: 15px;
+    width: 74.060481%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 41px;
+    line-height: 30px;
     margin-left: 4.47299%;
     margin-top: 16px;
-    margin-bottom:5%;
     clear: both;
     min-height: 139px;
     color: rgb(141, 141, 141);
@@ -5000,12 +4983,12 @@ font-family: 'Open Sans' !important;
 
 #text13 {
     float: left;
-    font-size: 22px;
+    font-size: 40px;
     width: 100%;
     height: auto;
     text-align: left;
     font-weight: 400;
-    line-height: 25px;
+    line-height: 45px;
     margin-left: 4.47299%;
     margin-top: 10px;
     clear: both;
@@ -5227,14 +5210,10 @@ font-family: 'Open Sans' !important;
         clear: both;
         margin-bottom:5%;
         margin-left:20px;
-        font-size: 25px;
-        line-height: 30px;
     }
     
     .btn-shop{
         margin-left:5%;
-        width:70%;
-        font-size:12px;
     }
 
     #input {
@@ -5265,60 +5244,56 @@ font-family: 'Open Sans' !important;
 
     #box4 {
         margin-top: 78px;
-        margin-left: 12%;
+        margin-left: 16.350098%;
         clear: none;
-        margin-top: 98px;
-
     }
 
     #image {
         height: auto;
         width: auto;
-        max-width: 34%;
-        margin-left:12%;
+        max-width: 22.220459%;
     }
 
     #image1 {
         margin-top: 70.5625px;
-        margin-left: 8%;
+        margin-left: 15.886841%;
         clear: none;
         height: auto;
         width: auto;
-        max-width: 34%;
+        max-width: 21.851807%;
     }
 
     #box10 {
-        margin-top: 30px;
-        margin-left: 12%;
+        margin-top: 78px;
+        margin-left: 16.692505%;
         clear: none;
     }
 
     #image2 {
         height: auto;
         width: auto;
-        max-width: 34%;
-        margin-left:12%;
+        max-width: 21.867065%;
     }
 
     #image3 {
         margin-top: 70.5625px;
-        margin-left: 8%;
+        margin-left: 15.886841%;
         clear: none;
         height: auto;
         width: auto;
-        max-width: 34%;
+        max-width: 21.852417%;
     }
 
     #box16 {
-        margin-top: 20px;
-        margin-left: 12%;
+        margin-top: 78px;
+        margin-left: 16.703491%;
         clear: none;
     }
 
     #image4 {
         height: auto;
         width: auto;
-        max-width: 34%;
+        max-width: 21.867065%;
     }
 
     #box21 {
@@ -5406,7 +5381,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 620px;
+        height: 577.890625px;
     }
 
     #box9 {
@@ -5468,8 +5443,6 @@ font-family: 'Open Sans' !important;
         margin-left: 4.47299%;
         clear: both;
         height: auto;
-        font-size:18px;
-        line-height:25px;
         width: 92.652063%;
         min-height: 120px;
     }
@@ -5533,7 +5506,7 @@ font-family: 'Open Sans' !important;
     }
 
     #box4 {
-        margin-top: 54px;
+        margin-top: 74px;
         margin-left: 3.099385%;
         clear: none;
     }
@@ -5557,7 +5530,6 @@ font-family: 'Open Sans' !important;
         margin-top: 24px;
         margin-left: 4.47299%;
         clear: both;
-        font-size:20px;
     }
 
     #input1 {
@@ -5571,7 +5543,7 @@ font-family: 'Open Sans' !important;
 
     #image1 {
         margin-top: 70.5625px;
-        margin-left: 7%;
+        margin-left: 0%;
         clear: none;
         height: auto;
         width: auto;
@@ -5594,15 +5566,14 @@ font-family: 'Open Sans' !important;
     }
 
     #box7 {
-        margin-top: 3px;
-        margin-left: 13.845287%;
+        margin-top: 53px;
+        margin-left: 15.845287%;
         clear: none;
         height: 410.890625px;
     }
 
     #text5 {
         margin-top: 15px;
-        font-size:21px;
         margin-left: 4.47299%;
         clear: both;
     }
@@ -5616,8 +5587,8 @@ font-family: 'Open Sans' !important;
     }
 
     #box10 {
-        margin-top: 42px;
-        margin-left: 5.713115%;
+        margin-top: 78px;
+        margin-left: 2.713115%;
         clear: none;
     }
 
@@ -5643,11 +5614,11 @@ font-family: 'Open Sans' !important;
     }
 
     #text7 {
-        margin-top: 21px;
+        margin-top: 29.21875px;
         margin-left: 4.515044%;
         clear: both;
         height: auto;
-        width: 100%;
+        width: 85.109149%;
     }
 
     #input3 {
@@ -5661,8 +5632,8 @@ font-family: 'Open Sans' !important;
     }
 
     #image3 {
-        margin-top: 120px;
-        margin-left:7%;
+        margin-top: 70.5625px;
+        margin-left: 0.0204918%;
         clear: none;
         height: auto;
         width: auto;
@@ -5670,8 +5641,8 @@ font-family: 'Open Sans' !important;
     }
 
     #box13 {
-        margin-top: 0px;
-        margin-left: 17%;
+        margin-top: 53px;
+        margin-left: 15.845287%;
         clear: none;
     }
 
@@ -5751,15 +5722,15 @@ font-family: 'Open Sans' !important;
     }
 }
 
-@media only screen and (max-width: 1600px) {
+@media only screen and (max-width: 1440px) {
     #text {
         margin-top: 56px;
         margin-left: 16px;
         clear: none;
         height: auto;
         min-height: 139px;
-        width: 100%;
-        font-size: 50px;
+        width: 89.834897%;
+        font-size: 60px;
         font-weight: 900;
         text-align: left;
         line-height: 30px;
@@ -5857,7 +5828,7 @@ font-family: 'Open Sans' !important;
     #text2 {
         float: left;
         font-size: 21px;
-        width: 80.326872%;
+        width: 50.326872%;
         height: auto;
         text-align: left;
         font-weight: normal;
@@ -5944,11 +5915,11 @@ font-family: 'Open Sans' !important;
     #text5 {
         float: left;
         font-size: 15px;
-        width: 100%;
+        width: 84.837711%;
         height: auto;
         text-align: left;
         font-weight: normal;
-        line-height: 27px;
+        line-height: 30px;
         margin-left: 4.47299%;
         margin-top: 30px;
         clear: both;
@@ -7259,7 +7230,7 @@ font-family: 'Open Sans' !important;
     }
     
     .btn-shop2{
-        width:70%;
+        width:60%;
         margin-left:12px;
     }
 
@@ -7360,7 +7331,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image1 {
-        margin-top: 49px;
+        margin-top: 19px;
         margin-left: 15.702206%;
         clear: both;
     }
@@ -7533,7 +7504,7 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 375px) {
      .btn-shop{
-        width:70%;
+        width:60%;
     }
     
     .btn-shop2{
@@ -8723,27 +8694,14 @@ font-family: 'Open Sans' !important;
         height: 444px;
         width: 55.401476%;
     }
-    
-    .btn-shop{
-        margin-left:5%;
-        width:45%;
-        font-size:12px;
-    }    
-    
+
     #texto_merchant1 {
         height: auto;
-        width: 82.835047%;
+        width: 89.835047%;
         margin-top: 0px;
-        margin-left: 23px;
+        margin-left:23px;
         clear: both;
-        margin-bottom: 30px;
-        font-size:16px;
-        font-family:'Open Sans' !important;
-        font-weight: lighter !important;
-    }
-    
-    #texto_merchant13{
-        width:80% !important;
+        margin-bottom:30px;
     }
 
     #caja1 {
@@ -8814,7 +8772,6 @@ font-family: 'Open Sans' !important;
         margin-left: 24.672309%;
         clear: none;
         text-align:center;
-        color:#3d3d3d;
     }
 
     #texto_merchant3 {
@@ -8894,11 +8851,7 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant11 {
         height: auto;
-        width: 100%;
-        color: #3d3d3d;
-        font-size: 30px;
-        font-family: Open Sans !important;
-        font-weight: lighter !important;
+        width: 68.840844%;
     }
 
     #caja10 {
@@ -8908,13 +8861,11 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant12 {
-        margin-top: 31px !important;
-        margin-left: 4.469162% !important;
+        margin-top: 31px;
+        margin-left: 4.469162%;
         clear: both;
-        height: auto !important;
-        width: 94.319608% !important;
-        color: #888 !important;
-        font-size:16px !important;
+        height: auto;
+        width: 94.319608%;
     }
 
     #input1 {
@@ -8953,13 +8904,8 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant13 {
-        height: auto !important;
-        width: 77.274384% !important;
-        line-height: 37px !important;
-        font-size: 32px !important;
-        color: #3d3d3d !important;
-        font-family: Open Sans !important;
-        font-weight: lighter !important;
+        height: auto;
+        width: 77.274384%;
     }
 
     #caja13 {
@@ -8969,13 +8915,11 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant14 {
-       margin-top: 22px !important;
-       margin-left: 4.469627% !important;
-       clear: both;
-       height: auto !important;
-       color: #888 !important;
-       font-size: 16px !important;
-       width: 89.719487% !important;
+        margin-top: 22px;
+        margin-left: 4.469627%;
+        clear: both;
+        height: auto;
+        width: 89.719487%;
     }
 
     #input2 {
@@ -9001,14 +8945,11 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant15 {
-        width: 100% !important;
+        height: auto;
+        width: 71.055508%;
         margin-top: 23px;
-        margin-left: 4.469817% !important;
-        color: #3d3d3d !important;
+        margin-left: 4.469817%;
         clear: none;
-        font-size: 32px !important;
-        font-family: Open Sans !important;
-        font-weight: lighter !important;
     }
 
     #caja16 {
@@ -9018,12 +8959,11 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant16 {
-        width: 94.319608% !important;
-        margin-top: 18px !important;
-        margin-left: 4.469817% !important;
+        height: auto;
+        width: 94.319608%;
+        margin-top: 18px;
+        margin-left: 4.469817%;
         clear: both;
-        font-size: 16px !important;
-        color: #888 !important;
     }
 
     #input3 {
@@ -9104,7 +9044,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px !important;
         margin-left: 0% !important;
         clear: both !important;
-        height: 553px;
+        height: 853px !important;
     }
 
     #caja14 {
@@ -9293,7 +9233,7 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant11 {
         height: auto;
-        width: 100%;
+        width: 84.000456%;
         margin-top: 25px;
         margin-left: 4.469624%;
         clear: none;
@@ -9350,9 +9290,8 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant13 {
-            height: auto !important;
-            width: 100% !important;
-            font-size: 30px !important;
+        height: auto !important;
+        width: 88.56118% !important;
     }
 
     #caja13 {
@@ -9383,7 +9322,7 @@ font-family: 'Open Sans' !important;
         margin-left: 4.449527% !important;
         clear: both !important;
         height: auto !important;
-        width: 100% !important;
+        width: 85.393492% !important;
     }
 
     #input2 {
@@ -9429,7 +9368,7 @@ font-family: 'Open Sans' !important;
         margin-left: 4.464729% !important;
         clear: both !important;
         height: auto !important;
-        width: 100% !important;
+        width: 80.439528% !important;
     }
 
     #input3 {
@@ -9476,7 +9415,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 857.421875px !important;
+        height: 857.421875px;
     }
 
     #caja3 {
@@ -9531,11 +9470,11 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant5 {
-            margin-top: 10px;
-            margin-left: 13%;
-            clear: both;
-            height: auto;
-            width: 80%;
+        margin-top: 10px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 99.997965%;
     }
 
     #texto_merchant4 {
@@ -9563,11 +9502,11 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant7 {
-            margin-top: 10px;
-            margin-left: 13%;
-            clear: both;
-            height: auto;
-            width: 77%;
+        margin-top: 10px;
+        margin-left: 0%;
+        clear: both;
+        height: auto;
+        width: 99.997965%;
     }
 
     #image_merchant2 {
@@ -9577,17 +9516,17 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant8 {
-        margin-top: 0px;
+        margin-top: 29px;
         margin-left: 34.865316%;
         clear: both;
     }
 
     #texto_merchant9 {
         margin-top: 10px;
-        margin-left: 17%;
+        margin-left: 0%;
         clear: both;
         height: auto;
-        width: 70%;
+        width: 99.997965%;
     }
 
     #caja {
@@ -9742,10 +9681,10 @@ font-family: 'Open Sans' !important;
 @media only screen and (max-width: 425px) {
     #caja2 {
         margin-top: 0px;
-        margin-left: 0%;
+        margin-left: 6.132353%;
         clear: both;
         width: 89.323529%;
-        height: 500px;
+        height: 468px;
     }
 
     #caja1 {
@@ -9759,10 +9698,6 @@ font-family: 'Open Sans' !important;
     #texto_merchant1 {
         height: auto;
         width: 94.343144%;
-        font-family:'Open Sans';
-        font-weight:lighter;
-        font-size:20px;
-        line-height: 22px !important;
     }
 
     #image_merchant {
@@ -9770,22 +9705,16 @@ font-family: 'Open Sans' !important;
         margin-left: 38.481618%;
         clear: none;
     }
-    
-    #texto_merchant2{
-       line-height: 38px !important;
-        color: #3d3d3d;
-        font-size: 30px;
-    }
-    
+
     #texto_merchant4 {
-       margin-top: 0;
-       margin-left: 44.459559%;
-       clear: both;
+        margin-top: 29px;
+        margin-left: 42.459559%;
+        clear: both;
     }
 
     #texto_merchant6 {
-        margin-top: 0;
-        margin-left: 42.871324%;
+        margin-top: 29px;
+        margin-left: 39.871324%;
         clear: both;
     }
 
@@ -9815,7 +9744,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 719.890625px !important;
+        height: 719.890625px;
     }
 
     #caja7 {
@@ -9855,11 +9784,6 @@ font-family: 'Open Sans' !important;
     #caja9 {
         height: 379.890625px;
     }
-    
-    #texto_merchant12{
-        height: auto !important;
-        width: 100% !important;
-    }
 
     #texto_merchant13 {
         height: auto;
@@ -9887,10 +9811,9 @@ font-family: 'Open Sans' !important;
     }
 
     #image_merchant4 {
-            margin-top: 105px !important;
-            margin-left: 20.231618% !important;
-            clear: both;
-            width: 100% !important;
+        margin-top: 33px;
+        margin-left: 20.231618%;
+        clear: both;
     }
 
     #caja12 {
@@ -9937,16 +9860,7 @@ font-family: 'Open Sans' !important;
         clear: both;
         width: 95.45%;
     }
-    #texto_merchant {
-    height: auto;
-    width: 95.320975%;
-    font-size: 42px !important;
-    margin-top: 39px;
-    margin-left: 4.684985%;
-    clear: none;
-    line-height: 35px;
-    }
-    
+
     #texto_merchant2 {
         height: auto;
         width: 82.933333%;
@@ -9998,7 +9912,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 703.890625px !important;
+        height: 703.890625px;
     }
 
     #caja11 {
@@ -10138,21 +10052,8 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant17 {
         margin-top: 27px;
-        text-align: center;
+        margin-left: 2.216667%;
         clear: none;
-        font-size: 29px;
-        line-height: 30px !important;
-    }
-    
-    #texto_merchant1{
-        font-size:18px !important;
-        font-family:'Open Sans' !important;
-        line-height: 25px !important;
-        font-weight: lighter !important;
-    }
-    
-    #texto_merchantspan{
-        font-size:45px !important;
     }
 }
 
@@ -10293,3 +10194,6 @@ font-family: 'Open Sans' !important;
         width: 85.332031%;
     }
 }
+
+
+

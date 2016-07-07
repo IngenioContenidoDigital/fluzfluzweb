@@ -88,7 +88,7 @@ class MyAccountControllerCore extends FrontController
                 WHERE
                 ((OSL.id_order_state = 2 OR
                 OSL.id_order_state = 5) AND
-                (PO.id_customer ='.$id_customer.'))
+                (PO.id_customer ='.$id_customer.') AND (PP.reference<>"MFLUZ") AND (OSL.id_lang='.$this->context->language->id.'))
                 GROUP BY
                  id_manufacturer,
                 manufacturer_name
