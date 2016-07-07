@@ -13,14 +13,14 @@
                 <span>{$total.estado}:&nbsp;</span><span>{$total.total}</span>
             {/foreach}
             <br><br>
-            <div style="height: 400px; overflow-y: scroll; overflow-x: hidden;">
-                <table class="table" id="codes">
+            <div style="height: 400px; overflow-y: scroll; overflow-x: hidden;" id="codes">
+                <table class="table">
                     <thead>
                         <tr>
                             <th><strong>{l s='Codes'}</strong></th>
                             <th style="text-align: center;"><strong>Estado</strong></th>
                             <th style="text-align: center;"><strong>Orden</strong></th>
-                            <th style="text-align: center;"><strong>{l s='Action'}</strong></th>
+                            <th style="text-align: center;"><strong>Accion</strong></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,18 +40,16 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <a href="#" id="btnExport">Exportar a excel JS</a>
-                <br>
-                <a href="#" onclick="sendAction('export', '{$id_product}');">Exportar a excel AJAX</a>
+                <a href="#" id="btnExport">Exportar a excel</a>
             </div>
         </form>
     {/if}
 </div>
 
 <script type="text/javascript">
-    function sendAction(action, product = "", code = "") {
+    function sendAction(action, product, code) {
         var msgError = "Se ha generado un error ejecutando la accion porfavor intente de nuevo.";
-        if ( action == "deletecode" && code != "" ) {
+        if ( action == "deletecode" && product != "" && code != "" ) {
             conf = confirm( 'Confirma que desea eliminar el codigo '+code );
             if ( conf == true ) {
                 $.ajax({
@@ -69,23 +67,6 @@
                     alert( msgError );
                 });
             }
-        }
-        
-        if ( action == "export" && product != "" ) {
-            $.ajax({
-                method: "POST",
-                url: "{$module_dir}ajax/fluzfluzcodes_admin.php",
-                data: { action: action, product: product }
-            }).done(function(response) {
-                if ( response != 0 ) {
-                    console.log(response);
-                    //window.open( "response" );
-                } else {
-                    alert( msgErrorr );
-                }
-            }).fail(function() {
-                alert( msgError );
-            });
         }
     }
     $("#btnExport").click(function (e) {
