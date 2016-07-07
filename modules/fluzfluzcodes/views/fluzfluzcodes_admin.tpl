@@ -1,5 +1,5 @@
 <div class="panel">
-    <h3>{l s='Product Codes'}</h3>
+    <h3>Codigos Producto</h3>
     {if !$codes}
         <div class="bootstrap">
             <div class="alert alert-warning">
@@ -17,7 +17,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th><strong>{l s='Codes'}</strong></th>
+                            <th><strong>Codigos</strong></th>
                             <th style="text-align: center;"><strong>Estado</strong></th>
                             <th style="text-align: center;"><strong>Orden</strong></th>
                             <th style="text-align: center;"><strong>Accion</strong></th>
