@@ -68,7 +68,9 @@ class PayuPse extends PayUControllerWS{
                 'userAgent' => $_SERVER['HTTP_USER_AGENT']);
 
             $address = new Address($this->context->cart->id_address_delivery); 
+            $billingAddress = new Address($this->context->cart->id_address_invoice); 
             $dni = $conf->get_dni($this->context->cart->id_address_delivery);
+            $billin_dni = $conf->get_dni($this->context->cart->id_address_invoice);
             $intentos = $conf->count_pay_cart($id_cart);
 
             $currency='';
@@ -114,7 +116,7 @@ $data = '{
 "buyer":{
 "fullName":"' . $this->context->customer->firstname . ' ' . $this->context->customer->lastname . '",
 "emailAddress":"' . $params[5]['buyerEmail'] . '",
-"dniNumber":"'.$dni.'",
+"dniNumber":"'.$billin_dni.'",
 "shippingAddress":{
 "street1":"'.$address->address1.'",
 "city":"'.$address->city.'",
@@ -133,8 +135,8 @@ $data = '{
 "payer":{
 "fullName":"' . $this->context->customer->firstname . ' ' . $this->context->customer->lastname . '",
 "emailAddress":"' . $params[5]['buyerEmail'] . '",
-"dniNumber":"' . $dni. '",
-"contactPhone":"'.$address->phone.'"
+"dniNumber":"' . $billin_dni. '",
+"contactPhone":"'.$billingAddress->phone.'"
 },
 "ipAddress":"' . $browser['ipAddress'] . '",
 "cookie":"' . $varRandn . '",
@@ -155,7 +157,6 @@ $data = '{
 ';
 
 $response = $conf->sendJson($data);
-
             if ($response['code'] === 'ERROR') {
 
                         $conf->error_payu($id_order, $customer->id, $data, $response, 'PSE', $response['transactionResponse']['state'], $this->context->cart->id, $id_address); 
