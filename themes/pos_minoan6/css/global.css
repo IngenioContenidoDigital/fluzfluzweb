@@ -3407,6 +3407,10 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 
 }
 
+.menuSticky{
+    margin-top:-21px !important;
+}
+
 @media (min-width:221px) and (max-width:325px){
     .hookLeft{text-align:right !important;}
     .accountHeader{border:none !important;}
@@ -3414,6 +3418,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .shopping_cart > a:first-child:before{margin-left:0px; margin-top:-1px !important;}
     .accountHeader{margin-top: -116px !important; left: 80px !important;}
     .img-responsive{max-width:none !important; width:200% !important; margin-top:16px !important;}
+    .shopping_cart .ajax_cart_quantity{left:12px !important;}
 
 }
 
@@ -3707,7 +3712,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .prueba{position: absolute; top: 32px; left: 270px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 
 @media (max-width:1450px){
-    .prueba{position: absolute; top: 30px; left: 250px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
+    .prueba{position: absolute; top: 32px;left: 260px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }
 
 @media (max-width:359px){
@@ -8114,7 +8119,7 @@ font-family: 'Open Sans' !important;
     clear: none;
     width: 67.068648%;
     margin-right: 0%;
-    background-image:url("/img/cms/FluzFluz/merchants/merchant-banner-img-1.png");
+    background-image:url("/img/cms/FluzFluz/merchants/merchant-phone.png");
     background-attachment: scroll;
     -webkit-background-size: 534px;
     background-size: 534px;

@@ -101,6 +101,7 @@ class RewardsModel extends ObjectModel
 	// renvoie le prix total avec produits promo et sans produits promo d'une commande dans la devise du panier
 	public static function getOrderTotalsForReward($order, $allowedCategories = NULL)
 	{
+            $context = Context::getContext();
 		if (!Validate::isLoadedObject($order))
 			return false;
 
@@ -125,14 +126,15 @@ class RewardsModel extends ObjectModel
 				// si le produit n'est pas dans les catégories autorisées
 				if (is_array($allowedCategories) && !Product::idIsOnCategoryId($detail['product_id'], $allowedCategories))
 					continue;
-                                $costo = RewardsProductModel::getCostDifference($detail['product_id']);
+                                
+                                //$costo = RewardsProductModel::getCostDifference($detail['product_id']);
 				$quantity = $detail['product_quantity'] - $detail['product_quantity_refunded'] - (isset($gifts[$detail['product_id'].'_'.$detail['product_attribute_id']]) ? 1 : 0);
-				$totals['tax_incl']['with_discounted'] += $quantity * ($detail['unit_price_tax_incl']-$costo);
-				$totals['tax_excl']['with_discounted'] += $quantity * ($detail['unit_price_tax_excl']-$costo);
+				$totals['tax_incl']['with_discounted'] += (RewardsProductModel::getProductReward($detail['product_id'],$detail['unit_price_tax_incl'],$quantity, (int)$context->currency->id));
+				$totals['tax_excl']['with_discounted'] += (RewardsProductModel::getProductReward($detail['product_id'],$detail['unit_price_tax_excl'],$quantity, (int)$context->currency->id));
 				// s'il n'y a pas eu de promo sur ce produit (prix dégressifs, prix forcés et prix de groupe ne sont pas des promos)
 				if ((float)$detail['reduction_amount'] == 0 && (float)$detail['reduction_percent'] == 0) {
-					$totals['tax_incl']['without_discounted'] += $quantity * ($detail['unit_price_tax_incl']-$costo);
-					$totals['tax_excl']['without_discounted'] += $quantity * ($detail['unit_price_tax_excl']-$costo);
+					$totals['tax_incl']['without_discounted'] += (RewardsProductModel::getProductReward($detail['product_id'],$detail['unit_price_tax_incl'],$quantity, (int)$context->currency->id));
+					$totals['tax_excl']['without_discounted'] += (RewardsProductModel::getProductReward($detail['product_id'],$detail['unit_price_tax_excl'],$quantity, (int)$context->currency->id));
 				}
 			}
 		}

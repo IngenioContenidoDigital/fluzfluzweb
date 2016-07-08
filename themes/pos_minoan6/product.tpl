@@ -307,7 +307,7 @@
 										<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                <span  class="price col-lg-3">{$productPoint} pts.</span>
+                                                                                <span  class="price col-lg-3">{$productP} pts.</span>
                                                                                 {else $logged}<span  class="price col-lg-5">{$resultProduct} pts.</span>{/if}
 									{/if}
                                                                         {/strip}

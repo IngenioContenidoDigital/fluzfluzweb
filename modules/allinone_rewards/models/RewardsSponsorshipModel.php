@@ -335,19 +335,16 @@ class RewardsSponsorshipModel extends ObjectModel
                 $query1 = 'SELECT COUNT(RW.id_sponsorship) AS total FROM ps_rewards_sponsorship AS RW WHERE RW.id_customer='.(int)$identificador;
                 
                 $row1=Db::getInstance()->getRow($query1);
-                if($row1['total']>0){
+                if($row1['total']>0 || $identificador > 0){
                     $row = Db::getInstance()->getRow($query);
-                    $sponsors++;
-                    $identificador=$row['id_sponsor'];
+                    if($identificador > 0){
+                        $sponsors++;
+                        $identificador=$row['id_sponsor'];
+                    }
                 }else{
                     $seguir=false;
                 }
-                 
-                 /*if($row['id_sponsor']!=$row['id_customer']){
-                     
-                 }else{
-                     
-                 }*/
+                
            }
            return $sponsors;
         }

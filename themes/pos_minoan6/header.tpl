@@ -150,7 +150,7 @@
                                 {/if}    
                                 
                                 {if isset($left_column_size) && !empty($left_column_size)}
-                                    <div style="margin-top:-22px;" id="left_column" class="menuSticky column col-lg-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
+                                    <div id="left_column" class="menuSticky column col-lg-3 col-md-4 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
                                                 
                                         {if $cms->id==6}
                                             <div class="block"><h2 class="title_blockSale">{l s="Sale"}</h2>
@@ -220,36 +220,41 @@
 							
 								
 	{/if}
-        
- {literal}
+  
+{literal}
      <script>
-     // Create a clone of the menu, right next to original.
-            $('.menuSticky').addClass('original').clone().insertAfter('.menuSticky').addClass('cloned').css('position','fixed').css('top','0px').css('margin-top','0px').css('z-index','0').removeClass('original').hide();
-            
-            scrollIntervalID = setInterval(stickIt, 1);
+         var stickySidebar = $('.menuSticky');
+                if (stickySidebar.length > 0) {	
+                  var stickyHeight = stickySidebar.height(),
+                      sidebarTop = stickySidebar.offset().top;
+                }
 
+                // on scroll move the sidebar
+                $(window).scroll(function () {
+                  if (stickySidebar.length > 0) {	
+                    var scrollTop = $(window).scrollTop();
 
-            function stickIt() {
+                    if (sidebarTop < scrollTop) {
+                      stickySidebar.css('top', scrollTop - sidebarTop);
 
-              var orgElementPos = $('.original').offset();
-              orgElementTop = orgElementPos.top;               
+                      // stop the sticky sidebar at the footer to avoid overlapping
+                      var sidebarBottom = stickySidebar.offset().top + stickyHeight,
+                          stickyStop = $('#center_column').offset().top + $('#center_column').height();
+                      if (stickyStop < sidebarBottom) {
+                        var stopPosition = $('#center_column').height() - stickyHeight;
+                        stickySidebar.css('top', stopPosition);
+                      }
+                    }
+                    else {
+                      stickySidebar.css('top', '0');
+                    } 
+                  }
+                });
 
-              if ($(window).scrollTop() >=200) {
-                // scrolled past the original position; now only show the cloned, sticky element.
-
-                // Cloned element should always have same left position and width as original element.     
-                orgElement = $('.original');
-                coordsOrgElement = orgElement.offset();
-                leftOrgElement = coordsOrgElement.left;  
-                widthOrgElement = orgElement.css('width');
-                heightOrgElement = orgElement.css('height');
-                $('.cloned').css('left',leftOrgElement+'px').css('top',0).css('width',widthOrgElement).show();
-                $('.original').css('visibility','hidden');
-              } else {
-                // not scrolled past the menu; only show the original menu.
-                $('.cloned').hide();
-                $('.original').css('visibility','visible');
-              }
-            }
-     </script>
+                $(window).resize(function () {
+                  if (stickySidebar.length > 0) {	
+                    stickyHeight = stickySidebar.height();
+                  }
+                });
+    </script>
 {/literal}
