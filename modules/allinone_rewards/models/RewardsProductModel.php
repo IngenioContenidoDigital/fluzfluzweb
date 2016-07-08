@@ -91,9 +91,10 @@ class RewardsProductModel extends ObjectModel
 	{
 		if (self::isProductRewarded($id_product, $id_template)) {
 			$multiplier = (float)MyConf::get('RLOYALTY_MULTIPLIER', null, $id_template);
-                        $costo = RewardsProductModel::getCostDifference($id_product);
+                        //$costo = RewardsProductModel::getCostDifference($id_product);
 			if (self::$_cache[$id_product]['type']==0)
-				return round(($price-$costo) * $quantity * $multiplier * self::$_cache[$id_product]['value'] / 100, 2);
+				//return round(($price-$costo) * $quantity * $multiplier * self::$_cache[$id_product]['value'] / 100, 2);
+                        return round(($price) * $quantity * $multiplier * self::$_cache[$id_product]['value'] / 100, 2);
 			else
 				return RewardsModel::getCurrencyValue($quantity * $multiplier * self::$_cache[$id_product]['value'], $id_currency);
 		}

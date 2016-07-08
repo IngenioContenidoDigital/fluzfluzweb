@@ -24,6 +24,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsSponsorshipModel.php');
+
 class ProductControllerCore extends FrontController
 {
     public $php_self = 'product';
@@ -178,10 +180,10 @@ class ProductControllerCore extends FrontController
 
             $this->product->description = $this->transformDescriptionWithImg($this->product->description);
             
-            $price = (int)$this->product->price - RewardsProductModel::getCostDifference($this->product->id);
-            $productP=RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1);
-            $productPoint = round($productP, $precision=0); 
-            $this->context->smarty->assign("productPoint", $productPoint);
+            //$price = (int)$this->product->price - RewardsProductModel::getCostDifference($this->product->id);
+            $price = RewardsProductModel::getProductReward($this->product->id,(int)$this->product->price,1, $this->context->currency->id);
+            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id)));
+            $this->context->smarty->assign("productP", $productP);
             
             $productP2=RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/16;
             $resultProduct = round($productP2, $precision=0);

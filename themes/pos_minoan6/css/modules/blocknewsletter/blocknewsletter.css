@@ -23,7 +23,7 @@
 @media (max-width: 767px) { #footer #newsletter_block_left { width: 100%; } }
 #footer #newsletter_block_left h4 { background: none; display: block; text-transform: none; text-transform: uppercase; font-size: 16px; line-height: 25px; border: none; }
 #footer #newsletter_block_left h4:after { display: none; }
-#footer #newsletter_block_left .block_content { overflow: hidden; }
+#footer #newsletter_block_left .block_content { overflow: hidden;  margin-right: 14px;}
 #footer #newsletter_block_left .form-group { margin-bottom: 0;}
 #footer #newsletter_block_left .form-group .form-control { height: 50px;width: 50%; font-family:'Open Sans' !important; font-size: 10px; max-width: 550px; background: #fff; border: 0; color: #404e53; padding: 10px; display: inline-block; margin-bottom: 10px; }
 #footer #newsletter_block_left .form-group .form-control:focus { -webkit-box-shadow: black 0px 0px 0px; -moz-box-shadow: black 0px 0px 0px; box-shadow: black 0px 0px 0px; }
