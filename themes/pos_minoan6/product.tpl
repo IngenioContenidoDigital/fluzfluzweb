@@ -64,7 +64,7 @@
 				</p>
 			{/if}
 				<!-- left infos-->
-				<div class="pb-left-column col-lg-7 col-xs-12 col-sm-12 col-md-6">
+				<div class="pb-left-column col-lg-6 col-xs-12 col-sm-12 col-md-6">
 					<!-- product img-->
 					<div id="image-block" class="clearfix">
 						{if $product->new}
@@ -153,15 +153,12 @@
 				</div> <!-- end pb-left-column -->
 				<!-- end left infos-->
 				<!-- center infos -->
-				<div class="pb-center-column col-lg-5 col-xs-12 col-sm-12 col-md-12">
+				<div class="pb-center-column col-lg-6 col-xs-12 col-sm-12 col-md-12">
 					{if $product->online_only}
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
 					<h1 itemprop="name">{$product->name|escape:'html':'UTF-8'}</h1>
-					<p id="product_reference"{if empty($product->reference) || !$product->reference} style="display: none;"{/if}>
-						<label>{l s='Reference:'} </label>
-						<span class="editable" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</span>
-					</p>
+					
 					{if !$product->is_virtual && $product->condition}
 					<p id="product_condition">
 						<label>{l s='Condition:'} </label>
@@ -273,6 +270,10 @@
 								<div class="box-cart-bottom">
 									<!-- quantity wanted -->
 									{if !$PS_CATALOG_MODE}
+                                                                            <p id="product_reference"{if empty($product->reference) || !$product->reference} class="col-xs-12" style="display: none;"{/if}>
+                                                                                <label>{l s='Reference:'} </label>
+                                                                                <span class="editable" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</span>
+                                                                        </p>    
                                                                         <div class="col-lg-12">
                                                                         <p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: block;"{/if}>
 										<label for="quantity_wanted">{l s='Quantity: '}</label>
@@ -292,26 +293,30 @@
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
 										{l s='The minimum purchase order quantity for the product is'} <b id="minimal_quantity_label">{$product->minimal_quantity}</b>
 									</p>
-                                                                        <p class="our_price_display col-lg-12" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
-									{if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}
+                                                                        <div class="row our_price_display" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
+                                                                            {if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}</div>
+                                                                            <div class="row bloque-precio">
 									{if $priceDisplay >= 0 && $priceDisplay <= 2}
-                                                                            <span class="col-lg-4" style="padding-left:0px; text-align: left;">
+                                                                            
+                                                                            <div class="col-lg-4 col-xs-6 col-md-4 col-sm-4" style="padding-left:0px; text-align: left; padding-left: 29px;">
+                                                                                
                                                                                 {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
 											{if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
 										{/if}
                                                                                 
                                                                                 <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
-                                                                            </span>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-xs-6 col-md-4 col-sm-4">{l s='Tienda: '}<span style="color:#c8b79b; font-size: 13px; text-align: left; padding-left: 0px;">({convertPrice price=$product->price_shop|floatval})</span></div>
                                                                             
-                                                                            <span class="col-lg-5" style="color:#ef4136; font-size: 12px; text-align: left;">{l s='Tienda: '}({convertPrice price=$product->price_shop|floatval})</span>
-										<meta itemprop="priceCurrency" content="{$currency->iso_code}" />
+                                                                        
+                                                                            <meta itemprop="priceCurrency" content="{$currency->iso_code}" />
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                <span  class="price col-lg-3">{$productP} pts.</span>
-                                                                                {else $logged}<span  class="price col-lg-5">{$resultProduct} pts.</span>{/if}
-									{/if}
+                                                                                <div  class="point-price col-xs-12 col-lg-4 col-md-4 col-sm-4">{$productP} pts.</div>
+                                                                                {else $logged}<div  class="point-price col-xs-12 col-sm-4 col-lg-4 col-md-4">{$resultProduct} pts.</div>{/if}
+                                                                        {/if}</div>
                                                                         {/strip}
-                                                                        </p>
+                                                                        
                                                                         <div class="cart-product"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
 										<br/>
                                                                                 <div id="add_to_cart" class="col-lg-12 col-md-6 col-sm-6 col-xs-12 buttons_bottom_block no-print">
@@ -430,15 +435,15 @@
 		</div>-->
 	</div> <!-- end primary_block -->
 	{if !$content_only}
-		<div class="more-info">
+		<div class="more-info" style="width: 90%; margin: 0 auto; margin-bottom: 6%;">
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
 				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Gift Card Instructions'}</a></span></li>{/if}
-				{if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if}
+				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
 				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
 				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}
 				{$HOOK_PRODUCT_TAB}
                                 {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab"><span>{l s='Terms & conditions'}</a></span></li>{/if}
-				{if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if}
+				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
 				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
 				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}
 				{$HOOK_PRODUCT_TAB}
@@ -503,7 +508,7 @@
 					</div>
 				</section>
 			{/if}
-			{if isset($features) && $features}
+			{*if isset($features) && $features}
 				<!-- Data sheet -->
 				<section id="idTab2" class="page-product-box">
 				
@@ -519,7 +524,7 @@
 					</table>
 				</section>
 				<!--end Data sheet -->
-			{/if}
+			{/if*}
 			{if isset($product) && $product->description}
 				<!-- More info -->
 				<section id="idTab1" class="page-product-box">
@@ -536,10 +541,10 @@
 			</section>
 			{/if}
 			<!--HOOK_PRODUCT_TAB -->
-			<div id="idTab5" class="page-product-box">
+			<!--<div id="idTab5" class="page-product-box">
 				{$HOOK_PRODUCT_TAB}
 				{if isset($HOOK_PRODUCT_TAB_CONTENT) && $HOOK_PRODUCT_TAB_CONTENT}{$HOOK_PRODUCT_TAB_CONTENT}{/if}
-			</div>
+			</div>-->
 			<!--end HOOK_PRODUCT_TAB -->
 
 		
@@ -905,3 +910,8 @@
 {addJsDefL name='product_fileButtonHtml'}{l s='Choose File' js=1}{/addJsDefL}
 {/strip}
 {/if}
+{literal}
+    <style>
+        .breadcrumb{padding: 0 6% 2%;}
+    </style>
+{/literal}

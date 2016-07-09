@@ -190,7 +190,8 @@
 				{/if}
                                 {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
 						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
-                                                                             {if $page_name =="index"}
+                                                    
+                                                    {if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}
 					{if $smarty.capture.blockPosition1}
 					{$smarty.capture.blockPosition1}

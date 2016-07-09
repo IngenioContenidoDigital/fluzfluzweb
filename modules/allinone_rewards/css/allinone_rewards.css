@@ -435,9 +435,11 @@
 #product p#loyalty {
 	display: none;
         text-align:justify;
-        width:94%;
+        width:80%;
         margin-left:0px;
         font-size:92%;
+        line-height: 18px;
+        font-family: 'Open sans';
 }
 #product #sponsorship_link a::before {
     content: "\f1e0";
