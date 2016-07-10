@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
+
 .oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 /* product desc */
@@ -92,14 +94,15 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 #usefull_link_block li#favoriteproducts_block_extra_remove:before, #usefull_link_block li#favoriteproducts_block_extra_add:before, #usefull_link_block li#favoriteproducts_block_extra_removed:before, #usefull_link_block li#favoriteproducts_block_extra_added:before { font-family: "FontAwesome"; color: #252525; font-size: 19px; line-height: 24px; position: absolute; top: -2px; left: 0; font-weight: normal; content: "\f08a"; }
 #usefull_link_block li#favoriteproducts_block_extra_remove:hover, #usefull_link_block li#favoriteproducts_block_extra_add:hover, #usefull_link_block li#favoriteproducts_block_extra_removed:hover, #usefull_link_block li#favoriteproducts_block_extra_added:hover { color: #000; }
 #usefull_link_block li#favoriteproducts_block_extra_removed:before { content: "\f004"; }
-
+.pos-title {width:90% !important; margin-left: 5%; margin-top: -3%;}
+.title-related{font-size: 14px; font-family: 'Montserrat';}
 /* pb-left-column ****************************************************************************** */
-.pb-center-column { margin-bottom: 30px; margin-top: 30px;/* form */ }
-.pb-center-column h1 { color: #2b2b2b; text-transform: uppercase; font-size: 34px; padding-bottom: 15px; margin-left: 15px;}
+.pb-center-column { margin-bottom: 30px; margin-top: 0px; padding-left: 0px;/* form */ }
+.pb-center-column h1 { font-family: 'Open Sans' !important; color: #58595b; text-transform: uppercase; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
 @media (max-width: 991px) { .pb-center-column h1 { font-size: 18px; text-align: center;} }
 .pb-center-column label { color: #888889; font-weight: normal; font-style: san-serif; }
 .pb-center-column p { margin-bottom: 10px; font-size: 12px; text-align: center;}
-.pb-center-column #product_reference { margin-bottom: 6px; margin-left: 15px;}
+.pb-center-column #product_reference { margin-bottom: 6px; text-align: left;}
 .pb-center-column #short_description_block { color: #666666; }
 .pb-center-column #short_description_block .buttons_bottom_block { display: none; }
 .pb-center-column #short_description_block #short_description_content { padding: 15px 0; margin-bottom: 20px; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; word-wrap: break-word; display: none;}
@@ -137,9 +140,9 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 #short_description_content a, .page-product-box .rte a { color: #333333; text-decoration: underline; }
 #short_description_content a.btn, .page-product-box .rte a.btn { text-decoration: none; }
 
-.box-info-product p { margin-bottom: 15px; float: left; margin-right: 0px; width: 100%; text-align: center;}
+.box-info-product p { margin-bottom: 15px; float: left; margin-right: 0px; width: 82%; text-align: center;}
 @media (max-width: 320px) { .box-info-product p { margin-right: 0; } }
-.box-info-product .exclusive { position: relative; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; text-align: center; line-height: 35px; height: 50px; border: none; width: 100%; color: #fff; background: #c8b79b; text-transform: capitalize; padding: 0 15px; font-size: 14px; }
+.box-info-product .exclusive { position: relative; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; text-align: center; line-height: 35px; height: 50px; border: none; width: 81%; color: #fff; background: #c8b79b; text-transform: capitalize; padding: 0 15px; font-size: 14px; }
 .box-info-product .exclusive:before { font-family: "FontAwesome"; font-size: 14px; line-height: 35px; content: "\f07a"; z-index: 2; }
 .box-info-product .exclusive.added:before { content: "\f00c"; }
 .box-info-product .exclusive.added.disabled:before, .box-info-product .exclusive.disabled:before { height: 51px; content: "\f110"; animation: 2s linear 0s normal none infinite spin; -webkit-animation: 2s linear 0s normal none infinite spin; -moz-animation: 2s linear 0s normal none infinite spin; border: none; }
@@ -206,11 +209,18 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 .discount { display: none; }
 
 .our_price_display { font-weight: 600; font-size: 29px; line-height: 32px; font-family: "Open Sans", sans-serif; color: #252525; }
-@media (max-width: 991px) { .our_price_display { font-size: 26px; line-height: 28px; } }
-.our_price_display .price { font-weight: 600; font-size: 16px; line-height: 32px; color: #ee4a42; text-align: right; padding-right:0px; padding-left: 0px;}
+@media (max-width: 991px) { .our_price_display { font-size: 16px; line-height: 28px; } }
+.our_price_display .price { font-weight: 600; font-size: 14px; line-height: 32px; color: #c8b79b; margin-left: 8px; text-align: right; padding-right:0px; padding-left: 0px;}
 .our_price_display .priceT { font-weight: 600; font-size: 12px; line-height: 32px; color: #ee4a42; }
-@media (max-width: 991px) { .our_price_display .price { font-size: 26px; line-height: 28px; } }
+@media (max-width: 991px) { .our_price_display .price { font-size: 16px; line-height: 28px; } }
 
+.point-price{font-weight: 600;
+    font-size: 16px;
+    color: #ef4136;
+    font-family: 'Open Sans';
+    text-align: left;
+    padding-right: 0px;
+    padding-left: 0px;}
 #old_price { padding-bottom: 15px; font-size: 14px; text-decoration: line-through; display: inline-block; line-height: 27px; font-weight: 500; margin: 0 10px; color: #888889; vertical-align: top; }
 
 #reduction_percent, #reduction_amount { overflow: hidden; color: white; text-align: center; z-index: 0; min-width: 50px; padding: 0 5px; background: #f7a62d; height: 27px; line-height: 27px; border-radius: 20px; display: inline-block; }
@@ -326,6 +336,7 @@ Quick View Styles
     span{font-size:10px;}
     p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0;}
+   
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -345,6 +356,14 @@ Quick View Styles
     span{font-size:14px;}
     p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0;}
+    .socialsharing_product{margin-left: 10% !important;}
+    .primary_block{margin-bottom: 20px;}
+    .cart-product .buttons_bottom_block{text-align: center;}
+    .block{padding-top: 5%;}
+    p#loyalty{margin-left: 10% !important; line-height: 23px !important;}
+    .item-product img, ul.product_list > li .product-container img {width: 100% !important;}
+    .pb-center-column #product_reference{margin-left:16px !important;}
+    .pb-center-column #buy_block label{width: 45% !important;}
 }
 
 @media (min-width:412px) and (max-width:760px){
@@ -353,14 +372,25 @@ Quick View Styles
     .block .title_block:after, .block h4:after{display:none;}
     #categories_block_left h2.title_block {display:none;}
     .footer-container #footer h4:after {margin-right:20px;}
-    #quantity_wanted_p input {width:50%;}
+    #quantity_wanted_p input {width:35%;}
     .btn-twitter{width:100%; height:40px;}
     .btn-facebook{width:100%; height:40px;}
     .btn-google-plus{width:100%; height:40px;}
     .btn-pinterest{width:100%; height:40px;}
     #search_block_top .btn.button-search{ border-right:none !important; left:360px;}
-    p{font-size:10px;}
+    p{font-size:15px; line-height: 25px;}
    .our_price_display .price{font-size:20px;}
+   .block {padding-top: 10%; padding-left: 13%;}
+   .breadcrumb{display: none;}
+   .pb-center-column h1{margin-left: 21px;}
+   .cart-product .buttons_bottom_block{text-align: center;}
+   .socialsharing_product{margin-left: 10%;}
+   p#loyalty{margin-left: 10% !important;}
+   .pb-center-column #buy_block label{margin-left: 8%;}
+   .pb-center-column #product_reference{margin-left: 3%;}
+   .bloque-precio{width: 90%; margin-left: auto; margin-right: auto;}
+   .point-price{line-height: 30px; text-align: right; margin-right: 30px; padding-right: 29px;}
+   
 }
 
 
@@ -371,18 +401,31 @@ Quick View Styles
     .prueba{position: absolute; top: 32px; left: 280px; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     #quantity_wanted_p input {width:20%; font-size:20px;}
     .blockAccount{background:transparent; width:45%;}
-    .menuAccount{border:#E1E1E1 solid 1px;}
+    .menuAccount{border:#E1E1E1 solid 1px; width: 44%;}
+    .iWhite{padding: 12%;}
+    .block{margin-left: 30%;}
+    .breadcrumb{display: none;}
+    .menuSticky{margin-bottom: 3%; background: #fff;padding-top: 2%;}
     #search_block_top .btn.button-search{ border-right:none !important; left:700px;}
     .btn-twitter{width:48%; height:50px; font-size:16px;}
     .btn-facebook{width:48%; height:50px; font-size:16px;}
     .btn-google-plus{width:48%; height:50px; font-size:16px;}
     .btn-pinterest{width:48%; height:50px; font-size:16px;}
-    .pb-center-column #product_reference {font-size:14px;}
-    .pb-center-column #buy_block label{font-size:20px; font-family: 'Open Sans';}
+    .pb-center-column #product_reference {font-size:14px; margin-left: 12%;}
+    .pb-center-column #buy_block label{font-size:14px; font-family: 'Open Sans'; margin-left: -16px;}
     .tAccount{font-size:16px; text-align:left;}
-    .pb-center-column h1{font-size:22px;}
+    .pb-center-column h1{font-size:20px;}
     .box-info-product .exclusive{width:60%;}
     .cart-product .buttons_bottom_block {text-align:center;}
-    .box-info-product p {text-align:left;}
+    .box-info-product p {text-align:left; margin-left: 10%; padding-left: 0px;}
+    .socialsharing_product{margin-left: 10%;}
+    p#loyalty {margin-left: 10% !important;}
+    .more-info ul li a.selected{font-size: 14px !important;}
+    .item-product img, ul.product_list > li .product-container img{width: 70%; margin-top: -20%;}
+    .pb-center-column #buy_block labe{margin-right: 14px; }
+    .bloque-precio{width: 80%; margin-left: auto; margin-right: auto;}
+}
 
+@media (min-width:1050px) and (max-width:1600px){
+    .bloque-precio{width: 90%; margin-left: auto; margin-right: auto;}
 }

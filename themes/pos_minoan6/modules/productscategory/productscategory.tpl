@@ -26,7 +26,7 @@
 <section class="page-product-box blockproductscategory">
 	<div class="pos-title">
 		<h2>
-			<span>
+                    <span class="title-related">
 				{if $categoryProducts|@count == 1}
 					{l s='%s other product in the same category:' sprintf=[$categoryProducts|@count] mod='productscategory'}
 				{else}
