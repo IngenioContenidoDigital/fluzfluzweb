@@ -3,11 +3,11 @@ require_once('XmlToArray.class.php');
 require_once(dirname(__FILE__) . '/../../config/config.inc.php');
  class ConfPayu {
 
- private $testing=  array('apiKey'=>'6u39nqhq8ftd0hlvnjfs66eh8c',
-                      'apiLogin'=>'11959c415b33d0c',
-                      'merchantId'=>'500238',
-                      'accountId'=>'500537',
-                      'pse-CO'=>'500538');
+ private $testing=  array('apiKey'=>'4Vj8eK4rloUd272L48hsrarnUA',
+                      'apiLogin'=>'pRRXKOl8ikMmt9u',
+                      'merchantId'=>'508029',
+                      'accountId'=>'512321',
+                      'pse-CO'=>'512321');
  
 private $test= false;
 
@@ -54,10 +54,11 @@ if($this->url_service != NULL ){
 }
 else if($this->test)
     {  
-     $ch = curl_init('https://stg.api.payulatam.com/payments-api/4.0/service.cgi');
+     $ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
     }
 else {
-     $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
+     // $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
+     $ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
      }
 
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // deshabilitar la validacion SSl (false)
@@ -98,11 +99,12 @@ public function sendXml($data)
 
 if($this->test)
     {
-     $ch = curl_init('https://stg.api.payulatam.com/payments-api/4.0/service.cgi');
+     $ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
     }
 
 else {
-     $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
+     // $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
+     $ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
      }
 
 
