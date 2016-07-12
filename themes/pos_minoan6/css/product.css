@@ -97,17 +97,17 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .pos-title {width:90% !important; margin-left: 5%; margin-top: -3%;}
 .title-related{font-size: 14px; font-family: 'Montserrat';}
 /* pb-left-column ****************************************************************************** */
-.pb-center-column { margin-bottom: 30px; margin-top: 0px; padding-left: 0px;/* form */ }
-.pb-center-column h1 { font-family: 'Open Sans' !important; color: #58595b; text-transform: uppercase; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
+.pb-center-column { margin-bottom: 30px; margin-top: 0px; padding-left: 0px; padding-right: 0px;/* form */ }
+.pb-center-column h1 { font-family: 'Open Sans' !important; color: #58595b; text-transform: uppercase; margin-top: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
 @media (max-width: 991px) { .pb-center-column h1 { font-size: 18px; text-align: center;} }
 .pb-center-column label { color: #888889; font-weight: normal; font-style: san-serif; }
 .pb-center-column p { margin-bottom: 10px; font-size: 12px; text-align: center;}
-.pb-center-column #product_reference { margin-bottom: 6px; text-align: left;}
+.pb-center-column #product_reference { margin-bottom: 6px; text-align: left; margin-left: 14px;}
 .pb-center-column #short_description_block { color: #666666; }
 .pb-center-column #short_description_block .buttons_bottom_block { display: none; }
 .pb-center-column #short_description_block #short_description_content { padding: 15px 0; margin-bottom: 20px; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; word-wrap: break-word; display: none;}
 .pb-center-column #short_description_block #short_description_content p { line-height: 27px; font-size: 14px; color: #8c8c8c; margin: 0; }
-.pb-center-column #buy_block label { display: inline-block; text-align: left !important; float: left; font-weight: normal; font-size: 12px; margin-right: 10px; line-height: 35px; }
+.pb-center-column #buy_block label { display: inline-block; text-align: left !important; margin-left: -15px; float: left; font-weight: normal; font-size: 12px; margin-right: 10px; line-height: 35px; }
 .pb-center-column #buy_block p.price { padding: 0; }
 .pb-center-column #color_picker p { padding-bottom: 5px; font-weight: 700; }
 
@@ -135,12 +135,12 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 
 .box-cart-bottom { padding: 0; }
 
-.cart-product .buttons_bottom_block { float: left; margin-bottom: 15px; clear: none; width: 100%;}
+.cart-product .buttons_bottom_block { float: left; margin-bottom: 15px; clear: none; width: 100%; margin-left:0px; padding-left: 0px;}
 
 #short_description_content a, .page-product-box .rte a { color: #333333; text-decoration: underline; }
 #short_description_content a.btn, .page-product-box .rte a.btn { text-decoration: none; }
 
-.box-info-product p { margin-bottom: 15px; float: left; margin-right: 0px; width: 82%; text-align: center;}
+.box-info-product p { margin-bottom: 15px; float: left; margin-right: 0px; width: 80%; text-align: left;}
 @media (max-width: 320px) { .box-info-product p { margin-right: 0; } }
 .box-info-product .exclusive { position: relative; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; text-align: center; line-height: 35px; height: 50px; border: none; width: 81%; color: #fff; background: #c8b79b; text-transform: capitalize; padding: 0 15px; font-size: 14px; }
 .box-info-product .exclusive:before { font-family: "FontAwesome"; font-size: 14px; line-height: 35px; content: "\f07a"; z-index: 2; }
@@ -323,20 +323,25 @@ Quick View Styles
     .prueba{position: absolute; top: 12px; left: 260px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     .menuAccount{border:#E1E1E1 solid 1px; width:75%;}
     .block .title_block:after, .block h4:after{display:none;}
+    .block{padding-top: 12%;}
     #categories_block_left h2.title_block {display:none;}
     .footer-container #footer h4:after {margin-right:20px;}
-    .pb-center-column #buy_block label{width:90%;}
-    #quantity_wanted_p input {width:60%;}
+    .pb-center-column #buy_block label{width:40%; margin-left: -12px;}
+    #quantity_wanted_p input {width:20%;}
     .btn-twitter{width:100%; height:40px;}
     .btn-facebook{width:100%; height:40px;}
     .btn-google-plus{width:100%; height:40px;}
     .btn-pinterest{width:100%; height:40px;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
-    span{font-size:10px;}
+    span{font-size:12px;}
     p{font-size:12px; text-align:justify;}
-    .box-info-product p{padding:0;}
-   
+    .box-info-product p{padding:0; margin-left: 10% !important;}
+    #product p#loyalty{margin-left: 10% !important;}
+   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px;}
+   .shop-price{margin-left: 13% !important;}
+   .tiendaP{margin-left: 13% !important;}
+   .pb-center-column #product_reference{padding-left: 12px;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -346,7 +351,7 @@ Quick View Styles
     #categories_block_left h2.title_block {display:none;}
     .footer-container #footer h4:after {margin-right:20px;}
     .pb-center-column #buy_block label{width:90%;}
-    #quantity_wanted_p input {width:60%;}
+    #quantity_wanted_p input {width:12%;}
     .btn-twitter{width:100%; height:40px;}
     .btn-facebook{width:100%; height:40px;}
     .btn-google-plus{width:100%; height:40px;}
@@ -358,12 +363,15 @@ Quick View Styles
     .box-info-product p{padding:0;}
     .socialsharing_product{margin-left: 10% !important;}
     .primary_block{margin-bottom: 20px;}
-    .cart-product .buttons_bottom_block{text-align: center;}
+    .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px;}
     .block{padding-top: 5%;}
     p#loyalty{margin-left: 10% !important; line-height: 23px !important;}
     .item-product img, ul.product_list > li .product-container img {width: 100% !important;}
     .pb-center-column #product_reference{margin-left:16px !important;}
     .pb-center-column #buy_block label{width: 45% !important;}
+    .pb-center-column #buy_block label{margin-left: 21px;}
+    .shop-price{text-align: center !important; margin-left: 13px;}
+    .tiendaP{margin-left: 21px; text-align: center;}
 }
 
 @media (min-width:412px) and (max-width:760px){
@@ -383,14 +391,15 @@ Quick View Styles
    .block {padding-top: 10%; padding-left: 13%;}
    .breadcrumb{display: none;}
    .pb-center-column h1{margin-left: 21px;}
-   .cart-product .buttons_bottom_block{text-align: center;}
+   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px;}
    .socialsharing_product{margin-left: 10%;}
    p#loyalty{margin-left: 10% !important;}
    .pb-center-column #buy_block label{margin-left: 8%;}
    .pb-center-column #product_reference{margin-left: 3%;}
    .bloque-precio{width: 90%; margin-left: auto; margin-right: auto;}
-   .point-price{line-height: 30px; text-align: right; margin-right: 30px; padding-right: 29px;}
-   
+   .point-price{line-height: 30px; text-align: right; margin-right: 30px; padding-right: 18px;}
+   .shop-price{padding-left: 18px !important;}
+   .tiendaP{text-align: right; padding-right:17px;} 
 }
 
 
@@ -417,7 +426,7 @@ Quick View Styles
     .pb-center-column h1{font-size:20px;}
     .box-info-product .exclusive{width:60%;}
     .cart-product .buttons_bottom_block {text-align:center;}
-    .box-info-product p {text-align:left; margin-left: 10%; padding-left: 0px;}
+    .box-info-product p {text-align:left; margin-left: 10%; padding-left: 0px; width: 80%;}
     .socialsharing_product{margin-left: 10%;}
     p#loyalty {margin-left: 10% !important;}
     .more-info ul li a.selected{font-size: 14px !important;}
@@ -427,5 +436,5 @@ Quick View Styles
 }
 
 @media (min-width:1050px) and (max-width:1600px){
-    .bloque-precio{width: 90%; margin-left: auto; margin-right: auto;}
+    .bloque-precio{width: 100%; margin-left: auto; margin-right: auto;}
 }

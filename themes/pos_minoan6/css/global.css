@@ -3409,6 +3409,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 
 .menuSticky{
     margin-top:-21px !important;
+    border-bottom: 3px solid red;
 }
 
 @media (min-width:221px) and (max-width:325px){
@@ -4123,6 +4124,7 @@ h2.title_blockSale {
     padding-left: 40px;
     padding-right:0px;
     font-size:12px;
+    line-height: 17px;
 }
 
 .pPrice{
@@ -4132,6 +4134,7 @@ h2.title_blockSale {
     float: right;
     padding-left: 60px;
     font-size:12px;
+    line-height: 17px;
 }
 
 .cardDesign{
@@ -4142,13 +4145,17 @@ h2.title_blockSale {
     margin-bottom:3%;
     border-radius:2%;
  }
+ 
+#prodid_oculto{
+     display:none !important;
+ }
 
 #bar-code{
     margin-bottom:15px !important;
     padding:2%;
     background:#fff;
-    width:80%;
-    height:105px;
+    width:auto;
+    height:auto;
     
 }
 .tCardView{
@@ -4168,7 +4175,7 @@ h2.title_blockSale {
     font-family: 'Open Sans' !important;
 }
 
-.fancybox-opened .fancybox-skin{width:34.5% !important;}
+.fancybox-opened .fancybox-skin{width:32.5% !important;}
 
 .CardInstru{
     max-width:55%;
