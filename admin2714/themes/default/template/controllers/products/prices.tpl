@@ -211,6 +211,14 @@ $(document).ready(function () {
 		{if isset($pack) && $pack->isPack($product->id)}<p class="col-lg-9 col-lg-offset-3 help-block">{l s='The sum of prices of the products in the pack is %s%s%s' sprintf=[$currency->prefix,{toolsConvertPrice price=$pack->noPackPrice($product->id)|string_format:$priceDisplayPrecisionFormat},$currency->suffix]}</p>{/if}
 	</div>
         
+        <div class="form-group">
+		<label class="control-label col-lg-3" for="codetype">{l s='Seleccione Tipo de Codigo'}</label>
+		<div class="input-group col-lg-2">
+                        <input type="radio" name="codetype" id="codeBR" value="1" {if $product->codetype == 1}checked="checked"{/if}/> {l s="Codigo de Barras"} <br/>
+                        <input type="radio" name="codetype" id="codeQR" value="0" {if $product->codetype == 0}checked="checked"{/if}/> {l s="Codigo QR"}<br />
+                </div>
+	</div>  
+             {debug}   
 	<div class="form-group">
 		<div class="col-lg-1"><span class="pull-right">{include file="controllers/products/multishop/checkbox.tpl" field="unit_price" type="unit_price"}</span></div>
 		<label class="control-label col-lg-2" for="unit_price">
