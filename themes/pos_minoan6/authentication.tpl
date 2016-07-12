@@ -829,7 +829,10 @@
                             </div>
                         </div>            
                     </div>            
-                </div>                
+                </div> 
+                {*<div>
+                    {hook h="displayPayment"}
+                </div>*}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div style="display:none;">{$HOOK_CREATE_ACCOUNT_FORM}</div>
