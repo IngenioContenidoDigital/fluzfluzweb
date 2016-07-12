@@ -208,6 +208,9 @@ class ProductCore extends ObjectModel
     public $base_price;
 
     public $id_tax_rules_group = 1;
+    
+    public $codetype = 0;
+   
 
     /**
      * We keep this variable for retrocompatibility for themes
@@ -278,6 +281,7 @@ class ProductCore extends ObjectModel
             'depth' =>                        array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedFloat'),
             'weight' =>                    array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedFloat'),
             'quantity_discount' =>            array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
+            'codetype' =>                    array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'ean13' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isEan13', 'size' => 13),
             'upc' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isUpc', 'size' => 12),
             'cache_is_pack' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
@@ -564,6 +568,7 @@ class ProductCore extends ObjectModel
             Db::getInstance()->update('stock', array(
                 'reference' => pSQL($this->reference),
                 'ean13'     => pSQL($this->ean13),
+                'codetype' => pSQL($this->codetype),
                 'upc'        => pSQL($this->upc),
             ), 'id_product = '.(int)$this->id.' AND id_product_attribute = 0');
         }

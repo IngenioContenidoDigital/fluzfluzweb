@@ -13,7 +13,9 @@ class cardsviewControllerCore extends FrontController{
       }
 
       public function initContent(){
+          
           parent::initContent();
+          
           $this->context->smarty->assign(array(
             'cards'=>$this->getCardsbySupplier($this->context->customer->id, Tools::getValue("manufacturer"))
           ));

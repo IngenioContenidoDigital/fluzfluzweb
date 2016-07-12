@@ -152,7 +152,7 @@
                                 {if isset($left_column_size) && !empty($left_column_size)}
                                     <div id="left_column" class="menuSticky column col-lg-3 col-md-4 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
                                                 
-                                        {if $cms->id==6}
+                                        
                                             <div class="block"><h2 class="title_blockSale">{l s="Sale"}</h2>
                                             <div id="onSale"> {l s="On Sale"} </div>
                                             </div>
@@ -169,7 +169,7 @@
                                                     <img src="{$img_dir}icon/twitter.png"/>
                                                     <img src="{$img_dir}icon/instagram.png"/>
                                             </div>
-                                        {/if}
+                                        
                                         
                                         {if $cms->id==8 || $cms->id==9}
                                         

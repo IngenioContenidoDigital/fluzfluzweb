@@ -9,10 +9,12 @@
         </div>
         <div id="pOculto">{displayPrice price=$card.price no_utf8=false convert=false}</div>
         <div id="desc_oculto">{$card.description}</div>
+        <div id="prodid_oculto">{$card.id_product}</div>
         <div id="nameOculto">{$card.product_name}</div>
         {if $card@iteration mod 2 ==0}<br /><br/>{/if}
     {/foreach}
     </div>
+    
     <div style="display: none;">
             <div id="myspecialcontent" class="infoPopUp">
                 <div class="cardDesign">
@@ -22,17 +24,18 @@
                     <p class="col-lg-6 pCode">{l s="Your Gift Card ID is: "}<br/><span class="micode" style="font-size:16px;"> </span></p>
                     <p class="col-lg-6 pPrice">{l s="Value: "}<br/><span id="priceCard" style="font-size:16px;"></span></p>
                     <img id="bar-code" src=""/><br/>
-                    <span class="micode popText"></span>
+                    <span class="micode popText" id="code-img"></span>
                 </div>
                 <div class="containerCard">
                     <ul>
                         <li>
-                          <input type="radio" id="f-option" name="selector">
-                          <div class="check" id="used"></div>
-                          <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
+                          <input type="radio" id="f-option" name="selector" value="1">
+                          <div class="check" id="used" {if $usedQ == 1}checked="checked"{/if}></div>
+                          <label id="labelCard" for="f-option" {if $usedQ == 0}checked="checked"{/if}>{l s='MARK AS USED'}</label>
                         </li>
+                        {debug}
                         <li>
-                          <input type="radio" id="s-option" name="selector">
+                            <input type="radio" id="s-option" name="selector" value="0">
                           <div id="not-used" class="check"></div>
                           <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
                         </li>
@@ -53,11 +56,12 @@
             var price = document.getElementById("pOculto").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
             var description = document.getElementById("desc_oculto").innerHTML;
+            var idproduct = document.getElementById("prodid_oculto").innerHTML;
             var ruta = $(this).before().find(".oculto").html();
             $("#img-prod").attr("src",ruta)
             $.ajax({
                     method:"POST",
-                    data: {'codeImg2': codeImg2,'price':price},
+                    data: {'action': 'consultcodebar', 'codeImg2': codeImg2,'price':price,'idproduct':idproduct},
                     url: '/raizBarcode.php', 
                     success:function(response){
                         $('#bar-code').attr('src','.'+response);
@@ -69,9 +73,9 @@
               });
         });
         
+        
         $('#used').click(function(){
             $(this).addClass('checkConfirm');
-            $('#used').removeClass('check');
             $('#labelCard').addClass('labelcard');
             $('#labelCard2').removeClass('labelcard');
             $('#not-used').removeClass('checkConfirm');
@@ -100,5 +104,19 @@
             $('#used').removeClass('checkConfirm');
         });
         
+    </script>
+{/literal}
+{literal}
+    <script>
+        $('input:radio[name=selector]').click(function() {
+            var val = $('input:radio[name=selector]:checked').val();
+            var idproduct = document.getElementById("prodid_oculto").innerHTML;
+            var codeImg2 = document.getElementById("code-img").innerHTML;
+            $.ajax({
+                    method:"POST",
+                    data: {'action': 'updateUsed','val': val, 'codeImg2': codeImg2,'idproduct':idproduct},
+                    url: '/raizBarcode.php'
+              });
+        });
     </script>
 {/literal}
