@@ -33,7 +33,7 @@
                           <div class="check" id="used" {if $usedQ == 1}checked="checked"{/if}></div>
                           <label id="labelCard" for="f-option" {if $usedQ == 0}checked="checked"{/if}>{l s='MARK AS USED'}</label>
                         </li>
-                        {debug}
+                       
                         <li>
                             <input type="radio" id="s-option" name="selector" value="0">
                           <div id="not-used" class="check"></div>
