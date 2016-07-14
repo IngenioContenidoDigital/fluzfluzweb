@@ -313,7 +313,6 @@
                                                                         {/strip}
                                                                         </p>
                                                                         <div class="cart-product"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
-										<br/>
                                                                                 <div id="add_to_cart" class="col-lg-12 col-md-6 col-sm-6 col-xs-12 buttons_bottom_block no-print">
 											<button type="submit" name="Submit" class="exclusive">
                                                                                             <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
