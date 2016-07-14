@@ -4,7 +4,7 @@
 
 /* product desc */
 /* primary_block ***************************************************************************** */
-.primary_block { margin-bottom: 40px; }
+.primary_block { margin-bottom: 40px; margin-left: 32px;}
 
 .product-heading-h5 { color: #999999; font-weight: 200; margin: 3px 0 8px; font-size: 19px; font-family: "Open Sans", sans-serif; }
 

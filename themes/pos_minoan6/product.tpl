@@ -37,7 +37,7 @@
 <div itemscope itemtype="https://schema.org/Product">
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
 	<div class="primary_block row">
-		<div class="{if !$content_only}col-lg-12 col-sm-12 col-md-9 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
+		<div class="{if !$content_only}col-lg-12 col-sm-12 col-md-12 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
 			
 			{if !$content_only}
 				<div class="container">

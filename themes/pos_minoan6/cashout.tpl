@@ -53,7 +53,7 @@
             <div id="min_payment" style="clear: both">{l s='The minimum required to be able to ask for a payment is' mod='allinone_rewards'} <b>{$paymentMinimum|escape:'html':'UTF-8'}</b></div>
 	{/if}
 
-	{if $voucher_button_allowed}
+	{*if $voucher_button_allowed}
                     
             <div class="row" style="margin-top:8%;">
 
@@ -68,11 +68,11 @@
                                     {l s='Numero de Tarjeta'}
                                 </label>
                                 </div>
-                                {literal}
+                                
                                     <div class="col-xs-12 col-sm-7 col-md-12 col-lg-8">
-                                        <input type="text" pattern="[0-9]{13,16}" class="imageCard formCardCash form-control" id="numCard" name="numCard" autocomplete="off" required/>
+                                        <input type="text" pattern="[0-9]{literal}{13,16}{/literal}" class="imageCard formCardCash form-control" id="payment_details" name="payment_details" autocomplete="off" required/>
                                     </div>
-                                {/literal}
+                                
                             </div>   
                             <div class="required formCash form-group col-lg-6 col-md-6">
                                 <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">
@@ -88,30 +88,57 @@
                             </div>     
                         </div>
                     </div>
-                    <div id="transform" style="clear: both">
-                        <a href="{$pagination_link|escape:'htmlall':'UTF-8'}transform-credits=true" onclick="return confirm('{l s='Are you sure you want to transform your rewards into vouchers ?' mod='allinone_rewards' js=1}');">{l s='REQUEST DEPOSIT' mod='allinone_rewards'} <span>></span></a>
-                    </div>
+                    <p class="{if $payment_invoice}required{/if} text">
+                        <label for="payment_invoice">{l s='Invoice' mod='allinone_rewards'} ({displayPrice price=$totalForPaymentDefaultCurrency currency=$payment_currency}) {if $payment_invoice}<sup>*</sup>{/if}</label>
+                        <input id="payment_invoice" name="payment_invoice" type="file" required>
+                    </p>
+                    <input class="button" type="submit" value="{l s='REQUEST DEPOSIT' mod='allinone_rewards'}" name="submitPayment" id="submitPayment">
+
                 </div>
             </div>
             
-	{/if}
+	{/if*}
+        
 	{if $payment_button_allowed}
             <div id="payment" style="clear: both">
-                    <a onClick="$('#payment_form').toggle()">{l s='Ask for the payment of your available rewards :' mod='allinone_rewards'} <span>{displayPrice price=$totalForPaymentDefaultCurrency currency=$payment_currency}</span></a>
+                    <a onClick="$('#payment_form').toggle()">{l s='Payment of your available rewards' mod='allinone_rewards'} <span>{displayPrice price=$totalForPaymentDefaultCurrency currency=$payment_currency}</span></a>
                     <form id="payment_form" class="std" method="post" action="{$pagination_link|escape:'htmlall':'UTF-8'}" enctype="multipart/form-data" style="display: {if isset($smarty.post.payment_details)}block{else}none{/if}">
+                           
                             <fieldset>
+                                <h4 class="directDep">{l s='Direct Deposit'}</h4>
+                                 <div class="contDirectDep">
+                                     
                                     <div id="payment_txt">{$payment_txt|escape:'string':'UTF-8'}</div>
-                                    <p class="required textarea">
-                                            <label for="payment_details">{l s='Bank account, paypal address, address, details...' mod='allinone_rewards'} <sup>*</sup></label>
-                                            <textarea id="payment_details" name="payment_details" rows="3" cols="40">{if isset($payment_details)}{$payment_details|escape:'html':'UTF-8'}{/if}</textarea>
-                                    </p>
+                                    <div class="required formCash form-group col-lg-6 col-md-6">
+                                        <p class="required">
+                                        <label class="required textCard">
+                                            {l s='Numero de Tarjeta'}
+                                        </label>
+                                        <div class="col-xs-12 col-sm-7 col-md-12 col-lg-8" style="padding-left:0px;">
+                                            <input type="text" pattern="[0-9]{literal}{13,16}{/literal}" class="imageCard formCardCash form-control" id="payment_details" name="payment_details" autocomplete="off" required/>
+                                        </div>
+                                        </p>
+                                    </div>
+                                    <!--<div class="required formCash form-group col-lg-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">
+                                        <label class="required textCard">
+                                            {l s='Deposit Amount'}
+                                        </label>
+                                        </div>
+                                        {literal}
+                                            <div class="col-xs-12 col-sm-7 col-md-12 col-lg-8">
+                                                <input type="text" pattern="[0-9]" class="imageCard formCardCash form-control" id="numCard" name="numCard" autocomplete="off" required/>
+                                            </div>
+                                        {/literal}
+                                    </div>-->
                                     <p class="{if $payment_invoice}required{/if} text">
-                                            <label for="payment_invoice">{l s='Invoice' mod='allinone_rewards'} ({displayPrice price=$totalForPaymentDefaultCurrency currency=$payment_currency}) {if $payment_invoice}<sup>*</sup>{/if}</label>
-                                            <input id="payment_invoice" name="payment_invoice" type="file">
+                                            <label style="display:none;" for="payment_invoice">{l s='Invoice' mod='allinone_rewards'} ({displayPrice price=$totalForPaymentDefaultCurrency currency=$payment_currency}) {if $payment_invoice}<sup>*</sup>{/if}</label>
+                                            <input id="payment_invoice" name="payment_invoice" type="file" accept="application/pdf" required>
                                     </p>
-                                    <input class="button" type="submit" value="{l s='Save' mod='allinone_rewards'}" name="submitPayment" id="submitPayment">
-                                    <p class="required"><sup>*</sup>{l s='Required field' mod='allinone_rewards'}</p>
+                                    <input class="button" type="submit" value="{l s='REQUEST DEPOSIT' mod='allinone_rewards'}" name="submitPayment" id="submitPayment">
+                                 </div>
                             </fieldset>
+                           
                     </form>
             </div>
 	{/if}
@@ -179,9 +206,12 @@
                 }
             });
     </script>
-    <script>
-        $("#account-creation_form").validate();
-    </script>
+    
+{/literal}
+{literal}
+    <style>
+    div.uploader span.filename{margin-left: 18px !important;}
+    </style>
 {/literal}
 
 <!-- END : MODULE allinone_rewards -->
