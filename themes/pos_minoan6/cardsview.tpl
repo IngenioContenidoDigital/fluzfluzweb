@@ -4,9 +4,12 @@
 {else}
     <div class='container c'>
     {foreach from=$cards item=card}
-        <div class="card"><img src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/><a class="myfancybox" href="#myspecialcontent"><div><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
-        <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div></a>
-        </div>
+        <a class="myfancybox" href="#myspecialcontent">
+            <div class="card"><img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
+        <div class="col-lg-8 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
+        <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
+        </div></a>
+        
         <div id="pOculto">{displayPrice price=$card.price no_utf8=false convert=false}</div>
         <div id="desc_oculto">{$card.description}</div>
         <div id="prodid_oculto">{$card.id_product}</div>

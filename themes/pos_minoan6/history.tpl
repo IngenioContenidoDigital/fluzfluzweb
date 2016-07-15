@@ -151,15 +151,15 @@
 </div>
 <ul class="footer_links clearfix">
 	<li>
-		<a class="btn btn-default button button-small" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">
+		<a class="btn btn-history" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">
 			<span>
 				<i class="icon-chevron-left"></i> {l s='Back to Your Account'}
 			</span>
 		</a>
 	</li>
 	<li>
-		<a class="btn btn-default button button-small" href="{$base_dir}">
-			<span><i class="icon-chevron-left"></i> {l s='Home'}</span>
+		<a class="btn btn-history-shop" href="{$base_dir}">
+			<span>{l s='Shop Now '}<i class="icon-chevron-right"></i> </span>
 		</a>
 	</li>
 </ul>
@@ -170,5 +170,9 @@
         .page-heading{margin-bottom: 5% !important;}
         .breadcrumb{font-size:12px; margin-bottom: 3%;}
         .footable .footable-sortable .footable-sort-indicator:after{display: none;}
+        .table tbody > tr > td{text-align: right;}
+        ul.footer_links{margin-bottom: 5% !important; border-top: none !important;}
+        p.info-account{margin: 11px 0 24px 0;}
+        .page-heading{padding: 0px !important; margin-bottom: 0px !important;}
     </style>
 {/literal}

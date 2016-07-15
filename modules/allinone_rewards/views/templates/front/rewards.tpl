@@ -246,7 +246,7 @@
 	{/if}
 {/if}
         <table class="std">
-            <h2 class="tituloNet">{l s="Top Network Performance"}</h2>
+            <h2 class="tituloNet">{l s="Top Network Performers"}</h2>
 		<thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
@@ -268,7 +268,7 @@
 		</tbody>
 	</table>
         <table class="std">
-            <h2 class="tituloNet">{l s="Worst Network Performance"}</h2>
+            <h2 class="tituloNet">{l s="Worst Network Performers"}</h2>
 		<thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>

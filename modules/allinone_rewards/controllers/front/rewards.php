@@ -257,4 +257,44 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             return $activity;
             
         }
-}
+        
+       /* public function get_tree(&$result, $level=1, $father=null) 
+        {
+            
+            $query = '
+			SELECT rs.*
+			FROM `'._DB_PREFIX_.'rewards_sponsorship` AS rs
+			WHERE id_sponsor = '.(int)$this->context->customer->id.'
+			AND id_customer > 0';
+		$rows = Db::getInstance()->ExecuteS($query);
+		if (is_array($rows) && count($rows) > 0) {
+			if ($level > $result['maxlevel']) {
+				$result['maxlevel'] = $level;
+				$result['rewards'.$result['maxlevel']] = 0;
+			}
+			foreach ($rows AS $row)	{
+				if ($level == 1) {
+					$result['direct_nb'.$row['channel']]++;
+					$father = $row['id_customer'];
+				} else
+					$result['indirect_nb']++;
+				// nb direct or indirect friends for each level 1 sponsored
+				if (!isset($result['direct_customer'.$idSponsor]))
+					$result['direct_customer'.$idSponsor] = 0;
+				$result['direct_customer'.$idSponsor]++;
+				if (isset($father) && $level > 1 && $father != $idSponsor) {
+					if (!isset($result['indirect_customer'.$father]))
+						$result['indirect_customer'.$father] = 0;
+					$result['indirect_customer'.$father]++;
+				}
+				// nb sponsored by level
+				if (!isset($result['nb'.$level]))
+					$result['nb'.$level] = 0;
+				$result['nb'.$level]++;
+
+				self::_getRecursiveDescendants($row['id_customer'], $result, $level+1, $father);
+			}
+		}    
+    }*/
+           
+ }

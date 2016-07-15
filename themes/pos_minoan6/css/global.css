@@ -660,7 +660,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
 
 .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus { text-decoration: none; background-color: transparent; background-image: none; filter: progid:DXImageTransform.Microsoft.gradient(enabled = false); cursor: not-allowed; }
 
-.open > .dropdown-menu { display: block; text-align:left;}
+.open > .dropdown-menu { display: block; text-align:left;margin-top: 1px;}
 .open > a { outline: 0; }
 
 .dropdown-header { display: block; padding: 3px 20px; font-size: 12px; line-height: 1.42857; color: #999999; }
@@ -3685,7 +3685,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
  
 .profileCustomer{ background: #f4f4f4; font-size:12px; text-transform:uppercase; color:#838383; padding:.5%; margin-bottom:2%; margin-top: -22px; -ms-display: flex; display: flex; align-items: center; -webkit-box-shadow: 0px 0px 7px 4px rgba(209,209,209,1); -moz-box-shadow: 0px 0px 7px 4px rgba(209,209,209,1); box-shadow: 0px 0px 7px 4px rgba(209,209,209,1);}
 .contProfile{-ms-display: flex; display: flex; align-items: center; margin-left:16%;}  
-.ptoCustomer{color:#000; font-size:20px; margin-right:10px;}
+.ptoCustomer{color:#000; font-size:16px; margin-right:10px;}
 
 @media (max-width:1500px){
     .contProfile{margin-left:6%;}  
@@ -3695,7 +3695,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 
 .Cards{background:#f4f4f4;font-family:"Montserrat"; text-transform:uppercase; margin-bottom:1%; color:#686969; cursor:pointer; border-radius:5px; margin-right:1%; padding:1%; -webkit-box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow:2px 2px 3px 0px rgba(50, 50, 50, 0.75); box-shadow:2px 2px 3px 0px rgba(50, 50, 50, 0.75);}
 .Cards img{width:auto; height:40px; margin-right:5%;}
-.priceCard{text-align:right; margin-top:10px; font-size:12px;}
+.priceCard{text-align:right; margin-top:10px; font-size:12px; padding-right:0px; padding-left:0px;}
 .priceTotalCard{color:#ef4136; margin-left:2%; font-size:12px;}
 .Cards:hover{background:#fff;}
 .popText{text-align:center; color:#000; font-size:18px; font-family:Josefin-Sans;}
@@ -4012,8 +4012,8 @@ h2.title_blockSale {
 }
 
 .members2{
-	padding-top:5%;
-	padding-bottom:5%;
+	padding-top:0%;
+	padding-bottom:0%;
 }
 
 .members2 p{
@@ -4039,7 +4039,7 @@ h2.title_blockSale {
     line-height: 25px;
     color: #333333;
     width: 280px;
-    margin-top: 33px;
+    margin-top: 5px;
 }
 
 .members3{
@@ -5235,7 +5235,37 @@ font-family: 'Open Sans' !important;
         font-size:50px;
         margin-left:18px;
     }
-
+    
+    #text3{
+        font-size:15px;
+        width:65%;
+        line-height:40px;
+    }
+    
+    #text5{
+        font-size:15px;
+        width:65%;
+        line-height:40px;
+    }
+    
+    #text7{
+        font-size:15px;
+        width:65%;
+        line-height:40px;
+    }
+    
+    #text9{
+        font-size:15px;
+        width:65%;
+        line-height:40px;
+    }
+    
+    #text11{
+        font-size:15px;
+        width:65%;
+        line-height:40px;
+    }
+    
     #text1 {
         margin-top: 35px;
         clear: both;
@@ -5262,7 +5292,8 @@ font-family: 'Open Sans' !important;
         background-attachment: scroll;
         -webkit-background-size: cover;
         background-size: cover;
-        height: 572px;
+        height: 597px;
+        margin-top: 0px;
         background-position: 100% 17.9%;
         background-repeat: no-repeat no-repeat;
     }

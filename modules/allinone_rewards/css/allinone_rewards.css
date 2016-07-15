@@ -370,13 +370,14 @@
 }
 
 .sponsorshipBlock div.title {
-    margin-bottom: 75px;
+    margin-bottom: 2%;
     color: #838383;
     font-size: 16px;
     margin-top: 4%;
     font-family: 'Open Sans' !important;
+    font-weight: lighter;
     width: 50% !important;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     
 }
 
@@ -514,12 +515,14 @@
 }
 
 .tituloNet{
-    margin-bottom: 75px; 
+    margin-bottom: 0%;
     color: #838383; 
     font-size: 16px;
     margin-top:4%;
     font-family: 'Open Sans' !important;
     width:50% !important;
+    font-weight: lighter;
+    letter-spacing: 1px;
 }
 
 .yourPointnet{
