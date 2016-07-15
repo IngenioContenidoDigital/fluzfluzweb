@@ -150,7 +150,7 @@
                                 {/if}    
                                 
                                 {if isset($left_column_size) && !empty($left_column_size)}
-                                    <div id="left_column" class="menuSticky column col-lg-3 col-md-4 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
+                                    <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
                                                 
                                         
                                             <div class="block"><h2 class="title_blockSale">{l s="Sale"}</h2>
@@ -189,7 +189,7 @@
                                     </div>
 				{/if}
                                 {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
-						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
+						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-xs-12 col-md-{$cols|intval} col-sm-{$cols|intval}">
                                                     
                                                     {if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}

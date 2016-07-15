@@ -3,7 +3,7 @@
     margin-left: 2%;
     min-height: 700px;
 }
-.card{display:inline-block; width: 40%; height: auto; background-color: #f4f4f4; font-color:#ef4136; padding: 1%; margin-left: 5px; margin-right:5px;-webkit-box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow:    2px 2px 3px 0px rgba(50, 50, 50, 0.75); box-shadow:         2px 2px 3px 0px rgba(50, 50, 50, 0.75);}
+.card{display:inline-block; width: 48%; height: auto; background-color: #f4f4f4; font-color:#ef4136; padding: 2%; margin-left: 5px; margin-right:5px;-webkit-box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow:    2px 2px 3px 0px rgba(50, 50, 50, 0.75); box-shadow:         2px 2px 3px 0px rgba(50, 50, 50, 0.75);}
 .card img{width: auto; height: 40px;}
 .card:hover{background: #fff; cursor: pointer;}
 .card a{line-height: 50px; float:right; color: #ef4136;}
@@ -123,4 +123,30 @@ ul li .check::before {
 
 #desc_oculto{
     display:none;
+}
+
+.codigoCard{
+    text-align: right;
+    font-family: 'Open Sans';
+    font-weight: lighter;    
+    margin-top: 3%;
+}
+
+@media (max-width:1024px){
+    .codigoCard{font-size: 12px;}
+}
+
+@media (max-width:768px){
+    .codigoCard{float: right;}
+    .menuSticky{background: #fff; border-bottom: none;}
+}
+
+@media (max-width:500px){
+    .card{width: 100%; padding: 4%;}
+}
+
+@media (max-width:1440px){
+    .fancybox-opened .fancybox-skin{width: 34.5%;}
+    .cardDesign{width: 64%;}
+    .CardInstru{width: 64%;}
 }

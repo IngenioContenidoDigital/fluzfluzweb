@@ -497,7 +497,7 @@ class BARCODE {
 				break;
 				
 			case "text":
-				$this->qr_text($data[0]);
+				$this->qr_text($data);
 				break;
 		}
 		

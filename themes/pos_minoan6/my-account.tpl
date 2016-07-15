@@ -28,10 +28,10 @@
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 <div class="row">
 {foreach from=$manufacturers item=manufacturer}
-    <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
+    <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">    
     <div class="col-lg-4 col-md-5 Cards">
         <div class="col-lg-6 col-md-6 infoCard">
-            <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></a>    
+            <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/>
             <span class="nameCard">{$manufacturer.manufacturer_name}</span>
         </div>
         <div class="col-lg-6 col-md-6 priceCard">
@@ -96,3 +96,9 @@
 <ul class="footer_links clearfix" style="display: none;">
 <li><a class="btn btn-default button button-small" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Home'}"><span><i class="icon-chevron-left"></i> {l s='Home'}</span></a></li>
 </ul>
+{literal}
+    <style>
+        .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 1px;font-family: 'Open Sans'}
+        p.info-account{margin: 16px 0 24px 0;}
+    </style>
+{/literal}    

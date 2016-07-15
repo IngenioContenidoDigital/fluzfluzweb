@@ -544,7 +544,6 @@
 			{/if}
 		</div>
 	{/if}
-	<div id="HOOK_SHOPPING_CART">{$HOOK_SHOPPING_CART}</div>
         
 	<p class="cart_navigation clearfix">
 		{if !$opc}

@@ -37,7 +37,7 @@
 <div itemscope itemtype="https://schema.org/Product">
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
 	<div class="primary_block row">
-		<div class="{if !$content_only}col-lg-12 col-sm-12 col-md-9 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
+		<div class="{if !$content_only}col-lg-12 col-sm-12 col-md-12 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
 			
 			{if !$content_only}
 				<div class="container">
@@ -64,9 +64,9 @@
 				</p>
 			{/if}
 				<!-- left infos-->
-				<div class="pb-left-column col-lg-6 col-xs-12 col-sm-12 col-md-6">
+				<div class="pb-left-column col-lg-6 col-xs-12 col-sm-12 col-md-12">
 					<!-- product img-->
-					<div id="image-block" class="clearfix">
+					<div class="clearfix">
 						{if $product->new}
 							<span class="new-box">
 								<span class="new-label">{l s='New'}</span>
@@ -88,7 +88,7 @@
 								{else}
 									<img id="bigpic" itemprop="image" src="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'large_default')|escape:'html':'UTF-8'}" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" width="{$largeSize.width}" height="{$largeSize.height}"/>
 									{if !$content_only}
-										<span class="span_link no-print">{l s='View larger'}</span>
+										<!--<span class="span_link no-print">{l s='View larger'}</span>-->
 									{/if}
 								{/if}
 							</span>
@@ -678,7 +678,7 @@
 										<div class="item-product">
 											<div class="products-inner">
 												<a href="{$accessoryLink|escape:'html':'UTF-8'}" title="{$accessory.legend|escape:'html':'UTF-8'}" class="product-image product_image">
-													<img class="img-responsive" src="{$link->getImageLink($accessory.link_rewrite, $accessory.id_image, 'home_default')|escape:'html':'UTF-8'}" alt="{$accessory.legend|escape:'html':'UTF-8'}" width="{$homeSize.width}" height="{$homeSize.height}"/>
+													<img class="img-responsive" src="{$link->getImageLink($accessory.link_rewrite, $accessory.id_image, 'small_default')|escape:'html':'UTF-8'}" alt="{$accessory.legend|escape:'html':'UTF-8'}" width="{$homeSize.width}" height="{$homeSize.height}"/>
 												</a>
 
 												{if isset($accessory.new) && $accessory.new == 1}
@@ -702,8 +702,7 @@
 													<a href="{$accessoryLink|escape:'html':'UTF-8'}">
 														{$accessory.name|truncate:35:'...':true|escape:'html':'UTF-8'}
 													</a>
-												</h5>
-												
+												</h5>                                                                                                        
 												<div class="ratings">{hook h='displayProductListReviews' product=$accessory}</div>
 											
 												<div class="price-box">
@@ -912,5 +911,7 @@
 {literal}
     <style>
         .breadcrumb{padding: 0 6% 2%;}
+        .actions{display: none !important;}
+        .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left: 3.5%;}
     </style>
 {/literal}

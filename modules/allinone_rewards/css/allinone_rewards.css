@@ -108,8 +108,8 @@
     padding: 18px 40px;
     text-decoration: none;
     float: right;
-    margin-right: 3%;
-    margin-bottom: 2%;
+    margin-right: -14px;
+    margin-bottom: 4%;
 }
 
 
@@ -128,10 +128,19 @@
 }
 
 .rewards div#payment fieldset {
-	padding: 10px;
-	background: none repeat scroll 0 0 #F8F8F8;
+    padding: 10px;
+    background: none repeat scroll 0 0 #fff;
     border: 1px solid #CCCCCC;
     margin: 0;
+    margin-bottom: 7%;
+    width:100%;
+    margin-left: 13px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+#payment_txt{
+    padding: 2%;
 }
 
 .rewards div#payment p {
@@ -150,7 +159,7 @@
     display: inline-block;
     float: left;
     font-size: 12px;
-    width: 25%;
+    width: 100%;
 }
 
 .rewards div#payment p.textarea textarea {
@@ -164,8 +173,22 @@
 }
 
 .rewards div#payment .button {
-	margin: 20px auto 0;
+	
 	display: block;
+        background: #c9b197;
+        border: 1px solid #c9b197;
+        text-align: left;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: 'Open Sans';
+        font-weight: bold;
+        padding: 6px 40px;
+        text-decoration: none;
+        float: right;
+        margin-right: 3%;
+        margin-bottom: 2%;
+        margin-top: 5%;
 }
 
 .rewards p.success {
@@ -347,13 +370,14 @@
 }
 
 .sponsorshipBlock div.title {
-    margin-bottom: 75px;
+    margin-bottom: 2%;
     color: #838383;
     font-size: 16px;
     margin-top: 4%;
     font-family: 'Open Sans' !important;
+    font-weight: lighter;
     width: 50% !important;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     
 }
 
@@ -491,12 +515,14 @@
 }
 
 .tituloNet{
-    margin-bottom: 75px; 
+    margin-bottom: 0%;
     color: #838383; 
     font-size: 16px;
     margin-top:4%;
     font-family: 'Open Sans' !important;
     width:50% !important;
+    font-weight: lighter;
+    letter-spacing: 1px;
 }
 
 .yourPointnet{
