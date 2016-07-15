@@ -584,6 +584,7 @@ class FrontControllerCore extends Controller
         } else {
             $this->context->smarty->assign('HOOK_MOBILE_HEADER', Hook::exec('displayMobileHeader'));
         }
+        $this->addJS(array(_PS_JS_DIR_.'jquery.validate.js'));
     }
 
     /**

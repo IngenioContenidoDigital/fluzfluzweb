@@ -440,6 +440,7 @@ class AuthControllerCore extends FrontController
                             $address->alias='Mi Direccion';
                             $address->lastname = Tools::getValue("customer_lastname");
                             $address->firstname= Tools::getValue("customer_firstname");
+                            $address->dni= Tools::getValue("gover");
                             $address->address1= Tools::getValue("address1");
                             $address->address2= Tools::getValue("address2");
                             $address->city= Tools::getValue("city");
