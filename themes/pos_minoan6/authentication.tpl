@@ -503,7 +503,7 @@
                                     </div>
                                     <div class="required form-group">
                                             <label class="required" for="email">{l s='Email'}</label>
-                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
+                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}"/>
                                     </div>
                                     <div class="required password form-group">
                                             <label class="required" for="passwd">{l s='Password'} </label>

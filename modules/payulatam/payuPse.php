@@ -58,7 +58,7 @@ class PayuPse extends PayUControllerWS{
             //$this->createPendingOrder();
             //$order = $conf->get_order($id_cart);
             $id_order = 0; //$order['id_order'];
-            $description = $customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
+            $description = "Transaccion cliente: ".$customer->id.", Codigo Referencia: ".$customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
             $varRandn = $conf->randString();
             $varRandc = $conf->randString();
             setcookie($varRandn, $varRandc, time() + 900);
@@ -67,10 +67,9 @@ class PayuPse extends PayUControllerWS{
             $browser = array('ipAddress' => $_SERVER['SERVER_ADDR'],
                 'userAgent' => $_SERVER['HTTP_USER_AGENT']);
 
-            $address = new Address($this->context->cart->id_address_delivery); 
-            $billingAddress = new Address($this->context->cart->id_address_invoice); 
-            $dni = $conf->get_dni($this->context->cart->id_address_delivery);
-            $billin_dni = $conf->get_dni($this->context->cart->id_address_invoice);
+            $addressdni = $customer->getAddresses();
+            $billin_dni = $addressdni[0]['dni'];
+            $billingAddress = new Address($addressdni[0]['id_address']);
             $intentos = $conf->count_pay_cart($id_cart);
 
             $currency='';
@@ -118,11 +117,11 @@ $data = '{
 "emailAddress":"' . $params[5]['buyerEmail'] . '",
 "dniNumber":"'.$billin_dni.'",
 "shippingAddress":{
-"street1":"'.$address->address1.'",
-"city":"'.$address->city.'",
-"state":"'.$conf->get_state($address->id_state).'",
-"country":"' . $this->context->country->iso_code . '",
-"phone":"'.$address->phone.'"
+"street1":"",
+"city":"",
+"state":"",
+"country":"",
+"phone":""
 }
 },
 "additionalValues":{
@@ -156,6 +155,7 @@ $data = '{
 }
 ';
 
+//die($data);
 $response = $conf->sendJson($data);
             if ($response['code'] === 'ERROR') {
 

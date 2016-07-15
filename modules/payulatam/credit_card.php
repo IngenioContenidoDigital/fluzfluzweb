@@ -109,8 +109,8 @@ class PayuCreditCard extends PayUControllerWS {
     $customer = new Customer((int) $this->context->cart->id_customer);
     $id_cart = $this->context->cart->id;
     $id_address = $this->context->cart->id_address_delivery;
-
-    $dni = $conf->get_dni($this->context->cart->id_address_delivery);
+    $addressdni = $customer->getAddresses();
+    $dni = $addressdni[0]['dni'];
     $reference_code = $customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
     $_deviceSessionId = NULL;
 
@@ -148,7 +148,7 @@ class PayuCreditCard extends PayUControllerWS {
       "order":{
        "accountId":"' . $keysPayu['accountId'] . '",
        "referenceCode":"' . $params[2]['referenceCode'] . '_'.$intentos.'",
-       "description":"' . $reference_code . '",
+       "description":"Transaccion cliente: ' . $customer->id . ', Codigo Referencia: ' . $reference_code . '",
        "language":"' . $params[10]['lng'] . '",
        "notifyUrl":"' . $conf->urlv() . '",
        "signature":"' . $conf->sing($params[2]['referenceCode'] . '_'.$intentos.'~' . $params[4]['amount'] . '~'.$currency).'",
@@ -165,36 +165,24 @@ class PayuCreditCard extends PayUControllerWS {
       "emailAddress":"'. $params[5]['buyerEmail'].'",
       "dniNumber":"'.$dni.'",   
       "shippingAddress": {
-       "street1": "'.$address->address1.'",
-       "street2":"N/A",    
-       "city": "'.$address->city.'",
-       "state": "'.$conf->get_state($address->id_state).'",
-       "country": "';
-       if($conf->isTest()){
-        $data.='PA';
-      }else{
-       $data.=$this->context->country->iso_code;
-     }
-     $data.='",
-     "postalCode": "'.$address->postcode.'",
-     "phone": "'.$address->phone.'"
+       "street1": "",
+       "street2":"",    
+       "city": "",
+       "state": "",
+       "country":"",
+     "postalCode": "",
+     "phone": ""
    }
  },      
  
  "shippingAddress":{
-  "street1":"'.$address->address1.'",
-  "street2":"N/A",
-  "city":"'.$address->city.'",
-  "state":"'.$conf->get_state($address->id_state).'",
-  "country":"';
-  if($conf->isTest()){
-    $data.='PA';
-  }else{
-   $data.=$this->context->country->iso_code;
- }
- $data.='",
- "postalCode":"'.$address->postcode.'",
- "phone":"'.$address->phone.'"
+  "street1":"",
+  "street2":"",
+  "city":"",
+  "state":"",
+  "country":"",
+ "postalCode":"",
+ "phone":""
 }  
 },
 "payer":{
@@ -204,19 +192,13 @@ class PayuCreditCard extends PayUControllerWS {
   "contactPhone":"'.$billingAddress->phone_mobile.'",
   "dniNumber":"'.$dni.'",
   "billingAddress":{
-    "street1":"'.$billingAddress->address1.'",
-    "street2":"N/A",
-    "city":"'.$billingAddress->city.'",
-    "state":"'.$conf->get_state($billingAddress->id_state).'",
-    "country":"';
-    if($conf->isTest()){
-      $data.='PA';
-    }else{
-     $data.=$this->context->country->iso_code;
-   }
-   $data.='",
-   "postalCode":"'.$billingAddress->postcode.'",
-   "phone":"'.$billingAddress->phone.'"
+    "street1":"",
+    "street2":"",
+    "city":"",
+    "state":"",
+    "country":"",
+   "postalCode":"",
+   "phone":""
  }      
 },
 "creditCard":{
@@ -258,6 +240,7 @@ if($conf->isTest()){
 $data.='          
 }
 '; 
+//die($data);
 $response = $conf->sendJson($data);
 $subs = substr($post['numerot'], 0, (strlen($post['numerot']) - 4));
 $nueva = '';

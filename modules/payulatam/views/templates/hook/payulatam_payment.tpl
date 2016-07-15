@@ -25,17 +25,17 @@
 {*<link href="{$base_dir|escape:'htmlall':'UTF-8'}/modules/payulatam/css/payu.css" rel="stylesheet" type="text/css">*}
 <style type="text/css">
     .panel-heading a:after {
-     font-family: "FontAwesome";
-    content: "\f078";
-    float: right;
-    color: grey;
-}
-.panel-heading a.collapsed:after {
-    content:"\f054";
-}
+        font-family: "FontAwesome";
+       content: "\f078";
+       float: right;
+       color: grey;
+    }
+    .panel-heading a.collapsed:after {
+        content:"\f054";
+    }
     .control-label {
-    text-align: left;
-}
+        text-align: left;
+    }
 </style>
 <div class="row">
     <div class="col-xs-12">
@@ -50,58 +50,56 @@
             </div>
         {/if} 
     </div>
-    
-  <div class="col-xs-12">
-    <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Pagar con tarjeta de crédito</a>
-                </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  {include file="$tpl_dir../../modules/payulatam/views/templates/hook/credit_card.tpl"}
+    <div class="col-xs-12">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Pagar con tarjeta de crédito</a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {include file="$tpl_dir../../modules/payulatam/views/templates/hook/credit_card.tpl"}
+                    </div>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Transacción bancaria PSE</a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {include file="$tpl_dir../../modules/payulatam/views/templates/hook/payuPse.tpl"}
+                    </div>
+                </div>
+            </div>
+            {*<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Pagar con Baloto</a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {include file="$tpl_dir../../modules/payulatam/views/templates/hook/payuBaloto.tpl"}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Pagar con Efecty</a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {include file="$tpl_dir../../modules/payulatam/views/templates/hook/payuEfecty.tpl"}
+                    </div>
+                </div>
+            </div>*}
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Transacción bancaria PSE</a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse in">
-                <div class="panel-body">
-                      	{include file="$tpl_dir../../modules/payulatam/views/templates/hook/payuPse.tpl"}
-                </div>
-            </div>
-        </div>
-       <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Pagar con Baloto</a>
-                </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {include file="$tpl_dir../../modules/payulatam/views/templates/hook/payuBaloto.tpl"}
-                </div>
-            </div>
-        </div>
-                <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Pagar con Efecty</a>
-                </h4>
-            </div>
-            <div id="collapseFour" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {include file="$tpl_dir../../modules/payulatam/views/templates/hook/payuEfecty.tpl"}
-                </div>
-            </div>
-        </div> 
     </div>
-
-</div>
 </div>
