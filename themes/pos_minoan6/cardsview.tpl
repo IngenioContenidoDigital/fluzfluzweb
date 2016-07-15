@@ -24,10 +24,14 @@
                     <div class="tCardView">
                         <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
                     </div>
-                    <p class="col-lg-6 pCode">{l s="Your Gift Card ID is: "}<br/><span class="micode" style="font-size:16px;"> </span></p>
-                    <p class="col-lg-6 pPrice">{l s="Value: "}<br/><span id="priceCard" style="font-size:16px;"></span></p>
-                    <img id="bar-code" src=""/><br/>
-                    <span class="micode popText" id="code-img"></span>
+                    <div class="pointPrice">
+                            <p class="col-lg-7 col-xs-8 col-md-8 pCode">{l s="Your Gift Card ID is: "}<br><span class="micode" style="font-size:20px;"> </span></p>
+                            <p class="col-lg-5 col-xs-4 col-md-4 pPrice">{l s="Value: "}<br><span id="priceCard" style="font-size:20px;"></span></p>
+                    </div>
+                    <div>
+                        <img id="bar-code" src=""/><br/>
+                        <span class="micode popText" id="code-img"></span>
+                    </div>
                 </div>
                 <div class="containerCard">
                     <ul>

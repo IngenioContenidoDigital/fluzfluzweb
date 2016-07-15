@@ -4123,8 +4123,6 @@ h2.title_blockSale {
     text-align: justify !important;
     font-family: 'Open Sans' !important;
     color: #fff;
-    padding-left: 40px;
-    padding-right:0px;
     font-size:12px;
     line-height: 17px;
 }
@@ -4134,7 +4132,6 @@ h2.title_blockSale {
     color: #fff;
     font-family: 'Open Sans' !important;
     float: right;
-    padding-left: 60px;
     font-size:12px;
     line-height: 17px;
 }
@@ -4154,7 +4151,7 @@ h2.title_blockSale {
 
 #bar-code{
     margin-bottom:15px !important;
-    padding:2%;
+    padding:2% 5%;
     background:#fff;
     width:auto;
     height:auto;
@@ -4176,8 +4173,6 @@ h2.title_blockSale {
     color:#fff;
     font-family: 'Open Sans' !important;
 }
-
-.fancybox-opened .fancybox-skin{width:34.5%;}
 
 .CardInstru{
     width:69%;

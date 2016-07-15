@@ -132,21 +132,39 @@ ul li .check::before {
     margin-top: 3%;
 }
 
+.fancybox-opened .fancybox-skin { width: 35%!important; }
+.fancybox-inner { width: auto!important; }
+.fancybox-outer { width: 100%; }
+.cardDesign { width: 100%; margin: 0; display: inline-block; margin-bottom: 30px; }
+.containerCard { padding: 0; }
+.containerCard ul { width: 100%; margin: 0; display: inline-block; }
+.containerCard ul li:first-child { margin-right: 10%; }
+.containerCard ul li div { vertical-align: middle; }
+.containerCard ul li label { vertical-align: middle; }
+.CardInstru { width: 100%; display: inline-block; margin-top: 30px; }
+.cardDesign .tCardView { margin-bottom: 3%; }
+.cardDesign .tCardView #nameViewCard { font-size: 20px; text-transform: uppercase; vertical-align: middle; }
+.cardDesign .tCardView #img-prod { width: 15%; vertical-align: middle; }
+.pointPrice { display: inline-block; width: 100%; padding: 0 10%; }
+.micode { font-family: 'Open Sans' !important; }
+
+@media (max-width:1440px){
+    
+}
+
+@media (max-width:100px){
+    .fancybox-opened .fancybox-skin { width: 50%!important; }
+}
+
 @media (max-width:1024px){
-    .codigoCard{font-size: 12px;}
+    .fancybox-opened .fancybox-skin { width: 70%!important; }
 }
 
 @media (max-width:768px){
-    .codigoCard{float: right;}
     .menuSticky{background: #fff; border-bottom: none;}
+    .fancybox-opened .fancybox-skin { width: 70%!important; }
 }
 
 @media (max-width:500px){
-    .card{width: 100%; padding: 4%;}
-}
-
-@media (max-width:1440px){
-    .fancybox-opened .fancybox-skin{width: 34.5%;}
-    .cardDesign{width: 64%;}
-    .CardInstru{width: 64%;}
+    .fancybox-opened .fancybox-skin { width: 100%!important; }
 }
