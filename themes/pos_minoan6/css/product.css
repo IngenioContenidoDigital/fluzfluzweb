@@ -315,7 +315,7 @@ Quick View Styles
 .prueba{position: absolute; top: 30px; left: 300px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 
 @media (max-width:1450px){
-    .prueba{position: absolute; top: 30px; left: 210px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
+    .prueba{position: absolute; top: 30px; left: 260px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }
 
 @media (max-width:359px){
