@@ -13,7 +13,7 @@
 
 .box-security img { width: auto; }
 
-.primary_block .pb-left-column img { max-width: 100%; height: auto; margin-top: -86px;}
+.primary_block .pb-left-column img {width: 100%; height: auto; margin-top:7%;}
 
 a.fancybox-nav { outline: 0; }
 
@@ -96,8 +96,8 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .pos-title {width:90% !important; margin-left: 5%; margin-top: -3%;}
 .title-related{font-size: 14px; font-family: 'Montserrat';}
 /* pb-left-column ****************************************************************************** */
-.pb-center-column { margin-bottom: 30px; margin-top: 0px; padding-left: 0px; padding-right: 0px;/* form */ }
-.pb-center-column h1 { font-family: 'Open Sans' !important; color: #58595b; text-transform: uppercase; margin-top: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
+.pb-center-column { margin-bottom: 0px; margin-top: 0px; padding-left: 0px; padding-right: 0px;/* form */ }
+.pb-center-column h1 { font-family: 'Open Sans' !important; color: #58595b; text-transform: uppercase; margin-top: 0px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
 @media (max-width: 991px) { .pb-center-column h1 { font-size: 18px; text-align: center;} }
 .pb-center-column label { color: #888889; font-weight: normal; font-style: san-serif; }
 .pb-center-column p { margin-bottom: 10px; font-size: 12px; text-align: center;}
@@ -317,99 +317,14 @@ Quick View Styles
 @media (max-width:1450px){
     .prueba{position: absolute; top: 30px; left: 260px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }
-
-@media (max-width:359px){
-    .prueba{position: absolute; top: 12px; left: 260px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
-    .menuAccount{border:#E1E1E1 solid 1px; width:75%;}
-    .block .title_block:after, .block h4:after{display:none;}
-    .block{padding-top: 12%;}
-    #categories_block_left h2.title_block {display:none;}
-    .footer-container #footer h4:after {margin-right:20px;}
-    .pb-center-column #buy_block label{width:40%; margin-left: -12px;}
-    #quantity_wanted_p input {width:20%;}
-    .btn-twitter{width:100%; height:40px;}
-    .btn-facebook{width:100%; height:40px;}
-    .btn-google-plus{width:100%; height:40px;}
-    .btn-pinterest{width:100%; height:40px;}
-    .pb-left-column #image-block{width:100%;}
-    .our_price_display .price{font-size:14px;}
-    span{font-size:12px;}
-    p{font-size:12px; text-align:justify;}
-    .box-info-product p{padding:0; margin-left: 10% !important;}
-    #product p#loyalty{margin-left: 10% !important;}
-   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px;}
-   .shop-price{margin-left: 13% !important;}
-   .tiendaP{margin-left: 13% !important;}
-   .pb-center-column #product_reference{padding-left: 12px;}
-}
-
-@media (min-width:360px) and (max-width:411px){
-    .prueba{position: absolute; top: 12px; left: 320px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
-    .menuAccount{border:#E1E1E1 solid 1px; width:80%;}
-    .block .title_block:after, .block h4:after{display:none;}
-    #categories_block_left h2.title_block {display:none;}
-    .footer-container #footer h4:after {margin-right:20px;}
-    .pb-center-column #buy_block label{width:90%;}
-    #quantity_wanted_p input {width:12%;}
-    .btn-twitter{width:100%; height:40px;}
-    .btn-facebook{width:100%; height:40px;}
-    .btn-google-plus{width:100%; height:40px;}
-    .btn-pinterest{width:100%; height:40px;}
-    .pb-left-column #image-block{width:100%;}
-    .our_price_display .price{font-size:14px;}
-    span{font-size:14px;}
-    p{font-size:12px; text-align:justify;}
-    .box-info-product p{padding:0;}
-    .socialsharing_product{margin-left: 10% !important;}
-    .primary_block{margin-bottom: 20px;}
-    .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px;}
-    .block{padding-top: 5%;}
-    p#loyalty{margin-left: 10% !important; line-height: 23px !important;}
-    .item-product img, ul.product_list > li .product-container img {width: 100% !important;}
-    .pb-center-column #product_reference{margin-left:16px !important;}
-    .pb-center-column #buy_block label{width: 45% !important;}
-    .pb-center-column #buy_block label{margin-left: 21px;}
-    .shop-price{text-align: center !important; margin-left: 13px;}
-    .tiendaP{margin-left: 21px; text-align: center;}
-}
-
-@media (min-width:412px) and (max-width:760px){
-    .prueba{position: absolute; top: 12px; left: 280px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
-    .menuAccount{border:#E1E1E1 solid 1px; width:60%;}
-    .block .title_block:after, .block h4:after{display:none;}
-    #categories_block_left h2.title_block {display:none;}
-    .footer-container #footer h4:after {margin-right:20px;}
-    #quantity_wanted_p input {width:35%;}
-    .btn-twitter{width:100%; height:40px;}
-    .btn-facebook{width:100%; height:40px;}
-    .btn-google-plus{width:100%; height:40px;}
-    .btn-pinterest{width:100%; height:40px;}
-    #search_block_top .btn.button-search{ border-right:none !important; left:360px;}
-    p{font-size:15px; line-height: 25px;}
-   .our_price_display .price{font-size:20px;}
-   .block {padding-top: 0%; padding-left: 13%;}
-   .breadcrumb{display: none;}
-   .pb-center-column h1{margin-left: 21px;}
-   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px;}
-   .socialsharing_product{margin-left: 10%;}
-   p#loyalty{margin-left: 10% !important;}
-   .pb-center-column #buy_block label{margin-left: 8%;}
-   .pb-center-column #product_reference{margin-left: 3%;}
-   .bloque-precio{width: 90%; margin-left: auto; margin-right: auto;}
-   .point-price{line-height: 30px; text-align: right; margin-right: 30px; padding-right: 18px;}
-   .shop-price{padding-left: 18px !important;}
-   .tiendaP{text-align: right; padding-right:17px;} 
-}
-
-
 @media (min-width:761px) and (max-width:1023px){
     .col-sm-9{width:100%;}
     .col-sm-3{width:100%; margin:0 auto;}
     .blockCat{display:none;}
-    .prueba{position: absolute; top: 32px; left: 280px; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
+    .prueba{position: absolute; top: 46px;left: 316px; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     #quantity_wanted_p input {width:20%; font-size:20px;}
     .blockAccount{background:transparent; width:45%;}
-    .menuAccount{border:#E1E1E1 solid 1px; width: 24%;}
+    .menuAccount{border:#E1E1E1 solid 1px; width: 24%; padding-left: 10px; font-size: 14px;}
     .iWhite{padding: 12%;}
     .block{margin-left: 10%;}
     .breadcrumb{display: none;}
@@ -431,7 +346,7 @@ Quick View Styles
     .more-info ul li a.selected{font-size: 14px !important;}
     .item-product img, ul.product_list > li .product-container img{width: 70%; margin-top: -20%;}
     .pb-center-column #buy_block labe{margin-right: 14px; }
-    .bloque-precio{width: 80%; margin-left: auto; margin-right: auto;}
+    .bloque-precio{width: 80%; margin-left: 19px !important; margin-right: auto;}
     .menuAccountProfile{width: 10%;}
     .redes_sociales{margin-bottom: 0px;}
 }
@@ -441,15 +356,115 @@ Quick View Styles
 }
 
 @media (max-width:1024px){
-    .pb-center-column h1{ text-align: center; margin-top: -12%;}
+    .pb-center-column h1{ text-align: center; margin-top: 5%;}
     #product p#loyalty{margin-left: 10% !important;}
     .cart-product .buttons_bottom_block{text-align: center !important;}
     .box-info-product p{width:100%; text-align: center;}
     .box-info-product p {margin-left: -16px;}
     .point-price{text-align: center;}
     .tiendaP{text-align: center;}
-    .shop-price{padding-left: 0px !important;}
+    .shop-price{    padding-left: 38px !important; text-align: center !important;}
     .pb-center-column #buy_block label{margin-left: 69px !important;}
+    .pb-center-column #product_reference{margin-left: -2px !important;}
 }
 
 .price{color: #c8b79b;}
+
+@media (min-width:412px) and (max-width:760px){
+    .prueba{position: absolute; top: 12px; left: 280px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
+    .menuAccount{border:#E1E1E1 solid 1px; width:60%;}
+    .block .title_block:after, .block h4:after{display:none;}
+    #categories_block_left h2.title_block {display:none;}
+    .footer-container #footer h4:after {margin-right:20px;}
+    #quantity_wanted_p input {width:35%;}
+    .btn-twitter{width:100%; height:40px;}
+    .btn-facebook{width:100%; height:40px;}
+    .btn-google-plus{width:100%; height:40px;}
+    .btn-pinterest{width:100%; height:40px;}
+    #search_block_top .btn.button-search{ border-right:none !important; left:360px;}
+    p{font-size:15px; line-height: 25px;}
+   .our_price_display .price{font-size:20px;}
+   .block {padding-top: 0%; padding-left: 13%;}
+   .breadcrumb{display: none;}
+   .pb-center-column h1{margin-left: -16px !important;}
+   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -13px;}
+   .socialsharing_product{margin-left: 10%;}
+   p#loyalty{margin-left: 10% !important;}
+   .pb-center-column #buy_block label{margin-left: 8%;}
+   .pb-center-column #product_reference{margin-left: 3%;}
+   .bloque-precio{width: 100%;margin-left: -39px;margin-right: 0px;}
+   .point-price{line-height: 30px; text-align: right; margin-right: 30px; padding-right: 18px;}
+   .shop-price{padding-left: 18px !important;}
+   .tiendaP{text-align: right; padding-right:17px;}
+   .pb-left-column{margin-left: -15px;}
+   .pb-center-column #buy_block label{margin-left: 0px !important;}
+   #product p#loyalty{margin-left: 0px !important;}
+   
+}
+
+@media (min-width:360px) and (max-width:411px){
+    .prueba{position: absolute; top: 29px; left: 320px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
+    .menuAccount{border:#E1E1E1 solid 1px; width:80%;}
+    .block .title_block:after, .block h4:after{display:none;}
+    #categories_block_left h2.title_block {display:none;}
+    .footer-container #footer h4:after {margin-right:20px;}
+    .pb-center-column #buy_block label{width:90%;}
+    #quantity_wanted_p input {width:12%;}
+    .btn-twitter{width:100%; height:40px;}
+    .btn-facebook{width:100%; height:40px;}
+    .btn-google-plus{width:100%; height:40px;}
+    .btn-pinterest{width:100%; height:40px;}
+    .pb-left-column #image-block{width:100%;}
+    .our_price_display .price{font-size:14px;}
+    span{font-size:14px;}
+    p{font-size:12px; text-align:justify;}
+    .box-info-product p{padding:0;}
+    .socialsharing_product{margin-left: 10% !important;}
+    .primary_block{margin-bottom: 20px;}
+    .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -18px;}
+    .block{padding-top: 5%;}
+    p#loyalty{margin-left: 10% !important; line-height: 23px !important;}
+    .item-product img, ul.product_list > li .product-container img {width: 100% !important;}
+    .pb-center-column #product_reference{margin-left: -5px !important;}
+    .pb-center-column #buy_block label{width: 45% !important;}
+    .pb-center-column #buy_block label{margin-left: -10px !important;}
+    .shop-price{text-align: left !important; margin-left: -13px; padding-left: 0px !important;}
+    .tiendaP{margin-left:0px; text-align: center;}
+    .pb-left-column{margin-left: -15px !important;}
+    .pb-center-column h1{margin-left: -30px !important;}
+    #product p#loyalty{margin-left: -20px !important; width: 100% !important; line-height: 19px !important;}
+    .box-info-product p{margin-left: -7% !important;}
+    .bloque-precio{margin-left: 0px !important;}
+    .point-price{text-align: right; padding-right: 40px;}
+}
+
+@media (max-width:359px){
+    .prueba{position: absolute; top: 47px; left: 260px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
+    .menuAccount{border:#E1E1E1 solid 1px; width:75%;}
+    .block .title_block:after, .block h4:after{display:none;}
+    .block{padding-top: 12%;}
+    #categories_block_left h2.title_block {display:none;}
+    .footer-container #footer h4:after {margin-right:20px;}
+    .pb-center-column #buy_block label{width:40%; margin-left: -12px!important;}
+    #quantity_wanted_p input {width:20%;}
+    .btn-twitter{width:100%; height:40px;}
+    .btn-facebook{width:100%; height:40px;}
+    .btn-google-plus{width:100%; height:40px;}
+    .btn-pinterest{width:100%; height:40px;}
+    .pb-left-column #image-block{width:100%;}
+    .our_price_display .price{font-size:14px;}
+    span{font-size:12px;}
+    p{font-size:12px; text-align:justify;}
+    .box-info-product p{padding:0; margin-left: 10% !important;}
+    #product p#loyalty{margin-left: 10% !important;}
+   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -7% !important;margin-left: -18% !important; width: 334px;}
+   .shop-price{margin-left: -25% !important;}
+   .tiendaP{margin-left: 15% !important;}
+   .pb-center-column #product_reference{padding-left: 0px;}
+   .pb-left-column{margin-left: -15px !important;}
+    .pb-center-column h1{margin-left: -30px !important;}
+    #product p#loyalty{margin-left: -20px !important; width: 96% !important; line-height: 19px !important;}
+    .box-info-product p{margin-left: -7% !important;}
+    .bloque-precio{margin-left: 0px !important;}
+    .point-price{text-align: right; padding-right: 50px;}
+}

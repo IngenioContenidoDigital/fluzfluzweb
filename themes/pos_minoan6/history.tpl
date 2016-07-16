@@ -67,13 +67,13 @@
 						</td>-->
                                                         
                                                 <td>
-                                                    <div>
+                                                    <div style="text-align:center;">
                                                         <span><img src="{$link->getImageLink($product.link_rewrite, $product.image, 'small_default')}"/></span>
                                                     </div>
                                                         
                                                 </td>                
                                                 <td class="history_invoice">
-                                                    <span style="color:#231f20; margin-bottom: 10px;">{$product.purchase}</span>
+                                                    <span style="color:#231f20; font-size: 18px; font-family: 'Open Sans'; font-weight: bold; line-height: 35px;">{$product.purchase}</span>
                                                     <div>
                                                     <span>{l s="Product #: "}</span><br/>    
                                                     <span>{$product.referencia}</span>
@@ -118,9 +118,9 @@
 								{/if}
 							</a>
 						</td>-->
-                                                <td class="history_price" data-value="{$product.total}">
+                                                                <td class="history_price" data-value="{$product.total}" style="text-align:right;">
 							<p class="price">{l s="Price: "}{displayPrice price=$product.total no_utf8=false convert=false}</p>
-                                                        <p style="color:#231f20;">{l s="Card Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
+                                                        <p style="color:#231f20; font-weight: bold;">{l s="Card Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
 						</td>
                                                  
 					</tr>
@@ -129,11 +129,11 @@
                                                     <p style="font-size:30px; margin-right: 5%; padding-top: 5%; ">{$productP}</p>
                                                     <p>{l s="Points"}</p>
                                             </td>
-                                            <td colspan="4" style="text-align:right;">
+                                            <td colspan="4" style="text-align:right; padding: 2%;">
                                                 <a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a>
                                             </td>
                                             <td>
-                                                <p style="color:#ef4136; margin: 0px;">{l s="Save: "}%{math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.precio}</p>
+                                                <p style="color:#ef4136; margin: 0px; text-align: right;">{l s="Save: "}%{math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.precio}</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -167,12 +167,12 @@
     <style>
         .table > thead > tr > th{color: #414042; font-family:'Open Sans'; background: #f7f7fb;}
         .info-title{display: none;}
-        .page-heading{margin-bottom: 5% !important;}
+        .page-heading{margin-bottom: 7% !important; padding: 0px !important; letter-spacing: 0px;}
         .breadcrumb{font-size:12px; margin-bottom: 3%;}
         .footable .footable-sortable .footable-sort-indicator:after{display: none;}
-        .table tbody > tr > td{text-align: right;}
+        .table tbody > tr > td{text-align: left;}
         ul.footer_links{margin-bottom: 5% !important; border-top: none !important;}
         p.info-account{margin: 11px 0 24px 0;}
-        .page-heading{padding: 0px !important; margin-bottom: 0px !important;}
+        
     </style>
 {/literal}
