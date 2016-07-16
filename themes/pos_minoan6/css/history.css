@@ -27,7 +27,7 @@
 .history_date{text-align: left !important; padding-left: 2% !important; font-family:'Open Sans' !important;}
 .history_price>div>p{text-align: right !important; line-height: 15px; padding-right: 2% !important; font-family:'Open Sans' !important; font-size: 13px !important;}
 .history_point{color:#ef4136 !important; font-size: 20px !important; padding: 1% !important; font-family:'Open Sans' !important; margin: 0 auto; display: flex;    margin-left: 10%; border: none !important; margin-top: 5%;}
-.btn_history{ color:#fff !important; padding: 1.5% 4% !important; Letter-spacing: 1px !important; background: #ea3624; border: none; font-family:'Open Sans' !important;}
+.btn_history{ color:#fff !important; padding: 2% 6% !important; Letter-spacing: 1px !important; background: #ea3624; border: none; font-family:'Open Sans' !important;}
 .btn-history{background: #c9b197; color: #fff; padding: 8%; font-size: 14px;     width: 200px;}
 .btn-history-shop{background: #c9b197; color: #fff; padding: 8%; font-size: 14px; width: 200px; }
 }
