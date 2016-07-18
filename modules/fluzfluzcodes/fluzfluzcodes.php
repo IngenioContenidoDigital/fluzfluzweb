@@ -51,7 +51,7 @@ class fluzfluzCodes extends Module{
     }
     
     public function hookdisplayAdminProductsExtra($params) {
-        $query1 = "SELECT "._DB_PREFIX_."product_code.`code`,(CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN '' ELSE "._DB_PREFIX_."product_code.id_order END AS `order` 
+        $query1 = "SELECT "._DB_PREFIX_."product_code.`code`,(CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN '' ELSE "._DB_PREFIX_."product_code.id_order END AS `order`, date_add 
                     FROM ps_product_code
                     WHERE id_product = ".Tools::getValue('id_product');
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);
@@ -198,7 +198,7 @@ class fluzfluzCodes extends Module{
             $query="SELECT ps_product.id_product, ps_product.reference 
                 FROM ps_product WHERE ps_product.reference = '".$results[0]."'";
             if($line=Db::getInstance()->getRow($query)){
-                $query1="INSERT INTO "._DB_PREFIX_."product_code (id_product,code) VALUES ('".$line['id_product']."','".$results[1]."')";
+                $query1="INSERT INTO "._DB_PREFIX_."product_code (id_product,code,date_add) VALUES ('".$line['id_product']."','".$results[1]."',NOW())";
                 $run=Db::getInstance()->execute($query1);
             }
         }
