@@ -169,7 +169,7 @@ class PayuCreditCard extends PayUControllerWS {
        "street2":"",    
        "city": "",
        "state": "",
-       "country":"",
+       "country":"'.$this->context->country->iso_code.'",
      "postalCode": "",
      "phone": ""
    }
@@ -180,7 +180,7 @@ class PayuCreditCard extends PayUControllerWS {
   "street2":"",
   "city":"",
   "state":"",
-  "country":"",
+  "country":"'.$this->context->country->iso_code.'",
  "postalCode":"",
  "phone":""
 }  
@@ -196,7 +196,7 @@ class PayuCreditCard extends PayUControllerWS {
     "street2":"",
     "city":"",
     "state":"",
-    "country":"",
+    "country":"'.$this->context->country->iso_code.'",
    "postalCode":"",
    "phone":""
  }      
