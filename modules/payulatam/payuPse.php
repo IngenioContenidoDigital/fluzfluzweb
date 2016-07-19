@@ -10,8 +10,7 @@ require_once(_PS_MODULE_DIR_ . 'payulatam/config.php');
 require_once(_PS_MODULE_DIR_ . 'payulatam/paymentws.php');
 
 class PayuPse extends PayUControllerWS{
-    
-    
+      
     
    
     
