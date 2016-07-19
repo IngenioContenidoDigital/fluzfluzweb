@@ -120,7 +120,7 @@ $data = '{
 "street1":"",
 "city":"",
 "state":"",
-"country":"",
+"country":"'.$this->context->country->iso_code.'",
 "phone":""
 }
 },

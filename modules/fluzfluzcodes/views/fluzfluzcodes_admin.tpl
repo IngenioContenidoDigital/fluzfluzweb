@@ -20,6 +20,7 @@
                             <th><strong>Codigos</strong></th>
                             <th style="text-align: center;"><strong>Estado</strong></th>
                             <th style="text-align: center;"><strong>Orden</strong></th>
+                            <th style="text-align: center;"><strong>Fecha Creacion</strong></th>
                             <th style="text-align: center;"><strong>Accion</strong></th>
                         </tr>
                     </thead>
@@ -29,6 +30,7 @@
                                 <td>{$code.code}</td>
                                 <td style="text-align: center;">{$code.estado}</td>
                                 <td style="text-align: center;">{$code.order}</td>
+                                <td style="text-align: center;">{$code.date_add}</td>
                                 <td style="text-align: center;">
                                     {if $code.order == ""}
                                         <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.code}');">
