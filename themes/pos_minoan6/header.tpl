@@ -199,7 +199,7 @@
 					{if $page_name =='category'}
 					<div class="banner-category" >
 						<div class="ct_img">
-							<img class="category_img img-responsive" src="{$link->getCatImageLink($category->link_rewrite, $category->id_image, 'category_default')|escape:'html':'UTF-8'}"/>
+							<img class="category_img img-responsive ctgImg" src="{$link->getCatImageLink($category->link_rewrite, $category->id_image, 'category_default')|escape:'html':'UTF-8'}"/>
 							
 						</div>
 					</div>
