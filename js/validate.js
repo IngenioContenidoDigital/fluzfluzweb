@@ -160,7 +160,13 @@ function validate_isPhoneNumber(s)
 
 function validate_isDniLite(s)
 {
-	var reg = /^[0-9a-z-.]{1,16}$/i;
+	var reg = /^[0-9]{1,16}$/i;
+	return reg.test(s);
+}
+
+function validate_isCard(s)
+{
+	var reg = /^[0-9]{1,16}$/i;
 	return reg.test(s);
 }
 

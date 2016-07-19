@@ -101,10 +101,17 @@ class IdentityControllerCore extends FrontController
                 if (!Tools::getIsset('optin')) {
                     $this->customer->optin = 0;
                 }
+
                 if (Tools::getValue('passwd')) {
                     $this->context->cookie->passwd = $this->customer->passwd;
                 }
-                if ($this->customer->update()) {
+
+                $address = $this->customer->getAddresses();
+                $address = new Address($address[0]['id_address']);
+                $address->dni = Tools::getValue('government');
+                $address->phone = Tools::getValue('phone');
+
+                if ( $this->customer->update() && $address->update() ) {
                     $this->context->cookie->customer_lastname = $this->customer->lastname;
                     $this->context->cookie->customer_firstname = $this->customer->firstname;
                     $this->context->smarty->assign('confirmation', 1);
@@ -112,6 +119,11 @@ class IdentityControllerCore extends FrontController
                     $this->errors[] = Tools::displayError('The information cannot be updated.');
                 }
             }
+        } elseif (Tools::isSubmit('submitDeactivate')) {
+            $this->customer->active = false;
+            $this->customer->update();
+            $this->customer->logout();
+            Tools::redirect('index.php');
         } else {
             $_POST = array_map('stripslashes', $this->customer->getFields());
         }
@@ -154,7 +166,11 @@ class IdentityControllerCore extends FrontController
         $this->context->smarty->assign('optin', (bool)Configuration::get('PS_CUSTOMER_OPTIN'));
 
         $this->context->smarty->assign('field_required', $this->context->customer->validateFieldsRequiredDatabase());
-
+        
+        $address = $this->customer->getAddresses();
+        $this->context->smarty->assign('customerGovernment', $address[0]['dni']);
+        $this->context->smarty->assign('customerPhone', $address[0]['phone']);
+        
         $this->setTemplate(_PS_THEME_DIR_.'identity.tpl');
     }
 
