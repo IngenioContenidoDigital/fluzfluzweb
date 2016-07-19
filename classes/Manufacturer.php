@@ -149,8 +149,7 @@ class ManufacturerCore extends ObjectModel
 
         return Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('SELECT `id_address` FROM '._DB_PREFIX_.'address WHERE `id_manufacturer` = '.(int)$this->id);
     }
-
-    /**
+        /**
      * Return manufacturers
      *
      * @param bool $get_nb_products [optional] return products numbers for each
