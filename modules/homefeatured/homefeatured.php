@@ -60,6 +60,7 @@ class HomeFeatured extends Module
 			|| !$this->registerHook('categoryUpdate')
 			|| !$this->registerHook('displayHomeTab')
                         || !$this->registerHook('customCMS')
+                        || !$this->registerHook('newMerchants')        
 			|| !$this->registerHook('displayHomeTabContent')
 		)
 			return false;
@@ -113,6 +114,21 @@ class HomeFeatured extends Module
 	   return;
 	 
 	     return $this->hookDisplayHome($params);
+	 }
+         
+         public function hooknewMerchants($params)
+	 {
+	 
+	  if (!$this->isCached('merchants.tpl', $this->getCacheId()))
+		{
+			$this->smarty->assign(
+				array(
+					'merchants' => ManufacturerCore::getManufacturers(),
+				)
+			);
+		}
+
+		return $this->display(__FILE__, 'merchants.tpl', $this->getCacheId());
 	 }
 
 	public function hookDisplayHeader($params)

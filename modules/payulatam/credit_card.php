@@ -175,6 +175,7 @@ class PayuCreditCard extends PayUControllerWS {
    }
  },      
  
+
  "shippingAddress":{
   "street1":"",
   "street2":"",
