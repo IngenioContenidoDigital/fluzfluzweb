@@ -61,13 +61,13 @@
                                         {if isset($product.is_virtual) && !$product.is_virtual}{hook h="displayProductDeliveryTime" product=$product}{/if}
                                         {hook h="displayProductPriceBlock" product=$product type="weight"}
                                 </div>
-                                <div class="img-block">
+                                <div>
                                         <a class="product_img_link" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url">
                                                 <img class="img-responsive pruebaImgCategory" src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" title="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" {if isset($homeSize)} width="{$homeSize.width}" height="{$homeSize.height}"{/if} itemprop="image" />
                                         </a>
                                         {if isset($quick_view) && $quick_view}
                                                 <a class="quick-view" title="Quick view" href="{$product.link|escape:'html':'UTF-8'}" style="position: absolute;" >
-                                                        <span>{l s='Quick view'}</span>
+                                                    <span class="quick"><i class="icon-search"></i></span>
                                                 </a>
                                         {/if}
                                         {if isset($product.new) && $product.new == 1}
@@ -266,7 +266,8 @@
             <a class="prev prev-product"><i class="icon-chevron-left"></i></a>
             <a class="next next-product"><i class="icon-chevron-right"></i></a>
         </div>
-        </section>    
+        </section>   
+                
 {addJsDefL name=min_item}{l s='Please select at least one product' js=1}{/addJsDefL}
 {addJsDefL name=max_item}{l s='You cannot add more than %d product(s) to the product comparison' sprintf=$comparator_max_item js=1}{/addJsDefL}
 {addJsDef comparator_max_item=$comparator_max_item}

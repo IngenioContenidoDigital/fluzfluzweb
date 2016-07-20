@@ -153,7 +153,7 @@
                                     <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
                                                 
                                         
-                                            <div class="block"><h2 class="title_blockSale">{l s="Sale"}</h2>
+                                            <div class="block"><h2 class="title_blockSale">{l s="Comes Out"}</h2>
                                             <div id="onSale"> {l s="On Sale"} </div>
                                             </div>
                                             
@@ -163,14 +163,7 @@
                                                     <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />
                                                 </div>
                                             </div>-->
-                                                
-                                            <div class="redes_sociales">
-                                                    <img src="{$img_dir}icon/facebook.png"/>
-                                                    <img src="{$img_dir}icon/twitter.png"/>
-                                                    <img src="{$img_dir}icon/instagram.png"/>
-                                            </div>
-                                        
-                                        
+                                           
                                         {if $cms->id==8 || $cms->id==9}
                                         
                                             {literal}
@@ -206,7 +199,7 @@
 					{if $page_name =='category'}
 					<div class="banner-category" >
 						<div class="ct_img">
-							<img class="category_img img-responsive" src="{$link->getCatImageLink($category->link_rewrite, $category->id_image, 'category_default')|escape:'html':'UTF-8'}"/>
+							<img class="category_img img-responsive ctgImg" src="{$link->getCatImageLink($category->link_rewrite, $category->id_image, 'category_default')|escape:'html':'UTF-8'}"/>
 							
 						</div>
 					</div>

@@ -36,9 +36,9 @@
                 <div class="containerCard">
                     <ul>
                         <li>
-                          <input type="radio" id="f-option" name="selector" value="1">
-                          <div class="check" id="used" {if $usedQ == 1}checked="checked"{/if}></div>
-                          <label id="labelCard" for="f-option" {if $usedQ == 0}checked="checked"{/if}>{l s='MARK AS USED'}</label>
+                            <input type="radio" id="f-option" name="selector" value="1">
+                          <div class="check" id="used"></div>
+                          <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
                         </li>
                        
                         <li>
@@ -71,7 +71,19 @@
                     data: {'action': 'consultcodebar', 'codeImg2': codeImg2,'price':price,'idproduct':idproduct},
                     url: '/raizBarcode.php', 
                     success:function(response){
-                        $('#bar-code').attr('src','.'+response);
+                        var response = jQuery.parseJSON(response);
+                        if (response.used == 1) {
+                           $('#labelCard').addClass('labelcard');
+                           $('#used').addClass('checkConfirm');
+                           $('#not-used').removeClass('checkConfirm');
+                           $('#labelCard2').removeClass('labelcard');
+                        } else {
+                           $('#labelCard2').addClass('labelcard');
+                           $('#labelCard').removeClass('labelcard');
+                           $('#not-used').addClass('checkConfirm');
+                           $('#used').removeClass('checkConfirm')
+                        }
+                        $('#bar-code').attr('src','.'+response.code);
                         $('.micode').html(codeImg2);
                         $('#priceCard').html(price);
                         $('#nameViewCard').html(name);

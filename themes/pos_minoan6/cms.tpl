@@ -47,7 +47,7 @@
                 {hook h='customCMS'}
         </div>
         <div class="row containerFeatured"> 
-        {hook h='newProductCMS'}
+        {hook h='newMerchants'}
         </div>
         {if $cms->id==6}
         <aside class="asideCategory"><img src="/img/cms/FluzFluz/categories/aside1.png" alt="aside1.png" /><img src="/img/cms/FluzFluz/categories/aside2.png" /></aside>

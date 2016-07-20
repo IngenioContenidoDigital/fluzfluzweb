@@ -10,8 +10,7 @@ require_once(_PS_MODULE_DIR_ . 'payulatam/config.php');
 require_once(_PS_MODULE_DIR_ . 'payulatam/paymentws.php');
 
 class PayuPse extends PayUControllerWS{
-    
-    
+      
     
    
     
@@ -120,7 +119,7 @@ $data = '{
 "street1":"",
 "city":"",
 "state":"",
-"country":"",
+"country":"'.$this->context->country->iso_code.'",
 "phone":""
 }
 },

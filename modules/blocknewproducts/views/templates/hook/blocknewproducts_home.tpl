@@ -27,7 +27,7 @@
 {else}
 <section class="page-product-box blockproductscategory">
         <div class="divTitleFeatured">
-            <h1 class="titleFeatured2">{l s="NEW MERCHANTS"}</h1>
+            <h1 class="titleFeatured2">{l s="New Products"}</h1>
         </div>
 <ul id="blocknewproducts" class="blocknewproducts tab-pane">
 	<li class="alert alert-info">{l s='No new products at this time.' mod='blocknewproducts'}</li>
