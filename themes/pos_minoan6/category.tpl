@@ -98,6 +98,7 @@
         {/if}
 		{/if} -->
 		{if $products}
+        
 			<div class="content_sortPagiBar clearfix">
             	<div class="sortPagiBar clearfix">
 					{include file="./product-compare.tpl"}
@@ -117,4 +118,19 @@
 	{elseif $category->id}
 		<p class="alert alert-warning">{l s='This category is currently unavailable.'}</p>
 	{/if}
+        
+        {if $category->id AND $category->active}
+            {literal}
+                <style>
+                    .divTitleFeatured{display: none;}
+                    .boxprevnext2 a i{display: none;}
+                    .owl-wrapper{margin-left: 3.5%;}
+                    .page-heading.product-listing{margin: 0 auto; width: 90%;}
+                    .content_sortPagiBar .sortPagiBar{margin-left: 5%;}
+                    .boxprevnext2 a{display: none;}
+                    .breadcrumb{display: none;}
+                    .top-pagination-content, .bottom-pagination-content{display: none;}
+                </style>
+            {/literal}
+        {/if}    
 {/if}

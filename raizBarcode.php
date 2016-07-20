@@ -19,7 +19,9 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
     switch ( $_POST["action"] ) {        
         case "consultcodebar":
             $raizBarcode = new raizBarcode();
-            echo $raizBarcode->consultcodebar($idproduct,$ruta,$archivo,$extension,$barnumber);
+            $response['code'] = $raizBarcode->consultcodebar($idproduct,$ruta,$archivo,$extension,$barnumber);
+            $response['used'] = $raizBarcode->getUsed($idproduct,$barnumber);
+            echo json_encode($response);
             break;
 
         case "updateUsed":
@@ -55,10 +57,14 @@ class raizBarcode {
     }
     
     public function updateUsed($idproduct, $barnumber, $used) {
-        
         $query2 = 'UPDATE '._DB_PREFIX_.'product_code SET used ='.$used.' WHERE id_product = '.$idproduct.' AND code= "'.$barnumber.'"';
         return Db::getInstance()->execute($query2);
-       }
-       
+    }
+    
+    public function getUsed($idproduct, $barnumber){
+        $query = 'SELECT used FROM '._DB_PREFIX_.'product_code WHERE id_product = '.$idproduct.' AND code= "'.$barnumber.'"';
+        $row = Db::getInstance()->getRow($query);
+        return $row["used"];
+    }   
 }
 
