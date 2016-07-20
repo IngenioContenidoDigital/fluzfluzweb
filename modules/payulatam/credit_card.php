@@ -161,7 +161,7 @@ class PayuCreditCard extends PayUControllerWS {
      
      "buyer": {
       "fullName": "'.$customer->firstname.' '.$customer->lastname.'",
-      "contactPhone": "'.$address->phone_mobile.'",
+      "contactPhone": "'.$address->phone.'",
       "emailAddress":"'. $params[5]['buyerEmail'].'",
       "dniNumber":"'.$dni.'",   
       "shippingAddress": {
@@ -190,7 +190,7 @@ class PayuCreditCard extends PayUControllerWS {
 
   "fullName":"'.$customer->firstname.' '.$customer->lastname.'",
   "emailAddress":"'. $params[5]['buyerEmail'].'",
-  "contactPhone":"'.$billingAddress->phone_mobile.'",
+  "contactPhone":"'.$billingAddress->phone.'",
   "dniNumber":"'.$dni.'",
   "billingAddress":{
     "street1":"",

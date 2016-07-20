@@ -21,7 +21,7 @@
                             <th style="text-align: center;"><strong>Estado</strong></th>
                             <th style="text-align: center;"><strong>Orden</strong></th>
                             <th style="text-align: center;"><strong>Fecha Creacion</strong></th>
-                            <th style="text-align: center;"><strong>Accion</strong></th>
+                            <th style="text-align: center;" class="action"><strong>Accion</strong></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,7 +31,7 @@
                                 <td style="text-align: center;">{$code.estado}</td>
                                 <td style="text-align: center;">{$code.order}</td>
                                 <td style="text-align: center;">{$code.date_add}</td>
-                                <td style="text-align: center;">
+                                <td style="text-align: center;" class="action">
                                     {if $code.order == ""}
                                         <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.code}');">
                                     {/if}
@@ -72,9 +72,10 @@
         }
     }
     $("#btnExport").click(function (e) {
+        $(".action").remove();
         var result = "data:application/vnd.ms-excel,"+encodeURIComponent( $('#codes').html() );
         this.href = result;
-        this.download = "CodigosProducto.xlsx";
-        return true;
+        this.download = "CodigosProducto.xls";
+        location.reload();
     });
 </script>
