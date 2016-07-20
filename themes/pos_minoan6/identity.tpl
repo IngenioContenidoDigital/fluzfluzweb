@@ -35,9 +35,12 @@
 {/capture}
 
 <div class="box">
-    <h1 class="titleInfo page-subheading">
-        {l s='Your personal information'}
-    </h1>
+    <div class="headinformation">
+        <h1 class="titleInfo page-subheading">
+            {l s='Your personal information'}
+        </h1>
+        <h1 class="deactivate">{l s='Deactivate account'}</h1>
+    </div>
 
     {include file="$tpl_dir./errors.tpl"}
 
@@ -47,225 +50,231 @@
             {if isset($pwd_changed)}<br />{l s='Your password has been sent to your email:'} {$email}{/if}
         </p>
     {else}
-        
-        
-        <p class="info-title">
-            {l s='Please be sure to update your personal information if it has changed.'}
-        </p>
-        <p class="required">
-            <sup>*</sup>{l s='Required field'}
-        </p>
-        <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="std">
-        
-        <div class="allPanelInfo panel panel-default">
-            <div class="panelInfo">
-            <h4 class="panel-title" style="text-align:center;">
-                <span>Registre su tarjeta de crédito</span>
-            </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="required form-group">
-                        <label for="nameTitular" class="required">
-                            {l s='Nombre del Titular'}
-                        </label>
-                        <input class="is_required validate form-control" data-validate="isName" type="text" id="nametitular" name="nametitular" placeholder="Ingrese su nombre"/>
-                    </div>
-                    <div class="required form-group">
-                        <label class="required">
-                            {l s='Nombre de la Tarjeta'}
-                        </label>
-                        <input type="text" id="nameCard" name="nameCard" placeholder="Ingrese nombre de la tarjeta de credito"/>
-                    </div>
-                    <div class="required form-group">
-                        <label class="required">
-                            {l s='Nro Tarjeta de Credito'}
-                        </label>
-                        <input type="text" id="numCard" name="numCard" placeholder="Ingrese Numero de la tarjeta de credito"/>
-                    </div>
-                    <div class="form-group">
-                    <label class="required">
-                        {l s='Fecha Vencimiento'}
-                    </label>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <select name="days" id="days" class="form-control">
-                                <option value="">-</option>
-                                {foreach from=$days item=v}
-                                    <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                {/foreach}
-                            </select>
+        {*<p class="info-title">{l s='Please be sure to update your personal information if it has changed.'}</p>*}
+        <div class="bodyinformation">
+            <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="std">
+                <div class="profile">
+                    <h1 class="title">{l s='Profile'}</h1>
+                    <h1 class="edit" id="editProfile">{l s='Edit'}</h1>
+                    <div class="fieldInfo">
+                        <p class="required requiredinfo"><sup>*</sup>{l s='Required field'}</p>
+                        <div class="clearfix">
+                            <label>{l s='Social title'}:</label>
+                            {foreach from=$genders key=k item=gender}
+                                <div class="radio-inline">
+                                    <label for="id_gender{$gender->id}" class="top">
+                                    <input class="inputform enabled" type="radio" name="id_gender" id="id_gender{$gender->id}" value="{$gender->id|intval}" {if isset($smarty.post.id_gender) && $smarty.post.id_gender == $gender->id}checked="checked"{/if} />
+                                    {$gender->name}</label>
+                                </div>
+                            {/foreach}
                         </div>
-                        <div class="col-xs-4">
-                            <select id="years" name="years" class="form-control">
-                                <option value="">-</option>
-                                {foreach from=$years item=v}
-                                    <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                {/foreach}
-                            </select>
+                        <div class="required form-group">
+                            <label for="firstname" class="required">
+                                {l s='First name'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled data-validate="isName" type="text" id="firstname" name="firstname" value="{$smarty.post.firstname}" />
+                        </div>
+                        <div class="required form-group">
+                            <label for="lastname" class="required">
+                                {l s='Last name'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled data-validate="isName" type="text" name="lastname" id="lastname" value="{$smarty.post.lastname}" />
+                        </div>
+                        <div class="required form-group">
+                            <label for="email" class="required">
+                                {l s='E-mail address'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled data-validate="isEmail" type="email" name="email" id="email" value="{$smarty.post.email}" />
+                        </div>
+                        <div class="required form-group">
+                            <label for="government" class="required">
+                                {l s='Government Id #'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled data-validate="isDniLite" type="password" name="government" id="government" value="{$customerGovernment}" />
+                        </div>
+                        <div class="form-group dateBirth">
+                            <label>
+                                {l s='Date of Birth'}:
+                            </label>
+                            <div class="row dateBirthText">&nbsp;{$sl_day}/{$sl_month}/{$sl_year}</div>
+                            <div class="row dateBirthInput">
+                                <div class="col-xs-4">
+                                    <select name="days" id="days" class="form-control inputform enabled" disabled>
+                                        <option value="">-</option>
+                                        {foreach from=$days item=v}
+                                            <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select id="months" name="months" class="form-control inputform enabled" disabled>
+                                        <option value="">-</option>
+                                        {foreach from=$months key=k item=v}
+                                            <option value="{$k}" {if ($sl_month == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select id="years" name="years" class="form-control inputform enabled" disabled>
+                                        <option value="">-</option>
+                                        {foreach from=$years item=v}
+                                            <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="required form-group">
+                            <label for="phone" class="required">
+                                {l s='Phone number'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled data-validate="isPhoneNumber" type="text" name="phone" id="phone" value="{$customerPhone}" />
+                        </div>
+                        <div class="required form-group">
+                            <label for="old_passwd" class="required">
+                                {l s='Current Password'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled type="password" data-validate="isPasswd" name="old_passwd" id="old_passwd" value="*****" />
+                        </div>
+                        <div class="password form-group newPassword">
+                            <label for="passwd">
+                                {l s='New Password'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled type="password" data-validate="isPasswd" name="passwd" id="passwd" />
+                        </div>
+                        <div class="password form-group newPassword">
+                            <label for="confirmation">
+                                {l s='Confirmation'}:
+                            </label>
+                            <input class="is_required validate form-control inputform enabled" disabled type="password" data-validate="isPasswd" name="confirmation" id="confirmation" />
+                        </div>
+                        {if isset($newsletter) && $newsletter}
+                            <div class="checkbox">
+                                <label for="newsletter">
+                                    <input class="inputform enabled" type="checkbox" id="newsletter" name="newsletter" value="1" {if isset($smarty.post.newsletter) && $smarty.post.newsletter == 1} checked="checked"{/if}/>
+                                    {l s='Sign up for our newsletter!'}
+                                    {if isset($required_fields) && array_key_exists('newsletter', $field_required)}
+                                      <sup> *</sup>
+                                    {/if}
+                                </label>
+                            </div>
+                        {/if}
+                        {if isset($optin) && $optin}
+                            <div class="checkbox">
+                                <label for="optin">
+                                    <input class="inputform enabled" type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) && $smarty.post.optin == 1} checked="checked"{/if}/>
+                                    {l s='Receive special offers from our partners!'}
+                                    {if isset($required_fields) && array_key_exists('optin', $field_required)}
+                                      <sup> *</sup>
+                                    {/if}
+                                </label>
+                            </div>
+                        {/if}
+                        {*if $b2b_enable}
+                            <h1 class="page-subheading">
+                                    {l s='Your company information'}
+                            </h1>
+                            <div class="form-group">
+                                    <label for="">{l s='Company'}</label>
+                                    <input type="text" class="form-control" id="company" name="company" value="{if isset($smarty.post.company)}{$smarty.post.company}{/if}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="siret">{l s='SIRET'}</label>
+                                <input type="text" class="form-control" id="siret" name="siret" value="{if isset($smarty.post.siret)}{$smarty.post.siret}{/if}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="ape">{l s='APE'}</label>
+                                <input type="text" class="form-control" id="ape" name="ape" value="{if isset($smarty.post.ape)}{$smarty.post.ape}{/if}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="website">{l s='Website'}</label>
+                                <input type="text" class="form-control" id="website" name="website" value="{if isset($smarty.post.website)}{$smarty.post.website}{/if}" />
+                            </div>
+                        {/if*}
+                        {if isset($HOOK_CUSTOMER_IDENTITY_FORM)}
+                            {$HOOK_CUSTOMER_IDENTITY_FORM}
+                        {/if}
+                        <div class="formInfo form-group">
+                            <button type="submit" name="submitIdentity" class="btnInfo">
+                                <span>{l s='Save'}<i class="icon-briefcase right"></i></span>
+                            </button>
+                        </div>
+                        <div class="formInfo form-group">
+                            <button type="submit" name="submitDeactivate" class="btnDeactivate">
+                                <span>{l s='Deactivate account'}<i class="icon-briefcase right"></i></span>
+                            </button>
                         </div>
                     </div>
-                </div>             
                 </div>
-            </div>
-            <button type="submit" name="submitIdentity" class="btn button-medium"> Ingresa Nueva tarjeta de credito </button>
+            </form>
+            <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="stdcard">
+                <div class="payment">
+                    <h1 class="title">{l s='Payment information'}</h1>
+                    <h1 class="edit" id="editPayment">{l s='Edit'}</h1>
+                    <div class="fieldInfo">
+                        <p class="required requiredinfocard"><sup>*</sup>{l s='Required field'}</p>
+                        <div class="form-group">
+                            <label for="typecard">
+                                {l s='Type'}:
+                            </label>
+                            <input class="validate form-control inputformcard enabled" disabled data-validate="isName" type="text" id="typecard" name="typecard" value="" />
+                        </div>
+                        <div class="required form-group">
+                            <label for="numbercard" class="required">
+                                {l s='Number'}:
+                            </label>
+                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isCard" type="text" id="numbercard" name="numbercard" value="" />
+                        </div>
+                        <div class="form-group dateExpiration">
+                            <label>
+                                {l s='Expiration Date'}:
+                            </label>
+                            <div class="row dateBirthTextCard">&nbsp;{$sl_month}/{$sl_year}</div>
+                            <div class="row dateBirthInputCard">
+                                <div class="col-xs-6">
+                                    <select id="monthsCard" name="monthsCard" class="form-control inputformcard enabled" disabled>
+                                        <option value="">-</option>
+                                        {foreach from=$months key=k item=v}
+                                            <option value="{$k}" {if ($sl_month == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                                <div class="col-xs-6">
+                                    <select id="yearsCard" name="yearsCard" class="form-control inputformcard enabled" disabled>
+                                        <option value="">-</option>
+                                        {foreach from=$years item=v}
+                                            <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="required form-group">
+                            <label for="holdernamecard" class="required">
+                                {l s='Cardholder Name'}:
+                            </label>
+                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isName" type="text" id="holdernamecard" name="holdernamecard" value="" />
+                        </div>
+                        <div class="formInfo form-group">
+                            <button type="submit" name="submitCard" class="btnCard">
+                                <span>{l s='Save'}<i class="icon-briefcase right"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-            <fieldset class="fieldInfo">
-                <div class="clearfix">
-                    <label>{l s='Social title'}</label>
-                    {foreach from=$genders key=k item=gender}
-                        <div class="radio-inline">
-                            <label for="id_gender{$gender->id}" class="top">
-                            <input type="radio" name="id_gender" id="id_gender{$gender->id}" value="{$gender->id|intval}" {if isset($smarty.post.id_gender) && $smarty.post.id_gender == $gender->id}checked="checked"{/if} />
-                            {$gender->name}</label>
-                        </div>
-                    {/foreach}
-                </div>
-                <div class="required form-group">
-                    <label for="firstname" class="required">
-                        {l s='First name'}
-                    </label>
-                    <input class="is_required validate form-control" data-validate="isName" type="text" id="firstname" name="firstname" value="{$smarty.post.firstname}" />
-                </div>
-                <div class="required form-group">
-                    <label for="lastname" class="required">
-                        {l s='Last name'}
-                    </label>
-                    <input class="is_required validate form-control" data-validate="isName" type="text" name="lastname" id="lastname" value="{$smarty.post.lastname}" />
-                </div>
-                <div class="required form-group">
-                    <label for="email" class="required">
-                        {l s='E-mail address'}
-                    </label>
-                    <input class="is_required validate form-control" data-validate="isEmail" type="email" name="email" id="email" value="{$smarty.post.email}" />
-                </div>
-                <div class="form-group">
-                    <label>
-                        {l s='Date of Birth'}
-                    </label>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <select name="days" id="days" class="form-control">
-                                <option value="">-</option>
-                                {foreach from=$days item=v}
-                                    <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-xs-4">
-							{*
-								{l s='January'}
-								{l s='February'}
-								{l s='March'}
-								{l s='April'}
-								{l s='May'}
-								{l s='June'}
-								{l s='July'}
-								{l s='August'}
-								{l s='September'}
-								{l s='October'}
-								{l s='November'}
-								{l s='December'}
-							*}
-                            <select id="months" name="months" class="form-control">
-                                <option value="">-</option>
-                                {foreach from=$months key=k item=v}
-                                    <option value="{$k}" {if ($sl_month == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-xs-4">
-                            <select id="years" name="years" class="form-control">
-                                <option value="">-</option>
-                                {foreach from=$years item=v}
-                                    <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="required form-group">
-                    <label for="old_passwd" class="required">
-                        {l s='Current Password'}
-                    </label>
-                    <input class="is_required validate form-control" type="password" data-validate="isPasswd" name="old_passwd" id="old_passwd" />
-                </div>
-                <div class="password form-group">
-                    <label for="passwd">
-                        {l s='New Password'}
-                    </label>
-                    <input class="is_required validate form-control" type="password" data-validate="isPasswd" name="passwd" id="passwd" />
-                </div>
-                <div class="password form-group">
-                    <label for="confirmation">
-                        {l s='Confirmation'}
-                    </label>
-                    <input class="is_required validate form-control" type="password" data-validate="isPasswd" name="confirmation" id="confirmation" />
-                </div>
-                {if isset($newsletter) && $newsletter}
-                    <div class="checkbox">
-                        <label for="newsletter">
-                            <input type="checkbox" id="newsletter" name="newsletter" value="1" {if isset($smarty.post.newsletter) && $smarty.post.newsletter == 1} checked="checked"{/if}/>
-                            {l s='Sign up for our newsletter!'}
-                            {if isset($required_fields) && array_key_exists('newsletter', $field_required)}
-                              <sup> *</sup>
-                            {/if}
-                        </label>
-                    </div>
-                {/if}
-                {if isset($optin) && $optin}
-                    <div class="checkbox">
-                        <label for="optin">
-                            <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) && $smarty.post.optin == 1} checked="checked"{/if}/>
-                            {l s='Receive special offers from our partners!'}
-                            {if isset($required_fields) && array_key_exists('optin', $field_required)}
-                              <sup> *</sup>
-                            {/if}
-                        </label>
-                    </div>
-                {/if}
-			{if $b2b_enable}
-				<h1 class="page-subheading">
-					{l s='Your company information'}
-				</h1>
-				<div class="form-group">
-					<label for="">{l s='Company'}</label>
-					<input type="text" class="form-control" id="company" name="company" value="{if isset($smarty.post.company)}{$smarty.post.company}{/if}" />
-				</div>
-				<div class="form-group">
-					<label for="siret">{l s='SIRET'}</label>
-					<input type="text" class="form-control" id="siret" name="siret" value="{if isset($smarty.post.siret)}{$smarty.post.siret}{/if}" />
-				</div>
-				<div class="form-group">
-					<label for="ape">{l s='APE'}</label>
-					<input type="text" class="form-control" id="ape" name="ape" value="{if isset($smarty.post.ape)}{$smarty.post.ape}{/if}" />
-				</div>
-				<div class="form-group">
-					<label for="website">{l s='Website'}</label>
-					<input type="text" class="form-control" id="website" name="website" value="{if isset($smarty.post.website)}{$smarty.post.website}{/if}" />
-				</div>
-			{/if}
-                {if isset($HOOK_CUSTOMER_IDENTITY_FORM)}
-			{$HOOK_CUSTOMER_IDENTITY_FORM}
-		{/if}
-            </fieldset>
-            <div class="formInfo form-group">
-                    <button type="submit" name="submitIdentity" class="btnInfo">
-                        <span>{l s='Save'}<i class="icon-briefcase right"></i></span>
-                    </button>
-            </div>
-        </form> <!-- .std -->
     {/if}
 </div>
 <ul class="footer_links clearfix">
-	<li>
+    <li>
         <a class="btn btn-default button button-small" href="{$link->getPageLink('my-account', true)}">
             <span>
                 <i class="icon-chevron-left"></i>{l s='Back to your account'}
             </span>
         </a>
     </li>
-	<li>
+    <li>
         <a class="btn btn-default button button-small" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}">
             <span>
                 <i class="icon-chevron-left"></i>{l s='Home'}
@@ -273,11 +282,39 @@
         </a>
     </li>
 </ul>
+
 {literal}
     <script>
-    $('#submitInfo').click(function(){
-        
-        alert("prueba");
-    });
+        $(".deactivate").click(function(){
+            if ( confirm("Desea desactivar su cuenta?") ) {
+                $(".btnDeactivate").click();
+            }
+        });
+        $('#editProfile').click(function(){
+            $(".inputform").is(":disabled") ? $('#editProfile').html("Cancel") : $('#editProfile').html("Edit");
+            $(".inputform").is(":disabled") ? $(".inputform").removeClass("enabled") : $(".inputform").addClass("enabled");
+            $(".inputform").is(":disabled") ? true : $(".inputform").parent().removeClass("form-ok form-error");
+            $(".inputform").is(":disabled") ? $(".btnInfo").css('display', "block") : $(".btnInfo").css('display', "none");
+            $(".inputform").is(":disabled") ? $(".requiredinfo").css('display', "block") : $(".requiredinfo").css('display', "none");
+            $(".inputform").is(":disabled") ? $("#government").prop("type", "text") : $("#government").prop("type", "password");
+            $(".inputform").is(":disabled") ? $(".newPassword").css('display', "block") : $(".newPassword").css('display', "none");
+            $(".inputform").is(":disabled") ? $(".dateBirthText").css('display', "none") : $(".dateBirthText").css('display', "block");
+            $(".inputform").is(":disabled") ? $(".dateBirthInput").css('display', "block") : $(".dateBirthInput").css('display', "none");
+            $(".inputform").is(":disabled") ? $(".inputform").removeAttr('disabled') : $(".inputform").attr('disabled', 'disabled');
+            $(".checker").removeClass('disabled');
+            $('.std')[0].reset();
+            $(".inputform").is(":disabled") ? $("#old_passwd").val('*****') : $("#old_passwd").val('');
+        });
+        $('#editPayment').click(function(){
+            $(".inputformcard").is(":disabled") ? $('#editPayment').html("Cancel") : $('#editPayment').html("Edit");
+            $(".inputformcard").is(":disabled") ? $(".inputformcard").removeClass("enabled") : $(".inputformcard").addClass("enabled");
+            $(".inputformcard").is(":disabled") ? true : $(".inputformcard").parent().removeClass("form-ok form-error");
+            $(".inputformcard").is(":disabled") ? $(".btnCard").css('display', "block") : $(".btnCard").css('display', "none");
+            $(".inputformcard").is(":disabled") ? $(".requiredinfocard").css('display', "block") : $(".requiredinfocard").css('display', "none");
+            $(".inputformcard").is(":disabled") ? $(".dateBirthTextCard").css('display', "none") : $(".dateBirthText").css('display', "block");
+            $(".inputformcard").is(":disabled") ? $(".dateBirthInputCard").css('display', "block") : $(".dateBirthInput").css('display', "none");
+            $(".inputformcard").is(":disabled") ? $(".inputformcard").removeAttr('disabled') : $(".inputformcard").attr('disabled', 'disabled');
+            $('.stdcard')[0].reset();
+        });
     </script>
 {/literal}
