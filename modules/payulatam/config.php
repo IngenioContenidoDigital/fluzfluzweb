@@ -57,8 +57,8 @@ else if($this->test)
      $ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
     }
 else {
-     // $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
-     $ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
+     $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
+     //$ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
      }
 
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // deshabilitar la validacion SSl (false)
@@ -103,8 +103,8 @@ if($this->test)
     }
 
 else {
-     // $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
-     $ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
+     $ch = curl_init('https://api.payulatam.com/payments-api/4.0/service.cgi');  
+     //$ch = curl_init('https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi');
      }
 
 

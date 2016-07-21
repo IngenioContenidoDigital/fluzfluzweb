@@ -6,13 +6,22 @@
 		<title>Message from {shop_name}</title>
 		
 		
-		<style>	@media only screen and (max-width: 300px){ 
+		<style>	
+		
+		body, h1, h2, h3, h4, h5, p, div, a {
+		font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif;
+		}
+		
+		@media only screen and (max-width: 300px){ 
 				body {
 					width:218px !important;
 					margin:auto !important;
 				}
+				.logo {
+				width:50%;	
+				}
 				.table {width:195px !important;margin:auto !important;}
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto !important;display: block !important;}		
+				.titleblock, .linkbelow, .box, .footer, .space_footer{width:auto !important;display: block !important;}		
 				span.title{font-size:20px !important;line-height: 23px !important}
 				span.subtitle{font-size: 14px !important;line-height: 18px !important;padding-top:10px !important;display:block !important;}		
 				td.box p{font-size: 12px !important;font-weight: bold !important;}
@@ -27,7 +36,7 @@
 	@media only screen and (min-width: 301px) and (max-width: 500px) { 
 				body {width:308px!important;margin:auto!important;}
 				.table {width:285px!important;margin:auto!important;}	
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}	
+				.titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}	
 				.table-recap table, .table-recap thead, .table-recap tbody, .table-recap th, .table-recap td, .table-recap tr { 
 					display: block !important; 
 				}
@@ -38,12 +47,12 @@
 	@media only screen and (min-width: 501px) and (max-width: 768px) {
 				body {width:478px!important;margin:auto!important;}
 				.table {width:450px!important;margin:auto!important;}	
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}			
+				.titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}			
 			}
 	@media only screen and (max-device-width: 480px) { 
 				body {width:308px!important;margin:auto!important;}
 				.table {width:285px;margin:auto!important;}	
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}
+				 .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}
 				
 				.table-recap{width: 295px!important;}
 				.table-recap tr td, .conf_body td{text-align:center!important;}	
@@ -53,56 +62,151 @@
 </style>
 
 	</head>
-	<body style="-webkit-text-size-adjust:none;background-color:#fff;width:650px;font-family:Open-sans, sans-serif;color:#555454;font-size:13px;line-height:18px;margin:auto">
-		<table class="table table-mail" style="width:100%;margin-top:10px;-moz-box-shadow:0 0 5px #afafaf;-webkit-box-shadow:0 0 5px #afafaf;-o-box-shadow:0 0 5px #afafaf;box-shadow:0 0 5px #afafaf;filter:progid:DXImageTransform.Microsoft.Shadow(color=#afafaf,Direction=134,Strength=5)">
+	<body style="-webkit-text-size-adjust:none;background-color:#fff;width:650px;font-family:Open-sans, Helvetica Neue, Helvetica sans-serif;color:#555454;font-size:13px;line-height:18px;margin:auto;">
+		<table class="table table-mail" style="width:650px; border:5px solid #f9f9f9; margin:0; filter:progid:DXImageTransform.Microsoft.Shadow(color=#afafaf,Direction=134,Strength=5)">
 			<tr>
-				<td class="space" style="width:20px;padding:7px 0">&nbsp;</td>
-				<td align="center" style="padding:7px 0">
+				
+				<td align="center">
 					<table class="table" bgcolor="#ffffff" style="width:100%">
+                    
+                    <!--Header-->
+                    
+                    
 						<tr>
-							<td align="center" class="logo" style="border-bottom:4px solid #333333;padding:7px 0">
+							<td style="width:100%; background:#c6ae93; padding:7px 0;">
 								<a title="{shop_name}" href="{shop_url}" style="color:#337ff1">
-									<img src="{shop_logo}" alt="{shop_name}" />
+									<img class="logo" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/7d5e7fc3-1279-4cbd-90e6-fcd68d88925c.png" alt="fluz fluz" style="margin:10px 0 5px 15px;"/>
 								</a>
 							</td>
 						</tr>
+                        <tr>
+                        <td>
+                        <img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/519cd2a8-870f-46e8-8fdb-6942bf2dd5d9.gif" style="margin-top:-3px; width:100%;">
+                        </td>
+                        </tr>
+                        
+ 
+ <tr>
+<td class="space_footer" style="padding:30px!important">&nbsp;</td>
+</tr>
+                    
+<!--Welcome Text-->
+<table style="background:#f9f9f9; width:80%;">
 
 <tr>
-	<td align="center" class="titleblock" style="padding:7px 0">
-		<span class="title" style="font-weight:500;font-size:28px;text-transform:uppercase;line-height:33px">Hi {firstname} {lastname},</span>
-	</td>
-</tr>
-<tr>
-	<td class="space_footer" style="padding:0!important">&nbsp;</td>
-</tr>
-<tr>
-	<td class="linkbelow" style="padding:7px 0">
-		<span>{reply}</span>
-	</td>
-</tr>
-<tr>
-	<td class="space_footer" style="padding:0!important">&nbsp;</td>
-</tr>
-<tr>
-	<td class="linkbelow" style="padding:7px 0">
-		<span>
-			Please do not reply directly to this email, we will not receive it.			<br>
-			In order to reply, please use the following link: <a href="{link}" style="color:#337ff1">{link}</a>		</span>
+	<td align="center" class="titleblock" style="padding:10% 0 0 0; width:100%;">
+		<font size="2" face="Open Sans, Helvetica Neue" color="#555454">
+			<span class="title" style="font-weight:400;font-size:28px; line-height:33px; color:#ea4136; ">Hi {username}!</span><br/><br/>
+					</font>
 	</td>
 </tr>
 
-						<tr>
-							<td class="space_footer" style="padding:0!important">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="footer" style="border-top:4px solid #333333;padding:7px 0">
-								<span><a href="{shop_url}" style="color:#337ff1">{shop_name}</a> powered by <a href="http://www.prestashop.com/" style="color:#337ff1">PrestaShop&trade;</a></span>
-							</td>
-						</tr>
-					</table>
+<!--Login Info-->
+
+		
+			<tr>
+				<td style="padding:7px 0">
+                      
+						<p style="text-align:center; margin: 0 auto 10% auto; font-size:16px; line-height:24px;">
+	                        Thanks for your inquiry.<br/>Our customer service representative will <br/>get back to you shortly
+						</p>
+                        
+                        <p style="text-align:center; margin: 10% auto 30px auto; font-size:16px; color:#555454">
+	                       In the meantime...
+						</p>
+                        
+                        <div style="margin:auto; text-align:center;"><a style="background:#ea4136; color:#fff; padding: 13px 50px; letter-spacing:2px; margin-top:15px; text-decoration: none;" href="http://fluzfluz.com/shop">SHOP NOW</a></div>
+                        
+
 				</td>
-				<td class="space" style="width:20px;padding:7px 0">&nbsp;</td>
-			</tr>
-		</table>
-	</body>
+				
+</tr>
+<tr>
+<td class="space_footer" style="padding:30px!important">&nbsp;</td>
+</tr>
+</table>
+
+
+
+<!--Footer Accent-->
+<table>
+<tr>
+<td class="space_footer" style="padding:50px!important">&nbsp;</td>
+</tr>
+
+<tr>
+<td>
+<img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/fcf1fce7-d477-4637-93b8-e7a52c04ed72.gif" style="margin-bottom:-7px; width:100%;">
+</td>
+</tr>
+</table>
+
+<!--Footer Links-->
+
+<table style="width:100%; background:#c6ae93;">
+<tr>
+<td style="width:25%; text-align:center; padding-top:15px; ">
+<a href="" style="color:#fff; text-decoration: none;">
+Shop
+</a>
+</td>
+<td style="width:25%; text-align:center; padding-top:15px;">
+<a href="" style="color:#fff; text-decoration: none;">
+Privacy Policy
+</a>
+</td>
+<td style="width:25%; text-align:center; padding-top:15px;">
+<a href="" style="color:#fff; text-decoration: none;">
+Get Help
+</a>
+</td>
+<td style="width:25%; text-align:center; padding-top:15px;">
+<a href="" style="color:#fff; text-decoration: none;">
+Unsubscribe
+</a>
+</td>
+</tr>
+
+</table>
+
+<!--Social Footer-->
+
+<table style="width:100%; background:#c6ae93;">
+<tr>
+<td class="space_footer" style="padding:10px!important">&nbsp;</td>
+</tr>
+
+
+<tr>
+<td style="text-align:center; width:35%">
+</td>
+
+<td style="text-align:center;">
+<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/730a0207-ec61-41ea-a870-efe876b67e98.png"></a>
+</td>
+<td style="text-align:center;">
+<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/62c49072-2d47-4943-be64-178cb0531fe2.png"></a>
+</td>
+<td style="text-align:center;">
+<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/22aec251-65b7-491a-a6cc-2d03d5ee8181.png"></a>
+</td>
+<td style="text-align:center;">
+<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/24400c0c-6958-4bb2-a218-b287271b66f5.png"></a>
+</td>
+
+<td style="text-align:center; width:35%">
+</td>
+</tr>
+
+<tr>
+<td class="space_footer" style="padding:0px!important">&nbsp;</td>
+</tr>
+</table>
+
+<!--Closing Tags-->
+
+</table>
+</td>
+</table>
+</body>
 </html>
