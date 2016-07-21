@@ -41,7 +41,7 @@
 			{foreach from=$categoryProducts item='categoryProduct' name=categoryProduct}
 				<div class="item-product">
 					<div class="products-inner">
-						<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'home_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
+						<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
 				
 						{if isset($categoryProduct.new) && $categoryProduct.new == 1}
 							<a class="new-box" href="{$categoryProduct.link|escape:'html':'UTF-8'}">
@@ -157,3 +157,8 @@
     });
 
 </script>
+{literal}
+    <style>
+        .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left: 22px !important;}
+    </style>    
+{/literal}

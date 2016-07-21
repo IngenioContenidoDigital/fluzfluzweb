@@ -38,6 +38,7 @@ aside{
   width:32%;
   float:right;
   height:auto;
+  padding-right: 2%;
 }
 section{
   width:65%;
@@ -45,12 +46,20 @@ section{
   height:auto;
   padding: 0px;
 }
+
+article.sectionBanner {
+padding-left: 3%;
+margin-right: -15px;
+}
+
 .sectionBanner>img{
   width: 100%;
 }
 
 .sectionFooter{
     text-align:center;
+    padding-left: 2.1%;
+    margin-right: -20px;
 }
 .sectionFooter>img{
   width: 49%;
@@ -65,3 +74,5 @@ section{
 #columns{
     margin-bottom:10% !important;
 }
+
+.img-category{width:15% !important;}

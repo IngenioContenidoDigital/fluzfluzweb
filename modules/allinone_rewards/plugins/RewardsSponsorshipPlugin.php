@@ -1540,7 +1540,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->id_customer = (int)$sponsorship['id_sponsor'];
 					$reward->id_order = (int)$order->id;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
-                                        $price= $reward->getRewardReadyForDisplay($price, $this->context->currency->id)/((RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)));
+                                        $price= round($reward->getRewardReadyForDisplay($price, $this->context->currency->id)/((RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id))));
 
 					$extraParams = array();
 					$extraParams['type'] = (int)$this->_configuration['reward_type'][$indice];
@@ -1560,10 +1560,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						if (Configuration::get('RSPONSORSHIP_MAIL_ORDER_S') || Configuration::get('RSPONSORSHIP_MAIL_ORDER')) {
 							$sponsor = new Customer((int) $sponsorship['id_sponsor']);
 							$lang = (int)Configuration::get('PS_LANG_DEFAULT');
+                                                        
 							if (version_compare(_PS_VERSION_, '1.5.4.0', '>='))
 								$lang = (int)$sponsor->id_lang;
-							$rewardAmount = $this->instance->getRewardReadyForDisplay((float)$reward->credits, (int)$order->id_currency, $lang);
-							$rewardAmountAdmin = $this->instance->getRewardReadyForDisplay((float)$reward->credits, (int)$order->id_currency, (int)Configuration::get('PS_LANG_DEFAULT'));
+							$rewardAmount = round($this->instance->getRewardReadyForDisplay((float)$reward->credits, (int)$order->id_currency, $lang));
+							$rewardAmountAdmin = round($this->instance->getRewardReadyForDisplay((float)$reward->credits, (int)$order->id_currency, (int)Configuration::get('PS_LANG_DEFAULT')));
 							$data = array(
 								'{sponsored_firstname}' => $customer->firstname,
 								'{sponsored_lastname}' => $customer->lastname,

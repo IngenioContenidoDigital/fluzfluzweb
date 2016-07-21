@@ -117,7 +117,7 @@ class OrderControllerCore extends ParentOrderController
     {
         parent::initContent();
         $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
-        $totalAvailable = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
+        $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
         $totalAvailableCurrency=RewardsModel::getmoneyReadyForDisplay($totalAvailableCurrency,(int)$this->context->currency->id);
         $this->context->smarty->assign('totalAvailable', $totalAvailable);
         $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);

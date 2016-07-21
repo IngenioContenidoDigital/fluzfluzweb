@@ -150,7 +150,7 @@
                                 {/if}    
                                 
                                 {if isset($left_column_size) && !empty($left_column_size)}
-                                    <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-{$left_column_size|intval}">{$HOOK_LEFT_COLUMN}
+                                    <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">{$HOOK_LEFT_COLUMN}
                                                 
                                         
                                             <div class="block"><h2 class="title_blockSale">{l s="Comes Out"}</h2>

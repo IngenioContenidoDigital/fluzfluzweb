@@ -332,7 +332,7 @@ class RewardsSponsorshipModel extends ObjectModel
             
            while ($seguir){
                 $query = 'SELECT RW.id_sponsor, RW.id_customer FROM '._DB_PREFIX_.'rewards_sponsorship AS RW WHERE RW.id_customer = '.(int)$identificador;
-                $query1 = 'SELECT COUNT(RW.id_sponsorship) AS total FROM ps_rewards_sponsorship AS RW WHERE RW.id_customer='.(int)$identificador;
+                $query1 = 'SELECT COUNT(RW.id_sponsorship) AS total FROM '._DB_PREFIX_.'rewards_sponsorship AS RW WHERE RW.id_customer='.(int)$identificador;
                 
                 $row1=Db::getInstance()->getRow($query1);
                 if($row1['total']>0 || $identificador > 0){
