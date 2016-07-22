@@ -158,7 +158,9 @@
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
 					<h1 itemprop="name">{$product->name|escape:'html':'UTF-8'}</h1>
-					
+                                        <div class="description-product">
+                                        {$product->description_short}
+                                        </div>
 					{if !$product->is_virtual && $product->condition}
 					<p id="product_condition">
 						<label>{l s='Condition:'} </label>
@@ -256,7 +258,8 @@
 						<!-- add to cart form-->
 						<form id="buy_block"{if $PS_CATALOG_MODE && !isset($groups) && $product->quantity > 0} class="hidden"{/if} action="{$link->getPageLink('cart')|escape:'html':'UTF-8'}" method="post">
 							<!-- hidden datas -->
-                                                        {if isset($HOOK_EXTRA_RIGHT) && $HOOK_EXTRA_RIGHT}{$HOOK_EXTRA_RIGHT}{/if}
+                                                        <!-- hook allinone Rewards -->
+                                                        {*if isset($HOOK_EXTRA_RIGHT) && $HOOK_EXTRA_RIGHT}{$HOOK_EXTRA_RIGHT}{/if*}
 							<p class="hidden">
 								<input type="hidden" name="token" value="{$static_token}" />
 								<input type="hidden" name="id_product" value="{$product->id|intval}" id="product_page_product_id" />

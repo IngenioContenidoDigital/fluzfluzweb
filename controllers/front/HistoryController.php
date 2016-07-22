@@ -62,21 +62,8 @@ class HistoryControllerCore extends FrontController
             }
         }
         
-        $query = 'SELECT a.id_product as id_product, a.price as price FROM '._DB_PREFIX_.'product as a
-                  LEFT JOIN '._DB_PREFIX_.'customer b ON b.id_customer = '.$this->context->customer->id;
-                $row = Db::getInstance()->getRow($query);
-                $productId = $row['id_product'];
-                $price = $row['price'];
-                
-                $this->context->smarty->assign('productId', $productId);
-                $this->context->smarty->assign('price', $price);
-                
-        $priceP = (int)$price - RewardsProductModel::getCostDifference($productId);
-        $productP=RewardsModel::getRewardReadyForDisplay($priceP, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)+1);
-        
         $this->context->smarty->assign(array(
             'orders' => $orders,
-            'productP' => $productP,
             'invoiceAllowed' => (int)Configuration::get('PS_INVOICE'),
             'reorderingAllowed' => !(bool)Configuration::get('PS_DISALLOW_HISTORY_REORDERING'),
             'products'=>$this->productHistory(),
@@ -96,6 +83,14 @@ class HistoryControllerCore extends FrontController
                         a.total_price_tax_incl,a.product_quantity_in_stock,a.product_name,n.reference, n.date_add ORDER BY n.date_add DESC';
         
         $products=Db::getInstance()->executeS($query);
-        return $products;
+        $result= array();
+        foreach($products as $x){
+            $precio = RewardsProductModel::getProductReward($x['idProduct'],$x['precio'],1, $this->context->currency->id);
+            $x['points']=round(RewardsModel::getRewardReadyForDisplay($precio, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)));
+            $x['pointsNl']=round(RewardsModel::getRewardReadyForDisplay($precio, $this->context->currency->id)/16);
+            array_push($result,$x);
+         }
+        
+        return $result;
     }
 }

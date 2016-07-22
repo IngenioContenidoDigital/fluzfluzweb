@@ -125,10 +125,12 @@
                                                  
 					</tr>
                                         <tr>
+                                            
                                             <td class="history_point">
-                                                    <p style="font-size:30px; margin-right: 5%; padding-top: 5%; ">{$productP}</p>
+                                                    <p style="font-size:30px; margin-right: 5%; padding-top: 5%; ">{$product.points}</p>
                                                     <p>{l s="Points"}</p>
                                             </td>
+                                          
                                             <td colspan="4" style="text-align:right; padding: 2%;">
                                                 <a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a>
                                             </td>
