@@ -445,13 +445,13 @@ class AuthControllerCore extends FrontController
                             $address->address2= Tools::getValue("address2");
                             $address->city= Tools::getValue("city");
                             $address->phone= Tools::getValue("phone_mobile");
-                            $address->add(); 
-                            
+                            $address->add();
+                            $addresscreate = $customer->getAddresses();
                             $cart = new Cart();
                             $cart->id_customer = (int)($customer->id);
                             $cart->id_lang = (int)($this->context->cookie->id_lang);
-                            $cart->id_address_delivery = 7;
-                            $cart->id_address_invoice = 7;
+                            $cart->id_address_delivery = $addresscreate[0]['id_address'];
+                            $cart->id_address_invoice = $addresscreate[0]['id_address'];
                             $cart->id_currency = (int)($this->context->cookie->id_currency);
                             $cart->recyclable = 0;
                             $cart->gift = 0;
@@ -460,7 +460,7 @@ class AuthControllerCore extends FrontController
                             $cart->update();
                             
                             $valorProduct=$_POST['valorSlider'];
-                            $sql = 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price_shop` = '.(int)$valorProduct.' AND reference = "MFLUZ"';
+                            $sql = 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"';
                             $row = DB::getInstance()->getRow($sql);
                             $idProduct = $row['id_product'];
 
@@ -470,30 +470,28 @@ class AuthControllerCore extends FrontController
                             $cart->update();
                             
                             $customer = new Customer($cart->id_customer);
-                                if (!Validate::isLoadedObject($customer))
-                                        Tools::redirect('index.php?controller=order&step=1');
+                            if (!Validate::isLoadedObject($customer))
+                                    Tools::redirect('index.php?controller=order&step=1');
 
-                                $currency = $this->context->currency;
-                                $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-                                $mailVars = array(
-                                        '{bankwire_owner}' => Configuration::get('BANK_WIRE_OWNER'),
-                                        '{bankwire_details}' => nl2br(Configuration::get('BANK_WIRE_DETAILS')),
-                                        '{bankwire_address}' => nl2br(Configuration::get('BANK_WIRE_ADDRESS'))
-                                );
-                            
-                            $payment = new BankWire();
-                            $payment->validateOrder($cart->id, Configuration::get('PS_OS_BANKWIRE'), $total, $payment->displayName, NULL, $mailVars, (int)$currency->id, false, $customer->secure_key);
+                            $currency = $this->context->currency;
+                            $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
+
+                            require_once(_PS_MODULE_DIR_ . 'payulatam/credit_card.php');
+                            Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
+
+                            /*$mailVars = array(
+                                    '{bankwire_owner}' => Configuration::get('BANK_WIRE_OWNER'),
+                                    '{bankwire_details}' => nl2br(Configuration::get('BANK_WIRE_DETAILS')),
+                                    '{bankwire_address}' => nl2br(Configuration::get('BANK_WIRE_ADDRESS'))
+                            );
                             //Tools::redirect('index.php?controller=order-confirmation&id_cart='.$cart->id.'&id_module='.$payment->id.'&id_order='.$payment->currentOrder.'&key='.$customer->secure_key);
                             Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             $query = 'SELECT COUNT(id_order) FROM `'._DB_PREFIX_.'orders` WHERE `id_customer` = '.(int)$customer->id;
                             $countOrder = Db::getInstance()->getValue($query);
-                            
                             if ((int)$countOrder == 1){
-                                
                                //$grupos = 'INSERT INTO '._DB_PREFIX_.'customer_group(id_customer, id_group) VALUES ('.(int)$customer->id.',4)';
                                //Db::getInstance()->execute($grupos);
-                               
-                            }
+                            }*/
                         }
                         
                         Hook::exec('actionCustomerAccountAdd', array(
