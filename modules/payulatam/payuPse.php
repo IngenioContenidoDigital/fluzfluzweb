@@ -95,6 +95,10 @@ class PayuPse extends PayUControllerWS{
             $reference_code = $params[2]['referenceCode'] . '_'.$intentos;
             $token_orden = md5($reference_code);
 
+if ( $params[5]['buyerEmail'] == "" || empty($params[5]['buyerEmail']) ) {
+    $params[5]['buyerEmail'] = $customer->email;
+}
+            
 $data = '{
 "test":false,
 "language":"es",

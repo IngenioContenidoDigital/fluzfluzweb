@@ -28,6 +28,8 @@ $(document).ready(function(){
 		submitFunction();
 	});
 	$('.is_customer_param').hide();
+        $('#submitTc').attr('disabled', 'disabled');
+        $('#submitPSE').attr('disabled', 'disabled');
 });
 
 function submitFunction()

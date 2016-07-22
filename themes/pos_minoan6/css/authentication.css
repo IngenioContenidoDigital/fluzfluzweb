@@ -16,3 +16,5 @@
 #login_form .form-group.lost_password a:hover { text-decoration: none; }
 
 #login_form .form-control, #create-account_form .form-control { max-width: 271px; }
+
+#submitTc, #submitPSE { display: none; pointer-events: none; z-index: -1; }

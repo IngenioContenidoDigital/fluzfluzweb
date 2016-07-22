@@ -135,6 +135,10 @@ class PayuCreditCard extends PayUControllerWS {
 
       $currency=$params[9]['currency'];
     }
+    
+    if ( $params[5]['buyerEmail'] == "" || empty($params[5]['buyerEmail']) ) {
+        $params[5]['buyerEmail'] = $customer->email;
+    }
 
     $data = '{
      "language":"es",
