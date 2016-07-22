@@ -14,9 +14,10 @@ class SondaPayu extends PayUControllerWS {
   public function __construct($url_service = NULL,$test=TRUE) {
   
     if(Configuration::get('PAYU_LATAM_TEST') === 'true'){
-      $this->url_reports = "https://stg.api.payulatam.com/reports-api/4.0/service.cgi";
+        $this->url_reports = 'https://sandbox.api.payulatam.com/reports-api/4.0/service.cgi';
     }else{
-    $this->url_reports =  "https://api.payulatam.com/reports-api/4.0/service.cgi";
+        $this->url_reports =  'https://api.payulatam.com/reports-api/4.0/service.cgi';
+        //$this->url_reports = 'https://sandbox.api.payulatam.com/reports-api/4.0/service.cgi';
     }
  }                      
 
@@ -251,7 +252,7 @@ public function updatePendyngOrdesConfirmation(){
         if (_PS_VERSION_ >= 1.5) {
             $payment = $order->getOrderPaymentCollection();
             if (isset($payment[0])) {
-               $payment[0]->transaction_id = pSQL("payU_farmalisto_".$key['id_cart']);
+               $payment[0]->transaction_id = pSQL("payU_".$key['id_cart']);
                $payment[0]->save();
             }
         }                          

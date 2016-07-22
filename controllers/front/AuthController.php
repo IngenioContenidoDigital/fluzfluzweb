@@ -349,13 +349,32 @@ class AuthControllerCore extends FrontController
     protected function processSubmitAccount()
     {
         Hook::exec('actionBeforeSubmitAccount');
+
+        $methodPayment = "";
+        if ( isset($_POST['nombre']) && isset($_POST['numerot']) && isset($_POST['Month']) && isset($_POST['year']) && isset($_POST['codigot']) &&
+             !empty($_POST['nombre']) && !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) && !empty($_POST['codigot']) &&
+             $_POST['nombre'] != "" && $_POST['numerot'] != "" && $_POST['Month'] != "" && $_POST['year'] != "" && $_POST['codigot'] != "" )
+        {
+            $methodPayment = "cc";
+        } elseif ( isset($_POST['psebank']) && isset($_POST['psetypedoc']) && isset($_POST['psenumdoc']) &&
+                    !empty($_POST['psebank']) && !empty($_POST['psetypedoc']) && !empty($_POST['psenumdoc']) &&
+                    $_POST['psebank'] != "" && $_POST['psetypedoc'] != "" && $_POST['psenumdoc'] != "" )
+        {
+            $methodPayment = "pse";
+            $_POST['pse_bank'] = $_POST['psebank'];
+            $_POST['pse_tipoCliente'] = $_POST['psetypecustomer'];
+            $_POST['pse_docType'] = $_POST['psetypedoc'];
+            $_POST['pse_docNumber'] = $_POST['psenumdoc'];
+        } else {
+            $this->errors[] = Tools::displayError('Por favor indique un medio de pago');
+        }
+
         $this->create_account = true;
-        if (Tools::isSubmit('submitAccount')) {
+        if ( Tools::isSubmit('submitAccount') ) {
             $this->context->smarty->assign('email_create', 1);
             $nameCustomer = $_POST['customer_firstname'];
-            $numCardCredit = $_POST['numCard'];
-            $cardExpirationDate= $_POST['daysExpiration'].'/'.$_POST['yearsExpiration'];
-            
+            $numCardCredit = $_POST['numerot'];
+            $cardExpirationDate= $_POST['Month'].'/'.$_POST['year'];
         }
         // New Guest customer
         if (!Tools::getValue('is_new_customer', 1) && !Configuration::get('PS_GUEST_CHECKOUT_ENABLED')) {
@@ -475,9 +494,16 @@ class AuthControllerCore extends FrontController
 
                             $currency = $this->context->currency;
                             $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-
-                            require_once(_PS_MODULE_DIR_ . 'payulatam/credit_card.php');
-                            Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
+                            
+                            switch ( $methodPayment ) {
+                                case "cc":
+                                    require_once(_PS_MODULE_DIR_ . 'payulatam/credit_card.php');
+                                    break;
+                                case "pse":
+                                    require_once(_PS_MODULE_DIR_ . 'payulatam/payuPse.php');
+                                    break;
+                            }
+                            //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
 
                             /*$mailVars = array(
                                     '{bankwire_owner}' => Configuration::get('BANK_WIRE_OWNER'),
