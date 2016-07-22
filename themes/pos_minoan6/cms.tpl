@@ -50,11 +50,11 @@
         {hook h='newMerchants'}
         </div>
         {if $cms->id==6}
-        <aside class="asideCategory"><img src="/img/cms/FluzFluz/categories/aside1.png" alt="aside1.png" /><img src="/img/cms/FluzFluz/categories/aside2.png" /></aside>
-            <section>
+            <section class="col-sm-8 col-xs-12">
                 <article class="sectionBanner"><img src="/img/cms/FluzFluz/categories/sectionBanner.png" /></article>
                 <article class="sectionFooter"><img src="/img/cms/FluzFluz/categories/bannerSectionFooter1.png" /> <img src="/img/cms/FluzFluz/categories/bannerSectionFooter2.png" /></article>
             </section>
+            <aside class="asideCategory col-sm-4 col-xs-12"><img src="/img/cms/FluzFluz/categories/aside1.png" alt="aside1.png" /><img src="/img/cms/FluzFluz/categories/aside2.png" /></aside>
         {/if}
 	       
 {elseif isset($cms_category)}
@@ -98,3 +98,18 @@
 {addJsDefL name=adtoken}{$smarty.get.adtoken|escape:'html':'UTF-8'}{/addJsDefL}
 {/if}
 {/strip}
+
+{literal}
+    <style>
+        .img-responsive{width:100% !important;}
+        .btn-shop{width: 30% !important;}
+        @media (max-width:420px){
+            .btn-shop{margin-top: -12% !important; height: 35px;}
+            .btn-shop span, .btn-shop2 span{font-size: 12px;}
+            article.sectionBanner{margin-right: 0px !important;}
+        }
+        @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}
+            .sectionFooter{text-align: center; padding-left: 0; margin-right: 0;}
+        }
+    </style>
+    {/literal}

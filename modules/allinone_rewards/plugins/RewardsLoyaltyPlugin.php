@@ -753,7 +753,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 			$reward = new RewardsModel();
 			$reward->id_customer = (int)$params['customer']->id;
 			$reward->id_order = (int)$params['order']->id;
-			$reward->credits = $reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id));
+			$reward->credits = round($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)));
 
 			$reward->plugin = $this->name;
 			if (!MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) && (float)$reward->credits == 0) {

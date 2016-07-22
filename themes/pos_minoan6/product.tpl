@@ -64,7 +64,7 @@
 				</p>
 			{/if}
 				<!-- left infos-->
-				<div class="pb-left-column col-lg-6 col-xs-12 col-sm-12 col-md-12">
+				<div class="pb-left-column col-lg-7 col-xs-12 col-sm-12 col-md-12">
 					<!-- product img-->
 					<div class="clearfix">
 						{if $product->new}
@@ -153,7 +153,7 @@
 				</div> <!-- end pb-left-column -->
 				<!-- end left infos-->
 				<!-- center infos -->
-				<div class="pb-center-column col-lg-6 col-xs-12 col-sm-12 col-md-12">
+				<div class="pb-center-column col-lg-5 col-xs-12 col-sm-12 col-md-12">
 					{if $product->online_only}
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
@@ -306,13 +306,13 @@
                                                                                 
                                                                                 <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
                                                                             </div>
-                                                                                <div class="col-lg-4 col-xs-6 col-md-4 col-sm-4 tiendaP" style="padding-left: 0px;">{l s='Tienda: '}<span style="color:#c8b79b; font-size: 13px; padding-left: 0px; text-align: left;">({convertPrice price=$product->price_shop|floatval})</span></div>
+                                                                                <div class="col-lg-4 col-xs-5 col-md-4 col-sm-4 tiendaP" style="padding-left: 0px;">{l s='Tienda: '}<span style="color:#c8b79b; font-size: 13px; padding-left: 0px; text-align: left;">({convertPrice price=$product->price_shop|floatval})</span></div>
                                                                             
                                                                         
                                                                             <meta itemprop="priceCurrency" content="{$currency->iso_code}" />
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                <div  class="point-price col-xs-12 col-lg-4 col-md-4 col-sm-4 point-price">{$productP} pts.</div>
+                                                                                <div  class="point-price col-xs-12 col-lg-3 col-md-3 col-sm-3 point-price">{$productP} pts.</div>
                                                                                 {else $logged}<div  class="point-price col-xs-12 col-sm-4 col-lg-4 col-md-4">{$resultProduct} pts.</div>{/if}
                                                                         {/if}</div>
                                                                         {/strip}
