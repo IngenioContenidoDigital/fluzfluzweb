@@ -6,8 +6,7 @@ require_once(dirname(__FILE__) . '/../../config/config.inc.php');
  private $testing=  array('apiKey'=>'4Vj8eK4rloUd272L48hsrarnUA',
                       'apiLogin'=>'pRRXKOl8ikMmt9u',
                       'merchantId'=>'508029',
-                      'accountId'=>'512321',
-                      'pse-CO'=>'512321');
+                      'accountId'=>'512321');
  
 private $test= false;
 
