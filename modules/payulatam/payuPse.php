@@ -57,7 +57,13 @@ class PayuPse extends PayUControllerWS{
             //$this->createPendingOrder();
             //$order = $conf->get_order($id_cart);
             $id_order = 0; //$order['id_order'];
-            $description = "Transaccion cliente: ".$customer->id.", Codigo Referencia: ".$customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
+
+            $productsCart = $this->context->cart->getProducts();
+            $description = "(Cliente: ".$customer->id.")(Carrito: ".$id_cart."). Productos: ";
+            foreach ($productsCart as $product) {
+                $description .= "[".$product['name'].",".$product['cart_quantity']."] ";
+            }
+
             $varRandn = $conf->randString();
             $varRandc = $conf->randString();
             setcookie($varRandn, $varRandc, time() + 900);
