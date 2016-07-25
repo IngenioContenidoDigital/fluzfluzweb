@@ -111,7 +111,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 }
                 
                 $queryMax = 'SELECT MAX(n.credits) AS points, c.firstname AS name 
-                    FROM ps_rewards n 
+                    FROM '._DB_PREFIX_.'rewards n 
                     LEFT JOIN ps_customer c ON c.id_customer = n.id_customer';
                 $rowMax = Db::getInstance()->getRow($queryMax);
                 $pointMax = $rowMax['points'];
@@ -121,7 +121,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 
                 $queryMin = 'SELECT MIN(n.credits) AS points, c.firstname AS name 
                     FROM ps_rewards n 
-                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer ';
+                    LEFT JOIN '._DB_PREFIX_.'customer c ON c.id_customer = n.id_customer ';
                 $rowMin = Db::getInstance()->getRow($queryMin);
                 $pointMin = $rowMin['points'];
                 $nameMin = $rowMin['name'];

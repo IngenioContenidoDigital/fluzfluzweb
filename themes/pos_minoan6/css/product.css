@@ -97,7 +97,7 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .title-related{font-size: 14px; font-family: 'Montserrat';}
 /* pb-left-column ****************************************************************************** */
 .pb-center-column { margin-bottom: 0px; margin-top: 0px; padding-left: 0px; padding-right: 0px;/* form */ }
-.pb-center-column h1 { font-family: 'Open Sans' !important; font-weight: lighter; color: #58595b; text-transform: uppercase; margin-top: 0px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
+.pb-center-column h1 { font-family: 'Open Sans' !important; font-weight: bold; color: #58595b; text-transform: uppercase; margin-top: 0px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
 @media (max-width: 991px) { .pb-center-column h1 { font-size: 18px; text-align: center;} }
 .pb-center-column label { color: #888889; font-weight: normal; font-style: san-serif; }
 .pb-center-column p { margin-bottom: 10px; font-size: 12px; text-align: center;}
@@ -497,3 +497,4 @@ Quick View Styles
 }
 .shop-price{padding-right: 0px;}
 .tiendaP{margin-left: 33px;}
+.description-product{text-align: justify; font-size: 13px; line-height: 18px; width: 90%; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding-top: 3%; padding-bottom: 3%;}

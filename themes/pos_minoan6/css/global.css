@@ -3714,8 +3714,8 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .nameCard{font-family:'Open Sans'; font-weight:lighter; }
 .Cards{font-family:"Montserrat"; text-transform:uppercase; margin-bottom:1%; color:#686969; cursor:pointer; margin-right:1%; padding:14px; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f7f7f7), color-stop(100%, #ededed)); background-image: -webkit-linear-gradient(#f7f7f7, #ededed); background-image: -moz-linear-gradient(#f7f7f7, #ededed); background-image: -o-linear-gradient(#f7f7f7, #ededed); background-image: linear-gradient(#f7f7f7, #ededed);}
 .Cards img{width:auto; height:25px; margin-right:5%;}
-.priceCard{text-align:right; font-size:12px; padding-right:0px; padding-left:0px;}
-.priceTotalCard{color:#ef4136; margin-left:2%; font-size:12px;}
+.priceCard{text-align:right; font-size:12px; padding-right:0px; padding-left:0px; margin-top:4px;}
+.priceTotalCard{color:#ef4136; margin-left:2%; font-size:12px; letter-spacing: 0px;}
 .Cards:hover{background:#fff;}
 .popText{text-align:center; color:#000; font-size:18px; font-family:Josefin-Sans;}
 .infoCard{padding-left:5px; padding-right:0px;}
@@ -10378,4 +10378,23 @@ font-family: 'Open Sans' !important;
 
 .title-category{
     color: #ffffff; width: 100%; font-size: 54px; letter-spacing: 0px;
+}
+
+.btnCash{
+    border: 1px solid #ef4136;
+    color:#ef4136;
+    font-size: 8px;
+    padding: 2%;
+    margin-left: 10px;
+    font-family: 'Open sans';
+    font-weight:bold;
+}
+
+.barTop{
+    line-height:30px;
+}
+
+.num-Card{
+    text-transform: initial;
+    letter-spacing: 0px;
 }

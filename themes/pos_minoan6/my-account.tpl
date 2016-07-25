@@ -35,7 +35,7 @@
             <span class="nameCard">{$manufacturer.manufacturer_name}</span>
         </div>
         <div class="col-lg-6 col-md-6 priceCard">
-            <span>{$manufacturer.products}{l s=' Cards'}</span>
+            <span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span>
             <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
@@ -50,7 +50,7 @@
 </div>
 </div>
 
-<h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin" style="margin-top:5%; ">{l s='My account'}</h1>
+<h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin">{l s='My account'}</h1>
 {if isset($account_created)}
 	<p class="alert alert-success">
 		{l s='Your account has been created.'}

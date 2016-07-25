@@ -46,7 +46,7 @@ class MyAccountControllerCore extends FrontController
         parent::initContent();
         
         $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
-        $totalAvailable = isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0;
+        $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
         $this->context->smarty->assign('totalAvailable', $totalAvailable);
         
         $customerProfile = $this->getProfileCustomer($this->context->customer->id);
@@ -55,6 +55,29 @@ class MyAccountControllerCore extends FrontController
         $datePoint = $this->getPointsLastDays($this->context->customer->id);
         $lastPoint = round($datePoint, $precision=0);
         $this->context->smarty->assign('lastPoint', $lastPoint);
+        
+        $sql = 'SELECT COUNT(id_customer) as members FROM ps_rewards_sponsorship';
+        $sqlmember = Db::getInstance()->getRow($sql);
+        $members = $sqlmember['members'];
+        $this->context->smarty->assign('members', $members);
+        
+        $queryMax = 'SELECT MAX(n.credits) AS points, c.firstname AS name 
+                    FROM ps_rewards n 
+                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer';
+                $rowMax = Db::getInstance()->getRow($queryMax);
+                $pointMax = round($rowMax['points']);
+                $nameMax = $rowMax['name'];
+                $this->context->smarty->assign('pointMax', $pointMax);
+                $this->context->smarty->assign('nameMax', $nameMax);
+                
+        $queryMin = 'SELECT MIN(n.credits) AS points, c.firstname AS name 
+            FROM ps_rewards n 
+            LEFT JOIN ps_customer c ON c.id_customer = n.id_customer ';
+                $rowMin = Db::getInstance()->getRow($queryMin);
+                $pointMin = round($rowMin['points']);
+                $nameMin = $rowMin['name'];
+                $this->context->smarty->assign('pointMin', $pointMin);
+                $this->context->smarty->assign('nameMin', $nameMin);
         
         /*$arrayCustomer = $this->getCustomerSponsorship($this->context->customer->id);
         $this->context->smarty->assign('arrayCustomer', $arrayCustomer[0]);*/
