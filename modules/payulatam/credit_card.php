@@ -114,6 +114,12 @@ class PayuCreditCard extends PayUControllerWS {
     $reference_code = $customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
     $_deviceSessionId = NULL;
 
+    $productsCart = $this->context->cart->getProducts();
+    $description = "(Cliente: ".$customer->id.")(Carrito: ".$id_cart."). Productos: ";
+    foreach ($productsCart as $product) {
+        $description .= "[".$product['name'].",".$product['cart_quantity']."] ";
+    }
+
     if (isset($this->context->cookie->deviceSessionId) && !empty($this->context->cookie->deviceSessionId) && strlen($this->context->cookie->deviceSessionId) === 32) {
       $_deviceSessionId = $this->context->cookie->deviceSessionId;
     } elseif (isset($_POST['deviceSessionId']) && !empty($_POST['deviceSessionId']) && strlen($_POST['deviceSessionId']) === 32) {
@@ -152,7 +158,7 @@ class PayuCreditCard extends PayUControllerWS {
       "order":{
        "accountId":"' . $keysPayu['accountId'] . '",
        "referenceCode":"' . $params[2]['referenceCode'] . '_'.$intentos.'",
-       "description":"Transaccion cliente: ' . $customer->id . ', Codigo Referencia: ' . $reference_code . '",
+       "description":"' . $description . '",
        "language":"' . $params[10]['lng'] . '",
        "notifyUrl":"' . $conf->urlv() . '",
        "signature":"' . $conf->sing($params[2]['referenceCode'] . '_'.$intentos.'~' . $params[4]['amount'] . '~'.$currency).'",
