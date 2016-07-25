@@ -412,7 +412,7 @@
 	</div>
 	{/if}-->
         
-       <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="account-creation_form" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 std box">
+       <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="infoaccount-creation_form" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 std box">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
             <h2>{l s='Why Sign-Up for Fluz Fluz?'}</h2>
@@ -830,6 +830,12 @@
                         </div>            
                     </div>            
                 </div>*}
+                <div style="display: none">
+                    <input type="hidden" id="psebank" name="psebank">
+                    <input type="hidden" id="psetypecustomer" name="psetypecustomer">
+                    <input type="hidden" id="psetypedoc" name="psetypedoc">
+                    <input type="hidden" id="psenumdoc" name="psenumdoc">
+                </div>
                 <div>
                     {hook h="displayPayment"}
                 </div>
