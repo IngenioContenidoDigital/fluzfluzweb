@@ -29,19 +29,19 @@
 <div class="row">
 {foreach from=$manufacturers item=manufacturer}
     <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">    
-    <div class="col-lg-4 col-md-5 Cards">
-        <div class="col-lg-6 col-md-6 infoCard">
+    <div class="col-lg-4 col-md-4 Cards">
+        <div class="col-lg-6 col-md-6 col-xs-6 infoCard">
             <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/>
             <span class="nameCard">{$manufacturer.manufacturer_name}</span>
         </div>
-        <div class="col-lg-6 col-md-6 priceCard">
+        <div class="col-lg-6 col-md-6 col-xs-6 priceCard">
             <span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span>
             <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
     </a>
 {/foreach}
-<div class="col-lg-3 col-md-12 col-sm-12 textAccount">
+<div class="col-lg-3 col-md-3 col-sm-12 textAccount">
     <p class="titleFAQ">{l s='Have Question?'}</p>
     <div class="pFAQ">
         <p>{l s='Learn how to redeem digital cards.'}</p>
@@ -58,7 +58,7 @@
 {/if}
 <p class="info-account">{l s='Welcome to your account. Here you can manage all of your personal information and orders.'}</p>
 <div class="row addresses-lists modAccount">
-	<div class="col-xs-12 col-sm-6 col-lg-4" style=" padding-left: 0px; padding-right: 0px; margin-right: 1%;">
+	<div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 account-responsive" style=" padding-left: 0px; padding-right: 0px; margin-right: 1%;">
             <ul class="myaccount-link-list">
             {if $has_customer_an_address}
             <!--<li><a href="{$link->getPageLink('address', true)|escape:'html':'UTF-8'}" title="{l s='Add my first address'}"><i class="icon-building"></i><span>{l s='Add my first address'}</span></a></li>-->
@@ -74,7 +74,7 @@
             </ul>
 	</div>
 {if $voucherAllowed || isset($HOOK_CUSTOMER_ACCOUNT) && $HOOK_CUSTOMER_ACCOUNT !=''}
-    <div class="col-xs-12 col-sm-6 col-lg-4" style="padding-left:0px; padding-right: 0px;">
+    <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4" style="padding-left:0px; padding-right: 0px;">
         <ul class="myaccount-link-list">
             {if $voucherAllowed}
                 <li><a href="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" title="{l s='Vouchers'}"><img src="{$img_dir}icon/network.png" class="imgSponsor" /><span class="spanSponsor">{l s='My Network'}</span></a></li>
@@ -84,7 +84,7 @@
         </ul>
         </div>
 {/if}
-        <div class="col-lg-3 textAccount">
+        <div class="col-lg-3 col-sm-12 textAccount">
             <p class="titleFAQ">{l s='Need Support?'}</p>
             <div class="pFAQ">
                 <p>{l s='Add a Credit or Debit Card'}</p>

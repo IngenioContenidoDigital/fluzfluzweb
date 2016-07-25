@@ -46,9 +46,11 @@
         <div class="row containerFeatured">
                 {hook h='customCMS'}
         </div>
+        {if $cms->id==6}
         <div class="row containerFeatured"> 
         {hook h='newMerchants'}
         </div>
+        {/if}
         {if $cms->id==6}
             <section class="col-sm-8 col-xs-12">
                 <article class="sectionBanner"><img src="/img/cms/FluzFluz/categories/sectionBanner.png" /></article>
