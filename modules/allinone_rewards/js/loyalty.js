@@ -28,6 +28,10 @@ jQuery(function($){
 });
 
 function getAttributeForReward() {
+        if ( url_allinone_loyalty == "" ) {
+            var url_allinone_loyalty;
+        }
+    
 	//create a temporary 'choice' array containing the choices of the customer
 	var id_product_attribute = 0;
 	var choice = [];

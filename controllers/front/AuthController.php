@@ -451,7 +451,7 @@ class AuthControllerCore extends FrontController
                         }
                         if (!isset($cart) OR !$cart->id)
                         {
-                            
+                            Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'rewards_sponsorship` SET `id_customer` = '.(int)$customer->id.' WHERE `email` = "'.$customer->email.'"');
                             $address = new Address();
                             $address->id_customer = $customer->id;
                             $address->id_country=69;
