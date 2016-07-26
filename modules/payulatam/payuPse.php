@@ -146,7 +146,7 @@ $data = '{
 "dniNumber":"' . $billin_dni. '",
 "contactPhone":"'.$billingAddress->phone.'"
 },
-"ipAddress":"' . $browser['ipAddress'] . '",
+"ipAddress":"' . $_SERVER['REMOTE_ADDR'] . '",
 "cookie":"' . $varRandn . '",
 "userAgent":"' . $browser['userAgent'] . '",
 "type":"AUTHORIZATION_AND_CAPTURE",
