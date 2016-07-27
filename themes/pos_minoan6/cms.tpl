@@ -40,7 +40,7 @@
         <div class="rte{if $content_only} content_only{/if}">
         {$cms->content}
         </div>
-        <div style="padding: 3%;">
+        <div>
         {include file="$tpl_dir./breadcrumb.tpl"}
         </div>
         <div class="row containerFeatured">
@@ -103,10 +103,9 @@
 
 {literal}
     <style>
-        .img-responsive{width:100% !important;}
-        .btn-shop{width: 30% !important;}
+        .btn-shop{width: 50% !important;}
         @media (max-width:420px){
-            .btn-shop{margin-top: -12% !important; height: 35px;}
+            .btn-shop{margin-top: 0% !important; height: 35px;}
             .btn-shop span, .btn-shop2 span{font-size: 12px;}
             article.sectionBanner{margin-right: 0px !important;}
         }

@@ -213,7 +213,11 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 .our_price_display .priceT { font-weight: 600; font-size: 12px; line-height: 32px; color: #ee4a42; }
 @media (max-width: 991px) { .our_price_display .price { font-size: 16px; line-height: 28px; } }
 
-.point-price{font-weight: 600;
+.point-price{
+    float: right;
+    text-align: right !important;
+    margin-right: 34px;
+    font-weight: 600;
     background:transparent;         
     font-size: 22px;
     color: #ef4136;
@@ -320,7 +324,7 @@ Quick View Styles
 }
 @media (min-width:761px) and (max-width:1023px){
     .col-sm-9{width:100%;}
-    .col-sm-3{width:30%; margin:0 auto; background: transparent;}
+    .col-sm-3{width:30%; margin:0 auto; background: transparent; text-align: left !important;}
     .blockCat{display:none;}
     .prueba{position: absolute; top: 46px;left: 316px; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     #quantity_wanted_p input {width:20%; font-size:20px;}
@@ -384,8 +388,8 @@ Quick View Styles
     .cart-product .buttons_bottom_block{text-align: center !important;}
     .box-info-product p{width:100%; text-align: center;}
     .box-info-product p {margin-left: -16px;}
-    .point-price{text-align: center;}
-    .tiendaP{text-align: center;}
+    .point-price{text-align: center;    margin-right: 45px;}
+    .tiendaP{text-align: center;    margin-left: 0px !important;}
     .shop-price{    padding-left: 38px !important; text-align: center !important;}
     .pb-center-column #buy_block label{margin-left: 69px !important;}
     .pb-center-column #product_reference{margin-left: -2px !important;}
@@ -496,5 +500,11 @@ Quick View Styles
     margin-top: 15px;
 }
 .shop-price{padding-right: 0px;}
-.tiendaP{margin-left: 33px;}
+.tiendaP{margin-left: 130px;}
 .description-product{text-align: justify; font-size: 13px; line-height: 18px; width: 90%; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding-top: 3%; padding-bottom: 3%;}
+
+@media (min-width:1451px) and (max-width:2600px){
+    .tiendaP{text-align: right !important;margin-left: 116px;}
+    .point-price{margin-right: 51px !important;}
+    .shop-price{margin-left: 16px;}
+}

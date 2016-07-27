@@ -309,14 +309,14 @@
                                                                                 
                                                                                 <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
                                                                             </div>
-                                                                                <div class="col-lg-4 col-xs-5 col-md-4 col-sm-4 tiendaP" style="padding-left: 0px;">{l s='Tienda: '}<span style="color:#c8b79b; font-size: 13px; padding-left: 0px; text-align: left;">({convertPrice price=$product->price_shop|floatval})</span></div>
+                                                                                <div class="col-lg-4 col-xs-5 col-md-4 col-sm-4 tiendaP" style="padding-left: 0px;">{l s='Tienda: '}<span style="color:#c8b79b; font-size: 15px; padding-left: 0px; text-align: left;">({convertPrice price=$product->price_shop|floatval})</span></div>
                                                                             
                                                                         
                                                                             <meta itemprop="priceCurrency" content="{$currency->iso_code}" />
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
                                                                                 <div  class="point-price col-xs-12 col-lg-3 col-md-3 col-sm-3 point-price">{$productP} pts.</div>
-                                                                                {else $logged}<div  class="point-price col-xs-12 col-sm-4 col-lg-4 col-md-4">{$resultProduct} pts.</div>{/if}
+                                                                                {else $logged}<div  class="point-price col-xs-12 col-sm-3 col-lg-4 col-md-3">{$resultProduct} pts.</div>{/if}
                                                                         {/if}</div>
                                                                         {/strip}
                                                                         

@@ -477,6 +477,11 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 containerForm">
                         <fieldset class="fieldInfo"><br/>
+                                    
+                                    <div>
+                                        <label for="imagen">Upload image</label>
+                                        <input id="imagen" name="imagen" type="file" />
+                                    </div>
                                     <div class="clearfix">
                                             <label>{l s='Title'}</label>
                                             <br/>
