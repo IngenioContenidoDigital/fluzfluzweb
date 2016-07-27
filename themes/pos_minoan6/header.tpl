@@ -136,7 +136,7 @@
                                     <div class="row profileCustomer">
                                         <div class="col-lg-12 contProfile">
                                         <img src="{$img_dir}icon/profile.png" class="imgSponsor2 col-lg-2" />
-                                        <span  class="col-lg-2">{$customerProfile}</span>    
+                                        <span  class="col-lg-2 nameProfile">{$customerProfile}</span>    
                                         <div class="col-lg-2 col-md-2 barTop">{l s='Total Points'}<a class="btnCash" href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}">{l s='Cash Out'}</a>
                                             <br/>
                                             <span class="ptoCustomer">+{$totalAvailable}</span>
