@@ -109,7 +109,7 @@
             .btn-shop span, .btn-shop2 span{font-size: 12px;}
             article.sectionBanner{margin-right: 0px !important;}
             .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left:7.3px !important;}
-        }
+            
         @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}
             .sectionFooter{text-align: center; padding-left: 0; margin-right: 0; }
         }

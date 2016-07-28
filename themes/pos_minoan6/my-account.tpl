@@ -100,5 +100,10 @@
     <style>
         .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; margin-top: 2%; font-size: 16px;}
         p.info-account{margin: 16px 0 24px 0;}
+        
+        @media (max-width:420px){
+            .imgSponsor2 {width: 33% !important; margin-bottom: 5%;}
+            .barTop{margin-bottom: 4%;}
+        }
     </style>
 {/literal}    
