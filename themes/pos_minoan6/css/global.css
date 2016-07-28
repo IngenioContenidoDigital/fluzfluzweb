@@ -3880,10 +3880,10 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .containerFeatured{width:100%; margin:0 auto;}
 .boxprevnext2 a {margin-top: 0%; width: 75px; height: 50px; position: absolute; top: 0; cursor: pointer; /*border-left: 1px solid #e5e5e5;*/ color: #d2d1d1; background: #fff; font-size: 25px; text-align: center; opacity: 1; z-index: 1; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
 .boxprevnext2 a i { display: block; line-height: 59px; background: #f8f8f8;}
-.boxprevnext2 a.prev { right: 95px; }
-.boxprevnext2 a.next { right: 20px; }
+.boxprevnext2 a.prev { right: 95px; z-index:0;}
+.boxprevnext2 a.next { right: 20px; z-index:0;}
 .boxprevnext2 a:hover { background: #FCC716; color: white; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
-.imgMini{margin:0 auto !important; width:45px !important; height:auto !important;}
+.imgMini{margin:0 auto !important; max-width: 60% !important; height:auto !important;}
 .priceCategory{color:#696969; font-size: 11px; text-align: right; padding-right: 0px; margin:0 auto; margin-top:2%;}
 .owl-item { margin: 0 12px; width:220px !important; min-width:6.5% !important;}
 .title-block { background-color: #F8F8F8; display: inline-block; height: 45px; line-height: 42px; }
