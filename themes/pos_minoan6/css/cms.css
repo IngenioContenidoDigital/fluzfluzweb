@@ -10,7 +10,7 @@
 #cms #center_column .list-1 li { padding: 4px 0 6px 0; font-weight: bold; color: #46a74e; border-top: 1px solid #e5e5e5; }
 #cms #center_column .list-1 li:first-child { border: none; }
 #cms #center_column .list-1 li em { font-size: 20px; line-height: 20px; padding-right: 15px; vertical-align: -2px; }
-#cms #center_column img { margin: 4px 0 17px; width: 100%; height: auto; }
+#cms #center_column img { margin: 4px 0 17px; max-width: 100%; height: auto; }
 #cms #center_column .testimonials { border: 1px solid; border-color: #dfdede #d2d0d0 #b0afaf #d2d0d0; margin: 4px 0 13px 0; position: relative; }
 #cms #center_column .testimonials .inner { border: 1px solid white; padding: 19px 18px 11px 18px; background: #fbfbfb; background: -moz-linear-gradient(top, #fbfbfb 0%, #fefefe 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #fefefe)); background: -webkit-linear-gradient(top, #fbfbfb 0%, #fefefe 100%); background: -o-linear-gradient(top, #fbfbfb 0%, #fefefe 100%); background: -ms-linear-gradient(top, #fbfbfb 0%, #fefefe 100%); background: linear-gradient(to bottom, #fbfbfb 0%, #fefefe 100%); }
 #cms #center_column .testimonials .inner span { text-indent: -5000px; display: inline-block; width: 20px; height: 15px; }
@@ -62,7 +62,7 @@ margin-right: -15px;
     margin-right: -20px;
 }
 .sectionFooter>img{
-  width: 49%;
+  width: 49% !important;
   display: inline-flex;
 }
 
@@ -76,3 +76,4 @@ margin-right: -15px;
 }
 
 .img-category{width:15% !important;}
+
