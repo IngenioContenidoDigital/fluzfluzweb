@@ -57,7 +57,13 @@ class PayuPse extends PayUControllerWS{
             //$this->createPendingOrder();
             //$order = $conf->get_order($id_cart);
             $id_order = 0; //$order['id_order'];
-            $description = "Transaccion cliente: ".$customer->id.", Codigo Referencia: ".$customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
+
+            $productsCart = $this->context->cart->getProducts();
+            $description = "(Cliente: ".$customer->id.")(Carrito: ".$id_cart."). Productos: ";
+            foreach ($productsCart as $product) {
+                $description .= "[".$product['name'].",".$product['cart_quantity']."] ";
+            }
+
             $varRandn = $conf->randString();
             $varRandc = $conf->randString();
             setcookie($varRandn, $varRandc, time() + 900);
@@ -95,6 +101,10 @@ class PayuPse extends PayUControllerWS{
             $reference_code = $params[2]['referenceCode'] . '_'.$intentos;
             $token_orden = md5($reference_code);
 
+if ( $params[5]['buyerEmail'] == "" || empty($params[5]['buyerEmail']) ) {
+    $params[5]['buyerEmail'] = $customer->email;
+}
+            
 $data = '{
 "test":false,
 "language":"es",
@@ -136,7 +146,7 @@ $data = '{
 "dniNumber":"' . $billin_dni. '",
 "contactPhone":"'.$billingAddress->phone.'"
 },
-"ipAddress":"' . $browser['ipAddress'] . '",
+"ipAddress":"' . $_SERVER['REMOTE_ADDR'] . '",
 "cookie":"' . $varRandn . '",
 "userAgent":"' . $browser['userAgent'] . '",
 "type":"AUTHORIZATION_AND_CAPTURE",

@@ -26,13 +26,14 @@
 <section class="page-product-box blockproductscategory">
 	<div class="pos-title">
 		<h2>
-                    <span class="title-related">
-				{if $categoryProducts|@count == 1}
-					{l s='%s other product in the same category:' sprintf=[$categoryProducts|@count] mod='productscategory'}
-				{else}
-					{l s='%s other products in the same category:' sprintf=[$categoryProducts|@count] mod='productscategory'}
-				{/if}
-			</span>
+                        <span class="title-related">
+                                {*if $categoryProducts|@count == 1}
+                                        {l s='%s other product in the same category:' sprintf=[$categoryProducts|@count] mod='productscategory'}
+                                {else}
+                                        {l s='%s other products in the same category:' sprintf=[$categoryProducts|@count] mod='productscategory'}
+                                {/if*}
+                                {l s='Related products'}
+                        </span>
 		</h2>
 	</div>	
 	<div id="productscategory_list" class="clearfix">
@@ -40,7 +41,39 @@
 			<div id="product_category">
 			{foreach from=$categoryProducts item='categoryProduct' name=categoryProduct}
 				<div class="item-product">
-					<div class="products-inner">
+                                        <div>
+                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
+                                        </div>
+                                        <div class="points-block">
+                                                <div class="imgmanu"><img src="{$img_manu_dir}{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="imgMini"/></div>
+                                                <div class="namepro">
+                                                        {if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
+                                                        {$categoryProduct.name|truncate:35:'...'|escape:'html':'UTF-8'}
+                                                </div>
+                                                <div>
+                                                        <span style="font-weight: bold;">{if $logged}{$categoryProduct.points}{else $logged}{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s=points}</span>
+                                                </div>
+                                        </div>
+                                        <div class="price-block">
+                                                {if (!$PS_CATALOG_MODE AND ((isset($categoryProduct.show_price) && $categoryProduct.show_price) || (isset($categoryProduct.available_for_order) && $categoryProduct.available_for_order)))}
+                                                        {if isset($categoryProduct.show_price) && $categoryProduct.show_price && !isset($restricted_country_mode)}
+                                                                <div>
+                                                                        <span style="text-align: left; margin-right: 1px; font-weight: bold;">{l s='PRICE: '}</span>
+                                                                        <span class="product-price" style="color:#ef4136; text-align: left;">
+                                                                                {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
+                                                                        </span>
+                                                                        <span class="redfl">({l s="Save"} {math equation='round(((p - r) / r)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price}%)</span>
+                                                                </div>
+                                                                <div>
+                                                                        <span style="text-align: left; margin-right: 1px;">{l s='VALUE: '}</span>
+                                                                        <span class="product-price redfl valuefl" style="color:#ef4136; text-align: left; font-weight: bold;">
+                                                                                {convertPrice price=$categoryProduct.price_shop|floatval}
+                                                                        </span>
+                                                                </div>
+                                                        {/if}
+                                                {/if}
+                                        </div>
+					{*<div class="products-inner">
 						<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
 				
 						{if isset($categoryProduct.new) && $categoryProduct.new == 1}
@@ -53,10 +86,9 @@
 								<span class="sale-label">{l s='Sale!' mod='productscategory'}</span>
 							</a>
 						{/if}
-					
 					</div>
 					<div class="product-contents">
-						<h5 itemprop="name" class="product-name">
+						<h5 itemprop="name" class="product_img_link">
 							<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)|escape:'html':'UTF-8'}" title="{$categoryProduct.name|htmlspecialchars}">{$categoryProduct.name|truncate:35:'...'|escape:'html':'UTF-8'}</a>
 						</h5>
 						<div class="ratings-box">
@@ -116,13 +148,9 @@
 									{/if}
 									</li>
 								</ul>
-						
-								
 							</div>
 						</div>
-						
-				
-					</div>	
+					</div>*}
 				</div>
 			{/foreach}
 			</div>
@@ -159,6 +187,22 @@
 </script>
 {literal}
     <style>
-        .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left: 22px !important;}
+        .owl-carousel .owl-wrapper, .owl-carousel .owl-item { min-width: 16%!important; margin-left: 12px!important; }
+        .pos-title { width: 83%!important; margin-left: 2%; }
+        .pos-title span { color: #838383; font-size: 17px; }
+        .pos-title h2 { width: 40%; text-align: center }
+        .pos-title h2:before { display: none; }
+        .boxprevnext a i { display: block; line-height: 50px; background: #f4f4f4; }
+        .boxprevnext a { font-size: 25px; border: 0; }
+        .boxprevnext a.prev { right: 10.5%; }
+        .item-product { color: #777777; width: 100%; margin: 0; }
+        .product-price { color: #777777!important; }
+        .redfl { color: #ef4136!important; font-weight: bold!important; }
+        .valuefl { font-size: 13px; }
+        .imgMini { width: 35px!important; }
+        .imgmanu { width: auto!important; }
+        .points-block div:last-child { width: 25%; }
+        .namepro { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 60%; font-family: 'Open Sans'; font-size: 12px; }
+        .price-block { padding: 15px 0%; }
     </style>    
 {/literal}

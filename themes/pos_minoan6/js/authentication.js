@@ -28,6 +28,15 @@ $(document).ready(function(){
 		submitFunction();
 	});
 	$('.is_customer_param').hide();
+        $('#submitTc').remove();
+        $('#submitPSE').remove();
+        $( "#account-creation_form" ).submit(function() {
+            $('#psebank').val( $('#pse_bank').val() );
+            $('#psetypecustomer').val( $('#pse_tipoCliente').val() );
+            $('#psetypedoc').val( $('#pse_docType').val() );
+            $('#psenumdoc').val( $('#pse_docNumber').val() );
+            $('#formPayUPse').reset();
+        });
 });
 
 function submitFunction()

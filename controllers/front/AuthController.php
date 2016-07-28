@@ -349,13 +349,32 @@ class AuthControllerCore extends FrontController
     protected function processSubmitAccount()
     {
         Hook::exec('actionBeforeSubmitAccount');
+
+        $methodPayment = "";
+        if ( isset($_POST['nombre']) && isset($_POST['numerot']) && isset($_POST['Month']) && isset($_POST['year']) && isset($_POST['codigot']) &&
+             !empty($_POST['nombre']) && !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) && !empty($_POST['codigot']) &&
+             $_POST['nombre'] != "" && $_POST['numerot'] != "" && $_POST['Month'] != "" && $_POST['year'] != "" && $_POST['codigot'] != "" )
+        {
+            $methodPayment = "cc";
+        } elseif ( isset($_POST['psebank']) && isset($_POST['psetypedoc']) && isset($_POST['psenumdoc']) &&
+                    !empty($_POST['psebank']) && !empty($_POST['psetypedoc']) && !empty($_POST['psenumdoc']) &&
+                    $_POST['psebank'] != "" && $_POST['psetypedoc'] != "" && $_POST['psenumdoc'] != "" )
+        {
+            $methodPayment = "pse";
+            $_POST['pse_bank'] = $_POST['psebank'];
+            $_POST['pse_tipoCliente'] = $_POST['psetypecustomer'];
+            $_POST['pse_docType'] = $_POST['psetypedoc'];
+            $_POST['pse_docNumber'] = $_POST['psenumdoc'];
+        } else {
+            $this->errors[] = Tools::displayError('Por favor indique un medio de pago');
+        }
+
         $this->create_account = true;
-        if (Tools::isSubmit('submitAccount')) {
+        if ( Tools::isSubmit('submitAccount') ) {
             $this->context->smarty->assign('email_create', 1);
             $nameCustomer = $_POST['customer_firstname'];
-            $numCardCredit = $_POST['numCard'];
-            $cardExpirationDate= $_POST['daysExpiration'].'/'.$_POST['yearsExpiration'];
-            
+            $numCardCredit = $_POST['numerot'];
+            $cardExpirationDate= $_POST['Month'].'/'.$_POST['year'];
         }
         // New Guest customer
         if (!Tools::getValue('is_new_customer', 1) && !Configuration::get('PS_GUEST_CHECKOUT_ENABLED')) {
@@ -432,7 +451,7 @@ class AuthControllerCore extends FrontController
                         }
                         if (!isset($cart) OR !$cart->id)
                         {
-                            
+                            Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'rewards_sponsorship` SET `id_customer` = '.(int)$customer->id.' WHERE `email` = "'.$customer->email.'"');
                             $address = new Address();
                             $address->id_customer = $customer->id;
                             $address->id_country=69;
@@ -445,13 +464,13 @@ class AuthControllerCore extends FrontController
                             $address->address2= Tools::getValue("address2");
                             $address->city= Tools::getValue("city");
                             $address->phone= Tools::getValue("phone_mobile");
-                            $address->add(); 
-                            
+                            $address->add();
+                            $addresscreate = $customer->getAddresses();
                             $cart = new Cart();
                             $cart->id_customer = (int)($customer->id);
                             $cart->id_lang = (int)($this->context->cookie->id_lang);
-                            $cart->id_address_delivery = 7;
-                            $cart->id_address_invoice = 7;
+                            $cart->id_address_delivery = $addresscreate[0]['id_address'];
+                            $cart->id_address_invoice = $addresscreate[0]['id_address'];
                             $cart->id_currency = (int)($this->context->cookie->id_currency);
                             $cart->recyclable = 0;
                             $cart->gift = 0;
@@ -460,7 +479,7 @@ class AuthControllerCore extends FrontController
                             $cart->update();
                             
                             $valorProduct=$_POST['valorSlider'];
-                            $sql = 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price_shop` = '.(int)$valorProduct.' AND reference = "MFLUZ"';
+                            $sql = 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"';
                             $row = DB::getInstance()->getRow($sql);
                             $idProduct = $row['id_product'];
 
@@ -470,30 +489,35 @@ class AuthControllerCore extends FrontController
                             $cart->update();
                             
                             $customer = new Customer($cart->id_customer);
-                                if (!Validate::isLoadedObject($customer))
-                                        Tools::redirect('index.php?controller=order&step=1');
+                            if (!Validate::isLoadedObject($customer))
+                                    Tools::redirect('index.php?controller=order&step=1');
 
-                                $currency = $this->context->currency;
-                                $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-                                $mailVars = array(
-                                        '{bankwire_owner}' => Configuration::get('BANK_WIRE_OWNER'),
-                                        '{bankwire_details}' => nl2br(Configuration::get('BANK_WIRE_DETAILS')),
-                                        '{bankwire_address}' => nl2br(Configuration::get('BANK_WIRE_ADDRESS'))
-                                );
+                            $currency = $this->context->currency;
+                            $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
                             
-                            $payment = new BankWire();
-                            $payment->validateOrder($cart->id, Configuration::get('PS_OS_BANKWIRE'), $total, $payment->displayName, NULL, $mailVars, (int)$currency->id, false, $customer->secure_key);
+                            switch ( $methodPayment ) {
+                                case "cc":
+                                    require_once(_PS_MODULE_DIR_ . 'payulatam/credit_card.php');
+                                    break;
+                                case "pse":
+                                    require_once(_PS_MODULE_DIR_ . 'payulatam/payuPse.php');
+                                    break;
+                            }
+                            //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
+
+                            /*$mailVars = array(
+                                    '{bankwire_owner}' => Configuration::get('BANK_WIRE_OWNER'),
+                                    '{bankwire_details}' => nl2br(Configuration::get('BANK_WIRE_DETAILS')),
+                                    '{bankwire_address}' => nl2br(Configuration::get('BANK_WIRE_ADDRESS'))
+                            );
                             //Tools::redirect('index.php?controller=order-confirmation&id_cart='.$cart->id.'&id_module='.$payment->id.'&id_order='.$payment->currentOrder.'&key='.$customer->secure_key);
                             Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             $query = 'SELECT COUNT(id_order) FROM `'._DB_PREFIX_.'orders` WHERE `id_customer` = '.(int)$customer->id;
                             $countOrder = Db::getInstance()->getValue($query);
-                            
                             if ((int)$countOrder == 1){
-                                
                                //$grupos = 'INSERT INTO '._DB_PREFIX_.'customer_group(id_customer, id_group) VALUES ('.(int)$customer->id.',4)';
                                //Db::getInstance()->execute($grupos);
-                               
-                            }
+                            }*/
                         }
                         
                         Hook::exec('actionCustomerAccountAdd', array(

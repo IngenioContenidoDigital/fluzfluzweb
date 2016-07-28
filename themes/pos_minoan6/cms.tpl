@@ -47,9 +47,9 @@
                 {hook h='customCMS'}
         </div>
         {if $cms->id==6}
-        <div class="row containerFeatured"> 
-        {hook h='newMerchants'}
-        </div>
+            <div class="row containerFeatured"> 
+                {hook h='newMerchants'}
+            </div>
         {/if}
         {if $cms->id==6}
             <section class="col-sm-8 col-xs-12">

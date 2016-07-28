@@ -40,7 +40,7 @@ class PayUControllerWS extends FrontController {
         parent::process();
 
         $params = $this->initParams();
-        self::$smarty->assign(array(
+        $this->context->smarty->assign(array(
             'formLink' => Configuration::get('PAYU_DEMO') != 'yes' ? 'https://gateway.payulatam.com/ppp-web-gateway/' : 'https://gateway.payulatam.com/ppp-web-gateway/',
             'payURedirection' => $params
         ));
@@ -48,24 +48,24 @@ class PayUControllerWS extends FrontController {
 
     public function initParams() {
 
-        $tax = (float) self::$cart->getOrderTotal() - (float) self::$cart->getOrderTotal(false);
-        $base = (float) self::$cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) + (float) self::$cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS) - (float) $tax;
+        $tax = (float) $this->context->cart->getOrderTotal() - (float) $this->context->cart->getOrderTotal(false);
+        $base = (float) $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) + (float) $this->context->cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS) - (float) $tax;
         if ($tax == 0)
             $base = 0;
 
-        $currency = new Currency(self::$cart->id_currency);
+        $currency = new Currency($this->context->cart->id_currency);
 
-        $language = new Language(self::$cart->id_lang);
+        $language = new Language($this->context->cart->id_lang);
 
-        $customer = new Customer(self::$cart->id_customer);
-             
-        $ref = 'payU_' . md5(Configuration::get('PS_SHOP_NAME')) . '_' . (int) self::$cart->id;
+        $customer = new Customer($this->context->cart->id_customer);
 
-        $token = md5(Tools::safeOutput(Configuration::get('PAYU_API_KEY')) . '~' . Tools::safeOutput(Configuration::get('PAYU_MERCHANT_ID')) . '~' . $ref . '~' . (float) self::$cart->getOrderTotal() . '~' . Tools::safeOutput($currency->iso_code));
+        $ref = 'payU_' . md5(Configuration::get('PS_SHOP_NAME')) . '_' . (int) Configuration::get('PAYU_LATAM_MERCHANT_ID') . '_' . (int) $this->context->cart->id;
+
+        $token = md5(Tools::safeOutput(Configuration::get('PAYU_LATAM_API_KEY')) . '~' . Tools::safeOutput(Configuration::get('PAYU_LATAM_MERCHANT_ID')) . '~' . $ref . '~' . (float) $this->context->cart->getOrderTotal() . '~' . Tools::safeOutput($currency->iso_code));
 
         $params = array(
             array('test' => (Configuration::get('PAYU_DEMO') == 'yes' ? 1 : 0), 'name' => 'test'),
-            array('merchantId' => Tools::safeOutput(Configuration::get('PAYU_MERCHANT_ID')), 'name' => 'merchantId'),
+            array('merchantId' => Tools::safeOutput(Configuration::get('PAYU_LATAM_MERCHANT_ID')), 'name' => 'merchantId'),
             array('referenceCode' => $ref, 'name' => 'referenceCode'),
             array('description' => substr(Configuration::get('PS_SHOP_NAME') . ' Order', 0, 255), 'name' => 'description'),
             array('amount' => $this->context->cart->getOrderTotal(), 'name' => 'amount'),
@@ -80,13 +80,13 @@ class PayUControllerWS extends FrontController {
             array('value' => 'http://' . htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT, 'UTF-8') . __PS_BASE_URI__ . 'modules/payulatam/validation.php', 'name' => 'confirmationUrl'),
         );
 
-        if (Configuration::get('PAYU_ACCOUNT_ID') != 0)
-            $params[] = array('accountId' => (int) Configuration::get('PAYU_ACCOUNT_ID'), 'name' => 'accountId');
+        if (Configuration::get('PAYU_LATAM_ACCOUNT_ID') != 0)
+            $params[] = array('accountId' => (int) Configuration::get('PAYU_LATAM_ACCOUNT_ID'), 'name' => 'accountId');
 
-        if (Db::getInstance()->getValue('SELECT `token` FROM `' . _DB_PREFIX_ . 'payu_token` WHERE `id_cart` = ' . (int) self::$cart->id))
-            Db::getInstance()->Execute('UPDATE `' . _DB_PREFIX_ . 'payu_token` SET `token` = "' . pSQL($token) . '" WHERE `id_cart` = ' . (int) self::$cart->id);
+        if (Db::getInstance()->getValue('SELECT `token` FROM `' . _DB_PREFIX_ . 'payu_token` WHERE `id_cart` = ' . (int) $this->context->cart->id))
+            Db::getInstance()->Execute('UPDATE `' . _DB_PREFIX_ . 'payu_token` SET `token` = "' . pSQL($token) . '" WHERE `id_cart` = ' . (int) $this->context->cart->id);
         else
-            Db::getInstance()->Execute('INSERT INTO `' . _DB_PREFIX_ . 'payu_token` (`id_cart`, `token`) VALUES (' . (int) self::$cart->id . ', \'' . pSQL($token) . '\')');
+            Db::getInstance()->Execute('INSERT INTO `' . _DB_PREFIX_ . 'payu_token` (`id_cart`, `token`) VALUES (' . (int) $this->context->cart->id . ', \'' . pSQL($token) . '\')');
 
         return $params;
     }
@@ -108,7 +108,7 @@ class PayUControllerWS extends FrontController {
        
 
 
-            $payu->validateOrder((int) self::$cart->id, (int) Configuration::get($order_state), (float) self::$cart->getOrderTotal(), $metodo_de_pago, $mensaje, $extra_vars, NULL, false, self::$cart->secure_key);
+            $payu->validateOrder((int) $this->context->cart->id, (int) Configuration::get($order_state), (float) $this->context->cart->getOrderTotal(), $metodo_de_pago, $mensaje, $extra_vars, NULL, false, false);
         } catch (Exception $e) {
             exit('<pre>'.  print_r($e,TRUE).'</pre>');
         } 
