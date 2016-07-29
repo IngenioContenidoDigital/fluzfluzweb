@@ -1,11 +1,11 @@
 .oneline, .pt_custommenu .pt_menu .popup .block1 .column .itemMenuName { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
-.block-megamenu { /*display: inline-block; width: 100%;*/ /*margin-top: 10px;*/ }
+.block-megamenu { /*display: inline-block; width: 100%;*/ /*margin-top: 10px;*/ padding: 0px;}
 
 .pt_custommenu { position: relative; margin: 0 auto; text-align: right;}
 .pt_custommenu .pt_menu_no_child .parentMenu a span:before, .pt_custommenu .pt_menu_cms .parentMenu a span:before, .pt_custommenu #pt_menu_home .parentMenu a span:before { display: none; }
-.pt_custommenu .pt_menu { display: inline-block; padding:10px; cursor: pointer;}
-.pt_custommenu .pt_menu .parentMenu a { display: block; padding: 5px 15px; color: #000; margin: 0 1px; text-transform: uppercase; position: relative; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; font-size: 14px; font-weight: 400; }
+.pt_custommenu .pt_menu { display: inline-block;text-align: center; padding:15px; cursor: pointer;}
+.pt_custommenu .pt_menu .parentMenu a { display: block; padding: 0px; color: #000; margin: 0 1px; text-transform: uppercase; position: relative; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; font-size: 14px; font-weight: 400; }
 
 @media (max-width: 1199px) { 
     .pt_custommenu .pt_menu .parentMenu a { padding: 20px; }
