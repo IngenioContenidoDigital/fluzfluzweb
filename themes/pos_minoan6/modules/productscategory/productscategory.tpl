@@ -187,8 +187,6 @@
 </script>
 {literal}
     <style>
-        .owl-carousel .owl-wrapper, .owl-carousel .owl-item { min-width: 16%!important; margin-left: 12px!important; }
-        .pos-title { width: 83%!important; margin-left: 2%; }
         .pos-title span { color: #838383; font-size: 17px; }
         .pos-title h2 { width: 40%; text-align: center }
         .pos-title h2:before { display: none; }
