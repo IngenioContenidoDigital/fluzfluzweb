@@ -528,8 +528,10 @@ Quick View Styles
     .pb-left-column {margin-top: .7%;}
     .p-reference{margin-left: 0px !important;}
     #categories_block_left li a{font-size: 14px !important;}
-    .pos-title{    margin-left: 4% !important;}
-    .boxprevnext a.next{right: 6% !important;}
-    .boxprevnext a.prev{right: 9.5% !important;}
-    .owl-item{width: 50% !important;}
+    .pos-title{margin-left: 4% !important; height: 60px;}
+    .pos-title h2{height: 60px;}
+    .boxprevnext a.next{    right: 5.6% !important;top: -2.5%;}
+    .boxprevnext a.prev{right: 9.8% !important; top: -2.5%;}
+    .owl-item{width: 25% !important; padding-left: 32px;}
+    .boxprevnext a i {padding: 10%; width: 60px;}
 }
