@@ -274,7 +274,7 @@
 									<!-- quantity wanted -->
 									{if !$PS_CATALOG_MODE}
                                                                             <p id="product_reference"{if empty($product->reference) || !$product->reference} class="col-xs-12" style="display: none;"{/if}>
-                                                                                <label>{l s='Reference:'} </label>
+                                                                                <label class="p-reference">{l s='Reference:'} </label>
                                                                                 <span class="editable" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</span>
                                                                         </p>    
                                                                         <div class="col-lg-12">
@@ -437,7 +437,7 @@
 		</div>-->
 	</div> <!-- end primary_block -->
 	{if !$content_only}
-		<div class="more-info" style="width: 90%; margin: 0 auto; margin-bottom: 6%;">
+		<div class="more-info">
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
 				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Gift Card Instructions'}</a></span></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
