@@ -52,7 +52,7 @@
             </div>
         {/if}
         {if $cms->id==6}
-            <section class="col-sm-8 col-xs-12">
+            <section class="col-sm-8 col-xs-12 section-cms">
                 <article class="sectionBanner"><img src="/img/cms/FluzFluz/categories/sectionBanner.png" /></article>
                 <article class="sectionFooter"><img src="/img/cms/FluzFluz/categories/bannerSectionFooter1.png" /> <img src="/img/cms/FluzFluz/categories/bannerSectionFooter2.png" /></article>
             </section>
@@ -103,7 +103,7 @@
 
 {literal}
     <style>
-        .btn-shop{width: 50% !important;}
+        .btn-shop{width: 50%;}
         @media (max-width:420px){
             .btn-shop{margin-top: -15% !important; height: 35px;}
             .btn-shop span, .btn-shop2 span{font-size: 12px;}
