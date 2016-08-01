@@ -24,23 +24,46 @@
 *}
 
 {capture name=path}{l s='Order confirmation'}{/capture}
-
-<h1 class="page-heading">{l s='Order confirmation'}</h1>
-
+<link rel="stylesheet" type="text/css" href="{$css_dir}/order-confirmation.css">
 {assign var='current_step' value='payment'}
-{include file="$tpl_dir./order-steps.tpl"}
 
+<h1 class="page-heading title">{l s='Confirmation'}</h1>
+
+{*include file="$tpl_dir./order-steps.tpl"*}
 {include file="$tpl_dir./errors.tpl"}
 
 {$HOOK_ORDER_CONFIRMATION}
 {$HOOK_PAYMENT_RETURN}
-{if $is_guest}
-	<p>{l s='Your order ID is:'} <span class="bold">{$id_order_formatted}</span> . {l s='Your order ID has been sent via email.'}</p>
+
+<div>
+    {*debug*}
+    <table class="products table table-bordered row">
+        <tr class="head">
+            <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Product'}</th>
+            <th class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{l s='Descripton'}</th>
+            <th class="col-xs-2 col-sm-2 col-md-3 col-lg-2">{l s='Total'}</th>
+        </tr>
+        {foreach $order_products as $product}
+            <tr>
+                <td><img class="img_product" src="{$link->getImageLink($product.product_name, $product.image->id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.product_name|escape:'html':'UTF-8'}" title="{$product.product_name|escape:'html':'UTF-8'}" /></td>
+                <td>{$product.product_name}</td>
+                <td>{$product.total_price_tax_incl}</td>
+            </tr>
+        {/foreach}
+    </table>
+</div>
+
+<p class="cart_navigation exclusive btnaccount">
+    <a class="button-exclusive btn btn-default" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" title="{l s='My account'}">{l s='My account'} <i class="icon-chevron-right"></i></a>
+</p>
+
+{*if $is_guest}
+    <p>{l s='Your order ID is:'} <span class="bold">{$id_order_formatted}</span> . {l s='Your order ID has been sent via email.'}</p>
     <p class="cart_navigation exclusive">
-	<a class="button-exclusive btn btn-default" href="{$link->getPageLink('guest-tracking', true, NULL, "id_order={$reference_order|urlencode}&email={$email|urlencode}")|escape:'html':'UTF-8'}" title="{l s='Follow my order'}"><i class="icon-chevron-left"></i>{l s='Follow my order'}</a>
+        <a class="button-exclusive btn btn-default" href="{$link->getPageLink('guest-tracking', true, NULL, "id_order={$reference_order|urlencode}&email={$email|urlencode}")|escape:'html':'UTF-8'}" title="{l s='Follow my order'}"><i class="icon-chevron-left"></i>{l s='Follow my order'}</a>
     </p>
 {else}
-<p class="cart_navigation exclusive">
-	<a class="button-exclusive btn btn-default" href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Go to your order history page'}"><i class="icon-chevron-left"></i>{l s='View your order history'}</a>
-</p>
-{/if}
+    <p class="cart_navigation exclusive">
+        <a class="button-exclusive btn btn-default" href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Go to your order history page'}"><i class="icon-chevron-left"></i>{l s='View your order history'}</a>
+    </p>
+{/if*}

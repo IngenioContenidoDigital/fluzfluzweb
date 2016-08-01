@@ -19,7 +19,9 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
     switch ( $_POST["action"] ) {        
         case "consultcodebar":
             $raizBarcode = new raizBarcode();
-            $response['code'] = $raizBarcode->consultcodebar($idproduct,$ruta,$archivo,$extension,$barnumber);
+            $codebar = $raizBarcode->consultcodebar($idproduct,$ruta,$archivo,$extension,$barnumber);
+            $response['code'] = $codebar['code'];
+            $response['codetype'] = $codebar['codetype'];
             $response['used'] = $raizBarcode->getUsed($idproduct,$barnumber);
             echo json_encode($response);
             break;
@@ -42,18 +44,22 @@ class raizBarcode {
         $query = 'SELECT codetype FROM '._DB_PREFIX_.'product WHERE id_product = '.$idproduct;
         $row = Db::getInstance()->getRow($query);
         $code = $row["codetype"];
-        
-        if (!empty($barnumber)) {
-            $barcode= new BARCODE();
-            if($code==1){
-                $algo = $barcode->_c128Barcode($barnumber,1,$archivo,$ruta);
-            }
-            else {
-                $algo = $barcode->QRCode_save("text", $barnumber, $archivo, $ruta, $type = "png", $height = 50, $scale = 2, $bgcolor = "#FFFFFF", $barcolor = "#000000", $ECLevel = "L", $margin = true);
-            }
 
-            return $ruta.$archivo.$extension;
+        $response['codetype'] = $code;
+        $response['code'] = 0;
+        
+        if ( !empty($barnumber) ) {
+            $barcode = new BARCODE();
+            if ( $code == 1 ) {
+                $algo = $barcode->_c128Barcode($barnumber,1,$archivo,$ruta);
+                $response['code'] = $ruta.$archivo.$extension;
+            } elseif ( $code == 0 ) {
+                $algo = $barcode->QRCode_save("text", $barnumber, $archivo, $ruta, $type = "png", $height = 50, $scale = 2, $bgcolor = "#FFFFFF", $barcolor = "#000000", $ECLevel = "L", $margin = true);
+                $response['code'] = $ruta.$archivo.$extension;
+            }
         }
+        
+        return $response;
     }
     
     public function updateUsed($idproduct, $barnumber, $used) {

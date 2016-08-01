@@ -83,7 +83,25 @@
                            $('#not-used').addClass('checkConfirm');
                            $('#used').removeClass('checkConfirm')
                         }
-                        $('#bar-code').attr('src','.'+response.code);
+                        
+                        if ( response.codetype == 0 ) {
+                            $('#bar-code').attr('src','.'+response.code);
+                            $('.pointPrice').css("float","left").css("width","50%").css("padding","10px 0 0 10px");
+                            $('.pCode').addClass("col-lg-12").addClass("col-xs-12").addClass("col-md-12");
+                            $('.pPrice').addClass("col-lg-12").addClass("col-xs-12").addClass("col-md-12");
+                            $('#bar-code').parent().css("float","right");
+                            $('#bar-code').parent().css("margin-right","10%");
+                            $('.popText').css("font-size","14px");
+                        }
+                        if ( response.codetype == 1 ) {
+                            $('#bar-code').attr('src','.'+response.code);
+                        }
+                        if ( response.codetype == 2 ) {
+                            $('.popText').parent().css("margin-top","50px");
+                            $('.popText').css("background","none");
+                            $('.popText').css("color","#fff");
+                        }
+                        
                         $('.micode').html(codeImg2);
                         $('#priceCard').html(price);
                         $('#nameViewCard').html(name);

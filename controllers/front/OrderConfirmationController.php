@@ -114,6 +114,12 @@ class OrderConfirmationControllerCore extends FrontController
             'HOOK_PAYMENT_RETURN' => $this->displayPaymentReturn(),
             'message_payu' => $message_payu
         ));
+        
+        $order = new Order($this->id_order);
+        $this->context->smarty->assign(array(
+            'order' => $order,
+            'order_products' => $order->getProducts()
+        ));
 
         if ($this->context->customer->is_guest) {
             $this->context->smarty->assign(array(

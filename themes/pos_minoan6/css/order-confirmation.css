@@ -1,0 +1,17 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 1/08/2016, 01:26:22 PM
+    Author     : json
+*/
+
+.title { letter-spacing: 0px; font-weight: bold; font-size: 17px; padding: 0; }
+.btnaccount { float: right; }
+.btnaccount a { background: #C9B197!important; }
+.btnaccount a:hover { background: #ee4a42!important; }
+.img_product { width: 100%; }
+.products .head { color: #000; background-color: #F9F9F9; }
+.products > tbody > tr > td:first-child { padding: 10px; }
