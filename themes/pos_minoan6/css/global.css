@@ -3293,7 +3293,7 @@ li { list-style: none; }
 
 .owl-carousel .owl-wrapper:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
 
-.owl-carousel { display: none; position: relative; width: 100%; -ms-touch-action: pan-y; left:1%;}
+.owl-carousel { display: none; position: relative; width: 100%; -ms-touch-action: pan-y; left:5px;}
 
 .owl-carousel .owl-wrapper { display: none; position: relative; -webkit-transform: translate3d(0px, 0px, 0px);}
 

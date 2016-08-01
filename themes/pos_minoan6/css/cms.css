@@ -77,3 +77,13 @@ margin-right: -15px;
 
 .img-category{width:15% !important;}
 
+@media (max-width:1080px){
+    .owl-item{width: 227px !important;min-width: 0;margin-left: 18px !important;}
+}
+
+@media (min-width:1451px) and (max-width:2600px){
+
+    .owl-item{width: 286px !important; min-width: 0; margin-left: 0px !important;}
+
+}
+
