@@ -114,11 +114,17 @@ class OrderConfirmationControllerCore extends FrontController
             'HOOK_PAYMENT_RETURN' => $this->displayPaymentReturn(),
             'message_payu' => $message_payu
         ));
-        
+
+        $state_payment = Db::getInstance()->executeS("SELECT pp.message, pp.orderIdPayu, pp.valor, pp.fecha
+                                                    FROM "._DB_PREFIX_."orders o
+                                                    INNER JOIN "._DB_PREFIX_."pagos_payu pp ON o.id_cart = pp.id_cart
+                                                    WHERE o.id_order = ".$this->id_order."
+                                                    ORDER BY fecha DESC");
         $order = new Order($this->id_order);
         $this->context->smarty->assign(array(
             'order' => $order,
-            'order_products' => $order->getProducts()
+            'order_products' => $order->getProducts(),
+            'state_payment' => $state_payment[0]
         ));
 
         if ($this->context->customer->is_guest) {
