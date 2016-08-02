@@ -166,7 +166,7 @@
     $(document).ready(function() {
 		var owl = $("#product_category");
 		owl.owlCarousel({
-		items : 4,
+		items : 2,
 		 pagination :false,
 		slideSpeed: 1000,
 		itemsDesktop : [1199,3],

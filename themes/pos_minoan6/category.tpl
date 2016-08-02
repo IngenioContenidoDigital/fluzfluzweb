@@ -124,7 +124,6 @@
                 <style>
                     .divTitleFeatured{display: none;}
                     .boxprevnext2 a i{display: none;}
-                    .owl-wrapper{margin-left: 3.5%;}
                     .page-heading.product-listing{margin: 0 auto; width: 90%;}
                     .content_sortPagiBar .sortPagiBar{margin-left: 5%;}
                     .boxprevnext2 a{display: none;}
