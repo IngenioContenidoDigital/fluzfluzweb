@@ -51,8 +51,8 @@ class fluzfluzCodes extends Module{
     }
     
     public function hookdisplayAdminProductsExtra($params) {
-        $query1 = "SELECT "._DB_PREFIX_."product_code.`code`,(CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN '' ELSE "._DB_PREFIX_."product_code.id_order END AS `order`, date_add 
-                    FROM ps_product_code
+        $query1 = "SELECT CONCAT('**********',SUBSTRING("._DB_PREFIX_."product_code.`code`,LENGTH("._DB_PREFIX_."product_code.`code`)-3,LENGTH("._DB_PREFIX_."product_code.`code`))) AS code,(CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN '' ELSE "._DB_PREFIX_."product_code.id_order END AS `order`, date_add 
+                    FROM "._DB_PREFIX_."product_code
                     WHERE id_product = ".Tools::getValue('id_product');
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);
         
