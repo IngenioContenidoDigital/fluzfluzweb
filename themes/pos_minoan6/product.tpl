@@ -78,7 +78,7 @@
 							</span>
 						{elseif $product->specificPrice && $product->specificPrice.reduction && $productPriceWithoutReduction > $productPrice}
 							<span class="discount">{l s='Reduced price!'}</span>
-						{/if}
+						{/if}{$product->link_rewrite}
 						{if $have_image}
 							<span id="view_full_size">
 								{if $jqZoomEnabled && $have_image && !$content_only}
