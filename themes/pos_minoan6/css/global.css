@@ -3885,7 +3885,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .boxprevnext2 a:hover { background: #FCC716; color: white; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
 .imgMini{margin:0 auto !important; max-width: 60% !important; height:auto !important;}
 .priceCategory{color:#696969; font-size: 11px; text-align: right; padding-right: 0px; margin:0 auto; margin-top:2%;}
-.owl-item { margin: 0 12px; width:220px !important; min-width:6.5% !important;}
+.owl-item { margin: 0 12px; width:220px;}
 .title-block { background-color: #F8F8F8; display: inline-block; height: 45px; line-height: 42px; }
 .title-block { font-size: 17px; color:#ef4136; padding: 0 10px; width: 100%; }
 .title-block div { display: inline-block; vertical-align: middle; }
@@ -10434,7 +10434,6 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 1080px){
     .contProfile{font-size:8px !important;}
-    .owl-item{min-width: 6.38% !important;}
 }
 
 @media (min-width:415px) and (max-width:600px){
