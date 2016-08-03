@@ -68,7 +68,7 @@
                         <li class="ajax_block_product nopadding">
                                 <div class="title-block">
                                         <div><img src="{$img_manu_dir}{$product.id_manufacturer}.jpg" alt="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" class="imgMini"/></div>
-                                        <div>{l s="Save"} {math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.price}%</div>
+                                        <div>{l s="Save"} {math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.price}%</div>
                                         {if isset($product.is_virtual) && !$product.is_virtual}{hook h="displayProductDeliveryTime" product=$product}{/if}
                                         {hook h="displayProductPriceBlock" product=$product type="weight"}
                                 </div>

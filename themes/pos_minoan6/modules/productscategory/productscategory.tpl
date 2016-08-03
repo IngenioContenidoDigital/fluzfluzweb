@@ -62,7 +62,7 @@
                                                                         <span class="product-price" style="color:#ef4136; text-align: left;">
                                                                                 {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
                                                                         </span>
-                                                                        <span class="redfl">({l s="Save"} {math equation='round(((p - r) / r)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price}%)</span>
+                                                                        <span class="redfl">({l s="Save"} {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price}%)</span>
                                                                 </div>
                                                                 <div>
                                                                         <span style="text-align: left; margin-right: 1px;">{l s='VALUE: '}</span>

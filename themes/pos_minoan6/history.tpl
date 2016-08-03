@@ -85,7 +85,7 @@
                                                 <td class="history_price" data-value="{$product.precio}">
 							<div style="display:block;">
                                                             <p>{l s="Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
-                                                            <p>{l s="You Save: "}%{math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.precio}</p>
+                                                            <p>{l s="You Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</p>
                                                             <p>{l s="Unit Price: "}{displayPrice price=$product.precio no_utf8=false convert=false}</p>
                                                         </div>
 						</td>
