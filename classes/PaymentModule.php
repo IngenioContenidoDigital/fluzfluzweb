@@ -216,6 +216,8 @@ abstract class PaymentModuleCore extends Module
                     }
                 }
             }
+            
+            
 
             $order_list = array();
             $order_detail_list = array();
@@ -378,9 +380,29 @@ abstract class PaymentModuleCore extends Module
                         $order_carrier->shipping_cost_tax_incl = (float)$order->total_shipping_tax_incl;
                         $order_carrier->add();
                     }
+                    
                 }
             }
+            
+            if($order_status->id == 2 || $order_status->id == 5){
+                            
+                            $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
+                            $productId = Db::getInstance()->executeS($query);
+                            
+                            foreach ($productId as $valor) {
+                                for($i=0;$i<$valor['product_quantity'];$i++){
+                                    $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
+                            }
+                        }
+                    }
 
+            $codeText = 'select code from ps_product_code WHERE id_order = '.(int)$order->id;
+            $rowCode = Db::getInstance()->executeS($codeText);
+            $bar_codes = "";
+            foreach ($rowCode AS $code){
+                $bar_codes .= "<label>".$code['code']."</label><br>";
+            }
+            
             // The country can only change if the address used for the calculation is the delivery address, and if multi-shipping is activated
             if (Configuration::get('PS_TAX_ADDRESS_TYPE') == 'id_address_delivery') {
                 $this->context->country = $context_country;
@@ -745,6 +767,7 @@ abstract class PaymentModuleCore extends Module
                         '{date}' => Tools::displayDate(date('Y-m-d H:i:s'), null, 1),
                         '{carrier}' => ($virtual_product || !isset($carrier->name)) ? Tools::displayError('No carrier') : $carrier->name,
                         '{payment}' => Tools::substr($order->payment, 0, 32),
+                        '{bar_codes}'=> $bar_codes,   
                         '{products}' => $product_list_html,
                         '{products_txt}' => $product_list_txt,
                         '{discounts}' => $cart_rules_list_html,
@@ -839,7 +862,6 @@ abstract class PaymentModuleCore extends Module
         Tools::displayAsDeprecated();
         return $content;
     }
-
     /**
      * @param Object Address $the_address that needs to be txt formated
      * @return String the txt formated address block
