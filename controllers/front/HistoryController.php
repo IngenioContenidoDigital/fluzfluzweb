@@ -75,7 +75,7 @@ class HistoryControllerCore extends FrontController
     
     public function productHistory(){
         
-        $query = 'SELECT p.price_shop as price_shop, a.product_id AS idProduct, d.link_rewrite as link_rewrite, b.id_image AS image, a.total_price_tax_incl as total, a.unit_price_tax_incl AS precio, a.product_quantity_in_stock AS cantidad, a.product_name AS purchase, n.reference AS referencia, n.date_add AS time FROM '._DB_PREFIX_.'orders n
+        $query = 'SELECT a.id_order, p.price_shop as price_shop, a.product_id AS idProduct, d.link_rewrite as link_rewrite, b.id_image AS image, a.total_price_tax_incl as total, a.unit_price_tax_incl AS precio, a.product_quantity_in_stock AS cantidad, a.product_name AS purchase, n.reference AS referencia, n.date_add AS time FROM '._DB_PREFIX_.'orders n
                         LEFT JOIN '._DB_PREFIX_.'order_detail a ON (a.id_order = n.id_order)
 			LEFT JOIN '._DB_PREFIX_.'image b ON (b.id_product=a.product_id)  
                         LEFT JOIN '._DB_PREFIX_.'product_lang d ON (d.id_product=a.product_id)

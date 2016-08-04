@@ -186,6 +186,12 @@
 							{l s='Documents'} <span class="badge">{$order->getDocuments()|@count}</span>
 						</a>
 					</li>
+                                        <li>
+						<a href="#codes">
+							<i class="icon-file-text"></i>
+							{l s='Codigos Asignados'} <span class="badge">{$order->numcodesAssign()}</span>
+						</a>
+					</li>
 				</ul>
 				<!-- Tab content -->
 				<div class="tab-content panel">
@@ -257,6 +263,29 @@
 						<h4 class="visible-print">{l s='Documents'} <span class="badge">({$order->getDocuments()|@count})</span></h4>
 						{* Include document template *}
 						{include file='controllers/orders/_documents.tpl'}
+					</div>
+                                        <div class="tab-pane" id="codes">
+                                       
+                                            <div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th><span class="title_box ">{l s='Producto Id'}</span></th>
+									<th><span class="title_box ">{l s='Nombre'}</span></th>
+									<th><span class="title_box ">{l s='Codigo Producto'}</span></th>
+									<th></th>
+								</tr>
+							</thead>
+                                                        {foreach from=$codesAssign item=code}
+                                                        <tbody>
+                                                            <td>{$code.id_product}</td>
+                                                            <td>{$code.product_name}</td>
+                                                            <td>{$code.code}</td>
+                                                        </tbody>
+                                                        {/foreach}
+                                                        
+                                                </table>
+                                            </div>    
 					</div>
 				</div>
 				<script>

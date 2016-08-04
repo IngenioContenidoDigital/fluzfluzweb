@@ -53,6 +53,7 @@
                                                 <!--<th class="item">{l s='Status'}</th>-->
                                                 <!--<th data-sort-ignore="true" data-hide="phone,tablet" class="item">{l s='Invoice'}</th>-->
                                                 <!--<th data-sort-ignore="true" data-hide="phone,tablet" class="last_item">&nbsp;</th>-->
+                                                <th class="item" style="text-align:right; padding-right: 2%;">{l s='Factura'}</th>
                                                 <th data-hide="phone" class="item" style="text-align:right; padding-right: 2%;">{l s='Total'}</th>
                                         </tr>
                                     </thead>
@@ -79,7 +80,7 @@
                                                     <span>{$product.referencia}</span>
                                                     </div>
 						</td>
-                                                <td data-value="{$order.date_add|regex_replace:"/[\-\:\ ]/":""}" class="history_date bold" style="width:15%;">
+                                                <td data-value="{$product.date_add|regex_replace:"/[\-\:\ ]/":""}" class="history_date bold" style="width:15%;">
                                                     <span>{$product.time}</span>
 						</td>
                                                 <td class="history_price" data-value="{$product.precio}">
@@ -92,7 +93,12 @@
                                                 <td class="history_invoice" style="text-align:center !important; width: 13%; font-size: 22px;">
 							{$product.cantidad}
 						</td>
-						
+                                                <td class="history_invoice">
+                                                    <a class="link-button" href="{$link->getPageLink('pdf-invoice', true, NULL, "id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Invoice'}" target="_blank">
+									<i class="icon-file-text large"></i>{l s='PDF'}
+								</a>  
+						</td>
+                                                
 						<!--<td class="history_method">{$order.payment|escape:'html':'UTF-8'}</td>-->
 						<!--<td{if isset($order.order_state)} data-value="{$order.id_order_state}"{/if} class="history_state">
 							{if isset($order.order_state)}
@@ -131,15 +137,15 @@
                                                     <p>{l s="Points"}</p>
                                             </td>
                                           
-                                            <td colspan="4" style="text-align:right; padding: 2%;">
+                                            <td colspan="5" style="text-align:right; padding: 2%;">
                                                 <a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a>
                                             </td>
                                             <td>
-                                                <p style="color:#ef4136; margin: 0px; text-align: right;">{l s="Save: "}%{math equation='round(((p - r) / r)*100)' p=$product.price_shop r=$product.precio}</p>
+                                                <p style="color:#ef4136; margin: 0px; text-align: right;">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</p>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6" style="height: 50px;">
+                                            <td colspan="7" style="height: 50px;">
                                                 
                                             </td>
                                         </tr>

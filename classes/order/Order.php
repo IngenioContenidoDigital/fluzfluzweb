@@ -1759,6 +1759,23 @@ class OrderCore extends ObjectModel
 
         return $documents;
     }
+    
+    public function codesAssign(){
+        $codeText = 'SELECT pc.id_product, p.product_name, pc.code FROM '._DB_PREFIX_.'product_code AS pc LEFT JOIN '._DB_PREFIX_.'order_detail as p ON pc.id_order = p.id_order WHERE pc.id_order ='.(int)$this->id;
+        return Db::getInstance()->executeS($codeText);
+//            $bar_codes = "";
+//            foreach ($rowCode AS $code){
+//                $bar_codes .= "<td>".$code['id_product']." ".$code['product_name']." ".$code['code']."</td><br>";
+//            }
+//            return $bar_codes;    
+    }
+    
+    public function numcodesAssign(){
+        $codeText = 'select COUNT(code) FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$this->id;
+            $rowCode = Db::getInstance()->getRow($codeText);
+            
+            return $rowCode['COUNT(code)'];    
+    }
 
     public function getReturn()
     {

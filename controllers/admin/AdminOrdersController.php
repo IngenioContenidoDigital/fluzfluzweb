@@ -287,6 +287,10 @@ class AdminOrdersControllerCore extends AdminController
 
             $this->toolbar_title[] = sprintf($this->l('Order %1$s from %2$s %3$s'), $order->reference, $customer->firstname, $customer->lastname);
             $this->addMetaTitle($this->toolbar_title[count($this->toolbar_title) - 1]);
+            
+            $this->context->smarty->assign(array(
+                'codesAssign' => $order->codesAssign()
+            ));
 
             if ($order->hasBeenShipped()) {
                 $type = $this->l('Return products');
