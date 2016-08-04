@@ -1568,6 +1568,8 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 							$data = array(
 								'{sponsored_firstname}' => $customer->firstname,
 								'{sponsored_lastname}' => $customer->lastname,
+                                                                '{customer_firstname}' => $customer->firstname,
+                                                                '{customer_lastname}' => $customer->lastname,
 								'{sponsored_email}' => $customer->email,
 								'{sponsor_firstname}' => $sponsor->firstname,
 								'{sponsor_lastname}' => $sponsor->lastname,
@@ -1683,6 +1685,8 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$data = array(
 						'{sponsored_firstname}' => $customer->firstname,
 						'{sponsored_lastname}' => $customer->lastname,
+                                                '{customer_firstname}' => $customer->firstname,
+                                                '{customer_lastname}' => $customer->lastname,
 						'{sponsored_email}' => $customer->email,
 						'{sponsor_firstname}' => $sponsor->firstname,
 						'{sponsor_lastname}' => $sponsor->lastname,
