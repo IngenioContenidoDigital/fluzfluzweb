@@ -101,18 +101,24 @@ class OrderConfirmationControllerCore extends FrontController
         parent::initContent();
 
         $pse = Tools::getValue('PAYU_PSE', 0);
-        if ( $pse != false ) {                    
-           $payu_pse = json_decode(gzuncompress(base64_decode(strtr($pse, '-_,', '+/='))),TRUE); //echo '<pre>'.  print_r($payu_pse,TRUE).'</pre>';
-           $message_payu = $this->get_messagePayu($payu_pse['lapResponseCode']).' '.$payu_pse['lapPaymentMethod'].'-'.$payu_pse['pseBank'];
-        } else {
-            $message_payu = $this->get_messagePayu($this->get_state_transaction($this->id_cart));    
+        $order_payu = $this->get_state_transaction($this->id_cart);
+        if ( $order_payu ) {
+            $this->context->smarty->assign($order_payu);
+        }
+
+        if ( $pse ) {                    
+            $payu_pse = json_decode(gzuncompress(base64_decode(strtr($pse, '-_,', '+/='))),TRUE); //echo '<pre>'.  print_r($payu_pse,TRUE).'</pre>';
+            $message_payu = $this->get_messagePayu($payu_pse['lapResponseCode']).' '.$payu_pse['lapPaymentMethod'].'-'.$payu_pse['pseBank'];
+        }  else {
+            $message_payu = $this->get_messagePayu($order_payu['state']);    
         }
 
         $this->context->smarty->assign(array(
             'is_guest' => $this->context->customer->is_guest,
             'HOOK_ORDER_CONFIRMATION' => $this->displayOrderConfirmation(),
             'HOOK_PAYMENT_RETURN' => $this->displayPaymentReturn(),
-            'message_payu' => $message_payu
+            'message_payu' => $message_payu,
+            'pse' => $pse
         ));
 
         $state_payment = Db::getInstance()->executeS("SELECT pp.message, pp.orderIdPayu, pp.valor, pp.fecha
@@ -268,16 +274,20 @@ class OrderConfirmationControllerCore extends FrontController
      * Retorna un código de estado relacionado al carrito 
      */
     protected function get_state_transaction($id_cart){
-        $query=  "SELECT IF(ISNULL(response.message), pagos.message, response.message) as state
-                    FROM 
-                    "._DB_PREFIX_."pagos_payu pagos LEFT JOIN "._DB_PREFIX_."log_payu_response response ON (pagos.orderIdPayu = response.orderIdPayu)
-                    WHERE pagos.id_cart =".(int)$id_cart;
+        $query = "SELECT 
+                        IF(ISNULL(response.message),pagos.message, response.message) as state,
+                        pagos.transactionId,
+                        pagos.orderIdPayu,
+                        pagos.fecha
+                    FROM "._DB_PREFIX_."pagos_payu pagos
+                    LEFT JOIN "._DB_PREFIX_."log_payu_response response ON (pagos.orderIdPayu = response.orderIdPayu)
+                    WHERE pagos.id_cart = ".(int)$id_cart;
 
         $row = Db::getInstance()->getRow($query);
-        if( isset($row['state']) && !empty($row['state']) ) {
-            return $row['state'];
+        if ( isset($row['state']) && !empty($row['state']) ) {
+            return $row;
         } else {
-            return FALSE;
+          return FALSE;
         }
     }
 }

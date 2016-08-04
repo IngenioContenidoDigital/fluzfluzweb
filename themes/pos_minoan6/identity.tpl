@@ -207,7 +207,7 @@
                     </div>
                 </div>
             </form>
-            <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="stdcard">
+            {*<form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="stdcard">
                 <div class="payment">
                     <h1 class="title">{l s='Payment information'}</h1>
                     <h1 class="edit" id="editPayment">{l s='Edit'}</h1>
@@ -262,7 +262,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>*}
         </div>
     {/if}
 </div>

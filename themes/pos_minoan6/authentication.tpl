@@ -93,7 +93,7 @@
 						<input type="text" class="is_required validate form-control" data-validate="isEmail" id="guest_email" name="guest_email" value="{if isset($smarty.post.guest_email)}{$smarty.post.guest_email}{/if}" />
 					</div>
 					<div class="cleafix gender-line">
-						<label>{l s='Title'}</label>
+						<label>{l s='Gender'}</label>
 						{foreach from=$genders key=k item=gender}
 							<div class="radio-inline">
 								<label for="id_gender{$gender->id}" class="top">
@@ -483,10 +483,10 @@
                                         <input id="imagen" name="imagen" type="file" />
                                     </div>
                                     <div class="clearfix">
-                                            <label>{l s='Title'}</label>
+                                            <label>{l s='Gender'}</label>
                                             <br/>
                                             {foreach from=$genders key=k item=gender}
-                                                    <div class="radio-inline">
+                                                    <div class="gender">
                                                             <label for="id_gender{$gender->id}" class="top">
                                                                     <input type="radio" name="id_gender" id="id_gender{$gender->id}" value="{$gender->id}" {if isset($smarty.post.id_gender) && $smarty.post.id_gender == $gender->id}checked="checked"{/if} />
                                                             {$gender->name}
@@ -756,13 +756,16 @@
                 <div>
                     <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
                     <div class="containerDepo">
-                        <p>{l s="When you create a Fluz Fluz account, we ask that you deposit a minimum of $5 in your account so we can validate it. This is a firs time only required deposit and will be entirely at your disposal in your account so you can start."}</p>
+                        <p>When you create a Fluz Fluz account, we ask that you <span class="stand_out">deposit a minimum of $20.000 in your account so we can validate it</span>. This is a firs time only required deposit and will be entirely at your disposal in your account so you can start.</p>
                     <div class="row rangeSelect">
                         <span class="col-lg-2 rangePrice">$20.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="40000" min="20000" max="100000" step="20000" data-rangeslider><span class="col-lg-2 rangePrice">$100.000</span>
                     </div>
                     <div class="col-lg-12 finalDeposit">
-                        <span class="col-lg-9" style="font-size:18px;">{l s="Final Deposit Amount:"}</span>
-                        <input class="output col-lg-3" type="text" name="valorSlider" id="valorSlider" value=""/>
+                        <span class="col-lg-8" style="font-size:18px;">{l s="Final Deposit Amount:"}</span>
+                        <div class="col-lg-4">
+                            <span class="money">$</span>
+                            <input class="output" type="text" name="valorSlider" id="valorSlider" value="" readonly />
+                        </div>
                     </div>
                     </div>    
                 </div>
@@ -841,7 +844,7 @@
                     <input type="hidden" id="psetypedoc" name="psetypedoc">
                     <input type="hidden" id="psenumdoc" name="psenumdoc">
                 </div>
-                <div>
+                <div class="payublock">
                     {hook h="displayPayment"}
                 </div>
                 <div class="row">
@@ -853,8 +856,8 @@
 			{if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
 			{if isset($optin) && $optin}
                             <div class="checkbox">
-                                    <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) AND $smarty.post.optin == 1} checked="checked"{/if} requerid/>
-                                    <label for="optin">{l s='I accept Fluz Fluz’s terms and conditions.'}</label>
+                                    <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) AND $smarty.post.optin == 1} checked="checked"{/if} required/>
+                                    <label>{l s='I accept Fluz Fluz’s terms and conditions.'}</label>
                                     {if array_key_exists('optin', $field_required)}
                                             <sup> *</sup>
                                     {/if}

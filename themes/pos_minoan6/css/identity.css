@@ -1,18 +1,19 @@
 .headinformation { border-bottom: 1px solid #e5e5e5; margin-bottom: 35px; }
 .bodyinformation { padding: 0 30px; }
 .titleInfo, .deactivate, .title, .edit { letter-spacing: -1px; display: inline-block; text-transform: uppercase; color: #3A3A3A; font-weight: bold; }
-.titleInfo { font-size: 22px; border: 0; padding: 0; }
+.titleInfo { font-size: 22px; border: 0; padding: 0; font-family: Montserrat; }
 .deactivate { font-size: 13px; color: #C9B197; float: right; cursor: pointer; }
 .allPanelInfo { border: 0; }
-.title { font-size: 19px; display: inline-block; }
+.title { font-size: 19px; display: inline-block; font-weight: lighter; }
 .edit { font-size: 16px; color: #E1382C; float: right; cursor: pointer; }
 .edit:hover { opacity: 0.5; }
 .profile h1 { margin: 0; }
 .fieldInfo { background-color: #F9F9F9; padding: 2%; margin: 0; }
+.fieldInfo label { font-weight: lighter; }
 .fieldInfo .clearfix, .fieldInfo .form-group, .fieldInfo .checkbox { margin-bottom: 20px!important; }
 .std, .stdcard { color: #3A3A3A; font-weight: bold; font-family: 'Montserrat'; }
 .std input, .stdcard input { color: #585858; font-family: 'Montserrat'; padding: 0; letter-spacing: 0px; }
-.std .checkbox label, .stdcard .checkbox label { color: #3A3A3A; font-weight: bold; font-family: 'Montserrat'; padding: 0; }
+.std .checkbox label, .stdcard .checkbox label { color: #3A3A3A; font-family: 'Montserrat'; padding: 0; }
 .std label, .stdcard label { margin: 0; vertical-align: middle; line-height: -1px; }
 .enabled { border: none; }
 .enabled:disabled { background-color: #F9F9F9; cursor: default; }
@@ -26,6 +27,7 @@
 div.selector.disabled span, div.selector.disabled.active span { color: #585858; }
 .dateBirthInput, .dateBirthInputCard { display: none; }
 .dateBirthInput span, .dateBirthInput select, .dateBirthInputCard span, .dateBirthInputCard select { width: 100px; }
+.dateBirthText { font-weight: lighter; }
 
 @media (max-width: 550px) { 
     .dateBirth, .dateExpiration { display: inline-block; }

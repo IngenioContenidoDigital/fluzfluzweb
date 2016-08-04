@@ -184,7 +184,7 @@
                             {/for}
                         </select></div>
                     </div>
-                   <div class="form-group">
+                   <div class="form-group btnpayment">
                         <label for="submitTc" class="control-label hidden-xs col-sm-6 " style="text-align: left;"></label>
                         <div class="col-xs-12 col-sm-6">
                             <button type="submit" id="submitTc" class="button btn btn-default standard-checkout button-medium">
