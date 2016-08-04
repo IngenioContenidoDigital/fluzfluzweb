@@ -17,4 +17,20 @@
 
 #login_form .form-control, #create-account_form .form-control { max-width: 271px; }
 
+#uniform-id_country { width: 38%!important; }
+.gender:first-of-type { margin-left: 0!important; }
+.gender { display: inline-block; vertical-align: middle; margin-left: 15px; }
+.gender label { margin-top: 0; }
+#valorSlider { height: 22px; width: 100px; }
+#valorSlider, .money { color: #ef4136; font-size: 25px; font-weight: bold; display: inline-block; vertical-align: middle; }
+.stand_out { color: #ef4136; }
+input[type=range] { -webkit-appearance: none; }
+input[type=range]::-webkit-slider-runnable-track { height: 2px; background: #ddd; border: none; border-radius: 3px; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; border: 1px solid #ddd; height: 25px; width: 25px; border-radius: 50%; background: #fff; margin-top: -10px; }
+input[type=range]:focus::-webkit-slider-runnable-track { background: #ccc }
+input[type=range]:focus::-webkit-slider-thumb { border: 2px solid #ccc; }
+.rangeslider { margin-top: 13.6%; width: 50%; }
+p + .required { font-weight: bold; }
+#authentication .payublock .container .form-group { height: 55px; }
+#authentication .payublock .container .btnpayment { height: 0px!important; }
 #submitTc, #submitPSE { display: none; pointer-events: none; z-index: -1; }

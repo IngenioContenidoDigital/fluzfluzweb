@@ -33,9 +33,16 @@
 
 <link rel="stylesheet" type="text/css" href="{$css_dir}/order-confirmation.css">
 
+{if $pse}
+    {assign var="date" value=$smarty.now|date_format:"%d/%m/%Y, %H:%M"}
+    {assign var="status" value=$message_payu}
+{else}
+    {assign var="date" value=$state_payment.fecha|date_format:"%d/%m/%Y, %H:%M"}
+    {assign var="status" value=$state_payment.message}
+{/if}
+
 <div>
     <h1 class="page-heading title">{l s='Confirmation'}</h1>
-    
     <div class="transaction">
         <table class="table row">
             <thead>
@@ -46,7 +53,7 @@
             <tbody>
                 <tr>
                     <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{l s='Status'}</th>
-                    <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{$state_payment.message}</th>
+                    <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{$status|utf8_encode}</th>
                 </tr>
                 <tr class="table-warning">
                     <td>{l s='Reference'}</th>
@@ -58,7 +65,7 @@
                 </tr>
                 <tr class="table-warning">
                     <td>{l s='Date'}</th>
-                    <td>{$state_payment.fecha|date_format:"%d/%m/%Y, %H:%M"}</th>
+                    <td>{$date}</th>
                 </tr>
             </tbody>
         </table>

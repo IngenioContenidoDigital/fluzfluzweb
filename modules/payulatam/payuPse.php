@@ -152,7 +152,7 @@ $data = '{
 "type":"AUTHORIZATION_AND_CAPTURE",
 "paymentMethod":"PSE",
 "extraParameters":{
-"PSE_REFERENCE1":"' . $browser['ipAddress'] . '",
+"PSE_REFERENCE1":"' . $_SERVER['REMOTE_ADDR'] . '",
 "FINANCIAL_INSTITUTION_CODE":"' . $_POST['pse_bank'] . '",
 "FINANCIAL_INSTITUTION_NAME":"' . $_POST['name_bank'] . '",
 "USER_TYPE":"' . $_POST['pse_tipoCliente'] . '",

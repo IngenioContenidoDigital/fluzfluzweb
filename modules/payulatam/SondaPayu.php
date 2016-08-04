@@ -106,6 +106,7 @@ public function getPendyngOrders()
 { 
   $reference = md5(Configuration::get('PS_SHOP_NAME'));
   $results = false;
+        // '".date("Y-m-d H:i:s")."' => NOW()
 	$sql="SELECT orders.id_cart,orders.id_order, payu.orderIdPayu,payu.transactionId
         	FROM       "._DB_PREFIX_."orders orders 
 					INNER JOIN "._DB_PREFIX_."pagos_payu payu ON(orders.id_cart = payu.id_cart)
@@ -113,7 +114,7 @@ public function getPendyngOrders()
 					INNER JOIN "._DB_PREFIX_."count_pay_cart contador ON (orders.id_cart = contador.id_cart)
 					WHERE (orders.current_state = ".(int) Configuration::get('PAYU_OS_PENDING')." OR orders.current_state = ".(int) Configuration::get('PS_OS_OUTOFSTOCK').") 
 					AND payu.orderIdPayu !=0 
-					AND ( sonda.last_update + INTERVAL sonda.`interval` MINUTE) < '".date("Y-m-d H:i:s")."' 
+					AND ( sonda.last_update + INTERVAL sonda.`interval` MINUTE) < NOW() 
 					AND payu.message like 'PENDING_TRANSACTION_%'
 					AND  !ISNULL(payu.orderIdPayu)				
           ORDER BY orders.id_order;"; 

@@ -135,7 +135,7 @@
                         </div>
                     </div>
                 
-                   <div class="form-group">
+                   <div class="form-group btnpayment">
                         <label for="submitPSE" class="control-label hidden-xs col-sm-6 " style="text-align: left;"></label>
                         <div class="col-xs-12 col-sm-6">
                             <button btn btn-default standard-checkout button-medium type="submit" id="submitPSE" class="button btn btn-default standard-checkout button-medium">
