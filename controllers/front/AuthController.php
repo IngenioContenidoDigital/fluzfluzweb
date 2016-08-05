@@ -349,7 +349,7 @@ class AuthControllerCore extends FrontController
     protected function processSubmitAccount()
     {
         Hook::exec('actionBeforeSubmitAccount');
-
+        
         $methodPayment = "";
         if ( isset($_POST['nombre']) && isset($_POST['numerot']) && isset($_POST['Month']) && isset($_POST['year']) && isset($_POST['codigot']) &&
              !empty($_POST['nombre']) && !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) && !empty($_POST['codigot']) &&
@@ -368,14 +368,10 @@ class AuthControllerCore extends FrontController
         } else {
             $this->errors[] = Tools::displayError('Por favor indique un medio de pago');
         }
-
+        
         $this->create_account = true;
-        if ( Tools::isSubmit('submitAccount') ) {
-            $this->context->smarty->assign('email_create', 1);
-            $nameCustomer = $_POST['customer_firstname'];
-            $numCardCredit = $_POST['numerot'];
-            $cardExpirationDate= $_POST['Month'].'/'.$_POST['year'];
-        }
+        $this->context->smarty->assign('email_create', 1);
+        
         // New Guest customer
         if (!Tools::getValue('is_new_customer', 1) && !Configuration::get('PS_GUEST_CHECKOUT_ENABLED')) {
             $this->errors[] = Tools::displayError('You cannot create a guest account.');
@@ -442,10 +438,7 @@ class AuthControllerCore extends FrontController
                         }
                         $this->updateContext($customer);
                         
-                        $ins='INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$customer->firstname.'","'.$numCardCredit.'", "'.$cardExpirationDate.'")';
-                        Db::getInstance()->Execute($ins);
-                        
-                       if ($this->context->cookie->id_cart)
+                        if ($this->context->cookie->id_cart)
                         {
                             $cart = new Cart($this->context->cookie->id_cart);
                         }
@@ -454,18 +447,26 @@ class AuthControllerCore extends FrontController
                             Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'rewards_sponsorship` SET `id_customer` = '.(int)$customer->id.' WHERE `email` = "'.$customer->email.'"');
                             $address = new Address();
                             $address->id_customer = $customer->id;
-                            $address->id_country=69;
-                            $address->country;
-                            $address->alias='Mi Direccion';
+                            $address->id_country = 69;
+                            $address->alias = 'Mi Direccion';
                             $address->lastname = Tools::getValue("customer_lastname");
-                            $address->firstname= Tools::getValue("customer_firstname");
-                            $address->dni= Tools::getValue("gover");
-                            $address->address1= Tools::getValue("address1");
-                            $address->address2= Tools::getValue("address2");
-                            $address->city= Tools::getValue("city");
-                            $address->phone= Tools::getValue("phone_mobile");
+                            $address->firstname = Tools::getValue("customer_firstname");
+                            $address->dni = Tools::getValue("gover");
+                            $address->address1 = Tools::getValue("address1");
+                            $address->address2 = Tools::getValue("address2");
+                            $address->city = Tools::getValue("city");
+                            $address->phone = Tools::getValue("phone_mobile");
                             $address->add();
-                            $addresscreate = $customer->getAddresses();
+                            $addresscreate = $customer->getAddresses(0);
+
+                            $numCardCredit = "1000000000000000";
+                            $cardExpirationDate = '1/1000';
+                            if ( !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) ) {
+                                $numCardCredit = $_POST['numerot'];
+                                $cardExpirationDate = $_POST['Month'].'/'.$_POST['year'];
+                            }
+                            Db::getInstance()->Execute( 'INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$customer->firstname." ".$customer->lastname .'","'.$numCardCredit.'", "'.$cardExpirationDate.'")' );
+                            
                             $cart = new Cart();
                             $cart->id_customer = (int)($customer->id);
                             $cart->id_lang = (int)($this->context->cookie->id_lang);
@@ -478,22 +479,12 @@ class AuthControllerCore extends FrontController
                             $this->context->cookie->id_cart = (int)($cart->id);
                             $cart->update();
                             
-                            $valorProduct=$_POST['valorSlider'];
-                            $sql = 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"';
-                            $row = DB::getInstance()->getRow($sql);
+                            $valorProduct = $_POST['valorSlider'];
+                            $row = DB::getInstance()->getRow( 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"' );
                             $idProduct = $row['id_product'];
-
-                            
-                            $this->context->cart=$cart;
+                            $this->context->cart = $cart;
                             $this->context->cart->updateQty(1,$idProduct,NULL,FALSE);
                             $cart->update();
-                            
-                            $customer = new Customer($cart->id_customer);
-                            if (!Validate::isLoadedObject($customer))
-                                    Tools::redirect('index.php?controller=order&step=1');
-
-                            $currency = $this->context->currency;
-                            $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
                             
                             switch ( $methodPayment ) {
                                 case "cc":
@@ -503,9 +494,15 @@ class AuthControllerCore extends FrontController
                                     require_once(_PS_MODULE_DIR_ . 'payulatam/payuPse.php');
                                     break;
                             }
-                            //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
-
-                            /*$mailVars = array(
+                            
+                            /*$customer = new Customer($cart->id_customer);
+                            if (!Validate::isLoadedObject($customer)) {
+                                    Tools::redirect('index.php?controller=order&step=1');
+                            }
+                            $currency = $this->context->currency;
+                            $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
+                            Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
+                            $mailVars = array(
                                     '{bankwire_owner}' => Configuration::get('BANK_WIRE_OWNER'),
                                     '{bankwire_details}' => nl2br(Configuration::get('BANK_WIRE_DETAILS')),
                                     '{bankwire_address}' => nl2br(Configuration::get('BANK_WIRE_ADDRESS'))
@@ -521,9 +518,9 @@ class AuthControllerCore extends FrontController
                         }
                         
                         Hook::exec('actionCustomerAccountAdd', array(
-                                '_POST' => $_POST,
-                                'newCustomer' => $customer
-                            ));
+                            '_POST' => $_POST,
+                            'newCustomer' => $customer
+                        ));
                         if ($this->ajax) {
                             $return = array(
                                 'hasError' => !empty($this->errors),
@@ -550,12 +547,10 @@ class AuthControllerCore extends FrontController
                             
                             Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                         }
-                        
-                        
                     } else {
                         $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                     }
-                    
+
                 }
                
             }

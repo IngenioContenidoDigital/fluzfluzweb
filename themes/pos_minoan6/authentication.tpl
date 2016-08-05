@@ -852,17 +852,10 @@
                         <div style="display:none;">{$HOOK_CREATE_ACCOUNT_FORM}</div>
                     <div class="formInfo submit clearfix">
 			<input type="hidden" name="email_create" value="1" />
-			<input type="hidden" name="is_new_customer" value="1" />
-			{if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
-			{if isset($optin) && $optin}
-                            <div class="checkbox">
-                                    <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) AND $smarty.post.optin == 1} checked="checked"{/if} required/>
-                                    <label>{l s='I accept Fluz Fluz’s terms and conditions.'}</label>
-                                    {if array_key_exists('optin', $field_required)}
-                                            <sup> *</sup>
-                                    {/if}
-                            </div>
-                        {/if}
+                        <div class="checkbox">
+                                <input type="checkbox" name="acceptterms" id="acceptterms" value="1"/>
+                                <label for="acceptterms">{l s='I accept Fluz Fluz’s terms and conditions.'}</label>
+                        </div>
                         <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount">
 				<span>{l s='Register'}<i class="icon-chevron-right right"></i></span>
 			</button>

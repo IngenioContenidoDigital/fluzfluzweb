@@ -119,6 +119,21 @@ class IdentityControllerCore extends FrontController
                     $this->errors[] = Tools::displayError('The information cannot be updated.');
                 }
             }
+        } elseif (Tools::isSubmit('submitCard')) {
+            if ( Tools::getValue('numbercard') == "" ) { $this->errors[] = Tools::displayError('This number card can not be empty.'); }
+            if ( Tools::getValue('monthsCard') == "" ) { $this->errors[] = Tools::displayError('This months card expiration can not be empty.'); }
+            if ( Tools::getValue('yearsCard') == "" ) { $this->errors[] = Tools::displayError('This years card expiration can not be empty.'); }
+            if ( Tools::getValue('holdernamecard') == "" ) { $this->errors[] = Tools::displayError('This cardholder name can not be empty.'); }
+            if (!count($this->errors)) {
+                $updatecard = Db::getInstance()->execute("UPDATE "._DB_PREFIX_."cards
+                                            SET nameOwner = '".Tools::getValue('holdernamecard')."', name_creditCard = '".Tools::getValue('typecard')."', num_creditCard = '".Tools::getValue('numbercard')."', date_expiration = '".Tools::getValue('monthsCard')."/".Tools::getValue('yearsCard')."'
+                                            WHERE id_customer = ".$this->customer->id);
+                if ( $updatecard ) {
+                    $this->context->smarty->assign('confirmationcard', 1);
+                } else {
+                    $this->errors[] = Tools::displayError('The information cannot be updated.');
+                }
+            }
         } elseif (Tools::isSubmit('submitDeactivate')) {
             $this->customer->active = false;
             $this->customer->update();
@@ -170,6 +185,29 @@ class IdentityControllerCore extends FrontController
         $address = $this->customer->getAddresses();
         $this->context->smarty->assign('customerGovernment', $address[0]['dni']);
         $this->context->smarty->assign('customerPhone', $address[0]['phone']);
+
+        $card = DB::getInstance()->getRow( "SELECT nameOwner, name_creditCard, num_creditCard, date_expiration
+                                            FROM "._DB_PREFIX_."cards
+                                            WHERE id_customer = ".$this->customer->id );
+        $this->context->smarty->assign('card', $card);
+        
+        $this->context->smarty->assign( 'card_digits',substr($card['num_creditCard'],(strlen($card['num_creditCard'])-4)) );
+
+        $dateExplode = explode("/",$card['date_expiration']);
+        $year = date('Y-m-j');
+        $year_select = '<select id="yearsCard" name="yearsCard" class="form-control inputformcard enabled" disabled>
+                            <option value="">-</option>';
+        for ( $i=0; $i<=15; $i++ ) {
+            $str_year = strtotime ( '+'.$i.' year' , strtotime ( $year ) );
+            $new_year = date( 'Y' , $str_year);
+            if ( $dateExplode[1] == $new_year ) {
+                $year_select .= '<option value="'.$new_year.'" selected="selected">'.$new_year.'</option>';
+            } else {
+                $year_select .= '<option value="'.$new_year.'">'.$new_year.'</option>';
+            }
+        }
+        $year_select .= '</select>';
+        $this->context->smarty->assign('year_select',$year_select);
         
         $this->setTemplate(_PS_THEME_DIR_.'identity.tpl');
     }

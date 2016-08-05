@@ -44,7 +44,7 @@
 
     {include file="$tpl_dir./errors.tpl"}
 
-    {if isset($confirmation) && $confirmation}
+    {if (isset($confirmation) && $confirmation) || (isset($confirmationcard) && $confirmationcard) }
         <p class="alert alert-success">
             {l s='Your personal information has been successfully updated.'}
             {if isset($pwd_changed)}<br />{l s='Your password has been sent to your email:'} {$email}{/if}
@@ -207,7 +207,7 @@
                     </div>
                 </div>
             </form>
-            {*<form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="stdcard">
+            <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="stdcard">
                 <div class="payment">
                     <h1 class="title">{l s='Payment information'}</h1>
                     <h1 class="edit" id="editPayment">{l s='Edit'}</h1>
@@ -217,35 +217,31 @@
                             <label for="typecard">
                                 {l s='Type'}:
                             </label>
-                            <input class="validate form-control inputformcard enabled" disabled data-validate="isName" type="text" id="typecard" name="typecard" value="" />
+                            <input class="validate form-control inputformcard enabled" disabled data-validate="isName" type="text" id="typecard" name="typecard" value="{$card.name_creditCard}" />
                         </div>
                         <div class="required form-group">
                             <label for="numbercard" class="required">
                                 {l s='Number'}:
                             </label>
-                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isCard" type="text" id="numbercard" name="numbercard" value="" />
+                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isCard" type="password" id="numbercard" name="numbercard" value="{$card.num_creditCard}" /><span class="card_digits">{$card_digits}</span>
                         </div>
                         <div class="form-group dateExpiration">
                             <label>
                                 {l s='Expiration Date'}:
                             </label>
-                            <div class="row dateBirthTextCard">&nbsp;{$sl_month}/{$sl_year}</div>
+                            {assign var=dateData value="/"|explode:$card.date_expiration}
+                            <div class="row dateBirthTextCard">&nbsp;{$card.date_expiration}</div>
                             <div class="row dateBirthInputCard">
                                 <div class="col-xs-6">
                                     <select id="monthsCard" name="monthsCard" class="form-control inputformcard enabled" disabled>
                                         <option value="">-</option>
                                         {foreach from=$months key=k item=v}
-                                            <option value="{$k}" {if ($sl_month == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
+                                            <option value="{$k}" {if ($dateData.0 == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
                                         {/foreach}
                                     </select>
                                 </div>
                                 <div class="col-xs-6">
-                                    <select id="yearsCard" name="yearsCard" class="form-control inputformcard enabled" disabled>
-                                        <option value="">-</option>
-                                        {foreach from=$years item=v}
-                                            <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                        {/foreach}
-                                    </select>
+                                    {$year_select}
                                 </div>
                             </div>
                         </div>
@@ -253,7 +249,7 @@
                             <label for="holdernamecard" class="required">
                                 {l s='Cardholder Name'}:
                             </label>
-                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isName" type="text" id="holdernamecard" name="holdernamecard" value="" />
+                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isName" type="text" id="holdernamecard" name="holdernamecard" value="{$card.nameOwner}" />
                         </div>
                         <div class="formInfo form-group">
                             <button type="submit" name="submitCard" class="btnCard">
@@ -262,7 +258,7 @@
                         </div>
                     </div>
                 </div>
-            </form>*}
+            </form>
         </div>
     {/if}
 </div>
@@ -311,8 +307,11 @@
             $(".inputformcard").is(":disabled") ? true : $(".inputformcard").parent().removeClass("form-ok form-error");
             $(".inputformcard").is(":disabled") ? $(".btnCard").css('display', "block") : $(".btnCard").css('display', "none");
             $(".inputformcard").is(":disabled") ? $(".requiredinfocard").css('display', "block") : $(".requiredinfocard").css('display', "none");
-            $(".inputformcard").is(":disabled") ? $(".dateBirthTextCard").css('display', "none") : $(".dateBirthText").css('display', "block");
-            $(".inputformcard").is(":disabled") ? $(".dateBirthInputCard").css('display', "block") : $(".dateBirthInput").css('display', "none");
+            $(".inputformcard").is(":disabled") ? $(".dateBirthTextCard").css('display', "none") : $(".dateBirthTextCard").css('display', "block");
+            $(".inputformcard").is(":disabled") ? $(".dateBirthInputCard").css('display', "block") : $(".dateBirthInputCard").css('display', "none");
+            $(".inputformcard").is(":disabled") ? $("#numbercard").prop("type", "text") : $("#numbercard").prop("type", "password");
+            $(".inputformcard").is(":disabled") ? $(".card_digits").css("display", "none") : $(".card_digits").css("display", "inline-block");
+            $(".inputformcard").is(":disabled") ? $("#numbercard").css("width", "271px") : $("#numbercard").css("width", "100px");
             $(".inputformcard").is(":disabled") ? $(".inputformcard").removeAttr('disabled') : $(".inputformcard").attr('disabled', 'disabled');
             $('.stdcard')[0].reset();
         });
