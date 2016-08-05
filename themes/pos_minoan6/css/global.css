@@ -3569,7 +3569,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 .footer-container #footer ul.row { position: static; }
 .footer-container #footer .top-right { /*border-left: 1px solid #484848;*/ padding-left: 30px; }
 .footer-container #footer .top-right > .row:before { content: ""; /*border-top: 1px solid #484848;*/ top: 0; left: 0; width: 100%; margin: 0 -15px; }
-.footer-container #footer .footer-block { margin-top: 45px; margin-bottom: 20px;     margin-left: -10%;}
+.footer-container #footer .footer-block { margin-top: 45px; margin-bottom: 20px; margin-left: 0;}
 @media (max-width: 767px) { .footer-container #footer .footer-block { margin-top: 20px; } }
 .footer-container #footer .payment-block .title-payment { margin-top: 30px; color: #fff; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; }
 .footer-container #footer .payment-block .payment img { max-width: 100%; }

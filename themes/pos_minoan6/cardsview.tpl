@@ -6,9 +6,10 @@
     {foreach from=$cards item=card}
         <a class="myfancybox" href="#myspecialcontent">
             <div class="card"><img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
-        <div class="col-lg-8 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
-        <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
-        </div></a>
+                <div class="col-lg-7 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
+                <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
+            </div>
+        </a>
         
         <div id="pOculto">{displayPrice price=$card.price no_utf8=false convert=false}</div>
         <div id="desc_oculto">{$card.description}</div>
@@ -17,8 +18,43 @@
         {if $card@iteration mod 2 ==0}<br /><br/>{/if}
     {/foreach}
     </div>
-    
-    <div style="display: none;">
+    <div class="col-lg-6 card-view">
+        <div>
+            
+        </div>
+        <div class="title-card">
+            <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
+        </div>
+        <div class="pointPrice">
+                <p class="col-lg-7 col-xs-8 col-md-8 pCode">{l s="Your Gift Card ID is: "}<br><span class="micode" style="font-size:20px; color: #ef4136;"> </span></p>
+                <p class="col-lg-5 col-xs-4 col-md-4 pPrice">{l s="Value: "}<br><span id="priceCard" style="font-size:20px; color: #ef4136;"></span></p>
+        </div>
+        <div>
+            <img id="bar-code" src=""/><br/>
+            <span class="micode popText" id="code-img"></span>
+        </div>
+    </div>
+    <div class="CardInstru">
+        <h4 class="insTitle">{l s='Gift Card Instructions'}</h4>
+        <div class="pViewcard"></div>
+    </div>
+    <div class="containerCard">
+        <ul>
+            <li>
+                <input type="radio" id="f-option" name="selector" value="1">
+              <div class="check" id="used"></div>
+              <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
+            </li>
+
+            <li>
+                <input type="radio" id="s-option" name="selector" value="0">
+              <div id="not-used" class="check"></div>
+              <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
+            </li>
+        </ul>
+    </div>
+   
+    <!--<div style="display: none;">
             <div id="myspecialcontent" class="infoPopUp">
                 <div class="cardDesign">
                     <div class="tCardView">
@@ -53,7 +89,7 @@
                     <div class="pViewcard"></div>
                 </div> 
             </div>
-    </div>
+    </div>-->
 {/if}
 {literal}
     <script>
@@ -156,4 +192,9 @@
               });
         });
     </script>
+{/literal}
+{literal}
+    <style>
+        .fancybox-lock .fancybox-overlay{display: none !important;}
+    </style>    
 {/literal}
