@@ -27,6 +27,17 @@ $(document).ready(function(){
 		e.preventDefault();
 		submitFunction();
 	});
+        $("#submitAccount").attr('disabled', true);
+        $("#submitAccount").css('background', "#fff").css("color", "#c9b197");
+        $('#acceptterms').change(function() {
+            if($(this).is(":checked")) {
+                $("#submitAccount").attr('disabled', false);
+                $("#submitAccount").css('background', "#c9b197").css("color", "#fff");
+            } else {
+                $("#submitAccount").attr('disabled', true);
+                $("#submitAccount").css('background', "#fff").css("color", "#c9b197");
+            }
+        });
 	$('.is_customer_param').hide();
         $('#submitTc').remove();
         $('#submitPSE').remove();
