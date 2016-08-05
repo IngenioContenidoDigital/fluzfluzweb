@@ -72,7 +72,7 @@ class PayuPse extends PayUControllerWS{
             $browser = array('ipAddress' => $_SERVER['SERVER_ADDR'],
                 'userAgent' => $_SERVER['HTTP_USER_AGENT']);
 
-            $addressdni = $customer->getAddresses();
+            $addressdni = $customer->getAddresses(0);
             $billin_dni = $addressdni[0]['dni'];
             $billingAddress = new Address($addressdni[0]['id_address']);
             $intentos = $conf->count_pay_cart($id_cart);

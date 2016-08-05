@@ -195,7 +195,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 
 #availability_value, #last_quantities { color: white; font-weight: 700; line-height: 18px; display: inline-block; padding: 3px 8px 4px; margin-left: 5px; }
 
-#last_quantities { background: #fe9126; border: 1px solid #e4752b; padding: 4px 8px 3px; position: relative; top: 1px; margin-left: 0px; }
+#last_quantities { display: none; background: #fe9126; border: 1px solid #e4752b; padding: 4px 8px 3px; position: relative; top: 1px; margin-left: 0px; }
 
 #availability_statut, #pQuantityAvailable { display: inline-block; }
 
@@ -560,8 +560,8 @@ Quick View Styles
 @media (min-width:1200px) and (max-width:1440px){
     .owl-item{width: 314px !important; margin-left: 7px !important;}
     .tiendaP{margin-left: 0px !important;}
-    .primary_block .pb-left-column img{width: 95%;}
-    .pb-left-column{margin-top: 18px;}
+    .primary_block .pb-left-column img{width: 98%;}
+    .pb-left-column{margin-top: 1%;}
     .pb-center-column #product_reference{ margin-bottom: 30px; text-align: left; margin-left: 0; width: 85%; border-bottom: 1px solid #ddd;}
     .price{font-size: 16px;}
     .description-product{width: 85%;}
@@ -590,7 +590,7 @@ Quick View Styles
     .pb-center-column h1{font-size: 35px; padding-bottom: 31px;}
     .pb-center-column{ padding-left: 0px; padding-right: 40px;}
     p { line-height: 18px;font-size: 14px;}
-    .primary_block .pb-left-column img{width: 90%;}
+    .primary_block .pb-left-column img{width: 95%;}
     .pb-center-column #buy_block label{font-size: 16px; line-height: 45px;}
     .pb-center-column #product_reference{ margin-bottom: 30px; text-align: left; margin-left: 0; width: 83%; border-bottom: 1px solid #ddd;}
     #quantity_wanted_p input{height: 50px; width: 52%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
@@ -599,7 +599,7 @@ Quick View Styles
     .socialsharing_product button{width: 20%;height: 47px;}
     .cart-product .buttons_bottom_block{text-align: left;}
     .box-info-product .exclusive{height: 65px; width: 85%;}
-    .pb-left-column {margin-top: .7%;}
+    .pb-left-column {margin-top: 29px;}
     .p-reference{margin-left: 0px !important;}
     #categories_block_left li a{font-size: 14px !important;}
     .pos-title{margin-left: 4% !important; height: 60px;}

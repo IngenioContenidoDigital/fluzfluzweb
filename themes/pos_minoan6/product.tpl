@@ -67,7 +67,7 @@
 				<div class="pb-left-column col-lg-7 col-xs-12 col-sm-12 col-md-6">
 					<!-- product img-->
 					<div class="clearfix">
-						{if $product->new}
+						{*if $product->new}
 							<span class="new-box">
 								<span class="new-label">{l s='New'}</span>
 							</span>
@@ -78,7 +78,7 @@
 							</span>
 						{elseif $product->specificPrice && $product->specificPrice.reduction && $productPriceWithoutReduction > $productPrice}
 							<span class="discount">{l s='Reduced price!'}</span>
-						{/if}{$product->link_rewrite}
+						{/if}{$product->link_rewrite*}
 						{if $have_image}
 							<span id="view_full_size">
 								{if $jqZoomEnabled && $have_image && !$content_only}

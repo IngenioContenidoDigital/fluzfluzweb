@@ -109,7 +109,7 @@ class PayuCreditCard extends PayUControllerWS {
     $customer = new Customer((int) $this->context->cart->id_customer);
     $id_cart = $this->context->cart->id;
     $id_address = $this->context->cart->id_address_delivery;
-    $addressdni = $customer->getAddresses();
+    $addressdni = $customer->getAddresses(0);
     $dni = $addressdni[0]['dni'];
     $reference_code = $customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
     $_deviceSessionId = NULL;
