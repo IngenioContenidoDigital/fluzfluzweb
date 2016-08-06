@@ -3,8 +3,8 @@
     margin-left: 2%;
     min-height: 700px;
 }
-.card{display:inline-block; width: 48%; height: auto; background-color: #f4f4f4; font-color:#ef4136; padding: 2%; margin-left: 5px; margin-right:5px;-webkit-box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.75); -moz-box-shadow:    2px 2px 3px 0px rgba(50, 50, 50, 0.75); box-shadow:         2px 2px 3px 0px rgba(50, 50, 50, 0.75);}
-.card img{width: auto; height: 40px;}
+.card{display:inline-block; width: 48%; height: auto; background-color: #fff; font-color:#ef4136; padding: 10px; margin-left: 5px; margin-right:5px; border: 1px solid #E8E8E8;}
+.card img{width: auto; height: 40px; background: transparent;}
 .card:hover{background: #fff; cursor: pointer;}
 .card a{line-height: 50px; float:right; color: #ef4136;}
 .infoPopUp{text-align: center;}
@@ -104,7 +104,7 @@ ul li .check::before {
     border-radius: 100% !important;
     height: 35px !important;
     width: 35px !important;
-    background-color: #AAAAAA;
+    background-color: #ef4136;
     transition: border .25s linear !important;
     -webkit-transition: border .25s linear !important;
 }
@@ -129,7 +129,7 @@ ul li .check::before {
     text-align: right;
     font-family: 'Open Sans';
     font-weight: lighter;    
-    margin-top: 3%;
+    margin-top: 10px;
 }
 
 .fancybox-opened .fancybox-skin { width: 35%!important; }
@@ -137,11 +137,11 @@ ul li .check::before {
 .fancybox-outer { width: 100%; }
 .cardDesign { width: 100%; margin: 0; display: inline-block; margin-bottom: 30px; }
 .containerCard { padding: 0; }
-.containerCard ul { width: 100%; margin: 0; display: inline-block; }
+.containerCard ul { width: 50%; margin: 0; display: inline-block; margin-left: 2% !important; margin-bottom: 3% !important;}
 .containerCard ul li:first-child { margin-right: 10%; }
 .containerCard ul li div { vertical-align: middle; }
 .containerCard ul li label { vertical-align: middle; }
-.CardInstru { width: 100%; display: inline-block; margin-top: 30px; }
+.CardInstru { width: 43%; display: inline-block; margin-top: 57px; margin-left: 30px; }
 .cardDesign .tCardView { margin-bottom: 3%; }
 .cardDesign .tCardView #nameViewCard { font-size: 20px; text-transform: uppercase; vertical-align: middle; }
 .cardDesign .tCardView #img-prod { width: 15%; vertical-align: middle; }
@@ -167,4 +167,56 @@ ul li .check::before {
 
 @media (max-width:500px){
     .fancybox-opened .fancybox-skin { width: 100%!important; }
+}
+
+.card-view{
+    background: #f4f4f4 !important;
+    border-radius: 10px;
+    margin-left: 2%;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    padding: 0;
+}
+.title-card{
+    color: #000 !important;
+    background: #fff;
+    margin-top: 80px;
+}
+#nameViewCard {
+    color: #000 !important;
+    font-family: 'Open Sans' !important;
+}
+
+.pPrice {
+    text-align: justify !important;
+    color: #777 !important;
+    font-family: 'Open Sans' !important;
+    float: right;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.pCode {
+    text-align: justify !important;
+    font-family: 'Open Sans' !important;
+    color: #777 !important;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+#bar-code{
+    margin-top: 10% !important;
+}
+
+.micode{
+    margin-left: 1%;
+}
+
+.pointPrice{
+    padding: 20px 0px 0px 10px !important;
+}
+
+.insTitle{
+    background: #ef4136 !important;
+    color: #fff !important;
 }

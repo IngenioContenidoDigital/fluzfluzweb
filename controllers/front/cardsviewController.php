@@ -17,12 +17,15 @@ class cardsviewControllerCore extends FrontController{
           parent::initContent();
           
           $this->context->smarty->assign(array(
-            'cards'=>$this->getCardsbySupplier($this->context->customer->id, Tools::getValue("manufacturer"))
+            'cards'=>$this->getCardsbySupplier($this->context->customer->id, Tools::getValue("manufacturer")),
+            'page' => ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1),
+            'nbpagination' => ((int)(Tools::getValue('n') > 0) ? (int)(Tools::getValue('n')) : 10),
+            'nArray' => array(10, 20, 50)
           ));
           $this->setTemplate(_PS_THEME_DIR_.'cardsview.tpl');
       }
       
-      public function getCardsbySupplier($id_customer,$id_manufacturer){
+      public function getCardsbySupplier($id_customer,$id_manufacturer,$onlyValidate = false,$pagination = false, $nb = 10, $page = 1){
           $query="SELECT PC.`code` AS card_code, 
 	PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description,
 	PC.id_product, 
@@ -39,6 +42,9 @@ FROM ps_product_code PC INNER JOIN ps_order_detail POD ON PC.id_order = POD.id_o
 WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer =".(int)$id_customer.") AND (PP.id_manufacturer =".(int)$id_manufacturer.") AND (PPI.cover=1) AND (PL.id_lang=".$this->context->language->id."))
 GROUP BY PC.`code`, PL.`name`, PL.link_rewrite
 ORDER BY product_name ASC";
+          
+          
+          
           $cards=Db::getInstance()->executeS($query);
           return $cards;
       }
