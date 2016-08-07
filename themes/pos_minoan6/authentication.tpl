@@ -508,7 +508,7 @@
                                     </div>
                                     <div class="required form-group">
                                             <label class="required" for="email">{l s='Email'}</label>
-                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}"/>
+                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
                                     </div>
                                     <div class="required password form-group">
                                             <label class="required" for="passwd">{l s='Password'} </label>
@@ -856,7 +856,7 @@
                                 <input type="checkbox" name="acceptterms" id="acceptterms" value="1"/>
                                 <label for="acceptterms">{l s='I accept Fluz Fluz’s terms and conditions.'}</label>
                         </div>
-                        <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount">
+                        <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount" onClick="return check_cedula(this.form);"/>
 				<span>{l s='Register'}<i class="icon-chevron-right right"></i></span>
 			</button>
                     </div>
@@ -957,6 +957,54 @@
         $("#account-creation_form").validate();
     </script>
 {/literal}
+{literal}
+    <script>
+        function check_cedula( form )
+            {
+              var cedula = form.cedula.value;
+              array = cedula.split( "" );
+              num = array.length;
+              if ( num == 10 )
+              {
+                total = 0;
+                digito = (array[9]*1);
+                for( i=0; i < (num-1); i++ )
+                {
+                  mult = 0;
+                  if ( ( i%2 ) != 0 ) {
+                    total = total + ( array[i] * 1 );
+                  }
+                  else
+                  {
+                    mult = array[i] * 2;
+                    if ( mult > 9 )
+                      total = total + ( mult - 9 );
+                    else
+                      total = total + mult;
+                  }
+                }
+                decena = total / 10;
+                decena = Math.floor( decena );
+                decena = ( decena + 1 ) * 10;
+                final = ( decena - total );
+                if ( ( final == 10 && digito == 0 ) || ( final == digito ) ) {
+                  alert( "La c\xe9dula ES v\xe1lida!!!" );
+                  return true;
+                }
+                else
+                {
+                  alert( "La c\xe9dula NO es v\xe1lida!!!" );
+                  return false;
+                }
+              }
+              else
+              {
+                alert("La c\xe9dula no puede tener menos de 10 d\xedgitos");
+                return false;
+              }
+            }
+    </script>
+{/literal}    
 {literal}
     <style>
        h2{ font-size: 20px !important; 

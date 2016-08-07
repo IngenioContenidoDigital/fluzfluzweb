@@ -90,10 +90,10 @@
 		{if !isset($popup)}
 	<ul class="idTabs">
 		<li><a href="#idTab1" {if $activeTab eq 'sponsor'}class="selected"{/if}>{l s='Sponsor my friends' mod='allinone_rewards'}</a></li>
-		<li><a href="#idTab2" {if $activeTab eq 'pending'}class="selected"{/if}>{l s='Pending friends' mod='allinone_rewards'}</a></li>
-		<li><a href="#idTab3" {if $activeTab eq 'subscribed'}class="selected"{/if}>{l s='Friends I sponsored' mod='allinone_rewards'}</a></li>
+		<!--<li><a href="#idTab2" {if $activeTab eq 'pending'}class="selected"{/if}>{l s='Pending friends' mod='allinone_rewards'}</a></li>-->
+		<!--<li><a href="#idTab3" {if $activeTab eq 'subscribed'}class="selected"{/if}>{l s='Friends I sponsored' mod='allinone_rewards'}</a></li>-->
 			{if $reward_order_allowed || $reward_registration_allowed}
-		<li><a href="#idTab4" {if $activeTab eq 'statistics'}class="selected"{/if}>{l s='Statistics' mod='allinone_rewards'}</a></li>
+                <!--<li><a href="#idTab4" {if $activeTab eq 'statistics'}class="selected"{/if}>{l s='Statistics' mod='allinone_rewards'}</a></li>-->
 			{/if}
 	</ul>
 	<div class="sheets">
@@ -303,7 +303,7 @@
 			{/if}
 		</div>
 			{if $reward_order_allowed || $reward_registration_allowed}
-		<div id="idTab4" class="sponsorshipBlock">
+		<!--<div id="idTab4" class="sponsorshipBlock">
 			<div class="title">{l s='Details by registration channel' mod='allinone_rewards'}</div>
 			<div>
 				<table class="std">
@@ -462,7 +462,7 @@
 				</tbody>
 			</table>
 				{/if}
-		</div>
+		</div>-->
 			{/if}
 	</div>
 		{/if}
