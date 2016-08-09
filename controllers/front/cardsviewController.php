@@ -16,11 +16,16 @@ class cardsviewControllerCore extends FrontController{
           
           parent::initContent();
           
+          $link = $this->context->link->getPageLink('cardsview', Tools::getValue("manufacturer"), array(), true);
+          $card = $this->getCardsbySupplier($this->context->customer->id, Tools::getValue("manufacturer"),false, true, ((int)(Tools::getValue('n')) > 0 ? (int)(Tools::getValue('n')) : 10), ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1));
+          
           $this->context->smarty->assign(array(
-            'cards'=>$this->getCardsbySupplier($this->context->customer->id, Tools::getValue("manufacturer")),
+            'cards'=>$card,
             'page' => ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1),
             'nbpagination' => ((int)(Tools::getValue('n') > 0) ? (int)(Tools::getValue('n')) : 10),
-            'nArray' => array(10, 20, 50)
+            'nArray' => array(10, 20, 50),
+            'pagination_link' => $link . (strpos($link, '?') !== false ? '&' : '?'),
+            'max_page' => floor(sizeof($card) / ((int)(Tools::getValue('n') > 0) ? (int)(Tools::getValue('n')) : 10))
           ));
           $this->setTemplate(_PS_THEME_DIR_.'cardsview.tpl');
       }
@@ -43,7 +48,9 @@ WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer =".(in
 GROUP BY PC.`code`, PL.`name`, PL.link_rewrite
 ORDER BY product_name ASC";
           
-          
+          if ($onlyValidate === true)
+                $query .= ' GROUP BY PC.`code`, PL.`name`, PL.link_rewrite ORDER BY product_name ASC '.
+		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
           
           $cards=Db::getInstance()->executeS($query);
           return $cards;

@@ -4,7 +4,7 @@
 {else}
     <div class='container c'>
     {foreach from=$cards item=card}
-        <a class="myfancybox" href="#myspecialcontent">
+        <a class="myfanc" href="#myspecialcontent">
             <div class="card"><img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
                 <div class="col-lg-7 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
                 <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
@@ -17,6 +17,64 @@
         <div id="nameOculto">{$card.product_name}</div>
         {if $card@iteration mod 2 ==0}<br /><br/>{/if}
     {/foreach}
+    </div>
+    <div id="pagination" class="pagination">
+    {if $nbpagination < $cards|@count || $cards|@count > 10}
+            <div id="pagination" class="pagination">
+                            {if true || $nbpagination < $cards|@count}
+                    <ul class="pagination">
+                                    {if $page != 1}
+                                    {assign var='p_previous' value=$page-1}
+                            <li id="pagination_previous"><a href="{$pagination_link|escape:'html':'UTF-8'}p={$p_previous|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">
+                                    <img src="{$img_dir}icon/left-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></a></li>
+                                    {else}
+                            <li id="pagination_previous" class="disabled"><span><img src="{$img_dir}icon/left-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></span></li>
+                                    {/if}
+                                    {if $page > 2}
+                            <li><a href="{$pagination_link|escape:'html':'UTF-8'}p=1&n={$nbpagination|escape:'html':'UTF-8'}">1</a></li>
+                                            {if $page > 3}
+                            <!--<li class="truncate">...</li>-->
+                                            {/if}
+                                    {/if}
+                                    {section name=pagination start=$page-1 loop=$page+2 step=1}
+                                            {if $page == $smarty.section.pagination.index}
+                            <li class="current"><span>{$page|escape:'html':'UTF-8'}</span></li>
+                                            {elseif $smarty.section.pagination.index > 0 && $cards|@count+$nbpagination > ($smarty.section.pagination.index)*($nbpagination)}
+                            <li><a href="{$pagination_link|escape:'html':'UTF-8'}p={$smarty.section.pagination.index|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">{$smarty.section.pagination.index|escape:'html':'UTF-8'}</a></li>
+                                            {/if}
+                                    {/section}
+                                    {if $max_page-$page > 1}
+                                            {if $max_page-$page > 2}
+                            <!--<li class="truncate">...</li>-->
+                                            {/if}
+                            <li><a href="{$pagination_link|escape:'html':'UTF-8'}p={$max_page|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">{$max_page|escape:'html':'UTF-8'}</a></li>
+                                    {/if}
+                                    {if $cards|@count > $page * $nbpagination}
+                                            {assign var='p_next' value=$page+1}
+                            <li id="pagination_next"><a href="{$pagination_link|escape:'html':'UTF-8'}p={$p_next|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}"><img src="{$img_dir}icon/right-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></a></li>
+                                    {else}
+                            <li id="pagination_next" class="disabled"><img src="{$img_dir}icon/right-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></li>
+                                    {/if}
+                    </ul>
+                            {/if}
+                            {*if $cards|@count > 10}
+                    <form action="{$pagination_link|escape:'html':'UTF-8'}" method="get" class="pagination">
+                            <p>
+                                    <input type="submit" class="button_mini" value="{l s='OK'  mod='allinone_rewards'}" />
+                                    <label for="nb_item">{l s='items:' mod='allinone_rewards'}</label>
+                                    <select name="n" id="nb_item">
+                                    {foreach from=$nArray item=nValue}
+                                            {if $nValue <= $cards|@count}
+                                            <option value="{$nValue|escape:'htmlall':'UTF-8'}" {if $nbpagination == $nValue}selected="selected"{/if}>{$nValue|escape:'htmlall':'UTF-8'}</option>
+                                            {/if}
+                                    {/foreach}
+                                    </select>
+                                    <input type="hidden" name="p" value="1" />
+                            </p>
+                    </form>
+                            {/if*}
+            </div>
+	{/if}
     </div>
     <div class="col-lg-6 card-view">
         <div>
@@ -34,9 +92,13 @@
             <span class="micode popText" id="code-img"></span>
         </div>
     </div>
-    <div class="CardInstru">
-        <h4 class="insTitle">{l s='Gift Card Instructions'}</h4>
-        <div class="pViewcard"></div>
+    <div class="CardInstru" data-toggle="collapse" data-target="#demo">
+        <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
+        <div class="pViewcard collapse" id="demo"></div>
+    </div>
+    <div class="CardInstru" data-toggle="collapse" data-target="#terms">
+        <div><h4 class="insTitle">{l s='Terms'}</h4></div>
+        <div class="terms-card collapse" id="terms"></div>
     </div>
     <div class="containerCard">
         <ul>
@@ -94,7 +156,7 @@
 {literal}
     <script>
 
-        $('.myfancybox').click(function(){
+        $('.myfanc').click(function(){
             var codeImg2 = $(this).find(".codeImg").html();
             var price = document.getElementById("pOculto").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
@@ -193,8 +255,8 @@
         });
     </script>
 {/literal}
-{literal}
+{*literal}
     <style>
         .fancybox-lock .fancybox-overlay{display: none !important;}
     </style>    
-{/literal}
+{/literal*}

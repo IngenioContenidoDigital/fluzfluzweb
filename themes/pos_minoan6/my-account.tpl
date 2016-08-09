@@ -28,7 +28,8 @@
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 <div class="row">
 {foreach from=$manufacturers item=manufacturer}
-    <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">    
+    <!--<a class="myfancybox" href="#myspecialcontent">-->
+    <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
     <div class="col-lg-4 col-md-4 Cards">
         <div class="col-lg-6 col-md-6 col-xs-6 infoCard">
             <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/>
@@ -93,6 +94,11 @@
             </div>    
         </div>
 </div>
+    <div style="display: none;">
+        <div id="myspecialcontent" class="infoPopUp">
+            {include file="./cardsview.tpl"}
+        </div>
+    </div>    
 <ul class="footer_links clearfix" style="display: none;">
 <li><a class="btn btn-default button button-small" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Home'}"><span><i class="icon-chevron-left"></i> {l s='Home'}</span></a></li>
 </ul>

@@ -1,7 +1,7 @@
 
 .container .c{
     margin-left: 2%;
-    min-height: 700px;
+    min-height: auto;
 }
 .card{display:inline-block; width: 48%; height: auto; background-color: #fff; font-color:#ef4136; padding: 10px; margin-left: 5px; margin-right:5px; border: 1px solid #E8E8E8;}
 .card img{width: auto; height: 40px; background: transparent;}
@@ -141,7 +141,7 @@ ul li .check::before {
 .containerCard ul li:first-child { margin-right: 10%; }
 .containerCard ul li div { vertical-align: middle; }
 .containerCard ul li label { vertical-align: middle; }
-.CardInstru { width: 43%; display: inline-block; margin-top: 57px; margin-left: 30px; }
+.CardInstru { width: 43%; display: inline-block; margin-top: 0px; margin-left: 30px; }
 .cardDesign .tCardView { margin-bottom: 3%; }
 .cardDesign .tCardView #nameViewCard { font-size: 20px; text-transform: uppercase; vertical-align: middle; }
 .cardDesign .tCardView #img-prod { width: 15%; vertical-align: middle; }
@@ -173,7 +173,7 @@ ul li .check::before {
     background: #f4f4f4 !important;
     border-radius: 10px;
     margin-left: 2%;
-    margin-top: 5%;
+    margin-top: 0px;
     margin-bottom: 3%;
     padding: 0;
 }
@@ -220,3 +220,21 @@ ul li .check::before {
     background: #ef4136 !important;
     color: #fff !important;
 }
+
+.pagination{
+    width: 100%;
+    margin: 0 auto;
+    margin-left: 15%;
+    margin-bottom: 1%;
+}
+
+.pagination > li:first-child > span{
+    background: #ef4136 !important;
+}
+
+.pagination > li:last-child > a{
+    background: #ef4136 !important;
+}
+
+.CardInstru h4:after { display: block; content: "\f055"; font-family: "FontAwesome"; position: absolute; right: 0; top: 1px; }
+.CardInstru h4.active:after { content: "\f056"; }
