@@ -21,6 +21,8 @@
     border: none;
     color: #666666;
     font-family: 'Open sans';
+    line-height: 30px;
+    font-size: 13px;
 }
 
 .rewards table.std {
@@ -39,7 +41,7 @@
     line-height: 25px;
     letter-spacing: 1px;
     height: 13px !important;
-    padding: 5px !important;
+    padding: 10px !important;
     text-shadow: none !important;
     background-color: #999999;
     color: #FFFFFF;
@@ -49,8 +51,10 @@
 .rewards table.std td {
     font-family: 'Open Sans';
     font-size: 12px;
-    line-height: 13px;
-    padding: 5px !important;
+    line-height: 27px;
+    padding: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
     
 }
 
@@ -239,14 +243,13 @@
 .rewards div.sheets {
 	padding: 0 10px 30px 10px;
 	overflow: auto;
-	border: solid 1px #DDDDDD;
 }
 
 .rewards .idTabs {
 	margin-top: 10px !important;
 	margin-bottom: 0px;
 	width: 100%;
-	display: table;
+	display: none;
 }
 
 .rewards .idTabs li {
@@ -293,6 +296,8 @@
 	padding-top: 10px;
 	vertical-align: top !important;
 	font-size: 12px;
+        padding-left: 0px;
+        padding-right: 0px;
 }
 
 .sponsorshipBlock li img {
@@ -320,6 +325,7 @@
 
 .sponsorshipBlock input[type=text]:first-child{
     margin-top: 5px;
+    padding: 20px;
 }
 
 
@@ -481,7 +487,7 @@
     color: #ed1c24;
     margin-left: 5px;
     text-transform: lowercase;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -564,4 +570,40 @@
     text-align: left;
     margin-bottom: 6%;
     font-family: Open Sans;
+}
+
+input.button_large{
+    padding: 8px 33px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+#idTab3{
+    display: none;
+}
+
+.status-email {
+    font-family: 'Open Sans';
+    font-size: 12px;
+    line-height: 13px;
+    padding: 9px !important;
+    padding-left: 0px;
+    background: #f9f9f9;
+    padding-right: 0px;
+    border-top: 8px solid white;
+}
+
+ul.footer_links{
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+}
+
+.button.button-small{
+    background: #ef4136;
+}
+
+.checker{
+    float: left;
+    margin-top: 8px !important;
 }
