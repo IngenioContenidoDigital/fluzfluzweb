@@ -1,7 +1,6 @@
 
 .container .c{
     margin-left: 2%;
-    min-height: auto;
 }
 .card{display:inline-block; width: 48%; height: auto; background-color: #fff; font-color:#ef4136; padding: 10px; margin-left: 5px; margin-right:5px; border: 1px solid #E8E8E8;}
 .card img{width: auto; height: 40px; background: transparent;}
