@@ -5291,6 +5291,17 @@ font-family: 'Open Sans' !important;
         line-height: 30px;
     }
     
+    #boxVideo{
+        height: 450px;
+        margin-left: 0%;
+        margin-top: 0px;
+        text-align:center;
+        clear: both;
+        width: 100%;
+        background-color: rgb(245, 245, 245);
+        padding-top: 17px;
+    }
+    
     .btn-shop{
         margin-left:5%;
         width:70%;
@@ -5893,6 +5904,18 @@ font-family: 'Open Sans' !important;
         clear: both;
         width: 100%;
         background-color: rgb(255, 255, 255);
+    }
+    
+    
+    #boxVideo{
+        height: 450px;
+        margin-left: 0%;
+        margin-top: 0px;
+        text-align:center;
+        clear: both;
+        width: 100%;
+        background-color: rgb(245, 245, 245);
+        padding-top: 17px;
     }
 
     #image {
