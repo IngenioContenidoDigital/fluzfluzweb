@@ -291,8 +291,22 @@
 									</p>
                                                                         </div>
 									{/if}
+                                                                        {if $logged}
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price in points: "}</div>
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                        {else $logged}
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price in points: "}</div>
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+									{/if}
                                                                         
-									<!-- minimal quantity wanted -->
+                                                                        {if $logged}
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price earned: "}</div>
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productP}&nbsp;{l s="pts."}</div>
+                                                                        {else $logged}
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price in points: "}</div>
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+									{/if}
+                                                                        <!-- minimal quantity wanted -->
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
 										{l s='The minimum purchase order quantity for the product is'} <b id="minimal_quantity_label">{$product->minimal_quantity}</b>
 									</p>
@@ -315,7 +329,7 @@
                                                                             <meta itemprop="priceCurrency" content="{$currency->iso_code}" />
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                <div  class="point-price col-xs-12 col-lg-3 col-md-3 col-sm-3 point-price">{$productP} pts.</div>
+                                                                                <div class="point-price col-xs-12 col-lg-3 col-md-3 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {else $logged}<div  class="point-price col-xs-12 col-sm-3 col-lg-4 col-md-3">{$resultProduct} pts.</div>{/if}
                                                                         {/if}</div>
                                                                         {/strip}
@@ -439,12 +453,12 @@
 	{if !$content_only}
 		<div class="more-info">
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
-				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Gift Card Instructions'}</a></span></li>{/if}
+				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</a></span></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
 				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
 				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}
 				{$HOOK_PRODUCT_TAB}
-                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab"><span>{l s='Terms & conditions'}</a></span></li>{/if}
+                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab"><span>{l s='Gift Card Instructions'}</a></span></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
 				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
 				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}

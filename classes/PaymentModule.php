@@ -403,6 +403,12 @@ abstract class PaymentModuleCore extends Module
                 $bar_codes .= "<label>".$code['code']."</label><br>";
             }
             
+            $product_list = $order->getProducts();
+            $total_value = "";
+            foreach ($product_list as $product) {
+                $total_value .= "<label>".round($product['price_shop'])."</label><br>";
+            }
+            
             // The country can only change if the address used for the calculation is the delivery address, and if multi-shipping is activated
             if (Configuration::get('PS_TAX_ADDRESS_TYPE') == 'id_address_delivery') {
                 $this->context->country = $context_country;
@@ -772,6 +778,7 @@ abstract class PaymentModuleCore extends Module
                         '{products_txt}' => $product_list_txt,
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
+                        '{total_value}' => Tools::displayPrice($total_value),    
                         '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
                         '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
                         '{total_discounts}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),

@@ -48,9 +48,10 @@ WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer =".(in
 GROUP BY PC.`code`, PL.`name`, PL.link_rewrite
 ORDER BY product_name ASC";
           
-          if ($onlyValidate === true)
-                $query .= ' GROUP BY PC.`code`, PL.`name`, PL.link_rewrite ORDER BY product_name ASC '.
-		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
+          /*if ($onlyValidate === true)
+                $query .= ' AND r.id_reward_state = '.(int)RewardsStateModel::getValidationId();
+                $query .= ' ORDER BY POD.date_add DESC '.
+                ($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');*/
           
           $cards=Db::getInstance()->executeS($query);
           return $cards;
