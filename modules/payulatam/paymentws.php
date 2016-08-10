@@ -93,25 +93,36 @@ class PayUControllerWS extends FrontController {
 
     public function createPendingOrder($extra_vars = array(), $metodo_de_pago, $mensaje, $order_state ) {
         try {
-                $payu = new PayULatam();
-                $date = date("Y-m-d H:i:s");
-                    $sql="INSERT INTO "._DB_PREFIX_."sonda_payu (id_cart,date_add,`interval`,last_update, pasarela)
+            $payu = new PayULatam();
+            $date = date("Y-m-d H:i:s");
+            $sql = "INSERT INTO "._DB_PREFIX_."sonda_payu (id_cart,date_add,`interval`,last_update, pasarela)
                     VALUES(".(int)$this->context->cart->id.",'".$date."',";
-                        if($metodo_de_pago === 'Tarjeta_credito' || $metodo_de_pago === 'PSE'){
-                             $sql.=11;         
-                        }else{
-                            $sql.=61; 
-                        }
-                    $sql.=", '".$date."','".$payu->name."');"; 
-                    if(!Db::getInstance()->Execute($sql))
-                        Logger::AddLog('Error al guardar sonda_payu id_cart: '.$this->context->cart->id, 2, null, null, null, true);
-       
+            if ($metodo_de_pago === 'Tarjeta_credito' || $metodo_de_pago === 'PSE') {
+                $sql.=11;         
+            } else {
+                $sql.=61; 
+            }
+            $sql.=", '".$date."','".$payu->name."');";
 
-
+            if (!Db::getInstance()->Execute($sql)) {
+                Logger::AddLog('Error al guardar sonda_payu id_cart: '.$this->context->cart->id, 2, null, null, null, true);
+            }
+            
             $payu->validateOrder((int) $this->context->cart->id, (int) Configuration::get($order_state), (float) $this->context->cart->getOrderTotal(), $metodo_de_pago, $mensaje, $extra_vars, NULL, false, false);
         } catch (Exception $e) {
-            exit('<pre>'.  print_r($e,TRUE).'</pre>');
-        } 
+            exit('<pre>PayU:'.  print_r($e,TRUE).'</pre>');
+        }
     }
-
+    
+    public function deleteAccountFail( $membership = false ) {
+        try {
+            if ( $membership ) {
+                $this->context->customer->logout();
+                Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".(int)$this->context->customer->id);
+                Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."address WHERE id_customer = ".(int)$this->context->customer->id);
+            }
+        } catch (Exception $e) {
+            exit('<pre>PayU:'.  print_r($e,TRUE).'</pre>');
+        }
+    }
 }

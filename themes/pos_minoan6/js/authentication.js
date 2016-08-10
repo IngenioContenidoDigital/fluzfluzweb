@@ -43,6 +43,7 @@ $(document).ready(function(){
         $('#submitPSE').remove();
         $( "#account-creation_form" ).submit(function() {
             $('#psebank').val( $('#pse_bank').val() );
+            $('#namebank').val( $('#name_bank').val() );
             $('#psetypecustomer').val( $('#pse_tipoCliente').val() );
             $('#psetypedoc').val( $('#pse_docType').val() );
             $('#psenumdoc').val( $('#pse_docNumber').val() );
