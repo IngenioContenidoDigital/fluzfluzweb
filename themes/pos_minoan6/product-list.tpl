@@ -57,7 +57,7 @@
                         <li class="ajax_block_product nopadding">
                                 <div class="title-block">
                                         <div><img src="{$img_manu_dir}{$product.id_manufacturer}.jpg" alt="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" class="imgMini"/></div>
-                                        <div>{l s="Save"} {math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.price}%</div>
+                                        <div>{l s="Save"} {math equation='round(((p - r) / p)*100)' r=$product.price p=$product.price_shop}%</div>
                                         {if isset($product.is_virtual) && !$product.is_virtual}{hook h="displayProductDeliveryTime" product=$product}{/if}
                                         {hook h="displayProductPriceBlock" product=$product type="weight"}
                                 </div>
@@ -222,7 +222,7 @@
                                                 {*</a>*}
                                         </div>
                                         <div>
-                                                <span style="font-weight: bold;">{if $logged}{$product.points}{else $logged}{$product.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s=points}</span>
+                                            <span>{if $logged}{l s="You earn"}&nbsp;{$product.points}{else $logged}{l s="You earn"}&nbsp;{$product.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s="points !"}</span>
                                         </div>
                                 </div>
                                 <div class="price-block">
@@ -231,17 +231,23 @@
                                                 {if isset($product.show_price) && $product.show_price && !isset($restricted_country_mode)}
                                                         {hook h="displayProductPriceBlock" product=$product type='before_price'}
                                                         <div>
-                                                                <span style="text-align: left; margin-right: 1px;">{l s='PRICE: '}</span>
+                                                                <span style="text-align: left; margin-right: 1px;">{l s='Value: '}</span>
+                                                                <span class="price product-price" style="text-align: left;">
+                                                                        {convertPrice price=$product.price_shop|floatval}
+                                                                </span>
+                                                        </div>
+                                                        <div>
+                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Price: '}</span>
                                                                 <span class="price product-price" style="color:#ef4136; text-align: left; font-weight: bold;">
                                                                         {if !$priceDisplay}{convertPrice price=$product.price}{else}{convertPrice price=$product.price_tax_exc}{/if}
                                                                 </span>
                                                         </div>
                                                         <div>
-                                                                <span style="text-align: left; margin-right: 1px;">{l s='VALUE: '}</span>
-                                                                <span class="price product-price" style="color:#ef4136; text-align: left; font-weight: bold;">
-                                                                        {convertPrice price=$product.price_shop|floatval}
+                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Price in Points: '}</span>
+                                                                <span class="price product-price" style="color:#ef4136; text-align: left;">
+                                                                        {if !$priceDisplay}{convertPrice price=(($product.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{else}{convertPrice price=(($product.price_tax_exc)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{/if}
                                                                 </span>
-                                                        </div>
+                                                        </div>        
                                                         {if isset($product.specific_prices) && $product.specific_prices && isset($product.specific_prices.reduction) && $product.specific_prices.reduction > 0}
                                                                 {hook h="displayProductPriceBlock" product=$product type="old_price"}
                                                                 <span class="old-price product-price">
