@@ -121,6 +121,6 @@
 {/if*}
 {literal}
     <style>
-        .fancybox-lock .fancybox-overlay{display: none !important;}
+        .fancybox-overlay-fixed{display:none!important;}
     </style>
 {/literal}

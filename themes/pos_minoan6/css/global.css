@@ -2873,7 +2873,6 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
 #reinsurance_block { clear: both !important; }
 
 #short_description_content ul, #short_description_content ol, #short_description_content dl, #tinymce ul, #tinymce ol, #tinymce dl { margin-left: 20px; }
-.fancybox-overlay-fixed{display:none!important;}
 .rte ul { list-style-type: disc; padding-left: 15px; }
 
 .rte ol { list-style-type: decimal; padding-left: 15px; }

@@ -30,11 +30,12 @@ class MyAccountControllerCore extends FrontController
     public $php_self = 'my-account';
     public $authRedirection = 'my-account';
     public $ssl = true;
-
+    
     public function setMedia()
     {
         parent::setMedia();
         $this->addCSS(_THEME_CSS_DIR_.'my-account.css');
+        $this->addCSS(_THEME_CSS_DIR_.'cardsview.css');
     }
 
     /**
@@ -44,6 +45,7 @@ class MyAccountControllerCore extends FrontController
     public function initContent()
     {
         parent::initContent();
+        
         
         $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
         $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
@@ -83,9 +85,13 @@ class MyAccountControllerCore extends FrontController
         $this->context->smarty->assign('arrayCustomer', $arrayCustomer[0]);*/
         
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
+        //$manufacturer = $_COOKIE["manufacturerCards"];
+        $manufacturer = 14;
+        
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
+            'cards'=>$this->getCardsbySupplier($this->context->customer->id, $manufacturer),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
             'returnAllowed' => (int)Configuration::get('PS_ORDER_RETURN')
         ));
@@ -93,6 +99,33 @@ class MyAccountControllerCore extends FrontController
 
         $this->setTemplate(_PS_THEME_DIR_.'my-account.tpl');
     }
+    
+    public function getCardsbySupplier($id_customer,$id_manufacturer){
+          $query="SELECT PC.`code` AS card_code, 
+	PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description,
+	PC.id_product, 
+	PP.id_manufacturer, 
+	PP.id_supplier, 
+        PP.price_shop AS price,
+	PPI.id_image, 
+	PPI.cover
+        FROM ps_product_code PC INNER JOIN ps_order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
+	 INNER JOIN ps_orders PO ON POD.id_order = PO.id_order
+	 INNER JOIN ps_product PP ON PC.id_product = PP.id_product
+	 LEFT JOIN ps_image AS PPI ON PP.id_product = PPI.id_product
+	 INNER JOIN ps_product_lang PL ON PP.id_product = PL.id_product
+        WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer =".(int)$id_customer.") AND (PP.id_manufacturer =".(int)$id_manufacturer.") AND (PPI.cover=1) AND (PL.id_lang=".$this->context->language->id."))
+        GROUP BY PC.`code`, PL.`name`, PL.link_rewrite
+        ORDER BY product_name ASC LIMIT 6";
+          
+          /*if ($onlyValidate === true)
+                $query .= ' AND r.id_reward_state = '.(int)RewardsStateModel::getValidationId();
+                $query .= ' ORDER BY POD.date_add DESC '.
+                ($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');*/
+          
+        $cards=Db::getInstance()->executeS($query);
+        return $cards;
+      }
     
     public function getProductsByManufacturer($id_customer){
         

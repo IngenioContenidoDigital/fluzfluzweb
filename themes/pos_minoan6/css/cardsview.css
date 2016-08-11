@@ -2,7 +2,7 @@
 .container .c{
     margin-left: 2%;
 }
-.card{display:inline-block; width: 48%; height: auto; background-color: #fff; font-color:#ef4136; padding: 10px; margin-left: 5px; margin-right:5px; border: 1px solid #E8E8E8;}
+.card{display:inline-block; width: 48%; height: auto; background-color: #fff; font-color:#ef4136; padding: 4px; margin-left: 5px; margin-right:5px; border: 1px solid #E8E8E8;}
 .card img{width: auto; height: 40px; background: transparent;}
 .card:hover{background: #fff; cursor: pointer;}
 .card a{line-height: 50px; float:right; color: #ef4136;}
@@ -26,6 +26,10 @@
     font-family: 'Open Sans' !important;
     margin-top: 5%;
     margin-bottom: 5%;
+}
+
+.c{
+    line-height: 10px !important;
 }
 
 .fancybox-skin{
@@ -114,7 +118,7 @@ ul li .check::before {
 
 .popText{
     background: #fff;
-    margin-left: -50px;
+    margin-left: -50px !important;
     position: absolute;
     margin-top: -33px;
     font-size: 16px;
@@ -129,9 +133,11 @@ ul li .check::before {
     font-family: 'Open Sans';
     font-weight: lighter;    
     margin-top: 10px;
+    float: right;
+    font-size:12px;
 }
 
-.fancybox-opened .fancybox-skin { width: 35%!important; }
+.fancybox-opened .fancybox-skin { width: 60%!important; }
 .fancybox-inner { width: auto!important; }
 .fancybox-outer { width: 100%; }
 .cardDesign { width: 100%; margin: 0; display: inline-block; margin-bottom: 30px; }

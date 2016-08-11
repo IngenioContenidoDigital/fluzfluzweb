@@ -137,14 +137,16 @@
                                                     <p>{l s="Points"}</p>
                                             </td>
                                           
-                                            <!--<td colspan="5" style="text-align:right; padding: 2%;">
-                                                <a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a>
-                                            </td>-->
                                             <td colspan="5" style="text-align:right; padding: 2%;">
+                                                <a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a>
+                                            </td>
+                                            <!--<td colspan="5" style="text-align:right; padding: 2%;">
                                                 <button type="submit" name="submitCard" class="btn btn_history">
                                                         {l s='Card View'}
                                                 </button>
-                                            </td>
+                                                <a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">
+
+                                            </td>-->
                                             <td>
                                                 <p style="color:#ef4136; margin: 0px; text-align: right;">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</p>
                                             </td>
