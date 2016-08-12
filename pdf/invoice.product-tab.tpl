@@ -22,6 +22,7 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+{*
 <table class="product" width="100%" cellpadding="4" cellspacing="0">
 
 	<thead>
@@ -169,4 +170,26 @@
 
 	</tbody>
 
+</table>
+*}
+
+<table style="width: 100%; color: #949496; font-size: 10pt;" cellpadding="4" cellspacing="4">
+    <thead>
+	<tr style="text-align: center; font-weight: bold;">
+            <th style="width: 52%;">DESCRIPCION</th>
+            <th style="width: 16%;">UNIDADES</th>
+            <th style="width: 16%;">VALOR</th>
+            <th style="width: 16%;">TOTAL</th>
+	</tr>
+    </thead>
+    <tbody>
+	{foreach $order_details as $order_detail}
+            <tr>
+                <td style="background-color: #EFEFEF;">{$order_detail.product_name}</td>
+                <td style="background-color: #EFEFEF; text-align: center;">{$order_detail.product_quantity}</td>
+                <td style="background-color: #EFEFEF; text-align: center;">{displayPrice currency=$order->id_currency price=$order_detail.unit_price_tax_excl_including_ecotax}</td>
+                <td style="background-color: #EFEFEF; text-align: center;">{displayPrice currency=$order->id_currency price=$order_detail.total_price_tax_excl_including_ecotax}</td>
+            </tr>
+	{/foreach}
+    </tbody>
 </table>
