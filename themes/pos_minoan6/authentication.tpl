@@ -412,7 +412,7 @@
 	</div>
 	{/if}-->
         
-       <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="infoaccount-creation_form" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 std box">
+       <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}"  method="post" id="infoaccount-creation_form" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 std box">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
             <h2>{l s='Why Sign-Up for Fluz Fluz?'}</h2>
@@ -467,7 +467,7 @@
             </div>         
 	</form>
         
-	<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="account-creation_form" class="col-lg-6 col-sm-12 col-md-6 col-xs-12 std box" style="float:right;">
+	<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" enctype="multipart/form-data" method="post" id="account-creation_form" class="col-lg-6 col-sm-12 col-md-6 col-xs-12 std box" style="float:right;">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
             <h3 class="page-subheading">{l s='Your personal information'}</h3>
@@ -479,8 +479,8 @@
                         <fieldset class="fieldInfo"><br/>
                                     
                                     <div>
-                                        <label for="imagen">Upload image</label>
-                                        <input id="imagen" name="imagen" type="file" />
+                                        <label for="fileImagen">Upload image</label>
+                                        <input id="fileImagen" name="fileImagen" type="file" />
                                     </div>
                                     <div class="clearfix">
                                             <label>{l s='Gender'}</label>

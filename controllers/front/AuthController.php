@@ -369,6 +369,12 @@ class AuthControllerCore extends FrontController
             $this->errors[] = Tools::displayError('Por favor indique un medio de pago');
         }
         
+        $target_path = "./images/";
+        $target_path = $target_path . basename( $_FILES['fileImagen']['name']); if(move_uploaded_file($_FILES['fileImagen']['tmp_name'], $target_path)) { echo "El archivo ". basename( $_FILES['fileImagen']['name']). " ha sido subido";
+        } else{
+        echo "Ha ocurrido un error, trate de nuevo!";
+        }
+        
         $this->create_account = true;
         $this->context->smarty->assign('email_create', 1);
         
@@ -415,6 +421,7 @@ class AuthControllerCore extends FrontController
         if ($error_phone) {
             $this->errors[] = Tools::displayError('You must register at least one phone number.');
         }
+        
         $this->errors = array_unique(array_merge($this->errors, $customer->validateController()));
         // Check the requires fields which are settings in the BO
         $this->errors = $this->errors + $customer->validateFieldsRequiredDatabase();
@@ -485,6 +492,7 @@ class AuthControllerCore extends FrontController
                             $this->context->cart = $cart;
                             $this->context->cart->updateQty(1,$idProduct,NULL,FALSE);
                             $cart->update();
+                            
                             
                             switch ( $methodPayment ) {
                                 case "cc":

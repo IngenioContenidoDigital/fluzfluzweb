@@ -311,11 +311,11 @@
         $('.myfancybox').click(function() {
             var id_manu = $(this).find(".id_manufacturer").html();
             document.cookie = "manufacturerCards="+id_manu;
-            alert(id_manu);
+
             $.ajax({
                     method:"POST",
                     data: {'action': 'getCardsbySupplier','id_manu': id_manu},
-                    url: '/raizBarcode.php'
+                    url: '../controllers/front/MyAccountController.php'
               });
         });
     </script>
