@@ -34,3 +34,9 @@ p + .required { font-weight: bold; }
 #authentication .payublock .container .form-group { height: 55px; }
 #authentication .payublock .container .btnpayment { height: 0px!important; }
 #submitTc, #submitPSE { display: none; pointer-events: none; z-index: -1; }
+
+.stick {
+  position:fixed;
+  top:20px;
+  margin-top: 20px;
+}

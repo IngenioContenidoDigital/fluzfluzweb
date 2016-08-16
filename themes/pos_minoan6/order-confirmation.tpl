@@ -120,7 +120,7 @@
     </p>
 {/if*}
 {literal}
-    <style>
-        .fancybox-overlay-fixed{display:none!important;}
-    </style>
+    <!--<style>
+        .fancybox-lock{visibility:hidden !important;}
+    </style>-->
 {/literal}

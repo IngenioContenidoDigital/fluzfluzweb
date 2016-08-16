@@ -462,7 +462,7 @@
                 </div>
             </div>
         </div>
-            <div class="vdoTube row">
+            <div class="side-nav vdoTube row">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/bVmfZ-Iu-UY?rel=0&controls=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>    
             </div>         
 	</form>
@@ -919,7 +919,6 @@
 {/if}
 {/strip}
 {literal}
-
     <script>
             $('#numCard').on('keyup',function(){
                 $(this).removeClass('visa');
@@ -1046,4 +1045,18 @@
         font-weight:400;
         }
     </style>
-{/literal}    
+{/literal}
+{literal}
+     <script>
+         var sn = $(".side-nav");
+         var pos = sn.position();
+            $(window).scroll(function() {
+                var windowPos = $(window).scrollTop();
+                if (windowPos >= pos.top - 5) {
+                    sn.addClass("stick");
+                } else {
+                    sn.removeClass("stick");
+                }
+            });
+    </script>
+{/literal}
