@@ -74,7 +74,7 @@
 
 		</td>
 		<!-- Calcule TVA -->
-		<td colspan="5" rowspan="5" class="right">
+		<td colspan="6" rowspan="5" class="right">
 
 			{$total_tab}
 

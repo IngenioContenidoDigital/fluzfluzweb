@@ -68,6 +68,7 @@
     </tr>
     <tr><td></td></tr>
     <tr>
-        <td style="width: 60%; font-size: 9pt;">No somos grandes contribuyentes, somos intermediarios, Acogidos a la Ley 1429 de 2010 <span style="color: #FDBB1D;">&#10023;</span></td>
+        <td style="width: 60%; font-size: 9pt;">No somos grandes contribuyentes, somos intermediarios, Acogidos a la Ley 1429 de 2010 <span style="color: #FDBB1D; font-size: 12pt;">&curren;</span></td>
     </tr>
+    <tr><td style="width: 60%; font-size: 8pt; line-height: 1.5pt;">Actividad Economica  CIIU 4791 4  Tarifa 11.04 x 1000</td></tr>
 </table>
