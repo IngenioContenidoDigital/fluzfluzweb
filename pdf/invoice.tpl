@@ -68,32 +68,17 @@
 
 	<!-- TVA -->
 	<tr>
-		<!-- Code TVA -->
-		<td colspan="6" class="left">
-
-			{$tax_tab}
-
-		</td>
-		<td colspan="1">&nbsp;</td>
-		<!-- Calcule TVA -->
-		<td colspan="5" rowspan="5" class="right">
-
-			{$total_tab}
-
-		</td>
-	</tr>
-
-	<tr>
-		<td colspan="12" height="10">&nbsp;</td>
-	</tr>
-
-	<tr>
-		<td colspan="6" class="left">
+                <td colspan="6" class="left">
 
 			{$payment_tab}
 
 		</td>
-		<td colspan="1">&nbsp;</td>
+		<!-- Calcule TVA -->
+		<td colspan="6" rowspan="5" class="right">
+
+			{$total_tab}
+
+		</td>
 	</tr>
 
 	<tr>

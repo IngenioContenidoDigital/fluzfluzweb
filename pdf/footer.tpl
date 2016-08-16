@@ -22,6 +22,7 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+{*
 <table style="width: 100%;">
 	<tr>
 		<td style="text-align: center; font-size: 6pt; color: #444;  width:87%;">
@@ -56,4 +57,18 @@
         </td>
 	</tr>
 </table>
+*}
 
+<table style="width: 200%; color: #949496; font-size: 10pt;">
+    <tr>
+        <td style="width: 60%; font-size: 25pt; color: #FDBB1D; letter-spacing: 1px;">Preguntas?</td>
+    </tr>
+    <tr>
+        <td style="width: 60%; font-size: 10pt;">Escribenos a <span style="color: #E77569;">info@fluzfluz.com</span></td>
+    </tr>
+    <tr><td></td></tr>
+    <tr>
+        <td style="width: 60%; font-size: 9pt;">No somos grandes contribuyentes, somos intermediarios, Acogidos a la Ley 1429 de 2010 <span style="color: #FDBB1D; font-size: 12pt;">&curren;</span></td>
+    </tr>
+    <tr><td style="width: 60%; font-size: 8pt; line-height: 1.5pt;">Actividad Economica  CIIU 4791 4  Tarifa 11.04 x 1000</td></tr>
+</table>

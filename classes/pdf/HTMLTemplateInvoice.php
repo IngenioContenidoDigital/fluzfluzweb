@@ -332,6 +332,7 @@ class HTMLTemplateInvoiceCore extends HTMLTemplate
             'ps_price_compute_precision' => _PS_PRICE_COMPUTE_PRECISION_,
             'round_type' => $round_type,
             'legal_free_text' => $legal_free_text,
+            'payment' => $this->order->payment
         );
 
         if (Tools::getValue('debug')) {

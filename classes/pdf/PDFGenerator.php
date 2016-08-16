@@ -78,7 +78,7 @@ class PDFGeneratorCore extends TCPDF
      */
     public function __construct($use_cache = false, $orientation = 'P')
     {
-        parent::__construct($orientation, 'mm', 'A4', true, 'UTF-8', $use_cache, false);
+        parent::__construct($orientation, 'mm', 'FLUZ', true, 'UTF-8', $use_cache, false);
         $this->setRTL(Context::getContext()->language->is_rtl);
     }
 
@@ -197,9 +197,9 @@ class PDFGeneratorCore extends TCPDF
      */
     public function writePage()
     {
-        $this->SetHeaderMargin(5);
-        $this->SetFooterMargin(18);
-        $this->setMargins(10, 40, 10);
+        $this->SetHeaderMargin(10);
+        $this->SetFooterMargin(35);
+        $this->setMargins(8, 25, 8);
         $this->AddPage();
         $this->writeHTML($this->content, true, false, true, false, '');
     }

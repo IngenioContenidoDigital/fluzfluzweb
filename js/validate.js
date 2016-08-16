@@ -101,7 +101,7 @@ var unicode_hack = (function() {
 */
 function validate_isName(s)
 {
-	var reg = /^[^0-9!<>,;?=+()@#"°{}_$%:]+$/;
+	var reg = /^[^0-9!<>,;?=+()@#"°{}_$%:]{2,40}$/;
 	return reg.test(s);
 }
 
@@ -113,7 +113,7 @@ function validate_isGenericName(s)
 
 function validate_isAddress(s)
 {
-	var reg = /^[^!<>?=+@{}_$%]+$/;
+	var reg = /^[^!<>?=+@{}_$%]{5,60}$/;
 	return reg.test(s);
 }
 
@@ -142,7 +142,7 @@ function validate_isPostCode(s, pattern, iso_code)
 
 function validate_isCityName(s)
 {
-	var reg = /^[^!<>;?=+@#"°{}_$%]+$/;
+	var reg = /^[^0-9!<>;?=+@#"°{}_$%]{3,20}$/;
 	return reg.test(s);
 }
 
@@ -154,13 +154,19 @@ function validate_isMessage(s)
 
 function validate_isPhoneNumber(s)
 {
-	var reg = /^[+0-9. ()-]+$/;
+	var reg = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
 	return reg.test(s);
 }
 
 function validate_isDniLite(s)
 {
 	var reg = /^[0-9]{1,16}$/i;
+	return reg.test(s);
+}
+
+function validate_isGoverNumber(s)
+{
+	var reg = /^[1-9]{1}[0-9]{5,10}$/;
 	return reg.test(s);
 }
 

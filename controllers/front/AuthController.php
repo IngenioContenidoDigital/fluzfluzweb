@@ -356,12 +356,13 @@ class AuthControllerCore extends FrontController
              $_POST['nombre'] != "" && $_POST['numerot'] != "" && $_POST['Month'] != "" && $_POST['year'] != "" && $_POST['codigot'] != "" )
         {
             $methodPayment = "cc";
-        } elseif ( isset($_POST['psebank']) && isset($_POST['psetypedoc']) && isset($_POST['psenumdoc']) &&
-                    !empty($_POST['psebank']) && !empty($_POST['psetypedoc']) && !empty($_POST['psenumdoc']) &&
-                    $_POST['psebank'] != "" && $_POST['psetypedoc'] != "" && $_POST['psenumdoc'] != "" )
+        } elseif ( isset($_POST['psebank']) && isset($_POST['psetypedoc']) && isset($_POST['psenumdoc']) && isset($_POST['namebank']) &&
+                    !empty($_POST['psebank']) && !empty($_POST['psetypedoc']) && !empty($_POST['psenumdoc']) && !empty($_POST['namebank']) &&
+                    $_POST['psebank'] != "" && $_POST['psetypedoc'] != "" && $_POST['psenumdoc'] != "" && $_POST['namebank'] != "" )
         {
             $methodPayment = "pse";
             $_POST['pse_bank'] = $_POST['psebank'];
+            $_POST['name_bank'] = $_POST['namebank'];
             $_POST['pse_tipoCliente'] = $_POST['psetypecustomer'];
             $_POST['pse_docType'] = $_POST['psetypedoc'];
             $_POST['pse_docNumber'] = $_POST['psenumdoc'];
