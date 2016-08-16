@@ -165,12 +165,12 @@
                     </div> 
                     <div class="form-group">
                         <label for="datepicker" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Fecha De Vencimiento</label>
-                            <div class="col-xs-6 col-sm-2">{html_select_date prefix=NULL end_year="+15" month_format="%m"
+                        <div class="col-xs-6 col-sm-3" style="padding-right:0px; background: transparent;">{html_select_date prefix=NULL end_year="+15" month_format="%m"
                             year_empty="year" year_extra='id="year" class="form-control"'
                             month_empty="mes" month_extra='id="mes" class="form-control"'
                             display_days=false  display_years=false
                             field_order="DMY" time=NULL}</div>
-                            <div class="col-xs-6 col-sm-2">{$year_select}</div>
+                            <div class="col-xs-6 col-sm-3" style="padding-right:0px; background: transparent;">{$year_select}</div>
                     </div>
                     <div class="form-group">
                         <label for="codigot" class="control-label col-xs-12 col-sm-6 " style="text-align: left;">Código De Verificación</label>

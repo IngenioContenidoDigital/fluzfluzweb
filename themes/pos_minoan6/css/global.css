@@ -2548,7 +2548,7 @@ label.required:before { content: "*"; color: red; font-size: 14px; position: rel
 .unvisible { display: none; }
 
 .checkbox { line-height: 16px; }
-.checkbox label { color: #777777; }
+.checkbox label { color: #777777; line-height: 30px;}
 
 .close { opacity: 1; }
 .close:hover { opacity: 1; }
