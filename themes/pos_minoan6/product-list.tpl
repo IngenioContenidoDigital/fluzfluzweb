@@ -245,7 +245,7 @@
                                                         <div>
                                                                 <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Price in Points: '}</span>
                                                                 <span class="price product-price" style="color:#ef4136; text-align: left;">
-                                                                        {if !$priceDisplay}{convertPrice price=(($product.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{else}{convertPrice price=(($product.price_tax_exc)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{/if}
+                                                                        {if !$priceDisplay}{(($product.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{else}{(($product.price_tax_exc)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{/if}
                                                                 </span>
                                                         </div>        
                                                         {if isset($product.specific_prices) && $product.specific_prices && isset($product.specific_prices.reduction) && $product.specific_prices.reduction > 0}

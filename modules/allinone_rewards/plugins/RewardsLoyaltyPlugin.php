@@ -760,7 +760,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 				$reward->id_reward_state = RewardsStateModel::getDiscountedId();
 				$reward->save();
 			} else if ((float)$reward->credits > 0) {
-				$reward->id_reward_state = RewardsStateModel::getDefaultId();
+				$reward->id_reward_state = RewardsStateModel::getValidationId();
 				$reward->save();
 			}
 			return true;

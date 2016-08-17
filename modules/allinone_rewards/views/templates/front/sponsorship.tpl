@@ -146,6 +146,12 @@
                                                             <tr>
                                                                 <th class="item" colspan="3">{l s='Tus Amigos Patrocinados' mod='allinone_rewards'}</th>
                                                             </tr>
+                                                        {elseif $subscribeFriends|@count == 1}
+                                                            <tr>
+                                                                <th class="item">{l s='First name' mod='allinone_rewards'}</th>
+								<th class="item">{l s='Last name' mod='allinone_rewards'}</th>
+								<th class="last_item">{l s='Email' mod='allinone_rewards'}</th>
+                                                            </tr>
                                                         {elseif $pendingFriends|@count == 1}
                                                             <tr>
                                                                 <th class="item">{l s='First name' mod='allinone_rewards'}</th>
@@ -240,14 +246,12 @@
                                                                         {/foreach}
                                                                    </tr>
                                                                     
-                                                                {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 0}
-                                                                    {section name=friends start=0 loop=$nbFriends step=1}
+                                                                {elseif $subscribeFriends|@count == 1}
                                                                         <tr class="alternate_item">
                                                                                     <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                                     <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                                     <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
                                                                         </tr>
-                                                                    {/section}
                                                                     <tr class="alternate_item">
                                                                         {foreach from=$subscribeFriends item=subscribeFriend name=myLoop}
                                                                         <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
@@ -301,6 +305,10 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                             <p class="submit" align="right"><input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='ADD FRIENDS' mod='allinone_rewards'}" /></p>
                                                         </div>
+                                                    {elseif $subscribeFriends|@count == 1}
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                                            <p class="submit" align="right"><input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='ADD FRIENDS' mod='allinone_rewards'}" /></p>
+                                                        </div>    
                                                     {/if}
 					</form>
 				</div>

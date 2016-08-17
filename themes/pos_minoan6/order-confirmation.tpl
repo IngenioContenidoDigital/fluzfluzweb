@@ -79,7 +79,7 @@
         </tr>
         {foreach $order_products as $product}
             <tr>
-                <td><img class="img_product" src="{$link->getImageLink($product.product_name, $product.image->id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.product_name|escape:'html':'UTF-8'}" title="{$product.product_name|escape:'html':'UTF-8'}" /></td>
+                <td><img class="img_product" src="{$link->getImageLink($product.id_product, $product.image->id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.product_name|escape:'html':'UTF-8'}" title="{$product.product_name|escape:'html':'UTF-8'}" /></td>
                 <td>
                     <span class="name_product">{$product.product_name}</span><br>
                     <span class="number_product">{l s='Product'} #:</span><br>
@@ -120,7 +120,8 @@
     </p>
 {/if*}
 {literal}
-    <!--<style>
-        .fancybox-lock{visibility:hidden !important;}
-    </style>-->
+    <style>
+        .fancybox-lock {overflow: auto !important;width: auto;}
+        .fancybox-overlay-fixed{display: none !important;}
+    </style>
 {/literal}

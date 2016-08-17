@@ -388,14 +388,13 @@ abstract class PaymentModuleCore extends Module
                             
                             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
                             $productId = Db::getInstance()->executeS($query);
-                            
+
                             foreach ($productId as $valor) {
                                 for($i=0;$i<$valor['product_quantity'];$i++){
                                     $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
                             }
                         }
                     }
-
             $codeText = 'select code from ps_product_code WHERE id_order = '.(int)$order->id;
             $rowCode = Db::getInstance()->executeS($codeText);
             $bar_codes = "";

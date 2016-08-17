@@ -40,8 +40,7 @@
             <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
-        <!--<input id="id_manufacturer" name="id_manufacturer" value="{$manufacturer.id_manufacturer}"/>-->
-            <span class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</span>
+            <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
     </a>
 {/foreach}
 <div class="col-lg-3 col-md-3 col-sm-12 textAccount">
@@ -309,8 +308,9 @@
 {literal}
     <script>
         $('.myfancybox').click(function() {
+            
             var id_manu = $(this).find(".id_manufacturer").html();
-            document.cookie = "manufacturerCards="+id_manu;
+            alert(id_manu);
 
             $.ajax({
                     method:"POST",
@@ -320,17 +320,8 @@
         });
     </script>
 {/literal}
-{*literal}
+{literal}
     <script>
-        $('.myfancybox').click(function() {
-            //var val = $(this).find("#id_manufacturer").html();
-            var val = $(this).find(".id_manufacturer").html();
-            alert(val);
-            $.ajax({
-                    method:"POST",
-                    data: {'val': val},
-                    url: '/MyAccountController.php'
-              });
-        });
+       
     </script>
-{/literal*} 
+{/literal} 
