@@ -42,7 +42,8 @@ class PayuPse extends PayUControllerWS{
                 $url_reintento.='&step=3';
             }
         }
-        
+        if ( $membership ) { $url_reintento = $_SERVER['HTTP_REFERER']; }
+
         // vaciar errores en el intento de pago anterior  
         if (isset($this->context->cookie->{'error_pay'})) {
             unset($this->context->cookie->{'error_pay'});
@@ -177,7 +178,12 @@ class PayuPse extends PayUControllerWS{
                 $url_base64 = strtr(base64_encode($response['transactionResponse']['extraParameters']['BANK_URL']), '+/=', '-_,');
                 $string_send = __PS_BASE_URI__ . 'order-confirmation.php?key=' . $customer->secure_key . '&id_cart=' . (int) $id_cart . '&id_module='.(int)$payulatam->id.'&id_order=' . (int) $order['id_order'] . '&bankdest2=' . $url_base64;
                 $conf->url_confirm_payu($token_orden,__PS_BASE_URI__ . 'order-confirmation.php?key=' . $customer->secure_key . '&id_cart=' . (int) $id_cart . '&id_module='.(int)$payulatam->id.'&id_order=' . (int) $order['id_order']);
-                if ( $membership ) { Db::getInstance()->execute( 'INSERT INTO '._DB_PREFIX_.'customer_group(id_customer, id_group) VALUES ('.(int)$customer->id.',3)' ); }
+                if ( $membership ) {
+                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'customer_group(id_customer, id_group) VALUES ('.(int)$customer->id.',3)' );
+                    setcookie("datamailemail", "", -1, "/");
+                    setcookie("datamailfirstname", "", -1, "/");
+                    setcookie("datamaillastname", "", -1, "/");
+                }
                 Tools::redirectLink($string_send);
                 exit();
             } else {

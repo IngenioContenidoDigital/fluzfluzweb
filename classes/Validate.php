@@ -1098,4 +1098,26 @@ class ValidateCore
     {
         return (preg_match('/^(?:'.Configuration::get('PS_INVOICE_PREFIX', Context::getContext()->language->id).')\s*([0-9]+)$/i', $id));
     }
+    
+    public static function isIdentification($id)
+    {
+	$opciones = array('01234','12345','23456','34567','45678','56789','67890','78901','89012','90123',
+                            '43210','54321','65432','76543','87654','98765','09876','10987','21098','32109');
+	$cant = 0;
+
+	foreach ($opciones as $key => $value) {
+            preg_match_all('/'.$value.'/', $id, $matches, PREG_PATTERN_ORDER);
+            $cant += count($matches[0]);
+	}
+
+	if ( !empty($id) && substr($id, 0, 1) != 0 && strlen($id) >= 5 && !preg_match('/1{4}|2{4}|3{4}|4{4}|5{4}|6{4}|7{4}|8{4}|9{4}|0{4}/', $id) && $cant <= 1 ) {
+            if ( preg_match('/^[0-9]{5,}-{1}[0-9]{1}$/', $id) || ($id > 9999 && $id < 100000000) || ($id > 1000000000 && $id < 4099999999) ) {
+                return false;
+            } else {
+                return true;
+            }			
+	} else {
+            return true;	
+        }
+    }
 }
