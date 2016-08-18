@@ -488,7 +488,7 @@
                                             {foreach from=$genders key=k item=gender}
                                                     <div class="gender">
                                                             <label for="id_gender{$gender->id}" class="top">
-                                                                    <input type="radio" name="id_gender" class="is_required validate form-control" id="id_gender{$gender->id}" value="{$gender->id}" {if isset($smarty.post.id_gender) && $smarty.post.id_gender == $gender->id}checked="checked"{/if} />
+                                                                    <input type="radio" name="id_gender" class="is_required validate form-control" id="id_gender{$gender->id}" value="{$gender->id}" {if $gender->id == 1}checked="checked"{/if} />
                                                             {$gender->name}
                                                             </label>
                                                     </div>
