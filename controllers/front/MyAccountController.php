@@ -87,7 +87,6 @@ class MyAccountControllerCore extends FrontController
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         //$manufacturer = $_COOKIE["manufacturerCards"];
         $manufacturer = 14;
-        
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
@@ -175,40 +174,52 @@ class MyAccountControllerCore extends FrontController
         
     }
     
-    /* Encontrar red Hacia abajo
-     * 
-     * static public function getCustomerSponsorship($id_customer){
+    
+      
+      /*public function getCustomerSponsorship($id_customer){
             
-            $seguir = true;
+            //$seguir = true;
             $childs = array();
             array_push($childs,$id_customer);
             $childs2=array();
-            $childs3=array();
+            //$childs3=array();
             
-           while ($seguir){
-               
-                $query = 'SELECT id_customer FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor IN ('.implode(',', $childs).')';
-                if($row1=Db::getInstance()->executeS($query)){
-                    foreach ($row1 as $valor){
+            
+            $query =Db::getInstance()->executeS('SELECT id_customer FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor IN ('.implode(',', $childs).')');
+                if($query != ""){
+                    foreach ($query as $valor){
                         array_push($childs2,$valor['id_customer']);
                     }
                     //print_r(array_values($childs2));
-                    
-                    array_push($childs3,$childs);
-                    
-                    empty($childs);
-                    
-                    print_r(array_values($childs3));
-                    $childs=  array_diff($childs2, $childs);
-                    print_r(array_values($childs));
-                    
-                    empty($childs2);
+                    //array_push($childs3,$childs);
                     
                 }
-                else{
-                    $seguir=false;
-                }
-           }
-           return $childs3[0];
+             $childs=array_merge($childs, $childs2);   
+             print_r(array_values($childs));
+             die();
+             
+           return $query;
         }*/
+        
+    /*  public function tree(array $data, &$tree = array(), $level = 0) {
+    
+            if (!isset($tree[$level])) $tree[$level] = array();
+
+            foreach ($data as $key => $value) {
+                // if value is an array, push the key and recurse through the array
+                if (is_array($value)) {
+                    $tree[$level][] = $key;
+                    tree($value, $tree, $level+1);
+                }
+
+                // otherwise, push the value
+                else {
+                    $tree[$level][] = $value;
+                }
+            }
+        }
+
+     * Consulta a base de datos hasta el 3er nivel 
+     * select * from ps_rewards_sponsorship where id_sponsor in(select id_customer from ps_rewards_sponsorship where id_sponsor = 1) or id_sponsor = 1;
+     *      */
 }
