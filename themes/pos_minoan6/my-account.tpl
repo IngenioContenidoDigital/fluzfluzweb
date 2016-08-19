@@ -25,11 +25,10 @@
 
 {capture name=path}{l s='My account'}{/capture}
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='My Gift Cards'}</h1>
-{$manufacturer}
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 <div class="row">
 {foreach from=$manufacturers item=manufacturer}
-    <a class="myfancybox" onclick="$('#myspecialcontent').show();">
+    <a class="myfancybox" href="#myspecialcontent">
     <!--<a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">-->
     <div class="col-lg-4 col-md-4 Cards">
         <div class="col-lg-6 col-md-6 col-xs-6 infoCard">
@@ -41,8 +40,8 @@
             <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
-            <!--<div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>-->
-            <input value="{$manufacturer.id_manufacturer}" type="text"  name="refundtopayid" id="refundtopayid" style="display: none; width: 25px!important;" >
+    <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
+            <!--<input value="{$manufacturer.id_manufacturer}" type="text"  name="refundtopayid" id="refundtopayid" style="display: none; width: 25px!important;" >-->
     </a>
 {/foreach}
 <div class="col-lg-3 col-md-3 col-sm-12 textAccount">
@@ -311,7 +310,7 @@
     <script>
         $('.myfancybox').click(function() {
             var id_manu = $(this).find(".id_manufacturer").html();
-            alert(id_manu);
+            
             $.ajax({
                 method:"GET",
                 url: 'http://fluzfluzweb.local/controllers/front/MyAccountController?id_manu='+id_manu,

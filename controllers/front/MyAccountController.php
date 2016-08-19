@@ -87,8 +87,8 @@ class MyAccountControllerCore extends FrontController
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         //$manufacturer = $_COOKIE["manufacturerCards"];
         //$manufacturer = $_GET['id_manu'];
-        $manufacturer = Tools::getValue('refundtopayid');
-        $this->context->smarty->assign('manufacturer', $manufacturer);
+        $manufacturer = 14;
+        
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),

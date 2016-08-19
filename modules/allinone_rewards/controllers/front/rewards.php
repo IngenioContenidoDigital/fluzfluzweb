@@ -221,25 +221,43 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 	}
         
         public function TopNetwork() {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                            FROM '._DB_PREFIX_.'rewards n 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor;
+                $result = Db::getInstance()->executeS($queryTop);
+                if ( $result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }                
+            }
+            usort($top, function($a, $b) {
+                return $b['points'] - $a['points'];
+            });
             
-            $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points,  n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
-                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) ORDER BY n.credits DESC LIMIT 0,5';
-          
-            $top=Db::getInstance()->executeS($queryTop);
-            
-            return $top;    
+            return array_slice($top, 0, 5);    
             
         }
         
         public function TopWorst() {
             
-            $queryWorst = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points, n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
-                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) ORDER BY n.credits ASC LIMIT 0,5';
-                
-            $worst=Db::getInstance()->executeS($queryWorst);
-            return $worst;    
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                            FROM '._DB_PREFIX_.'rewards n 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor;
+                $result = Db::getInstance()->executeS($queryTop);
+                if ( $result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }                
+            }
+            usort($top, function($a, $b) {
+                return $a['points'] - $b['points'];
+            });
+            
+            return array_slice($top, 0, 5);    
             
         }
         
