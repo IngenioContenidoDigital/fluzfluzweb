@@ -479,7 +479,7 @@
                         <fieldset class="fieldInfo"><br/>
                                     
                                     <div>
-                                        <label for="fileImagen">Upload image</label>
+                                        <label for="fileImagen">{l s="Upload image"}</label>
                                         <input id="fileImagen" name="fileImagen" type="file" />
                                     </div>
                                     <div class="clearfix">
@@ -756,7 +756,7 @@
                 <div>
                     <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
                     <div class="containerDepo">
-                        <p>When you create a Fluz Fluz account, we ask that you <span class="stand_out">deposit a minimum of $20.000 in your account so we can validate it</span>. This is a firs time only required deposit and will be entirely at your disposal in your account so you can start.</p>
+                        <p>{l s="When you create a Fluz Fluz account, we ask that you "}<span class="stand_out">{l s="deposit a minimum of $20.000 in your account so we can validate it. "}</span>{l s="This is a firs time only required deposit and will be entirely at your disposal in your account so you can start."}</p>
                     <div class="row rangeSelect">
                         <span class="col-lg-2 rangePrice">$20.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="40000" min="20000" max="100000" step="20000" data-rangeslider><span class="col-lg-2 rangePrice">$100.000</span>
                     </div>
