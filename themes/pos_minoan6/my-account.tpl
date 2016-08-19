@@ -207,7 +207,7 @@
 </ul>
 {literal}
     <style>
-        .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; margin-top: 2%; font-size: 16px;}
+        .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; font-size: 16px; line-height: 20px;}
         p.info-account{margin: 16px 0 24px 0;}
         
         @media (max-width:420px){
