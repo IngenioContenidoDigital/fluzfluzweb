@@ -236,7 +236,11 @@
                                     <select id="monthsCard" name="monthsCard" class="form-control inputformcard enabled" disabled>
                                         <option value="">-</option>
                                         {foreach from=$months key=k item=v}
-                                            <option value="{$k}" {if ($dateData.0 == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
+                                            {if $k <= 9 }
+                                                <option value="0{$k}" {if ($dateData.0 == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
+                                            {else}
+                                                <option value="{$k}" {if ($dateData.0 == $k)}selected="selected"{/if}>{l s=$v}&nbsp;</option>
+                                            {/if}
                                         {/foreach}
                                     </select>
                                 </div>
