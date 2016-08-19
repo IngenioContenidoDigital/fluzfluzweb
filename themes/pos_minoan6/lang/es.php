@@ -164,6 +164,7 @@ $_LANG['cashout_37d0de60205b370f9041cdef7b81a2cc'] = 'Ha ocurrido un error con t
 $_LANG['cashout_470f74c2d051e95effb1dd5017f56fad'] = 'Mis Puntos';
 $_LANG['cashout_564799e8d444deb4dd5c613c7e8ff8f4'] = 'Regresar a mi cuenta';
 $_LANG['cashout_579be85c52a56e2d20072d668d3d40ec'] = 'Los puntos estarán disponibles %s días después de la validación del pedido';
+$_LANG['cashout_8830e81db5381245dfe2b212509737eb'] = 'Solicitar Pago';
 $_LANG['cashout_9b162c0c5e0da6419cd6f61c7a17a20f'] = 'Solicitar el pago';
 $_LANG['cashout_a0a228fa72ccaf36d19398783debffbd'] = 'Mínimo requerido para solicitar la redención.';
 $_LANG['cashout_b72c7bb6c10f477a28958164e541a4ff'] = 'En Efectivo:';
