@@ -13,10 +13,12 @@ $_MODULE['<{blockcontact}pos_minoan6>blockcontact_7551cf1a985728fa2798db32c2ff78
 $_MODULE['<{blockcontact}pos_minoan6>blockcontact_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo electrónico';
 $_MODULE['<{blockcontact}pos_minoan6>blockcontact_52e878b67e9d94d25425231162ef5133'] = 'Indique los datos de su servicio de contacto como vendedor.';
 $_MODULE['<{blockcontact}pos_minoan6>blockcontact_c9cc8cce247e49bae79f15173ce97354'] = 'Guardar';
-$_MODULE['<{blockcontact}pos_minoan6>blockcontact_02d4482d332e1aef3437cd61c9bcc624'] = 'Contacte con nosotros';
+$_MODULE['<{blockcontact}pos_minoan6>blockcontact_02d4482d332e1aef3437cd61c9bcc624'] = 'Contactános';
 $_MODULE['<{blockcontact}pos_minoan6>blockcontact_75858d311c84e7ba706b69bea5c71d36'] = 'Nuestra línea directa está disponible 24/7';
 $_MODULE['<{blockcontact}pos_minoan6>blockcontact_673ae02fffb72f0fe68a66f096a01347'] = 'Teléfono';
 $_MODULE['<{blockcontact}pos_minoan6>blockcontact_736c5a7e834b7021bfa97180fc453115'] = 'Póngase en contacto con nuestra línea directa';
-$_MODULE['<{blockcontact}pos_minoan6>nav_02d4482d332e1aef3437cd61c9bcc624'] = 'Contacte con nosotros';
+$_MODULE['<{blockcontact}pos_minoan6>nav_02d4482d332e1aef3437cd61c9bcc624'] = 'Contáctanos';
 $_MODULE['<{blockcontact}pos_minoan6>nav_320abee94a07e976991e4df0d4afb319'] = 'Llámanos ahora:';
 $_MODULE['<{blockcontact}pos_minoan6>blockcontact_9cfc9b74983d504ec71db33967591249'] = 'Contacta con nosotros';
+$_MODULE['<{blockcontact}pos_minoan6>nav_673ae02fffb72f0fe68a66f096a01347'] = 'Telefóno:';
+$_MODULE['<{blockcontact}pos_minoan6>nav_6a1e265f92087bb6dd18194833fe946b'] = 'Email:';

@@ -3996,7 +3996,7 @@ h2.title_blockSale {
 }
 
 .members1 h1{
-	font-size: 45px;
+	font-size: 41px;
 	font-weight: bold;
 	color: #fff;
 	max-width: 250px;
@@ -5825,10 +5825,10 @@ font-family: 'Open Sans' !important;
         height: auto;
         min-height: 139px;
         width: 100%;
-        font-size: 50px;
+        font-size: 32px;
         font-weight: 900;
         text-align: left;
-        line-height: 30px;
+        line-height: 19px;
     }
 
     #text1 {
@@ -6584,8 +6584,8 @@ font-family: 'Open Sans' !important;
     }
 
     #text {
-        font-size: 50px;
-        line-height: 30px;
+        font-size: 33px;
+        line-height: 19px;
         margin-top: 82px;
         margin-left: 16px;
         clear: none;
@@ -7031,7 +7031,7 @@ font-family: 'Open Sans' !important;
     }
 
     #text {
-        font-size: 50px;
+        font-size: 32px;
     }
 
     #box {
@@ -7651,8 +7651,8 @@ font-family: 'Open Sans' !important;
     
     #text {
         margin-top:20px;
-        font-size: 40px;
-        line-height: 25px;
+        font-size: 28px;
+        line-height: 15px;
         height: auto;
         min-height: 122px;
     }
@@ -8164,7 +8164,7 @@ font-family: 'Open Sans' !important;
 
 #texto_merchant {
     float: left;
-    font-size: 50px;
+    font-size: 30px;
     width: 89.255079%;
     height: auto;
     texto_merchant-align: left;
@@ -8240,7 +8240,7 @@ font-family: 'Open Sans' !important;
 
 #texto_merchant2 {
     float: left;
-    font-size: 32px;
+    font-size: 30px;
     width: 50.326872%;
     height: auto;
     texto_merchant-align: center;
@@ -8512,19 +8512,18 @@ font-family: 'Open Sans' !important;
 }
 
 #texto_merchant10 {
-    float: left;
     font-size: 30px;
     width: auto;
     height: auto;
     texto_merchant-align: center;
     font-weight: normal;
     line-height: 1em;
-    margin-left: 43.700861%;
     margin-top: 84.5px;
     clear: none;
     min-height: 0px;
     font-family: 'Montserrat Light';
     color: rgb(255, 255, 255);
+	text-align:center;
 }
 
 #caja17 {
@@ -8540,19 +8539,17 @@ font-family: 'Open Sans' !important;
 }
 
 #texto_merchant17 {
-    float: left;
     font-size: 30px;
     width: auto;
     height: auto;
-    texto_merchant-align: center;
     font-weight: normal;
     line-height: 1em;
-    margin-left: 42.327897%;
     margin-top: 62.5px;
     clear: none;
     min-height: 0px;
     font-family: Montserrat;
     color: rgb(255, 255, 255);
+	text-align:center;
 }
 
 #caja4 {
@@ -8671,14 +8668,12 @@ font-family: 'Open Sans' !important;
 }
 
 #texto_merchant7 {
-    float: left;
     font-size: 15px;
     width: 99.995192%;
     height: auto;
     texto_merchant-align: center;
     font-weight: 400;
     line-height: 30px;
-    margin-left: 0%;
     margin-top: 15.5px;
     clear: both;
     min-height: 35px;
@@ -8686,6 +8681,7 @@ font-family: 'Open Sans' !important;
     font-family: 'Montserrat Light';
     margin-right: 0%;
     display: block;
+	text-align:center;
 }
 
 #texto_merchant8 {
@@ -8796,7 +8792,7 @@ font-family: 'Open Sans' !important;
     #texto_merchant {
         height: auto;
         min-height: 86px;
-        line-height: 40px !important;
+        line-height: 31px !important;
     }
 
     #texto_merchant1 {
@@ -8862,7 +8858,7 @@ font-family: 'Open Sans' !important;
     #texto_merchant {
         height: auto !important;
         min-height: 83px !important;
-        line-height: 50px !important;
+        line-height: 31px !important;
         margin-top:20%;
         margin-bottom:5%;
         margin-left:16px;
@@ -8994,7 +8990,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant10 {
         margin-top: 60.5px;
-        margin-left: 38.448351%;
         clear: none;
     }
 
@@ -9140,7 +9135,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant17 {
         margin-top: 50.5px;
-        margin-left: 36.065538%;
         clear: none;
     }
 
@@ -9158,7 +9152,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant7 {
         margin-top: 15.5px;
-        margin-left: 0%;
         clear: both;
     }
 
@@ -9231,11 +9224,11 @@ font-family: 'Open Sans' !important;
     #texto_merchant {
         height: auto;
         width: 95.320975%;
-        font-size: 42px;
+        font-size: 33px;
         margin-top: 39px;
         margin-left: 4.684985%;
         clear: none;
-        line-height: 35px;
+        line-height: 31px;
     }
 
     #caja4 {
@@ -9342,7 +9335,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant7 {
         margin-top: 15.5px;
-        margin-left: 0%;
         clear: both;
         height: auto;
         width: 99.995192%;
@@ -9379,7 +9371,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant10 {
         margin-top: 64.5px;
-        margin-left: 33.695984%;
         clear: none;
     }
 
@@ -9551,7 +9542,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant17 {
         margin-top: 58.75px;
-        margin-left: 30.592346%;
         clear: none;
     }
 
@@ -9672,7 +9662,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant7 {
             margin-top: 10px;
-            margin-left: 13%;
             clear: both;
             height: auto;
             width: 77%;
@@ -9737,7 +9726,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant10 {
         margin-top: 51px;
-        margin-left: 28.719076%;
         clear: none;
     }
 
@@ -9836,7 +9824,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant17 {
         margin-top: 53.5px;
-        margin-left: 24.397786%;
         clear: none;
     }
 
@@ -9915,7 +9902,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant10 {
         margin-top: 21px;
-        margin-left: 11.441176%;
         clear: none;
     }
 
@@ -10026,7 +10012,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant17 {
         margin-top: 34px;
-        margin-left: 2.216912%;
         clear: none;
     }
 
@@ -10052,7 +10037,7 @@ font-family: 'Open Sans' !important;
     margin-top: 39px;
     margin-left: 4.684985%;
     clear: none;
-    line-height: 35px;
+    line-height: 31px;
     }
     
     #texto_merchant2 {
@@ -10130,7 +10115,6 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant10 {
         margin-top: 28px;
-        margin-left: 26.533333%;
         clear: none;
         font-size: 18px;
     }
@@ -10262,7 +10246,7 @@ font-family: 'Open Sans' !important;
     }
     
     #texto_merchantspan{
-        font-size:45px !important;
+        font-size:20px !important;
     }
 }
 
@@ -10375,7 +10359,6 @@ font-family: 'Open Sans' !important;
         height: auto;
         width: 100%;
         margin-top: 28px;
-        margin-left: 21%;
     }
 
     #texto_merchant11 {
