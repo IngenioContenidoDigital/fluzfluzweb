@@ -29,7 +29,7 @@
 		<ul class="bullet dropdown-menu">
 			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccountheader'}</a></li>
 			{*if $returnAllowed}<li><a href="{$link->getPageLink('order-follow', true)|escape:'html'}" title="{l s='My merchandise returns' mod='blockmyaccountheader'}">{l s='My merchandise returns' mod='blockmyaccountheader'}</a></li>{/if*}
-			<li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='My Cards' mod='blockmyaccountheader'}">{l s='My Cards' mod='blockmyaccountheader'}</a></li>
+			{*<li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='My Cards' mod='blockmyaccountheader'}">{l s='My Cards' mod='blockmyaccountheader'}</a></li>*}
 			<li><a href="{$link->getModuleLink('allinone_rewards', 'rewards', [], true)|escape:'html':'UTF-8'}" title="{l s='My network' mod='blockmyaccountheader'}">{l s='My Network' mod='blockmyaccountheader'}</a></li>
 			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Sponsor a friend' mod='blockmyaccountheader'}">{l s='Sponsor a friend' mod='blockmyaccountheader'}</a></li>
                         <li><a href="{$link->getPageLink('cashout', true)|escape:'html'}" title="{l s='Cash Out' mod='blockmyaccountheader'}">{l s='Cash Out' mod='blockmyaccountheader'}</a></li>
