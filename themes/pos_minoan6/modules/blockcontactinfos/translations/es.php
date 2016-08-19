@@ -11,7 +11,7 @@ $_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_dd7bf230fde8d4836917
 $_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_1f8261d17452a959e013666c5df45e07'] = 'Número de teléfono';
 $_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo electrónico';
 $_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_c9cc8cce247e49bae79f15173ce97354'] = 'Guardar';
-$_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_02d4482d332e1aef3437cd61c9bcc624'] = 'Contacte con nosotros';
+$_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_02d4482d332e1aef3437cd61c9bcc624'] = 'Contáctanos';
 $_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_2e006b735fbd916d8ab26978ae6714d4'] = 'Tel.:';
 $_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_6a1e265f92087bb6dd18194833fe946b'] = 'Email:';
 $_MODULE['<{blockcontactinfos}pos_minoan6>blockcontactinfos_80a11d2a54a677f6fadd9c041c0d6b98'] = 'Información sobre la tienda';

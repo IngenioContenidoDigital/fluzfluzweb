@@ -166,7 +166,7 @@ function validate_isDniLite(s)
 
 function validate_isGoverNumber(s)
 {
-	var reg = /^[1-9]{1}[0-9]{5,10}$/;
+	var reg = /^[1-9]{1}[0-9]{7,10}$/;
 	return reg.test(s);
 }
 

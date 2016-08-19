@@ -129,7 +129,17 @@ class AuthControllerCore extends FrontController
             'HOOK_CREATE_ACCOUNT_FORM' => Hook::exec('displayCustomerAccountForm'),
             'HOOK_CREATE_ACCOUNT_TOP' => Hook::exec('displayCustomerAccountFormTop')
         ));
-        
+
+        if ( isset($_POST['email']) && $_POST['email'] != "" && !empty($_POST['email']) ) {
+            setcookie("datamailemail", $_POST['email'], time() + (86400), "/");
+            setcookie("datamailfirstname", $_POST['customer_firstname'], time() + (86400), "/");
+            setcookie("datamaillastname", $_POST['customer_lastname'], time() + (86400), "/");
+        } else {
+            $_POST['email'] = $_COOKIE["datamailemail"];
+            $_POST['customer_firstname'] = $_COOKIE["datamailfirstname"];
+            $_POST['customer_lastname'] = $_COOKIE["datamaillastname"];
+        }
+
         // Just set $this->template value here in case it's used by Ajax
         $this->setTemplate(_PS_THEME_DIR_.'authentication.tpl');
         if ($this->ajax) {
@@ -401,7 +411,23 @@ class AuthControllerCore extends FrontController
         $firstnameAddress = Tools::getValue('firstname');
         $_POST['lastname'] = Tools::getValue('customer_lastname', $lastnameAddress);
         $_POST['firstname'] = Tools::getValue('customer_firstname', $firstnameAddress);
-        
+
+        if ( Validate::isIdentification( Tools::getValue('gover') ) ) {
+            $this->errors[] = Tools::displayError('Government Id es incorrecto');
+        }
+        if ( Tools::getValue('days') == "" || Tools::getValue('months') == "" || Tools::getValue('years') == "" ) {
+            $this->errors[] = Tools::displayError('Fecha de nacimiento incorrecta');
+        }
+        if ( Tools::getValue('address1') == "" ) {
+            $this->errors[] = Tools::displayError('Direccion es incorrecta');
+        }
+        if ( Tools::getValue('address2') == "" ) {
+            $this->errors[] = Tools::displayError('Direccion (Linea 2) es incorrecta');
+        }
+        if ( Tools::getValue('city') == "" ) {
+            $this->errors[] = Tools::displayError('Ciudad es incorrecta');
+        }
+
         $addresses_types = array('address');
         if (!Configuration::get('PS_ORDER_PROCESS_TYPE') && Configuration::get('PS_GUEST_CHECKOUT_ENABLED') && Tools::getValue('invoice_address')) {
             $addresses_types[] = 'address_invoice';

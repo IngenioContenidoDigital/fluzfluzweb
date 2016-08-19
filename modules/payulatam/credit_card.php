@@ -48,6 +48,8 @@ class PayuCreditCard extends PayUControllerWS {
                     $url_reintento.='&step=3';
                 }
             }
+            if ( $membership ) { $url_reintento = $_SERVER['HTTP_REFERER']; }
+
             // vaciar errores en el intento de pago anterior  
             if(isset($this->context->cookie->{'error_pay'})){
               unset($this->context->cookie->{'error_pay'});
@@ -254,7 +256,12 @@ class PayuCreditCard extends PayUControllerWS {
                 $payulatam = new PayULatam();
                 $url_confirmation = __PS_BASE_URI__ . 'order-confirmation.php?key=' . $customer->secure_key . '&id_cart=' . (int) $this->context->cart->id . '&id_module='.(int)$payulatam->id.'&id_order=' . (int) $order['id_order'];
                 $this->context->cookie->{'url_confirmation'} = json_encode($url_confirmation);
-                if ( $membership ) { Db::getInstance()->execute( 'INSERT INTO '._DB_PREFIX_.'customer_group(id_customer, id_group) VALUES ('.(int)$customer->id.',3)' ); }
+                if ( $membership ) {
+                    Db::getInstance()->execute( 'INSERT INTO '._DB_PREFIX_.'customer_group(id_customer, id_group) VALUES ('.(int)$customer->id.',3)' );
+                    setcookie("datamailemail", "", -1, "/");
+                    setcookie("datamailfirstname", "", -1, "/");
+                    setcookie("datamaillastname", "", -1, "/");
+                }
                 Tools::redirectLink($url_confirmation);
                 exit();
             } else {
