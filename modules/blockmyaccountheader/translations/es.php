@@ -2,17 +2,14 @@
 
 global $_MODULE;
 $_MODULE = array();
-
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_ecf3e4f8f34a293099620cc25d5b4d93'] = 'Bloque Mi cuenta';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_ecf2ffd31994b3edea4b916011b08bfa'] = 'Mostrar un bloque con enlaces a la cuenta del usuario';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_d95cf4ab2cbf1dfb63f066b50558b07d'] = 'Mi cuenta';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_74ecd9234b2a42ca13e775193f391833'] = 'Mis compras';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_89080f0eedbd5491a93157930f1e45fc'] = 'Mis devoluciones';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_9132bc7bac91dd4e1c453d4e96edf219'] = 'Mis vales descuento';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_e45be0a0d4a0b62b15694c1a631e6e62'] = 'Mis direcciones';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_63b1ba91576576e6cf2da6fab7617e58'] = 'Mis datos personales';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_95d2137c196c7f84df5753ed78f18332'] = 'Mis vales';
-$_MODULE['<{blockmyaccountheader}>blockmyaccountheader_c87aacf5673fada1108c9f809d354311'] = 'Cerrar sesión';
-
-
-return $_MODULE;
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_f84894605376f4704e14764043cb71dd'] = 'Mi Cuenta en Header';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_9cfeea9e5661b21715e6b898c7cc5eb1'] = 'Muestra un bloque de links relativos a la cuenta del usuario en el header';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_bea8d9e6a0d57c4a264756b4f9822ed9'] = 'Mi Cuenta';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_89080f0eedbd5491a93157930f1e45fc'] = 'Mis Devoluciones';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_4e997b9d3b7152f2afeacd96ab1ef1cb'] = 'Mis Tarjetas';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_c2b1ef45417a2aac50465e2092e942da'] = 'Mi Red Fluz Fluz';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_edbf7d305f174d743ff65f18adb4bdb1'] = 'Mi Red Fluz Fluz';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_e4cdf236281cce8a3c0742cb493c5f82'] = 'Invitar a un Amigo';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_2d31abc75971a57e48bbda9e00abe9cb'] = 'Redimir Puntos';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_95d2137c196c7f84df5753ed78f18332'] = 'Mis Descuentos';
+$_MODULE['<{blockmyaccountheader}prestashop>blockmyaccountheader_c87aacf5673fada1108c9f809d354311'] = 'Salir';

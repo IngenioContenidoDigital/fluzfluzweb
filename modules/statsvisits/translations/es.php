@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{statsvisits}prestashop>statsvisits_504c16c26a96283f91fb46a69b7c8153'] = 'Visitas y Visitantes';
 $_MODULE['<{statsvisits}prestashop>statsvisits_432c3ab90b3af30ad318201ba09aa824'] = 'Añade estadísticas acerca de tus visitas y visitantes al panel de control de estadísticas.';
 $_MODULE['<{statsvisits}prestashop>statsvisits_6602bbeb2956c035fb4cb5e844a4861b'] = 'Guía';
@@ -19,6 +18,3 @@ $_MODULE['<{statsvisits}prestashop>statsvisits_998e4c5c80f27dec552e99dfed34889a'
 $_MODULE['<{statsvisits}prestashop>statsvisits_39b960b0a5e2ebaaa638d946f1892050'] = 'Número de visitas y visitantes únicos';
 $_MODULE['<{statsvisits}prestashop>statsvisits_d7e637a6e9ff116de2fa89551240a94d'] = 'Visitas';
 $_MODULE['<{statsvisits}prestashop>statsvisits_ae5d01b6efa819cc7a7c05a8c57fcc2c'] = 'Visitantes';
-
-
-return $_MODULE;

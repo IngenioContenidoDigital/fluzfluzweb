@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{blockcmsinfo}prestashop>blockcmsinfo_988659f6c5d3210a3f085ecfecccf5d3'] = 'Bloque de información CMS personalizado';
 $_MODULE['<{blockcmsinfo}prestashop>blockcmsinfo_cd4abd29bdc076fb8fabef674039cd6e'] = 'Añade bloques de información personalizados en su tienda.';
 $_MODULE['<{blockcmsinfo}prestashop>blockcmsinfo_666f6333e43c215212b916fef3d94af0'] = 'Debe rellenar todos los campos.';
@@ -17,6 +16,3 @@ $_MODULE['<{blockcmsinfo}prestashop>blockcmsinfo_6fcdef6ca2bb47a0cf61cd41ccf274f
 $_MODULE['<{blockcmsinfo}prestashop>blockcmsinfo_9f82518d468b9fee614fcc92f76bb163'] = 'Tienda';
 $_MODULE['<{blockcmsinfo}prestashop>blockcmsinfo_56425383198d22fc8bb296bcca26cecf'] = 'Bloque de texto';
 $_MODULE['<{blockcmsinfo}prestashop>blockcmsinfo_ef61fb324d729c341ea8ab9901e23566'] = 'Añadir nuevo';
-
-
-return $_MODULE;

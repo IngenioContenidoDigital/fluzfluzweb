@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{themeconfigurator}prestashop>themeconfigurator_e92dabb4907f1957cabc469cca4deefc'] = 'Configurador de temas';
 $_MODULE['<{themeconfigurator}prestashop>themeconfigurator_cf8fdaf6e745133c90516eb9b74e31c3'] = 'Configura los elementos principales de tu tema.';
 $_MODULE['<{themeconfigurator}prestashop>themeconfigurator_dd2eaa9871e00e3c9242934ce942c27c'] = '¡Más de 800 Plantilas Premium en Prestashop! ¡Ir ahora!';
@@ -42,7 +41,6 @@ $_MODULE['<{themeconfigurator}prestashop>items_2c92d496fa8efe3d5b2b38c185f9b7f7'
 $_MODULE['<{themeconfigurator}prestashop>items_91081fbf39583a57fdde5efa138d0564'] = 'Hook para el que se pueden añadir imágenes';
 $_MODULE['<{themeconfigurator}prestashop>items_100eb3bd7b79830fe86288a63e13d485'] = 'Cargar su imagen';
 $_MODULE['<{themeconfigurator}prestashop>items_6fed80a8c8ded2f5e14a687e4a443abc'] = 'Ancho de imagen';
-$_MODULE['<{themeconfigurator}prestashop>items_d399848208da8b80a306af0fd62bb03f'] = 'píxeles';
 $_MODULE['<{themeconfigurator}prestashop>items_2aa3aa9d021c7cfffb5afa08f52fbc51'] = 'Alto de imagen';
 $_MODULE['<{themeconfigurator}prestashop>items_0eff773cf33456a033e913f6ed18045c'] = 'Objetivo del enlace';
 $_MODULE['<{themeconfigurator}prestashop>items_78698b9b0fa4eaac0876da3a900d5024'] = 'Abrir el enlace en una nueva pestaña/página';
@@ -57,7 +55,6 @@ $_MODULE['<{themeconfigurator}prestashop>new_2c92d496fa8efe3d5b2b38c185f9b7f7'] 
 $_MODULE['<{themeconfigurator}prestashop>new_b9b371458ab7c314f88b81c553f6ce51'] = 'Gancho';
 $_MODULE['<{themeconfigurator}prestashop>new_be53a0541a6d36f6ecb879fa2c584b08'] = 'Imagen';
 $_MODULE['<{themeconfigurator}prestashop>new_6fed80a8c8ded2f5e14a687e4a443abc'] = 'Ancho de imagen';
-$_MODULE['<{themeconfigurator}prestashop>new_21de26caa6bcfc936378c4e45d235bd9'] = 'px';
 $_MODULE['<{themeconfigurator}prestashop>new_2aa3aa9d021c7cfffb5afa08f52fbc51'] = 'Alto de imagen';
 $_MODULE['<{themeconfigurator}prestashop>new_e6b391a8d2c4d45902a23a8b6585703d'] = 'URL';
 $_MODULE['<{themeconfigurator}prestashop>new_4c87eb073eb09f42281d7e67aeacb223'] = 'Objetivo';
@@ -72,6 +69,3 @@ $_MODULE['<{themeconfigurator}prestashop>live_configurator_9a2c00f5f6df185a8d7d4
 $_MODULE['<{themeconfigurator}prestashop>live_configurator_ea3aba27f515989b46d990e95a097818'] = 'Elige una fuente';
 $_MODULE['<{themeconfigurator}prestashop>live_configurator_526d688f37a86d3c3f27d0c5016eb71d'] = 'Reinicializar';
 $_MODULE['<{themeconfigurator}prestashop>live_configurator_c9cc8cce247e49bae79f15173ce97354'] = 'Guardar';
-
-
-return $_MODULE;
