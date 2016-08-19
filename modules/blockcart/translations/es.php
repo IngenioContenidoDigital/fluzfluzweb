@@ -2,11 +2,10 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{blockcart}prestashop>blockcart_c2e1362a9710a3dd86f937c2ea1f336d'] = 'Bloque de carrito';
 $_MODULE['<{blockcart}prestashop>blockcart_e03093a5753b436ee1de63b6e3e1bd02'] = 'Añade un bloque que contiene el carrito de compra del cliente.';
 $_MODULE['<{blockcart}prestashop>blockcart_a21e5718d2a196280b729438933501c7'] = 'Ajax: opción incorrecta.';
-$_MODULE['<{blockcart}prestashop>blockcart_02c793e3df4632db20e4d6e146095d62'] = 'Debe rellenar el campo "productos mostrados".';
+$_MODULE['<{blockcart}prestashop>blockcart_02c793e3df4632db20e4d6e146095d62'] = 'Debe rellenar el campo \"productos mostrados\".';
 $_MODULE['<{blockcart}prestashop>blockcart_c888438d14855d7d96a2724ee9c306bd'] = 'Configuración actualizada';
 $_MODULE['<{blockcart}prestashop>blockcart_f4f70727dc34561dfde1a3c529b6205c'] = 'Ajustes';
 $_MODULE['<{blockcart}prestashop>blockcart_614a8820aa4ac08ce2ee398a41b10778'] = 'Carrito Ajax';
@@ -43,18 +42,3 @@ $_MODULE['<{blockcart}prestashop>crossselling_ef2b66b0b65479e08ff0cce29e19d006']
 $_MODULE['<{blockcart}prestashop>crossselling_dd1f775e443ff3b9a89270713580a51b'] = 'Previo';
 $_MODULE['<{blockcart}prestashop>crossselling_4351cfebe4b61d8aa5efa1d020710005'] = 'Ver';
 $_MODULE['<{blockcart}prestashop>crossselling_10ac3d04253ef7e1ddc73e6091c0cd55'] = 'Siguiente';
-$_MODULE['<{blockcart}prestashop>blockcart_03e9618cc6e69fe15a57c7377827a804'] = 'A determinar';
-$_MODULE['<{blockcart}prestashop>blockcart_98b3009e61879600839e1ee486bb3282'] = 'Cerrar Ventana';
-$_MODULE['<{blockcart}prestashop>blockcart_544c3bd0eac526113a9c66542be1e5bc'] = 'Producto añadido correctamente a su carrito de la compra';
-$_MODULE['<{blockcart}prestashop>blockcart_694e8d1f2ee056f98ee488bdc4982d73'] = 'Cantidad';
-$_MODULE['<{blockcart}prestashop>blockcart_e5694b7726ceaf2f057e5f06cf86209e'] = 'Hay [1]%d[/1] artículos en su carrito.';
-$_MODULE['<{blockcart}prestashop>blockcart_fc86c43dbffcadc193832a310f7a444a'] = 'Hay 1 artículo en su cesta.';
-$_MODULE['<{blockcart}prestashop>blockcart_db205f01b4fd580fb5daa9072d96849d'] = 'Total productos:';
-$_MODULE['<{blockcart}prestashop>blockcart_21034ae6d01a83e702839a72ba8a77b0'] = '(sin IVA)';
-$_MODULE['<{blockcart}prestashop>blockcart_1f87346a16cf80c372065de3c54c86d9'] = '(impuestos inc.)';
-$_MODULE['<{blockcart}prestashop>blockcart_f4e8b53a114e5a17d051ab84d326cae5'] = 'Total envío:';
-$_MODULE['<{blockcart}prestashop>blockcart_300225ee958b6350abc51805dab83c24'] = 'Continuar la compra';
-$_MODULE['<{blockcart}prestashop>blockcart_7e0bf6d67701868aac3116ade8fea957'] = 'Ir a la caja';
-
-
-return $_MODULE;

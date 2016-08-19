@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_1b94af23fd8ea879910a6307460ebba4'] = 'Información de clientes registrados';
 $_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_b0cb4ea4e89c2107cb100be8417fd94e'] = 'Añade información acerca del registro de clientes (como género y edad) al panel de control de estadísticas.';
 $_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_6602bbeb2956c035fb4cb5e844a4861b'] = 'Guía';
@@ -35,6 +34,3 @@ $_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_6a239f88f1aeb0561e7
 $_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_73b0130037e21b76351aebfd29d0b9aa'] = 'distribución del país';
 $_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_28e81c8343702f6c813cc31a7f90616a'] = 'Repartición por divisas';
 $_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_f1dd68fb6a00d3e4d7f751deacde995d'] = 'Repartición por idiomas';
-
-
-return $_MODULE;

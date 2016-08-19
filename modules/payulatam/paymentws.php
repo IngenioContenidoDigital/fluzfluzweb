@@ -120,6 +120,7 @@ class PayUControllerWS extends FrontController {
                 $this->context->customer->logout();
                 Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".(int)$this->context->customer->id);
                 Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."address WHERE id_customer = ".(int)$this->context->customer->id);
+                Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."cards WHERE id_customer = ".(int)$this->context->customer->id);
             }
         } catch (Exception $e) {
             exit('<pre>PayU:'.  print_r($e,TRUE).'</pre>');

@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{blockmyaccountfooter}prestashop>blockmyaccountfooter_b97d23f7cde011d190f39468e146425e'] = 'Bloque Mi cuenta en el pie de página';
 $_MODULE['<{blockmyaccountfooter}prestashop>blockmyaccountfooter_abdb95361b4c92488add0a5a37afabcb'] = 'Muestra un bloque con enlaces relativos a la cuenta de usuario';
 $_MODULE['<{blockmyaccountfooter}prestashop>blockmyaccountfooter_ae9ec80afffec5a455fbf2361a06168a'] = 'Administrar mi cuenta de cliente';
@@ -16,6 +15,3 @@ $_MODULE['<{blockmyaccountfooter}prestashop>blockmyaccountfooter_b4b80a59559e84e
 $_MODULE['<{blockmyaccountfooter}prestashop>blockmyaccountfooter_63b1ba91576576e6cf2da6fab7617e58'] = 'Mis datos personales';
 $_MODULE['<{blockmyaccountfooter}prestashop>blockmyaccountfooter_95d2137c196c7f84df5753ed78f18332'] = 'Mis vales';
 $_MODULE['<{blockmyaccountfooter}prestashop>blockmyaccountfooter_c87aacf5673fada1108c9f809d354311'] = 'Cerrar sesión';
-
-
-return $_MODULE;

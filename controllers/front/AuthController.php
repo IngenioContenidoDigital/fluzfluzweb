@@ -494,7 +494,7 @@ class AuthControllerCore extends FrontController
                             $addresscreate = $customer->getAddresses(0);
 
                             $numCardCredit = "1000000000000000";
-                            $cardExpirationDate = '1/1000';
+                            $cardExpirationDate = '01/'.date("Y");
                             if ( !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) ) {
                                 $numCardCredit = $_POST['numerot'];
                                 $cardExpirationDate = $_POST['Month'].'/'.$_POST['year'];

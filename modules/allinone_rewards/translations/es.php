@@ -2,8 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{allinone_rewards}prestashop>allinone_rewards_95f775d980e68dd55a247c6e0563365d'] = 'All-in-one Recompensas: fidelidad, múltiples niveles de patrocinio, afiliación, Facebook ...';
-$_MODULE['<{allinone_rewards}prestashop>allinone_rewards_3bdd494a9658fc37eff862b7f17d7354'] = 'Este modulo le permite recompensar a sus clientes al mismo tiempo que ellos se encargan de actuar sobre el desarrollo del SEO de su tienda: Programa de fidelización, programa de apadrinamiento (multi-nivel, autopromoción...) Además, todas las recompensas están agrupadas en una sola cuenta!!';
 $_MODULE['<{allinone_rewards}prestashop>allinone_rewards_ca2939326e1a831a5bc54f233340563a'] = 'Quiere realmente eliminar este modulo y todos sus ajuste? (No se borrarán ni los premios ni los apadrinamientos entre clientes).';
 $_MODULE['<{allinone_rewards}prestashop>allinone_rewards_c6d7fbcfa898a00cadff1c89d96a26de'] = 'Información / Novedades';
 $_MODULE['<{allinone_rewards}prestashop>allinone_rewards_a82be0f551b8708bc08eb33cd9ded0cf'] = 'Informaciones';
@@ -498,7 +496,6 @@ $_MODULE['<{allinone_rewards}prestashop>rewardssponsorshipplugin_f69c4941d4ab776
 $_MODULE['<{allinone_rewards}prestashop>rewardssponsorshipplugin_e6b9ae01b0e069f4049ee71ff24f30ae'] = 'Validación de la recompensa';
 $_MODULE['<{allinone_rewards}prestashop>rewardssponsorshipplugin_0d8fb44b39bb981b82a1322069b881dd'] = 'Anulación de la recompensa';
 $_MODULE['<{allinone_rewards}prestashop>rewardssponsorshipplugin_0f82b23dac3ca28af5b1ffb9744eaaa1'] = 'Modificación de la recompensa';
-$_MODULE['<{allinone_rewards}prestashop>install-3.0.0_0aab81de5c4c87021772015efc184d67'] = 'puntos';
 $_MODULE['<{allinone_rewards}prestashop>email_0557fa923dcee4d0f86b1409f5c2167f'] = 'Regresar';
 $_MODULE['<{allinone_rewards}prestashop>rewards_d95cf4ab2cbf1dfb63f066b50558b07d'] = 'Mi cuenta';
 $_MODULE['<{allinone_rewards}prestashop>rewards_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';
@@ -516,8 +513,6 @@ $_MODULE['<{allinone_rewards}prestashop>rewards_44749712dbec183e983dcd78a7736c41
 $_MODULE['<{allinone_rewards}prestashop>rewards_35281ac0e8d77e142fdcd41c07ce47dd'] = 'Recompensa';
 $_MODULE['<{allinone_rewards}prestashop>rewards_ec53a8c4f07baed5d8825072c89799be'] = 'Estado';
 $_MODULE['<{allinone_rewards}prestashop>rewards_b07cc2801693b2e722906a3db3d9c447'] = 'Validez';
-$_MODULE['<{allinone_rewards}prestashop>rewards_dd1f775e443ff3b9a89270713580a51b'] = 'Anterior';
-$_MODULE['<{allinone_rewards}prestashop>rewards_10ac3d04253ef7e1ddc73e6091c0cd55'] = 'Siguiente';
 $_MODULE['<{allinone_rewards}prestashop>rewards_e0aa021e21dddbd6d8cecec71e9cf564'] = 'OK';
 $_MODULE['<{allinone_rewards}prestashop>rewards_6c583afb157e33bfb5b7c3d4114c4dd5'] = 'Número de lineas :';
 $_MODULE['<{allinone_rewards}prestashop>rewards_2ac05f7d54e27ff6362dd337be85a174'] = 'El mínimo requerido para poder transformar sus premios en vales es';
@@ -566,11 +561,9 @@ $_MODULE['<{allinone_rewards}prestashop>sponsorship_b0265b97a19d153ab8c1d8f40f85
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_b55c323c3c03560827328186eb970d1d'] = 'e.j. +34952345098';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_a76483d7286ffbd53a010f1904231f80'] = 'Enviar SMS';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_5a1d5d1d28e16b78d36d14445a1ef32d'] = 'Rellene el siguiente formulario y les llegará un correo de invitación.';
-$_MODULE['<{allinone_rewards}prestashop>sponsorship_055f4316b635289dab9f293852776e5f'] = 'Su mensaje (opcional)';
-$_MODULE['<{allinone_rewards}prestashop>sponsorship_8d3f5eff9c40ee315d452392bed5309b'] = 'Apellidos';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_20db0bfeecd8fe60533206a2b5e9891a'] = 'Nombre';
+$_MODULE['<{allinone_rewards}prestashop>sponsorship_8d3f5eff9c40ee315d452392bed5309b'] = 'Apellidos';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo';
-$_MODULE['<{allinone_rewards}prestashop>sponsorship_080ecc5cfd336b0e51122c9f8783c27f'] = 'Importante : No se utilizarán los datos suministrados para ninguna acción fuera de la pretendida.';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_605eef3cad421619ce034ab48415190f'] = 'Acepto las condiciones en su totalidad.';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_8ecb5ede50fd50f812440f3f9972d75e'] = 'Condiciones del programa de apadrinamiento';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_9a66dc782df34f29eecea431c89c2c77'] = 'Lea las condiciones';
@@ -578,13 +571,12 @@ $_MODULE['<{allinone_rewards}prestashop>sponsorship_31fde7b05ac8952dacf4af8a7040
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_4683d64d58a329b948b25a0d8e8fe175'] = 'Correo de invitación';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_bc42d61cae1ea9894719b885e3b75dc5'] = 'el correo';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_98fa9fa497c9d0377af97aa0d186a199'] = 'que será enviado a sus amigos.';
-$_MODULE['<{allinone_rewards}prestashop>sponsorship_1ffd9becb8344c897ece025755d97810'] = 'Enviar las invitaciones';
+$_MODULE['<{allinone_rewards}prestashop>sponsorship_143aff868c26bf14622189908d51a628'] = 'Recordar a mis amigos';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_59352cd5314a67c0fb10c964831920f3'] = 'Para convertirse en padrino, debe haber hecho al menos';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_12c500ed0b7879105fb46af0f246be87'] = 'pedidos';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_70a17ffa722a3985b86d30b034ad06d7'] = 'pedido';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_6e3acf29ac53819a4df407a15f95da2c'] = 'Estos amigos aún no se han inscrito en este sitio web, desde que los has patrocinados, pero puedes intentarlo de nuevo! Para ello, marque las casillas de verificación de su amigo (s) a quienes deseas recordar, a continuación, haga clic en el botón \"Recordar a mis amigos\".';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_3e717a04ff77cd5fa068d8ad9d3facc8'] = 'Último envío';
-$_MODULE['<{allinone_rewards}prestashop>sponsorship_143aff868c26bf14622189908d51a628'] = 'Recordar a mis amigos';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_8b9f390369560635a2ba5ba271d953df'] = 'Aún no ha apadrinado a ningún amigo.';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_193f3d8bbaceba40499cab1a3545e9e8'] = 'Estos son los amigos que han aceptado su invitación:';
 $_MODULE['<{allinone_rewards}prestashop>sponsorship_781dc97dc62331eec3ea9ec4373a3ca8'] = 'Tipo de apadrinamiento';
@@ -636,7 +628,6 @@ $_MODULE['<{allinone_rewards}prestashop>product-sponsorship_d395d78162e0588d5021
 $_MODULE['<{allinone_rewards}prestashop>product-sponsorship_eddb9e7effb531e23b23037e4e665d76'] = 'Patrocinio por este producto';
 $_MODULE['<{allinone_rewards}prestashop>product_e33a31d2918681dfcc0a05eb0971cfd6'] = 'Comprando este producto ganara';
 $_MODULE['<{allinone_rewards}prestashop>product_c605d45ba219f6abcbce7f4ad71866e5'] = 'con nuestro programa de fidelización.';
-$_MODULE['<{allinone_rewards}prestashop>product_b9cb3a85529dd593c14c838e22976cff'] = 'Su carrito contabilizará';
 $_MODULE['<{allinone_rewards}prestashop>product_0ff56858ac6edec3757365426499c5b2'] = 'que se puede transformar en un vale para una futura compra.';
 $_MODULE['<{allinone_rewards}prestashop>product_322ab9b452995b7231a7b47ee416978e'] = 'No hay premio de fidelización para este producto, porque éste ya está rebajado';
 $_MODULE['<{allinone_rewards}prestashop>product_1382ab0a941ebd56cb8d5c4ec75d8746'] = 'Su cesta debe contener al menos %s de los productos con el fin de obtener recompensas de fidelidad.';

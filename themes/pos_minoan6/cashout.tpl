@@ -19,14 +19,14 @@
     {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
 <div class="row">
-    <h1 class="page-heading">{l s='Cash Out' mod='allinone_rewards'}</h1>
+    <h1 class="page-heading">{l s='Cash Out'}</h1>
     <div class="cashoutDiv col-lg-12">
         <span class="cashoutTitle col-lg-6">{l s="Your Point Total: "}</span>
         <span class="cashoutPoint col-lg-6"> {$totalAvailable}</span>
     </div>
     <div class="cashoutDiv col-lg-12">
         <span class="cashoutTitle col-lg-6">{l s="Cash Conversion Total: "}</span>
-        <span class="cashoutPoint col-lg-6"> {$pago}</span>
+        <span class="cashoutPoint col-lg-6"> {displayPrice price=$pago currency=$payment_currency}</span>
     </div>
 </div>
         
@@ -101,7 +101,7 @@
         
 	{if $payment_button_allowed}
             <div id="payment" style="clear: both">
-                    <a onClick="$('#payment_form').toggle()">{l s='Payment of your available rewards' mod='allinone_rewards'} <span>{displayPrice price=$totalForPaymentDefaultCurrency currency=$payment_currency}</span></a>
+                    <a onClick="$('#payment_form').toggle()">{l s='Payment of your available rewards'} <span>{displayPrice price=$pago currency=$payment_currency}</span></a>
                     <form id="payment_form" class="std" method="post" action="{$pagination_link|escape:'htmlall':'UTF-8'}" enctype="multipart/form-data" style="display: {if isset($smarty.post.payment_details)}block{else}none{/if}">
                            
                             <fieldset>
@@ -135,7 +135,7 @@
                                             <label style="display:none;" for="payment_invoice">{l s='Invoice' mod='allinone_rewards'} ({displayPrice price=$totalForPaymentDefaultCurrency currency=$payment_currency}) {if $payment_invoice}<sup>*</sup>{/if}</label>
                                             <input id="payment_invoice" name="payment_invoice" type="file" accept="application/pdf" required>
                                     </p>
-                                    <input class="button" type="submit" value="{l s='REQUEST DEPOSIT' mod='allinone_rewards'}" name="submitPayment" id="submitPayment">
+                                    <input class="button" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment">
                                  </div>
                             </fieldset>
                            
@@ -165,7 +165,7 @@
         .banner-home{margin: 0px;}
         .footer_links{display: none;}
         #min_payment{display: none;}
-        .rewards{width: 80%; margin: 0 auto; margin-top: 5%;}
+        .rewards{width: 80%; margin: 0 auto;}
         .rewards table.std td { font-size: 11px; line-height: 13px; padding: 10px !important; background:#f9f9f9; border: #fff 5px solid; border-right:none; border-left:none;}
         .page-heading{margin:0;}
         .breadcrumb{margin-left: 11%; font-size:12px;}

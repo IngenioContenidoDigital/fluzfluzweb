@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{homeslider}prestashop>homeslider_693b83f5eca43e2bb1675287c37ce9e2'] = 'Diapositivas de imágenes para tu página web';
 $_MODULE['<{homeslider}prestashop>homeslider_c17aed434289cedd02618451e12c8da6'] = 'Añade una diapositiva de imágenes a tu página principal.';
 $_MODULE['<{homeslider}prestashop>homeslider_3f80dc2cdd06939d4f5514362067cd86'] = 'Valores no válidos';
@@ -45,9 +44,9 @@ $_MODULE['<{homeslider}prestashop>homeslider_105b296a83f9c105355403f3332af50f'] 
 $_MODULE['<{homeslider}prestashop>homeslider_44f0ca4d7ea17bb667e8d5e31311d959'] = 'El retardo entre dos diapositivas.';
 $_MODULE['<{homeslider}prestashop>homeslider_1e6a508c037fc42ef6155eeadbb80331'] = 'Reproducir automáticamente';
 $_MODULE['<{homeslider}prestashop>homeslider_5a3489cc067f89b268b6958bffb98ebf'] = 'Dado que varios idiomas se activaron en su tienda, por favor recuerde subir su imagen para cada uno de ellos';
-$_MODULE['<{homeslider}prestashop>homeslider_c8a1ed10db4201b3ae06ea0aa912028d'] = 'No puede gestionar los elementos de diapositivas para el contexto de "Todas las tiendas" o un "Grupo de tiendas", seleccione directamente la tienda que quiere editar';
+$_MODULE['<{homeslider}prestashop>homeslider_c8a1ed10db4201b3ae06ea0aa912028d'] = 'No puede gestionar los elementos de diapositivas para el contexto de \"Todas las tiendas\" o un \"Grupo de tiendas\", seleccione directamente la tienda que quiere editar';
 $_MODULE['<{homeslider}prestashop>homeslider_432ed99c2e808d79c96f892807d33325'] = 'Usted solo puede editar esta diapositiva desde el contexto de la(s) tienda(s): %s';
-$_MODULE['<{homeslider}prestashop>homeslider_6a1ae4ad1018e00dddb16a2ce30a24f6'] = 'Usted no puede agregar diapositivas desde el contexto "Todas las tiendas" o  "Grupo de Tiendas"';
+$_MODULE['<{homeslider}prestashop>homeslider_6a1ae4ad1018e00dddb16a2ce30a24f6'] = 'Usted no puede agregar diapositivas desde el contexto \"Todas las tiendas\" o  \"Grupo de Tiendas\"';
 $_MODULE['<{homeslider}prestashop>homeslider_7a5c11dddbb2118d08611a1f0678bb91'] = 'Imposible obtener información de asociación de la tienda de la diapositiva  (id_slide: %d)';
 $_MODULE['<{homeslider}prestashop>homeslider_298b615220606d42b6ac60269df0d321'] = 'Las modificaciones se aplicarán a la tienda: %s';
 $_MODULE['<{homeslider}prestashop>homeslider_aef3662e6419ddaaa0a31df70e3b6557'] = 'Las modificaciones se aplicarán a este grupo: %s';
@@ -59,6 +58,3 @@ $_MODULE['<{homeslider}prestashop>list_ef61fb324d729c341ea8ab9901e23566'] = 'Añ
 $_MODULE['<{homeslider}prestashop>list_379a88861412d686cfaf475c84a24920'] = 'Compartir diapositiva';
 $_MODULE['<{homeslider}prestashop>list_7dce122004969d56ae2e0245cb754d35'] = 'Modificar';
 $_MODULE['<{homeslider}prestashop>list_f2a6c498fb90ee345d997f888fce3b18'] = 'Eliminar';
-
-
-return $_MODULE;

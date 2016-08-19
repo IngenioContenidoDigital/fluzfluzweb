@@ -43,7 +43,7 @@
 					<footer id="footer">
                                             <div class="footer-static-top" style="background:#fff;">
 							<div class="container2">
-								<div class="row footerPrueba" style="background:#f9f9f9; margin-left:0; min-height: 400px;">
+								<div class="row footerPrueba" style="background:#f9f9f9; margin-left:0; min-height: 300px;">
 									<div class="col-xs-12 col-md-2 col-sm-4">
 									
 										{capture name='blockFooter1'}{hook h='blockFooter1'}{/capture}

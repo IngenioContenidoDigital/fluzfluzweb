@@ -529,7 +529,7 @@ $_MODULE['<{allinone_rewards}pos_minoan6>rewards_8cf04a9734132302f96da8e113e80ce
 $_MODULE['<{allinone_rewards}pos_minoan6>rules_0557fa923dcee4d0f86b1409f5c2167f'] = 'Regresar';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_5508a53851720a210e50f7b8a6f66f46'] = 'Debe aceptar las condiciones del programa antes de seguir.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_d95cf4ab2cbf1dfb63f066b50558b07d'] = 'Mi cuenta';
-$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
+$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Red Fluz Fluz';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_5547353fcd8049716807ba0da71eabd8'] = 'Al menos una dirección de email no es correcta.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_1019072b9e450c8652590cda2db45e49'] = 'Al menos un nombre o apellido no es correcto.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_6f4265f1ad2f6f4f8a572a7c1cc9fb73'] = 'Alguien con este email ya ha sido apadrinado';
@@ -565,7 +565,7 @@ $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_20db0bfeecd8fe60533206a2b5e
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8d3f5eff9c40ee315d452392bed5309b'] = 'Apellidos';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_605eef3cad421619ce034ab48415190f'] = 'Acepto las condiciones en su totalidad.';
-$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8ecb5ede50fd50f812440f3f9972d75e'] = 'Condiciones del programa de apadrinamiento';
+$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8ecb5ede50fd50f812440f3f9972d75e'] = 'Condiciones de la red Fluz Fluz';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_9a66dc782df34f29eecea431c89c2c77'] = 'Lea las condiciones';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_31fde7b05ac8952dacf4af8a704074ec'] = 'Ver';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_4683d64d58a329b948b25a0d8e8fe175'] = 'Correo de invitación';
@@ -602,7 +602,7 @@ $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_49ee3087348e8d44e1feda19174
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_1a490c272e2a85e636097cb98988e6b4'] = 'Pedidos ahijados';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_a958dbb46713e59856c35f89e5092a5e'] = 'Volver a su cuenta';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8cf04a9734132302f96da8e113e80ce5'] = 'Inicio';
-$_MODULE['<{allinone_rewards}pos_minoan6>admincustomer-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
+$_MODULE['<{allinone_rewards}pos_minoan6>admincustomer-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Red Fluz Fluz';
 $_MODULE['<{allinone_rewards}pos_minoan6>admincustomer-sponsorship_7ef02937db8b6dd5072782135f3dbb47'] = 'Código de patrocinio';
 $_MODULE['<{allinone_rewards}pos_minoan6>admincustomer-sponsorship_5915d4c5183979ccb3e37a6c2a861583'] = 'Padrino';
 $_MODULE['<{allinone_rewards}pos_minoan6>admincustomer_7c3025ae86e07ddae68725695fb19050'] = 'Cuenta de recompensas';
@@ -614,14 +614,14 @@ $_MODULE['<{allinone_rewards}pos_minoan6>adminorders-sponsorship_ec53a8c4f07baed
 $_MODULE['<{allinone_rewards}pos_minoan6>adminorders_e593281b1382e335937710824556919a'] = 'Recompensa por lealtad por este pedido';
 $_MODULE['<{allinone_rewards}pos_minoan6>adminorders_617084d1037d7750509c793366eb2090'] = 'Recompensa :';
 $_MODULE['<{allinone_rewards}pos_minoan6>adminorders_46305df6212a3c2cb0bed9985c49bd6c'] = 'Estado :';
-$_MODULE['<{allinone_rewards}pos_minoan6>authentication_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
+$_MODULE['<{allinone_rewards}pos_minoan6>authentication_d2c4f39ee6856aa5684bb0accb594676'] = 'Red Fluz Fluz';
 $_MODULE['<{allinone_rewards}pos_minoan6>authentication_c69d2ba6f5a65395ee61df2ac77fa6b1'] = 'Código o email de su padrino';
 $_MODULE['<{allinone_rewards}pos_minoan6>authentication_65babe101b73e06a1cc047b63a164a3a'] = 'Este padrino no existe';
 $_MODULE['<{allinone_rewards}pos_minoan6>authentication_4b6b9bd5ea5c6950fc9a8a3f16ed25fb'] = 'Ya tenemos en cuenta su apadrinamiento';
-$_MODULE['<{allinone_rewards}pos_minoan6>customer-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
+$_MODULE['<{allinone_rewards}pos_minoan6>customer-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Red Fluz Fluz';
 $_MODULE['<{allinone_rewards}pos_minoan6>customer-account_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';
 $_MODULE['<{allinone_rewards}pos_minoan6>facebook_confirmation_ebc601e78e961b93d3ad311575c4a718'] = 'Código:';
-$_MODULE['<{allinone_rewards}pos_minoan6>my-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
+$_MODULE['<{allinone_rewards}pos_minoan6>my-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Red Fluz Fluz';
 $_MODULE['<{allinone_rewards}pos_minoan6>my-account_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';
 $_MODULE['<{allinone_rewards}pos_minoan6>product-sponsorship_b015ba2c9956d78b0cdae5d7c2b95335'] = 'Puede compartir la dirección URL de este producto con su patrocinio incluido.';
 $_MODULE['<{allinone_rewards}pos_minoan6>product-sponsorship_d395d78162e0588d5021022040df8354'] = 'Sólo tienes que copiar / pegar el siguiente enlace:';
