@@ -86,7 +86,9 @@ class MyAccountControllerCore extends FrontController
         
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         //$manufacturer = $_COOKIE["manufacturerCards"];
-        $manufacturer = 14;
+        //$manufacturer = $_GET['id_manu'];
+        $manufacturer = Tools::getValue('refundtopayid');
+        $this->context->smarty->assign('manufacturer', $manufacturer);
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
@@ -176,7 +178,7 @@ class MyAccountControllerCore extends FrontController
     
     
       
-      /*public function getCustomerSponsorship($id_customer){
+      public function getCustomerSponsorship($id_customer){
             
             //$seguir = true;
             $childs = array();
@@ -199,7 +201,7 @@ class MyAccountControllerCore extends FrontController
              die();
              
            return $query;
-        }*/
+        }
         
     /*  public function tree(array $data, &$tree = array(), $level = 0) {
     
