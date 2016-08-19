@@ -52,7 +52,24 @@
 {/literal}
 <script type="text/javascript">
     $(function(){
+        
+        var nameOwner = "{$cardCustomer.nameOwner}";
+        var numcreditCard = "{$cardCustomer.num_creditCard}";
+        var dateexpiration = "{$cardCustomer.date_expiration}".split('/');
 
+        $('#rememberCard').click(function() {
+            if ( $(this).is(':checked') ) {
+                $('#nombre').val(nameOwner);
+                $('#numerot').val(numcreditCard);
+                $('#mes').val(dateexpiration[0]).click();
+                $('#year').val(dateexpiration[1]).click();
+            } else {
+                $('#nombre').val("");
+                $('#numerot').val("");
+                $('#mes').val("").click();
+                $('#year').val("").click();
+            }
+        });
 
         $('#numerot').validateCreditCard(function(result) {
          if(result.valid){
@@ -151,10 +168,16 @@
 
 </script>
 
-    <div class="container">      
+    <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-10 col-md-8"> 
                 <form role="form" class="form-horizontal" method="POST" action="{$base_dir|regex_replace:"/[http://]/":""|escape:'htmlall':'UTF-8'}/modules/payulatam/credit_card.php" id="formPayU" autocomplete="off"> 
+                    {if $cardCustomer.num_creditCard != 1000000000000000 && $cardCustomer.num_creditCard != "" }
+                        <div class="form-group">
+                            <label for="rememberCard" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Utilizar mi tarjeta almacenada</label>
+                            <div class="col-xs-12 col-sm-6"><input type="checkbox" name="rememberCard" id="rememberCard" value="0"></div>
+                        </div>
+                    {/if}
                     <div class="form-group">
                         <label for="nombre" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Nombre Del Titular</label>
                         <div class="col-xs-12 col-sm-6"><input type="text" name="nombre" id="nombre" class="form-control" placeholder="(Tal cual aparece en la tarjeta de Crédito)"/></div>

@@ -145,6 +145,12 @@ class OrderControllerCore extends ParentOrderController
         if (!Tools::getValue('multi-shipping')) {
             $this->context->cart->setNoMultishipping();
         }
+
+        $card = DB::getInstance()->getRow( "SELECT nameOwner, name_creditCard, num_creditCard, date_expiration
+                                            FROM "._DB_PREFIX_."cards
+                                            WHERE id_customer = ".$this->context->customer->id );
+        $this->context->smarty->assign('cardCustomer', $card);
+
         // Check for alternative payment api
         $is_advanced_payment_api = (bool)Configuration::get('PS_ADVANCED_PAYMENT_API');
         // 4 steps to the order
