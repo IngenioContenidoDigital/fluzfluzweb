@@ -110,24 +110,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     exit;
                 }
                 
-                $queryMax = 'SELECT MAX(n.credits) AS points, c.firstname AS name 
-                    FROM '._DB_PREFIX_.'rewards n 
-                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer';
-                $rowMax = Db::getInstance()->getRow($queryMax);
-                $pointMax = $rowMax['points'];
-                $nameMax = $rowMax['name'];
-                $this->context->smarty->assign('pointMax', $pointMax);
-                $this->context->smarty->assign('nameMax', $nameMax);
-                
-                $queryMin = 'SELECT MIN(n.credits) AS points, c.firstname AS name 
-                    FROM ps_rewards n 
-                    LEFT JOIN '._DB_PREFIX_.'customer c ON c.id_customer = n.id_customer ';
-                $rowMin = Db::getInstance()->getRow($queryMin);
-                $pointMin = $rowMin['points'];
-                $nameMin = $rowMin['name'];
-                $this->context->smarty->assign('pointMin', $pointMin);
-                $this->context->smarty->assign('nameMin', $nameMin);
-
 		/* transform credits into voucher if needed */
 		if ($voucherAllowed && Tools::getValue('transform-credits') == 'true' && $totalAvailableUserCurrency >= $voucherMininum && Tools::getValue('ajax') == 'false')
 		{
@@ -191,6 +173,9 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                         'topNetwork'=> $this->TopNetwork(),
                         'topWorst'=> $this->TopWorst(),
                         'activityNet'=> $this->recentActivity(),
+                        'topPoint'=> $this->TopNetworkUnique(),
+                        'worstPoint'=> $this->WorstNetworkUnique(),
+                        'totalpointNetwork'=>$this->totalNetwork(),
 			'totalGlobal' => $this->module->getRewardReadyForDisplay($totalGlobal, (int)$this->context->currency->id),
 			'totalConverted' => $this->module->getRewardReadyForDisplay($totalConverted, (int)$this->context->currency->id),
 			'totalAvailable' => $this->module->getRewardReadyForDisplay($totalAvailable, (int)$this->context->currency->id),
@@ -222,8 +207,11 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         
         public function TopNetwork() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            /*echo '<pre>';
+            print_r($tree);
+            die();*/
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor;
@@ -273,6 +261,71 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
              
             $activity=Db::getInstance()->executeS($query);
             return $activity;
+            
+        }
+        
+        public function TopNetworkUnique() {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                            FROM '._DB_PREFIX_.'rewards n 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor;
+                $result = Db::getInstance()->executeS($queryTop);
+                
+                if ($result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }                
+            }
+            usort($top, function($a, $b) {
+                return $b['points'] - $a['points'];
+            });
+            
+            return array_slice($top, 0, 1);    
+            
+        }
+        
+        public function WorstNetworkUnique() {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                            FROM '._DB_PREFIX_.'rewards n 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor;
+                $result = Db::getInstance()->executeS($queryTop);
+                
+                if ($result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }                
+            }
+            usort($top, function($a, $b) {
+                return $a['points'] - $b['points'];
+            });
+            
+            return array_slice($top, 0, 1);    
+            
+        }
+        
+        public function totalNetwork() {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            $sum=0;
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT SUM(n.credits) AS points
+                             FROM '._DB_PREFIX_.'rewards n WHERE n.id_customer='.$valor;
+                $result = Db::getInstance()->executeS($queryTop);
+                
+                if ($result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }
+                
+            }
+            usort($top, function($a, $b) {
+                return $b['points'] - $a['points'];
+            });
+            
+            foreach ($top as $x){
+                $sum += $x['points'];
+            }
+            
+            return $sum;    
             
         }
            

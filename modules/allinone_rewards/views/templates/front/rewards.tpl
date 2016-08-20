@@ -27,7 +27,7 @@
                 </h1>
             </div>
             <div class="divNetwork">
-                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$pointMax|number_format:0}
+                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalpointNetwork|number_format:0}
                     <br/><p class="pNetwork">{l s="Total Network Points"}</p>
                 </h1>
             </div>
@@ -45,14 +45,18 @@
             <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}{l s=" pts."}</span>
         </div>
         <p class="pGrap">{l s="YOUR POINT GENERATION"}</p><br/>
+        {foreach from=$topPoint item=top}
         <div id="topPoint" class="puntoGrap">
-            <span>{$pointMax|number_format:0}{l s=" pts."}</span>
+            <span>{$top.points|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="TOP POINT GENERATION: "}{$nameMax}</p><br/>
+        <p class="pGrap">{l s="TOP POINT GENERATION: "}{$top.name}</p><br/>
+        {/foreach}
+        {foreach from=$worstPoint item=worst}
         <div id="worstPoint" class="puntoGrap">
-            <span>{$pointMin|number_format:0}{l s=" pts."}</span>
+            <span>{$worst.points|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="WORST POINT GENERATION: "}{$nameMin}</p>
+        <p class="pGrap">{l s="WORST POINT GENERATION: "}{$worst.name}</p>
+        {/foreach}
     </div>
     
 </div>
@@ -258,7 +262,7 @@
 		<tbody>
 	{foreach from=$topNetwork item=topNet name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$topNet.name|escape:'html':'UTF-8'}</td>
+                            <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$topNet.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$topNet.lastname|escape:'html':'UTF-8'}</td>
                                 <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$topNet.purchase|escape:'htmlall':'UTF-8'}</td>
                                 <td align="right" style="padding-top:17px !important;">{$topNet.points|number_format:0}</td>
                                 <td style="padding-top:17px !important;">{dateFormat date=$topNet.time full=1}</td>
@@ -280,7 +284,7 @@
 		<tbody>
 	{foreach from=$topWorst item=worst name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}</td>
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$topNet.lastname|escape:'html':'UTF-8'}</td>
                                 <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.purchase|escape:'htmlall':'UTF-8'}</td>
                                 <td align="right" style="padding-top:17px !important;">{$worst.points|number_format:0}</td>
                                 <td style="padding-top:17px !important;">{dateFormat date=$worst.time full=1}</td>
