@@ -25,9 +25,9 @@
 #footer #newsletter_block_left h4:after { display: none; }
 #footer #newsletter_block_left .block_content { overflow: hidden;  margin-right: 14px;}
 #footer #newsletter_block_left .form-group { margin-bottom: 0;}
-#footer #newsletter_block_left .form-group .form-control { height: 50px;width: 50%; font-family:'Open Sans' !important; font-size: 10px; max-width: 550px; background: #fff; border: 0; color: #404e53; padding: 10px; display: inline-block; margin-bottom: 10px; }
+#footer #newsletter_block_left .form-group .form-control { height: 36px;width: 50%; font-family:'Open Sans' !important; font-size: 10px; max-width: 550px; background: #fff; border: 0; color: #404e53; padding: 10px; display: inline-block; margin-bottom: 10px; margin-right: 5px;}
 #footer #newsletter_block_left .form-group .form-control:focus { -webkit-box-shadow: black 0px 0px 0px; -moz-box-shadow: black 0px 0px 0px; box-shadow: black 0px 0px 0px; }
-#footer #newsletter_block_left .form-group .button-small { border: none; background: #c9b197; text-align: center; color: white; display: inline-block; vertical-align: top; line-height: 50px; padding: 0 50px; }
+#footer #newsletter_block_left .form-group .button-small { border: none; background: #c9b197; text-align: center; color: white; display: inline-block; vertical-align: top; line-height: 16px; width:130px; }
 #footer #newsletter_block_left .form-group .button-small font { size: 12px; weight: 700; }
 #footer #newsletter_block_left .form-group .button-small:hover { background: #ee4a42; }
 #footer #newsletter_block_left .warning_inline { display: block; color: #f13340; font-size: 13px; line-height: 26px; clear: both; }

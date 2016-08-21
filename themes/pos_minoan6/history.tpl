@@ -133,7 +133,7 @@
                                         <tr>
                                             
                                             <td class="history_point">
-                                                    <p style="font-size:30px; margin-right: 5%; padding-top: 5%; ">{$product.points}</p>
+                                                    <p style="font-size:20px; margin-right: 5%;">{$product.points}</p>
                                                     <p>{l s="Points"}</p>
                                             </td>
                                           
@@ -182,8 +182,8 @@
     <style>
         .table > thead > tr > th{color: #414042; font-family:'Open Sans'; background: #f7f7fb;}
         .info-title{display: none;}
-        .page-heading{margin-bottom: 7% !important; padding: 0px !important; letter-spacing: 0px;}
-        .breadcrumb{font-size:12px; margin-bottom: 3%;}
+        .page-heading{margin-bottom: 30px !important; padding: 0px !important; letter-spacing: 0px;}
+        .breadcrumb{font-size:12px;}
         .footable .footable-sortable .footable-sort-indicator:after{display: none;}
         .table tbody > tr > td{text-align: left;}
         ul.footer_links{margin-bottom: 5% !important; border-top: none !important;}

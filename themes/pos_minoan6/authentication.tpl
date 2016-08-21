@@ -4,7 +4,7 @@
 * NOTICE OF LICENSE
 *
 * This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
+* that is bundled with this package in not the file LICENSE.txt.
 * It is also available through the world-wide-web at this URL:
 * http://opensource.org/licenses/afl-3.0.php
 * If you did not receive a copy of the license and are unable to
@@ -51,8 +51,9 @@
 	{/if}-->
 	<div class="row">
                 <div class="col-xs-12 col-sm-6">
+                    <div class="info-box">
 			<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">
-				<h3 class="page-subheading">{l s='Already registered?'}</h3>
+				<h3 class="page-subheading borde-inf">{l s='Already registered?'}</h3>
 				<div class="form_content clearfix">
 					<div class="form-group">
 						<label for="email">{l s='Email address'}</label>
@@ -74,11 +75,15 @@
 					</p>
 				</div>
 			</form>
+                    </div>
 		</div>
 		<div class="col-xs-12 col-sm-6">
-                   <form id="login_form" class="box">
-				<h3 class="page-subheading">{l s='Not Registered?'}</h3>
-		   </form>
+                    <div class="info-box">
+                    <div class="box">
+                    <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
+                    <p>{l s="In order to register, you need to be invited by a current member of the Fluz Fluz network. Once you've been invited by a current member, you will receive a confirmation e-mail with detailed instructions on how to finalize your registration and maximize all of benefits of Fluz Fluz's point network, discounts and member giveaways."}</p>
+                    </div>
+		   </div>
 		</div>
 	</div>
 	{if isset($inOrderProcess) && $inOrderProcess && $PS_GUEST_CHECKOUT_ENABLED}
