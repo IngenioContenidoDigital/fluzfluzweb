@@ -28,8 +28,8 @@
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 <div class="row">
 {foreach from=$manufacturers item=manufacturer}
-    <div class="algo">
-    <!--<a class="myfancybox" href="#myspecialcontent">-->
+    <div class="algo myfancybox" href="#myspecialcontent">
+    
     <!--<a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">-->
     <div class="col-lg-4 col-md-4 Cards">
         <div class="col-lg-6 col-md-6 col-xs-6 infoCard">
@@ -42,7 +42,7 @@
         </div>
     </div>
             <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
-    <!--</a>-->
+   
     </div>
 {/foreach}
 <div class="col-lg-3 col-md-3 col-sm-12 textAccount">
