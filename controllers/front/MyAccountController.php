@@ -63,27 +63,6 @@ class MyAccountControllerCore extends FrontController
         $members = $sqlmember['members'];
         $this->context->smarty->assign('members', $members);
         
-        $queryMax = 'SELECT MAX(n.credits) AS points, c.firstname AS name 
-                    FROM ps_rewards n 
-                    LEFT JOIN ps_customer c ON c.id_customer = n.id_customer';
-                $rowMax = Db::getInstance()->getRow($queryMax);
-                $pointMax = round($rowMax['points']);
-                $nameMax = $rowMax['name'];
-                $this->context->smarty->assign('pointMax', $pointMax);
-                $this->context->smarty->assign('nameMax', $nameMax);
-                
-        $queryMin = 'SELECT MIN(n.credits) AS points, c.firstname AS name 
-            FROM ps_rewards n 
-            LEFT JOIN ps_customer c ON c.id_customer = n.id_customer ';
-                $rowMin = Db::getInstance()->getRow($queryMin);
-                $pointMin = round($rowMin['points']);
-                $nameMin = $rowMin['name'];
-                $this->context->smarty->assign('pointMin', $pointMin);
-                $this->context->smarty->assign('nameMin', $nameMin);
-        
-        /*$arrayCustomer = $this->getCustomerSponsorship($this->context->customer->id);
-        $this->context->smarty->assign('arrayCustomer', $arrayCustomer[0]);*/
-        
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         //$manufacturer = $_COOKIE["manufacturerCards"];
         //$manufacturer = $_GET['id_manu'];
@@ -94,6 +73,8 @@ class MyAccountControllerCore extends FrontController
             'has_customer_an_address' => empty($has_address),
             'cards'=>$this->getCardsbySupplier($this->context->customer->id, $manufacturer),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
+            'topPoint'=> $this->TopNetworkUnique(),
+            'worstPoint'=> $this->WorstNetworkUnique(),
             'returnAllowed' => (int)Configuration::get('PS_ORDER_RETURN')
         ));
         $this->context->smarty->assign('HOOK_CUSTOMER_ACCOUNT', Hook::exec('displayCustomerAccount'));
@@ -178,7 +159,7 @@ class MyAccountControllerCore extends FrontController
     
     
       
-      public function getCustomerSponsorship($id_customer){
+    public function getCustomerSponsorship($id_customer){
             
             //$seguir = true;
             $childs = array();
@@ -203,25 +184,43 @@ class MyAccountControllerCore extends FrontController
            return $query;
         }
         
-    /*  public function tree(array $data, &$tree = array(), $level = 0) {
-    
-            if (!isset($tree[$level])) $tree[$level] = array();
-
-            foreach ($data as $key => $value) {
-                // if value is an array, push the key and recurse through the array
-                if (is_array($value)) {
-                    $tree[$level][] = $key;
-                    tree($value, $tree, $level+1);
-                }
-
-                // otherwise, push the value
-                else {
-                    $tree[$level][] = $value;
-                }
+    public function TopNetworkUnique() {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT c.username AS username, n.id_customer as id, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                            FROM '._DB_PREFIX_.'rewards n 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor;
+                $result = Db::getInstance()->executeS($queryTop);
+                
+                if ($result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }                
             }
+            
+            usort($top, function($a, $b) {
+                return $b['points'] - $a['points'];
+            });
+            
+            return array_slice($top, 0, 1);    
+            
         }
-
-     * Consulta a base de datos hasta el 3er nivel 
-     * select * from ps_rewards_sponsorship where id_sponsor in(select id_customer from ps_rewards_sponsorship where id_sponsor = 1) or id_sponsor = 1;
-     *      */
+    public function WorstNetworkUnique() {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT c.username AS username, n.id_customer, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                            FROM '._DB_PREFIX_.'rewards n 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor;
+                $result = Db::getInstance()->executeS($queryTop);
+                
+                if ($result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }                
+            }
+            usort($top, function($a, $b) {
+                return $a['points'] - $b['points'];
+            });
+            
+            return array_slice($top, 0, 1);    
+            
+        }
 }
