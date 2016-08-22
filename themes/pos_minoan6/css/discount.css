@@ -1,0 +1,14 @@
+.page-heading { letter-spacing: 2px; font-weight: bold; padding: 0; }
+.blockcontainer { width: 100%; }
+.blockcontainer > div { width: 49%; display: inline-block; padding: 4px; }
+.blockcontainer > div > h2 { font-size: 17px; letter-spacing: 0; font-weight: bold; }
+.textsearch { padding: 15px 35px 15px 15px; width: 97%; background-color: #f9f9f9; border: none; }
+.searchimg { position: relative; left: -30px; }
+.tablenetwork { width: 97%; margin: 20px 0; }
+.tablenetwork > tbody > tr > td { padding: 0; }
+.tablecontent { width: 100%; border: 1px solid #e5e5e5; }
+.name { font-weight: bold; font-size: 14px; }
+.information { font-size: 11px; }
+.data { font-size: 12px; color: #EF4136; font-weight: bold; }
+.line {  border-bottom: 1px solid #e5e5e5; }
+.img { padding: 15px; }
