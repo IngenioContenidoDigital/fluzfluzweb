@@ -11,9 +11,9 @@
 
 #login_form { min-height: 297px; }
 #login_form .form-group { margin: 0 0 3px 0; }
-#login_form .form-group.lost_password { margin: 14px 0 15px 0; }
-#login_form .form-group.lost_password a { text-decoration: underline; }
-#login_form .form-group.lost_password a:hover { text-decoration: none; }
+#login_form .form-group.lost_password { margin: 9px 0 9px 0; font-weight: bold;}
+/*#login_form .form-group.lost_password a { text-decoration: underline; }*/
+#login_form .form-group.lost_password a:hover { text-decoration: underline; cursor:pointer; }
 
 #login_form .form-control, #create-account_form .form-control { max-width: 271px; }
 
@@ -39,4 +39,29 @@ p + .required { font-weight: bold; }
   position:fixed;
   top:20px;
   margin-top: 20px;
+}
+
+.info-box{
+    min-width: 310px;
+    min-height: 350px;
+    max-height: 350px;
+    overflow:hidden;
+    background-color: #fdfdfd;
+    border:solid 1px #ddd;
+    padding: 5px 10px 50px 10px;
+    margin: 5px;
+    margin-bottom: 20px;
+}
+
+.info-box p{
+    text-align: justify;
+    line-height: 18px;
+    margin-top: 20px;
+    background: none;
+}
+
+.borde-inf{
+    border-bottom-color: #ddd !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
 }

@@ -620,6 +620,8 @@ $_MODULE['<{allinone_rewards}prestashop>authentication_65babe101b73e06a1cc047b63
 $_MODULE['<{allinone_rewards}prestashop>authentication_4b6b9bd5ea5c6950fc9a8a3f16ed25fb'] = 'Ya tenemos en cuenta su apadrinamiento';
 $_MODULE['<{allinone_rewards}prestashop>customer-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
 $_MODULE['<{allinone_rewards}prestashop>customer-account_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';
+$_MODULE['<{allinone_rewards}prestashop>customer-account_c33e404a441c6ba9648f88af3c68a1ca'] = 'Estadísticas';
+$_MODULE['<{allinone_rewards}prestashop>customer-account_1c7b3f146f6cbcbf82676bf0c759df3a'] = 'Estadísticas';
 $_MODULE['<{allinone_rewards}prestashop>facebook_confirmation_ebc601e78e961b93d3ad311575c4a718'] = 'Código:';
 $_MODULE['<{allinone_rewards}prestashop>my-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
 $_MODULE['<{allinone_rewards}prestashop>my-account_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';

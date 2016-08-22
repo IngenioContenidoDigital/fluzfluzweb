@@ -117,6 +117,7 @@ $_LANG['authentication_cb430603758e73c64b8e1fef814b0be0'] = 'Hay al menos un err
 $_LANG['authentication_cc5d90569e1c8313c2b1c2aab1401174'] = 'Septiembre';
 $_LANG['authentication_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo electrónico';
 $_LANG['authentication_d635f8f8910dae6611b804a5f5b41d15'] = 'Cuando creas una cuenta en Fluz Fluz, te pedimos un ';
+$_LANG['authentication_d7cdb4890c6790a2dc5fd338db264857'] = 'Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un miembro actual, recibirás un correo de confirmación con instrucciones detalladas  para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz como puntos, descuentos y redenciones.';
 $_LANG['authentication_d83893e5c6dab1264313e6a0bc77814b'] = 'Dirección, nombre de la compañía, etc.';
 $_LANG['authentication_d87f73e8ff8d933ed2ba5ddf25040827'] = 'Checkout instantáneo';
 $_LANG['authentication_d973a0b6f38ebe7c83094d3dc4e04ae5'] = 'Asigna un nombre a la dirección';

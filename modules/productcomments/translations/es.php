@@ -58,6 +58,7 @@ $_MODULE['<{productcomments}prestashop>productcomments_20089c27bf83463fe32e7d30e
 $_MODULE['<{productcomments}prestashop>productcomments_4d3d769b812b6faa6b76e1a8abaece2d'] = 'Activar';
 $_MODULE['<{productcomments}prestashop>productcomments_6f7351657f795bc1357a53142b1184cc'] = 'Aprobar';
 $_MODULE['<{productcomments}prestashop>productcomments_ecf74aa77715220b378ec668e75655a8'] = 'No abusivo';
+$_MODULE['<{productcomments}prestashop>productcomments_reviews_e32b7983d3bf98a65e3e96c393867dfa'] = '%s Comentario(s)';
 $_MODULE['<{productcomments}prestashop>productcomments_ab51a81c76d95ddc762194d58ec5db63'] = '¿Seguro que quieres denunciar este comentario?';
 $_MODULE['<{productcomments}prestashop>productcomments_9a2ccd41653469a8bd94fbb84b271a14'] = '¡Tu comentario ha sido añadido!';
 $_MODULE['<{productcomments}prestashop>productcomments_b20968d9aecd2d075519992e9e2f1ffe'] = 'Tu comentario ha sido añadido y estará disponible una vez lo apruebe un moderador.';
@@ -79,7 +80,6 @@ $_MODULE['<{productcomments}prestashop>productcomments_70397c4b252a5168c5ec00393
 $_MODULE['<{productcomments}prestashop>productcomments_94966d90747b97d1f0f206c98a8b1ac3'] = 'Enviar';
 $_MODULE['<{productcomments}prestashop>productcomments_e81c4e4f2b7b93b481e13a8553c2ae1b'] = 'total';
 $_MODULE['<{productcomments}prestashop>productcomments_ea4788705e6873b424c65e91c2846b19'] = 'Cancelar';
-$_MODULE['<{productcomments}prestashop>productcomments_reviews_e32b7983d3bf98a65e3e96c393867dfa'] = '%s Comentario(s)';
 $_MODULE['<{productcomments}prestashop>products-comparison_8413c683b4b27cc3f4dbd4c90329d8ba'] = 'Comentarios';
 $_MODULE['<{productcomments}prestashop>products-comparison_b1897515d548a960afe49ecf66a29021'] = 'regular';
 $_MODULE['<{productcomments}prestashop>products-comparison_bc976f6c3405523cde61f63a7cbe224b'] = 'ver los comentarios';

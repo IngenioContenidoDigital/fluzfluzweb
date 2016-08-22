@@ -28,7 +28,8 @@
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 <div class="row">
 {foreach from=$manufacturers item=manufacturer}
-    <a class="myfancybox" href="#myspecialcontent">
+    <div class="algo">
+    <!--<a class="myfancybox" href="#myspecialcontent">-->
     <!--<a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">-->
     <div class="col-lg-4 col-md-4 Cards">
         <div class="col-lg-6 col-md-6 col-xs-6 infoCard">
@@ -40,9 +41,9 @@
             <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
         </div>
     </div>
-    <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
-            <!--<input value="{$manufacturer.id_manufacturer}" type="text"  name="refundtopayid" id="refundtopayid" style="display: none; width: 25px!important;" >-->
-    </a>
+            <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
+    <!--</a>-->
+    </div>
 {/foreach}
 <div class="col-lg-3 col-md-3 col-sm-12 textAccount">
     <p class="titleFAQ">{l s='Have Question?'}</p>
@@ -80,7 +81,7 @@
     <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4" style="padding-left:0px; padding-right: 0px;">
         <ul class="myaccount-link-list">
             {if $voucherAllowed}
-                <li><a href="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" title="{l s='Vouchers'}"><img src="{$img_dir}icon/network.png" class="imgSponsor" /><span class="spanSponsor">{l s='My Network'}</span></a></li>
+                <!--<li><a href="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" title="{l s='Vouchers'}"><img src="{$img_dir}icon/network.png" class="imgSponsor" /><span class="spanSponsor">{l s='My Network'}</span></a></li>-->
             {/if}
             {$HOOK_CUSTOMER_ACCOUNT}
             <li><a href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out'}"><img src="{$img_dir}icon/signOut.png" class="imgSponsor" style="padding:0;"/><span class="spanSponsor">{l s='Sign out'}</span></a></li>
@@ -102,23 +103,10 @@
                 <h1>{l s='No hay resultados'}</h1>
            {else}
                 <div class='container c'>
-                {foreach from=$cards item=card}
-                    <a class="myfanc" href="#myspecialcontent">
-                        <div class="card"><img class="col-lg-4 col-md-3 col-sm-3 col-xs-3" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
-                            <div class="col-lg-6 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
-                            <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
-                        </div>
-                    </a>
-
-                    <div id="pOculto">{displayPrice price=$card.price no_utf8=false convert=false}</div>
-                    <div id="desc_oculto">{$card.description}</div>
-                    <div id="prodid_oculto">{$card.id_product}</div>
-                    <div id="nameOculto">{$card.product_name}</div>
-                    {if $card@iteration mod 2 ==0}<br /><br/>{/if}
-                {/foreach}
+                
                 </div>
             <div id="pagination" class="pagination">
-            {if $nbpagination < $cards|@count || $cards|@count > 10}
+            {*if $nbpagination < $cards|@count || $cards|@count > 10}
                     <div id="pagination" class="pagination">
                                     {if true || $nbpagination < $cards|@count}
                             <ul class="pagination">
@@ -157,7 +145,7 @@
                             </ul>
                                     {/if}
                     </div>
-                {/if}
+                {/if*}
             </div>
             <div class="col-lg-6 card-view">
                 <div>
@@ -219,10 +207,41 @@
 {/literal}    
 {literal}
     <script>
+        $('.algo').click(function() {
+            var id_manu = $(this).find(".id_manufacturer").html();
+            var id_cust = {/literal}{$profile}{literal};
 
-        $('.myfanc').click(function(){
+            $.ajax({
+                    method:"POST",
+                    data: {'action': 'getCardsbySupplier','id_manu': id_manu, 'profile':id_cust},
+                    url: '/cardsSupplier.php', 
+                    success:function(response){
+                        var x = jQuery.parseJSON(response);
+                        var content = '';
+                        for (var i=0;i<x.length;i++){
+                          
+            content += '<a class="myfanc" href="#myspecialcontent">'+
+                    '<div class="card"><img class="col-lg-4 col-md-3 col-sm-3 col-xs-3" src="/img/m/'+x[i].id_manufacturer+'.jpg" width="40px" height="40px"/>'+
+                    '<div class="col-lg-6 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
+                    '<div class="oculto">/img/m/'+x[i].id_manufacturer+'.jpg</div>'+
+                '</div>'+
+            '</a>'+
+            '<div id="pOculto">'+x[i].price+'</div>'+
+            '<div id="desc_oculto">'+x[i].description+'</div>'+
+            '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
+            '<div id="nameOculto">'+x[i].product_name+'</div>';
+                    if (i%2 != 0){
+                        content+='<br /><br/>';
+                    }
+                        
+                    }
+                    $('.c').html(content)
+                    $('#myspecialcontent').parent().show();
+              }});
+        });
+        
+        $('.c').on("click",".myfanc",function(){
             var codeImg2 = $(this).find(".codeImg").html();
-            var price = document.getElementById("pOculto").innerHTML;
             var price = document.getElementById("pOculto").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
             var description = document.getElementById("desc_oculto").innerHTML;
@@ -304,18 +323,5 @@
             $('#used').removeClass('checkConfirm');
         });
         
-    </script>
-{/literal}
-{literal}
-    <script>
-        $('.myfancybox').click(function() {
-            var id_manu = $(this).find(".id_manufacturer").html();
-            
-            $.ajax({
-                method:"GET",
-                url: 'http://fluzfluzweb.local/controllers/front/MyAccountController?id_manu='+id_manu,
-                async: true
-            });  
-        });
     </script>
 {/literal}

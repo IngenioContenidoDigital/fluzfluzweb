@@ -3,7 +3,7 @@ include_once('./config/defines.inc.php');
 require_once('./classes/codeBar/barcode.class.php');
 include_once('./config/config.inc.php');
 
-error_reporting(0);
+error_reporting(E_ALL);
 
 if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST["action"]) ) {
     $algo="";
