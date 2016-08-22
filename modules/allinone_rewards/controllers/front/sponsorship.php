@@ -169,7 +169,8 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 							$vars = array(
 								'{message}' => Tools::nl2br(Tools::getValue('message')),
 								'{email}' => $this->context->customer->email,
-                                                                '{username}' => $this->context->customer->username,
+                                                                '{inviter_username}' => $this->context->customer->username,
+                                                                '{username}' => $friendFirstName,
 								'{lastname}' => $this->context->customer->lastname,
 								'{firstname}' => $this->context->customer->firstname,
 								'{email_friend}' => $friendEmail,
