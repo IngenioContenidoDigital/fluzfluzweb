@@ -771,8 +771,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
         
         public function hookActionValidateOrder2($params)
 	{
-            die("hook");
-		if (!Validate::isLoadedObject($params['customer']) || !Validate::isLoadedObject($params['order']))
+           	if (!Validate::isLoadedObject($params['customer']) || !Validate::isLoadedObject($params['order']))
 			die(Tools::displayError('Missing parameters'));
 
 		if ($this->_isCustomerAllowed(new Customer((int)$params['customer']->id))) {
