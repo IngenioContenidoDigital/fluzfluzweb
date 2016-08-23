@@ -139,7 +139,7 @@ ul li .check::before {
 
 .fancybox-opened .fancybox-skin { width: auto!important; }
 .fancybox-inner { width: auto!important; }
-.fancybox-outer { width: 100%; }
+.fancybox-outer { width: auto; }
 .cardDesign { width: 100%; margin: 0; display: inline-block; margin-bottom: 30px; }
 .containerCard { padding: 0; }
 .containerCard ul { width: 50%; margin: 0; display: inline-block; margin-left: 2% !important; margin-bottom: 3% !important;}

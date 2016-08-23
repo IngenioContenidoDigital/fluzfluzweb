@@ -29,6 +29,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 		|| !$this->registerHook('actionObjectOrderDetailAddAfter') || !$this->registerHook('actionObjectOrderDetailUpdateAfter') || !$this->registerHook('actionObjectOrderDetailDeleteAfter')
 		|| !$this->registerHook('displayAdminOrder') || !$this->registerHook('displayAdminProductsExtra') || !$this->registerHook('ActionAdminControllerSetMedia')
 		|| !$this->registerHook('displayPDFInvoice')
+                || !$this->registerHook('actionValidateOrder2')
 		|| !$this->registerHook('actionObjectProductDeleteAfter'))
 			return false;
 
@@ -754,6 +755,41 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 			$reward->id_customer = (int)$params['customer']->id;
 			$reward->id_order = (int)$params['order']->id;
 			$reward->credits = round($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id)));
+
+			$reward->plugin = $this->name;
+			if (!MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) && (float)$reward->credits == 0) {
+				$reward->id_reward_state = RewardsStateModel::getDiscountedId();
+				$reward->save();
+			} else if ((float)$reward->credits > 0) {
+				$reward->id_reward_state = RewardsStateModel::getValidationId();
+				$reward->save();
+			}
+			return true;
+		}
+		return false;
+	}
+        
+        public function hookActionValidateOrder2($params)
+	{
+            die("hook");
+		if (!Validate::isLoadedObject($params['customer']) || !Validate::isLoadedObject($params['order']))
+			die(Tools::displayError('Missing parameters'));
+
+		if ($this->_isCustomerAllowed(new Customer((int)$params['customer']->id))) {
+			$id_template = (int)MyConf::getIdTemplate('loyalty', $params['customer']->id);
+			if ((int)MyConf::get('RLOYALTY_TYPE', null, $id_template) != 2) {
+				$totals = RewardsModel::getOrderTotalsForReward($params['order'], $this->_getAllowedCategories());
+				$credits = $this->_getNbCreditsByPrice((int)$params['customer']->id, MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) ? $totals[MyConf::get('RLOYALTY_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['with_discounted'] : $totals[MyConf::get('RLOYALTY_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['without_discounted'], $params['order']->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'));
+                                
+			} else {
+				$credits = $this->_getOrderRewardByProduct($params['order']);
+                        
+			}
+                        
+			$reward = new RewardsModel();
+			$reward->id_customer = (int)$params['customer']->id;
+			$reward->id_order = (int)$params['order']->id;
+			$reward->credits = round($reward->getRewardReadyForDisplay($credits, $this->context->currency->id));
 
 			$reward->plugin = $this->name;
 			if (!MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) && (float)$reward->credits == 0) {

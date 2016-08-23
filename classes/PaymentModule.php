@@ -338,6 +338,13 @@ abstract class PaymentModuleCore extends Module
                     if (self::DEBUG_MODE) {
                         PrestaShopLogger::addLog('PaymentModule::validateOrder - Order is about to be added', 1, null, 'Cart', (int)$id_cart, true);
                     }
+                    
+                    $memberpoints = false;
+                    foreach ( $order->product_list as $product ) {
+                        if ( $product['reference'] == "MFLUZ" ) {
+                            $memberpoints = true;
+                        }
+                    }
 
                     // Creating order
                     $result = $order->add();
@@ -686,13 +693,24 @@ abstract class PaymentModuleCore extends Module
                     }
 
                     // Hook validate order
-                    Hook::exec('actionValidateOrder', array(
-                        'cart' => $this->context->cart,
-                        'order' => $order,
-                        'customer' => $this->context->customer,
-                        'currency' => $this->context->currency,
-                        'orderStatus' => $order_status
-                    ));
+                    if ( !$memberpoints )  {
+                        Hook::exec('actionValidateOrder', array(
+                            'cart' => $this->context->cart,
+                            'order' => $order,
+                            'customer' => $this->context->customer,
+                            'currency' => $this->context->currency,
+                            'orderStatus' => $order_status
+                        ));
+                    } else {
+                        
+                        Hook::exec('actionValidateOrder2', array(
+                            'cart' => $this->context->cart,
+                            'order' => $order,
+                            'customer' => $this->context->customer,
+                            'currency' => $this->context->currency,
+                            'orderStatus' => $order_status
+                        ));
+                    }
 
                     foreach ($this->context->cart->getProducts() as $product) {
                         if ($order_status->logable) {
