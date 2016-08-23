@@ -39,23 +39,20 @@ class DiscountControllerCore extends FrontController
     {
         parent::initContent();
 
-        $cart_rules = CartRule::getCustomerCartRules($this->context->language->id, $this->context->customer->id, true, false);
-        $nb_cart_rules = count($cart_rules);
-
-        foreach ($cart_rules as &$discount) {
-            $discount['value'] = Tools::convertPriceFull(
-                                            $discount['value'],
-                                            new Currency((int)$discount['reduction_currency']),
-                                            new Currency((int)$this->context->cart->id_currency)
-                                        );
+        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        $members = array();
+        foreach ($tree as $sponsor) {
+            if ( $this->context->customer->id != $sponsor['id'] ) {
+                $customer = new Customer($sponsor['id']);
+                $members[$sponsor['id']]['name'] = $customer->firstname." ".$customer->lastname;
+                $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
+                $members[$sponsor['id']]['level'] = $sponsor['level'];
+            }
         }
+        asort($members);
+        $this->context->smarty->assign('members', $members);
 
-        $this->context->smarty->assign(array(
-                                            'nb_cart_rules' => (int)$nb_cart_rules,
-                                            'cart_rules' => $cart_rules,
-                                            'discount' => $cart_rules,
-                                            'nbDiscounts' => (int)$nb_cart_rules)
-                                        );
+        $this->addCSS(_THEME_CSS_DIR_.'discount.css');
         $this->setTemplate(_PS_THEME_DIR_.'discount.tpl');
     }
 }
