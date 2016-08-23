@@ -42,9 +42,12 @@ class DiscountControllerCore extends FrontController
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();
         foreach ($tree as $sponsor) {
-            $customer = new Customer($sponsor);
-            $members[$sponsor]['name'] = $customer->firstname." ".$customer->lastname;
-            $members[$sponsor]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
+            if ( $this->context->customer->id != $sponsor['id'] ) {
+                $customer = new Customer($sponsor['id']);
+                $members[$sponsor['id']]['name'] = $customer->firstname." ".$customer->lastname;
+                $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
+                $members[$sponsor['id']]['level'] = $sponsor['level'];
+            }
         }
         asort($members);
         $this->context->smarty->assign('members', $members);

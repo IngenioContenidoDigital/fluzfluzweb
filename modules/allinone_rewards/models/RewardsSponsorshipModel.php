@@ -357,6 +357,10 @@ class RewardsSponsorshipModel extends ObjectModel
 						'sponsored1' => array(), 'total_direct_rewards' => 0, 'total_indirect_rewards' => 0, 'total_direct_orders' => 0, 'total_indirect_orders' => 0,
 						'total_orders' => 0, 'total_registrations' => 0, 'total_global' => 0);
             $sponsor_tree = array();
+            $sponsor_tree[] = array(
+                                    "id" => $idSponsor,
+                                    "level" => 1,
+                                );
             self::_getRecursiveDescendantsTree($idSponsor, $result, $sponsor_tree);
             return $sponsor_tree;
         }
@@ -382,8 +386,11 @@ class RewardsSponsorshipModel extends ObjectModel
 				} else {
 					$result['indirect_nb']++;
                                 }
-                                
-                                $sponsor_tree[] = $row['id_customer'];
+
+                                $sponsor_tree[] = array(
+                                    "id" => $row['id_customer'],
+                                    "level" => $level+1,
+                                );
 
 				// nb direct or indirect friends for each level 1 sponsored
 				if (!isset($result['direct_customer'.$idSponsor])) {
