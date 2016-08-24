@@ -501,11 +501,12 @@
                                     </div>
                                     <div class="required form-group">
                                             <label class="required" for="username">{l s='Username'}</label>
-                                            <input onkeyup="$('#username').val(this.value);" type="text" class="is_required validate form-control" data-validate="isName" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" />
+                                            <input type="text" class="is_required validate form-control" data-validate="isUsername" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" title="{l s='Enter only letters and numbers'}" />
+                                            <span class="form_info">{l s='Enter only letters and numbers'}</span>
                                     </div>
                                     <div class="required form-group">
                                             <label class="required" for="customer_firstname">{l s='First name'}</label>
-                                            <input onkeyup="$('#firstname').val(this.value);" type="text" class="is_required validate form-control" data-validate="isName" id="customer_firstname" name="customer_firstname" value="{if isset($smarty.post.customer_firstname)}{$smarty.post.customer_firstname}{/if}" />
+                                            <input type="text" class="is_required validate form-control" data-validate="isName" id="customer_firstname" name="customer_firstname" value="{if isset($smarty.post.customer_firstname)}{$smarty.post.customer_firstname}{/if}" />
                                     </div>
                                     <div class="required form-group">
                                             <label class="required" for="customer_lastname">{l s='Last name'}</label>
@@ -561,7 +562,9 @@
                                                             <select id="years" name="years" class="form-control">
                                                                     <option value="">-</option>
                                                                     {foreach from=$years item=year}
+                                                                        {if ($smarty.now|date_format:"%Y" - {$year}) >= 18 }
                                                                             <option value="{$year}" {if ($sl_year == $year)} selected="selected"{/if}>{$year}&nbsp;&nbsp;</option>
+                                                                        {/if}
                                                                     {/foreach}
                                                             </select>
                                                     </div>
