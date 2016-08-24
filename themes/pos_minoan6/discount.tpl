@@ -32,7 +32,7 @@
     <div class="blockcontainer">
         <div class="block-network">
             <h2>{l s='Explore Network'}</h2>
-            <input type="text" name="searchnetwork" id="searchnetwork" class="textsearch" placeholder="Search member"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
+            <input type="text" name="searchnetwork" id="searchnetwork" class="textsearch" placeholder="{l s='Search member'}" value="{$searchnetwork}"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
             <table class="tablenetwork">
                 {foreach from=$members item=member}
                     <tr>
@@ -55,10 +55,10 @@
                 {/foreach}
             </table>
         </div>
-        <div class="block-messages">
+        {*<div class="block-messages">
             <h2>{l s='My Messages'}</h2>
             <input type="text" name="searchmessage" id="searchmessage" class="textsearch" placeholder="Search member"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
-        </div>
+        </div>*}
     </div>
 </form>
 

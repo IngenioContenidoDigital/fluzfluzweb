@@ -41,18 +41,43 @@ class DiscountControllerCore extends FrontController
 
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();
+        $searchnetwork = strtolower(Tools::getValue('searchnetwork'));
+
         foreach ($tree as $sponsor) {
             if ( $this->context->customer->id != $sponsor['id'] ) {
                 $customer = new Customer($sponsor['id']);
-                $members[$sponsor['id']]['name'] = $customer->firstname." ".$customer->lastname;
-                $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
-                $members[$sponsor['id']]['level'] = $sponsor['level'];
+                $name = strtolower($customer->firstname." ".$customer->lastname);
+
+                if ( $searchnetwork != "" ) {
+                    $coincidence = strpos($name, $searchnetwork);
+                    if ( $coincidence !== false ) {
+                        $members[$sponsor['id']]['name'] = $name;
+                        $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
+                        $members[$sponsor['id']]['level'] = $sponsor['level'];
+                    }
+                } else {
+                    $members[$sponsor['id']]['name'] = $name;
+                    $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
+                    $members[$sponsor['id']]['level'] = $sponsor['level'];
+                }
             }
         }
         asort($members);
         $this->context->smarty->assign('members', $members);
-
+        $this->context->smarty->assign('searchnetwork', $searchnetwork);
+        
+        $this->addJS(_THEME_JS_DIR_.'discount.js');
         $this->addCSS(_THEME_CSS_DIR_.'discount.css');
         $this->setTemplate(_PS_THEME_DIR_.'discount.tpl');
     }
 }
+
+/*
+ * $pos = strpos($mystring, $findme);
+                if ( $pos !== false ) {
+                    echo "La cadena '$findme' fue encontrada en la cadena '$mystring'";
+                    echo " y existe en la posición $pos";
+                } else {
+                    echo "La cadena '$findme' no fue encontrada en la cadena '$mystring'";
+                }
+ */
