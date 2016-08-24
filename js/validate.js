@@ -176,6 +176,12 @@ function validate_isCard(s)
 	return reg.test(s);
 }
 
+function validate_isUsername(s)
+{
+	var reg = /^[0-9a-zA-Z]+$/;
+	return reg.test(s);
+}
+
 function validate_isEmail(s)
 {
 	var reg = unicode_hack(/^[a-z\p{L}0-9!#$%&'*+\/=?^`{}|~_-]+[.a-z\p{L}0-9!#$%&'*+\/=?^`{}|~_-]*@[a-z\p{L}0-9]+[._a-z\p{L}0-9-]*\.[a-z\p{L}0-9]+$/i, false);
