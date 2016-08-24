@@ -90,6 +90,7 @@
 					{else}
 						{assign var='col_span_subtotal' value='2'}
 					{/if}
+                                        <th class="cart_unit item text-right" colspan="1">{l s='Puntos a Obtener'}</th>
 					<th class="cart_unit item text-right">{l s='Unit price'}</th>
 					<th class="cart_quantity item text-center">{l s='Qty'}</th>
 					<th class="cart_delete last_item">&nbsp;</th>
@@ -145,7 +146,7 @@
 								{/if}
 							</td>
 							<td colspan="{$col_span_subtotal}" class="text-right">{if $display_tax_label}{l s='Total products (tax excl.)'}{else}{l s='Total products'}{/if}</td>
-							<td colspan="2" class="price" id="total_product">{displayPrice price=$total_products}</td>
+							<td colspan="3" class="price" id="total_product">{displayPrice price=$total_products}</td>
 						</tr>
 					{else}
 						<tr class="cart_total_price">
@@ -172,7 +173,7 @@
 								{/if}
 							</td>
 							<td colspan="{$col_span_subtotal}" class="text-right">{if $display_tax_label}{l s='Total products (tax incl.)'}{else}{l s='Total products'}{/if}</td>
-							<td colspan="2" class="price" id="total_product">{displayPrice price=$total_products_wt}</td>
+							<td colspan="3" class="price" id="total_product">{displayPrice price=$total_products_wt}</td>
 						</tr>
 					{/if}
 				{else}
@@ -289,7 +290,7 @@
                         </div>
 					</td>
 					{if $use_taxes}
-						<td colspan="2" class="price" id="total_price_container">
+						<td colspan="3" class="price" id="total_price_container">
 							<span id="total_price">{displayPrice price=$total_price}</span>
 						</td>
 					{else}
@@ -346,7 +347,7 @@
 										{/if}
 									{/foreach}
 								</td>
-								<td class="cart_quantity" colspan="1">
+                                                                <td class="cart_quantity" colspan="1">
 									{if isset($cannotModify) AND $cannotModify == 1}
 										<span>{if $quantityDisplayed == 0 AND isset($customizedDatas.$productId.$productAttributeId)}{$customizedDatas.$productId.$productAttributeId|@count}{else}{$product.cart_quantity-$quantityDisplayed}{/if}</span>
 									{else}
@@ -566,23 +567,4 @@
 {addJsDefL name=txtProduct}{l s='product' js=1}{/addJsDefL}
 {addJsDefL name=txtProducts}{l s='products' js=1}{/addJsDefL}
 {/strip}
-{/if}
-{literal}
-    <script>
-           $('#submitAddDiscount').click(function(){
-               //var credits=$('#cavail').val();           
-               /*$.ajax({
-                  method:"GET",
-                  url: 'http://localhost/fluzfluzweb/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits,
-                  success:function(response){
-                      $('#discount_name').val(response);
-                      $('input[name="submitDiscount"]').val(response)
-                      $('#voucher').submit();
-                  }                
-               });*/
-        alert('Hey');
-               $('#discount_name').val("FLFdQEZU2");
-               $('input[name="submitDiscount"]').val("FLFdQEZU2");
-           })
-    </script>
-{/literal}      
+{/if}    
