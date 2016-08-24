@@ -227,9 +227,9 @@ ul li .check::before {
 }
 
 .pagination{
-    width: 100%;
+    width: 54%;
     margin: 0 auto;
-    margin-left: 15%;
+    margin-left: 0%;
     margin-bottom: 1%;
 }
 

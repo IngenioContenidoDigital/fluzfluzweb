@@ -150,6 +150,7 @@
                                             <span class="ptoCustomer">+{$lastPoint}</span>
                                             <span style="color:#000;">{displayPrice price=$lastPoint * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
                                         </div>
+                                        
                                         {foreach from=$topPoint item=top}
                                         <div class="col-lg-2 col-md-2 barTop">{l s='Top Performer'}<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>
                                             <br/>

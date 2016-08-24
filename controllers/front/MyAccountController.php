@@ -187,17 +187,17 @@ class MyAccountControllerCore extends FrontController
         
     public function TopNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, n.id_customer as id, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
-                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor;
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor['id'];
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
                     $top[] = $result[0];
                 }                
             }
-            
             usort($top, function($a, $b) {
                 return $b['points'] - $a['points'];
             });
@@ -205,12 +205,13 @@ class MyAccountControllerCore extends FrontController
             return array_slice($top, 0, 1);    
             
         }
-    public function WorstNetworkUnique() {
+        
+        public function WorstNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, n.id_customer, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
-                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor;
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor['id'];
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -224,4 +225,5 @@ class MyAccountControllerCore extends FrontController
             return array_slice($top, 0, 1);    
             
         }
+        
 }
