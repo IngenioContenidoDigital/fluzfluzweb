@@ -105,47 +105,12 @@
                 <div class='container c'>
                 
                 </div>
-            <div id="pagination" class="pagination">
-            {*if $nbpagination < $cards|@count || $cards|@count > 10}
-                    <div id="pagination" class="pagination">
-                                    {if true || $nbpagination < $cards|@count}
-                            <ul class="pagination">
-                                            {if $page != 1}
-                                            {assign var='p_previous' value=$page-1}
-                                    <li id="pagination_previous"><a href="{$pagination_link|escape:'html':'UTF-8'}p={$p_previous|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">
-                                            <img src="{$img_dir}icon/left-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></a></li>
-                                            {else}
-                                    <li id="pagination_previous" class="disabled"><span><img src="{$img_dir}icon/left-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></span></li>
-                                            {/if}
-                                            {if $page > 2}
-                                    <li><a href="{$pagination_link|escape:'html':'UTF-8'}p=1&n={$nbpagination|escape:'html':'UTF-8'}">1</a></li>
-                                                    {if $page > 3}
-                                    <!--<li class="truncate">...</li>-->
-                                                    {/if}
-                                            {/if}
-                                            {section name=pagination start=$page-1 loop=$page+2 step=1}
-                                                    {if $page == $smarty.section.pagination.index}
-                                    <li class="current"><span>{$page|escape:'html':'UTF-8'}</span></li>
-                                                    {elseif $smarty.section.pagination.index > 0 && $cards|@count+$nbpagination > ($smarty.section.pagination.index)*($nbpagination)}
-                                    <li><a href="{$pagination_link|escape:'html':'UTF-8'}p={$smarty.section.pagination.index|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">{$smarty.section.pagination.index|escape:'html':'UTF-8'}</a></li>
-                                                    {/if}
-                                            {/section}
-                                            {if $max_page-$page > 1}
-                                                    {if $max_page-$page > 2}
-                                    <!--<li class="truncate">...</li>-->
-                                                    {/if}
-                                    <li><a href="{$pagination_link|escape:'html':'UTF-8'}p={$max_page|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}">{$max_page|escape:'html':'UTF-8'}</a></li>
-                                            {/if}
-                                            {if $cards|@count > $page * $nbpagination}
-                                                    {assign var='p_next' value=$page+1}
-                                    <li id="pagination_next"><a href="{$pagination_link|escape:'html':'UTF-8'}p={$p_next|escape:'html':'UTF-8'}&n={$nbpagination|escape:'html':'UTF-8'}"><img src="{$img_dir}icon/right-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></a></li>
-                                            {else}
-                                    <li id="pagination_next" class="disabled"><img src="{$img_dir}icon/right-arrow.png" style="height:auto; width: 60%; padding: 0; padding-top: 2px; padding-right: 2px;"/></li>
-                                            {/if}
-                            </ul>
-                                    {/if}
-                    </div>
-                {/if*}
+            <div class=" pagination">
+                <a href="#" class="first" data-action="first">&laquo;</a>
+                <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+                <input type="text" readonly="readonly" />
+                <a href="#" class="next" data-action="next">&rsaquo;</a>
+                <a href="#" class="last" data-action="last">&raquo;</a>
             </div>
             <div class="col-lg-6 card-view">
                 <div>

@@ -2504,7 +2504,7 @@ textarea { resize: none; }
 
 #index .tab-content { margin-top: 35px; margin-bottom: 34px; }
 
-header { z-index: 1; position: relative; background: white;  -webkit-box-shadow: 0px 0px 7px 4px rgba(209,209,209,1); -moz-box-shadow: 0px 0px 7px 4px rgba(209,209,209,1); box-shadow: 0px 0px 7px 4px rgba(209,209,209,1)}
+header { z-index: 1; position: relative;}
 header .banner { background: black; max-height: 100%; }
 header .banner .row { margin: 0px; }
 header .nav { background: transparent; }
@@ -2858,7 +2858,7 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
 
 .listcomment .txtcomment { display: block; padding: 5px 0; color: #252525; }
 
-.header-container { background: white; position:fixed; z-index: 1; width: 99%; margin-bottom:91px;}
+.header-container { position:fixed; z-index: 1; width: 99%; margin-bottom:91px;}
 
 .breadcrumb { font-family:'Open Sans'; color: #585858; display: inline-block; width: 100%; font-size: 14px; line-height: 5px; min-height: 6px; overflow: hidden; background: transparent; padding: 10px 5px; margin: 0; position: relative; z-index: 0; text-transform: capitalize; }
 .breadcrumb .navigation-pipe { display: inline-block; padding: 0 15px; }

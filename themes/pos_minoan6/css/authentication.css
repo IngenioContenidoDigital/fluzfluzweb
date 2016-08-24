@@ -21,8 +21,8 @@
 .gender:first-of-type { margin-left: 0!important; }
 .gender { display: inline-block; vertical-align: middle; margin-left: 15px; }
 .gender label { margin-top: 0; }
-#valorSlider { height: 22px; width: 100px; }
-#valorSlider, .money { color: #ef4136; font-size: 25px; font-weight: bold; display: inline-block; vertical-align: middle; }
+#valorSlider { width: 100px; }
+#valorSlider, .money { color: #ef4136; font-size: 25px; font-weight: bold; display: inline-block; vertical-align: middle; margin-top: -7px;}
 .stand_out { color: #ef4136; }
 input[type=range] { -webkit-appearance: none; }
 input[type=range]::-webkit-slider-runnable-track { height: 2px; background: #ddd; border: none; border-radius: 3px; }
