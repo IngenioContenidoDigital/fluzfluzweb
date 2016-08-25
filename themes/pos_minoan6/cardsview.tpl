@@ -76,10 +76,7 @@
                     </div>
             {/if}
     </div>
-    <div class="col-lg-6 card-view">
-        <div>
-            
-        </div>
+    <div class="col-lg-5 card-view">
         <div class="title-card">
             <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
         </div>
@@ -92,14 +89,16 @@
             <span class="micode popText" id="code-img"></span>
         </div>
     </div>
-    <br>
-    <div class="CardInstru" data-toggle="collapse" data-target="#demo">
-        <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
-        <div class="pViewcard collapse" id="demo"></div>
-    </div>
-    <div class="CardInstru" data-toggle="collapse" data-target="#terms">
-        <div><h4 class="insTitle">{l s='Terms'}</h4></div>
-        <div class="terms-card collapse" id="terms"></div>
+    <div class="col-lg-6">
+        <div class="CardInstru" data-toggle="collapse" data-target="#demo">
+            <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
+            <div class="pViewcard collapse" id="demo"></div>
+        </div>
+        <br>
+        <div class="CardInstru" data-toggle="collapse" data-target="#terms">
+            <div><h4 class="insTitle">{l s='Terms'}</h4></div>
+            <div class="terms-card collapse" id="terms"></div>
+        </div>
     </div>
     {*<div class="containerCard">
         <ul>
@@ -258,6 +257,8 @@
     </script>
     
     <style>
-        .popText { margin-left: 5px !important; }
-    </style>
+        .popText { margin-left: 15px !important; }
+        .title-card { padding: 10px 26px; }
+        .card-view { margin: 20px 0 0 30px; }
+        .CardInstru { width: 90%; }
 {/literal}

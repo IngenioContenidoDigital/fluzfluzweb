@@ -75,12 +75,37 @@ class HistoryControllerCore extends FrontController
     
     public function productHistory(){
         
-        $query = 'SELECT a.id_order, p.price_shop as price_shop, a.product_id AS idProduct, d.link_rewrite as link_rewrite, b.id_image AS image, a.total_price_tax_incl as total, a.unit_price_tax_incl AS precio, a.product_quantity_in_stock AS cantidad, a.product_name AS purchase, n.reference AS referencia, n.date_add AS time FROM '._DB_PREFIX_.'orders n
-                        LEFT JOIN '._DB_PREFIX_.'order_detail a ON (a.id_order = n.id_order)
-			LEFT JOIN '._DB_PREFIX_.'image b ON (b.id_product=a.product_id)  
-                        LEFT JOIN '._DB_PREFIX_.'product_lang d ON (d.id_product=a.product_id)
-                        LEFT JOIN ps_product p ON (p.id_product = a.product_id) WHERE id_customer = '.$this->context->customer->id.' AND p.reference != "MFLUZ" GROUP BY p.price_shop, a.product_id,d.link_rewrite,b.id_image,
-                        a.total_price_tax_incl,a.product_quantity_in_stock,a.product_name,n.reference, n.date_add ORDER BY n.date_add DESC';
+        $query = 'SELECT
+                        a.id_order,
+                        p.price_shop as price_shop,
+                        a.product_id AS idProduct,
+                        d.link_rewrite as link_rewrite,
+                        b.id_image AS image,
+                        a.total_price_tax_incl as total,
+                        a.unit_price_tax_incl AS precio,
+                        a.product_quantity AS cantidad,
+                        a.product_name AS purchase,
+                        n.reference AS referencia,
+                        n.date_add AS time
+                    FROM '._DB_PREFIX_.'orders n
+                    LEFT JOIN '._DB_PREFIX_.'order_detail a ON (a.id_order = n.id_order)
+                    LEFT JOIN '._DB_PREFIX_.'image b ON (b.id_product = a.product_id)  
+                    LEFT JOIN '._DB_PREFIX_.'product_lang d ON (d.id_product = a.product_id)
+                    LEFT JOIN ps_product p ON (p.id_product = a.product_id)
+                    WHERE id_customer = '.$this->context->customer->id.'
+                    AND p.reference != "MFLUZ"
+                    AND d.id_lang = '.$this->context->language->id.'
+                    GROUP BY
+                        p.price_shop,
+                        a.product_id,
+                        d.link_rewrite,
+                        b.id_image,
+                        a.total_price_tax_incl,
+                        a.product_quantity_in_stock,
+                        a.product_name,
+                        n.reference,
+                        n.date_add
+                    ORDER BY n.date_add DESC';
         
         $products=Db::getInstance()->executeS($query);
         $result= array();

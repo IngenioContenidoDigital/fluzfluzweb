@@ -97,9 +97,6 @@
 </div>
         <div style="display:none;">
         <div id="myspecialcontent" class="infoPopUp">
-           {if !$cards}
-                <h1>{l s='No hay resultados'}</h1>
-           {else}
                 <div class='container c'>
                 
                 </div>
@@ -149,9 +146,6 @@
                     </li>
                 </ul>
             </div>
-   
-    
-            {/if}
         </div>
     </div>    
 <ul class="footer_links clearfix" style="display: none;">
