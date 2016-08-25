@@ -62,7 +62,14 @@ class DiscountControllerCore extends FrontController
                 }
             }
         }
+        /*
+        ORGANIZAR POR NOMBRE
         asort($members);
+        */
+        /* ORGANIZAR POR NIVEL */
+        usort($members, function($a, $b) {
+            return  $a['level'] - $b['level'];
+        });
         $this->context->smarty->assign('members', $members);
         $this->context->smarty->assign('searchnetwork', $searchnetwork);
         
