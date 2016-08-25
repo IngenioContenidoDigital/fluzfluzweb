@@ -65,14 +65,11 @@ class MyAccountControllerCore extends FrontController
         $this->context->smarty->assign('members', $members);
         
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
-        //$manufacturer = $_COOKIE["manufacturerCards"];
-        //$manufacturer = $_GET['id_manu'];
-        $manufacturer = 14;
+        
         
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
-            'cards'=>$this->getCardsbySupplier($this->context->customer->id, $manufacturer),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
             'topPoint'=> $this->TopNetworkUnique(),
             'worstPoint'=> $this->WorstNetworkUnique(),

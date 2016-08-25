@@ -38,6 +38,7 @@
                         {if $PS_STOCK_MANAGEMENT}
                             <th class="cart_availability item text-center">{l s='Availability'}</th>
                         {/if}
+                        <th class="cart_unit item text-right" colspan="1">{l s='Puntos a Obtener'}</th>
                         <th class="cart_unit item text-right">{l s='Unit price'}</th>
                         <th class="cart_quantity item text-center">{l s='Qty'}</th>
                         <th class="cart_total last_item text-right">{l s='Total'}</th>
@@ -49,18 +50,18 @@
                         {if $priceDisplay}
                             <tr class="cart_total_price">
                                 <td colspan="4" class="text-right">{if $display_tax_label}{l s='Total products (tax excl.)'}{else}{l s='Total products'}{/if}</td>
-                                <td colspan="2" class="price" id="total_product">{displayPrice price=$total_products}</td>
+                                <td colspan="3" class="price" id="total_product">{displayPrice price=$total_products}</td>
                             </tr>
                         {else}
                             <tr class="cart_total_price">
                                 <td colspan="4" class="text-right">{if $display_tax_label}{l s='Total products (tax incl.)'}{else}{l s='Total products'}{/if}</td>
-                                <td colspan="2" class="price" id="total_product">{displayPrice price=$total_products_wt}</td>
+                                <td colspan="3" class="price" id="total_product">{displayPrice price=$total_products_wt}</td>
                             </tr>
                         {/if}
                     {else}
                         <tr class="cart_total_price">
                             <td colspan="4" class="text-right">{l s='Total products'}</td>
-                            <td colspan="2" class="price" id="total_product">{displayPrice price=$total_products}</td>
+                            <td colspan="3" class="price" id="total_product">{displayPrice price=$total_products}</td>
                         </tr>
                     {/if}
                     <tr class="alternate_item" colspan="4">
@@ -68,7 +69,7 @@
                             {l s='Puntos Totales'}<br/><p style="font-size:200%;">{$totalAvailable}</p>
                         </td>
                         
-                        <td style="width: 45%; font-size: 10px;"> 
+                        <td colspan="3"> 
                             <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
                             <input type="hidden" id="avail" value="{$totalAvailable}" />
                            {if $voucherAllowed}
@@ -79,7 +80,7 @@
                                                 <fieldset>
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
-                                                    <p style="width:100%;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
+                                                    <p style="width:100%; font-size: 12px;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
 
                                                     {*if $displayVouchers}
                                                             <div id="display_cart_vouchers">
@@ -95,7 +96,7 @@
                         </td>
                             {/if}
                          
-                        <td style="width: 30%; font-size: 10px;" colspan="2"> 
+                        <td style="font-size: 10px;" colspan="3"> 
                             <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
                             <input type="hidden" id="avail" value="{$totalAvailable}" />
                             {if $voucherAllowed}
@@ -106,8 +107,8 @@
                                                 <fieldset>
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
-                                                      <div style="text-align: left; font-size: 10px; width: 100%;" class="item">{l s='Use specific amount of points:'}
-                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 40%;"/>
+                                                      <div style="text-align: left; font-size: 12px; width: 100%;" class="item">{l s='Use specific amount of points:'}
+                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 20%;"/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
                                                       </div> 
                                                 </fieldset>
@@ -206,7 +207,7 @@
                         {/if}
                         <tr class="cart_total_price">
                             <td colspan="4" class="total_price_container text-right"><span>{l s='Total'}</span></td>
-                            <td colspan="2" class="price" id="total_price_container">
+                            <td colspan="3" class="price" id="total_price_container">
                                 <span id="total_price" class="tprice" data-selenium-total-price="{$total_price}">{displayPrice price=$total_price}</span>
                             </td>
                         </tr>
@@ -239,7 +240,7 @@
                             <td colspan="{if !$voucherAllowed}4{else}2{/if}" class="text-right total_price_container">
                                 <span>{l s='Total'}</span>
                             </td>
-                            <td colspan="2" class="price total_price_container" id="total_price_container">
+                            <td colspan="3" class="price total_price_container" id="total_price_container">
                                 <span id="total_price" data-selenium-total-price="{$total_price_without_tax}">{displayPrice price=$total_price_without_tax}</span>
                             </td>
                         </tr>

@@ -27,10 +27,13 @@ class cardsSupplier {
     public function getCardsbySupplier2($id_customer,$id_manufacturer){
         $query="SELECT PC.`code` AS card_code, 
 	PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description,
-	PC.id_product, 
-	PP.id_manufacturer, 
+	PC.id_product,
+        PC.used AS used,
+        PP.id_manufacturer, 
 	PP.id_supplier, 
         PP.price_shop AS price,
+        PP.price AS price_value,
+        PO.date_add AS date,
 	PPI.id_image, 
 	PPI.cover
         FROM ps_product_code PC INNER JOIN ps_order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id

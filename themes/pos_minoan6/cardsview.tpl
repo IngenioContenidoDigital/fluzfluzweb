@@ -243,7 +243,8 @@
 {/literal}
 {literal}
     <script>
-        $('input:radio[name=selector]').click(function() {
+        $('.containerCard').on("click",'input:radio[name=selector]',function()
+        {
             var val = $('input:radio[name=selector]:checked').val();
             var idproduct = document.getElementById("prodid_oculto").innerHTML;
             var codeImg2 = document.getElementById("code-img").innerHTML;

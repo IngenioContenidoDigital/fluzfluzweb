@@ -99,29 +99,38 @@
 </div>
         <div style="display:none;">
         <div id="myspecialcontent" class="infoPopUp">
-           {if !$cards}
-                <h1>{l s='No hay resultados'}</h1>
-           {else}
-                <div class='container c'>
+            <div>{l s='Tarjetas Disponibles: '}<span class="avail"></span></div>
+            <br>
+            <div class='container c'>
                 
-                </div>
-            <div class=" pagination">
-                <a href="#" class="first" data-action="first">&laquo;</a>
-                <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-                <input type="text" readonly="readonly" />
-                <a href="#" class="next" data-action="next">&rsaquo;</a>
-                <a href="#" class="last" data-action="last">&raquo;</a>
             </div>
             <div class="col-lg-6 card-view">
                 <div>
 
                 </div>
-                <div class="title-card">
-                    <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12">
+                    <p class="pValuePrice col-lg-6">{l s="Valor Original: "}<span class="price_value_content"></span></p>
+                    </div>
+                    <div class="col-lg-12">
+                    <p class="pDate col-lg-6">{l s="Compra: "}<span class="date_purchased"></span></p>
+                    </div>
+                </div>
+                </div>
+                <div class="row title-card">
+                <div class="col-lg-12">
+                    <div class="col-lg-6" style="padding-left: 0px;">
+                    <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/>
+                    </div>
+                    <div class="col-lg-6" style="margin-top: 13px;">
+                    <span id="nameViewCard"></span>
+                    </div>
+                </div>
                 </div>
                 <div class="pointPrice">
-                        <p class="col-lg-7 col-xs-8 col-md-8 pCode">{l s="Your Gift Card ID is: "}<br><span class="micode" style="font-size:20px; color: #ef4136;"> </span></p>
-                        <p class="col-lg-5 col-xs-4 col-md-4 pPrice">{l s="Value: "}<br><span id="priceCard" style="font-size:20px; color: #ef4136;"></span></p>
+                        <p class="col-lg-7 col-xs-8 col-md-8 pCode">{l s="Your Gift Card ID is: "}<br><span class="micode" style="font-size:15px; color: #ef4136;"> </span></p>
+                        <p class="col-lg-5 col-xs-4 col-md-4 pPrice">{l s="Value: "}<br><span id="priceCard" style="font-size:15px; color: #ef4136;"></span></p>
                 </div>
                 <div>
                     <img id="bar-code" src=""/><br/>
@@ -145,15 +154,12 @@
                     </li>
 
                     <li>
-                      <input type="radio" id="s-option" name="selector" value="0">
+                      <input type="radio" id="s-option" name="selector" value="2">
                       <div id="not-used" class="check"></div>
                       <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
                     </li>
                 </ul>
             </div>
-   
-    
-            {/if}
         </div>
     </div>    
 <ul class="footer_links clearfix" style="display: none;">
@@ -172,6 +178,7 @@
 {/literal}    
 {literal}
     <script>
+        
         $('.algo').click(function() {
             var id_manu = $(this).find(".id_manufacturer").html();
             var id_cust = {/literal}{$profile}{literal};
@@ -184,23 +191,42 @@
                         var x = jQuery.parseJSON(response);
                         var content = '';
                         for (var i=0;i<x.length;i++){
-                          
+                          var fecha = x[i].date;
             content += '<a class="myfanc" href="#myspecialcontent">'+
-                    '<div class="card"><img class="col-lg-4 col-md-3 col-sm-3 col-xs-3" src="/img/m/'+x[i].id_manufacturer+'.jpg" width="40px" height="40px"/>'+
-                    '<div class="col-lg-6 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
+                    '<div class="card"><div class="used-oculto">'+x[i].used+'</div><img style="padding-right:0px;" class="col-lg-4 col-md-3 col-sm-3 col-xs-3" src="/img/m/'+x[i].id_manufacturer+'.jpg" width="40px" height="40px"/>'+
+                    '<div class="col-lg-6 col-md-6 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
                     '<div class="oculto">/img/m/'+x[i].id_manufacturer+'.jpg</div>'+
-                '</div>'+
-            '</a>'+
-            '<div id="pOculto">'+x[i].price+'</div>'+
-            '<div id="desc_oculto">'+x[i].description+'</div>'+
-            '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
-            '<div id="nameOculto">'+x[i].product_name+'</div>';
+                    '</div>'+
+                    '</a>'+
+                    '<div id="pOculto">'+Math.round(x[i].price)+'</div>'+
+                    '<div id="desc_oculto">'+x[i].description+'</div>'+
+                    '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
+                    '<div id="price_value">'+Math.round(x[i].price_value)+'</div>'+
+                    '<div id="date">'+fecha.substring(0,10)+'</div>'+
+                    '<div id="nameOculto">'+x[i].product_name+'</div>';
                     if (i%2 != 0){
                         content+='<br /><br/>';
                     }
                         
                     }
                     $('.c').html(content)
+                    var avail=0;
+                    $('.used-oculto').each(function(){
+                        var estado = $(this).html();
+                        switch (estado){
+                            case '0':
+                                $(this).html('<div class="la-verde"></div>');
+                                avail++;
+                                break;
+                            case '1':
+                                $(this).html('<div class="la-amarilla"></div>');
+                                break;
+                            case '2':
+                                $(this).html('<div class="la-roja"></div>');
+                                break;
+                        }
+                    });
+                    $('.avail').html(avail);
                     $('#myspecialcontent').parent().show();
               }});
         });
@@ -208,6 +234,8 @@
         $('.c').on("click",".myfanc",function(){
             var codeImg2 = $(this).find(".codeImg").html();
             var price = document.getElementById("pOculto").innerHTML;
+            var priceValue = document.getElementById("price_value").innerHTML;
+            var dateP = document.getElementById("date").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
             var description = document.getElementById("desc_oculto").innerHTML;
             var idproduct = document.getElementById("prodid_oculto").innerHTML;
@@ -253,6 +281,8 @@
                         $('#priceCard').html(price);
                         $('#nameViewCard').html(name);
                         $('.pViewcard').html(description);
+                        $('.price_value_content').html(priceValue);
+                        $('.date_purchased').html(dateP);
                     }
               });
         });
@@ -288,5 +318,20 @@
             $('#used').removeClass('checkConfirm');
         });
         
+    </script>
+{/literal}
+{literal}
+    <script>
+        $('.containerCard').on("click",'input:radio[name=selector]',function()
+        {
+            var val = $('input:radio[name=selector]:checked').val();
+            var idproduct = document.getElementById("prodid_oculto").innerHTML;
+            var codeImg2 = document.getElementById("code-img").innerHTML;
+            $.ajax({
+                    method:"POST",
+                    data: {'action': 'updateUsed','val': val, 'codeImg2': codeImg2,'idproduct':idproduct},
+                    url: '/raizBarcode.php'
+              });
+        });
     </script>
 {/literal}
