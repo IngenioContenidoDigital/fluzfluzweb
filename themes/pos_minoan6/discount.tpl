@@ -44,7 +44,7 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td><span class="information">{l s='Points Contributed:'} </span><span class="data">0</span></td>
+                                    <td>{*<span class="information">{l s='Points Contributed:'} </span><span class="data">0</span>*}</td>
                                     <td><span class="information">{l s='Network Level:'} </span><span class="data">{$member.level}</span></td>
                                     <td><span class="information">{l s='Date Added:'} </span><span class="data">{$member.dateadd}</span></td>
                                     <td></td>
