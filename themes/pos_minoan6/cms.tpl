@@ -40,9 +40,6 @@
         <div class="rte{if $content_only} content_only{/if}">
         {$cms->content}
         </div>
-        <div>
-        {include file="$tpl_dir./breadcrumb.tpl"}
-        </div>
         <div class="row containerFeatured">
                 {hook h='customCMS'}
         </div>
