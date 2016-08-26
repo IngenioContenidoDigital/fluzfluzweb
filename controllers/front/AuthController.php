@@ -311,7 +311,7 @@ class AuthControllerCore extends FrontController
                     if ($back == Tools::secureReferrer($back)) {
                         Tools::redirect(html_entity_decode($back));
                     }
-                    Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : $back));
+                    Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : "my-account"));
                 }
             }
         }
@@ -379,13 +379,7 @@ class AuthControllerCore extends FrontController
         } else {
             $this->errors[] = Tools::displayError('Por favor indique un medio de pago');
         }
-        
-        $target_path = "./images/";
-        $target_path = $target_path . basename( $_FILES['fileImagen']['name']); if(move_uploaded_file($_FILES['fileImagen']['tmp_name'], $target_path)) { echo "El archivo ". basename( $_FILES['fileImagen']['name']). " ha sido subido";
-        } else{
-        echo "Ha ocurrido un error, trate de nuevo!";
-        }
-        
+
         $this->create_account = true;
         $this->context->smarty->assign('email_create', 1);
         

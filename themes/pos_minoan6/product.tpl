@@ -158,9 +158,9 @@
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
 					<h1 itemprop="name">{$product->name|escape:'html':'UTF-8'}</h1>
-                                        <div class="description-product">
+                                        {*<div class="description-product">
                                         {$product->description_short}
-                                        </div>
+                                        </div>*}
 					{if !$product->is_virtual && $product->condition}
 					<p id="product_condition">
 						<label>{l s='Condition:'} </label>
@@ -453,15 +453,11 @@
 	{if !$content_only}
 		<div class="more-info">
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
-				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</a></span></li>{/if}
+				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
-				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
-				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}
-				{$HOOK_PRODUCT_TAB}
-                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab"><span>{l s='Gift Card Instructions'}</a></span></li>{/if}
-				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
-				{if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if}
-				{if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if}
+                                {if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
+				{*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
+				{*if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if*}
 				{$HOOK_PRODUCT_TAB}
 			</ul>
 			{if (isset($quantity_discounts) && count($quantity_discounts) > 0)}
@@ -549,6 +545,11 @@
 					<div  class="rte">{$product->description}</div>
 				</section>
 				<!--end  More info -->
+			{/if}
+			{if isset($product) && $product->description_short}
+                                <section id="idTab20" class="page-product-box">
+                                        <div class="rte">{$product->description_short}</div>
+                                </section>
 			{/if}
 			{if isset($packItems) && $packItems|@count > 0}
 			<section id="blockpack">
