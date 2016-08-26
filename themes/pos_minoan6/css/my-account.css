@@ -18,3 +18,69 @@
 .id_manufacturer{
     display: none;
 }
+
+#price_value{
+    display: none;
+}
+
+.price_value_content{
+    color: #ef4136;
+    font-size: 16px;
+}
+
+.pValuePrice{
+    font-size: 12px;
+    margin-top: 11px;
+    padding-left: 11px;
+    text-align: left;
+}
+
+#date{
+    display: none;
+}
+
+.used-oculto{
+    min-width: 10px;
+    min-height: 10px;
+    width: 10px;
+    height: 10px;
+    max-width: 10px;
+    max-height: 10px;
+    float:left;
+    margin-top: 15px;
+}
+.la-amarilla{
+    min-width: 10px;
+    min-height: 10px;
+    width: 10px;
+    height: 10px;
+    max-width: 10px;
+    max-height: 10px;
+    border-radius: 50%;
+    background-color: #eede23;
+    color: #eede23;
+}
+
+.la-verde{
+    min-width: 10px;
+    min-height: 10px;
+    width: 10px;
+    height: 10px;
+    max-width: 10px;
+    max-height: 10px;
+    border-radius: 50%;
+    background-color: darkgreen;
+    color: darkgreen;
+}
+
+.la-roja{
+    min-width: 10px;
+    min-height: 10px;
+    width: 10px;
+    height: 10px;
+    max-width: 10px;
+    max-height: 10px;
+    border-radius: 50%;   
+    background-color: red;
+    color: red;    
+}

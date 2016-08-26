@@ -65,8 +65,7 @@ class MyAccountControllerCore extends FrontController
         $this->context->smarty->assign('members', $members);
         
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
-        //$manufacturer = $_COOKIE["manufacturerCards"];
-        //$manufacturer = $_GET['id_manu'];
+        
         
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),

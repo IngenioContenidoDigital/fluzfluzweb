@@ -243,8 +243,13 @@
             $('#labelCard').removeClass('labelcard');
             $('#used').removeClass('checkConfirm');
         });
-
-        $('input:radio[name=selector]').click(function() {
+        
+    </script>
+{/literal}
+{literal}
+    <script>
+        $('.containerCard').on("click",'input:radio[name=selector]',function()
+        {
             var val = $('input:radio[name=selector]:checked').val();
             var idproduct = document.getElementById("prodid_oculto").innerHTML;
             var codeImg2 = document.getElementById("code-img").innerHTML;

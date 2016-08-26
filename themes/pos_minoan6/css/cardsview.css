@@ -30,6 +30,10 @@
 
 .c{
     line-height: 10px !important;
+    max-height: 179px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-bottom: 15px;
 }
 
 .fancybox-skin{
@@ -118,7 +122,7 @@ ul li .check::before {
 
 .popText{
     background: #fff;
-    margin-left: -50px !important;
+    margin-left: -48px !important;
     position: absolute;
     margin-top: -33px;
     font-size: 16px;
@@ -132,7 +136,8 @@ ul li .check::before {
     text-align: right;
     font-family: 'Open Sans';
     font-weight: lighter;    
-    margin-top: 10px;
+    margin-top: 15px;
+    padding-left: 0;
     float: right;
     font-size:12px;
 }
@@ -185,7 +190,8 @@ ul li .check::before {
 .title-card{
     color: #000 !important;
     background: #fff;
-    margin-top: 80px;
+    text-align: left;
+    padding-left: 15px;
 }
 #nameViewCard {
     color: #000 !important;
@@ -200,6 +206,14 @@ ul li .check::before {
     font-size: 15px;
     line-height: 20px;
 }
+.pDate{
+    font-size: 12px;
+    margin-top: 11px;
+    text-align: right;
+}
+.date_purchased{
+    color:#EF4136;
+}
 
 .pCode {
     text-align: justify !important;
@@ -211,10 +225,6 @@ ul li .check::before {
 
 #bar-code{
     margin-top: 10% !important;
-}
-
-.micode{
-    margin-left: 1%;
 }
 
 .pointPrice{
