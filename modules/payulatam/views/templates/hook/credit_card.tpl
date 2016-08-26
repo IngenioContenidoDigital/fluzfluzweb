@@ -180,7 +180,7 @@
                     {/if}
                     <div class="form-group">
                         <label for="nombre" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Nombre Del Titular</label>
-                        <div class="col-xs-12 col-sm-6"><input type="text" name="nombre" id="nombre" class="form-control" placeholder="(Tal cual aparece en la tarjeta de Crédito)"/></div>
+                        <div class="col-xs-12 col-sm-6"><input type="text" name="nombre" id="nombre" class="form-control" placeholder="(Tal cual aparece en la tarjeta de Crédito)" autocomplete="off"/></div>
                     </div>
                     <div class="form-group required" id="ctNt">
                         <label for="numerot" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Número De Tarjeta De Crédito</label>

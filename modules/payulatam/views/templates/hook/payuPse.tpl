@@ -131,7 +131,7 @@
                      <div class="form-group">
                         <label for="pse_docNumber" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Número de documento</label>
                         <div class="col-xs-12 col-sm-6">
-                              <input type="text" id="pse_docNumber" name="pse_docNumber" class="form-control">
+                              <input type="text" id="pse_docNumber" name="pse_docNumber" class="form-control" autocomplete="off">
                         </div>
                     </div>
                 
