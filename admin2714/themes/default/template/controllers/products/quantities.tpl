@@ -178,7 +178,7 @@
 								{l s='Deny orders'}
 							</label>
 						</p>
-						<p class="radio">
+						{*<p class="radio">
 							<label id="label_out_of_stock_2" for="out_of_stock_2">
 								<input type="radio" id="out_of_stock_2" name="out_of_stock" value="1" class="out_of_stock" {if $product->out_of_stock == 1} checked="checked" {/if}>
 								{l s='Allow orders'}
@@ -197,7 +197,7 @@
 									{l s='as set in the Products Preferences page'}
 								</a>
 							</label>
-						</p>
+						</p>*}
 					</div>
 				</div>
 
