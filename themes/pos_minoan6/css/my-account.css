@@ -117,3 +117,22 @@ display:inline-block;
 .filtro li:hover{
     cursor:pointer;
 }
+
+.terms-card{
+    width: 80%;
+    text-align: justify;
+    color: #808285;
+    margin: 0 auto;
+    font-family: 'Open Sans' !important;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.terms-card>p{
+    line-height: 18px !important;
+    font-size: 12px !important;
+}
+
+#terms_oculto{
+    display: none;
+}

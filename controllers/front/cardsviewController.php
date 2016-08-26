@@ -34,7 +34,7 @@ class cardsviewControllerCore extends FrontController {
 
     public function getCardsbySupplier($id_customer, $id_manufacturer, $id_order, $onlyValidate = false, $pagination = false, $nb = 10, $page = 1) {
         $query = "SELECT PC.`code` AS card_code, 
-                        PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description,
+                        PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description, PL.description_short,
                         PC.id_product, 
                         PP.id_manufacturer, 
                         PP.id_supplier, 

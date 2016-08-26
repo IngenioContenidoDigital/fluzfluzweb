@@ -219,7 +219,8 @@
                     '</div>'+
                     '</a>'+
                     '<div id="pOculto">'+Math.round(x[i].price)+'</div>'+
-                    '<div id="desc_oculto">'+x[i].description+'</div>'+
+                    '<div id="desc_oculto">'+x[i].description_short+'</div>'+
+                    '<div id="terms_oculto">'+x[i].description+'</div>'+
                     '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
                     '<div id="price_value">'+Math.round(x[i].price_value)+'</div>'+
                     '<div id="date">'+fecha.substring(0,10)+'</div>'+
@@ -258,6 +259,7 @@
             var dateP = document.getElementById("date").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
             var description = document.getElementById("desc_oculto").innerHTML;
+            var terms = document.getElementById("terms_oculto").innerHTML;
             var idproduct = document.getElementById("prodid_oculto").innerHTML;
             var ruta = $(this).before().find(".oculto").html();
             $("#img-prod").attr("src",ruta)
@@ -308,6 +310,7 @@
                         $('#priceCard').html(price);
                         $('#nameViewCard').html(name);
                         $('.pViewcard').html(description);
+                        $('.terms-card').html(terms);
                         $('.price_value_content').html(priceValue);
                         $('.date_purchased').html(dateP);
                     }

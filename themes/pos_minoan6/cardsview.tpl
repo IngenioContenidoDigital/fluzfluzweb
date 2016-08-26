@@ -12,7 +12,8 @@
             </a>
 
             <div id="pOculto">{displayPrice price=$card.price no_utf8=false convert=false}</div>
-            <div id="desc_oculto">{$card.description}</div>
+            <div id="desc_oculto">{$card.description_short}</div>
+            <div id="terms_oculto">{$card.description}</div>
             <div id="prodid_oculto">{$card.id_product}</div>
             <div id="nameOculto">{$card.product_name}</div>
             {if $card@iteration mod 2 ==0}<br /><br/>{/if}
@@ -166,6 +167,7 @@
             var price = document.getElementById("pOculto").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
             var description = document.getElementById("desc_oculto").innerHTML;
+            var terms = document.getElementById("terms_oculto").innerHTML;
             var idproduct = document.getElementById("prodid_oculto").innerHTML;
             var ruta = $(this).before().find(".oculto").html();
             $("#img-prod").attr("src",ruta);
@@ -208,6 +210,7 @@
                     $('#priceCard').html(price);
                     $('#nameViewCard').html(name);
                     $('.pViewcard').html(description);
+                    $('.terms-card').html(terms);
                     $(".card-view").css("display","block");
                     $(".CardInstru").css("display","inline-block");
                 }
