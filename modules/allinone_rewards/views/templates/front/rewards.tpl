@@ -23,12 +23,12 @@
             <div class='col-lg-12 col-xs-12 col-md-12 col-sm-12 bannerNetwork'>
             <div class="divNetwork">
                 <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}
-                    <br/><p class="pNetwork">{l s="Your Total Points"}</p>
+                    <br/><p class="pNetwork">{l s='Your Total Points' mod='allinone_rewards'}</p>
                 </h1>
             </div>
             <div class="divNetwork">
                 <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalpointNetwork|number_format:0}
-                    <br/><p class="pNetwork">{l s="Total Network Points"}</p>
+                    <br/><p class="pNetwork">{l s="Total Network Points" mod='allinone_rewards'}</p>
                 </h1>
             </div>
             </div>
@@ -39,23 +39,23 @@
 
 <div id="container" class="col-lg-6 graphicStat"></div>
 <div id="container2" class="col-lg-6 graphicStat">
-    <h4 class="titleStats">{l s="Performance Summary"}</h4>
+    <h4 class="titleStats">{l s="Performance Summary" mod='allinone_rewards'}</h4>
     <div class="yourPointnet">
         <div id="yourPoint" class="puntoGrap">
             <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="YOUR POINT GENERATION"}</p><br/>
+        <p class="pGrap">{l s="YOUR POINT GENERATION" mod='allinone_rewards'}</p><br/>
         {foreach from=$topPoint item=top}
         <div id="topPoint" class="puntoGrap">
             <span>{$top.points|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="TOP POINT GENERATION: "}{$top.name}</p><br/>
+        <p class="pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}{$top.name}</p><br/>
         {/foreach}
         {foreach from=$worstPoint item=worst}
         <div id="worstPoint" class="puntoGrap">
             <span>{$worst.points|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="WORST POINT GENERATION: "}{$worst.name}</p>
+        <p class="pGrap">{l s="WORST POINT GENERATION: " mod='allinone_rewards'}{$worst.name}</p>
         {/foreach}
     </div>
     
@@ -137,7 +137,7 @@
 	</table>-->
     {if $rewards}    
        <table class="std">
-            <h2 class="tituloNet">{l s="Recent Network Activity"}</h2>
+            <h2 class="tituloNet">{l s="Recent Network Activity" mod='allinone_rewards'}</h2>
                 <thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
@@ -250,7 +250,7 @@
 	{/if}
 {/if}
         <table class="std">
-            <h2 class="tituloNet">{l s="Top Network Performers"}</h2>
+            <h2 class="tituloNet">{l s="Top Network Performers" mod='allinone_rewards'}</h2>
 		<thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
@@ -272,7 +272,7 @@
 		</tbody>
 	</table>
         <table class="std">
-            <h2 class="tituloNet">{l s="Worst Network Performers"}</h2>
+            <h2 class="tituloNet">{l s="Worst Network Performers" mod='allinone_rewards'}</h2>
 		<thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
@@ -426,7 +426,7 @@
                 zoomType: 'x'
             },
             title: {
-                text: 'Network Points Trend'
+                text: '{/literal}{l s='Network trend' mod='allinone_rewards'}{literal}'
             },
             subtitle: {
                 text: 'Fluz Fluz',
