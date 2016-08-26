@@ -105,7 +105,7 @@
 			{$bullet_common_field} {l s='Type'}
 		</label>
 		<div class="col-lg-9">
-			<div class="radio">
+			{*<div class="radio">
 				<label for="simple_product">
 					<input type="radio" name="type_product" id="simple_product" value="{Product::PTYPE_SIMPLE}" {if $product_type == Product::PTYPE_SIMPLE}checked="checked"{/if} >
 					{l s='Standard product'}</label>
@@ -113,7 +113,7 @@
 			<div class="radio">
 				<label for="pack_product">
 					<input type="radio" name="type_product" {if $is_in_pack}disabled="disabled"{/if} id="pack_product" value="{Product::PTYPE_PACK}" {if $product_type == Product::PTYPE_PACK}checked="checked"{/if} > {l s='Pack of existing products'}</label>
-			</div>
+			</div>*}
 			<div class="radio">
 				<label for="virtual_product">
 					<input type="radio" name="type_product" id="virtual_product" {if $is_in_pack}disabled="disabled"{/if} value="{Product::PTYPE_VIRTUAL}" {if $product_type == Product::PTYPE_VIRTUAL}checked="checked"{/if} >

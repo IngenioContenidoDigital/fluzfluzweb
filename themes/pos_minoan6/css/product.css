@@ -5,6 +5,7 @@
 /* product desc */
 /* primary_block ***************************************************************************** */
 .primary_block { margin-bottom: 40px; margin-left: 6px;}
+.shop-price, .shop-pri, .point-price { padding: 0!important; line-height: 20px; }
 
 .product-heading-h5 { color: #999999; font-weight: 200; margin: 3px 0 8px; font-size: 19px; font-family: "Open Sans", sans-serif; }
 
@@ -215,7 +216,6 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 
 .point-price{
     text-align: right !important;
-    margin-right: 34px;
     font-weight: lighter;
     background:transparent;         
     font-size: 22px;
@@ -476,7 +476,7 @@ Quick View Styles
     }
 }
 
-.price{color: #ef4136; font-size: 22px;}
+.price{color: #ef4136; font-size: 15px;}
 @media (min-width:412px) and (max-width:760px){
     .prueba{position: absolute; top: 12px; left: 280px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     .menuAccount{border:#E1E1E1 solid 1px; width:60%;}
@@ -621,8 +621,6 @@ Quick View Styles
 
 @media (min-width:1451px) and (max-width:2600px){
     .tiendaP{text-align: left !important;margin-left: 0px;width: 30%;}
-    .point-price{width: 20% !important;} 
-    .shop-price{margin-left: 16px; width: 28%;}
     .container{margin-left: 0px; margin-right: 0px; min-width: 100%;}
     .description-product{font-size: 16px;line-height: 25px;font-family: 'Open Sans'; width: 83%; padding-bottom: 4% !important;padding-top: 4% !important;margin-bottom: 2% !important;}
     .pb-center-column h1 {padding-bottom: 7px;font-size: 24px;}
