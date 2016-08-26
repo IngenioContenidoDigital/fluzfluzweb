@@ -63,8 +63,15 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 		}
 	}
 
+        public function generateIdTemporary($email) {
+            $idTemporary = '';
+            for ($i = 0; $i < strlen($email); $i++) {
+                $idTemporary .= (string) ord($email[$i]);
+            }
+            return substr($idTemporary, 0, 10);
+        }
 
-	/**
+        /**
 	 * @see FrontController::initContent()
 	 */
 	public function initContent()
@@ -161,6 +168,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 
 						$sponsorship = new RewardsSponsorshipModel();
 						$sponsorship->id_sponsor = (int)$this->context->customer->id;
+						$sponsorship->id_customer = $this->generateIdTemporary($friendEmail);
 						$sponsorship->firstname = $friendFirstName;
 						$sponsorship->lastname = $friendLastName;
 						$sponsorship->channel = 1;
