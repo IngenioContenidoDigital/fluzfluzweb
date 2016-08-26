@@ -19,6 +19,21 @@
     display: none;
 }
 
+.available_cards{
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.state-card{
+    text-align: center;
+}
+
+.div-state{
+    margin-bottom: 12px;
+}
+
 #price_value{
     display: none;
 }
@@ -49,6 +64,7 @@
     float:left;
     margin-top: 15px;
 }
+
 .la-amarilla{
     min-width: 10px;
     min-height: 10px;
@@ -57,8 +73,9 @@
     max-width: 10px;
     max-height: 10px;
     border-radius: 50%;
-    background-color: #eede23;
+    background-color: #E9CF08;
     color: #eede23;
+    display:inline-block;
 }
 
 .la-verde{
@@ -71,6 +88,7 @@
     border-radius: 50%;
     background-color: darkgreen;
     color: darkgreen;
+    display:inline-block;
 }
 
 .la-roja{
@@ -82,5 +100,20 @@
     max-height: 10px;
     border-radius: 50%;   
     background-color: red;
-    color: red;    
+    color: red;
+display:inline-block;    
+}
+
+.filtro{
+   margin: 0;
+    padding: 0;
+}
+
+.filtro li{
+    float:left;
+    max-width: 85px;
+}
+
+.filtro li:hover{
+    cursor:pointer;
 }

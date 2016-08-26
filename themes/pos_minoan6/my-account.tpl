@@ -97,7 +97,16 @@
 </div>
         <div style="display:none;">
         <div id="myspecialcontent" class="infoPopUp">
-            <div>{l s='Tarjetas Disponibles: '}<span class="avail"></span></div>
+            <div class="col-lg-7 available_cards">{l s='Tarjetas Disponibles: '}<span class="avail"></span></div>
+            <div class="div-state col-lg-5">
+               <div class="row">
+                   <ul class="filtro">
+                       <li class="v"><p class="state-card"><div class="la-verde"></div>&nbsp;&nbsp;{l s="Disponible"}</p></li>
+                       <li class="a"><p class="state-card"><div class="la-amarilla"></div>&nbsp;&nbsp;{l s="Usada"}</p></li>
+                       <li class="r"><p class="state-card"><div class="la-roja"></div>&nbsp;&nbsp;{l s="Terminada"}</p></li>
+                   </ul>
+               </div>     
+            </div>
             <br>
             <div class='container c'>
                 
@@ -176,7 +185,21 @@
 {/literal}    
 {literal}
     <script>
-        
+        $('.v').on('click',function(){
+           $('.used-oculto > .la-verde').show("slow"); 
+           $('.used-oculto > .la-amarilla').hide("slow");
+           $('.used-oculto > .la-roja').hide("slow");
+        });
+        $('.a').on('click',function(){
+           $('.used-oculto > .la-verde').hide("slow"); 
+           $('.used-oculto > .la-amarilla').show("slow");
+           $('.used-oculto > .la-roja').hide("slow");
+        });
+        $('.r').on('click',function(){
+           $('.used-oculto > .la-verde').hide("slow"); 
+           $('.used-oculto > .la-amarilla').hide("slow");
+           $('.used-oculto > .la-roja').show("slow");
+        });
         $('.algo').click(function() {
             var id_manu = $(this).find(".id_manufacturer").html();
             var id_cust = {/literal}{$profile}{literal};
