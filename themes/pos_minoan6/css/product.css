@@ -106,7 +106,7 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .pb-center-column #short_description_block .buttons_bottom_block { display: none; }
 .pb-center-column #short_description_block #short_description_content { padding: 15px 0; margin-bottom: 20px; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; word-wrap: break-word; display: none;}
 .pb-center-column #short_description_block #short_description_content p { line-height: 27px; font-size: 14px; color: #8c8c8c; margin: 0; }
-.pb-center-column #buy_block label { display: inline-block; text-align: left !important; margin-left: -15px; float: left; font-weight: normal; font-size: 12px; margin-right: 10px; line-height: 35px; }
+.pb-center-column #buy_block label { display: inline-block; text-align: left !important; margin-left: -15px; float: left; font-weight: normal; font-size: 12px; margin-right: 20px; line-height: 35px; }
 .pb-center-column #buy_block p.price { padding: 0; }
 .pb-center-column #color_picker p { padding-bottom: 5px; font-weight: 700; }
 

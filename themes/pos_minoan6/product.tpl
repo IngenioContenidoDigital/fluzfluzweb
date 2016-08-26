@@ -158,9 +158,9 @@
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
 					<h1 itemprop="name">{$product->name|escape:'html':'UTF-8'}</h1>
-                                        {*<div class="description-product">
-                                        {$product->description_short}
-                                        </div>*}
+                                        <div class="description-product">
+                                            {$product_manufacturer->short_description}
+                                        </div>
 					{if !$product->is_virtual && $product->condition}
 					<p id="product_condition">
 						<label>{l s='Condition:'} </label>
@@ -274,8 +274,8 @@
 									<!-- quantity wanted -->
 									{if !$PS_CATALOG_MODE}
                                                                             <p id="product_reference"{if empty($product->reference) || !$product->reference} class="col-xs-12" style="display: none;"{/if}>
-                                                                                <label class="p-reference">{l s='Reference:'} </label>
-                                                                                <span class="editable" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</span>
+                                                                                <label class="p-reference referenceinfo">{l s='Reference:'} </label>
+                                                                                <label class="editable referenceinfo" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</label>
                                                                         </p>    
                                                                         <div class="col-lg-12">
                                                                         <p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: block;"{/if}>
@@ -311,27 +311,30 @@
 										{l s='The minimum purchase order quantity for the product is'} <b id="minimal_quantity_label">{$product->minimal_quantity}</b>
 									</p>
                                                                         <div class="row our_price_display" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
-                                                                            {if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}</div>
-                                                                            <div class="row bloque-precio">
-									{if $priceDisplay >= 0 && $priceDisplay <= 2}
-                                                                            
-                                                                            <div class="col-lg-4 col-xs-6 col-md-4 col-sm-4 shop-price" style="padding-left:0px; text-align: left;">
-                                                                                
-                                                                                {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
-											{if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
-										{/if}
-                                                                                
-                                                                                <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
-                                                                            </div>
-                                                                                <div class="col-lg-4 col-xs-5 col-md-4 col-sm-4 tiendaP" style="padding-left: 0px;">{l s='Tienda: '}<span class="price-shop">({convertPrice price=$product->price_shop|floatval})</span></div>
-                                                                            
-                                                                        
-                                                                            <meta itemprop="priceCurrency" content="{$currency->iso_code}" />
+                                                                        {if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}</div>
+                                                                        <div class="row bloque-precio">
+                                                                            {if $priceDisplay >= 0 && $priceDisplay <= 2}
+                                                                                <div class="col-lg-3 col-xs-3 col-md-3 col-sm-3 shop-price" style="padding-left:0px; text-align: left;">
+                                                                                    {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
+                                                                                        {if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
+                                                                                    {/if}
+                                                                                    <br>
+                                                                                    <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
+                                                                                </div>
+                                                                                <div class="col-lg-3 col-xs-3 col-md-3 col-sm-3" style="padding-left: 0px;">
+                                                                                    {l s='Tienda: '}
+                                                                                    <br>
+                                                                                    <span class="price-shop">({convertPrice price=$product->price_shop|floatval})</span>
+                                                                                </div>
+                                                                                {*<meta itemprop="priceCurrency" content="{$currency->iso_code}" />*}
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                <div class="point-price col-xs-12 col-lg-3 col-md-3 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
-                                                                                {else $logged}<div  class="point-price col-xs-12 col-sm-3 col-lg-4 col-md-3">{$resultProduct} pts.</div>{/if}
-                                                                        {/if}</div>
+                                                                                    <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                {else $logged}
+                                                                                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3 point-price">{$resultProduct} pts.</div>
+                                                                                {/if}
+                                                                            {/if}
+                                                                        </div>
                                                                         {/strip}
                                                                         
                                                                         <div class="cart-product"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
@@ -456,6 +459,7 @@
 				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
                                 {if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
+                                {if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
 				{*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
 				{*if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if*}
 				{$HOOK_PRODUCT_TAB}
@@ -549,6 +553,11 @@
 			{if isset($product) && $product->description_short}
                                 <section id="idTab20" class="page-product-box">
                                         <div class="rte">{$product->description_short}</div>
+                                </section>
+			{/if}
+			{if isset($product_manufacturer) && $product_manufacturer->description}
+                                <section id="idTab21" class="page-product-box">
+                                        <div class="rte">{$product_manufacturer->description}</div>
                                 </section>
 			{/if}
 			{if isset($packItems) && $packItems|@count > 0}
