@@ -112,11 +112,6 @@
 <tr>
 <td class="space_footer" style="padding:30px!important">&nbsp;</td>
 </tr>
-
-<tr>
-<td style="margin:auto; text-align:center;">{bar_codes}</td>
-</tr>
-
 <tr>
 <td class="space_footer" style="padding:30px!important">&nbsp;</td>
 </tr>
@@ -156,7 +151,7 @@
 	<td style="padding:7px 0">
 		
 			<table class="table table-recap" bgcolor="#ffffff" style="width:100%;border-collapse:collapse"><!-- Title -->
-					<tr>
+				<tr>
 					<th bgcolor="#f8f8f8" style="background-color: #fbfbfb;color: #333; font-size: 13px;padding: 10px;">Referencia</th>
 					<th bgcolor="#f8f8f8" style="background-color: #fbfbfb;color: #333; font-size: 13px;padding: 10px;">Producto</th>
 					<th bgcolor="#f8f8f8" style="background-color: #fbfbfb;color: #333; font-size: 13px;padding: 10px;" width="17%">Precio Unidad</th>
@@ -168,7 +163,14 @@
 						&nbsp;&nbsp;{products} 
 					</td>
 				</tr>
-				
+                                <tr>
+                                        <th colspan="5" bgcolor="#f8f8f8" style="background-color: #fbfbfb;color: #333; font-size: 13px;padding: 10px;">Codigo Producto</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border-top:1px solid #e94236;text-align:center;color:#777;padding:7px 0">
+                                        {bar_codes} 
+                                    </td>
+                                </tr>
 				<tr class="conf_body">
 					<td bgcolor="#f8f8f8" colspan="4" style="color:#333;padding:7px 0">
 						<table class="table" style="width:100%;border-collapse:collapse">

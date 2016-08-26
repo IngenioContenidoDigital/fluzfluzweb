@@ -35,7 +35,7 @@
                         <li><a href="{$link->getPageLink('cashout', true)|escape:'html'}" title="{l s='Cash Out' mod='blockmyaccountheader'}">{l s='Cash Out' mod='blockmyaccountheader'}</a></li>
 			{*if $voucherAllowed}<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My vouchers' mod='blockmyaccountheader'}">{l s='My vouchers' mod='blockmyaccountheader'}</a></li>{/if*}
 			{*$HOOK_BLOCK_MY_ACCOUNT*}
-                        <li class="logout signUp"><a href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccountheader'}">{l s='Sign out' mod='blockmyaccountheader'}</a></li>
+                        <li class="logout signUp"><a style="border-bottom: none;" href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccountheader'}">{l s='Sign out' mod='blockmyaccountheader'}</a></li>
 		</ul>
 </div>
 <!-- /Block myaccount module -->

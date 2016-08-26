@@ -142,7 +142,7 @@
                                             <span class="ptoCustomer">+{$totalAvailable}</span>
                                             <span style="color:#000;">{displayPrice price=$totalAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Total Members'}<a class="btnCash" href="#" title="{l s='Explore'}">{l s='Explore'}</a>
+                                        <div class="col-lg-2 col-md-2 barTop">{l s='Total Members'}<a class="btnCash" href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}" title="{l s='Explore'}">{l s='Explore'}</a>
                                             <br/>
                                             <span class="ptoCustomer">+{$members}</span>
                                         </div>
@@ -152,14 +152,14 @@
                                         </div>
                                         
                                         {foreach from=$topPoint item=top}
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Top Performer'}<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>
+                                        <div class="col-lg-2 col-md-2 barTop">{l s='Top Performer'}<!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>-->
                                             <br/>
                                             <span class="ptoCustomer" style="text-transform: none;">{$top.points|number_format:0}{l s=" pts."}</span>
                                             <span style="color:#000;">{$top.name}</span>
                                         </div>
                                         {/foreach}
                                         {foreach from=$worstPoint item=worst}
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Top Worst'}<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>
+                                        <div class="col-lg-2 col-md-2 barTop">{l s='Top Worst'}<!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>-->
                                             <br/>
                                             <span class="ptoCustomer" style="text-transform: none;">{$worst.points|number_format:0}{l s=" pts: "}</span>
                                             <span style="color:#000;">{$worst.name}</span>

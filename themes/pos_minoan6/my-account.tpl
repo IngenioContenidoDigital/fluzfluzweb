@@ -42,7 +42,6 @@
         </div>
     </div>
             <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
-   
     </div>
 {/foreach}
 <div class="col-lg-3 col-md-3 col-sm-12 textAccount">
@@ -268,16 +267,23 @@
                     url: '/raizBarcode.php', 
                     success:function(response){
                         var response = jQuery.parseJSON(response);
+                        
                         if (response.used == 1) {
                            $('#labelCard').addClass('labelcard');
                            $('#used').addClass('checkConfirm');
                            $('#not-used').removeClass('checkConfirm');
                            $('#labelCard2').removeClass('labelcard');
-                        } else {
+                        } else if(response.used == 2){
                            $('#labelCard2').addClass('labelcard');
                            $('#labelCard').removeClass('labelcard');
                            $('#not-used').addClass('checkConfirm');
-                           $('#used').removeClass('checkConfirm')
+                           $('#used').removeClass('checkConfirm');
+                        }
+                        else if(response.used == 0){
+                           $('#labelCard2').removeClass('labelcard');
+                           $('#labelCard').removeClass('labelcard');
+                           $('#not-used').removeClass('checkConfirm');
+                           $('#used').removeClass('checkConfirm');
                         }
                         
                         if ( response.codetype == 0 ) {

@@ -58,18 +58,12 @@ class MyAccountControllerCore extends FrontController
         $datePoint = $this->getPointsLastDays($this->context->customer->id);
         $lastPoint = round($datePoint, $precision=0);
         $this->context->smarty->assign('lastPoint', $lastPoint);
-        
-        $sql = 'SELECT COUNT(id_customer) as members FROM ps_rewards_sponsorship';
-        $sqlmember = Db::getInstance()->getRow($sql);
-        $members = $sqlmember['members'];
-        $this->context->smarty->assign('members', $members);
-        
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
-        
-        
+        $members = $this->numberMembers();
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
+            'members'=> $members,
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
             'topPoint'=> $this->TopNetworkUnique(),
             'worstPoint'=> $this->WorstNetworkUnique(),
@@ -118,42 +112,52 @@ class MyAccountControllerCore extends FrontController
         return $name;
     }
     
-    public function getPointsLastDays($id_customer){
+    public function getPointsLastDays(){
         
-        $query = 'SELECT sum(credits) FROM '._DB_PREFIX_.'rewards WHERE id_customer='.(int)$id_customer.' AND date_add >= curdate() + interval -30 day'.' AND id_reward_state = 2';
+        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        $p = 0;
+        foreach ($tree as $valor){
+                $query = 'SELECT sum(credits) FROM '._DB_PREFIX_.'rewards WHERE id_customer='.(int)$valor['id'].' AND date_add >= curdate() + interval -30 day'.' AND id_reward_state = 2';
+                $sqlmember = Db::getInstance()->getRow($query);
+                $lastDays = $sqlmember['sum(credits)'];
+                $p = $p + $lastDays;
+            }
         
-        $row= Db::getInstance()->getRow($query);
-        $datePoint = $row['sum(credits)'];
-        return $datePoint;
+        return $p;
         
     }
     
-    
-      
     public function getCustomerSponsorship($id_customer){
             
-            //$seguir = true;
             $childs = array();
             array_push($childs,$id_customer);
             $childs2=array();
-            //$childs3=array();
-            
-            
+          
             $query =Db::getInstance()->executeS('SELECT id_customer FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor IN ('.implode(',', $childs).')');
                 if($query != ""){
                     foreach ($query as $valor){
                         array_push($childs2,$valor['id_customer']);
                     }
-                    //print_r(array_values($childs2));
-                    //array_push($childs3,$childs);
                     
                 }
              $childs=array_merge($childs, $childs2);   
-             print_r(array_values($childs));
-             die();
              
            return $query;
         }
+    
+    public function numberMembers(){
+        
+        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        $memberCount = 0;
+            foreach ($tree as $valor){
+                $query = 'SELECT COUNT(id_customer) as members FROM '._DB_PREFIX_.'rewards WHERE id_customer='.$valor['id'];
+                $sqlmember = Db::getInstance()->getRow($query);
+                $members = $sqlmember['members'];
+                $memberCount++;
+            }
+            
+         return $memberCount;
+    }    
         
     public function TopNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);

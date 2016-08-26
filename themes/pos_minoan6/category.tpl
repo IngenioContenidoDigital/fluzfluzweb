@@ -139,6 +139,7 @@
                     @media (max-width: 1024px){
                         .owl-item { width: 227px !important; min-width: 0; margin-left: 18px !important;}
                         .owl-wrapper{margin-left: 1px; transition:none !important; transform: none !important;}
+                        .prueba {left: 180px;}
                     }
                     
                     @media (min-width:1025px) and (max-width:1120px){

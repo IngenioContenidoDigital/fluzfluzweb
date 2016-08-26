@@ -661,7 +661,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
 
 .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus { text-decoration: none; background-color: transparent; background-image: none; filter: progid:DXImageTransform.Microsoft.gradient(enabled = false); cursor: not-allowed; }
 
-.open > .dropdown-menu { display: block; text-align:left;margin-top: 1px;}
+.open > .dropdown-menu { display: block; text-align:left;margin-top: 3px;}
 .open > a { outline: 0; }
 
 .dropdown-header { display: block; padding: 3px 20px; font-size: 12px; line-height: 1.42857; color: #999999; }
@@ -3377,7 +3377,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .block_content3{display:none;}
 }
 @media (min-width:120px) and (max-width:1023px){
-    .dropdown-menu{top:65px !important; font-family:'Open Sans' !important; }
+    .dropdown-menu{top:65px !important; font-family:'Open Sans' !important; min-width: 100%;}
     #search_block_top .btn.button-search{display:none !important;}
 }
 
@@ -3420,7 +3420,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 }
 @media (min-width:601px) and (max-width:990px){
     .navbar{display:none;}
-    .dropdown-menu > li > a{ font-family:'Open Sans'!important; text-transform:uppercase !important; padding:.8% !important; border-bottom: 1px solid #818181;}
+    .dropdown-menu > li > a{ font-family:'Open Sans'!important; text-transform:uppercase !important; padding: 12px !important; border-bottom: 1px solid #818181;}
     .accountHeader{left:255px; float:left !important; border:none !important;}
     .shopping_cart > a:first-child:before{margin-left:180px; margin-top: -1px !important;}
     .contenedor>div{text-align:left !important;}
@@ -10439,9 +10439,9 @@ font-family: 'Open Sans' !important;
 
 @media (min-width:415px) and (max-width:600px){
     .navbar{display:none;}
-    .dropdown-menu > li > a{ font-family:'Open Sans'!important; text-transform:uppercase !important; padding:.8% !important; border-bottom: 1px solid #818181;}
-    .accountHeader{left: 189px; top: -86px; float:left !important; border:none !important;}
-    .shopping_cart > a:first-child:before{margin-left:150px; margin-top: -1px !important;}
+    .dropdown-menu > li > a{ font-family:'Open Sans'!important; text-transform:uppercase !important; padding: 12px !important; border-bottom: 1px solid #818181;}
+    .accountHeader{left: 189px; top: -152px; float:left !important; border:none !important;}
+    .shopping_cart > a:first-child:before{margin-left:150px; margin-top: 1px !important;}
     .block_content3{margin-right:2%; width:15%;}
     .shopping_cart .ajax_cart_quantity{top: -53px !important; left: 278px !important;}
     #product p#loyalty{margin-left: 0px !important;}
