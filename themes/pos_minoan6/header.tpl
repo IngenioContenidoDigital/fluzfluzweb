@@ -217,6 +217,13 @@
                                         {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6}
 						{include file="$tpl_dir./breadcrumb.tpl"}
 					{/if}
+                                        {if $category->id_image == ''}
+                                            {literal}
+                                                <style>
+                                                    .ctgImg{display:none !important;}
+                                                </style>
+                                            {/literal}
+                                        {/if}    
 					{if $page_name =='category'}
 					<div class="banner-category" >
 						<div class="ct_img">

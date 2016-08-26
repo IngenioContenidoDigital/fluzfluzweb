@@ -100,25 +100,25 @@
 		{if $products}
         
 			<div class="content_sortPagiBar clearfix">
-            	<div class="sortPagiBar clearfix">
-					{include file="./product-compare.tpl"}
+                    <div class="sortPagiBar clearfix">
+			{include file="./product-compare.tpl"}
             		{include file="./product-sort.tpl"}
                 	{include file="./nbr-product-page.tpl"}
-				</div>
+                    </div>
 
 			</div>
 			{include file="./product-list.tpl" products=$products}
 			<div class="content_sortPagiBar">
-				<div class="bottom-pagination-content clearfix">
-					{include file="./product-compare.tpl" paginationId='bottom'}
-                    {include file="./pagination.tpl" paginationId='bottom'}
-				</div>
+			<div class="bottom-pagination-content clearfix">
+			{include file="./product-compare.tpl" paginationId='bottom'}
+                        {include file="./pagination.tpl" paginationId='bottom'}
+			</div>
 			</div>
 		{/if}
 	{elseif $category->id}
 		<p class="alert alert-warning">{l s='This category is currently unavailable.'}</p>
 	{/if}
-        
+           
         {if $category->id AND $category->active}
             {literal}
                 <style>
@@ -128,7 +128,31 @@
                     .content_sortPagiBar .sortPagiBar{margin-left: 5%;}
                     .boxprevnext2 a{display: none;}
                     .breadcrumb{display: none;}
-                    .top-pagination-content, .bottom-pagination-content{display: none;}
+                    .owl-wrapper{width: 100% !important; margin-left: 50px; transition:none !important; transform: none !important;}
+                    .content_sortPagiBar .display li{display: none;}
+                    .bottom-pagination-content ul.pagination{margin-top: 0 !important;}
+                    
+                    @media (max-width: 1440px) and (min-width: 1200px){
+                        .owl-item{width: 225px !important;}
+                    }
+                    
+                    @media (max-width: 1024px){
+                        .owl-item { width: 227px !important; min-width: 0; margin-left: 18px !important;}
+                        .owl-wrapper{margin-left: 1px; transition:none !important; transform: none !important;}
+                    }
+                    
+                    @media (min-width:1025px) and (max-width:1120px){
+                        .prueba{left: 186px;}
+                        .owl-item {width: 242px !important;}
+                        .owl-wrapper{margin-left: 12px;}
+                        .content_sortPagiBar .sortPagiBar #productsSortForm{ margin: 0 14px 0 30px;}
+                    }
+                    
+                    @media (max-width: 2600px) and (min-width: 1451px){
+                        .owl-item {    width: 275px !important;}
+                        .owl-wrapper{ margin-left:0px; transition:none !important; transform: none !important;}
+                        .ct_img > img{display: block;width: 118% !important;max-width: 118% !important;height: auto;margin-left: -103px !important;}
+                    }    
                 </style>
             {/literal}
         {/if}    
