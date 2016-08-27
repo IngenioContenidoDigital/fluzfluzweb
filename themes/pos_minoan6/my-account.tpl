@@ -184,85 +184,19 @@
 {/literal}    
 {literal}
     <script>
-        $('.v').on('click',function(){
-           $('.used-oculto > .la-verde').show("slow"); 
-           $('.used-oculto > .la-amarilla').hide("slow");
-           $('.used-oculto > .la-roja').hide("slow");
-        });
-        $('.a').on('click',function(){
-           $('.used-oculto > .la-verde').hide("slow"); 
-           $('.used-oculto > .la-amarilla').show("slow");
-           $('.used-oculto > .la-roja').hide("slow");
-        });
-        $('.r').on('click',function(){
-           $('.used-oculto > .la-verde').hide("slow"); 
-           $('.used-oculto > .la-amarilla').hide("slow");
-           $('.used-oculto > .la-roja').show("slow");
-        });
-        $('.algo').click(function() {
-            var id_manu = $(this).find(".id_manufacturer").html();
-            var id_cust = {/literal}{$profile}{literal};
-
-            $.ajax({
-                    method:"POST",
-                    data: {'action': 'getCardsbySupplier','id_manu': id_manu, 'profile':id_cust},
-                    url: '/cardsSupplier.php', 
-                    success:function(response){
-                        var x = jQuery.parseJSON(response);
-                        var content = '';
-                        for (var i=0;i<x.length;i++){
-                          var fecha = x[i].date;
-            content += '<a class="myfanc" href="#myspecialcontent">'+
-                    '<div class="card"><div class="used-oculto">'+x[i].used+'</div><img style="padding-right:0px;" class="col-lg-4 col-md-3 col-sm-3 col-xs-3" src="/img/m/'+x[i].id_manufacturer+'.jpg" width="40px" height="40px"/>'+
-                    '<div class="col-lg-6 col-md-6 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
-                    '<div class="oculto">/img/m/'+x[i].id_manufacturer+'.jpg</div>'+
-                    '</div>'+
-                    '</a>'+
-                    '<div id="pOculto">'+Math.round(x[i].price)+'</div>'+
-                    '<div id="desc_oculto">'+x[i].description_short+'</div>'+
-                    '<div id="terms_oculto">'+x[i].description+'</div>'+
-                    '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
-                    '<div id="price_value">'+Math.round(x[i].price_value)+'</div>'+
-                    '<div id="date">'+fecha.substring(0,10)+'</div>'+
-                    '<div id="nameOculto">'+x[i].product_name+'</div>';
-                    if (i%2 != 0){
-                        content+='<br /><br/>';
-                    }
-                        
-                    }
-                    $('.c').html(content)
-                    var avail=0;
-                    $('.used-oculto').each(function(){
-                        var estado = $(this).html();
-                        switch (estado){
-                            case '0':
-                                $(this).html('<div class="la-verde"></div>');
-                                avail++;
-                                break;
-                            case '1':
-                                $(this).html('<div class="la-amarilla"></div>');
-                                break;
-                            case '2':
-                                $(this).html('<div class="la-roja"></div>');
-                                break;
-                        }
-                    });
-                    $('.avail').html(avail);
-                    $('#myspecialcontent').parent().show();
-              }});
-        });
         
-        $('.c').on("click",".myfanc",function(){
-            var codeImg2 = $(this).find(".codeImg").html();
-            var price = document.getElementById("pOculto").innerHTML;
-            var priceValue = document.getElementById("price_value").innerHTML;
-            var dateP = document.getElementById("date").innerHTML;
-            var name = document.getElementById("nameOculto").innerHTML;
-            var description = document.getElementById("desc_oculto").innerHTML;
-            var terms = document.getElementById("terms_oculto").innerHTML;
-            var idproduct = document.getElementById("prodid_oculto").innerHTML;
-            var ruta = $(this).before().find(".oculto").html();
-            $("#img-prod").attr("src",ruta)
+        
+        function renderCard(codeImg21, price1,priceValue1, dateP1, name1, description1,terms1,idproduct1,ruta1){           
+            var codeImg2 = codeImg21;
+            var price = price1;
+            var priceValue = priceValue1;
+            var dateP = dateP1;
+            var name = name1;
+            var description = description1;
+            var terms = terms1;
+            var idproduct = idproduct1;
+            var ruta = ruta1;
+            $("#img-prod").attr("src",ruta);
             $.ajax({
                     method:"POST",
                     data: {'action': 'consultcodebar', 'codeImg2': codeImg2,'price':price,'idproduct':idproduct},
@@ -314,8 +248,93 @@
                         $('.price_value_content').html(priceValue);
                         $('.date_purchased').html(dateP);
                     }
-              });
+        })}
+        
+        $('.v').on('click',function(){
+           $('.used-oculto > .la-verde').show("slow"); 
+           $('.used-oculto > .la-amarilla').hide("slow");
+           $('.used-oculto > .la-roja').hide("slow");
         });
+        $('.a').on('click',function(){
+           $('.used-oculto > .la-verde').hide("slow"); 
+           $('.used-oculto > .la-amarilla').show("slow");
+           $('.used-oculto > .la-roja').hide("slow");
+        });
+        $('.r').on('click',function(){
+           $('.used-oculto > .la-verde').hide("slow"); 
+           $('.used-oculto > .la-amarilla').hide("slow");
+           $('.used-oculto > .la-roja').show("slow");
+        });
+        $('.algo').click(function() {
+            var id_manu = $(this).find(".id_manufacturer").html();
+            var id_cust = {/literal}{$profile}{literal};
+
+            $.ajax({
+                    method:"POST",
+                    data: {'action': 'getCardsbySupplier','id_manu': id_manu, 'profile':id_cust},
+                    url: '/cardsSupplier.php', 
+                    success:function(response){
+                        var x = jQuery.parseJSON(response);
+                        var content = '';
+                        //var fecha = x[0].date;
+                        for (var i=0;i<x.length;i++){
+                          var fecha = x[i].date;
+            content += '<a class="myfanc" href="#myspecialcontent">'+
+                    '<div class="card"><div class="used-oculto">'+x[i].used+'</div><img style="padding-right:0px;" class="col-lg-4 col-md-3 col-sm-3 col-xs-3" src="/img/m/'+x[i].id_manufacturer+'.jpg" width="40px" height="40px"/>'+
+                    '<div class="col-lg-6 col-md-6 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
+                    '<div class="oculto">/img/m/'+x[i].id_manufacturer+'.jpg</div>'+
+                    '</div>'+
+                    '</a>'+
+                    '<div id="pOculto">'+Math.round(x[i].price)+'</div>'+
+                    '<div id="desc_oculto">'+x[i].description_short+'</div>'+
+                    '<div id="terms_oculto">'+x[i].description+'</div>'+
+                    '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
+                    '<div id="price_value">'+Math.round(x[i].price_value)+'</div>'+
+                    '<div id="date">'+fecha.substring(0,10)+'</div>'+
+                    '<div id="nameOculto">'+x[i].product_name+'</div>';
+                    if (i%2 != 0){
+                        content+='<br /><br/>';
+                    }
+                        
+                    }
+                    $('.c').html(content)
+                    var avail=0;
+                    $('.used-oculto').each(function(){
+                        var estado = $(this).html();
+                        switch (estado){
+                            case '0':
+                                $(this).html('<div class="la-verde"></div>');
+                                avail++;
+                                break;
+                            case '1':
+                                $(this).html('<div class="la-amarilla"></div>');
+                                break;
+                            case '2':
+                                $(this).html('<div class="la-roja"></div>');
+                                break;
+                        }
+                    });
+                    $('.avail').html(avail);
+                    renderCard(x[0].card_code, Math.round(x[0].price), Math.round(x[0].price_value), fecha.substring(0,10),x[0].product_name,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
+                    $('#myspecialcontent').parent().show();
+              }});
+        });
+        
+        $('.c').on("click",".myfanc",function(){
+            var codeImg2 = $(this).find(".codeImg").html();
+            var price = document.getElementById("pOculto").innerHTML;
+            var priceValue = document.getElementById("price_value").innerHTML;
+            var dateP = document.getElementById("date").innerHTML;
+            var name = document.getElementById("nameOculto").innerHTML;
+            var description = document.getElementById("desc_oculto").innerHTML;
+            var terms = document.getElementById("terms_oculto").innerHTML;
+            var idproduct = document.getElementById("prodid_oculto").innerHTML;
+            var ruta = $(this).before().find(".oculto").html();
+            renderCard(codeImg2,price,priceValue, dateP, name,description, terms, idproduct, ruta);
+        });
+        
+        
+        
         
         
         $('#used').click(function(){
