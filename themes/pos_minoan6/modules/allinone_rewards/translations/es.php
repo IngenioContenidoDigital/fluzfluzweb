@@ -599,7 +599,7 @@ $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_31fde7b05ac8952dacf4af8a704
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_4683d64d58a329b948b25a0d8e8fe175'] = 'Correo de invitación';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_bc42d61cae1ea9894719b885e3b75dc5'] = 'el correo';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_98fa9fa497c9d0377af97aa0d186a199'] = 'que será enviado a sus amigos.';
-$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_20f6366cfaa04e90629de8796f5629c0'] = 'MAS FLUZZERS';
+$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_20f6366cfaa04e90629de8796f5629c0'] = 'INVITAR FLUZZERS';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_143aff868c26bf14622189908d51a628'] = 'Recordar a mis amigos';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_59352cd5314a67c0fb10c964831920f3'] = 'Para convertirse en padrino, debe haber hecho al menos';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_12c500ed0b7879105fb46af0f246be87'] = 'pedidos';
