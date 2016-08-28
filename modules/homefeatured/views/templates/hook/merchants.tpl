@@ -49,7 +49,7 @@
         
         <section class="page-product-box blockproductscategory">
         <div class="divTitleFeatured">
-            <h1 class="titleFeatured2">{l s="NEW MERCHANTS"}</h1>
+            <h1 class="titleFeatured2">{l s="COMERCIOS"}</h1>
         </div>
         
         <div class="boxprevnext2">
@@ -101,7 +101,7 @@
                                                 {*</a>*}
                                         </div>
                                         <div>
-                                                <span>{if $logged}{l s="You earn"}&nbsp;{$product.points}{else $logged}{l s="You earn"}&nbsp;{$product.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s="points !"}</span>
+                                                <span>{if $logged}{l s="Recibes"}&nbsp;{$product.points}{else $logged}{l s="Recibes"}&nbsp;{$product.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s="Fluz !"}</span>
                                         </div>
                                 </div>
                                 <div class="price-block">
@@ -110,19 +110,19 @@
                                                 {if isset($product.show_price) && $product.show_price && !isset($restricted_country_mode)}
                                                         {hook h="displayProductPriceBlock" product=$product type='before_price'}
                                                         <div>
-                                                                <span style="text-align: left; margin-right: 1px;">{l s='Value: '}</span>
+                                                                <span style="text-align: left; margin-right: 1px;">{l s='Valor: '}</span>
                                                                 <span class="price product-price" style="text-align: left;">
                                                                         {convertPrice price=$product.price_shop|floatval}
                                                                 </span>
                                                         </div>
                                                         <div>
-                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Price: '}</span>
+                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio: '}</span>
                                                                 <span class="price product-price" style="color:#ef4136; text-align: left;">
                                                                         {if !$priceDisplay}{convertPrice price=$product.price}{else}{convertPrice price=$product.price_tax_exc}{/if}
                                                                 </span>
                                                         </div>
                                                         <div>
-                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Price in Points: '}</span>
+                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio en Puntos: '}</span>
                                                                 <span class="price product-price" style="color:#ef4136; text-align: left;">
                                                                         {if !$priceDisplay}{(($product.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{else}{(($product.price_tax_exc)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{/if}
                                                                 </span>

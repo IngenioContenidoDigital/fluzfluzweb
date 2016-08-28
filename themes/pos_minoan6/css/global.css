@@ -45,8 +45,7 @@ audio:not([controls]) { display: none; height: 0; }
 
 [hidden] { display: none; }
 
-html { font-family: sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; width:100% !important;}
-
+html { font-family: 'Open Sans', sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; width:100% !important;}
 body { margin: 0 !important;}
 
 a:focus { outline: thin dotted; }
@@ -3361,9 +3360,9 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .accountHeader{margin-right: 20% !important;}
     .hookLeft{margin-right: 10px !important;}
     #menu{display:none;}
-    .pt_custommenu .pt_menu{padding:0px !important;}
+    /*.pt_custommenu .pt_menu{padding:0px !important;}
     .pt_custommenu .pt_menu .parentMenu a{padding:12px !important;}
-    .pt_custommenu{margin-top:1% !important;}
+    .pt_custommenu{margin-top:1% !important;}*/
     .footer-container #footer ul li a{font-size:10px !important;}
     .footer-container #footer .footer-block{margin-left:1% !important;}
     .contenedor>div{font-size: 10px !important; text-align: center !important;}
@@ -4314,7 +4313,6 @@ font-family: 'Open Sans' !important;
 
 .hookLeft{
     padding:0 !important;
-    height:68px;
 }
 
 .block_content3{
