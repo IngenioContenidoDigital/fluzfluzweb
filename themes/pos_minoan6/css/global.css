@@ -147,7 +147,6 @@ hr { margin-top: 18px; margin-bottom: 18px; border: 0; border-top: 1px solid #ee
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
 
-p { margin: 0 0 9px; font-family: 'Open Sans' !important; font-weight: 400; line-height:30px; font-size:15px;}
 
 .lead { margin-bottom: 18px; font-size: 14.95px; font-weight: 200; line-height: 1.4; }
 @media (min-width: 768px) { .lead { font-size: 19.5px; } }
@@ -252,7 +251,6 @@ pre code { padding: 0; font-size: inherit; color: inherit; white-space: pre-wrap
 .container:before, .container:after { content: " "; /* 1 */ display: table; /* 2 */ }
 .container:after { clear: both; }
 
-.row { margin-left: -15px; margin-right: -15px; }
 .row:before, .row:after { content: " "; /* 1 */ display: table; /* 2 */ }
 .row:after { clear: both; }
 
@@ -3719,7 +3717,6 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
     span{font-size:10px;}
-    p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0;}
     .rowAccount{text-align:center;}
     .containerForm{padding:0px;}
@@ -3741,7 +3738,6 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .btn-pinterest{width:100%; height:40px;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
-    span{font-size:14px;}
     p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0;}
     .rowAccount{text-align:center; border-bottom:none;}
@@ -4115,23 +4111,6 @@ h2.title_blockSale {
     display:none;
 }
 
-.pCode{
-    text-align: justify !important;
-    font-family: 'Open Sans' !important;
-    color: #fff;
-    font-size:12px;
-    line-height: 17px;
-}
-
-.pPrice{
-    text-align: justify !important;
-    color: #fff;
-    font-family: 'Open Sans' !important;
-    float: right;
-    font-size:12px;
-    line-height: 17px;
-}
-
 .cardDesign{
     height:auto;
     background:#c9b197;
@@ -4144,15 +4123,6 @@ h2.title_blockSale {
 #prodid_oculto{
      display:none !important;
  }
-
-#bar-code{
-    margin-bottom:15px !important;
-    padding:2% 5%;
-    background:#fff;
-    width:auto;
-    height:auto;
-    
-}
 .tCardView{
     background:#414042 !important;
     text-align:center;
@@ -10454,7 +10424,6 @@ font-family: 'Open Sans' !important;
     .block_content3{margin-right:13px !important;}
     .shopping_cart > a:first-child:before{margin-left:12px; margin-top:-2px !important;}
     .accountHeader{margin-top: -87px !important; left: 125px !important;}
-    .img-responsive{max-width: none !important;width: 100% !important;margin-top: 0px !important;padding: 1%;}
     .imgSponsor2{margin-bottom: 5%; width:30% !important;}
     .barTop{ float: left; margin-bottom: 5%;}
     .owl-wrapper{left:7px !important;}

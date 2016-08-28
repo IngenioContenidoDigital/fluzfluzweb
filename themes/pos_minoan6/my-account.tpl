@@ -94,80 +94,75 @@
             </div>    
         </div>
 </div>
-        <div style="display:none;">
+<div id="not-shown" style="display:none;">
         <div id="myspecialcontent" class="infoPopUp">
-            <div class="col-lg-7 available_cards">{l s='Tarjetas Disponibles: '}<span class="avail"></span></div>
-            <div class="div-state col-lg-5">
-               <div class="row">
-                   <ul class="filtro">
-                       <li class="v"><p class="state-card"><div class="la-verde"></div>&nbsp;&nbsp;{l s="Disponible"}</p></li>
-                       <li class="a"><p class="state-card"><div class="la-amarilla"></div>&nbsp;&nbsp;{l s="Usada"}</p></li>
-                       <li class="r"><p class="state-card"><div class="la-roja"></div>&nbsp;&nbsp;{l s="Terminada"}</p></li>
-                   </ul>
-               </div>     
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 available_cards">{l s='Tarjetas Disponibles: '}<span class="avail"></span></div>
+            <div class="div-state col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 v"><div class="la-verde"></div><div class="state-card">{l s="Disponible"}</div></div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 a"><div class="la-amarilla"></div><div class="state-card">{l s="Usada"}</div></div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 r"><div class="la-roja"></div><div class="state-card">{l s="Terminada"}</div></div>
             </div>
             <br>
-            <div class='container c'>
-                
-            </div>
-            <div class="col-lg-6 card-view">
-                <div>
-
-                </div>
-                <div class="row">
-                <div class="col-lg-12">
-                    <div class="col-lg-12">
-                    <p class="pValuePrice col-lg-6">{l s="Valor Original: "}<span class="price_value_content"></span></p>
+            <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12 c'></div>    
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 card-view">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <p class="pValuePrice">{l s="Valor Original: "}<span class="price_value_content"></span></p>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <p class="pDate">{l s="Compra: "}<span class="date_purchased"></span></p>
+                        </div>
                     </div>
-                    <div class="col-lg-12">
-                    <p class="pDate col-lg-6">{l s="Compra: "}<span class="date_purchased"></span></p>
+                    <div class="row title-card" style="display: flex;align-items: center;">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
+                            <img id="img-prod" src="" alt="" class="imgCardView img-responsive"/>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div id="nameViewCard"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode">></div>
+                            <div class="pPrice">{l s="Value: "}</div><div id="priceCard"></div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <p style="text-align: center;"><img id="bar-code" class="img-responsive" src=""/></p>
+                            <p style="text-align: center;" class="micode popText" id="code-img"></p>
+                        </div>
                     </div>
                 </div>
-                </div>
-                <div class="row title-card">
-                <div class="col-lg-12">
-                    <div class="col-lg-6" style="padding-left: 0px;">
-                    <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="CardInstru" data-toggle="collapse" data-target="#demo">
+                        <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
+                        <div class="pViewcard collapse" id="demo"></div>
                     </div>
-                    <div class="col-lg-6" style="margin-top: 13px;">
-                    <span id="nameViewCard"></span>
-                    </div>
-                </div>
-                </div>
-                <div class="pointPrice">
-                        <p class="col-lg-7 col-xs-8 col-md-8 pCode">{l s="Your Gift Card ID is: "}<br><span class="micode" style="font-size:15px; color: #ef4136;"> </span></p>
-                        <p class="col-lg-5 col-xs-4 col-md-4 pPrice">{l s="Value: "}<br><span id="priceCard" style="font-size:15px; color: #ef4136;"></span></p>
-                </div>
-                <div>
-                    <img id="bar-code" src=""/><br/>
-                    <span class="micode popText" id="code-img"></span>
+                    <div class="CardInstru" data-toggle="collapse" data-target="#terms">
+                        <div><h4 class="insTitle">{l s='Terms'}</h4></div>
+                        <div class="terms-card collapse" id="terms"></div>
+                    </div>  
                 </div>
             </div>
-            <div class="CardInstru" data-toggle="collapse" data-target="#demo">
-                <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
-                <div class="pViewcard collapse" id="demo"></div>
-            </div>
-            <div class="CardInstru" data-toggle="collapse" data-target="#terms">
-                <div><h4 class="insTitle">{l s='Terms'}</h4></div>
-                <div class="terms-card collapse" id="terms"></div>
-            </div>
-            <div class="containerCard">
+            <br>
+            <div class="row">
+                <div class="containerCard">
                 <ul>
                     <li>
                       <input type="radio" id="f-option" name="selector" value="1">
                       <div class="check" id="used"></div>
                       <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
                     </li>
-
                     <li>
                       <input type="radio" id="s-option" name="selector" value="2">
                       <div id="not-used" class="check"></div>
                       <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
                     </li>
                 </ul>
+                </div>
             </div>
         </div>
-    </div>    
+</div>    
 <ul class="footer_links clearfix" style="display: none;">
 <li><a class="btn btn-default button button-small" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Home'}"><span><i class="icon-chevron-left"></i> {l s='Home'}</span></a></li>
 </ul>
@@ -224,11 +219,6 @@
                         
                         if ( response.codetype == 0 ) {
                             $('#bar-code').attr('src','.'+response.code);
-                            $('.pointPrice').css("float","left").css("width","50%").css("padding","10px 0 0 10px");
-                            $('.pCode').addClass("col-lg-12").addClass("col-xs-12").addClass("col-md-12");
-                            $('.pPrice').addClass("col-lg-12").addClass("col-xs-12").addClass("col-md-12");
-                            $('#bar-code').parent().css("float","right");
-                            $('#bar-code').parent().css("margin-right","10%");
                             $('.popText').css("font-size","14px");
                         }
                         if ( response.codetype == 1 ) {
@@ -251,19 +241,37 @@
         })}
         
         $('.v').on('click',function(){
-           $('.used-oculto > .la-verde').show("slow"); 
-           $('.used-oculto > .la-amarilla').hide("slow");
-           $('.used-oculto > .la-roja').hide("slow");
+            $('.myfanc').each(function(){
+                var card= $(this).children('.card');
+                var ocul= card.children('.used-oculto');
+                if(ocul.children().attr('class')!='la-verde'){
+                    $(this).fadeOut("slow");
+                }else{
+                    $(this).fadeIn("slow");
+                }
+            });
         });
         $('.a').on('click',function(){
-           $('.used-oculto > .la-verde').hide("slow"); 
-           $('.used-oculto > .la-amarilla').show("slow");
-           $('.used-oculto > .la-roja').hide("slow");
+            $('.myfanc').each(function(){
+                var card= $(this).children('.card');
+                var ocul= card.children('.used-oculto');
+                if(ocul.children().attr('class')!='la-amarilla'){
+                    $(this).fadeOut("slow");
+                }else{
+                    $(this).fadeIn("slow");
+                }
+            });
         });
         $('.r').on('click',function(){
-           $('.used-oculto > .la-verde').hide("slow"); 
-           $('.used-oculto > .la-amarilla').hide("slow");
-           $('.used-oculto > .la-roja').show("slow");
+           $('.myfanc').each(function(){
+                var card= $(this).children('.card');
+                var ocul= card.children('.used-oculto')
+                if(ocul.children().attr('class')!='la-roja'){
+                    $(this).fadeOut("slow");
+                }else{
+                    $(this).fadeIn("slow");
+                }
+            });
         });
         $('.algo').click(function() {
             var id_manu = $(this).find(".id_manufacturer").html();
@@ -279,23 +287,21 @@
                         //var fecha = x[0].date;
                         for (var i=0;i<x.length;i++){
                           var fecha = x[i].date;
-            content += '<a class="myfanc" href="#myspecialcontent">'+
-                    '<div class="card"><div class="used-oculto">'+x[i].used+'</div><img style="padding-right:0px;" class="col-lg-4 col-md-3 col-sm-3 col-xs-3" src="/img/m/'+x[i].id_manufacturer+'.jpg" width="40px" height="40px"/>'+
-                    '<div class="col-lg-6 col-md-6 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
+            content += '<a class="col-xs-12 col-sm-12 col-md-6 col-lg-6 myfanc" href="#myspecialcontent">'+
+                    '<div class="card">'+
+                        '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 used-oculto">'+x[i].used+'</div>'+
+                        '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><img src="/img/m/'+x[i].id_manufacturer+'.jpg" height="37px"/></div>'+
+                        '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
                     '<div class="oculto">/img/m/'+x[i].id_manufacturer+'.jpg</div>'+
                     '</div>'+
-                    '</a>'+
                     '<div id="pOculto">'+Math.round(x[i].price)+'</div>'+
                     '<div id="desc_oculto">'+x[i].description_short+'</div>'+
                     '<div id="terms_oculto">'+x[i].description+'</div>'+
                     '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
                     '<div id="price_value">'+Math.round(x[i].price_value)+'</div>'+
                     '<div id="date">'+fecha.substring(0,10)+'</div>'+
-                    '<div id="nameOculto">'+x[i].product_name+'</div>';
-                    if (i%2 != 0){
-                        content+='<br /><br/>';
-                    }
-                        
+                    '<div id="nameOculto">'+x[i].product_name+'</div>'+
+                    '</a>';
                     }
                     $('.c').html(content)
                     var avail=0;
@@ -304,7 +310,6 @@
                         switch (estado){
                             case '0':
                                 $(this).html('<div class="la-verde"></div>');
-                                avail++;
                                 break;
                             case '1':
                                 $(this).html('<div class="la-amarilla"></div>');
@@ -334,43 +339,54 @@
         });
         
         
-        
-        
-        
         $('#used').click(function(){
-            $(this).addClass('checkConfirm');
-            $('#labelCard').addClass('labelcard');
-            $('#labelCard2').removeClass('labelcard');
-            $('#not-used').removeClass('checkConfirm');
-        });
-        
-        $('#labelCard').click(function(){
-            $(this).addClass('labelcard');
-            $('#used').addClass('checkConfirm');
-            $('#not-used').removeClass('checkConfirm');
-            $('#labelCard2').removeClass('labelcard');
-        
-        });
-        
-        $('#labelCard2').click(function(){
-            $(this).addClass('labelcard');
-            $('#labelCard').removeClass('labelcard');
-            $('#not-used').addClass('checkConfirm');
-            $('#used').removeClass('checkConfirm')
-            
+            var code = $('.micode').html();
+            $('.codeImg').each(function(){
+                var compare = $(this).html();
+                if(compare==code){
+                    var algo = $(this).parent().parent().children('.used-oculto');
+                    if($('#used').hasClass('checkConfirm')){
+                        algo.html('<div class="la-verde"></div>');
+                        $('#used').removeClass('checkConfirm');
+                        $('#labelCard').removeClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#not-used').removeClass('checkConfirm');
+                    }else{
+                        algo.html('<div class="la-amarilla"></div>');
+                        $('#used').addClass('checkConfirm');
+                        $('#labelCard').addClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#not-used').removeClass('checkConfirm');
+                    }
+                }
+            });
         });
         
         $('#not-used').click(function(){
-            $(this).addClass('checkConfirm');
-            $('#labelCard2').addClass('labelcard');
-            $('#labelCard').removeClass('labelcard');
-            $('#used').removeClass('checkConfirm');
+            var code = $('.micode').html();
+            $('.codeImg').each(function(){
+                var compare = $(this).html();
+                if(compare==code){
+                    var algo = $(this).parent().parent().children('.used-oculto');
+                    if($('#not-used').hasClass('checkConfirm')){
+                        algo.html('<div class="la-verde"></div>');
+                        $('#not-used').removeClass('checkConfirm');
+                        $('#labelCard').removeClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#used').removeClass('checkConfirm');
+                    }else{
+                        algo.html('<div class="la-roja"></div>');
+                        $('#not-used').addClass('checkConfirm');
+                        $('#labelCard').addClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#used').removeClass('checkConfirm');
+                    }
+                }/*else{
+                    $(this).parent().parent().parent().hide();
+                }*/
+            });
         });
         
-    </script>
-{/literal}
-{literal}
-    <script>
         $('.containerCard').on("click",'input:radio[name=selector]',function()
         {
             var val = $('input:radio[name=selector]:checked').val();

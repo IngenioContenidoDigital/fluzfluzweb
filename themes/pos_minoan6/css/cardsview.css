@@ -1,14 +1,18 @@
 
-.container .c{
-    margin-left: 2%;
+.card{
+    height: 47px;
+    background-color: #fff;
+    margin-bottom: 7px;
+    padding: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #E8E8E8;
 }
-.card{display:inline-block; width: 48%; height: auto; background-color: #fff; font-color:#ef4136; padding: 4px; margin-left: 5px; margin-right:5px; border: 1px solid #E8E8E8;}
-.card img{width: auto; height: 40px; background: transparent;}
 .card:hover{background: #fff; cursor: pointer;}
 .card a{line-height: 50px; float:right; color: #ef4136;}
-.infoPopUp{text-align: center;}
+.infoPopUp{text-align: center; overflow-y: scroll;}
 .oculto{display:none;}
-
+#not-shown{border:solid blue 1px;}
 
 .checkCard>div>label{
     font-family: 'Open Sans' !important;
@@ -19,13 +23,13 @@
 }
 
 .pViewcard{
-    width: 80%; 
+    width: 95%; 
     text-align: justify;
     color:#808285;
     margin:0 auto;
     font-family: 'Open Sans' !important;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 #terms_oculto{
@@ -33,13 +37,13 @@
 }
 
 .terms-card{
-    width: 80%;
+    width: 95%;
     text-align: justify;
     color: #808285;
     margin: 0 auto;
     font-family: 'Open Sans' !important;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 .terms-card>p{
@@ -53,24 +57,21 @@
     overflow-x: hidden;
     overflow-y: scroll;
     margin-bottom: 15px;
+    padding: 0px;
 }
 
 .fancybox-skin{
     margin:0 auto !important;
+    max-width: 770px;
 }
 
 .containerCard{
-  display: inline;
-  padding: 3%;
-}
-
-.containerCard ul{
-  list-style: none;
-  height: 100%;
-  width: 50%;
+  display: inline-block;
+  height: auto;
+  width: 100%;
   margin: 0;
   padding: 0;
-  margin-bottom: 2.5%;
+  margin-bottom: 7px;
 }
 
 
@@ -141,10 +142,6 @@ ul li .check::before {
 
 .popText{
     background: #fff;
-    margin-left: -48px !important;
-    position: absolute;
-    margin-top: -33px;
-    font-size: 16px;
 }
 
 #desc_oculto{
@@ -152,58 +149,53 @@ ul li .check::before {
 }
 
 .codigoCard{
-    text-align: right;
     font-family: 'Open Sans';
-    font-weight: lighter;    
-    margin-top: 15px;
-    padding-left: 0;
-    float: right;
-    font-size:12px;
+    margin-top: 1px;
+    line-height: 16px;
+    font-size: 11px;
 }
 
-.fancybox-opened .fancybox-skin { width: auto!important; }
 .fancybox-inner { width: auto!important; }
 .fancybox-outer { width: auto; }
 .cardDesign { width: 100%; margin: 0; display: inline-block; margin-bottom: 30px; }
 .containerCard { padding: 0; }
-.containerCard ul { width: 50%; margin: 0; display: inline-block; margin-left: 2% !important; margin-bottom: 3% !important;}
+.containerCard ul { margin: 0; }
 .containerCard ul li:first-child { margin-right: 10%; }
 .containerCard ul li div { vertical-align: middle; }
 .containerCard ul li label { vertical-align: middle; }
-.CardInstru { width: 43%; display: inline-block; margin-top: 0px; margin-left: 30px; }
+.CardInstru { width: 100%; display: inline-block; margin-top: 0px;}
 .cardDesign .tCardView { margin-bottom: 3%; }
 .cardDesign .tCardView #nameViewCard { font-size: 20px; text-transform: uppercase; vertical-align: middle; }
 .cardDesign .tCardView #img-prod { width: 15%; vertical-align: middle; }
-.pointPrice { display: inline-block; width: 100%; padding: 0 10%; }
-.micode { font-family: 'Open Sans' !important; }
+
+
 
 @media (max-width:1440px){
     
 }
 
 @media (max-width:100px){
-    .fancybox-opened .fancybox-skin { width: 50%!important; }
+    //.fancybox-opened .fancybox-skin { width: 50%!important; }
 }
 
 @media (max-width:1024px){
-    .fancybox-opened .fancybox-skin { width: 70%!important; }
+    //.fancybox-opened .fancybox-skin { width: 70%!important; }
 }
 
 @media (max-width:768px){
     .menuSticky{background: #fff; border-bottom: none;}
-    .fancybox-opened .fancybox-skin { width: 70%!important; }
+    //.fancybox-opened .fancybox-skin { width: 70%!important; }
 }
 
 @media (max-width:500px){
-    .fancybox-opened .fancybox-skin { width: 100%!important; }
+    //.fancybox-opened .fancybox-skin { width: 100%!important; }
 }
 
 .card-view{
     background: #f4f4f4 !important;
     border-radius: 10px;
-    margin-left: 2%;
     margin-top: 0px;
-    margin-bottom: 3%;
+    margin-bottom: 12px;
     padding: 0;
 }
 .title-card{
@@ -213,41 +205,52 @@ ul li .check::before {
     padding-left: 15px;
 }
 #nameViewCard {
-    color: #000 !important;
-    font-family: 'Open Sans' !important;
+    color: #000;
 }
 
-.pPrice {
-    text-align: justify !important;
-    color: #777 !important;
-    font-family: 'Open Sans' !important;
-    float: right;
-    font-size: 15px;
-    line-height: 20px;
-}
+
+
 .pDate{
     font-size: 12px;
     margin-top: 11px;
-    text-align: right;
 }
+
+.pValuePrice{
+    font-size: 12px;
+    margin-top: 11px;
+    padding-left: 11px;
+}
+
 .date_purchased{
     color:#EF4136;
 }
 
 .pCode {
-    text-align: justify !important;
     font-family: 'Open Sans' !important;
     color: #777 !important;
-    font-size: 14px;
-    line-height: 18px;
+    text-align: center;
+}
+.micode { font-family: 'Open Sans' !important; text-align: center; width: 100%; font-size: 18px; color: #ef4136;}
+#priceCard{color: #ef4136; font-size: 18px; text-align: center;}
+.pPrice {
+    margin-top: 5px;
+    color: #777 !important;
+    font-family: 'Open Sans' !important;
+    text-align: center;
 }
 
 #bar-code{
-    margin-top: 10% !important;
+    margin-bottom: 20px;
+    padding: 2% 4%;
+    background: #fff;
+    width: auto;
+    height: auto;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .pointPrice{
-    padding: 20px 0px 0px 10px !important;
+    padding-top: 10px;
 }
 
 .insTitle{
@@ -272,3 +275,14 @@ ul li .check::before {
 
 .CardInstru h4:after { display: block; content: "\f055"; font-family: "FontAwesome"; position: absolute; right: 0; top: 1px; }
 .CardInstru h4.active:after { content: "\f056"; }
+
+.v:hover{cursor: pointer;}
+.a:hover{cursor: pointer;}
+.r:hover{cursor: pointer;}
+
+.pCode-contenedor{
+    vertical-align: middle;
+    display: table;
+    width: 100%;
+    border:solid red 1px;
+}
