@@ -10,7 +10,7 @@
 }
 .card:hover{background: #fff; cursor: pointer;}
 .card a{line-height: 50px; float:right; color: #ef4136;}
-.infoPopUp{text-align: center; overflow-y: scroll;}
+.infoPopUp{text-align: center;}
 .oculto{display:none;}
 #not-shown{border:solid blue 1px;}
 
