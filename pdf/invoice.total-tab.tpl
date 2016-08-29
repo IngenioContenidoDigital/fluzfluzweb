@@ -102,6 +102,6 @@
 <table style="width: 100%; color: #949496; font-size: 10pt; " cellpadding="2" cellspacing="4" border="0">
     <tr>
         <td style="width: 45%; font-size: 10pt; font-weight: bold; text-align: left; line-height: 1.5pt;">VALOR TOTAL</td>
-        <td style="width: 55%; text-align: right;"><span style="background-color: #EFEFEF; font-size: 10pt; line-height: 1.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{displayPrice currency=$order->id_currency price=$footer.total_paid_tax_incl}&nbsp;&nbsp;</span></td>
+        <td style="width: 55%; text-align: right;"><span style="background-color: #EFEFEF; font-size: 10pt; line-height: 1.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{displayPrice currency=$order->id_currency price=$footer.total_paid_tax_incl}&nbsp;&nbsp;</span></td>
     </tr>
 </table>
