@@ -40,12 +40,12 @@
 </table>
 *}
 
-<table style="width: 100%; color: #949496; font-size: 10pt;" cellpadding="4" cellspacing="4">
-    <tr style="font-weight: bold;"><td colspan="2" style="font-size: 10pt;">INFORMACION DE PAGO</td></tr>
+<table style="width: 100%; color: #949496; font-size: 10pt;" cellpadding="4" cellspacing="4" border="0">
+    <tr style="font-weight: bold;"><td colspan="2" style="font-size: 10pt;">FORMA DE PAGO</td></tr>
     {if $payment == "Tarjeta_credito"}
-        <tr><td style="font-size: 11pt;">Debito</td><td style="font-size: 10pt;"><span style="color: #E15243;">X </span>Credito</td></tr>
+        <tr><td style="font-size: 11pt;">Debito</td><td style="font-size: 11pt;"><span style="color: #E15243;">X</span> Credito</td></tr>
     {else}
-        <tr><td style="font-size: 11pt;"><span style="color: #E15243;">X </span>Debito</td><td style="font-size: 10pt;">Credito</td></tr>
+        <tr><td style="font-size: 11pt;"><span style="color: #E15243;">X</span> Debito</td><td style="font-size: 11pt;">Credito</td></tr>
     {/if}
     {*<tr><td colspan="2" style="font-size: 11pt;">Numero de Tarjeta *** *** *** <span style="background-color: #EFEFEF; font-size: 10pt; line-height: 1.5pt;"> 0000 </span></td></tr>*}
 </table>

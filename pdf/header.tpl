@@ -49,24 +49,26 @@
 </table>
 *}
 
-<table style="width: 100%; color: #949496; font-size: 10pt;">
+<table style="width: 100%; color: #949496; font-size: 10pt;" border="0">
     <tr>
-        <td rowspan="2" style="width: 80%; color: #FAA621; font-weight: bold; font-size: 35pt; letter-spacing: 6px;">FLUZ FLUZ<sub style="font-size: 13pt;">&reg;</sub></td>
-        <td style="line-height: 2pt;">No. de factura</td>
+        <td style="width: 80%; color: #FAA621; font-weight: bold; font-size: 35pt; letter-spacing: 6px;">FLUZ FLUZ<sub style="font-size: 13pt;">&reg;</sub></td>
+        <td style="line-height: 2pt;">
+            Factura de venta:<br>
+            <span style="background-color: #EFEFEF; line-height: 1.5pt;">&nbsp;{$title|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;</span>
+        </td>
     </tr>
     <tr>
-        <td><span style="background-color: #EFEFEF;">{$title|escape:'html':'UTF-8'}&nbsp;&nbsp;</span></td>
-    </tr>
-    <tr>
-        <td style="line-height: 1.5pt;">Factura: Ingresos recibidos para terceros</td>
-    </tr>
-    <tr>
-        <td style="width: 80%; line-height: 1.5pt;">Fluz Fluz Colombia SAS, NIT 900961325</td>
-        <td style="line-height: 2pt;">Fecha:</td>
-    </tr>
-    <tr>
-        {assign var=dateexp value="/"|explode:$date}
-        <td style="width: 80%; line-height: 3pt;">Enhorabuena! Haz adquirido:</td>
-        <td style="line-height: 2pt;"><span style="background-color: #EFEFEF;"> {$dateexp.0} </span> / <span style="background-color: #EFEFEF;"> {$dateexp.1} </span> / <span style="background-color: #EFEFEF;"> {$dateexp.2} </span></td>
+        <td style="font-size: 7.5pt;">
+            <span>Fluz Fluz Colombia SAS, NIT.900.961.325-6<br>
+                IVA R&eacute;gimen Com&uacute;n<br>
+                Actividad Econ&oacute;mica CIIU 4791 4 Tarifa 11.04 X 1000<br>
+                Ley 1429 de 2010, No efectuar retenci&oacute;n en la fuente
+            </span>
+        </td>
+        <td style="line-height: 1.6pt;">
+            {assign var=dateexp value="/"|explode:$date}
+            Fecha:<br>
+            <span style="background-color: #EFEFEF; line-height: 1.5pt;">&nbsp;{$dateexp.0}&nbsp;&nbsp;/&nbsp;&nbsp;{$dateexp.1}&nbsp;&nbsp;/&nbsp;&nbsp;{$dateexp.2}&nbsp;&nbsp;</span>
+        </td>
     </tr>
 </table>

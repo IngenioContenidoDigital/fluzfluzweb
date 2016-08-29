@@ -59,16 +59,19 @@
 </table>
 *}
 
-<table style="width: 200%; color: #949496; font-size: 10pt;">
+<table style="width: 200%; color: #949496; font-size: 10pt;" border="0">
     <tr>
-        <td style="width: 60%; font-size: 25pt; color: #FDBB1D; letter-spacing: 1px;">Preguntas?</td>
+        <td style="font-size: 25pt; color: #FDBB1D; letter-spacing: 1px;">Preguntas?</td>
     </tr>
     <tr>
-        <td style="width: 60%; font-size: 10pt;">Escribenos a <span style="color: #E77569;">info@fluzfluz.com</span></td>
+        <td style="font-size: 10pt;">Escribenos a <span style="color: #E77569;">info@fluzfluz.com</span></td>
     </tr>
     <tr><td></td></tr>
     <tr>
-        <td style="width: 60%; font-size: 9pt;">No somos grandes contribuyentes, somos intermediarios, Acogidos a la Ley 1429 de 2010 <span style="color: #FDBB1D; font-size: 12pt;">&curren;</span></td>
+        <td style="font-size: 7.5pt;">No somos grandes contribuyentes, somos intermediarios, Acogidos a la Ley 1429 de 2010<br>Esta factura presta m&eacute;rito ejecutivo de acuerdo a la ley 1231 de 2008.</td>
     </tr>
-    <tr><td style="width: 60%; font-size: 8pt; line-height: 1.5pt;">Actividad Economica  CIIU 4791 4  Tarifa 11.04 x 1000</td></tr>
+    <tr><td></td></tr>
+    <tr>
+        <td style="font-size: 7.5pt;">Resoluci&oacute;n Dian 320001411886 del 14 junio 2016, prefijo B rango 1-5000 autoriza impresa por computador<br>Proveedor software Ingenio contenido digital SAS NIT 900521885-1<br>Calle 12B No.8-03 OFC 308 Bogot&uacute;, Colombia <span style="color: #FDBB1D; font-size: 10pt; line-height: 0pt;">&curren;</span></td>
+    </tr>
 </table>

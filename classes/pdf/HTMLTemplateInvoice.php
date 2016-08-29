@@ -347,6 +347,7 @@ class HTMLTemplateInvoiceCore extends HTMLTemplate
             'summary_tab' => $this->smarty->fetch($this->getTemplate('invoice.summary-tab')),
             'product_tab' => $this->smarty->fetch($this->getTemplate('invoice.product-tab')),
             'tax_tab' => $this->getTaxTabContent(),
+            'observations_tab' => $this->smarty->fetch($this->getTemplate('invoice.observations-tab')),
             'payment_tab' => $this->smarty->fetch($this->getTemplate('invoice.payment-tab')),
             'total_tab' => $this->smarty->fetch($this->getTemplate('invoice.total-tab')),
         );

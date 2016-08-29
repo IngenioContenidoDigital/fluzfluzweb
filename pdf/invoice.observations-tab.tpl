@@ -23,30 +23,12 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {*
-<table id="addresses-tab" cellspacing="0" cellpadding="0">
-	<tr>
-		<td width="33%"><span class="bold"> </span><br/><br/>
-			{if isset($order_invoice)}{$order_invoice->shop_address}{/if}
-		</td>
-		<td width="33%">{if $delivery_address}<span class="bold">{l s='Delivery Address' pdf='true'}</span><br/><br/>
-				{$delivery_address}
-			{/if}
-		</td>
-		<td width="33%"><span class="bold">{l s='Billing Address' pdf='true'}</span><br/><br/>
-				{$invoice_address}
-		</td>
-	</tr>
-</table>
-*}
 <table style="width: 100%; color: #949496; font-size: 10pt;" cellpadding="4" cellspacing="4" border="0">
-    <tr><td style="font-weight: bold;">DATOS DEL COMPRADOR</td></tr>
     <tr>
-        <td style="line-height: 1.3pt; font-size: 10pt;">
-            &nbsp;Nombre del cliente: {$customer->firstname} {$customer->lastname}<br>
-            &nbsp;Tel&eacute;fono del cliente: {$addresses.invoice->phone}<br>
-            &nbsp;Identificaci&oacute;n del cliente: {$addresses.invoice->dni}<br>
-            &nbsp;Email del cliente: {$customer->email}<br>
-            &nbsp;Direcci&oacute;n del cliente: {$addresses.invoice->address1} | {$addresses.invoice->address2}
-        </td>
+        <td style="font-size: 10pt;">Observaciones</td>
+    </tr>
+    <tr>
+        <td style="background-color: #EFEFEF; font-size: 10pt; width: 70%;">Observaciones</td>
     </tr>
 </table>
+*}
