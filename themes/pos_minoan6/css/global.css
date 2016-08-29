@@ -125,7 +125,7 @@ button, input, select[multiple], textarea { background-image: none; }
 
 .colorPoint2{color:#ef4136; font-family:"Montserrat";}
 
-.btn-cart{background:transparent; border:1px solid #ef4136; color: #ef4136; padding:1% 10%; width:30%;}
+.btn-cart{background:transparent; border:1px solid #ef4136; color: #ef4136; width:25%;}
 
 .tprice{color:#ef4136; font-size:80%;}
 

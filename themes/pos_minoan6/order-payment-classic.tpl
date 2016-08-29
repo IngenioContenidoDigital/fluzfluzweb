@@ -108,7 +108,7 @@
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
                                                       <div style="text-align: left; font-size: 12px; width: 100%;" class="item">{l s='Use specific amount of points:'}
-                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 20%;"/>
+                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 20%;" autocomplete="off"/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
                                                       </div> 
                                                 </fieldset>
@@ -180,7 +180,7 @@
                                 {l s='Total vouchers'}
                             {/if}
                         </td>
-                        <td colspan="2" class="price-discount price" id="total_discount">
+                        <td colspan="3" class="price-discount price" id="total_discount">
                             {if $use_taxes}
                                 {if $priceDisplay}
                                     {displayPrice price=$total_discounts_tax_exc*-1}
@@ -322,7 +322,7 @@
                                 {continue}
                             {/if}
                             <tr class="cart_discount {if $smarty.foreach.discountLoop.last}last_item{elseif $smarty.foreach.discountLoop.first}first_item{else}item{/if}" id="cart_discount_{$discount.id_discount}">
-                                <td class="cart_discount_name" colspan="{if $PS_STOCK_MANAGEMENT}3{else}2{/if}">{$discount.name}</td>
+                                <td class="cart_discount_name" colspan="{if $PS_STOCK_MANAGEMENT}4{else}2{/if}">{$discount.name}</td>
                                 <td class="cart_discount_price">
 													<span class="price-discount">
 														{if $discount.value_real > 0}
@@ -388,7 +388,7 @@
 
                $.ajax({
                     method:"GET",
-                    url: 'https://fluzfluz.co/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    url: 'http://fluzfluzweb.local/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);
@@ -410,7 +410,7 @@
                //alert('Carrito:'+totalCart+'Creditos:'+credits+'Money:'+money+'use:'+use);
                $.ajax({
                     method:"GET",
-                    url: 'https://fluzfluz.co/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    url: 'http://fluzfluzweb.local/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);

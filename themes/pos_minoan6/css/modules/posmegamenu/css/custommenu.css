@@ -18,11 +18,10 @@
 .parentMenu > a:before {
   content: "";
   position: absolute;
-  width: 80%;
+  width: 100%;
   height: 3px;
   text-align: center;
   bottom: 0;
-  left: 15px;
   background: #c9b197;
   visibility: hidden;
   border-radius: 5px;
@@ -35,7 +34,7 @@
   transform: scaleX(1);
 }
 .pt_custommenu .pt_menu:last-child .parentMenu a:before { display: none; }
-.pt_custommenu .pt_menu:first-child .parentMenu a:before { width: 72%; }
+.pt_custommenu .pt_menu:first-child .parentMenu a:before { width: 100%; }
 /*.pt_custommenu .pt_menu .parentMenu a span:before { position: absolute; right: 10px; content: "\f107"; font-family: FontAwesome; font-size: 16px; }*/
 /*.pt_custommenu .pt_menu:first-child .parentMenu a:before { display: none; }*/
 /*.pt_custommenu .pt_menu:last-child .parentMenu a { padding-right: 0; }*/
