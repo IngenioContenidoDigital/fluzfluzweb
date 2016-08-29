@@ -69,7 +69,7 @@
 		<input type="hidden" name="orderby" value="position" />
 		<input type="hidden" name="orderway" value="desc" />
                 <i class="cerrar">X</i>
-		<input class="search_query form-control" type="text" id="search_query_top" name="search_query" placeholder="{l s='Search' mod='blocksearch'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+		<input class="search_query form-control" type="text" id="search_query_top" name="search_query" placeholder="{l s='Buscar'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
             </form>
 	{if !isset($content_only) || !$content_only}
 		{if isset($restricted_country_mode) && $restricted_country_mode}
@@ -78,7 +78,7 @@
 			</div>
 		{/if}
 		<div id="page" {if $page_name !="index"} class="sub-page"{/if}>
-			<div class="header-container col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="header-container">
 				<header id="header">
 					{capture name='displayBanner'}{hook h='displayBanner'}{/capture}
 					{if $smarty.capture.displayBanner}
@@ -100,29 +100,28 @@
                                                 </div>
                                             </div>
 					{/if}
-					
 					<div class="header-middle">
                                             <div class="container-fluid">
                                                 <div class="row">
-                                                    <div class="pos_logo col-md-3 col-lg-3 col-sm-4 col-xs-4">
+                                                    <div class="pos_logo col-xs-4 col-sm-4 col-md-3 col-lg-3">
                                                         <a href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{$shop_name|escape:'html':'UTF-8'}">
                                                             <img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
                                                         </a>
                                                     </div>
-                                                    <div class="block-megamenu col-md-5 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="block-megamenu col-xs-12 col-sm-12 col-md-5 col-lg-6">
                                                         {capture name='megamenu'}{hook h='megamenu'}{/capture}
                                                             {if $smarty.capture.megamenu}
                                                                 {$smarty.capture.megamenu}
                                                             {/if}
-                                                            <button class="block_content3 aprueba" type="button" data-toggle="dropdown"></button>
+                                                            <!--<button class="block_content3 aprueba" type="button" data-toggle="dropdown"></button>-->
                                                             <ul class="bullet dropdown-menu">
                                                                     <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Members' mod='blockmyaccountheader'}</a></li>
                                                                     <li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='Merchants' mod='blockmyaccountheader'}">{l s='Merchants' mod='blockmyaccountheader'}</a></li>
                                                                     <li><a href="{$link->getModuleLink('allinone_rewards', 'rewards', [], true)|escape:'html':'UTF-8'}" title="{l s='Shop Now' mod='blockmyaccountheader'}">{l s='Shop Now' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a style="border-bottom:none;" href="#" title="{l s='Search' mod='blockmyaccountheader'}"><span class="glyphicon glyphicon-search"></span>{l s='Search' mod='blockmyaccountheader'}</a></li>
+                                                                    <!--<li><a style="border-bottom:none;" href="#" title="{l s='Search' mod='blockmyaccountheader'}"><span class="glyphicon glyphicon-search"></span>{l s='Search' mod='blockmyaccountheader'}</a></li>-->
                                                             </ul>
                                                     </div>
-                                                    <div class="col-md-3 col-sm-4 col-lg-3 col-xs-5 hookLeft">
+                                                    <div class="col-xs-5 col-sm-4 col-md-3 col-lg-3 hookLeft">
                                                             {if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
                                                     </div>
                                                 </div>

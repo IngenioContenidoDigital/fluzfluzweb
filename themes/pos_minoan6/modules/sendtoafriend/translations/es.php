@@ -3,7 +3,6 @@
 global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{sendtoafriend}pos_minoan6>product_page_2107f6398c37b4b9ee1e1b5afb5d3b2a'] = 'Enviar a un amigo';
-$_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend_ajax_22c4733a9ceb239bf825a0cecd1cfaec'] = 'Un amigo';
 $_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend-extra_11cbd9ec2e4b628c371094b6361b9c96'] = 'Tu e-mail ha sido enviado con éxito';
 $_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend-extra_36fb3f59b4a75949a0db90e7011b21f2'] = 'Su email no ha podido ser enviado. Por favor, compruebe la dirección de correo electrónico e inténtelo de nuevo.';
 $_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend-extra_2107f6398c37b4b9ee1e1b5afb5d3b2a'] = 'Enviar a un amigo';
@@ -24,3 +23,4 @@ $_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend_e55de03786f359e2b133f2a74612
 $_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend_19f41c3d6db934fb2db1840ddefd2c51'] = 'Email del amigo:';
 $_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend_2541d938b0a58946090d7abdde0d3890'] = 'enviar';
 $_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend_68728c1897e5936032fe21ffb6b10c2e'] = 'Volver a la página del producto';
+$_MODULE['<{sendtoafriend}pos_minoan6>sendtoafriend_ajax_22c4733a9ceb239bf825a0cecd1cfaec'] = 'Un amigo';
