@@ -115,10 +115,10 @@
                                                             {/if}
                                                             <button class="block_content3 aprueba" type="button" data-toggle="dropdown"></button>
                                                             <ul class="bullet dropdown-menu">
-                                                                    <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Members' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='Merchants' mod='blockmyaccountheader'}">{l s='Merchants' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a href="{$link->getModuleLink('allinone_rewards', 'rewards', [], true)|escape:'html':'UTF-8'}" title="{l s='Shop Now' mod='blockmyaccountheader'}">{l s='Shop Now' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a style="border-bottom:none;" href="#" title="{l s='Search' mod='blockmyaccountheader'}"><span class="glyphicon glyphicon-search"></span>{l s='Search' mod='blockmyaccountheader'}</a></li>
+                                                                    <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
+                                                                    <li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}">{l s='Merchants'}</a></li>
+                                                                    <li><a href="{$link->getModuleLink('allinone_rewards', 'rewards', [], true)|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
+                                                                    <li><a style="border-bottom:none;" href="#"><span class="glyphicon glyphicon-search"></span>{l s='Search'}</a></li>
                                                             </ul>
                                                     </div>
                                                     <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 hookLeft">
