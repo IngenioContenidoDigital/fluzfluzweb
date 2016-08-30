@@ -1,4 +1,3 @@
-
 [{shop_url}] 
 
 Su mensaje al centro de atención al cliente de {shop_name}. 

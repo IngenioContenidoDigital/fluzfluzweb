@@ -1,4 +1,3 @@
-
 [{shop_url}] 
 
 Mensaje de un cliente de {shop_name} 
