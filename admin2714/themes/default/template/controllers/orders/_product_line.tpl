@@ -195,6 +195,11 @@
 		</div>
 		{/if}
 	</td>
+        <td>
+            {foreach $product['codes'] as $code}
+                - {$code}<br>
+            {/foreach}
+	</td>
 	{if ($can_edit && !$order->hasBeenDelivered())}
 	<td class="product_invoice" style="display: none;">
 		{if sizeof($invoices_collection)}
