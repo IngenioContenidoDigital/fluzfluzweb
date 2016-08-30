@@ -1744,6 +1744,16 @@ class AdminOrdersControllerCore extends AdminController
             $order_state['text-color'] = Tools::getBrightness($order_state['color']) < 128 ? 'white' : 'black';
         }
 
+        foreach ( $products as $product ) {
+            $codes = Db::getInstance()->ExecuteS('SELECT code
+                                                    FROM ps_product_code
+                                                    WHERE id_order = '.$order->id.'
+                                                    AND id_product = '.$product['product_id']);
+            foreach ( $codes as $code ) {
+                $product['codes'][] = $code['code'];
+            }
+        }
+
         // Smarty assign
         $this->tpl_view_vars = array(
             'order' => $order,

@@ -967,6 +967,9 @@
 										<span class="title_box ">{l s='Total'}</span>
 										<small class="text-muted">{$smarty.capture.TaxMethod}</small>
 									</th>
+                                                                        <th>
+										<span class="title_box ">{l s='Codes'}</span>
+									</th>
 									<th style="display: none;" class="add_product_fields"></th>
 									<th style="display: none;" class="edit_product_fields"></th>
 									<th style="display: none;" class="standard_refund_fields">
