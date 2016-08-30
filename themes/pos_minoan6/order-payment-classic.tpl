@@ -388,7 +388,7 @@
 
                $.ajax({
                     method:"GET",
-                    url: 'http://fluzfluzweb.local/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+-                   url: 'https://fluzfluz.co/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);
@@ -410,7 +410,7 @@
                //alert('Carrito:'+totalCart+'Creditos:'+credits+'Money:'+money+'use:'+use);
                $.ajax({
                     method:"GET",
-                    url: 'http://fluzfluzweb.local/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+-                   url: 'https://fluzfluz.co/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);
