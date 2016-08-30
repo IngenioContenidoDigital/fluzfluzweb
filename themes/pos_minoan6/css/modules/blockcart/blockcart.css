@@ -14,7 +14,7 @@
 @media (min-width: 768px) and (max-width: 991px) { .shopping_cart > a:first-child span.ajax_cart_product_txt, .shopping_cart > a:first-child span.ajax_cart_product_txt_s { display: none !important; } }
 .shopping_cart > a:first-child b { padding-right: 5px; font-weight: normal; }
 
-.shopping_cart .ajax_cart_quantity { position: absolute; top: 12px; left: 56px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ee4a42; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white; }
+.shopping_cart .ajax_cart_quantity { position: absolute; top: 12px; left: 18px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ee4a42; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white; }
 .shopping_cart .ajax_cart_product_txt, .shopping_cart .ajax_cart_product_txt_s { display: none !important; }
 .shopping_cart .ajax_cart_total { color: #ee4a42; display:none;}
 .shopping_cart .block_cart_expand:after, .shopping_cart .block_cart_collapse:after { content: "\f0d7"; font-family: "FontAwesome"; display: inline-block; float: right; font-size: 18px; color: #686666; padding: 6px 0 0 0; }

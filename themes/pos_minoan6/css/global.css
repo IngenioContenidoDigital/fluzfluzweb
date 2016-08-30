@@ -658,7 +658,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
 
 .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus { text-decoration: none; background-color: transparent; background-image: none; filter: progid:DXImageTransform.Microsoft.gradient(enabled = false); cursor: not-allowed; }
 
-.open > .dropdown-menu { display: block; text-align:left;margin-top: 0px;}
+.open > .dropdown-menu { display: block; text-align:left;margin-top: 2px;}
 .open > a { outline: 0; }
 
 .dropdown-header { display: block; padding: 3px 20px; font-size: 12px; line-height: 1.42857; color: #999999; }
@@ -3376,6 +3376,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 @media (min-width:120px) and (max-width:1023px){
     .dropdown-menu{top:67px !important; font-family:'Open Sans' !important; min-width: 100%;}
     #search_block_top .btn.button-search{display:none !important;}
+    .open > .dropdown-menu {margin-top: 0px;}
 }
 
 @media (min-width:425px) and (max-width:520px){
@@ -10440,6 +10441,7 @@ font-family: 'Open Sans' !important;
     .vdo-fluz{ width: 360px;height: 226px;}
     #boxVideo{height:350px;}
     .dropdown-menu > li > a{padding: 8px 13px;}
+    .shopping_cart .ajax_cart_quantity{left: 56px !important;}
 }
 
 @media (min-width:221px) and (max-width:320px){
