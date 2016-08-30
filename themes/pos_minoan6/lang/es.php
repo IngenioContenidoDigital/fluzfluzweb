@@ -160,6 +160,7 @@ $_LANG['cashout_2457a490ea3bd72e8ebb8c5edc518892'] = 'Mínimo requerido para sol
 $_LANG['cashout_26597f68b42701c9a9ab0ba1512ffa5f'] = 'Transferencia directa';
 $_LANG['cashout_284b555a5a798efab03639d460a3109a'] = 'Número de Tarjeta';
 $_LANG['cashout_2d31abc75971a57e48bbda9e00abe9cb'] = 'Redimir puntos por Dinero en efectivo';
+$_LANG['cashout_30f51fe995cee457a7d41003c91716f6'] = 'Aun no alcanzas el umbral requerido para redimir tus puntos Fluz por dinero, es necesario que realices un consumo mínimo de $45.000 por mes, para hacer tu solicitud de redención. ¡¡Te invitamos a seguir comprando y ganando puntos !!';
 $_LANG['cashout_37d0de60205b370f9041cdef7b81a2cc'] = 'Ha ocurrido un error con tu solicitud';
 $_LANG['cashout_470f74c2d051e95effb1dd5017f56fad'] = 'Mis Puntos';
 $_LANG['cashout_564799e8d444deb4dd5c613c7e8ff8f4'] = 'Regresar a mi cuenta';
