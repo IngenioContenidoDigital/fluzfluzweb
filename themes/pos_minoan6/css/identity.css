@@ -32,6 +32,7 @@ div.selector.disabled span, div.selector.disabled.active span { color: #585858; 
 #numbercard { width: 100px; }
 .btnCard { padding: 2% 8%; background: #c9b197; border: 1px solid #c9b197; color: #fff; font-size: 1.3em; }
 .btnCard:hover { background: #fff; color: #c9b197; border: 1px solid #c9b197; }
+.block-profileimg { display: none; }
 
 @media (max-width: 550px) { 
     .dateBirth, .dateExpiration { display: inline-block; }
