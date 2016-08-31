@@ -102,11 +102,7 @@
     <style>
         .btn-shop{width: 50%;}
         @media (max-width:420px){
-            .btn-shop{margin-top: -15% !important; height: 35px;}
-            .btn-shop span, .btn-shop2 span{font-size: 12px;}
-            article.sectionBanner{margin-right: 0px !important;}
-            .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left:7.3px !important;}
-            
+            article.sectionBanner{margin-right: 0px !important;}            
         @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}
             .sectionFooter{text-align: center; padding-left: 0; margin-right: 0; }
         }

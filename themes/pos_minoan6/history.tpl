@@ -69,10 +69,11 @@
                                                         
                                                 <td>
                                                     <div style="text-align:center;">
-                                                        <span><img src="{$link->getImageLink($product.link_rewrite, $product.image, 'small_default')}"/></span>
+                                                        <span><img src="{$link->getImageLink($product.link_rewrite, $product.image, 'medium_default')}" width="250px"/></span>
                                                     </div>
                                                         
-                                                </td>                
+                                                </td>
+                                                
                                                 <td class="history_invoice">
                                                     <span style="color:#231f20; font-size: 18px; font-family: 'Open Sans'; font-weight: bold; line-height: 35px;">{$product.purchase}</span>
                                                     <div>
