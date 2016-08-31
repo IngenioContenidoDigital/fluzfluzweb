@@ -164,6 +164,18 @@ function validate_isDniLite(s)
 	return reg.test(s);
 }
 
+function validate_isNITNumber(s)
+{
+	var reg = /^[1-9]{1}[0-9]{6,9}$/;
+	return reg.test(s);
+}
+
+function validate_isCheckDigit(s)
+{
+	var reg = /^[0-9]{1,1}$/i;
+	return reg.test(s);
+}
+
 function validate_isGoverNumber(s)
 {
 	var reg = /^[1-9]{1}[0-9]{7,10}$/;

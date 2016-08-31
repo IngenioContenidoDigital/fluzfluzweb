@@ -52,12 +52,23 @@
     {else}
         {*<p class="info-title">{l s='Please be sure to update your personal information if it has changed.'}</p>*}
         <div class="bodyinformation">
-            <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" method="post" class="std">
+            <form action="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" enctype="multipart/form-data" method="post" class="std">
                 <div class="profile">
                     <h1 class="title">{l s='Profile'}</h1>
                     <h1 class="edit" id="editProfile">{l s='Edit'}</h1>
                     <div class="fieldInfo">
                         <p class="required requiredinfo"><sup>*</sup>{l s='Required field'}</p>
+                        <div class="required form-group">
+                            {if $imgprofile != ""}
+                                <img src="{$imgprofile}">
+                            {else}
+                                <img src="/modules/blockmyaccountheader/avatar.png" height="30" width="30">
+                            {/if}
+                        </div>
+                        <div class="form-group block-profileimg">
+                            <label for="profileimg">{l s="Change Image"}</label>
+                            <input class="inputform enabled" type="file" disabled id="profileimg" name="profileimg"/>
+                        </div>
                         <div class="clearfix">
                             <label>{l s='Social title'}:</label>
                             {foreach from=$genders key=k item=gender}
@@ -298,6 +309,7 @@
             $(".inputform").is(":disabled") ? $(".requiredinfo").css('display', "block") : $(".requiredinfo").css('display', "none");
             $(".inputform").is(":disabled") ? $("#government").prop("type", "text") : $("#government").prop("type", "password");
             $(".inputform").is(":disabled") ? $(".newPassword").css('display', "block") : $(".newPassword").css('display', "none");
+            $(".inputform").is(":disabled") ? $(".block-profileimg").css('display', "block") : $(".block-profileimg").css('display', "none");
             $(".inputform").is(":disabled") ? $(".dateBirthText").css('display', "none") : $(".dateBirthText").css('display', "block");
             $(".inputform").is(":disabled") ? $(".dateBirthInput").css('display', "block") : $(".dateBirthInput").css('display', "none");
             $(".inputform").is(":disabled") ? $(".inputform").removeAttr('disabled') : $(".inputform").attr('disabled', 'disabled');
