@@ -517,8 +517,23 @@
                                             <span class="form_info">{l s='(Five characters minimum)'}</span>
                                     </div>
                                     <div class="required form-group">
-                                            <label class="required" for="gover">{l s='Government Id #'}</label>
-                                            <input type="number" class="is_required validate form-control" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>
+                                            <label class="required" for="typedocument">{l s='Document type'}</label>
+                                            <div style="max-width: 271px;">
+                                                    <select id="typedocument" name="typedocument" class="form-control" style="max-width: 100%;">
+                                                            <option value="0" selected="selected">CC</option>
+                                                            <option value="1">NIT</option>
+                                                    </select>
+                                            </div>
+                                    </div>
+                                    <div class="required form-group" style="height: 50px">
+                                            <div class="form-group required col-lg-5 col-md-5 col-xs-5" style="padding: 0;">
+                                                    <label class="required" for="gover">{l s='Document number'}</label>
+                                                    <input type="number" class="is_required validate form-control" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
+                                            </div>
+                                            <div class="form-group required col-lg-3 col-md-3 col-xs-3 blockcheckdigit" style="display: none;">
+                                                    <label class="required" for="gover">&nbsp;</label>
+                                                    <input type="number" class="is_required validate form-control" data-validate="isCheckDigit" id="checkdigit" name="checkdigit" oninput="if(value.length>1)value=value.slice(0,1)" value="{if isset($smarty.post.checkdigit)}{$smarty.post.checkdigit}{/if}"/>
+                                            </div>
                                     </div>
                                     <div class="form-group col-lg-12" style="padding-left:0px;">
                                             <label class="col-lg-12 col-md-12 col-xs-12 required" style="padding-left:0px;">{l s='Date of Birth'}</label>

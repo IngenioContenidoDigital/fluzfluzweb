@@ -231,7 +231,7 @@ class IdentityControllerCore extends FrontController
         $imgprofile = "";
         if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".jpeg") ) {
             $imgprofile = "/img/profile-images/".$this->context->customer->id.".jpeg";
-        } elseif ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".jpeg") ) {
+        } elseif ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".jpg") ) {
             $imgprofile = "/img/profile-images/".$this->context->customer->id.".jpg";
         }
         $this->context->smarty->assign('imgprofile',$imgprofile);
