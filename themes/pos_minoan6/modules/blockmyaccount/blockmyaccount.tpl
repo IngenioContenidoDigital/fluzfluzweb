@@ -24,10 +24,10 @@
 *}
 
 <!-- Block myaccount module -->
-<div class="block myaccount-column">
+<div class="row">
     <p class="title_block">
             <a href="{$link->getPageLink('order', true, true)|escape:'html':'UTF-8'}" title="{l s='View my shopping cart' mod='blockmyaccount'}" rel="nofollow">
-                    <div>
+                    <div class="col-lg-12 col-sm-5 col-md-12 col-xs-12" style="margin-bottom:10px;">
                         <div class="menuAccountProfile"><i class="icon-shopping-cart iWhite"></i></div>
                         <div class="menuAccount">
                             <span class="prueba ajax_cart_quantity{if $cart_qties == 0} unvisible{/if}">{$cart_qties}</span>
@@ -37,7 +37,7 @@
             </a>            
             <br/>            
             <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" title="{l s='My account' mod='blockmyaccount'}">
-                    <div>
+                    <div class="col-lg-12 col-sm-5 col-md-12 col-xs-12">
                         <div class="menuAccountProfile"><i class="icon-user iWhite"></i></div>
                         
                         <div class="menuAccount">
