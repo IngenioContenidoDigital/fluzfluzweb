@@ -186,9 +186,6 @@ class RewardsSponsorshipModel extends ObjectModel
                     $prueba = Allinone_rewardsSponsorshipModuleFrontController::generateIdTemporary($x['email']);
                     $email_conf[] = $prueba;
                 }
-                echo '<pre>';
-                print_r($email_conf);
-                die();
                 $query = '
 			SELECT s.*, c.id_customer
 			FROM `'._DB_PREFIX_.'rewards_sponsorship` s
