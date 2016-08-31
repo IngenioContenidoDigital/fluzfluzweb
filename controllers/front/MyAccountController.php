@@ -113,20 +113,35 @@ class MyAccountControllerCore extends FrontController
     }
     
     public function getPointsLastDays(){
-        
+     
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-        $p = 0;
-        foreach ($tree as $valor){
-                $query = 'SELECT sum(credits) FROM '._DB_PREFIX_.'rewards WHERE id_customer='.(int)$valor['id'].' AND date_add >= curdate() + interval -30 day'.' AND id_reward_state = 2';
-                $sqlmember = Db::getInstance()->getRow($query);
-                $lastDays = $sqlmember['sum(credits)'];
-                $p = $p + $lastDays;
+            $sum=0;
+            foreach ($tree as $valor){
+                $queryTop = 'SELECT SUM(n.credits) AS points
+                             FROM '._DB_PREFIX_.'rewards n 
+                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day'.' AND n.id_reward_state = 2 AND '.$valor['level'].'!=1';
+                
+                $result = Db::getInstance()->executeS($queryTop);
+                
+                if ($result[0]['points'] != "" ) {
+                    $top[] = $result[0];
+                }
+                
             }
+            
+            usort($top, function($a, $b) {
+                return $b['points'] - $a['points'];
+            });
+            
+            foreach ($top as $x){
+                $sum += $x['points'];
+            }
+            
+            return $sum;    
+            
+        }
         
-        return $p;
-        
-    }
-    
     public function getCustomerSponsorship($id_customer){
             
             $childs = array();
@@ -163,9 +178,10 @@ class MyAccountControllerCore extends FrontController
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
-                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor['id'];
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=1';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -183,9 +199,10 @@ class MyAccountControllerCore extends FrontController
         public function WorstNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
-                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) WHERE n.id_customer='.$valor['id'];
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=1';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
