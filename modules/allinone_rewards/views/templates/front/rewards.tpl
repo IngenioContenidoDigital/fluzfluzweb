@@ -49,13 +49,13 @@
         <div id="topPoint" class="puntoGrap">
             <span>{$top.points|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}{$top.name}</p><br/>
+        <p class="pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$top.name}</p><br/>
         {/foreach}
         {foreach from=$worstPoint item=worst}
         <div id="worstPoint" class="puntoGrap">
             <span>{$worst.points|number_format:0}{l s=" pts."}</span>
         </div>
-        <p class="pGrap">{l s="WORST POINT GENERATION: " mod='allinone_rewards'}{$worst.name}</p>
+        <p class="pGrap">{l s="WORST POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$worst.name}</p>
         {/foreach}
     </div>
     

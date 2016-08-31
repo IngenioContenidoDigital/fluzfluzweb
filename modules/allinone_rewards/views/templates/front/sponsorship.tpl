@@ -203,7 +203,7 @@
                                                                     {/foreach}
                                                                    </tr>
                                                                 
-                                                                {elseif $pendingFriends|@count == 1 || $subscribeFriends == 1}
+                                                                {elseif $pendingFriends|@count == 1 AND $subscribeFriends == 1}
                                                                    <tr class="alternate_item">
                                                                         {foreach from=$pendingFriends item=pendingFriend name=myLoop}
                                                                         <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
