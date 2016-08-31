@@ -49,6 +49,7 @@ class IdentityControllerCore extends FrontController
         $origin_newsletter = (bool)$this->customer->newsletter;
 
         if (Tools::isSubmit('submitIdentity')) {
+
             $email = trim(Tools::getValue('email'));
 
             if (Tools::getValue('months') != '' && Tools::getValue('days') != '' && Tools::getValue('years') != '') {
@@ -57,6 +58,11 @@ class IdentityControllerCore extends FrontController
                 $this->customer->birthday = null;
             } else {
                 $this->errors[] = Tools::displayError('Invalid date of birth.');
+            }
+
+            $typeimg = explode("/", $_FILES['profileimg']['type']);
+            if ( $typeimg[0] != "image" || ($typeimg[1] != "jpeg" && $typeimg[1] != "jpg" ) ) {
+                $this->errors[] = Tools::displayError('El archivo cargado no se encuentra en un formato correcto (JPEG, JPG).');
             }
 
             if (Tools::getIsset('old_passwd')) {
@@ -110,6 +116,18 @@ class IdentityControllerCore extends FrontController
                 $address = new Address($address[0]['id_address']);
                 $address->dni = Tools::getValue('government');
                 $address->phone = Tools::getValue('phone');
+
+                // subir imagen al servidor
+                $target_path = _PS_IMG_DIR_ . "profile-images/" . basename( $this->customer->id.".".$typeimg[1] );
+                if ( !move_uploaded_file($_FILES['profileimg']['tmp_name'], $target_path) ) {
+                    $this->errors[] = Tools::displayError('No fue posible cargar la imagen de perfil.');
+                }
+                // cambiar tamaño imagen
+                include_once(_PS_ROOT_DIR_.'/classes/Thumb.php');
+                $mythumb = new thumb();
+                $mythumb->loadImage($target_path);
+                $mythumb->crop(100, 100, 'center');
+                $mythumb->save($target_path);
 
                 if ( $this->customer->update() && $address->update() ) {
                     $this->context->cookie->customer_lastname = $this->customer->lastname;
@@ -185,6 +203,7 @@ class IdentityControllerCore extends FrontController
         $address = $this->customer->getAddresses();
         $this->context->smarty->assign('customerGovernment', $address[0]['dni']);
         $this->context->smarty->assign('customerPhone', $address[0]['phone']);
+        $this->context->smarty->assign('customer', $this->context->customer);
 
         $card = DB::getInstance()->getRow( "SELECT nameOwner, name_creditCard, num_creditCard, date_expiration
                                             FROM "._DB_PREFIX_."cards
@@ -208,6 +227,14 @@ class IdentityControllerCore extends FrontController
         }
         $year_select .= '</select>';
         $this->context->smarty->assign('year_select',$year_select);
+        
+        $imgprofile = "";
+        if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".jpeg") ) {
+            $imgprofile = "/img/profile-images/".$this->context->customer->id.".jpeg";
+        } elseif ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".jpg") ) {
+            $imgprofile = "/img/profile-images/".$this->context->customer->id.".jpg";
+        }
+        $this->context->smarty->assign('imgprofile',$imgprofile);
         
         $this->setTemplate(_PS_THEME_DIR_.'identity.tpl');
     }

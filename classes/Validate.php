@@ -881,6 +881,15 @@ class ValidateCore
      * @param string $dni to validate
      * @return bool
      */
+    public static function isCheckDigit($checkdigit)
+    {
+        return empty($checkdigit) || (bool)preg_match('/^[0-9]{1,1}$/i', $checkdigit);
+    }
+    
+    /**
+     * @param string $dni to validate
+     * @return bool
+     */
     public static function isDniLite($dni)
     {
         return empty($dni) || (bool)preg_match('/^[0-9A-Za-z-.]{1,16}$/U', $dni);

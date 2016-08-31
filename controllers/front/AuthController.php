@@ -406,8 +406,17 @@ class AuthControllerCore extends FrontController
         $_POST['lastname'] = Tools::getValue('customer_lastname', $lastnameAddress);
         $_POST['firstname'] = Tools::getValue('customer_firstname', $firstnameAddress);
 
-        if ( Validate::isIdentification( Tools::getValue('gover') ) ) {
-            $this->errors[] = Tools::displayError('Government Id es incorrecto');
+        if ( Tools::getValue('typedocument') != 1 ) {
+            if ( Validate::isIdentification( Tools::getValue('gover') ) || Tools::getValue('gover') == "" ) {
+                $this->errors[] = Tools::displayError('Government Id es incorrecto');
+            }
+        } else {
+            if ( Tools::getValue('gover') == "" ) {
+                $this->errors[] = Tools::displayError('Government Id es incorrecto');
+            }
+            if ( Tools::getValue('checkdigit') == "" ) {
+                $this->errors[] = Tools::displayError('Codigo de verificacion incorrecto');
+            }
         }
         if ( Tools::getValue('days') == "" || Tools::getValue('months') == "" || Tools::getValue('years') == "" ) {
             $this->errors[] = Tools::displayError('Fecha de nacimiento incorrecta');
@@ -479,7 +488,9 @@ class AuthControllerCore extends FrontController
                             $address->alias = 'Mi Direccion';
                             $address->lastname = Tools::getValue("customer_lastname");
                             $address->firstname = Tools::getValue("customer_firstname");
+                            $address->type_document = Tools::getValue("typedocument");
                             $address->dni = Tools::getValue("gover");
+                            $address->checkdigit = Tools::getValue("checkdigit");
                             $address->address1 = Tools::getValue("address1");
                             $address->address2 = Tools::getValue("address2");
                             $address->city = Tools::getValue("city");

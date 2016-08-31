@@ -49,6 +49,16 @@ $(document).ready(function(){
             $('#psenumdoc').val( $('#pse_docNumber').val() );
             $('#formPayUPse').reset();
         });
+        $("#typedocument").change(function() {
+            $("#checkdigit").val("");
+            if ( $("#typedocument").val() == 1 ) {
+                $(".blockcheckdigit").css("display", "block");
+                $("#gover").attr("data-validate", "isNITNumber");
+            } else {
+                $(".blockcheckdigit").css("display", "none");                
+                $("#gover").attr("data-validate", "isGoverNumber");                
+            }
+        });
 });
 
 function submitFunction()

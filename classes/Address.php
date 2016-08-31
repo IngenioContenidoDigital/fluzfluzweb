@@ -86,8 +86,14 @@ class AddressCore extends ObjectModel
     /** @var string VAT number */
     public $vat_number;
 
+    /** @var string Type Document */
+    public $type_document;
+
     /** @var string DNI number */
     public $dni;
+
+    /** @var string Check Digit number */
+    public $checkdigit;
 
     /** @var string Object creation date */
     public $date_add;
@@ -126,7 +132,9 @@ class AddressCore extends ObjectModel
             'other' =>                array('type' => self::TYPE_STRING, 'validate' => 'isMessage', 'size' => 300),
             'phone' =>                array('type' => self::TYPE_STRING, 'validate' => 'isPhoneNumber', 'size' => 32),
             'phone_mobile' =>        array('type' => self::TYPE_STRING, 'validate' => 'isPhoneNumber', 'size' => 32),
+            'type_document' =>      array('type' => self::TYPE_INT, 'size' => 1),
             'dni' =>                array('type' => self::TYPE_STRING, 'validate' => 'isDniLite', 'size' => 16),
+            'checkdigit' =>         array('type' => self::TYPE_INT, 'validate' => 'isCheckDigit', 'size' => 1),
             'deleted' =>            array('type' => self::TYPE_BOOL, 'validate' => 'isBool', 'copy_post' => false),
             'date_add' =>            array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
             'date_upd' =>            array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
