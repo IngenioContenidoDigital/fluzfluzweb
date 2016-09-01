@@ -39,7 +39,13 @@
                         <td>
                             <table class="tablecontent">
                                 <tr>
-                                    <td rowspan="2" class="img"><img src="/modules/blockmyaccountheader/avatar.png" height="30" width="30"></td>
+                                    <td rowspan="2" class="img">
+                                        {if $member.img != ""}
+                                            <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
+                                        {else}
+                                            <img src="{$img_dir}icon/profile.png" width="55" height="50">
+                                        {/if}
+                                    </td>
                                     <td colspan="3" class="line"><span class="name">{$member.name}</span></td>
                                     <td></td>
                                 </tr>

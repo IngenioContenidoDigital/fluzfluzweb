@@ -69,6 +69,13 @@ class MyAccountControllerCore extends FrontController
             'worstPoint'=> $this->WorstNetworkUnique(),
             'returnAllowed' => (int)Configuration::get('PS_ORDER_RETURN')
         ));
+
+        $imgprofile = "";
+        if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ) {
+            $imgprofile = "/img/profile-images/".$this->context->customer->id.".png";
+        }
+        $this->context->smarty->assign('imgprofile',$imgprofile);
+
         $this->context->smarty->assign('HOOK_CUSTOMER_ACCOUNT', Hook::exec('displayCustomerAccount'));
 
         $this->setTemplate(_PS_THEME_DIR_.'my-account.tpl');

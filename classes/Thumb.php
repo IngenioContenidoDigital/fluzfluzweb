@@ -8,6 +8,7 @@
 
         //---Metodo de leer la imagen
         function loadImage( $name ) {
+
             //---Tomar las dimensiones de la imagen
             $info = getimagesize($name);
 
@@ -135,6 +136,29 @@
                     imagecopyresampled($image, $this->image, 0, 0, abs(($this->width - $cwidth) / 2), $this->height - $cheight, $cwidth, $cheight, $cwidth, $cheight);
                 break;
             }
+            
+            $newwidth = $cwidth;
+            $newheight = $cheight;
+ 
+            // create masking
+            $mask = imagecreatetruecolor($newwidth, $newheight);
+
+            $transparent = imagecolorallocate($mask, 255, 0, 0);
+            imagecolortransparent($mask, $transparent);
+
+            imagefilledellipse($mask, $newwidth/2, $newheight/2, $newwidth, $newheight, $transparent);
+
+            $red = imagecolorallocate($mask, 0, 0, 0);
+            imagecopymerge($image, $mask, 0, 0, 0, 0, $newwidth, $newheight,100);
+            imagecolortransparent($image, $red);
+            imagefill($image,0,0, $red);
+
+            // output and free memory
+            /*header('Content-type: image/png');
+            imagepng($image);
+            imagedestroy($image);
+            imagedestroy($mask);*/
+
             $this->image = $image;
         }
     }
