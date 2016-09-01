@@ -166,10 +166,10 @@
     $(document).ready(function() {
 		var owl = $("#product_category");
 		owl.owlCarousel({
-		items : 2,
+		items : 4,
 		 pagination :false,
 		slideSpeed: 1000,
-		itemsDesktop : [1199,3],
+		itemsDesktop : [2100,2],
 		itemsDesktopSmall : [911,2], 
 		itemsTablet: [767,2], 
 		itemsMobile : [480,1],
