@@ -54,11 +54,21 @@ class DiscountControllerCore extends FrontController
                         $members[$sponsor['id']]['name'] = $name;
                         $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
                         $members[$sponsor['id']]['level'] = $sponsor['level'];
+                        $imgprofile = "";
+                        if ( file_exists(_PS_IMG_DIR_."profile-images/".$sponsor['id'].".png") ) {
+                            $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
+                        }
+                        $members[$sponsor['id']]['img'] = $imgprofile;
                     }
                 } else {
                     $members[$sponsor['id']]['name'] = $name;
                     $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
                     $members[$sponsor['id']]['level'] = $sponsor['level'];
+                    $imgprofile = "";
+                    if ( file_exists(_PS_IMG_DIR_."profile-images/".$sponsor['id'].".png") ) {
+                        $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
+                    }
+                    $members[$sponsor['id']]['img'] = $imgprofile;
                 }
             }
         }
