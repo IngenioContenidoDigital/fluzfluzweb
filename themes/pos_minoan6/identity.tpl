@@ -62,7 +62,7 @@
                             {if $imgprofile != ""}
                                 <img src="{$imgprofile}">
                             {else}
-                                <img src="/modules/blockmyaccountheader/avatar.png" height="30" width="30">
+                                <img src="{$img_dir}icon/profile.png">
                             {/if}
                         </div>
                         <div class="form-group block-profileimg">

@@ -60,9 +60,11 @@ class IdentityControllerCore extends FrontController
                 $this->errors[] = Tools::displayError('Invalid date of birth.');
             }
 
-            $typeimg = explode("/", $_FILES['profileimg']['type']);
-            if ( $typeimg[0] != "image" || ($typeimg[1] != "jpeg" && $typeimg[1] != "jpg" ) ) {
-                $this->errors[] = Tools::displayError('El archivo cargado no se encuentra en un formato correcto (JPEG, JPG).');
+            if ( $_FILES['profileimg']['tmp_name'] != "" ) {
+                $typeimg = explode("/", $_FILES['profileimg']['type']);
+                if ( $typeimg[0] != "image" || ($typeimg[1] != "jpeg" && $typeimg[1] != "jpg" ) ) {
+                    $this->errors[] = Tools::displayError('El archivo cargado no se encuentra en un formato correcto (JPEG, JPG).');
+                }
             }
 
             if (Tools::getIsset('old_passwd')) {
@@ -117,17 +119,29 @@ class IdentityControllerCore extends FrontController
                 $address->dni = Tools::getValue('government');
                 $address->phone = Tools::getValue('phone');
 
-                // subir imagen al servidor
-                $target_path = _PS_IMG_DIR_ . "profile-images/" . basename( $this->customer->id.".".$typeimg[1] );
-                if ( !move_uploaded_file($_FILES['profileimg']['tmp_name'], $target_path) ) {
-                    $this->errors[] = Tools::displayError('No fue posible cargar la imagen de perfil.');
+                if ( $_FILES['profileimg']['tmp_name'] != "" ) {
+                    // subir imagen al servidor
+                    $target_path = _PS_IMG_DIR_ . "profile-images/" . basename( $this->customer->id.".".$typeimg[1] );
+                    if ( !move_uploaded_file($_FILES['profileimg']['tmp_name'], $target_path) ) {
+                        $this->errors[] = Tools::displayError('No fue posible cargar la imagen de perfil.');
+                    }
+
+                    // convertir imagen a PNG
+                    $patch_grabar = _PS_IMG_DIR_ . "profile-images/" . basename( $this->customer->id.".png" );
+                    $imagen = imagecreatefromjpeg($target_path);
+                    $pngquality = floor(($quality - 10) / 10);
+                    imagepng($imagen, $patch_grabar, $pngquality);
+
+                    // borrar imagen original
+                    unlink( $target_path );
+
+                    // cambiar tamaño imagen y recortarla en circulo
+                    include_once(_PS_ROOT_DIR_.'/classes/Thumb.php');
+                    $mythumb = new thumb();
+                    $mythumb->loadImage($patch_grabar);
+                    $mythumb->crop(100, 100, 'center');
+                    $mythumb->save($patch_grabar);
                 }
-                // cambiar tamaño imagen
-                include_once(_PS_ROOT_DIR_.'/classes/Thumb.php');
-                $mythumb = new thumb();
-                $mythumb->loadImage($target_path);
-                $mythumb->crop(100, 100, 'center');
-                $mythumb->save($target_path);
 
                 if ( $this->customer->update() && $address->update() ) {
                     $this->context->cookie->customer_lastname = $this->customer->lastname;
@@ -229,10 +243,8 @@ class IdentityControllerCore extends FrontController
         $this->context->smarty->assign('year_select',$year_select);
         
         $imgprofile = "";
-        if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".jpeg") ) {
-            $imgprofile = "/img/profile-images/".$this->context->customer->id.".jpeg";
-        } elseif ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".jpg") ) {
-            $imgprofile = "/img/profile-images/".$this->context->customer->id.".jpg";
+        if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ) {
+            $imgprofile = "/img/profile-images/".$this->context->customer->id.".png";
         }
         $this->context->smarty->assign('imgprofile',$imgprofile);
         
