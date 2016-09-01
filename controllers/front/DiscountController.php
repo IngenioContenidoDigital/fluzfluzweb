@@ -59,6 +59,18 @@ class DiscountControllerCore extends FrontController
                             $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
                         }
                         $members[$sponsor['id']]['img'] = $imgprofile;
+                        $points = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                                FROM "._DB_PREFIX_."rewards
+                                                                WHERE  id_customer = ".$this->context->customer->id."
+                                                                AND plugin = 'sponsorship'
+                                                                AND id_order IN (
+                                                                        SELECT id_order
+                                                                        FROM "._DB_PREFIX_."rewards
+                                                                        WHERE  id_customer = ".$sponsor['id']."
+                                                                        AND plugin = 'loyalty'
+                                                                )
+                                                                GROUP BY id_customer");
+                        $members[$sponsor['id']]['points'] = $points[0]['points'];
                     }
                 } else {
                     $members[$sponsor['id']]['name'] = $name;
@@ -69,6 +81,18 @@ class DiscountControllerCore extends FrontController
                         $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
                     }
                     $members[$sponsor['id']]['img'] = $imgprofile;
+                    $points = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                            FROM "._DB_PREFIX_."rewards
+                                                            WHERE  id_customer = ".$this->context->customer->id."
+                                                            AND plugin = 'sponsorship'
+                                                            AND id_order IN (
+                                                                    SELECT id_order
+                                                                    FROM "._DB_PREFIX_."rewards
+                                                                    WHERE  id_customer = ".$sponsor['id']."
+                                                                    AND plugin = 'loyalty'
+                                                            )
+                                                            GROUP BY id_customer");
+                    $members[$sponsor['id']]['points'] = $points[0]['points'];
                 }
             }
         }
