@@ -303,8 +303,8 @@
                                                                             <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price earned: "}</div>
                                                                             <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productP}&nbsp;{l s="pts."}</div>
                                                                         {else $logged}
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price in points: "}</div>
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price earned: "}</div>
+                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$resultProduct|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
 									{/if}
                                                                         <!-- minimal quantity wanted -->
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
@@ -314,16 +314,14 @@
                                                                         {if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}</div>
                                                                         <div class="row bloque-precio">
                                                                             {if $priceDisplay >= 0 && $priceDisplay <= 2}
-                                                                                <div class="col-lg-4 col-xs-4 col-md-4 col-sm-4 shop-price">
+                                                                                <div class="col-lg-4 col-xs-4 col-md-5 col-sm-4 shop-price">
                                                                                     {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
                                                                                         {if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
                                                                                     {/if}
-                                                                                    <br>
                                                                                     <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
                                                                                 </div>
-                                                                                <div class="col-lg-4 col-xs-4 col-md-4 col-sm-4 shop-pri">
+                                                                                <div class="col-lg-3 col-xs-4 col-md-3 col-sm-4 shop-pri">
                                                                                     {l s='Tienda: '}
-                                                                                    <br>
                                                                                     <span class="price-shop">{convertPrice price=$product->price_shop|floatval}</span>
                                                                                 </div>
                                                                                 {*<meta itemprop="priceCurrency" content="{$currency->iso_code}" />*}
@@ -331,7 +329,7 @@
                                                                                 {if $logged}
                                                                                     <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {else $logged}
-                                                                                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3 point-price">{$resultProduct} pts.</div>
+                                                                                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {/if}
                                                                             {/if}
                                                                         </div>
@@ -456,10 +454,10 @@
 	{if !$content_only}
 		<div class="more-info">
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
-				{if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
+				{if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
+                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
                                 {if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
-                                {if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
 				{*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
 				{*if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if*}
 				{$HOOK_PRODUCT_TAB}
@@ -814,16 +812,14 @@
 		var owl = $(".accessories_carousel");
 		owl.owlCarousel({
 		items : 4,
-		 pagination :false,
+		pagination :false,
 		slideSpeed: 1000,
-		pagination : false,
 		itemsDesktop : [1199,3],
 		itemsDesktopSmall : [911,2], 
 		itemsTablet: [767,2], 
 		itemsMobile : [480,1],
 		});
-		 
-		 
+		
 		// Custom Navigation Events
 		$(".next-accessory").click(function(){
 		owl.trigger('owl.next');
@@ -939,7 +935,6 @@
     <style>
         .breadcrumb{padding: 0 6% 2%;}
         .actions{display: none !important;}
-        .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left: 3.5%;}
         .pb-left-column{padding-left: 5px;}
     </style>
 {/literal}

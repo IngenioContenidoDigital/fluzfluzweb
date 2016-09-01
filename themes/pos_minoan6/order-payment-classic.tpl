@@ -353,6 +353,7 @@
                 </table>
             </div> <!-- end order-detail-content -->
         {/if}
+        <div id="prueba" style="display:none;">{$base_dir}</div>    
         {if $opc}
             <div id="opc_payment_methods-content">
         {/if}
@@ -385,18 +386,17 @@
                var credits=$('#cavail').val();
                var points=$('#avail').val();
                var use = $('#toUse').val();
-
+               var prueba = document.getElementById("prueba").innerHTML;
+               
                $.ajax({
                     method:"GET",
--                   url: 'https://fluzfluz.co/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);
-                      $('#voucher').submit(); 
-                      //alert(response);
-                      
+                      $('#voucher').submit();
                     }
-                  });          
+                  });  
            });
     </script>
     
@@ -407,10 +407,10 @@
                var credits=$('#cavail').val();
                var points=$('#avail').val();
                var use = $('#toUse').val();
-               //alert('Carrito:'+totalCart+'Creditos:'+credits+'Money:'+money+'use:'+use);
+               var prueba = document.getElementById("prueba").innerHTML;
                $.ajax({
                     method:"GET",
--                   url: 'https://fluzfluz.co/module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                    url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                     success:function(response){
                       $('#discount_name').val(response);
                       $('input[name="submitDiscount"]').val(response);

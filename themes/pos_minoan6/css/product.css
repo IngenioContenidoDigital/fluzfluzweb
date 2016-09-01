@@ -6,7 +6,7 @@
 /* primary_block ***************************************************************************** */
 .primary_block { margin-bottom: 40px; margin-left: 6px;}
 .shop-price, .shop-pri, .point-price { padding: 0!important; line-height: 20px; }
-
+.shop-pri{color:#ef4136; margin-left: -5px;}
 .product-heading-h5 { color: #999999; font-weight: 200; margin: 3px 0 8px; font-size: 19px; font-family: "Open Sans", sans-serif; }
 
 .box-security .product-heading-h5 { margin: 3px 0 -8px; }
@@ -383,72 +383,68 @@ Quick View Styles
 .pb-center-column p.online_only{display: none;}
 
 @media (max-width:1024px){
+    .owl-carousel .owl-wrapper-outer{margin-left: 15px;}
+    .owl-carousel{width: 94%;}
     .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px;}
     #product p#loyalty{margin-left: 10% !important;}
     .cart-product .buttons_bottom_block{text-align: left !important;}
     .box-info-product p{width:100%; text-align: center;}
     .box-info-product p {margin-left: -20px;}
-    .point-price{text-align: center; margin-right: 0px; font-size: 16px; padding-right: 22px;}
+    .point-price{text-align: left !important;; margin-right: 0px; font-size: 14px; padding-right: 22px;}
     .tiendaP{text-align: center;    margin-left: 0px !important;}
-    .shop-price{    padding-left: 38px !important; text-align: center !important;}
+    .shop-price{ padding-left: 38px !important; text-align: left !important;}
     .pb-center-column #buy_block label{margin-left: 6px !important;}
     .pb-center-column #product_reference{margin-left: -2px !important;}
     .shop-price{padding-left: 0px !important;}
-    .price{font-size: 16px !important;}
-    .price-shop{font-size: 11px !important;}
+    .price{font-size: 13px !important;}
+    .price-shop{font-size: 10px !important;}
+    .shop-pri{font-size: 10px; width: 30%; margin-left: -15px;}
     .tiendaP{font-size: 12px !important;}
-    #quantity_wanted_p input{width: 57%;}
+    #quantity_wanted_p input{width: 52%;}
     .box-info-product .exclusive{width: 93%;height: 40px;}
     .more-info ul li a{font-size:10px !important;}
     .socialsharing_product button{width: 80px;font-size: 10px;text-align: center;padding: 8px;}
     p{line-height: 20px;}
     .owl-carousel .owl-item{margin-left: 12px !important;}
-    .owl-item{width: 338px !important}
+    .owl-item{width: 219px !important}
     .pos-title {width: 77% !important; margin-left: 4%; height: 49px !important;}
     .pos-title span{font-size: 12px !important;}
     .pos-title h2 {height: 49px;}
-    .boxprevnext a.prev {right: 12% !important;}
-    .boxprevnext a.next{right: 5.6% !important;}
+    .boxprevnext a.prev {right: 81px !important;}
+    .boxprevnext a.next{right: 31px !important;}
     .pb-left-column{margin-top: 34px !important;}
     .p-reference{margin-left: 0px !important;}
     .menuAccountProfile{width:22% !important;}
     .primary_block{margin-bottom: 10px;}
     .description-product{font-size: 10px;line-height: 15px;}
-    .title-price-point{
-    padding-left: 0px;
-    padding-bottom: 20px;
-    background: transparent;
-    }
-    .price-point{
-    background: transparent;
-    text-align: center;
-    padding-bottom: 20px;
-    padding-left: 66px;
-    }
+    .title-price-point{ padding-left: 0px; padding-bottom: 20px; background: transparent; }
+    .price-point{ background: transparent; text-align: center; padding-bottom: 20px; padding-left: 66px; }
 }
 
 @media (min-width:1025px) and (max-width:1120px){
+    .owl-carousel .owl-wrapper-outer{margin-left: 15px;}
     .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px;}
+    .owl-carousel{width: 94%;}
     #product p#loyalty{margin-left: 10% !important;}
     .cart-product .buttons_bottom_block{text-align: left !important;}
     .box-info-product p{width:100%; text-align: center;}
     .box-info-product p { margin-left: -21px;}
-    .point-price{text-align: center; margin-right: 0px; font-size: 18px;     padding-right: 8px;}
+    .point-price{text-align: left !important;; margin-right: 0px; font-size: 14px; padding-right: 22px;}
     .tiendaP{text-align: center;    margin-left: 0px !important;}
     .shop-price{    padding-left: 38px !important; text-align: left !important;}
+    .shop-pri{font-size: 10px; width: 30%; margin-left: -15px;}
     .pb-center-column #buy_block label{margin-left: 8px !important;}
     .pb-center-column #product_reference{margin-left: -6px !important;}
     .shop-price{padding-left: 0px !important;}
-    .price{font-size: 16px !important;}
+    .price{font-size: 13px !important;}
     .price-shop{font-size: 11px !important;}
     .tiendaP{font-size: 12px !important;}
-    #quantity_wanted_p input{width: 59%;}
+    #quantity_wanted_p input{width: 55%;}
     .box-info-product .exclusive{width: 93%;height: 40px;}
     .more-info ul li a{font-size:10px !important;}
     .socialsharing_product button{width: 85px;font-size: 10px;text-align: center;padding: 8px;}
     p{line-height: 20px;}
-    .owl-carousel .owl-item{margin-left: 12px !important;}
-    .owl-item{width: 229px !important}
+    .owl-item{width: 228px !important}
     .pos-title {width: 77% !important; margin-left: 4%; height: 49px !important;}
     .pos-title span{font-size: 12px !important;}
     .pos-title h2 {height: 49px;}
@@ -476,7 +472,7 @@ Quick View Styles
     }
 }
 
-.price{color: #ef4136; font-size: 15px;}
+.price{color: #ef4136; font-size: 15px; margin-left: 10px;}
 @media (min-width:412px) and (max-width:760px){
     .prueba{position: absolute; top: 12px; left: 280px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     .menuAccount{border:#E1E1E1 solid 1px; width:60%;}
@@ -584,47 +580,41 @@ Quick View Styles
 .description-product{text-align: justify; font-size: 13px; line-height: 18px; width: 90%; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding-top: 3%; padding-bottom: 3%;}
 
 @media (min-width:1200px) and (max-width:1440px){
-    .owl-item{width: 314px !important; margin-left: 7px !important;}
+    .owl-item{width: 239px !important;margin-left: 0px !important;}
+    .owl-carousel .owl-wrapper-outer{margin-left: 38px;}
+    .owl-carousel{width: 92%;}
     .tiendaP{margin-left: -12px !important;}
     .primary_block .pb-left-column img{width: 98%;}
     .pb-left-column{margin-top: 50px; padding-left: 15px !important;}
     .pb-center-column #product_reference{ margin-bottom: 20px; text-align: left; margin-left: 0; width: 85%; border-bottom: 1px solid #ddd;}
-    .price{font-size: 20px;}
+    .price{font-size: 14px; margin-left: 5px;}
+    .shop-pri{margin-left: 5px; width: 30%;}
     .description-product{width: 85%;}
     .p-reference{margin-left: 0px !important;}
-    #quantity_wanted_p input{height: 42px; width: 54%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
+    #quantity_wanted_p input{height: 42px; width: 51%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
     .btn.button-plus span, .btn.button-minus span{width: 40px; height: 40px; padding: 8%;}
     .box-info-product .exclusive{width: 88%;}
-    .point-price{margin-right: 0px; margin-left: 0px; font-size: 20px; text-align: left !important;}
+    .point-price{margin-right: 0px; margin-left: 0px; font-size: 16px; text-align: left !important;}
     .socialsharing_product button {width: 90px;height: 38px; font-size: 10px;}
-    .price-shop{font-size: 12px;}
+    .price-shop{font-size: 10px;}
     .pb-center-column h1{padding-bottom: 7px;font-size: 24px;}
     p{line-height: 22px;}
     .pos-title{margin-left: 4% !important; width: 81%!important; height: 50px;}
-    .owl-carousel .owl-wrapper{margin-left: 4.3% !important;}
-    .boxprevnext a.next{right: 5.5% !important;}
-    .boxprevnext a.prev {right: 10% !important;}
+    .boxprevnext a.next{right: 4% !important;}
+    .boxprevnext a.prev {right: 8.7% !important;}
     .primary_block{margin-bottom: 10px;}
-    .title-price-point{
-    padding-left: 0px;
-    padding-bottom: 20px;
-    background: transparent;
-    }
-    .price-point{
-    background: transparent;
-    text-align: center;
-    padding-bottom: 20px;
-    padding-left: 48px;
-    }
-    
+    .title-price-point{padding-left: 0px;padding-bottom: 20px;background: transparent;}
+    .price-point{background: transparent;text-align: center;padding-bottom: 20px;padding-left: 48px;}  
 }
 
 @media (min-width:1451px) and (max-width:2600px){
+    .owl-carousel .owl-wrapper-outer{margin-left: 51px;}
+    .owl-carousel{width: 91%;}
     .tiendaP{text-align: left !important;margin-left: 0px;width: 30%;}
     .container{margin-left: 0px; margin-right: 0px; min-width: 100%;}
     .description-product{font-size: 16px;line-height: 25px;font-family: 'Open Sans'; width: 83%; padding-bottom: 4% !important;padding-top: 4% !important;margin-bottom: 2% !important;}
     .pb-center-column h1 {padding-bottom: 7px;font-size: 24px;}
-    .pb-center-column{ padding-left: 0px; padding-right: 40px;}
+    .pb-center-column{ padding-left: 0px; padding-right: 20px;}
     p { line-height: 18px;font-size: 14px;}
     .primary_block .pb-left-column img{width: 95%;}
     .pb-center-column #buy_block label{font-size: 16px; line-height: 45px;}
@@ -642,22 +632,12 @@ Quick View Styles
     .pos-title h2{height: 60px;}
     .boxprevnext a.next{    right: 5.6% !important;top: -2.5%;}
     .boxprevnext a.prev{right: 9.8% !important; top: -2.5%;}
-    .owl-item{width: 291px !important; min-width: 0; margin-left: 9px !important;}
+    .owl-item{width: 310px !important;min-width: 0;margin-left: 6px;}
     .boxprevnext a i {padding: 10%; width: 60px;}
     .accountHeader{margin-right: 12% !important;}
-    .price-shop{font-size: 15px;}
-    .owl-carousel .owl-wrapper{margin-left: 4% !important;}
+    .price-shop{font-size: 12px; margin-left: 6px;}
     .pos-title{width: 82% !important;}
     .primary_block{margin-bottom: 10px;}
-    .title-price-point{
-    padding-left: 0px;
-    padding-bottom: 20px;
-    background: transparent;
-    }
-    .price-point{
-    background: transparent;
-    text-align: center;
-    padding-bottom: 20px;
-    padding-left: 48px;
-    }
+    .title-price-point{padding-left: 0px;padding-bottom: 20px;background: transparent;}
+    .price-point{background: transparent;text-align: center;padding-bottom: 20px;padding-left: 48px;}
 }

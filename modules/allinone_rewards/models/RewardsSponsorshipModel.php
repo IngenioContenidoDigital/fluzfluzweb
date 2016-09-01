@@ -178,28 +178,24 @@ class RewardsSponsorshipModel extends ObjectModel
 	{
 		if (!(int)($id_customer))
 			return array();
-                
-                $query_email = 'SELECT email as email FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor='.$id_customer;
-                $get_email = Db::getInstance()->executeS($query_email);
-                
-                foreach ($get_email as $x){
-                    $prueba = Allinone_rewardsSponsorshipModuleFrontController::generateIdTemporary($x['email']);
-                    $email_conf[] = $prueba;
-                }
+
                 $query = '
 			SELECT s.*, c.id_customer
 			FROM `'._DB_PREFIX_.'rewards_sponsorship` s
                         LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = s.id_customer)    
-			WHERE s.`id_sponsor` = '.(int)$id_customer;
+			WHERE s.`id_sponsor` = '.(int)$id_customer.'
+                        AND 1 = 1';
+
 		if ($restriction)
 		{
 			if ($restriction == 'pending'){
-                            $query.= ' AND s.`id_customer` = '.(int)$email_conf[0];
-                            }
+                                $query.= ' AND c.id_customer IS NULL';
+                        }
 			elseif ($restriction == 'subscribed'){
-                        $query.= ' AND s.`id_customer`= c.id_customer';
+                                $query.= ' AND s.`id_customer`= c.id_customer';
                         }
 		}
+                
 		return Db::getInstance()->ExecuteS($query);
 	}
 
