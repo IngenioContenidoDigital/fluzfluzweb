@@ -1761,7 +1761,7 @@ class OrderCore extends ObjectModel
     }
     
     public function codesAssign(){
-        $codeText = 'SELECT pc.id_product, p.product_name, pc.code FROM '._DB_PREFIX_.'product_code AS pc LEFT JOIN '._DB_PREFIX_.'order_detail as p ON pc.id_order = p.id_order WHERE pc.id_order ='.(int)$this->id;
+        $codeText = 'SELECT pc.id_product, p.product_name, pc.code FROM '._DB_PREFIX_.'product_code AS pc LEFT JOIN '._DB_PREFIX_.'order_detail as p ON pc.id_order = p.id_order and p.product_id=pc.id_product WHERE pc.id_order ='.(int)$this->id;
         return Db::getInstance()->executeS($codeText);
 //            $bar_codes = "";
 //            foreach ($rowCode AS $code){
