@@ -147,7 +147,7 @@
                                         </div>
                                         <div class="col-lg-2 col-md-2 barTop">{l s='Total Members'}<a class="btnCash" href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}" title="{l s='Explore'}">{l s='Explore'}</a>
                                             <br/>
-                                            <span class="ptoCustomer">+{$members}</span>
+                                            <span class="ptoCustomer">+{$membersCount}</span>
                                         </div>
                                         <div class="col-lg-2 col-md-2 barTop">{l s='Pts. From Last 30 Days'}<br/>
                                             <span class="ptoCustomer">+{$lastPoint}</span>
