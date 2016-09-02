@@ -11,4 +11,4 @@
 .information { font-size: 11px; }
 .data { font-size: 12px; color: #EF4136; font-weight: bold; }
 .line {  border-bottom: 1px solid #e5e5e5; }
-.img { padding: 15px; }
+.img { padding: 15px; width: 20px; }
