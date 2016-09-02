@@ -60,10 +60,10 @@ class MyAccountControllerCore extends FrontController
         $this->context->smarty->assign('lastPoint', $lastPoint);
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         $members = $this->numberMembers();
+        $this->context->smarty->assign('members', $members);
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
-            'members'=> $members,
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
             'topPoint'=> $this->TopNetworkUnique(),
             'worstPoint'=> $this->WorstNetworkUnique(),
@@ -191,7 +191,6 @@ class MyAccountControllerCore extends FrontController
             foreach ($top as $x){
                 $sum += $x['members'];
             }
-            
             return $sum; 
     }    
         
