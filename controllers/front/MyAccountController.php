@@ -54,6 +54,7 @@ class MyAccountControllerCore extends FrontController
         $this->context->smarty->assign('customerProfile', $customerProfile);
         $this->context->smarty->assign('profile', $this->context->customer->id);
         
+        
         $datePoint = $this->getPointsLastDays($this->context->customer->id);
         $lastPoint = round($datePoint, $precision=0);
         $this->context->smarty->assign('lastPoint', $lastPoint);
