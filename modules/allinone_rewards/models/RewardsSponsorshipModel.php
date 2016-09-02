@@ -366,7 +366,7 @@ class RewardsSponsorshipModel extends ObjectModel
             $sponsor_tree = array();
             $sponsor_tree[] = array(
                                     "id" => $idSponsor,
-                                    "level" => 1,
+                                    "level" => 0,
                                 );
             self::_getRecursiveDescendantsTree($idSponsor, $result, $sponsor_tree);
             return $sponsor_tree;
@@ -396,7 +396,7 @@ class RewardsSponsorshipModel extends ObjectModel
 
                                 $sponsor_tree[] = array(
                                     "id" => $row['id_customer'],
-                                    "level" => $level+1,
+                                    "level" => $level,
                                 );
 
 				// nb direct or indirect friends for each level 1 sponsored
