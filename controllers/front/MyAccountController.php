@@ -46,7 +46,6 @@ class MyAccountControllerCore extends FrontController
     {
         parent::initContent();
         
-        
         $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
         $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
         $this->context->smarty->assign('totalAvailable', $totalAvailable);
