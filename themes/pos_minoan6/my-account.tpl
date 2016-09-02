@@ -94,6 +94,49 @@
             </div>    
         </div>
 </div>
+<div>
+    <h1 class="page-heading">
+        {l s='My Messaging'}
+    </h1>
+
+    <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
+        <div class="blockcontainer">
+            <div class="block-network">
+                <table class="tablenetwork">
+                    {foreach from=$members item=member}
+                        <tr>
+                            <td>
+                                <table class="tablecontent">
+                                    <tr>
+                                        <td rowspan="2" class="img">
+                                            {if $member.img != ""}
+                                                <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
+                                            {else}
+                                                <img src="{$img_dir}icon/profile.png" width="55" height="50">
+                                            {/if}
+                                        </td>
+                                        <td colspan="3" class="line"><span class="name">{$member.name}</span></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="information">{l s='Points Contributed:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    {/foreach}
+                </table>
+            </div>
+            {*<div class="block-messages">
+                <h2>{l s='My Messages'}</h2>
+                <input type="text" name="searchmessage" id="searchmessage" class="textsearch" placeholder="Search member"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
+            </div>*}
+        </div>
+    </form>
+</div>
 <div id="not-shown" style="display:none;">
         <div id="myspecialcontent" class="infoPopUp">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 available_cards">{l s='Tarjetas Disponibles: '}<span class="avail"></span></div>

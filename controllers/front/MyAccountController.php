@@ -77,6 +77,44 @@ class MyAccountControllerCore extends FrontController
         $this->context->smarty->assign('imgprofile',$imgprofile);
 
         $this->context->smarty->assign('HOOK_CUSTOMER_ACCOUNT', Hook::exec('displayCustomerAccount'));
+        
+        // my messaging
+        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        $members = array();
+        foreach ($tree as $sponsor) {
+            if ( $this->context->customer->id != $sponsor['id'] ) {
+                $points = Db::getInstance()->ExecuteS("SELECT credits, date_add
+                                                        FROM "._DB_PREFIX_."rewards
+                                                        WHERE  id_customer = ".$this->context->customer->id."
+                                                        AND plugin = 'sponsorship'
+                                                        AND id_order IN (
+                                                                SELECT id_order
+                                                                FROM "._DB_PREFIX_."rewards
+                                                                WHERE  id_customer = ".$sponsor['id']."
+                                                                AND plugin = 'loyalty'
+                                                        )
+                                                        ORDER BY date_add DESC
+                                                        LIMIT 1");
+                if ( !empty($points) ) {
+                    $customer = new Customer($sponsor['id']);
+                    $name = strtolower($customer->firstname." ".$customer->lastname);
+                    $members[$sponsor['id']]['name'] = $name;
+                    $members[$sponsor['id']]['points'] = $points[0]['credits'];
+                    $members[$sponsor['id']]['dateaddorder'] = date_format( date_create($points[0]['date_add']) ,"d/m/y");
+                    $members[$sponsor['id']]['dateaddorderunformat'] = $points[0]['date_add'];
+                    $imgprofile = "";
+                    if ( file_exists(_PS_IMG_DIR_."profile-images/".$sponsor['id'].".png") ) {
+                        $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
+                    }
+                    $members[$sponsor['id']]['img'] = $imgprofile;
+                }
+            }
+        }
+        /* ORGANIZAR POR FECHA ORDEN */
+        usort($members, function($a, $b) {
+            return strtotime($b['dateaddorderunformat']) - strtotime($a['dateaddorderunformat']);
+        });
+        $this->context->smarty->assign('members', array_slice($members, 0, 5));
 
         $this->setTemplate(_PS_THEME_DIR_.'my-account.tpl');
     }
