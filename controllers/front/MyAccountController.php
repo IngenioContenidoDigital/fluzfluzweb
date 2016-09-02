@@ -59,8 +59,8 @@ class MyAccountControllerCore extends FrontController
         $lastPoint = round($datePoint, $precision=0);
         $this->context->smarty->assign('lastPoint', $lastPoint);
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
-        $members = $this->numberMembers();
-        $this->context->smarty->assign('members', $members);
+        $membersCount = $this->numberMembers();
+        $this->context->smarty->assign('membersCount', $membersCount);
         $this->context->smarty->assign(array(
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
