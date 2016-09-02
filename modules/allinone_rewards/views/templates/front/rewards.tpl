@@ -22,7 +22,7 @@
     <div class="banner-box banner1" style="text-align: right; margin-top: -35px; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
             <div class='col-lg-12 col-xs-12 col-md-12 col-sm-12 bannerNetwork'>
             <div class="divNetwork">
-                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}
+                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}
                     <br/><p class="pNetwork">{l s='Your Total Points' mod='allinone_rewards'}</p>
                 </h1>
             </div>
@@ -42,7 +42,7 @@
     <h4 class="titleStats">{l s="Performance Summary" mod='allinone_rewards'}</h4>
     <div class="yourPointnet">
         <div id="yourPoint" class="puntoGrap">
-            <span>{$totalGlobal/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}{l s=" pts."}</span>
+            <span>{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}{l s=" pts."}</span>
         </div>
         <p class="pGrap">{l s="YOUR POINT GENERATION" mod='allinone_rewards'}</p><br/>
         {foreach from=$topPoint item=top}

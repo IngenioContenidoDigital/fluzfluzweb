@@ -144,17 +144,13 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			} else
 				$this->context->smarty->assign('payment_error', 1);
 		}
-                
-                
-                $datosGraph = 'SELECT  o.credits as point FROM ps_rewards as o
-                    WHERE SUBSTRING(o.date_add FROM 1 FOR 7) =  SUBSTRING(CURRENT_date - INTERVAL 1 MONTH FROM 1 FOR 7) LIMIT 0,4';
-                $result=Db::getInstance()->executeS($datosGraph);
+                $prueba = $this->graphStatistics();
                 $graph=array();
-                foreach($result as $x){
-                    array_push($graph,$x['point']);
+                foreach($prueba as $x){
+                    array_push($graph,$x);
                 }
                 
-                $serie=array('Week 4','Week 3','Week 2','This Week');
+                $serie=array('Semana 4','Semana 3','Semana 2','Esta Semana');
                 
 		$link = $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true);
 		$rewards = RewardsModel::getAllByIdCustomer((int)$this->context->customer->id);
@@ -166,6 +162,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			'rewards_duration' => (int)Configuration::get('REWARDS_DURATION'),
 			'rewards' => $rewards,
                         'activityRecent' => $activityRecent,
+                        'prueba' => $this->graphStatistics(),
                         'arrayGraph'=> $graph,
                         'arraySeries'=> $serie,
 			'displayrewards' => $displayrewards,
@@ -224,6 +221,67 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             
             return array_slice($top, 0, 5);    
             
+        }
+        
+        public function graphStatistics(){
+            
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            $pointsStatistics = array();
+                foreach ($tree as $valor){
+                    $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                                FROM "._DB_PREFIX_."rewards
+                                                                WHERE id_customer = ".$this->context->customer->id."
+                                                                AND plugin = 'sponsorship'
+                                                                AND id_order IN (
+                                                                    SELECT id_order
+                                                                    FROM "._DB_PREFIX_."rewards 
+                                                                    WHERE id_customer = ".$valor['id']."
+                                                                    AND plugin = 'loyalty' AND (date_add >= (DATE_SUB(CURDATE(), INTERVAL 4 WEEK)) AND date_add < (DATE_SUB(CURDATE(), INTERVAL 3 WEEK))))
+                                                                GROUP BY id_customer");
+                    $pointsStatistics['oneweek'] += $datosGraph[0]['points'];
+                    
+                    /*echo '<pre>';
+                    print_r($tree);
+                    die();*/
+                    $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                                FROM "._DB_PREFIX_."rewards
+                                                                WHERE id_customer = ".$this->context->customer->id."
+                                                                AND plugin = 'sponsorship'
+                                                                AND id_order IN (
+                                                                    SELECT id_order
+                                                                    FROM "._DB_PREFIX_."rewards 
+                                                                    WHERE id_customer = ".$valor['id']."
+                                                                    AND plugin = 'loyalty' AND (date_add >= (DATE_SUB(CURDATE(), INTERVAL 3 WEEK)) AND date_add < (DATE_SUB(CURDATE(), INTERVAL 2 WEEK))))
+                                                                GROUP BY id_customer");
+                    $pointsStatistics['twoweek'] += $datosGraph[0]['points'];
+                    
+                    $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                                FROM "._DB_PREFIX_."rewards
+                                                                WHERE id_customer = ".$this->context->customer->id."
+                                                                AND plugin = 'sponsorship'
+                                                                AND id_order IN (
+                                                                    SELECT id_order
+                                                                    FROM "._DB_PREFIX_."rewards 
+                                                                    WHERE id_customer = ".$valor['id']."
+                                                                    AND plugin = 'loyalty' AND (date_add >= (DATE_SUB(CURDATE(), INTERVAL 2 WEEK)) AND date_add < (DATE_SUB(CURDATE(), INTERVAL 1 WEEK))))
+                                                                GROUP BY id_customer");
+                    $pointsStatistics['threeweek'] += $datosGraph[0]['points'];
+                    
+                    $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                                FROM "._DB_PREFIX_."rewards
+                                                                WHERE id_customer = ".$this->context->customer->id."
+                                                                AND plugin = 'sponsorship'
+                                                                AND id_order IN (
+                                                                    SELECT id_order
+                                                                    FROM "._DB_PREFIX_."rewards 
+                                                                    WHERE id_customer = ".$valor['id']."
+                                                                    AND plugin = 'loyalty' AND (date_add >= (DATE_SUB(CURDATE(), INTERVAL 1 WEEK))))
+                                                                GROUP BY id_customer");
+                    $pointsStatistics['fourweek'] += $datosGraph[0]['points'];
+                      
+                }
+            
+            return $pointsStatistics;    
         }
         
         public function TopWorst() {
