@@ -96,10 +96,9 @@ class DiscountControllerCore extends FrontController
                 }
             }
         }
-        /*
-        ORGANIZAR POR NOMBRE
-        asort($members);
-        */
+        /* ORGANIZAR POR NOMBRE */
+        // asort($members);
+        
         /* ORGANIZAR POR NIVEL */
         usort($members, function($a, $b) {
             return  $a['level'] - $b['level'];
@@ -112,13 +111,3 @@ class DiscountControllerCore extends FrontController
         $this->setTemplate(_PS_THEME_DIR_.'discount.tpl');
     }
 }
-
-/*
- * $pos = strpos($mystring, $findme);
-                if ( $pos !== false ) {
-                    echo "La cadena '$findme' fue encontrada en la cadena '$mystring'";
-                    echo " y existe en la posición $pos";
-                } else {
-                    echo "La cadena '$findme' no fue encontrada en la cadena '$mystring'";
-                }
- */
