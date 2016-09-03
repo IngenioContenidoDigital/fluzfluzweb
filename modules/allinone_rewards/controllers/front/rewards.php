@@ -90,7 +90,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                         
                         if($money<$realmoney){
                             
-                            $rs="SELECT "._DB_PREFIX_."rewards.id_reward AS last_reward, 
+                            /*$rs="SELECT "._DB_PREFIX_."rewards.id_reward AS last_reward, 
                             "._DB_PREFIX_."rewards.id_customer,
                             "._DB_PREFIX_."rewards.id_order,
                             "._DB_PREFIX_."rewards.credits
@@ -99,15 +99,15 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             
                             if ($row = Db::getInstance()->getRow($rs)){
                                 $rw = $row['last_reward'];
-                            }
+                            }*/
                             
-                            $query = "UPDATE "._DB_PREFIX_."rewards AS R SET R.id_reward_state=2 WHERE R.id_reward=".$rw;
-                            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
-                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", ".(int)$this->context->order->id.",'0','0',".-1*$cartpoints.",'loyalty', now(), now())";
-                            Db::getInstance()->execute($query);
+                            
+                            //$query = "UPDATE "._DB_PREFIX_."rewards AS R SET R.id_reward_state=2 WHERE R.id_reward=".$rw;
+                            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty', now(), now())";
+                            //Db::getInstance()->execute($query);
                             Db::getInstance()->execute($query1);
                         }
-                       
                         echo $response;
                     }
                     exit;
