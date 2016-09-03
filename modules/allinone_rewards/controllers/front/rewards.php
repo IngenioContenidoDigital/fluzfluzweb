@@ -73,6 +73,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                         
                        if($use>0 && $use<=$points){
                             $money= RewardsModel::getMoneyReadyForDisplay($use, (int)$this->context->currency->id);
+                            $cartpoints=RewardsModel::getRewardReadyForDisplay($money, (int)$this->context->currency->id);
                        }else{
                            $cartpoints=RewardsModel::getRewardReadyForDisplay($cartValue, (int)$this->context->currency->id);
                            if($points>=$cartpoints){
@@ -86,9 +87,9 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                        
                        
                         $response=RewardsModel::createDiscount($money);
-                        $realmoney= RewardsModel::getMoneyReadyForDisplay($points, (int)$this->context->currency->id);
+                        /*$realmoney= RewardsModel::getMoneyReadyForDisplay($points, (int)$this->context->currency->id);
                         
-                        if($money<$realmoney){
+                        if($money<$realmoney){*/
                             
                             /*$rs="SELECT "._DB_PREFIX_."rewards.id_reward AS last_reward, 
                             "._DB_PREFIX_."rewards.id_customer,
@@ -107,7 +108,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                             //Db::getInstance()->execute($query);
                             Db::getInstance()->execute($query1);
-                        }
+                        //}
                         echo $response;
                     }
                     exit;
