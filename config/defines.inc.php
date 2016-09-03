@@ -23,6 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
+date_default_timezone_set("America/Bogota");
 @ini_set('max_input_vars', 5000);
 /* Debug only */
 if (!defined('_PS_MODE_DEV_')) {
