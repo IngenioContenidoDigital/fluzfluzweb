@@ -101,8 +101,11 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                 $rw = $row['last_reward'];
                             }
                             
-                            $query = "UPDATE "._DB_PREFIX_."rewards AS R SET R.id_reward_state=2, R.credits=".($points-$use)." WHERE R.id_reward=".$rw;
+                            $query = "UPDATE "._DB_PREFIX_."rewards AS R SET R.id_reward_state=2 WHERE R.id_reward=".$rw;
+                            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", ".(int)$this->context->order->id.",'0','0',".-1*$cartpoints.",'loyalty', now(), now())";
                             Db::getInstance()->execute($query);
+                            Db::getInstance()->execute($query1);
                         }
                        
                         echo $response;
@@ -307,7 +310,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         
         public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
             
-            $query = 'SELECT c.username AS username, c.firstname AS name, s.product_name AS purchase, n.credits AS points, n.date_add AS time FROM '._DB_PREFIX_.'rewards n 
+            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
                           LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                           LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id;
             if ($onlyValidate === true)
