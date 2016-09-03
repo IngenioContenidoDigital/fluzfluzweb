@@ -386,13 +386,13 @@ class RewardsModel extends ObjectModel
 		if (!Validate::isLoadedObject($cartRule))
 			die(Tools::displayError('Incorrect object Discount.'));
 		$items = self::getAllByIdCustomer((int)$cartRule->id_customer, false, true);
-		foreach($items AS $item)
+		/*foreach($items AS $item)
 		{
 			$r = new RewardsModel((int)$item['id_reward']);
 			$r->id_cart_rule = (int)$cartRule->id;
 			$r->id_reward_state = (int)RewardsStateModel::getConvertId();
 			$r->save();
-		}
+		}*/
 	}
 
 	public static function registerPayment($payment)
