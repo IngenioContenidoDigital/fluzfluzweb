@@ -96,6 +96,9 @@ class PayuCreditCard extends PayUControllerWS {
             $id_address = $this->context->cart->id_address_delivery;
             $addressdni = $customer->getAddresses(0);
             $dni = $addressdni[0]['dni'];
+            if ( $addressdni[0]['checkdigit'] != "" ) {
+                $dni .= "-".$addressdni[0]['checkdigit'];
+            }
             $reference_code = $customer->id . '_' . $id_cart . '_' . $id_order . '_' . $id_address;
             $_deviceSessionId = NULL;
 

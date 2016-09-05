@@ -73,6 +73,9 @@ class PayuPse extends PayUControllerWS{
 
             $addressdni = $customer->getAddresses(0);
             $billin_dni = $addressdni[0]['dni'];
+            if ( $addressdni[0]['checkdigit'] != "" ) {
+                $billin_dni .= "-".$addressdni[0]['checkdigit'];
+            }
             $billingAddress = new Address($addressdni[0]['id_address']);
             $intentos = $conf->count_pay_cart($id_cart);
 
@@ -139,7 +142,7 @@ class PayuPse extends PayUControllerWS{
                             "payer":{
                                 "fullName":"' . $this->context->customer->firstname . ' ' . $this->context->customer->lastname . '",
                                 "emailAddress":"' . $params[5]['buyerEmail'] . '",
-                                "dniNumber":"' . $billin_dni . '",
+                                "dniNumber":"' . $_POST['pse_docNumber'] . '",
                                 "contactPhone":"'.$billingAddress->phone.'"
                             },
                             "ipAddress":"' . $_SERVER['REMOTE_ADDR'] . '",
