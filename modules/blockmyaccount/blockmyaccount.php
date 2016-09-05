@@ -74,8 +74,8 @@ class BlockMyAccount extends Module
 
 	public function hookDisplayLeftColumn($params)
 	{
-		if (!$this->context->customer->isLogged())
-			return false;
+		/*if (!$this->context->customer->isLogged())
+			return false;*/
 
 		$this->smarty->assign(array(
 			'voucherAllowed' => CartRule::isFeatureActive(),
