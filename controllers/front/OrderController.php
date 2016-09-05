@@ -230,7 +230,7 @@ class OrderControllerCore extends ParentOrderController
                         $this->context->customer->mylogout(); // If guest we clear the cookie for security reason
                         Tools::redirect('index.php?controller=guest-tracking&id_order='.urlencode($order->reference).'&email='.urlencode($email));
                     } else {
-                        Tools::redirect('index.php?controller=history');
+                        Tools::redirect($this->context->link->getPageLink('my-account', true));
                     }
                 }
                 

@@ -274,7 +274,7 @@
 						</tbody>
 						</table>
                                                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                                        <p class="bold"><span style="color:#ef4136;">{l s="Important: "}</span>{l s='Data provided for any action outside the intended shall not be used.' mod='allinone_rewards'}</p>
+                                                        <p class="bold"><span style="color:#ef4136;">{l s="Important: " mod='allinone_rewards'}</span>{l s='Data provided for any action outside the intended shall not be used.' mod='allinone_rewards'}</p>
                                                         <p class="checkbox">
                                                             <input class="cgv" type="checkbox" name="conditionsValided" id="conditionsValided" value="1" {if isset($smarty.post.conditionsValided) AND $smarty.post.conditionsValided eq 1}checked="checked"{/if} />&nbsp;
                                                             <label for="conditionsValided">{l s='I agree to the terms of service and adhere to them unconditionally.' mod='allinone_rewards'}</label>

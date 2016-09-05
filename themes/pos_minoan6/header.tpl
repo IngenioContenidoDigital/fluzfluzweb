@@ -176,11 +176,7 @@
                                 {if isset($left_column_size) && !empty($left_column_size)}
                                     <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">{$HOOK_LEFT_COLUMN}
                                                 
-                                        
-                                            <div class="block"><h2 class="title_blockSale">{l s="Comes Out"}</h2>
-                                            <div id="onSale"> {l s="On Sale"} </div>
-                                            </div>
-                                            
+                                            <form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>
                                             <!--<div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
                                                 <div data-role="rangeslider">
                                                     <input name="range-1a" id="range-1a" min="0" max="100" value="20" type="range" style="width:100%;"/>

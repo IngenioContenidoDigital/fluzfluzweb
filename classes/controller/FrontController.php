@@ -292,10 +292,11 @@ class FrontControllerCore extends Controller
             $this->context->customer->logout();
 
             Tools::redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null);
-        } elseif (isset($_GET['mylogout'])) {
-            $this->context->customer->mylogout();
-            Tools::redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null);
-        }
+        } elseif (isset($_GET['mylogout']))
+            {
+             $this->context->customer->mylogout();
+             Tools::redirect('index.php');
+            }
 
         /* Cart already exists */
         if ((int)$this->context->cookie->id_cart) {

@@ -592,6 +592,7 @@ $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8d3f5eff9c40ee315d452392bed
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_d157ce5c719d9ca05b20612aeec24107'] = 'Por confirmar';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_c3c1cf7bf26dbc677683b17501413623'] = 'Importante:';
+$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_776593996ed16c7a0d87cdfa2de65278'] = 'Los datos no se usaran con un propósito diferente a la invitación.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_605eef3cad421619ce034ab48415190f'] = 'Acepto las condiciones en su totalidad.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8ecb5ede50fd50f812440f3f9972d75e'] = 'Condiciones de la red Fluz Fluz';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_9a66dc782df34f29eecea431c89c2c77'] = 'Lea las condiciones';

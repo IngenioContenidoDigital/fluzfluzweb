@@ -66,7 +66,7 @@
                     {/if}
                     <tr class="alternate_item" colspan="4">
                         <td  class="history_method bold" style="text-align:center; color: #ef4136; width: 20%; font-weight: bold;">
-                            {l s='Puntos Totales'}<br/><p style="font-size:200%;">{$totalAvailable}</p>
+                            {l s='Puntos Totales'}<br/><p style="font-size:20px; margin-top: 0px;margin-bottom: 0px;">{$totalAvailable}</p>
                         </td>
                         
                         <td colspan="3"> 
@@ -80,8 +80,11 @@
                                                 <fieldset>
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
+                                                    {if count($discounts)}
+                                                        <p style="width:100%; font-size: 12px;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
+                                                    {else}
                                                     <p style="width:100%; font-size: 12px;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
-
+                                                    {/if}    
                                                     {*if $displayVouchers}
                                                             <div id="display_cart_vouchers">
                                                                 {foreach from=$displayVouchers item=voucher}
@@ -108,8 +111,13 @@
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
                                                       <div style="text-align: left; font-size: 12px; width: 100%;" class="item">{l s='Use specific amount of points:'}
+                                                            {if count($discounts)}
+                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 20%;" autocomplete="off" disabled/>
+                                                            <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;" disabled><span>{l s='ok'}</span></button>
+                                                            {else}
                                                             <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 20%;" autocomplete="off"/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
+                                                            {/if}
                                                       </div> 
                                                 </fieldset>
                                             </form>
@@ -324,8 +332,8 @@
                             <tr class="cart_discount {if $smarty.foreach.discountLoop.last}last_item{elseif $smarty.foreach.discountLoop.first}first_item{else}item{/if}" id="cart_discount_{$discount.id_discount}">
                                 <td class="cart_discount_name" colspan="{if $PS_STOCK_MANAGEMENT}4{else}2{/if}">{$discount.name}</td>
                                 <td class="cart_discount_price">
-													<span class="price-discount">
-														{if $discount.value_real > 0}
+                                                            <span class="price-discount">
+                                                        {if $discount.value_real > 0}
                                                             {if !$priceDisplay}
                                                                 {displayPrice price=$discount.value_real*-1}
                                                             {else}
@@ -336,15 +344,15 @@
                                 </td>
                                 <td class="cart_discount_delete">1</td>
                                 <td class="cart_discount_price">
-													<span class="price-discount">
-														{if $discount.value_real > 0}
+							<span class="price-discount">
+                                                        {if $discount.value_real > 0}
                                                             {if !$priceDisplay}
                                                                 {displayPrice price=$discount.value_real*-1}
                                                             {else}
                                                                 {displayPrice price=$discount.value_tax_exc*-1}
                                                             {/if}
                                                         {/if}
-													</span>
+							</span>
                                 </td>
                             </tr>
                         {/foreach}
