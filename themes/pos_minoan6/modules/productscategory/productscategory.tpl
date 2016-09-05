@@ -32,7 +32,7 @@
                                 {else}
                                         {l s='%s other products in the same category:' sprintf=[$categoryProducts|@count] mod='productscategory'}
                                 {/if*}
-                                {l s='Related products'}
+                                {l s='Recomendados'}
                         </span>
 		</h2>
 	</div>	

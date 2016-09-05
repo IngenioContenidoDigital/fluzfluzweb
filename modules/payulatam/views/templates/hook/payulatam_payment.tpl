@@ -50,7 +50,7 @@
             </div>
         {/if} 
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-12" style="padding-left: 0px;padding-right: 0px;">
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">

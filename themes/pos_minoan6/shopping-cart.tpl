@@ -548,10 +548,21 @@
         
 	<p class="cart_navigation clearfix">
 		{if !$opc}
-			<a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" title="{l s='Next Step'}">
+                    <a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" id="nextStep" title="{l s='Next Step'}">
 				<span>{l s='NEXT STEP'}<i class="icon-chevron-right right"></i></span>
-			</a>
+			</a>   
 		{/if}
+                {if $total_price == 0}
+                        <a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" title="{l s='Next Step'}">
+				<span>{l s='Finalizar Compra'}<i class="icon-chevron-right right"></i></span>
+			</a>
+                        {literal}
+                        <style>
+                            #nextStep{display: none !important;}
+                        </style>
+                        {/literal}
+                {/if}
+                
 		<!--<a href="{if (isset($smarty.server.HTTP_REFERER) && ($smarty.server.HTTP_REFERER == $link->getPageLink('order', true) || $smarty.server.HTTP_REFERER == $link->getPageLink('order-opc', true) || strstr($smarty.server.HTTP_REFERER, 'step='))) || !isset($smarty.server.HTTP_REFERER)}{$link->getPageLink('index')}{else}{$smarty.server.HTTP_REFERER|escape:'html':'UTF-8'|secureReferrer}{/if}" class="button-exclusive btn btn-default" title="{l s='Continue shopping'}">
 			<i class="icon-chevron-left"></i>{l s='Continue shopping'}
 		</a>-->
