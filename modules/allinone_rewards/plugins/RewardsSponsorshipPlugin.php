@@ -1539,7 +1539,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->plugin = $this->name;
 					$reward->id_customer = (int)$sponsorship['id_sponsor'];
 					$reward->id_order = (int)$order->id;
-					$reward->id_reward_state = RewardsStateModel::getValidationId();
+					$reward->id_reward_state = RewardsStateModel::getDefaultId();
                                         $price= round($reward->getRewardReadyForDisplay($price, $this->context->currency->id)/((RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id))));
 
 					$extraParams = array();

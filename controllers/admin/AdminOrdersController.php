@@ -545,6 +545,9 @@ class AdminOrdersControllerCore extends AdminController
                             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
                             $productId = Db::getInstance()->executeS($query);
                             
+                        $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$this->context->customer->id." AND id_order=".$order->id." AND id_cart=".$this->context->cart->id;
+                        Db::getInstance()->execute($qstate);
+                            
                             foreach ($productId as $valor) {
                                 for($i=0;$i<$valor['product_quantity'];$i++){
                                     $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
