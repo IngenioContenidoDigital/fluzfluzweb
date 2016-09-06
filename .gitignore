@@ -30,12 +30,15 @@ modules/*/config*.xml
 admin-dev/backups/
 admin-dev/export/
 admin-dev/import/
+!download
 download/*
+!upload
 upload/*
 nbproject
 nbproject/*
 /.htaccess
 .htaccess
 *.DS_Store
+!modules/fluzfluzcodes/upload
 modules/fluzfluzcodes/upload/*
 tmp/*

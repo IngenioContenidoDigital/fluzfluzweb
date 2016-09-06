@@ -64,7 +64,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 	}
 
         public function generateIdTemporary($email) {
-            $idTemporary = '';
+            $idTemporary = '1';
             for ($i = 0; $i < strlen($email); $i++) {
                 $idTemporary .= (string) ord($email[$i]);
             }
