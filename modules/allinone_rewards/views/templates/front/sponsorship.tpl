@@ -178,7 +178,7 @@
                                                                         <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
                                                                             <td class="status-email"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</td>
                                                                             <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="status: confirmed"}</td>
+                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="Estado: confirmado"}</td>
                                                                         </tr>
                                                                         {/foreach}
                                                                    </tr>
@@ -198,7 +198,7 @@
                                                                                 {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
                                                                             </td>
                                                                             <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="status: Pending"}</td>
+                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="Estado: Pendiente"}</td>
                                                                         </tr>
                                                                     {/foreach}
                                                                    </tr>
@@ -215,8 +215,8 @@
                                                                             <td class="status-email">
                                                                                 <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
                                                                                 {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
-                                                                            </td>                                                                            <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="status: Pending"}</td>
+                                                                            </td><td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
+                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="Estado: Pendiente"}</td>
                                                                         </tr>
                                                                         {/foreach}
                                                                        
@@ -233,7 +233,7 @@
                                                                         <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
                                                                             <td class="status-email"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</td>
                                                                             <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="status: confirmed"}</td>
+                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="Estado: confirmado"}</td>
                                                                         </tr>
                                                                         {/foreach}
                                                                    </tr>   
@@ -247,7 +247,7 @@
                                                                                 <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
                                                                                 {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
                                                                             </td>                                                                            <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="status: Pending"}</td>
+                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="Estado: Pendiente"}</td>
                                                                         </tr>
                                                                         {/foreach}
                                                                        
@@ -257,7 +257,7 @@
                                                                         <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
                                                                             <td class="status-email"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</td>
                                                                             <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="status: confirmed"}</td>
+                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="Estado: confirmado"}</td>
                                                                         </tr>
                                                                         {/foreach}
                                                                    </tr>     
@@ -573,3 +573,8 @@
 </ul>
 		{/if}
 	{/if}
+{literal}
+    <style>
+        .btnCash{display: none;}
+    </style>
+{/literal}
