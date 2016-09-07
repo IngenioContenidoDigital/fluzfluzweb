@@ -776,7 +776,7 @@
                     <div class="containerDepo">
                         <p>{l s="When you create a Fluz Fluz account, we ask that you "}<span class="stand_out">{l s="deposit a minimum of $20.000 in your account so we can validate it. "}</span>{l s="This is a firs time only required deposit and will be entirely at your disposal in your account so you can start."}</p>
                     <div class="row rangeSelect">
-                        <span class="col-lg-2 rangePrice">$20.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="40000" min="20000" max="100000" step="20000" data-rangeslider><span class="col-lg-2 rangePrice">$100.000</span>
+                        <span class="col-lg-2 rangePrice">$20.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="30000" min="15000" max="100000" step="15000" data-rangeslider><span class="col-lg-2 rangePrice">$100.000</span>
                     </div>
                     <div class="col-lg-12 finalDeposit">
                         <span class="col-lg-8" style="font-size:18px;">{l s="Final Deposit Amount:"}</span>

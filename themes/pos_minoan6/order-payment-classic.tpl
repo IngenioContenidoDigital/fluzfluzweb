@@ -66,7 +66,8 @@
                     {/if}
                     <tr class="alternate_item" colspan="4">
                         <td  class="history_method bold" style="text-align:center; color: #ef4136; width: 20%; font-weight: bold;">
-                            {l s='Puntos Totales'}<br/><p style="font-size:20px; margin-top: 0px;margin-bottom: 0px;">{$totalAvailable}</p>
+                            <input type="hidden" value="{$totalAvailable}" id="ptosTotalOculto"/>
+                            {l s='Puntos Totales'}<br/><p style="font-size:20px; margin-top: 0px;margin-bottom: 0px;" id="ptosTotal">{$totalAvailable}</p>
                         </td>
                         
                         <td colspan="3"> 
@@ -112,10 +113,10 @@
                                                     <input type="hidden" name="submitDiscount" />
                                                       <div style="text-align: left; font-size: 12px; width: 100%;" class="item">{l s='Use specific amount of points:'}
                                                             {if count($discounts)}
-                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 20%;" autocomplete="off" disabled/>
+                                                            <input type="number" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right; width: 20%;" autocomplete="off" disabled/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;" disabled><span>{l s='ok'}</span></button>
                                                             {else}
-                                                            <input type="number" min="1" max="99999"  id="toUse" style="text-align:right; width: 20%;" autocomplete="off"/>
+                                                            <input type="number" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right; width: 20%;" autocomplete="off"/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
                                                             {/if}
                                                       </div> 
@@ -428,4 +429,23 @@
             });
            
     </script> 
+{/literal}
+{literal}
+    <script>       
+        $("#toUse").on("keyup",function(event){
+            var valor1=$('#ptosTotalOculto').val();
+            var valor2=$('#toUse').val();
+            var resultado = calcular(valor1,valor2);
+            $('#ptosTotal').html(resultado);
+            
+        }).keydown(function( event ) {
+              if ( event.which == 13 ) {
+                event.preventDefault();
+              }
+            });
+        function calcular(valor1,valor2)
+        {   
+            return (valor1-valor2);
+        }
+    </script>
 {/literal}

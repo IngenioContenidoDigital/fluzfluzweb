@@ -498,7 +498,7 @@ $_MODULE['<{allinone_rewards}pos_minoan6>rewardssponsorshipplugin_0d8fb44b39bb98
 $_MODULE['<{allinone_rewards}pos_minoan6>rewardssponsorshipplugin_0f82b23dac3ca28af5b1ffb9744eaaa1'] = 'Modificación de la recompensa';
 $_MODULE['<{allinone_rewards}pos_minoan6>email_0557fa923dcee4d0f86b1409f5c2167f'] = 'Regresar';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_d95cf4ab2cbf1dfb63f066b50558b07d'] = 'Mi cuenta';
-$_MODULE['<{allinone_rewards}pos_minoan6>rewards_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';
+$_MODULE['<{allinone_rewards}pos_minoan6>rewards_4994295678f9d59b30e22735f0a2cad5'] = 'Mis Recompensas';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_b7735409e8bcc36c197563d3268f28cf'] = 'Tus puntos totales';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_53fcb0d8e58d207892c38d651eff6b15'] = 'Puntos de la red';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_3dbdf2a33c8b18f419a08b1bb53b8854'] = 'Resumen';
@@ -654,7 +654,7 @@ $_MODULE['<{allinone_rewards}pos_minoan6>customer-account_c33e404a441c6ba9648f88
 $_MODULE['<{allinone_rewards}pos_minoan6>customer-account_1c7b3f146f6cbcbf82676bf0c759df3a'] = 'Estadísticas';
 $_MODULE['<{allinone_rewards}pos_minoan6>facebook_confirmation_ebc601e78e961b93d3ad311575c4a718'] = 'Código:';
 $_MODULE['<{allinone_rewards}pos_minoan6>my-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Red Fluz Fluz';
-$_MODULE['<{allinone_rewards}pos_minoan6>my-account_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';
+$_MODULE['<{allinone_rewards}pos_minoan6>my-account_4994295678f9d59b30e22735f0a2cad5'] = 'Ganancias';
 $_MODULE['<{allinone_rewards}pos_minoan6>product-sponsorship_b015ba2c9956d78b0cdae5d7c2b95335'] = 'Puede compartir la dirección URL de este producto con su patrocinio incluido.';
 $_MODULE['<{allinone_rewards}pos_minoan6>product-sponsorship_d395d78162e0588d5021022040df8354'] = 'Sólo tienes que copiar / pegar el siguiente enlace:';
 $_MODULE['<{allinone_rewards}pos_minoan6>product-sponsorship_eddb9e7effb531e23b23037e4e665d76'] = 'Patrocinio por este producto';
