@@ -3621,7 +3621,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 
 .page-product-box { margin-top: -1px; border: 1px solid #ddd; padding: 30px; }
 
-.blockaccessories, .blockproductscategory { padding: 0; border: 0; width: 100%; margin: 0 auto;}
+.blockaccessories, .blockproductscategory { padding: 0; border: 0; width: 100%; margin: 0 auto; cursor: default!important; }
 
 nav #social_block { float: right; padding: 10px 0; width: auto; }
 nav #social_block ul { line-height: 0; }
@@ -3693,8 +3693,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .menuAccount{background: #fff; width: 70%; font-weight: lighter; margin:0 auto; margin-left: -5%; margin-right: 0; font-family: "Open Sans", sans-serif; height: 45px; padding-left: 5%; color: #777777; font-size: 16px;  display: flex; justify-content: center; align-content: center; flex-direction: column;}
 .menuAccountProfile{background:#c9b198 !important; height: 45px; width: 15%; float: left; margin-left: 5%; text-align: center}
 .iWhite{color: #fff; padding: 20%; font-size: 20px; margin: 3px 0px;}
-.prueba{position: absolute; top: 32px; left: 270px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
-
+.prueba{position: absolute;left: 250px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 @media (max-width:1450px){
     .prueba{position: absolute; top: 12px;left: 244px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }

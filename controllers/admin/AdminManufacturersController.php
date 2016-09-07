@@ -300,24 +300,18 @@ class AdminManufacturersControllerCore extends AdminController
         if (!($manufacturer = $this->loadObject(true))) {
             return;
         }
-        
+
         // image logo
         $image = _PS_MANU_IMG_DIR_.$manufacturer->id.'.jpg';
         $image_url = ImageManager::thumbnail($image, $this->table.'_'.(int)$manufacturer->id.'.'.$this->imageType, 350,
             $this->imageType, true, true);
         $image_size = file_exists($image) ? filesize($image) / 1000 : false;
-        
+
         // image medium
         $imagemedium = _PS_MANU_IMG_DIR_."m/".$manufacturer->id.'.jpg';
         $image_urlmedium = ImageManager::thumbnail($imagemedium, $this->table.'_medium_'.(int)$manufacturer->id.'.'.$this->imageType, 350,
             $this->imageType, true, true);
         $image_sizemedium = file_exists($imagemedium) ? filesize($imagemedium) / 1000 : false;
-        
-        // image banner
-        $imagebanner = _PS_MANU_IMG_DIR_."b/".$manufacturer->id.'.jpg';
-        $image_urlbanner = ImageManager::thumbnail($imagebanner, $this->table.'_banner_'.(int)$manufacturer->id.'.'.$this->imageType, 350,
-            $this->imageType, true, true);
-        $image_sizebanner = file_exists($imagebanner) ? filesize($imagebanner) / 1000 : false;
 
         $this->fields_form = array(
             'tinymce' => true,
@@ -377,16 +371,6 @@ class AdminManufacturersControllerCore extends AdminController
                     'hint' => $this->l('Upload a manufacturer medium from your computer.')
                 ),
                 array(
-                    'type' => 'file',
-                    'label' => $this->l('Banner'),
-                    'name' => 'banner',
-                    'image' => $image_urlbanner ? $image_urlbanner : false,
-                    'size' => $image_sizebanner,
-                    'display_image' => true,
-                    'col' => 6,
-                    'hint' => $this->l('Upload a manufacturer banner from your computer.')
-                ),
-                array(
                     'type' => 'text',
                     'label' => $this->l('Meta title'),
                     'name' => 'meta_title',
@@ -412,6 +396,14 @@ class AdminManufacturersControllerCore extends AdminController
                         $this->l('Forbidden characters:').' &lt;&gt;;=#{}',
                         $this->l('To add "tags," click inside the field, write something, and then press "Enter."')
                     )
+                ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('ID Category'),
+                    'name' => 'category',
+                    'lang' => false,
+                    'col' => 1,
+                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}'
                 ),
                 array(
                     'type' => 'switch',
@@ -898,10 +890,10 @@ class AdminManufacturersControllerCore extends AdminController
             $id_manufacturer = (int)Tools::getValue('id_manufacturer');
             if ( $_FILES['medium']['tmp_name'] != "" ) {
                 $typeimg = explode("/", $_FILES['medium']['type']);
-                if ( $typeimg[0] != "image" || ($typeimg[1] != "jpg" && $typeimg[1] != "jpg" ) ) {
-                    $this->errors[] = Tools::displayError('El archivo medium cargado no se encuentra en un formato correcto (JPG).');
+                if ( $typeimg[0] != "image" || ($typeimg[1] != "jpeg" && $typeimg[1] != "jpg" ) ) {
+                    $this->errors[] = Tools::displayError('El archivo medium cargado no se encuentra en un formato correcto (JPEG, JPG).');
                 } else {
-                    $target_path = _PS_MANU_IMG_DIR_ . "m/" . basename( $id_manufacturer.".".$typeimg[1] );
+                    $target_path = _PS_MANU_IMG_DIR_ . "m/" . basename( $id_manufacturer.".jpg" );
                     if ( !move_uploaded_file($_FILES['medium']['tmp_name'], $target_path) ) {
                         $this->errors[] = Tools::displayError('No fue posible cargar la imagen medium.');
                     }
@@ -909,10 +901,10 @@ class AdminManufacturersControllerCore extends AdminController
             }
             if ( $_FILES['banner']['tmp_name'] != "" ) {
                 $typeimg = explode("/", $_FILES['banner']['type']);
-                if ( $typeimg[0] != "image" || ($typeimg[1] != "jpg" && $typeimg[1] != "jpg" ) ) {
-                    $this->errors[] = Tools::displayError('El archivo banner cargado no se encuentra en un formato correcto (JPG).');
+                if ( $typeimg[0] != "image" || ($typeimg[1] != "jpeg" && $typeimg[1] != "jpg" ) ) {
+                    $this->errors[] = Tools::displayError('El archivo banner cargado no se encuentra en un formato correcto (JPEG, JPG).');
                 } else {
-                    $target_path = _PS_MANU_IMG_DIR_ . "b/" . basename( $id_manufacturer.".".$typeimg[1] );
+                    $target_path = _PS_MANU_IMG_DIR_ . "b/" . basename( $id_manufacturer.".jpg" );
                     if ( !move_uploaded_file($_FILES['banner']['tmp_name'], $target_path) ) {
                         $this->errors[] = Tools::displayError('No fue posible cargar la imagen banner.');
                     }

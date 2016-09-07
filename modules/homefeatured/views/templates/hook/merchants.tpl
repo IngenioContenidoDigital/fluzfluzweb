@@ -66,9 +66,9 @@
                                                         <div class="col-lg-6 col-md-6 col-sm-6 save-product">{$merchant.name|lower|escape:'htmlall':'UTF-8'}</div>
                                                 </div>
                                                 <div>
-                                                        {*<a class="product_img_link" href="{$merchant.link|escape:'html':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">*}
+                                                        <a class="product_img_link" href="{if $merchant.category != ""}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
                                                             <img class="img-responsive pruebaImgCategory" src="{$img_manu_dir}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" />
-                                                        {*</a>*}
+                                                        </a>
                                                 </div>
                                                 <div>&nbsp;</div>
                                         </li>
