@@ -42,6 +42,6 @@ nbproject/*
 !modules/fluzfluzcodes/upload
 modules/fluzfluzcodes/upload/*
 tmp/*
+modules/payulatam/config.php
 modules/payulatam/SondaPayu.php
 modules/payulatam/cronc.php
-modules/payulatam/config.php

@@ -153,7 +153,7 @@
                     @media (max-width: 2600px) and (min-width: 1451px){
                         .owl-item {    width: 275px !important;}
                         .owl-wrapper{ margin-left:0px; transition:none !important; transform: none !important;}
-                        .ct_img > img{display: block;width: 118% !important;max-width: 118% !important;height: auto;margin-left: -103px !important;}
+                        .ct_img > img{display: block;width: 100% !important;max-width: 100% !important;height: auto;margin-left: 0 !important;}
                     }    
                 </style>
             {/literal}

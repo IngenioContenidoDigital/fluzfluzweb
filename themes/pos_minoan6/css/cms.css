@@ -49,7 +49,7 @@ section{
 
 article.sectionBanner {
 padding-left: 3%;
-margin-right: -15px;
+margin-right: 0;
 }
 
 .sectionBanner>img{
@@ -59,7 +59,7 @@ margin-right: -15px;
 .sectionFooter{
     text-align:center;
     padding-left: 2.1%;
-    margin-right: -20px;
+    margin-right: 0;
 }
 .sectionFooter>img{
   width: 49% !important;
@@ -170,17 +170,16 @@ margin-right: -15px;
     .banner-box{background-size: 100% !important;}
     .title-category{margin-top:0px !important; margin-bottom:0px !important; font-size:50px !important;}
     .btn-shop{margin-top: -15px !important;}
-    .banner2{ width: 120% !important; margin-left: -111px;}
+    .banner2{ width: 100% !important; margin-left: 0;}
     .img-category{width:10% !important;}
-    .divTitleFeatured{margin-left: -10px !important; width: 1191px !important;}
-    .sectionBanner {padding-left: 0px !important; margin-left: -10px;}
+    .divTitleFeatured{margin-left: 0 !important; width: 1191px !important;}
+    .sectionBanner {padding-left: 0px !important; margin-left: 0;}
     .section-cms{padding-left:0px !important;}
-    .sectionFooter{padding-left: 0;margin-left: -16px;}
+    .sectionFooter{padding-left: 0;margin-left: 0;}
     .asideCategory{padding-right:0px;}
     .owl-carousel .owl-wrapper{margin-bottom: -25px !important;}
-    .owl-carousel {position: relative;width: 102%;left: -10px;}
-    .menuAccount{width: 50%;height: 45px;}
-    .prueba{top: 19px;}
+    .owl-carousel {position: relative;width: 102%;left: 0px;}
+    .menuAccount{height: 45px;}
     .menuAccountProfile{height: 45px;}
     .iWhite{ padding: 10px;}
 }
