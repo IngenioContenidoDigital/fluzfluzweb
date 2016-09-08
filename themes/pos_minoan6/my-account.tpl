@@ -33,8 +33,8 @@
     <!--<a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">-->
     <div class="col-lg-4 col-md-4 Cards">
         <div class="col-lg-6 col-md-6 col-xs-6 infoCard">
-            <img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/>
-            <span class="nameCard">{$manufacturer.manufacturer_name}</span>
+            <img class="col-lg-2 col-md-2" src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/>
+            <div class="col-lg-2 col-md-4"><span class="nameCard">{$manufacturer.manufacturer_name}</span></div>
         </div>
         <div class="col-lg-6 col-md-6 col-xs-6 priceCard">
             <span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span>
@@ -44,7 +44,7 @@
             <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
     </div>
 {/foreach}
-<div class="col-lg-3 col-md-3 col-sm-12 textAccount">
+<div class="col-lg-3 col-md-4 col-sm-12 textAccount">
     <p class="titleFAQ">{l s='Have Question?'}</p>
     <div class="pFAQ">
         <p>{l s='Learn how to redeem digital cards.'}</p>
@@ -85,7 +85,7 @@
         </ul>
         </div>
 {/if}
-        <div class="col-lg-3 col-sm-12 textAccount">
+        <div class="col-lg-3 col-md-3 col-sm-12 textAccount">
             <p class="titleFAQ">{l s='Need Support?'}</p>
             <div class="pFAQ">
                 <p>{l s='Add a Credit or Debit Card'}</p>
@@ -382,7 +382,7 @@
         });
         
         
-        $('#used').click(function(){
+        $('#labelCard').click(function(){
             var code = $('.micode').html();
             $('.codeImg').each(function(){
                 var compare = $(this).html();
@@ -394,7 +394,9 @@
                         $('#labelCard').removeClass('labelcard');
                         $('#labelCard2').removeClass('labelcard');
                         $('#not-used').removeClass('checkConfirm');
-                    }else{
+                        
+                    }
+                    else{
                         algo.html('<div class="la-amarilla"></div>');
                         $('#used').addClass('checkConfirm');
                         $('#labelCard').addClass('labelcard');
@@ -405,7 +407,7 @@
             });
         });
         
-        $('#not-used').click(function(){
+        $('#labelCard2').click(function(){
             var code = $('.micode').html();
             $('.codeImg').each(function(){
                 var compare = $(this).html();
@@ -424,9 +426,7 @@
                         $('#labelCard2').removeClass('labelcard');
                         $('#used').removeClass('checkConfirm');
                     }
-                }/*else{
-                    $(this).parent().parent().parent().hide();
-                }*/
+                }
             });
         });
         
@@ -435,6 +435,7 @@
             var val = $('input:radio[name=selector]:checked').val();
             var idproduct = document.getElementById("prodid_oculto").innerHTML;
             var codeImg2 = document.getElementById("code-img").innerHTML;
+            console.log("val: "+val);
             $.ajax({
                     method:"POST",
                     data: {'action': 'updateUsed','val': val, 'codeImg2': codeImg2,'idproduct':idproduct},
