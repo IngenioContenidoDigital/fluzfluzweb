@@ -3398,9 +3398,14 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     #header .pos_logo{width:60% !important; margin-top:7px !important;}
     .block_content3{ width: 50px !important; margin-right: 8px !important; margin-top:5px !important;}
     .accountHeader{top: -176px; left: 221px !important; padding-right:0px !important; border:none !important;}
-    .shopping_cart > a:first-child:before{position: absolute!important;top: -61px!important; left: 83px !important;}
+    .shopping_cart > a:first-child:before{position: absolute!important;top: -61px!important; left: 94px !important;}
     .shopping_cart .ajax_cart_quantity{top: -47px !important; left: 317px !important;}
     .prueba{ left: 294px !important; top: 12px !important;}
+    .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .textAccount{margin-left: 15px !important;}
+    .textAccount2{float:left !important;}
+    .titleFAQ{text-align:center;}
 }
 .barTop{padding-left:0px !important;}
 .menuSticky{
