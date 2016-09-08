@@ -3369,11 +3369,12 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .blockFooterPay{padding-right: 3% !important; margin-top: 2% !important;}
     .footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}
 }
-@media (min-width:1400px) {
+@media (min-width:1450px) {
     #header .pos_logo img { width:auto; margin: auto; height:68px;}
     .footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}
     .profileCustomer{text-align:center;}
-    .contProfile{margin-left:250px;}
+    .contProfile{margin-left:300px;}
+    .barTop{line-height:24px !important;}
 }
 @media (min-width:1026px) and (max-width:3000px){
     .block_content3{display:none;}
@@ -3401,7 +3402,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .shopping_cart .ajax_cart_quantity{top: -47px !important; left: 317px !important;}
     .prueba{ left: 294px !important; top: 12px !important;}
 }
-
+.barTop{padding-left:0px !important;}
 .menuSticky{
     margin-top:-22px !important;
     border-bottom: 4px solid #EC4E2C;
@@ -3416,6 +3417,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 @media (min-width:990px) and (max-width:1025px){
     
     .block_content3{display:none;}
+    .textAccount{margin-left: -65px !important;}
 }
 @media (min-width:601px) and (max-width:990px){
     .navbar{display:none;}
@@ -3425,6 +3427,8 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .contenedor>div{text-align:left !important;}
     .shopping_cart .ajax_cart_quantity{top: 9px !important;left: 197px !important;}
     .block_content3{ width: 80px !important; margin-right: 6px;}
+    .textAccount{margin-left: 20px !important;}
+    .textAccount2{float:left !important;}
 }
 
 @media (min-width:1026px) and (max-width:1199px){
@@ -3663,36 +3667,37 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 @media (max-width: 479px) { .content_sortPagiBar .sortPagiBar #productsSortForm { margin: 0; }
   .content_sortPagiBar .sortPagiBar .nbrItemPage { margin-top: 20px; }
   .more-info ul { width: 100%; }
+  .nameProfile {margin-top: 0px !important;}
+  .barTop{margin-top:0px !important;margin-bottom: 8px;}
   .more-info ul li { width: 100%; }
   .more-info ul li a.selected, .more-info ul li a:hover { border-bottom: 1px solid #e5e5e5; }
   .sds_blog_post .blog_content { overflow: visible !important; clear: both; padding: 20px !important; } }
 
 /* Estilo Perfil Cliente mi Cuenta */
-.nameProfile{font-size:14px;}
-.profileCustomer{ background: #f4f4f4; font-size:12px; text-transform:uppercase; color:#838383; padding:.5%; margin-bottom:2%; margin-top: -22px; -ms-display: flex; display: flex; align-items: center; height: 95px;}
+.nameProfile{font-size:14px; padding-left:0px; margin-top:12px;}
+.profileCustomer{ background: #f4f4f4; font-size:12px; text-transform:uppercase; color:#838383; padding:.5%; margin-bottom:2%; margin-top: -22px; -ms-display: flex; display: flex; align-items: center; min-height: 95px;}
 .ptoCustomer{color:#000; font-size:15px; margin-right:10px;}
 
 @media (max-width:1500px){
-    .contProfile{margin-left: 70px; text-align: center;}  
+    .contProfile{margin-left: 110px; text-align: center; padding:0px;}  
 }
 
 /* Estilo Mi cuenta My Gift Cards */
-
-.textAccount{margin-left:5%; float:right;}
-.nameCard{font-family:'Open Sans'; font-weight:lighter; }
+.textAccount{padding:0px; margin-left: -84px;}
+.textAccount2{float:right;}
+.nameCard{font-family:'Open Sans'; font-weight:lighter; margin-top:4px;}
 .Cards{font-family:"Montserrat"; text-transform:uppercase; margin-bottom:1%; color:#686969; cursor:pointer; margin-right:1%; padding:10px;border: 1px solid #CBCBCB;}
 .Cards img{width:auto; height:25px; margin-right:5%;}
 .priceCard{text-align:right; font-size:11px; padding-right:0px; padding-left:0px; margin-top:4px;}
-.priceTotalCard{color:#ef4136; margin-left:2%; font-size:12px; letter-spacing: 0px;}
+.priceTotalCard{color:#ef4136; font-size:10px; letter-spacing: 0px;}
 .Cards:hover{background:#fff;}
 .popText{text-align:center; color:#000; font-size:18px; font-family:Josefin-Sans;}
 .infoCard{padding-left:5px; padding-right:0px;}
 .titleFAQ{font-family:'Montserrat' !important; font-size:15px; color:#686969; text-align:left; margin: 0 auto; text-transform:UPPERCASE; letter-spacing: 0px;}
 .pFAQ{font-family:'Montserrat'; font-size:14px; color:#808184; text-align:center; margin-top:0;}
 .pFAQ>p {font-family:'Open Sans' !important; color:#808184; text-align:left; font-size: 12px; line-height: 15px;}
-#ex1Slider .slider-selection {
-	background: #BABABA;
-}
+#ex1Slider .slider-selection {background: #BABABA;}
+.detail-support>a{font-family: 'Open Sans';font-weight: lighter;}
 /* estilos My cart My Account left column */
 .menuAccount{background: #fff; width: 70%; font-weight: lighter; margin:0 auto; margin-left: -5%; margin-right: 0; font-family: "Open Sans", sans-serif; height: 45px; padding-left: 5%; color: #777777; font-size: 16px;  display: flex; justify-content: center; align-content: center; flex-direction: column;}
 .menuAccountProfile{background:#c9b198 !important; height: 45px; width: 15%; float: left; margin-left: 5%; text-align: center}
@@ -3717,6 +3722,13 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .containerForm{padding:0px;}
     #search_block_top .btn.button-search{display:none !important;}
     .navbar{display:none;}
+    .ptoCustomer {font-size: 14px !important;}
+    .totalPoint{font-size: 8px !important;}
+    .priceTotalCard{font-size:8px !important;}
+    .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .textAccount{margin-left: 20px !important;}
+    .textAccount2{float:left !important;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -3739,6 +3751,13 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .titleH1{font-size: 24px!important; font-weight: bold; color: #fff; text-align:center;}
     #search_block_top .btn.button-search{display:none !important;}
     .navbar{display:none;}
+    .ptoCustomer {font-size: 14px !important;}
+    .totalPoint{font-size: 8px !important;}
+    .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .textAccount{margin-left: 0px !important;}
+    .textAccount2{float:left !important;}
+    .titleFAQ{text-align:center;}
 }
 
 @media (min-width:420px) and (max-width:760px){
@@ -3773,12 +3792,17 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     #search_block_top .btn.button-search{display:none !important;}
     .navbar{display:none;}
     .title-category{margin: -26px auto; font-size: 22px !important; letter-spacing: 0px;}
+    .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .textAccount{margin-left: 20px !important;}
+    .textAccount2{float:left !important;}
 }
 
 
 @media (min-width:761px) and (max-width:1023px){
     .col-sm-9{width:100%;}
     .col-sm-3{width:100%; margin:0 auto;}
+    .last-block{float:right;}
     .prueba{position: absolute; top: 47px; left: 315px !important; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     #quantity_wanted_p input {width:20%; font-size:20px;}
     .blockAccount{background:transparent; width:45%;}
@@ -4090,11 +4114,13 @@ h2.title_blockSale {
 .members-banner{min-height:550px;}
 .members-banner2{min-height:350px;}
 .members3 h1{line-height:350px;}
+.account-responsive{margin-right:18px !important;}
 }
 @media (min-width:1281px){
 .members-banner{min-height:650px; margin-top: -21px;}
 .members-banner2{min-height:450px;}
 .members3 h1{line-height:450px;}
+.account-responsive{margin-right:20px !important;}
 }
 #pOculto{
     display:none;
@@ -4443,24 +4469,31 @@ font-family: 'Open Sans' !important;
 .Merchants-banner{min-height:411px;}
 .Merchants-banner2{min-height:350px;}
 .Merchants3 h1{line-height:350px;}
+.breadcrumb{margin-left:10px;}
 }
-.Cards img{padding-right:0px;}
+.Cards img{padding-right:0px; padding-left:0px;}
 @media (max-width:1024px){
     .barTop {line-height: 18px !important; font-size: 9px; padding-right: 0px;}
     .account-responsive{margin-left:2%;}
-    .Cards{margin-left:2%; margin-right:0;}
+    .Cards{margin-left:10px; margin-right:0;}
     .page-heading{ margin-left: 20px;}
     p.info-account{margin-left: 20px !important;}
+    .priceTotalCard{font-size:10px;}
+    card-st{padding-left:0px;}
+    .barTop{padding-left:0px !important;}
+    .account-responsive{margin-right:10px !important;}
 }
 @media (min-width:1025px) and (max-width:1280px){
-.Merchants-banner{min-height:550px;}
-.Merchants-banner2{min-height:350px;}
-.Merchants3 h1{line-height:350px;}
+    .Merchants-banner{min-height:550px;}
+    .Merchants-banner2{min-height:350px;}
+    .Merchants3 h1{line-height:350px;}
+    .card-st{padding-left:0px;}
 }
 @media (min-width:1281px){
-.Merchants-banner{min-height:520px;}
-.Merchants-banner2{min-height:100px;}
-.Merchants3 h1{line-height:100px;}
+    .Merchants-banner{min-height:520px;}
+    .Merchants-banner2{min-height:100px;}
+    .Merchants3 h1{line-height:100px;}
+    .card-st{padding-left:0px;}
 }
 
 /* This code is only meant for previewing your Reflow design. */
@@ -6910,19 +6943,20 @@ font-family: 'Open Sans' !important;
 @media only screen and (max-width: 768px) {
     
     .btn-shop{width:35%;}
+    .nameProfile{margin-top: 30px;}
     .ptoCustomer{font-size:16px;}
-    .priceCard{margin-top:-7px;}
-    .infoCard{margin-top:-12px;}
-    .Cards{padding:4%; margin-left:0px !important;}
-    .btn-shop2{
-        width:40%;
-        margin-left:26px;
-    }
-    .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left:11px;}    
+    .Cards{padding:5px; margin-left:0px !important;}
+    .infoCard{text-align:center;}
+    .priceCard{text-align:center;}
+    .btn-shop2{width:40%;margin-left:26px;}
+    .barTop{padding-left:0px !important;}
+    .textAccount{margin-top:20px;}
+    .textAccount2{margin-top:20px; padding-left:20px;}
+    .page-heading{margin-left:15px;}
+    .owl-carousel .owl-wrapper, .owl-carousel .owl-item{margin-left:11px;}   
+    .block_b{    margin-left: 20px;}
     .container{padding-left:0px; padding-right:0px;}
     .contProfile{display:block;}
-    .profileCustomer{height:100%;}
-    .barTop{float:right;}
     .imgSponsor2{width:14% !important;}
     
     #box22 {
@@ -7302,7 +7336,7 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 425px) {
     
-    .Cards{padding:7%;}
+    .Cards{padding: 20px;}
     p.info-account{font-size:13px; line-height: 16px; width: 94%; margin: 4% 3% !important;}
     .btn-shop{ width:60%;}
     
@@ -10376,7 +10410,9 @@ font-family: 'Open Sans' !important;
 }
 
 .barTop{
-    line-height:30px;
+    line-height:20px;
+    text-align:left;
+    margin-top:8px;
 }
 
 .num-Card{
@@ -10392,10 +10428,6 @@ font-family: 'Open Sans' !important;
     .shopping_cart > a:first-child:before{ margin-left: 215px;}
     .accountHeader{left: 300px;}
     .quick {top: -47px;left: 12px;}
-}
-
-@media only screen and (max-width: 1080px){
-    .contProfile{font-size:8px !important;}
 }
 
 @media (min-width:415px) and (max-width:600px){

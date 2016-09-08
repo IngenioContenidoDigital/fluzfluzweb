@@ -26,31 +26,31 @@
 {capture name=path}{l s='My account'}{/capture}
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='My Gift Cards'}</h1>
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
-<div class="row">
-{foreach from=$manufacturers item=manufacturer}
-    <div class="algo myfancybox" href="#myspecialcontent">
-    
-    <!--<a href="{$link->getPageLink('cardsview', true, NULL, "manufacturer={$manufacturer.id_manufacturer|intval}")|escape:'html':'UTF-8'}">-->
-    <div class="col-lg-4 col-md-4 Cards">
-        <div class="col-lg-6 col-md-6 col-xs-6 infoCard">
-            <img class="col-lg-2 col-md-2" src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/>
-            <div class="col-lg-2 col-md-4"><span class="nameCard">{$manufacturer.manufacturer_name}</span></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-12 card-st">
+        {foreach from=$manufacturers item=manufacturer}
+                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 Cards algo myfancybox" href="#myspecialcontent">
+                    <div class="col-lg-6 col-md-5 col-sm-12 col-xs-6 infoCard">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name}</span></div>
+                    </div>
+                    <div class="col-lg-6 col-md-7 col-sm-12 col-xs-6 priceCard">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
+                    </div>
+                    <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
+                </div>
+        {/foreach}
         </div>
-        <div class="col-lg-6 col-md-6 col-xs-6 priceCard">
-            <span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span>
-            <span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span>
+        <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
+            <p class="titleFAQ">{l s='Have Question?'}</p>
+            <div class="detail-support">
+                <a href="http://reglas.fluzfluz.co"><p>{l s='Learn how to redeem digital cards.'}</p></a>
+                <a href="http://reglas.fluzfluz.co"><p>{l s='Learn how to transact with merchants.'}</p></a>
+            </div>
         </div>
     </div>
-            <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
-    </div>
-{/foreach}
-<div class="col-lg-3 col-md-4 col-sm-12 textAccount">
-    <p class="titleFAQ">{l s='Have Question?'}</p>
-    <div class="pFAQ">
-        <p>{l s='Learn how to redeem digital cards.'}</p>
-        <p>{l s='Learn how to transact with merchants.'}</p>
-    </div>
-</div>
 </div>
 
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin">{l s='My account'}</h1>
@@ -61,38 +61,38 @@
 {/if}
 <p class="info-account">{l s='Welcome to your account. Here you can manage all of your personal information and orders.'}</p>
 <div class="row addresses-lists modAccount">
-	<div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 account-responsive" style=" padding-left: 0px; padding-right: 0px; margin-right: 1%;">
-            <ul class="myaccount-link-list">
-            {if $has_customer_an_address}
-            <!--<li><a href="{$link->getPageLink('address', true)|escape:'html':'UTF-8'}" title="{l s='Add my first address'}"><i class="icon-building"></i><span>{l s='Add my first address'}</span></a></li>-->
-            {/if}
-            {if $returnAllowed}
-                <li><a href="{$link->getPageLink('order-follow', true)|escape:'html':'UTF-8'}" title="{l s='Merchandise returns'}"><i class="icon-refresh"></i><span>{l s='My merchandise returns'}</span></a></li>
-            {/if}
-            <!--<li><a href="{$link->getPageLink('order-slip', true)|escape:'html':'UTF-8'}" title="{l s='Credit slips'}"><i class="icon-file-o"></i><span>{l s='My credit slips'}</span></a></li>-->
-            <li><a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Orders'}"><img src="{$img_dir}icon/orderList.png" class="imgSponsor" /><span class="spanSponsor">{l s='Order history and details'}</span></a></li>
-            <!--<li><a href="{$link->getPageLink('addresses', true)|escape:'html':'UTF-8'}" title="{l s='Addresses'}"><i class="icon-building"></i><span>{l s='My addresses'}</span></a></li>-->
-            <li><a href="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" title="{l s='Information'}"><img src="{$img_dir}icon/rewards.png" class="imgSponsor" /><span class="spanSponsor">{l s='My personal information'}</span></a></li>
-            <li><a href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s='Cash Out You Points'}</span></a></li>
-            </ul>
-	</div>
+    <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 account-responsive" style=" padding-left: 0px; padding-right: 0px;">
+        <ul class="myaccount-link-list">
+        {if $has_customer_an_address}
+        <!--<li><a href="{$link->getPageLink('address', true)|escape:'html':'UTF-8'}" title="{l s='Add my first address'}"><i class="icon-building"></i><span>{l s='Add my first address'}</span></a></li>-->
+        {/if}
+        {if $returnAllowed}
+            <li><a href="{$link->getPageLink('order-follow', true)|escape:'html':'UTF-8'}" title="{l s='Merchandise returns'}"><i class="icon-refresh"></i><span>{l s='My merchandise returns'}</span></a></li>
+        {/if}
+        <!--<li><a href="{$link->getPageLink('order-slip', true)|escape:'html':'UTF-8'}" title="{l s='Credit slips'}"><i class="icon-file-o"></i><span>{l s='My credit slips'}</span></a></li>-->
+        <li><a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Orders'}"><img src="{$img_dir}icon/orderList.png" class="imgSponsor" /><span class="spanSponsor">{l s='Order history and details'}</span></a></li>
+        <!--<li><a href="{$link->getPageLink('addresses', true)|escape:'html':'UTF-8'}" title="{l s='Addresses'}"><i class="icon-building"></i><span>{l s='My addresses'}</span></a></li>-->
+        <li><a href="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" title="{l s='Information'}"><img src="{$img_dir}icon/rewards.png" class="imgSponsor" /><span class="spanSponsor">{l s='My personal information'}</span></a></li>
+        <li><a href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s='Cash Out You Points'}</span></a></li>
+        </ul>
+    </div>
 {if $voucherAllowed || isset($HOOK_CUSTOMER_ACCOUNT) && $HOOK_CUSTOMER_ACCOUNT !=''}
-    <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4" style="padding-left:0px; padding-right: 0px;">
+    <div class="col-xs-12 col-md-4 col-sm-6 col-lg-4 block_b" style="padding-left:0px; padding-right: 0px;">
         <ul class="myaccount-link-list">
             <li><a href="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" title="{l s='Vouchers'}"><img src="{$img_dir}icon/network.png" class="imgSponsor" /><span class="spanSponsor">{l s='My Network'}</span></a></li>
             {$HOOK_CUSTOMER_ACCOUNT}
             <li><a href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out'}"><img src="{$img_dir}icon/signOut.png" class="imgSponsor" style="padding:0;"/><span class="spanSponsor">{l s='Sign out'}</span></a></li>
         </ul>
-        </div>
+    </div>
 {/if}
-        <div class="col-lg-3 col-md-3 col-sm-12 textAccount">
-            <p class="titleFAQ">{l s='Need Support?'}</p>
-            <div class="pFAQ">
-                <p>{l s='Add a Credit or Debit Card'}</p>
-                <p>{l s='Change Email or Password'}</p>
-                <p>{l s='Learn About the Network'}</p>
-            </div>    
-        </div>
+    <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
+        <p class="titleFAQ">{l s='Need Support?'}</p>
+        <div class="detail-support">
+            <a href="http://reglas.fluzfluz.co"><p>{l s='Add a Credit or Debit Card'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p>{l s='Change Email or Password'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p>{l s='Learn About the Network'}</p></a>
+        </div>    
+    </div>
 </div>
 <div>
     <h1 class="page-heading">
