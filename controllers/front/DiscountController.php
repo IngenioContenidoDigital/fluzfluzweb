@@ -38,7 +38,8 @@ class DiscountControllerCore extends FrontController
     public function initContent()
     {
         parent::initContent();
-
+        
+        // SPONSORS
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();
         $searchnetwork = strtolower(Tools::getValue('searchnetwork'));
@@ -52,6 +53,7 @@ class DiscountControllerCore extends FrontController
                         $coincidence = strpos($name, $searchnetwork);
                         if ( $coincidence !== false ) {
                             $members[$sponsor['id']]['name'] = $name;
+                            $members[$sponsor['id']]['id'] = $sponsor['id'];
                             $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
                             $members[$sponsor['id']]['level'] = $sponsor['level'];
                             $imgprofile = "";
@@ -74,6 +76,7 @@ class DiscountControllerCore extends FrontController
                         }
                     } else {
                         $members[$sponsor['id']]['name'] = $name;
+                        $members[$sponsor['id']]['id'] = $sponsor['id'];
                         $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
                         $members[$sponsor['id']]['level'] = $sponsor['level'];
                         $imgprofile = "";
@@ -106,6 +109,37 @@ class DiscountControllerCore extends FrontController
         });
         $this->context->smarty->assign('members', $members);
         $this->context->smarty->assign('searchnetwork', $searchnetwork);
+        
+        // MESSAGES
+        $searchmessage = strtolower(Tools::getValue('searchmessage'));
+        $messages = Db::getInstance()->ExecuteS("SELECT ms.id_customer_send, ms.id_customer_receive, ms.message, c.username, c.id_customer id
+                                                FROM "._DB_PREFIX_."message_sponsor ms
+                                                INNER JOIN "._DB_PREFIX_."customer c
+                                                ON ( (ms.id_customer_send = c.id_customer AND c.id_customer <> ".$this->context->customer->id.") OR (ms.id_customer_receive = c.id_customer AND c.id_customer <> ".$this->context->customer->id.")  )
+                                                WHERE ms.id_customer_send = ".$this->context->customer->id."
+                                                OR ms.id_customer_receive = ".$this->context->customer->id."
+                                                ORDER BY ms.date_send DESC");
+        foreach ($messages AS $key => &$message) {
+            $imgprofile = "";
+            if ( file_exists(_PS_IMG_DIR_."profile-images/".$message['id'].".png") ) {
+                $imgprofile = "/img/profile-images/".$message['id'].".png";
+            }
+            $message['img'] = $imgprofile;
+
+            $name = strtolower($message['username']);
+            if ( $searchmessage != "" ) {
+                $coincidence = strpos($name, $searchmessage);
+                if ( $coincidence !== false ) {
+                    $message['coincidence'] = true;
+                } else {
+                    $message['coincidence'] = false;
+                    unset($messages[$key]);
+                }
+            }
+        }
+        $this->context->smarty->assign('messages', $messages);
+        $this->context->smarty->assign('searchmessage', $searchmessage);
+        $this->context->smarty->assign('id_customer', $this->context->customer->id);
         
         $this->addJS(_THEME_JS_DIR_.'discount.js');
         $this->addCSS(_THEME_CSS_DIR_.'discount.css');
