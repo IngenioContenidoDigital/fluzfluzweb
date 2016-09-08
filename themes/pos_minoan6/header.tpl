@@ -130,46 +130,65 @@
                                 </header>
                         </div>
                     </div>
-                    <div class="columns-container">
                                 {if $page_name=='my-account'}
-                                    <div class="row profileCustomer">
-                                        <div class="col-lg-12 contProfile">
-                                        {if $imgprofile != ""}
-                                            <img src="{$imgprofile}" width="80" height="80" style="margin: 0 15px;">
-                                        {else}
-                                            <img src="{$img_dir}icon/profile.png" class="imgSponsor2 col-lg-2">
-                                        {/if}
-                                        <span  class="col-lg-2 nameProfile">{$customerProfile}</span>    
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Total Points'}<a class="btnCash" href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}">{l s='Cash Out'}</a>
-                                            <br/>
-                                            <span class="ptoCustomer">+{$totalAvailable}</span>
-                                            <span style="color:#000;">{displayPrice price=$totalAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
+                                    <div class="container-fluid profileCustomer" style="margin-top: 70px;">
+                                        <div class="row" style="width:100%;">
+                                                <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 contProfile">
+                                                    {if $imgprofile != ""}
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="{$imgprofile}" width="80" height="80" style="margin: 0 15px;"></div>
+                                                    {else}
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="{$img_dir}icon/profile.png" class="imgSponsor2 col-lg-2"></div>
+                                                    {/if}
+                                                </div>
+                                                <div class="col-lg-1 col-md-1 col-sm-2 col-xs-6 nameProfile">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span>{$customerProfile}</span></div>   
+                                                </div>   
+                                                <div class="barTop col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                                                    <div class="col-lg-12 col-md-12"><span class="totalPoint">{l s='Total Points'}</span><a class="btnCash" href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}">{l s='Cash Out'}</a></div>
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <span class="ptoCustomer">+{$totalAvailable}</span>
+                                                        <span style="color:#000;">{displayPrice price=$totalAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 barTop">
+                                                    <div class="col-lg-12 col-md-12">
+                                                        {l s='Total Members'}
+                                                        <a class="btnCash" href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}" title="{l s='Explore'}">{l s='Explore'}</a>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12"><span class="ptoCustomer">+{$membersCount}</span></div>
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 barTop">
+                                                    <div class="col-lg-12 col-md-12">{l s='Pts. From Last 30 Days'}</div>
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <span class="ptoCustomer">+{$lastPoint}</span>
+                                                        <span style="color:#000;">{displayPrice price=$lastPoint * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
+                                                    </div>    
+                                                </div>
+                                                 <div class="col-lg-1 col-md-1 col-sm-4 col-xs-6 barTop">    
+                                                {foreach from=$topPoint item=top}
+                                               
+                                                    <div class="col-lg-12 col-md-12">
+                                                        {l s='Top Performer'}
+                                                        <!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>-->
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <span class="ptoCustomer" style="text-transform: none;">{$top.points|number_format:0}{l s=" pts."}</span>
+                                                        <span style="color:#000;">{$top.name}</span>
+                                                    </div>
+                                                {/foreach}
+                                                </div>
+                                                <div class="col-lg-1 col-md-1 col-sm-4 col-xs-6 barTop last-block">
+                                                {foreach from=$worstPoint item=worst}
+                                                    <div class="col-lg-12 col-md-12">
+                                                        {l s='Top Worst'}
+                                                        <!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>--></div>
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <span class="ptoCustomer" style="text-transform: none;">{$worst.points|number_format:0}{l s=" pts: "}</span>
+                                                        <span style="color:#000;">{$worst.name}</span>
+                                                    </div>
+                                                {/foreach}
+                                                </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Total Members'}<a class="btnCash" href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}" title="{l s='Explore'}">{l s='Explore'}</a>
-                                            <br/>
-                                            <span class="ptoCustomer">+{$membersCount}</span>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Pts. From Last 30 Days'}<br/>
-                                            <span class="ptoCustomer">+{$lastPoint}</span>
-                                            <span style="color:#000;">{displayPrice price=$lastPoint * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
-                                        </div>
-                                        
-                                        {foreach from=$topPoint item=top}
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Top Performer'}<!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>-->
-                                            <br/>
-                                            <span class="ptoCustomer" style="text-transform: none;">{$top.points|number_format:0}{l s=" pts."}</span>
-                                            <span style="color:#000;">{$top.name}</span>
-                                        </div>
-                                        {/foreach}
-                                        {foreach from=$worstPoint item=worst}
-                                        <div class="col-lg-2 col-md-2 barTop">{l s='Top Worst'}<!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>-->
-                                            <br/>
-                                            <span class="ptoCustomer" style="text-transform: none;">{$worst.points|number_format:0}{l s=" pts: "}</span>
-                                            <span style="color:#000;">{$worst.name}</span>
-                                        </div>
-                                        {/foreach}
-                                        </div>
-                                        
                                     </div>
                                 {/if}    
                                 
