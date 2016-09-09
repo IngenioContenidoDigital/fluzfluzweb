@@ -16,14 +16,29 @@
 .blockcontainer > div > h2 { font-size: 17px; letter-spacing: 0; font-weight: bold; }
 .textsearch { padding: 15px 35px 15px 15px; width: 97%; background-color: #f9f9f9; border: none; }
 .searchimg { position: relative; left: -30px; cursor: pointer; }
-.tablenetwork { width: 97%; margin: 20px 0; }
+.tablenetwork, .tablemessages { width: 97%; }
 .tablenetwork > tbody > tr > td { padding: 0; }
+.block-network > h2, .block-messages > h2 { margin: 0; }
+.tablemessages > tbody > tr > td { padding: 0; }
+.tablecontentmessages { border: none!important; }
+.tablemessages > tbody> tr:nth-child(odd) { background-color: #F4F4F4; }
 .tablecontent { width: 100%; border: 1px solid #e5e5e5; }
 .name { font-weight: bold; font-size: 14px; text-transform: capitalize; }
 .information { font-size: 11px; }
 .data { font-size: 12px; color: #EF4136; font-weight: bold; }
 .line {  border-bottom: 1px solid #e5e5e5; }
 .img { padding: 15px; width: 20px; }
+.message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; }
+.message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
+.colname { width: 285px; }
+.colpoints { width: 180px; }
+
+/* popup */
+#myspecialcontent2 > div { margin-bottom: 15px; }
+.blockbutton { text-align: center; }
+.titlesendmessage { text-align: left; }
+#messagesendmessage { border-left: none; border-right: none; border-bottom: none; }
+#namesendmessage { margin-left: 5px; font-size: 16px; text-transform: capitalize; }
 
 @media (max-width:420px){
     .spanSponsor{font-size:10px !important; padding-left: 5px !important;}   

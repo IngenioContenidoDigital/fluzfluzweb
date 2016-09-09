@@ -12,6 +12,9 @@ $(function() {
 
     // popup message
     $('.myfancybox').click( function() {
+        $("#idsendmessage").val("");
+        $("#idreceivemessage").val("");
+        $("#messagesendmessage").val("");
         var data = $(this).attr('send').split('|');
         $("#idreceivemessage").val(data[0]);
         $("#namesendmessage").text(data[1]);

@@ -75,7 +75,7 @@
                 {foreach from=$messages item=message}
                     <tr>
                         <td>
-                            <table class="tablecontent">
+                            <table class="tablecontent tablecontentmessages">
                                 <tr>
                                     <td rowspan="2" class="img">
                                         {assign var="urlimgmes" value=""}
