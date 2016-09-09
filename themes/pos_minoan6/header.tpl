@@ -177,7 +177,7 @@
                                                     </div>
                                                 {/foreach}
                                                 </div>
-                                                <div class="col-lg-1 col-md-1 col-sm-4 col-xs-6 barTop last-block">
+                                                <div class="col-lg-1 col-md-1 col-sm-4 col-xs-6 barTop">
                                                 {foreach from=$worstPoint item=worst}
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         {l s='Top Worst'}
