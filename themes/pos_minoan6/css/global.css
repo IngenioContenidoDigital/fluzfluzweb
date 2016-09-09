@@ -3727,7 +3727,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .containerForm{padding:0px;}
     #search_block_top .btn.button-search{display:none !important;}
     .navbar{display:none;}
-    .ptoCustomer {font-size: 14px !important;}
+    .ptoCustomer {font-size: 12px !important; margin-right: 4px;}
     .totalPoint{font-size: 8px !important;}
     .priceTotalCard{font-size:8px !important;}
     .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
@@ -3738,6 +3738,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .block-red{padding-right: 6px;}
     .title-msj{text-align:center;}
     #namesendmessage{font-size:12px !important;}
+    .fancybox-skin{min-height:100% !important;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -3761,7 +3762,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .titleH1{font-size: 24px!important; font-weight: bold; color: #fff; text-align:center;}
     #search_block_top .btn.button-search{display:none !important;}
     .navbar{display:none;}
-    .ptoCustomer {font-size: 14px !important;}
+    .ptoCustomer {font-size: 12px !important;margin-right: 5px;}
     .totalPoint{font-size: 8px !important;}
     .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
     .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
@@ -3771,6 +3772,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .name {font-size: 13px !important;}
     .title-msj{text-align:center;}
     .block-red{padding-right: 5px;}
+    .fancybox-skin{min-height:100% !important;}
 }
 
 @media (min-width:420px) and (max-width:760px){
@@ -10463,7 +10465,7 @@ font-family: 'Open Sans' !important;
     .hookLeft{text-align:right !important; width:0px;}
     .accountHeader{border:none !important;}
     .block_content3{ margin-right: 12px !important; width: 50px !important;}
-    .shopping_cart > a:first-child:before{ margin-left: 52px;margin-top: -1px !important;width: 50px !important;}
+    .shopping_cart > a:first-child:before{ margin-left: 48px;margin-top: -1px !important;width: 50px !important;}
     .accountHeader{margin-top: -86px !important;left: 78px !important;}
     .imgSponsor2{margin-bottom: 5%; width:30% !important;}
     .barTop{ float: left; margin-bottom: 5%;}
