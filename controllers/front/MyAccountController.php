@@ -78,7 +78,7 @@ class MyAccountControllerCore extends FrontController
 
         $this->context->smarty->assign('HOOK_CUSTOMER_ACCOUNT', Hook::exec('displayCustomerAccount'));
         
-        // my messaging
+        // SPONSORS
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();
         foreach ($tree as $sponsor) {
@@ -99,6 +99,7 @@ class MyAccountControllerCore extends FrontController
                     $customer = new Customer($sponsor['id']);
                     $name = strtolower($customer->firstname." ".$customer->lastname);
                     $members[$sponsor['id']]['name'] = $name;
+                    $members[$sponsor['id']]['id'] = $sponsor['id'];
                     $members[$sponsor['id']]['points'] = $points[0]['credits'];
                     $members[$sponsor['id']]['dateaddorder'] = date_format( date_create($points[0]['date_add']) ,"d/m/y");
                     $members[$sponsor['id']]['dateaddorderunformat'] = $points[0]['date_add'];
@@ -115,6 +116,25 @@ class MyAccountControllerCore extends FrontController
             return strtotime($b['dateaddorderunformat']) - strtotime($a['dateaddorderunformat']);
         });
         $this->context->smarty->assign('members', array_slice($members, 0, 5));
+        
+        
+        // MESSAGES
+        $messages = Db::getInstance()->ExecuteS("SELECT ms.id_customer_send, ms.id_customer_receive, ms.message, c.username, c.id_customer id
+                                                FROM "._DB_PREFIX_."message_sponsor ms
+                                                INNER JOIN "._DB_PREFIX_."customer c
+                                                ON ( (ms.id_customer_send = c.id_customer AND c.id_customer <> ".$this->context->customer->id.") OR (ms.id_customer_receive = c.id_customer AND c.id_customer <> ".$this->context->customer->id.")  )
+                                                WHERE ms.id_customer_send = ".$this->context->customer->id."
+                                                OR ms.id_customer_receive = ".$this->context->customer->id."
+                                                ORDER BY ms.date_send DESC");
+        foreach ($messages AS $key => &$message) {
+            $imgprofile = "";
+            if ( file_exists(_PS_IMG_DIR_."profile-images/".$message['id'].".png") ) {
+                $imgprofile = "/img/profile-images/".$message['id'].".png";
+            }
+            $message['img'] = $imgprofile;
+        }
+        $this->context->smarty->assign('messages', array_slice($messages, 0, 5));
+        $this->context->smarty->assign('id_customer', $this->context->customer->id);
 
         $this->setTemplate(_PS_THEME_DIR_.'my-account.tpl');
     }
