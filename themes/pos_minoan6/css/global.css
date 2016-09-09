@@ -3738,7 +3738,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .block-red{padding-right: 6px;}
     .title-msj{text-align:center;}
     #namesendmessage{font-size:12px !important;}
-    .fancybox-skin{min-height:100% !important;}
+    .fancybox-inner{height:100% !important;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -3772,7 +3772,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .name {font-size: 13px !important;}
     .title-msj{text-align:center;}
     .block-red{padding-right: 5px;}
-    .fancybox-skin{min-height:100% !important;}
+    .fancybox-inner{height:100% !important;}
 }
 
 @media (min-width:420px) and (max-width:760px){
@@ -3812,6 +3812,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
     .textAccount{margin-left: 20px !important;}
     .textAccount2{float:left !important;}
+    .fancybox-inner{height:100% !important;}
 }
 
 
@@ -3861,6 +3862,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .block {margin-left: 10%;}
     .title_blockSale{margin-bottom:0px !important;}
     .title-category{font-size: 40px !important; letter-spacing: 0px; margin: 0;}
+    .fancybox-inner{height:100% !important;}
 }
 
 @media (max-width:420px){
