@@ -182,7 +182,7 @@
                                                     <div class="col-lg-12 col-md-12">
                                                         {l s='Top Worst'}
                                                         <!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>--></div>
-                                                    <div class="col-lg-12 col-md-12">
+                                                    <div class="col-lg-12 col-md-12 col-sm-4 col-xs-6">
                                                         <span class="ptoCustomer" style="text-transform: none;">{$worst.points|number_format:0}{l s=" pts: "}</span>
                                                         <span style="color:#000;">{$worst.name}</span>
                                                     </div>
