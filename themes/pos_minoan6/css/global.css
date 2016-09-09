@@ -3396,9 +3396,9 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 
 @media (min-width:410px) and (max-width:424px){
     #header .pos_logo{width:60% !important; margin-top:7px !important;}
-    .block_content3{ width: 50px !important; margin-right: 8px !important; margin-top:5px !important;}
+    .block_content3{ width: 50px !important; margin-right: 16px !important; margin-top:5px !important;}
     .accountHeader{top: -176px; left: 221px !important; padding-right:0px !important; border:none !important;}
-    .shopping_cart > a:first-child:before{position: absolute!important;top: -61px!important; left: 94px !important;}
+    .shopping_cart > a:first-child:before{position: absolute!important;top: -61px!important; left: 90px !important;}
     .shopping_cart .ajax_cart_quantity{top: -47px !important; left: 317px !important;}
     .prueba{ left: 294px !important; top: 12px !important;}
     .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
@@ -3730,11 +3730,11 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .ptoCustomer {font-size: 14px !important;}
     .totalPoint{font-size: 8px !important;}
     .priceTotalCard{font-size:8px !important;}
-    .block_b{padding-left:10px !important; padding-right:25px !important; margin-left:0px !important;}
-    .account-responsive{padding-left:10px !important; padding-right:25px !important; margin-left:0px !important;}
+    .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
     .textAccount{margin-left: 20px !important;}
     .textAccount2{float:left !important;}
-    .card-st{padding-left: 10px; padding-right: 25px;}
+    .last-block{float:right;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -3765,6 +3765,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .textAccount{margin-left: 0px !important;}
     .textAccount2{float:left !important;}
     .titleFAQ{text-align:center;}
+    .last-block{float:right;}
 }
 
 @media (min-width:420px) and (max-width:760px){
@@ -3803,6 +3804,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
     .textAccount{margin-left: 20px !important;}
     .textAccount2{float:left !important;}
+    .last-block{float:right;}
 }
 
 
@@ -10455,7 +10457,7 @@ font-family: 'Open Sans' !important;
 @media (min-width:325px) and (max-width:375px){
     .hookLeft{text-align:right !important; width:0px;}
     .accountHeader{border:none !important;}
-    .block_content3{ margin-right: 5px !important; width: 50px !important;}
+    .block_content3{ margin-right: 12px !important; width: 50px !important;}
     .shopping_cart > a:first-child:before{ margin-left: 52px;margin-top: -1px !important;width: 50px !important;}
     .accountHeader{margin-top: -86px !important;left: 78px !important;}
     .imgSponsor2{margin-bottom: 5%; width:30% !important;}
