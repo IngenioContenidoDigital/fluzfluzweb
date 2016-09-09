@@ -100,9 +100,9 @@
     </h1>
 
     <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
-        <div class="blockcontainer">
-            <div class="block-network">
-                <h2>{l s='My Network'}</h2>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 block-red">
+                <h2 class="title-msj">{l s='My Network'}</h2>
                 <table class="tablenetwork">
                     {foreach from=$members item=member}
                         <tr>
@@ -134,8 +134,8 @@
                     {/foreach}
                 </table>
             </div>
-            <div class="block-messages">
-                <h2>{l s='My Messages'}</h2>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 block-red">
+                <h2 class="title-msj">{l s='My Messages'}</h2>
                 <table class="tablemessages">
                     {foreach from=$messages item=message}
                         <tr>
