@@ -1548,6 +1548,10 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					//$reward->credits = (float)$this->_getNbCreditsByPrice($price, $order->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'), $extraParams);
                                         $reward->credits=$price;
                                         
+                                        if (MyConf::get('RSPONSORSHIP_DISCOUNTED_ALLOWED', null, $id_template)) {
+                                        $reward->id_reward_state = RewardsStateModel::getDiscountedId();
+                                        $reward->save(); 
+                                        }
 					// if sponsor's reward=0 (only special offers, voucher used, or % set to 0 in BO)
 					if ($reward->credits == 0)
 						continue;

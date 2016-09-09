@@ -762,7 +762,11 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 			$reward->plugin = $this->name;
 			if (!MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) && (float)$reward->credits == 0) {
 				$reward->id_reward_state = RewardsStateModel::getDiscountedId();
-				$reward->save();
+                        $reward->save();
+                        }
+                        else if (MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template)) {
+				$reward->id_reward_state = RewardsStateModel::getDiscountedId();
+				$reward->save();        
 			} else if ((float)$reward->credits > 0) {
 				$reward->id_reward_state = RewardsStateModel::getDefaultId();
 				$reward->save();
