@@ -119,6 +119,7 @@ margin-right: -15px;
     .menuSticky{ margin-bottom: 21px !important;}
     .owl-item{ width: 367px !important;}
     .owl-carousel .owl-item{ margin-left: 12px !important;}
+    .banner2{margin-top: -21px !important;}
 }
 
 @media (max-width:320px){
