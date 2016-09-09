@@ -3409,7 +3409,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 }
 .barTop{padding-left:0px !important;}
 .menuSticky{
-    margin-top:-22px !important;
+    margin-top:68px !important;
     border-bottom: 4px solid #EC4E2C;
     padding-bottom: 17px;
     background: #f8f8f8;
@@ -3730,10 +3730,11 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .ptoCustomer {font-size: 14px !important;}
     .totalPoint{font-size: 8px !important;}
     .priceTotalCard{font-size:8px !important;}
-    .block_b{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
-    .account-responsive{padding-left:10px !important; padding-right:10px !important; margin-left:0px !important;}
+    .block_b{padding-left:10px !important; padding-right:25px !important; margin-left:0px !important;}
+    .account-responsive{padding-left:10px !important; padding-right:25px !important; margin-left:0px !important;}
     .textAccount{margin-left: 20px !important;}
     .textAccount2{float:left !important;}
+    .card-st{padding-left: 10px; padding-right: 25px;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -3749,6 +3750,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
     p{font-size:12px; text-align:center;}
+    .priceTotalCard{font-size:9px !important;}
     .box-info-product p{padding:0;}
     .rowAccount{text-align:center; border-bottom:none;}
     .containerForm{padding:0px;}
@@ -5819,7 +5821,7 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 1600px) {
     #text {
-        margin-top: 56px;
+        margin-top: 105px;
         margin-left: 16px;
         clear: none;
         height: auto;
@@ -5840,7 +5842,7 @@ font-family: 'Open Sans' !important;
         font-weight: 600;
         line-height: 26px;
         margin-left: 18px;
-        margin-top: 20px;
+        margin-top: 0px;
         clear: both;
         min-height: 0px;
         color: rgb(255, 255, 255);
@@ -6586,7 +6588,7 @@ font-family: 'Open Sans' !important;
     #text {
         font-size: 44px;
         line-height: 37px;
-        margin-top: 82px;
+        margin-top: 105px;
         margin-left: 16px;
         clear: none;
     }
@@ -7022,7 +7024,8 @@ font-family: 'Open Sans' !important;
     #text {
     font-size: 55px;
     line-height: 51px;
-    margin-top: 30px;
+    margin-top: 105px;
+    margin-bottom: 18px;
     }
 
     #box {
@@ -7368,7 +7371,7 @@ font-family: 'Open Sans' !important;
     #text {
         font-size: 32px;
         line-height: 35px;
-        margin-top: 30px;
+        margin-top: 105px;
         width: 60%;
     }
 
@@ -7650,16 +7653,17 @@ font-family: 'Open Sans' !important;
     }
     
     #text {
-        margin-top: 20px;
-        font-size: 38px;
-        line-height: 38px;
+        margin-top: 105px;
+        font-size: 29px;
+        line-height: 30px;
         height: auto;
         min-height: 122px;
+        margin-bottom: 0px;
         width: 80%;
     }
 
     #text1 {
-        margin-top: 9px;
+        margin-top: -12px;
         margin-left: 16px;
         clear: both;
     }
@@ -8102,7 +8106,7 @@ font-family: 'Open Sans' !important;
         font-size: 16px;
         height: auto;
         width: 81.074219%;
-        margin-top: 5px;
+        margin-top: -12px;
         margin-left: 16px;
         clear: both;
     }
@@ -8114,7 +8118,7 @@ font-family: 'Open Sans' !important;
     }
 
     #text {
-        margin-top: 50px;
+        margin-top: 105px;
         margin-left: 14px;
         clear: none;
         font-size: 30px;
@@ -10476,7 +10480,6 @@ font-family: 'Open Sans' !important;
     .imgSponsor2{margin-bottom: 5%; width:45% !important;}
     .barTop{ float: left; margin-bottom: 5%;}
     .owl-wrapper{left:3px !important;}
-    .btn-shop {margin-top: -15% !important;}
     #header .pos_logo{height: auto;width: 65%;top: 15px;}
     #search_block_top{display:none !important;}
     .vdo-fluz{ width: 306px;height: 171px;}
