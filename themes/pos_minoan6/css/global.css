@@ -3625,7 +3625,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 .footer-bottom address { color: #8e8e8e; margin: 0; }
 .footer-bottom address a { font-weight: 400; color: #ee4a42; }
 
-.banner-category { margin-bottom: 50px; }
+.banner-category { margin-top: 93px;  margin-bottom: 50px; }
 
 .more-info { margin-bottom: 30px; }
 .more-info ul { background: #fff; display: inline-block; }
@@ -4517,11 +4517,12 @@ font-family: 'Open Sans' !important;
 
 /* This code is only meant for previewing your Reflow design. */
 .primaryContainer {
-    height: auto;
+    /*height: auto;
     margin-left: auto;
     margin-right: auto;
     min-height: 100%;
-    width: 100%;
+    width: 100%;*/
+    margin-top: 89px;
 }
 
 #box {
@@ -5833,7 +5834,7 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 1600px) {
     #text {
-        margin-top: 105px;
+        /*margin-top: 105px;*/
         margin-left: 16px;
         clear: none;
         height: auto;
@@ -6089,7 +6090,7 @@ font-family: 'Open Sans' !important;
         font-weight: 400;
         line-height: 26.6px;
         margin-left: 4.476813%;
-        margin-top: 43px;
+        /*margin-top: 43px;*/
         clear: none;
         min-height: 0px;
         letter-spacing: 0px;
@@ -6295,13 +6296,13 @@ font-family: 'Open Sans' !important;
     #text12 {
         float: left;
         font-size: 31px;
-        width: 50.326872%;
+        width: 60.326872%;
         height: auto;
         text-align: left;
         font-weight: 400;
         line-height: 35px;
         margin-left: 4.476813%;
-        margin-top: 43px;
+        /*margin-top: 43px;*/
         clear: none;
         min-height: 0px;
         color: rgb(255, 255, 255);
@@ -6600,7 +6601,7 @@ font-family: 'Open Sans' !important;
     #text {
         font-size: 44px;
         line-height: 37px;
-        margin-top: 105px;
+        /*margin-top: 105px;*/
         margin-left: 16px;
         clear: none;
     }
@@ -6827,7 +6828,7 @@ font-family: 'Open Sans' !important;
 
     #text13 {
         height: auto;
-        width: 92.136879%;
+        width: 105%;
         margin-top: 16px;
         margin-left: 4.469624%;
         clear: both;

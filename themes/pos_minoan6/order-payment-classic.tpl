@@ -435,11 +435,18 @@
         $("#toUse").on("keyup",function(event){
             var valor1=$('#ptosTotalOculto').val();
             var valor2=$('#toUse').val();
-            var resultado = calcular(valor1,valor2);
-            $('#ptosTotal').html(resultado);
-            
+            if(valor2>=0){
+                var resultado = calcular(valor1,valor2);
+                $('#ptosTotal').html(resultado);
+            }else{
+                valor2*=-1;
+                $('#toUse').val(valor2);
+                var resultado = calcular(valor1,valor2);
+                $('#ptosTotal').html(resultado);
+            }
+                
         }).keydown(function( event ) {
-              if ( event.which == 13 ) {
+              if ( event.which == 13) {
                 event.preventDefault();
               }
             });
