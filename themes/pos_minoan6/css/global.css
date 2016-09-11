@@ -3913,6 +3913,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .owl-item { margin: 0 12px; width:220px;}
 .title-block { background-color: #F8F8F8; display: inline-block; height: 45px; line-height: 42px; }
 .title-block { font-size: 17px; color:#ef4136; padding: 0 10px; width: 100%; }
+.title-block img {max-height: 33px;}
 .title-block div { display: inline-block; vertical-align: middle; }
 .title-block div:last-child { float: right; }
 .nopadding { padding: 0 !important; }
