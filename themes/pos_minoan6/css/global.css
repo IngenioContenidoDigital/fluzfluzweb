@@ -3625,7 +3625,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 .footer-bottom address { color: #8e8e8e; margin: 0; }
 .footer-bottom address a { font-weight: 400; color: #ee4a42; }
 
-.banner-category { margin-top: 93px;  margin-bottom: 50px; }
+.banner-category { margin-top: 93px;  /*margin-bottom: 50px;*/ }
 
 .more-info { margin-bottom: 30px; }
 .more-info ul { background: #fff; display: inline-block; }
