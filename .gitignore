@@ -45,3 +45,4 @@ tmp/*
 modules/payulatam/config.php
 modules/payulatam/SondaPayu.php
 modules/payulatam/cronc.php
+img/profiule-images/*
