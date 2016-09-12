@@ -228,7 +228,7 @@
                             <label for="typecard">
                                 {l s='Type'}:
                             </label>
-                            <input class="validate form-control inputformcard enabled" disabled data-validate="isName" type="text" id="typecard" name="typecard" value="{$card.name_creditCard}" />
+                            <input class="form-control enabled" readonly data-validate="isName" type="text" id="typecard" name="typecard" value="{$card.name_creditCard}" />
                         </div>
                         <div class="required form-group">
                             <label for="numbercard" class="required">
@@ -330,6 +330,68 @@
             $(".inputformcard").is(":disabled") ? $("#numbercard").css("width", "271px") : $("#numbercard").css("width", "100px");
             $(".inputformcard").is(":disabled") ? $(".inputformcard").removeAttr('disabled') : $(".inputformcard").attr('disabled', 'disabled');
             $('.stdcard')[0].reset();
+        });
+    </script>
+{/literal}
+<script src="{$js_dir}jquery.creditCardValidator.js"></script>
+{literal}
+    <script>
+        $(function() {
+            var typecard = $("#typecard").val();
+            switch ( typecard ) {
+                case 'visa':
+                    $("#typecard").addClass('visa');
+                    break;
+                case 'mastercard':
+                    $("#typecard").addClass('mastercard');
+                    break;
+                case 'amex':
+                    $("#typecard").addClass('amex');
+                    break;
+                case 'discover':
+                    $("#typecard").addClass('discover');
+                    break;
+            }
+        });
+        
+        $('#numbercard').on('keyup',function(){
+            $("#typecard").removeClass('visa');
+            $("#typecard").removeClass('mastercard');
+            $("#typecard").removeClass('amex');
+            $("#typecard").removeClass('discover');
+            $("#typecard").val("");
+            if ( $(this).val() === "" ) {
+                $("#typecard").removeClass('visa');
+                $("#typecard").val("");
+            } else {
+                $(this).validateCreditCard(function(result) {
+                    switch ( result.card_type.name ) {
+                        case 'visa':
+                            $("#typecard").addClass('visa');
+                            $("#typecard").val("visa");
+                            break;
+                        case 'mastercard':
+                            $("#typecard").addClass('mastercard');
+                            $("#typecard").val("mastercard");
+                            break;
+                        case 'amex':
+                            $("#typecard").addClass('amex');
+                            $("#typecard").val("amex");
+                            break;
+                        case 'discover':
+                            $("#typecard").addClass('discover');
+                            $("#typecard").val("discover");
+                            break;
+                        default:
+                            $("#typecard").removeClass('visa');
+                            $("#typecard").removeClass('mastercard');
+                            $("#typecard").removeClass('amex');
+                            $("#typecard").removeClass('discover');
+                            $("#typecard").val("");
+                            break;
+                    }
+                })
+            }
         });
     </script>
 {/literal}

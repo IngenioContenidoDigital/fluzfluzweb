@@ -30,6 +30,7 @@ div.selector.disabled span, div.selector.disabled.active span { color: #585858; 
 .dateBirthText, .dateBirthTextCard, .dateBirthInputCard, .card_digits { font-weight: lighter; }
 .card_digits { color: #E1382C; }
 #numbercard { width: 100px; }
+#typecard { padding-left: 50px; height: 24px; }
 .btnCard { padding: 2% 8%; background: #c9b197; border: 1px solid #c9b197; color: #fff; font-size: 1.3em; }
 .btnCard:hover { background: #fff; color: #c9b197; border: 1px solid #c9b197; }
 .block-profileimg { display: none; }
