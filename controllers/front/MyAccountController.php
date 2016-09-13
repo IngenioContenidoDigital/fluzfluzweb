@@ -135,6 +135,43 @@ class MyAccountControllerCore extends FrontController
         }
         $this->context->smarty->assign('messages', array_slice($messages, 0, 5));
         $this->context->smarty->assign('id_customer', $this->context->customer->id);
+        
+        // MEMBERS FEED
+        $stringidsponsors = "";
+        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        foreach ($tree as $sponsor) {
+            $stringidsponsors .= $sponsor['id'].",";
+        }
+        $last_shopping_products = Db::getInstance()->ExecuteS("SELECT
+                                                        o.id_order,
+                                                        o.date_add,
+                                                        o.id_customer,
+                                                        c.username name_customer,
+                                                        pl.id_product,
+                                                        i.id_image,
+                                                        m.name name_product,
+                                                        pl.link_rewrite,
+                                                        p.price,
+                                                        r.credits
+                                                FROM "._DB_PREFIX_."orders o
+                                                INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = ".$this->context->customer->id." )
+                                                INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+                                                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                                                INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
+                                                INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
+                                                INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
+                                                INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+                                                WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." )
+                                                ORDER BY o.date_add DESC
+                                                LIMIT 4");
+        foreach ($last_shopping_products as &$last_shopping_product) {
+            $imgprofile = "";
+            if ( file_exists(_PS_IMG_DIR_."profile-images/".$last_shopping_product['id_customer'].".png") ) {
+                $imgprofile = "/img/profile-images/".$last_shopping_product['id_customer'].".png";
+            }
+            $last_shopping_product['img'] = $imgprofile;
+        }
+        $this->context->smarty->assign('last_shopping_products', $last_shopping_products);
 
         $this->setTemplate(_PS_THEME_DIR_.'my-account.tpl');
     }
