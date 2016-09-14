@@ -97,179 +97,52 @@
 <div class="row networkfeed" style="margin-top: 70px;">
     <h1 class="page-heading">
         {l s='My Network Feed'}
-    </h1>    
-    <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 container1 account-responsive">
-        <div class="row">
-            {assign var="link_rewrite" value=$last_shopping_products.0.link_rewrite}
-            {assign var="id_product" value=$last_shopping_products.0.id_product}
-            {assign var="name_product" value=$last_shopping_products.0.name_product}
-            {assign var="img" value=$last_shopping_products.0.img}
-            {assign var="credits" value=$last_shopping_products.0.credits}
-            {assign var="name_customer" value=$last_shopping_products.0.name_customer}
-            {assign var="price" value=$last_shopping_products.0.price}
-            {assign var="id_customer_sponsor" value=$last_shopping_products.0.id_customer}
-            {assign var="id_image" value=$last_shopping_products.0.id_image}
-            <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
-                <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
-            </div>
-            <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">
+    </h1>
+    {if $last_shopping_products}
+        {foreach from=$last_shopping_products item=last_shopping_product}
+            <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 container1 account-responsive">
                 <div class="row">
-                    <div class="col-xs-2 col-md-2 col-sm-2 col-lg-2 containerimgcustom">
-                        {assign var="urlimgnetfeed" value=""}
-                        {if $img != ""}
-                            <img src="{$img}" width="100%" height="100%">
-                            {$urlimgnetfeed = {$img}}
-                        {else}
-                            <img src="{$img_dir}icon/profile.png" width="100%" height="100%">
-                            {$urlimgnetfeed = $img_dir|cat:"icon/profile.png"}
-                        {/if}
+                    {assign var="link_rewrite" value=$last_shopping_product.link_rewrite}
+                    {assign var="id_product" value=$last_shopping_product.id_product}
+                    {assign var="name_product" value=$last_shopping_product.name_product}
+                    {assign var="img" value=$last_shopping_product.img}
+                    {assign var="credits" value=$last_shopping_product.credits}
+                    {assign var="name_customer" value=$last_shopping_product.name_customer}
+                    {assign var="price" value=$last_shopping_product.price}
+                    {assign var="id_customer_sponsor" value=$last_shopping_product.id_customer}
+                    {assign var="id_image" value=$last_shopping_product.id_image}
+                    <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
+                        <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
                     </div>
-                    <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                        <span>{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
-                    </div>
-                </div>
-                <div class="row" style="padding: 5px;">
-                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
-                        {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} <span class="pointsmnf">{$name_product}</span>.
-                    </div>
-                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 message">
-                        <span class="myfancybox" href="#myspecialcontent2" send="{$id_customer_sponsor}|{$name_customer}|{$urlimgnetfeed}|{$id_customer}">{l s='Mensaje'}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 container1 account-responsive">
-        <div class="row">
-            {assign var="link_rewrite" value=$last_shopping_products.1.link_rewrite}
-            {assign var="id_product" value=$last_shopping_products.1.id_product}
-            {assign var="name_product" value=$last_shopping_products.1.name_product}
-            {assign var="img" value=$last_shopping_products.1.img}
-            {assign var="credits" value=$last_shopping_products.1.credits}
-            {assign var="name_customer" value=$last_shopping_products.1.name_customer}
-            {assign var="price" value=$last_shopping_products.1.price}
-            {assign var="id_customer_sponsor" value=$last_shopping_products.1.id_customer}
-            {assign var="id_image" value=$last_shopping_products.1.id_image}
-            <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
-                <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
-            </div>
-            <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">
-                <div class="row">
-                    <div class="col-xs-2 col-md-2 col-sm-2 col-lg-2 containerimgcustom">
-                        {assign var="urlimgnetfeed" value=""}
-                        {if $img != ""}
-                            <img src="{$img}" width="100%" height="100%">
-                            {$urlimgnetfeed = {$img}}
-                        {else}
-                            <img src="{$img_dir}icon/profile.png" width="100%" height="100%">
-                            {$urlimgnetfeed = $img_dir|cat:"icon/profile.png"}
-                        {/if}
-                    </div>
-                    <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                        <span>{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
-                    </div>
-                </div>
-                <div class="row" style="padding: 5px;">
-                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
-                        {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} <span class="pointsmnf">{$name_product}</span>.
-                    </div>
-                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 message">
-                        <span class="myfancybox" href="#myspecialcontent2" send="{$id_customer_sponsor}|{$name_customer}|{$urlimgnetfeed}|{$id_customer}">{l s='Mensaje'}</span>
+                    <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">
+                        <div class="row">
+                            <div class="col-xs-2 col-md-2 col-sm-2 col-lg-2 containerimgcustom">
+                                {assign var="urlimgnetfeed" value=""}
+                                {if $img != ""}
+                                    <img src="{$img}" width="100%" height="100%">
+                                    {$urlimgnetfeed = {$img}}
+                                {else}
+                                    <img src="{$img_dir}icon/profile.png" width="100%" height="100%">
+                                    {$urlimgnetfeed = $img_dir|cat:"icon/profile.png"}
+                                {/if}
+                            </div>
+                            <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
+                                <span>{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 5px;">
+                            <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
+                                {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} <span class="pointsmnf">{$name_product}</span>.
+                            </div>
+                            <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 message">
+                                <span class="myfancybox" href="#myspecialcontent2" send="{$id_customer_sponsor}|{$name_customer}|{$urlimgnetfeed}|{$id_customer}">{l s='Mensaje'}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="row networkfeed" style="margin-bottom: 70px;">
-    <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 container1 account-responsive">
-        <div class="row">
-            {assign var="link_rewrite" value=$last_shopping_products.2.link_rewrite}
-            {assign var="id_product" value=$last_shopping_products.2.id_product}
-            {assign var="name_product" value=$last_shopping_products.2.name_product}
-            {assign var="img" value=$last_shopping_products.2.img}
-            {assign var="credits" value=$last_shopping_products.2.credits}
-            {assign var="name_customer" value=$last_shopping_products.2.name_customer}
-            {assign var="price" value=$last_shopping_products.2.price}
-            {assign var="id_customer_sponsor" value=$last_shopping_products.2.id_customer}
-            {assign var="id_image" value=$last_shopping_products.2.id_image}
-            <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
-                <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
-            </div>
-            <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">
-                <div class="row">
-                    <div class="col-xs-2 col-md-2 col-sm-2 col-lg-2 containerimgcustom">
-                        {assign var="urlimgnetfeed" value=""}
-                        {if $img != ""}
-                            <img src="{$img}" width="100%" height="100%">
-                            {$urlimgnetfeed = {$img}}
-                        {else}
-                            <img src="{$img_dir}icon/profile.png" width="100%" height="100%">
-                            {$urlimgnetfeed = $img_dir|cat:"icon/profile.png"}
-                        {/if}
-                    </div>
-                    <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                        <span>{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
-                    </div>
-                </div>
-                <div class="row" style="padding: 5px;">
-                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
-                        {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} <span class="pointsmnf">{$name_product}</span>.
-                    </div>
-                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 message">
-                        <span class="myfancybox" href="#myspecialcontent2" send="{$id_customer_sponsor}|{$name_customer}|{$urlimgnetfeed}|{$id_customer}">{l s='Mensaje'}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 container1 account-responsive">
-        <div class="row">
-            {assign var="link_rewrite" value=$last_shopping_products.3.link_rewrite}
-            {assign var="id_product" value=$last_shopping_products.3.id_product}
-            {assign var="name_product" value=$last_shopping_products.3.name_product}
-            {assign var="img" value=$last_shopping_products.3.img}
-            {assign var="credits" value=$last_shopping_products.3.credits}
-            {assign var="name_customer" value=$last_shopping_products.3.name_customer}
-            {assign var="price" value=$last_shopping_products.3.price}
-            {assign var="id_customer_sponsor" value=$last_shopping_products.3.id_customer}
-            {assign var="id_image" value=$last_shopping_products.3.id_image}
-            <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
-                <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
-            </div>
-            <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">
-                <div class="row">
-                    <div class="col-xs-2 col-md-2 col-sm-2 col-lg-2 containerimgcustom">
-                        {assign var="urlimgnetfeed" value=""}
-                        {if $img != ""}
-                            <img src="{$img}" width="100%" height="100%">
-                            {$urlimgnetfeed = {$img}}
-                        {else}
-                            <img src="{$img_dir}icon/profile.png" width="100%" height="100%">
-                            {$urlimgnetfeed = $img_dir|cat:"icon/profile.png"}
-                        {/if}
-                    </div>
-                    <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                        <span>{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
-                    </div>
-                </div>
-                <div class="row" style="padding: 5px;">
-                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
-                        {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} <span class="pointsmnf">{$name_product}</span>.
-                    </div>
-                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 message">
-                        <span class="myfancybox" href="#myspecialcontent2" send="{$id_customer_sponsor}|{$name_customer}|{$urlimgnetfeed}|{$id_customer}">{l s='Mensaje'}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
-        <p class="titleFAQ">{l s='Need Support?'}</p>
-        <div class="detail-support">
-            <a href="http://reglas.fluzfluz.co" target="_blank"><p>{l s='Learn about your network'}</p></a>
-        </div>    
-    </div>
+        {/foreach}
+    {/if}
 </div>
 <div style="margin-bottom: 45px;">
     <h1 class="page-heading">
