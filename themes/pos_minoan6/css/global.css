@@ -2847,6 +2847,9 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
 #page .rte { background: transparent none repeat scroll 0 0; }
 #page .rte em { font-style: italic !important; }
 
+.rte { margin-top: 90px; }
+.containerprodinfo { margin-top: 20px; }
+
 .listcomment { list-style-type: none; margin: 0 0 20px 0 !important; }
 
 .listcomment li { padding: 10px 0; border-bottom: 1px dotted #e5e5e5; color: #666666; }
@@ -3373,7 +3376,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     #header .pos_logo img { width:auto; margin: auto; height:68px;}
     .footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}
     .profileCustomer{text-align:center;}
-    .contProfile{margin-left:300px;}
+    .contProfile{margin-left:150px;}
     .barTop{line-height:24px !important;}
 }
 @media (min-width:1026px) and (max-width:3000px){

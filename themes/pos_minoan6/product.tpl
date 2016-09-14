@@ -34,7 +34,7 @@
 		{assign var='productPrice' value=$product->getPrice(false, $smarty.const.NULL, 6)}
 		{assign var='productPriceWithoutReduction' value=$product->getPriceWithoutReduct(true, $smarty.const.NULL)}
 	{/if}
-<div itemscope itemtype="https://schema.org/Product">
+<div itemscope itemtype="https://schema.org/Product" class="containerprodinfo">
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
 	<div class="primary_block row">
 		<div class="{if !$content_only}col-lg-12 col-sm-12 col-md-12 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
