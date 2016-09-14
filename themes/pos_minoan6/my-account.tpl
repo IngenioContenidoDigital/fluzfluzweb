@@ -143,6 +143,12 @@
             </div>
         {/foreach}
     {/if}
+    <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
+        <p class="titleFAQ">{l s='Need Support?'}</p>
+        <div class="detail-support">
+            <a href="http://reglas.fluzfluz.co" target="_blank"><p>{l s='Learn about your network'}</p></a>
+        </div>    
+    </div>
 </div>
 <div style="margin-bottom: 45px;">
     <h1 class="page-heading">
