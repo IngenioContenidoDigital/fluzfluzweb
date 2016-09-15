@@ -1505,9 +1505,10 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 	private function _createAllRewards($order, $customer)
 	{
 		// All sponsors who should get a reward
-		$sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer->id);
-
-		if (count($sponsorships) > 0) {
+		$sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+                $sponsorships2=array_slice($sponsorships, 0, 15);
+                
+		if (count($sponsorships2) > 0) {
 			// totals with and without discounted products
 			$totals = RewardsModel::getOrderTotalsForReward($order);
 
@@ -1515,7 +1516,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			$sponsorsMailHtml = $sponsorsMailTxt = '';
 			$bMail = false;
 			$level = -1;
-			foreach($sponsorships as $sponsorship) {
+			foreach($sponsorships2 as $sponsorship) {
 				// if a sponsorship is over, stop all rewards for the ascendants
 				if ($sponsorship['date_end']!='0000-00-00 00:00:00' && $sponsorship['date_end'] <= date('Y-m-d H:i:s'))
 					break;
@@ -1540,7 +1541,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->id_customer = (int)$sponsorship['id_sponsor'];
 					$reward->id_order = (int)$order->id;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
-                                        $price= round($reward->getRewardReadyForDisplay($price, $this->context->currency->id)/((RewardsSponsorshipModel::getNumberSponsorship($this->context->customer->id))));
+                                        $price= round($reward->getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)));
 
 					$extraParams = array();
 					$extraParams['type'] = (int)$this->_configuration['reward_type'][$indice];
@@ -1548,10 +1549,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					//$reward->credits = (float)$this->_getNbCreditsByPrice($price, $order->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'), $extraParams);
                                         $reward->credits=$price;
                                         
-                                        if (MyConf::get('RSPONSORSHIP_DISCOUNTED_ALLOWED', null, $id_template)) {
-                                        $reward->id_reward_state = RewardsStateModel::getDiscountedId();
-                                        $reward->save(); 
-                                        }
 					// if sponsor's reward=0 (only special offers, voucher used, or % set to 0 in BO)
 					if ($reward->credits == 0)
 						continue;

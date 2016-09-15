@@ -179,10 +179,11 @@ class ProductControllerCore extends FrontController
             }
 
             $this->product->description = $this->transformDescriptionWithImg($this->product->description);
-            
+            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+            $sponsorships2=array_slice($sponsorships, 1, 15);
             //$price = (int)$this->product->price - RewardsProductModel::getCostDifference($this->product->id);
             $price = RewardsProductModel::getProductReward($this->product->id,(int)$this->product->price,1, $this->context->currency->id);
-            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id)));
+            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
             $this->context->smarty->assign("productP", $productP);
             
             $productP2=RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/16;
