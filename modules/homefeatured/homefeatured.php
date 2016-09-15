@@ -88,6 +88,17 @@ class HomeFeatured extends Module
 			$cat = Tools::getValue('HOME_FEATURED_CAT');
 			if (!Validate::isInt($cat) || $cat < 0)
 				$errors[] = $this->l('The category ID is invalid. Please choose an existing category ID.');
+                        
+                        $listcategories = "";
+                        foreach ( $_POST as $var => $dat ) {
+                            if ( $dat == 'on' ) {
+                                $idcategory = str_replace("HOME_FEATURED_CAT_LIST_", "", $var);
+                                $listcategories .= $idcategory.",";
+                            }
+                        }
+                        $listcategories = substr($listcategories, 0, -1);
+                        if (!$listcategories)
+                            $listcategories = "0";
 
 			$rand = Tools::getValue('HOME_FEATURED_RANDOMIZE');
 			if (!Validate::isBool($rand))
@@ -99,6 +110,7 @@ class HomeFeatured extends Module
 				Configuration::updateValue('HOME_FEATURED_NBR', (int)$nbr);
 				Configuration::updateValue('HOME_FEATURED_CAT', (int)$cat);
 				Configuration::updateValue('HOME_FEATURED_RANDOMIZE', (bool)$rand);
+				Configuration::updateValue('HOME_FEATURED_CAT_LIST', $listcategories);
 				Tools::clearCache(Context::getContext()->smarty, $this->getTemplatePath('homefeatured.tpl'));
 				$output = $this->displayConfirmation($this->l('Your settings have been updated.'));
 			}
@@ -147,8 +159,8 @@ class HomeFeatured extends Module
 	{
 		if (!isset(HomeFeatured::$cache_products))
 		{
-                    if ( (int)Configuration::get('HOME_FEATURED_CAT') == 0 ) {
-                        $listProductFeatured = [];
+                    $listProductFeatured = [];
+                    if ( (int)Configuration::get('HOME_FEATURED_CAT_LIST') == 0 ) {
                         $categories = Category::getSimpleCategories((int)Context::getContext()->language->id);
                         foreach ( $categories as $cat ) {
                             $category = new Category((int)$cat['id_category'], (int)Context::getContext()->language->id);
@@ -162,13 +174,18 @@ class HomeFeatured extends Module
                         }
                         HomeFeatured::$cache_products = $listProductFeatured;
                     } else {
-			$category = new Category((int)Configuration::get('HOME_FEATURED_CAT'), (int)Context::getContext()->language->id);
-			$nb = (int)Configuration::get('HOME_FEATURED_NBR');
-			if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
-				HomeFeatured::$cache_products = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), null, null, false, true, true, ($nb ? $nb : 8));
-                        } else {
-				HomeFeatured::$cache_products = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), 'position');
+                        $categories = explode(",",Configuration::get('HOME_FEATURED_CAT_LIST'));
+                        foreach ( $categories as $cat ) {
+                            $category = new Category((int)$cat, (int)Context::getContext()->language->id);
+                            $nb = (int)Configuration::get('HOME_FEATURED_NBR');
+                            if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
+                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), null, null, false, true, true, ($nb ? $nb : 8));
+                            } else {
+                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), 'position');
+                            }
+                            $listProductFeatured = array_merge($listProductFeatured,$listProducts);
                         }
+                        HomeFeatured::$cache_products = $listProductFeatured;
                     }
 		}
 
@@ -234,6 +251,7 @@ class HomeFeatured extends Module
 
 	public function renderForm()
 	{
+            $categories = Category::getAllCategoriesName();
 		$fields_form = array(
 			'form' => array(
 				'legend' => array(
@@ -249,13 +267,24 @@ class HomeFeatured extends Module
 						'class' => 'fixed-width-xs',
 						'desc' => $this->l('Set the number of products that you would like to display on homepage (default: 8).'),
 					),
-					array(
+					/*array(
 						'type' => 'text',
 						'label' => $this->l('Category from which to pick products to be displayed'),
 						'name' => 'HOME_FEATURED_CAT',
 						'class' => 'fixed-width-xs',
 						'desc' => $this->l('Choose the category ID of the products that you would like to display on homepage (default: 2 for "Home").')." Ingrese 0 para seleccionar todas las categorias",
-					),
+					),*/
+                                        array(
+                                                'type' => 'checkbox',
+                                                'label' => $this->l('Category from which to pick products to be displayed'),
+                                                'desc' => $this->l('Elija las categorías de los productos que desea mostrar en la página de inicio. Si no selecciona ninguna, se mostraran los productos de todas las categorias.'),
+                                                'name' => 'HOME_FEATURED_CAT_LIST',
+                                                'values' => array(
+                                                    'query' => $categories,
+                                                    'id' => 'id_category',
+                                                    'name' => 'name'
+                                                ),
+                                        ),
 					array(
 						'type' => 'switch',
 						'label' => $this->l('Randomly display featured products'),
@@ -305,10 +334,17 @@ class HomeFeatured extends Module
 
 	public function getConfigFieldsValues()
 	{
-		return array(
+		$fieldsValues = array(
 			'HOME_FEATURED_NBR' => Tools::getValue('HOME_FEATURED_NBR', (int)Configuration::get('HOME_FEATURED_NBR')),
 			'HOME_FEATURED_CAT' => Tools::getValue('HOME_FEATURED_CAT', (int)Configuration::get('HOME_FEATURED_CAT')),
 			'HOME_FEATURED_RANDOMIZE' => Tools::getValue('HOME_FEATURED_RANDOMIZE', (bool)Configuration::get('HOME_FEATURED_RANDOMIZE')),
 		);
+                
+                $listCategories = explode(",",Configuration::get('HOME_FEATURED_CAT_LIST'));
+                foreach ( $listCategories as $idcategory ) {
+                    $fieldsValues["HOME_FEATURED_CAT_LIST_".$idcategory] = "checked";
+                }
+                
+                return $fieldsValues;
 	}
 }
