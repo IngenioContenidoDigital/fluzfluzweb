@@ -98,7 +98,7 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .title-related{font-size: 14px; font-family: 'Montserrat';}
 /* pb-left-column ****************************************************************************** */
 .pb-center-column { margin-bottom: 0px; margin-top: 0px; padding-left: 0px; padding-right: 0px;/* form */ }
-.pb-center-column h1 { font-family: 'Open Sans' !important; font-weight: normal; color: #58595b; text-transform: uppercase; margin-top: 0px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
+.pb-center-column h1 { font-family: 'Open Sans' !important; font-weight: normal; color: #58595b; text-transform: uppercase; margin-top: 50px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
 @media (max-width: 991px) { .pb-center-column h1 { font-size: 18px; text-align: center;} }
 .pb-center-column label { color: #888889; font-weight: normal; font-style: san-serif; }
 .pb-center-column p { margin-bottom: 10px; font-size: 12px; text-align: center;}
@@ -490,7 +490,7 @@ Quick View Styles
    .our_price_display .price{font-size:20px;}
    .block {padding-top: 0%; padding-left: 13%;}
    .breadcrumb{display: none;}
-   .pb-center-column h1{margin-left: -16px !important;}
+   .pb-center-column h1{margin-left: 0px !important;}
    .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -13px;}
    .socialsharing_product{margin-left: 10%;}
    p#loyalty{margin-left: 10% !important;}
@@ -500,7 +500,7 @@ Quick View Styles
    .point-price{line-height: 30px; text-align: right; margin-right: 30px; padding-right: 18px;}
    .shop-price{padding-left: 18px !important;}
    .tiendaP{text-align: left; padding-right:17px; margin-left: 0px;}
-   .pb-left-column{margin-left: -15px;}
+   .pb-left-column{margin-left: 0px;}
    .pb-center-column #buy_block label{margin-left: 0px !important;}
    #product p#loyalty{margin-left: 0px !important;}
    

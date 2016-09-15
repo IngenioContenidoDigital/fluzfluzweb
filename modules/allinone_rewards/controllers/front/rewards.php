@@ -231,9 +231,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                                                 GROUP BY id_customer");
                     $pointsStatistics['oneweek'] += $datosGraph[0]['points'];
                     
-                    /*echo '<pre>';
-                    print_r($tree);
-                    die();*/
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
@@ -300,7 +297,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             
             $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
                           LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id;
+                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id.' AND s.product_reference != "MFLUZ"';
             if ($onlyValidate === true)
 		$query .= ' AND n.id_reward_state = '.(int)RewardsStateModel::getValidationId();
 		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.
@@ -313,7 +310,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         
         public function TopNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-            
+           
             foreach ($tree as $valor){
                 $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
