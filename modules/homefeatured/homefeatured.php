@@ -172,7 +172,7 @@ class HomeFeatured extends Module
                             }
                             $listProductFeatured = array_merge($listProductFeatured,$listProducts);
                         }
-                        HomeFeatured::$cache_products = $listProductFeatured;
+                        HomeFeatured::$cache_products = array_unique($listProductFeatured, SORT_REGULAR);
                     } else {
                         $categories = explode(",",Configuration::get('HOME_FEATURED_CAT_LIST'));
                         foreach ( $categories as $cat ) {
@@ -185,7 +185,7 @@ class HomeFeatured extends Module
                             }
                             $listProductFeatured = array_merge($listProductFeatured,$listProducts);
                         }
-                        HomeFeatured::$cache_products = $listProductFeatured;
+                        HomeFeatured::$cache_products = array_unique($listProductFeatured, SORT_REGULAR);
                     }
 		}
 
