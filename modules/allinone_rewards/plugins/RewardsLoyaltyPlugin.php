@@ -746,7 +746,8 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 				$totals = RewardsModel::getOrderTotalsForReward($params['order'], $this->_getAllowedCategories());
 				$credits = $this->_getNbCreditsByPrice((int)$params['customer']->id, MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) ? $totals[MyConf::get('RLOYALTY_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['with_discounted'] : $totals[MyConf::get('RLOYALTY_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['without_discounted'], $params['order']->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'));
                                 
-			} else {
+			} 
+                        else {
 				$credits = $this->_getOrderRewardByProduct($params['order']);
                         
 			}
@@ -763,7 +764,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 			$reward->plugin = $this->name;
 			if (!MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template) && (float)$reward->credits == 0) {
 				$reward->id_reward_state = RewardsStateModel::getDefaultId();
-                        $reward->save();
+                                $reward->save();
                         }
                         else if (MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template)) {
 				$reward->id_reward_state = RewardsStateModel::getDiscountedId();

@@ -170,6 +170,7 @@ abstract class PaymentModuleCore extends Module
         if (!isset($this->context)) {
             $this->context = Context::getContext();
         }
+        
         $this->context->cart = new Cart((int)$id_cart);
         $this->context->customer = new Customer((int)$this->context->cart->id_customer);
         // The tax cart is loaded before the customer so re-cache the tax calculation method
@@ -217,8 +218,6 @@ abstract class PaymentModuleCore extends Module
                 }
             }
             
-            
-
             $order_list = array();
             $order_detail_list = array();
 
@@ -402,6 +401,7 @@ abstract class PaymentModuleCore extends Module
                             }
                         }
                     }
+                            
             $codeText = 'select code from ps_product_code WHERE id_order = '.(int)$order->id;
             $rowCode = Db::getInstance()->executeS($codeText);
             $bar_codes = "";
@@ -650,7 +650,7 @@ abstract class PaymentModuleCore extends Module
                             'voucher_reduction' => ($values['tax_incl'] != 0.00 ? '-' : '').Tools::displayPrice($values['tax_incl'], $this->context->currency, false)
                         );
                     }
-
+                    
                     $cart_rules_list_txt = '';
                     $cart_rules_list_html = '';
                     if (count($cart_rules_list) > 0) {
