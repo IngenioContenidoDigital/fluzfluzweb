@@ -584,7 +584,7 @@ class AdminOrdersControllerCore extends AdminController
                                 <td>".$order['orden']."</td>
                                 <td>".$order['referencia']."</td> 
                                 <td>".$order['cliente']."</td>
-                                <td>".( (($order['total_producto'] * ($order['porcentaje_producto'] / 100)) / Configuration::get('REWARDS_VIRTUAL_VALUE_1')) / $num_quantity[0]['loyalty'] )."</td>
+                                <td>".round( (($order['total_producto'] * ($order['porcentaje_producto'] / 100)) / Configuration::get('REWARDS_VIRTUAL_VALUE_1')) / $num_quantity[0]['loyalty'], 0 )."</td>
                                 <td>".$order['estado']."</td>
                                 <td>".$order['pago']."</td>
                                 <td>".$order['total']."</td>
