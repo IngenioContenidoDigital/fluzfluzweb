@@ -569,11 +569,13 @@ class AdminOrdersControllerCore extends AdminController
                                 (SELECT SUM(s.credits) AS sponsorship
                                 FROM '._DB_PREFIX_.'rewards AS s
                                 WHERE s.id_order = r.id_order
-                                AND (s.id_reward_state = 2 OR s.id_reward_state = 5) 
+                                AND (s.id_reward_state = 2 OR s.id_reward_state = 5)
+                                AND s.id_customer <> 0
                                 AND s.`plugin`="sponsorship" ) AS sponsorship
                         FROM '._DB_PREFIX_.'rewards AS r
                         WHERE r.id_order = '.$order['orden'].' 
-                        AND (r.id_reward_state = 2 OR r.id_reward_state = 5) 
+                        AND (r.id_reward_state = 2 OR r.id_reward_state = 5)
+                        AND r.id_customer <> 0
                         AND r.`plugin`="loyalty"';
                 $num_quantity = Db::getInstance()->executeS($sql);
 
