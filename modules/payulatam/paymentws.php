@@ -59,7 +59,7 @@ class PayUControllerWS extends FrontController {
 
         $customer = new Customer($this->context->cart->id_customer);
 
-        $ref = 'payU_' . md5(Configuration::get('PS_SHOP_NAME')) . '_' . (int) Configuration::get('PAYU_LATAM_MERCHANT_ID') . '_' . (int) $this->context->cart->id;
+        $ref = 'payU_' . md5(Configuration::get('PS_SHOP_NAME')) . '_' . (int) Configuration::get('PAYU_LATAM_MERCHANT_ID') . '_' . (int) $this->context->cart->id . "_" . strtotime("now");
 
         $token = md5(Tools::safeOutput(Configuration::get('PAYU_LATAM_API_KEY')) . '~' . Tools::safeOutput(Configuration::get('PAYU_LATAM_MERCHANT_ID')) . '~' . $ref . '~' . (float) $this->context->cart->getOrderTotal() . '~' . Tools::safeOutput($currency->iso_code));
 
