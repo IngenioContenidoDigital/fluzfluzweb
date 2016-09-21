@@ -90,7 +90,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                     . "                          VALUES ('4', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                             Db::getInstance()->execute($query1);
                        }
-                       else if($points){
+                       else if($points < $cartpoints){
                             
                             $response=RewardsModel::createDiscount($money);
                             $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"

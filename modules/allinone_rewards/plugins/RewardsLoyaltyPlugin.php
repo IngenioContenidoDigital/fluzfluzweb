@@ -749,14 +749,25 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 			} 
                         else {
 				$credits = $this->_getOrderRewardByProduct($params['order']);
-                        
 			}
+                        
+                        $qdiscount = 'SELECT total_discounts, total_products FROM '._DB_PREFIX_.'orders WHERE id_order='.(int)$params['order']->id;
+                        $rowdisc = Db::getInstance()->getRow($qdiscount);
+                        $discount = $rowdisc['total_discounts'];
+                        $paid = $rowdisc['total_products'];
+                        
+                        $porcentaje_desc = $discount / $paid;
+                        $paid_total = $discount - $paid;
                         $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
                         $sponsorships2=array_slice($sponsorships, 1, 15);
 			$reward = new RewardsModel();
 			$reward->id_customer = (int)$params['customer']->id;
 			$reward->id_order = (int)$params['order']->id;
-			$reward->credits = round($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(count($sponsorships2)+1));
+                        $reward->credits = round($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(count($sponsorships2)+1));
+                        
+                        if($discount > 0){
+                            $reward->credits = round(($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_desc);
+                        }
                         
                         $qrorder="UPDATE "._DB_PREFIX_."rewards SET id_order=".$reward->id_order." WHERE id_customer=".$reward->id_customer." AND id_order=0 AND id_cart=".$this->context->cart->id;
                         Db::getInstance()->execute($qrorder);
@@ -766,7 +777,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 				$reward->id_reward_state = RewardsStateModel::getDefaultId();
                                 $reward->save();
                         }
-                        else if (MyConf::get('RLOYALTY_DISCOUNTED_ALLOWED', null, $id_template)) {
+                        else if ($paid_total == 0) {
 				$reward->id_reward_state = RewardsStateModel::getDiscountedId();
 				$reward->save();        
 			} 
