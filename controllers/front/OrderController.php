@@ -122,10 +122,13 @@ class OrderControllerCore extends ParentOrderController
         $this->context->smarty->assign('totalAvailable', $totalAvailable);
         $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
         
+        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+        $sponsorships2=array_slice($sponsorships, 1, 15);
+        
         foreach ($this->context->cart->getProducts() as $product) {
-        $price = RewardsProductModel::getProductReward($product['id_product'],$product['price'],1, $this->context->currency->id);
-        $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id)));
-        $productsPoints[$product['id_product']] = $productP;
+            $price = RewardsProductModel::getProductReward($product['id_product'],$product['price'],1, $this->context->currency->id);
+            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+            $productsPoints[$product['id_product']] = $productP;
         }
         
         $this->context->smarty->assign(array(

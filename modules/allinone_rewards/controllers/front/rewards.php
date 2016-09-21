@@ -88,7 +88,14 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             $response=RewardsModel::createDiscount($money);
                             $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('4', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
-                       Db::getInstance()->execute($query1);
+                            Db::getInstance()->execute($query1);
+                       }
+                       else if($points < $cartpoints){
+                            
+                            $response=RewardsModel::createDiscount($money);
+                            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('4', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$points.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                            Db::getInstance()->execute($query1);
                        }
                        else{
                             $response=RewardsModel::createDiscount($money);
@@ -231,9 +238,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                                                 GROUP BY id_customer");
                     $pointsStatistics['oneweek'] += $datosGraph[0]['points'];
                     
-                    /*echo '<pre>';
-                    print_r($tree);
-                    die();*/
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
@@ -296,11 +300,27 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             
         }
         
-        public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
+        /*public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
             
             $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
                           LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id;
+                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id.' AND s.product_reference != "MFLUZ"';
+            if ($onlyValidate === true)
+		$query .= ' AND n.id_reward_state = '.(int)RewardsStateModel::getValidationId();
+		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.
+		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
+             
+            $activity=Db::getInstance()->executeS($query);
+            return $activity;
+            
+        }*/
+        
+        public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            
+            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
+                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id.' AND s.product_reference != "MFLUZ"';
             if ($onlyValidate === true)
 		$query .= ' AND n.id_reward_state = '.(int)RewardsStateModel::getValidationId();
 		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.

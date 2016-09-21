@@ -68,8 +68,8 @@
 						</td>-->
                                                         
                                                 <td>
-                                                    <div style="text-align:center;">
-                                                        <span><img src="{$link->getImageLink($product.link_rewrite, $product.image, 'medium_default')}" width="250px"/></span>
+                                                    <div class="clearfix" style="text-align:center;">
+                                                        <span id="view_full_size"><img id="bigpic" class="img-responsive" src="{$link->getImageLink($product.link_rewrite, $product.image, 'thickbox_default')}"/></span>
                                                     </div>
                                                         
                                                 </td>

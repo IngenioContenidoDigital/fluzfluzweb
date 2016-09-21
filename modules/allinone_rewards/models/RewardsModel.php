@@ -110,6 +110,7 @@ class RewardsModel extends ObjectModel
 		$gifts = array();
 		$discount = 0;
 		$discount_vat_excl = 0;
+                
 		foreach ($order->getCartRules() AS $rule) {
 			$cart_rule = new CartRule($rule['id_cart_rule']);
 			if ($cart_rule->gift_product)
@@ -138,9 +139,9 @@ class RewardsModel extends ObjectModel
 				}
 			}
 		}
-		$totals['tax_incl']['with_discounted'] = ($totals['tax_incl']['with_discounted'] - $discount) < 0 ? 0 : $totals['tax_incl']['with_discounted'] - $discount;
+		$totals['tax_incl']['with_discounted'] = ($totals['tax_incl']['with_discounted'] - 0) < 0 ? 0 : $totals['tax_incl']['with_discounted'] - 0;
 		$totals['tax_incl']['without_discounted'] = ($totals['tax_incl']['without_discounted'] - $discount) < 0 ? 0 : $totals['tax_incl']['without_discounted'] - $discount;
-		$totals['tax_excl']['with_discounted'] = ($totals['tax_excl']['with_discounted'] - $discount_vat_excl) < 0 ? 0 : $totals['tax_excl']['with_discounted'] - $discount_vat_excl;
+		$totals['tax_excl']['with_discounted'] = ($totals['tax_excl']['with_discounted'] - 0) < 0 ? 0 : $totals['tax_excl']['with_discounted'] - 0;
 		$totals['tax_excl']['without_discounted'] = ($totals['tax_excl']['without_discounted'] - $discount_vat_excl) < 0 ? 0 : $totals['tax_excl']['without_discounted'] - $discount_vat_excl;
 		return $totals;
 	}
