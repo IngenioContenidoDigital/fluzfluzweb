@@ -37,7 +37,7 @@ if(!isset($_COOKIE['validar'])){
 <!-- saved from url=(0020)http://fluzfluz.com/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Fluz Fluz</title><style>                body {margin:0px;}
                 #custom_messaging_banner {background: #eb583c;padding: 7px 10px;color: white;border-bottom: solid 3px white;font-size:16px;position:relative;z-index:1;}
-                					body { background: url(/fluz-back.png) !important;}
+                					body { background: url(/fluz-back.jpg) !important;}
 																body {background-size: cover !important;background-position: center !important;}
 															div#form_wrap {
 background-color: #d1a47f;
