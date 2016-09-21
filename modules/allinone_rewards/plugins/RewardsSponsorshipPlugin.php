@@ -1506,7 +1506,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 	{
 		// All sponsors who should get a reward
 		$sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
-                $sponsorships2=array_slice($sponsorships, 0, 15);
+                $sponsorships2=array_slice($sponsorships, 1, 15);
                 
 		if (count($sponsorships2) > 0) {
 			// totals with and without discounted products
@@ -1522,9 +1522,10 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                         $discount = $rowdisc['total_discounts'];
                         $paid = $rowdisc['total_products'];
                         $porcentaje_desc = $discount / $paid;
-                        $paid_total = $discount - $paid;
                         
-			foreach($sponsorships2 as $sponsorship) {
+                        foreach($sponsorships2 as $sponsorship) {
+                            
+                            if($sponsorship['id_customer'] != 0){
 				// if a sponsorship is over, stop all rewards for the ascendants
 				if ($sponsorship['date_end']!='0000-00-00 00:00:00' && $sponsorship['date_end'] <= date('Y-m-d H:i:s'))
 					break;
@@ -1547,7 +1548,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                                         
 					$reward = new RewardsModel();
 					$reward->plugin = $this->name;
-					$reward->id_customer = (int)$sponsorship['id_sponsor'];
+					$reward->id_customer = (int)$sponsorship['id_customer'];
 					$reward->id_order = (int)$order->id;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
                                         $price = round($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(count($sponsorships2)+1));
@@ -1603,6 +1604,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					}
 				}
 			}
+                        }
 			// admin notification
 			if ($bMail && Configuration::get('RSPONSORSHIP_MAIL_ORDER')) {
 				$data = array(
