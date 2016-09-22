@@ -19,7 +19,7 @@
 {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
 <div class="banner-home">
-    <div class="banner-box banner1" style="text-align: right; margin-top: -35px; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
+    <div class="banner-box banner-reward" style="text-align: right; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
             <div class='col-lg-12 col-xs-12 col-md-12 col-sm-12 bannerNetwork'>
             <div class="divNetwork">
                 <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}
