@@ -321,30 +321,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             
         }
         
-        /*public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
-            
-            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-            $actividad_reciente = array();
-            foreach ($tree as $valor){
-                $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
-                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ"';
-            if ($onlyValidate === true)
-		$query .= ' AND n.id_reward_state = 2';
-		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.
-		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
-                
-                $activity=Db::getInstance()->executeS($query);
-                array_push($actividad_reciente, $activity);
-                
-            }
-            
-            echo '<pre>';
-            print_r($actividad_reciente);
-            die();
-            return $recent;
-        }*/
-        
         public function TopNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
