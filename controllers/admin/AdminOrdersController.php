@@ -526,6 +526,7 @@ class AdminOrdersControllerCore extends AdminController
                             o.total_paid total,
                             o.date_add fecha,
                             od.product_name nombre_producto,
+                            od.product_id id_product,
                             od.product_reference referencia_producto,
                             od.unit_price_tax_incl precio_producto,
                             od.product_quantity cantidad,
@@ -568,6 +569,7 @@ class AdminOrdersControllerCore extends AdminController
                                         <th>puntos_pesos_compra</th>
                                         <th>puntos_red</th>
                                         <th>puntos_pesos_red</th>
+                                        <th>codigos_producto</th>
                                         <th>usuarios_red</th>
                                     </tr>";
 
@@ -594,6 +596,12 @@ class AdminOrdersControllerCore extends AdminController
                         AND r.`plugin` = "sponsorship"';
                 $sponsors_order = Db::getInstance()->executeS($sql);
 
+                $sql = 'SELECT GROUP_CONCAT(code) codigos_producto
+                        FROM '._DB_PREFIX_.'product_code
+                        WHERE id_order = '.$order['orden'].'
+                        AND id_product = '.$order['id_product'];
+                $codes_order = Db::getInstance()->executeS($sql);
+
                 $report .= "<tr>
                                 <td>".$order['orden']."</td>
                                 <td>".$order['referencia']."</td> 
@@ -615,6 +623,7 @@ class AdminOrdersControllerCore extends AdminController
                                 <td>".( $num_quantity[0]['loyalty'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
                                 <td>".$num_quantity[0]['sponsorship']."</td>
                                 <td>".( $num_quantity[0]['sponsorship'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
+                                <td>".$codes_order[0]['codigos_producto']."</td>
                                 <td>".$sponsors_order[0]['users']."</td>
                             </tr>";
             }
