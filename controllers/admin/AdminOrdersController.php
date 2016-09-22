@@ -596,7 +596,7 @@ class AdminOrdersControllerCore extends AdminController
                         AND r.`plugin` = "sponsorship"';
                 $sponsors_order = Db::getInstance()->executeS($sql);
 
-                $sql = 'SELECT GROUP_CONCAT(code) codigos_producto
+                $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
                         FROM '._DB_PREFIX_.'product_code
                         WHERE id_order = '.$order['orden'].'
                         AND id_product = '.$order['id_product'];
@@ -1745,7 +1745,8 @@ class AdminOrdersControllerCore extends AdminController
         $helper->id = 'box-report_orders';
         $helper->icon = 'icon-download';
         $helper->color = 'color1';
-        $helper->title = $this->l('Descargar Reporte Ordenes', null, null, false);
+        $helper->title = $this->l('Reporte Ordenes', null, null, false);
+        $helper->subtitle = $this->l('Descargar', null, null, false);
         $helper->href = $this->context->link->getAdminLink('AdminOrders').'&action=exportreport';
         $kpis[] = $helper->generate();
 
