@@ -280,12 +280,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         }
         
         public function TopWorst() {
-            
+           
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
-                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
                 $result = Db::getInstance()->executeS($queryTop);
                 if ( $result[0]['points'] != "" ) {
@@ -300,32 +300,22 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             
         }
         
-        /*public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
-            
-            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
-                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id.' AND s.product_reference != "MFLUZ"';
-            if ($onlyValidate === true)
-		$query .= ' AND n.id_reward_state = '.(int)RewardsStateModel::getValidationId();
-		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.
-		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
-             
-            $activity=Db::getInstance()->executeS($query);
-            return $activity;
-            
-        }*/
-        
         public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            $stringidsponsors = "";
+            foreach ($tree as $sponsor) {
+                $stringidsponsors .= $sponsor['id'].",";
+            }
             
-            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
-                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id.' AND s.product_reference != "MFLUZ"';
+            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, a.credits AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
+                    LEFT JOIN "._DB_PREFIX_."customer c ON (c.id_customer = n.id_customer)
+                    LEFT JOIN "._DB_PREFIX_."rewards a ON (a.plugin = 'loyalty')
+                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (s.id_order = n.id_order) WHERE a.credits > 0 AND a.id_reward_state = 2 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ' AND a.id_customer !=".$this->context->customer->id;
             if ($onlyValidate === true)
-		$query .= ' AND n.id_reward_state = '.(int)RewardsStateModel::getValidationId();
-		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.
+		$query .= ' AND a.id_reward_state = 2';
+                $query .= ' GROUP BY a.id_reward ORDER BY a.date_add DESC '.
 		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
-             
+            
             $activity=Db::getInstance()->executeS($query);
             return $activity;
             

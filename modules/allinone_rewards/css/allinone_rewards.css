@@ -379,7 +379,7 @@
     margin-bottom: 2%;
     color: #838383;
     font-size: 16px;
-    margin-top: 4%;
+    margin-top: 30px;
     font-family: 'Open Sans' !important;
     font-weight: lighter;
     width: 50% !important;
@@ -502,7 +502,7 @@
 }
 
 .titleNetwork{
-    margin-top:5%;
+    margin-top:90px;
     font-size:60px;
     text-align:center;
 }
@@ -511,6 +511,7 @@
     font-size:14px;
     font-family:'Montserrat' !important;
     text-transform: uppercase;
+    margin-top: -20px;
 }
 
 .graphicStat{
@@ -524,7 +525,7 @@
     margin-bottom: 0%;
     color: #838383; 
     font-size: 16px;
-    margin-top:4%;
+    margin-top:20px;
     font-family: 'Open Sans' !important;
     width:50% !important;
     font-weight: lighter;
