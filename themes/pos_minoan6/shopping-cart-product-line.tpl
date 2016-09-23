@@ -76,6 +76,12 @@
 					</li>
 					<li class="old-price">{convertPrice price=$product.price_without_specific_price}</li>
 				{/if}
+                                    {assign var="idprod" value=$product.id_product}
+                                    {if $logged}
+                                        <div style="color:#ef4136;">{l s="Ahorra: "} {math equation='round(((p - r) / p)*100)' p=$shop.$idprod r=$product.price}%</div>
+                                    {else $logged}
+                                        <div style="color:#ef4136;">{l s="Ahorra: "} {math equation='round(((p - r) / p)*100)' p=$shop.$idprod r=$product.price}%</div>
+                                    {/if}
 			{/if}
 		</ul>
 	</td>
