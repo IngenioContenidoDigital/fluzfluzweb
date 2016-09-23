@@ -284,7 +284,7 @@
 		<tbody>
 	{foreach from=$topWorst item=worst name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$topNet.lastname|escape:'html':'UTF-8'}</td>
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$worst.lastname|escape:'html':'UTF-8'}</td>
                                 <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.purchase|escape:'htmlall':'UTF-8'}</td>
                                 <td align="right" style="padding-top:17px !important;">{$worst.points|number_format:0}</td>
                                 <td style="padding-top:17px !important;">{dateFormat date=$worst.time full=1}</td>
@@ -402,7 +402,7 @@
         .breadcrumb{display: none !important;}
         #center_column{min-width: 100% !important; margin: 0px;}
         #columns{margin-bottom: 0px !important; min-width: 100%;}
-        .banner-home{margin: 0px;}
+        .banner-home{margin: 0px; margin-top: 35px;}
         .footer_links{display: none;}
         #transform {display: none;}
         #min_payment{display: none;}
