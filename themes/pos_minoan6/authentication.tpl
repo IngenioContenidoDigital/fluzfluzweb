@@ -422,65 +422,62 @@
         <div class="account_creation">
             <h2>{l s='Why Sign-Up for Fluz Fluz?'}</h2>
             
-            <div class="container containerForm">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 containerForm">
-                        <fieldset class="fieldInfo"><br/>
+            <div class="row containerForm">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <fieldset>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/gift.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12">{l s="Aﬀordable Shopping!"}</h3>
+                                    <h3 class="col-lg-12 title-text">{l s="Aﬀordable Shopping!"}</h3>
                                     <p class="col-lg-12">{l s="Save money when purchasing your favourite household brands"}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/save.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12">{l s="Save!"}</h3>
+                                    <h3 class="col-lg-12 title-text">{l s="Save!"}</h3>
                                     <p class="col-lg-12">{l s="Every time you purchase, you save more."}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/invite.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12">{l s="Invite Friends!"}</h3>
+                                    <h3 class="col-lg-12 title-text">{l s="Invite Friends!"}</h3>
                                     <p class="col-lg-12">{l s="The more friends you invite, the more points you recieve."}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/cash.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12">{l s="Cash Out!"}</h3>
+                                    <h3 class="col-lg-12 title-text">{l s="Cash Out!"}</h3>
                                     <p class="col-lg-12">{l s="Convert the network points your earn into real cash!"}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/diagram.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12">{l s="View Network Statistics"}</h3>
+                                    <h3 class="col-lg-12 title-text">{l s="View Network Statistics"}</h3>
                                     <p class="col-lg-12">{l s="View your network statistics to improve your point tally. "}</p>
                                 </div>
                             </div>    
                                 
                         </fieldset>
                     </div>
-                </div>
             </div>
         </div>
             <div class="side-nav vdoTube row">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/bVmfZ-Iu-UY?rel=0&controls=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>    
+                <iframe class="vdo-auth" height="315" src="https://www.youtube.com/embed/bVmfZ-Iu-UY?rel=0&controls=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>    
             </div>         
 	</form>
         
-	<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" enctype="multipart/form-data" method="post" id="account-creation_form" class="col-lg-6 col-sm-12 col-md-6 col-xs-12 std box" style="float:right;">
+	<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" enctype="multipart/form-data" method="post" id="account-creation_form" class="col-lg-6 col-sm-12 col-md-6 col-xs-12 std box">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
-            <h3 class="page-subheading">{l s='Your personal information'}</h3>
+            <h2>{l s='Your personal information'}</h2>
             <p>{l s="Please be sure to update your personal information if it’s changed."}</p>
             <p class="required"><sup>*</sup>{l s='Required field'}</p>
-            <div class="container containerForm">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 containerForm">
+            <div class="row containerForm">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <fieldset class="fieldInfo"><br/>
                                     <div class="clearfix">
                                             <label>{l s='Gender'}</label>
@@ -767,9 +764,7 @@
                                     </div>
                                 {/if}
                                 </fieldset>
-                    </div>
-                </div>
-                
+                    </div>                
             </div>
                 <div>
                     <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
@@ -1031,23 +1026,11 @@
         text-transform: uppercase;
        }
        
-       h3.col-lg-12{
-        padding-bottom:10px !important;
-        color: #505050 !important;
-        font-family:'Open Sans' !important;
-        margin:0px;
-        font-size: 16px;
-       }
-       p.col-lg-12 {
-        font-family: 'Open Sans' !important;
-        font-size:12px !important;
-       }
-       
        div.account_creation {
         padding-top:  20px;
         }
 
-         .page-subheading {
+        .page-subheading {
         font-weight: 400;
         color: #505050;
         border:none;

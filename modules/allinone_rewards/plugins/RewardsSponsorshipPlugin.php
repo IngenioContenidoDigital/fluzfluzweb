@@ -1522,10 +1522,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                         $discount = $rowdisc['total_discounts'];
                         $paid = $rowdisc['total_products'];
                         $porcentaje_desc = $discount / $paid;
+                        $paid_total = $discount - $paid;
                         
                         foreach($sponsorships2 as $sponsorship) {
                             
-                            if($sponsorship['id_customer'] != 0){
+                            if($sponsorship['id_customer'] != 0 && $paid_total != 0){
 				// if a sponsorship is over, stop all rewards for the ascendants
 				if ($sponsorship['date_end']!='0000-00-00 00:00:00' && $sponsorship['date_end'] <= date('Y-m-d H:i:s'))
 					break;

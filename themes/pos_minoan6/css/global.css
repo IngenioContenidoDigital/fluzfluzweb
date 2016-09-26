@@ -2646,7 +2646,7 @@ table.std td, table.table_block td { padding: 12px; /*border-right: 1px solid #e
 .rangeSelect{border-bottom:1px solid #D4D4D4; line-height: 90px; margin-bottom:10%;}
 .finalDeposit{margin-bottom:8%;}
 .containerDepo{background:#fcfcfc; padding:4%;}
-div.row.rowAccount{margin:0 auto; margin-bottom:6%;}
+div.row.rowAccount{margin:0 auto; margin-bottom: 40px; margin-top: 20px;}
 .titleInfo{text-align:center; font-family:'Montserrat';}
 .panelInfo{color:#414042; padding: 30px 35px;}
 .fieldInfo{background:#fcfcfc; margin-left:3%; width:70%;}
@@ -2654,7 +2654,9 @@ div.row.rowAccount{margin:0 auto; margin-bottom:6%;}
 .cardiv{background:#fcfcfc; padding-bottom: 5%; border-top:.5px solid #e6e7e8; margin-top:2%; padding-left:0px; display: flex; justify-content: center; align-content: center; flex-direction: column;}
 .lock{margin-top:4%; margin-bottom:4%;}
 .imglock{width:auto; height:auto; padding-left:0px;}
-.imglock2{width: auto; height: auto; padding-top:5%;}
+.imglock2{width: auto; height: auto; padding-top:12px;}
+.title-text{ font-size: 18px; margin: 0 auto;line-height: 25px;font-family: Montserrat;}
+.infRight{margin-top: 20px;}
 .infLock{font-size:14px;}
 .imgCardAccount{width:100%; height:auto;}
 .formInfo{text-align:left; margin-top:5%;}
@@ -4488,7 +4490,7 @@ font-family: 'Open Sans' !important;
 .Merchants-banner2{min-height:151px;}
 .Merchants3 h1{line-height:151px;}
 }
-@media (min-width:761px) and (max-width:1024px){
+@media (min-width:761px) and (max-width:1023px){
 .Merchants-banner{min-height:411px;}
 .Merchants-banner2{min-height:350px;}
 .Merchants3 h1{line-height:350px;}
@@ -4505,6 +4507,7 @@ font-family: 'Open Sans' !important;
     card-st{padding-left:0px;}
     .barTop{padding-left:0px !important;}
     .account-responsive{margin-right:10px !important;}
+    .vdo-auth{width:100%; height: 258px;}
 }
 @media (min-width:1025px) and (max-width:1280px){
     .Merchants-banner{min-height:550px;}
