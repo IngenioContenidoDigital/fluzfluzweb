@@ -26,7 +26,7 @@
 
 if (!empty($_POST)){
     $pass=$_POST['hwsp_motech'];
-    if ($pass=="Bowerytech1."){
+    if ($pass=="Bowerytech2."){
         setcookie('validar',1,time()+43200);
         header("location: /");
     }
