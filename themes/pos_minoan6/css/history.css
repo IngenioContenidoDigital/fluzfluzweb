@@ -31,4 +31,4 @@
 .btn-history{background: #c9b197; color: #fff; padding: 8%; font-size: 14px;     width: 200px;}
 .btn-history-shop{background: #c9b197; color: #fff; padding: 8%; font-size: 14px; width: 200px; }
 .table tbody > tr > td{padding: 9px 8px 8px 9px !important;}
-
+#block-history { overflow-x: auto; }
