@@ -17,7 +17,7 @@
 
 #login_form .form-control, #create-account_form .form-control { max-width: 271px; }
 
-#uniform-id_country { width: 38%!important; }
+#uniform-id_country { width: 38%; }
 .gender:first-of-type { margin-left: 0!important; }
 .gender { display: inline-block; vertical-align: middle; margin-left: 15px; }
 .gender label { margin-top: 0; }

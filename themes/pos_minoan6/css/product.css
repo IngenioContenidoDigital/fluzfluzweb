@@ -589,15 +589,14 @@ Quick View Styles
     .pb-left-column{margin-top: 50px; padding-left: 15px !important;}
     .pb-center-column #product_reference{ margin-bottom: 20px; text-align: left; margin-left: 0; width: 85%; border-bottom: 1px solid #ddd;}
     .price{font-size: 14px; margin-left: 5px;}
-    .shop-pri{margin-left: 5px; width: 30%;}
     .description-product{width: 85%;}
     .p-reference{margin-left: 0px !important;}
     #quantity_wanted_p input{height: 42px; width: 51%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
     .btn.button-plus span, .btn.button-minus span{width: 40px; height: 40px; padding: 8%;}
     .box-info-product .exclusive{width: 88%;}
-    .point-price{margin-right: 0px; margin-left: 0px; font-size: 16px; text-align: left !important;}
+    .point-price{margin-right: 0px; margin-left: 5px; font-size: 16px; text-align: right !important;}
     .socialsharing_product button {width: 90px;height: 38px; font-size: 10px;}
-    .price-shop{font-size: 10px;}
+    .price-shop{font-size: 16px;}
     .pb-center-column h1{padding-bottom: 7px;font-size: 21px; width: 85%;}
     p{line-height: 22px;}
     .pos-title{margin-left: 4% !important; width: 81%!important; height: 50px;}
@@ -637,7 +636,7 @@ Quick View Styles
     .owl-item{width: 310px !important;min-width: 0;margin-left: 6px;}
     .boxprevnext a i {padding: 10%; width: 60px;}
     .accountHeader{margin-right: 12% !important;}
-    .price-shop{font-size: 12px; margin-left: 6px;}
+    .price-shop{font-size: 20px; margin-left: 6px;}
     .pos-title{width: 82% !important;}
     .primary_block{margin-bottom: 10px;}
     .title-price-point{padding-left: 0px;padding-bottom: 20px;background: transparent;}
