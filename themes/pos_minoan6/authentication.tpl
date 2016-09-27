@@ -429,35 +429,35 @@
                                 <img src="{$img_dir}icon/gift.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12 title-text">{l s="Aﬀordable Shopping!"}</h3>
-                                    <p class="col-lg-12">{l s="Save money when purchasing your favourite household brands"}</p>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="Save money when purchasing your favourite household brands"}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/save.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12 title-text">{l s="Save!"}</h3>
-                                    <p class="col-lg-12">{l s="Every time you purchase, you save more."}</p>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="Every time you purchase, you save more."}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/invite.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12 title-text">{l s="Invite Friends!"}</h3>
-                                    <p class="col-lg-12">{l s="The more friends you invite, the more points you recieve."}</p>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="The more friends you invite, the more points you recieve."}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/cash.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12 title-text">{l s="Cash Out!"}</h3>
-                                    <p class="col-lg-12">{l s="Convert the network points your earn into real cash!"}</p>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="Convert the network points your earn into real cash!"}</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/diagram.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12 title-text">{l s="View Network Statistics"}</h3>
-                                    <p class="col-lg-12">{l s="View your network statistics to improve your point tally. "}</p>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="View your network statistics to improve your point tally. "}</p>
                                 </div>
                             </div>    
                                 
@@ -523,7 +523,7 @@
                                             </div>
                                     </div>
                                     <div class="required form-group" style="height: 50px">
-                                            <div class="form-group required col-lg-5 col-md-5 col-xs-5" style="padding: 0;">
+                                            <div class="form-group required" style="padding: 0;">
                                                     <label class="required" for="gover">{l s='Document number'}</label>
                                                     <input type="number" class="is_required validate form-control" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
                                             </div>
@@ -579,7 +579,7 @@
                                     </div>
                                     <div class="required form-group">
                                     <p class="{if isset($one_phone_at_least) && $one_phone_at_least}required {/if}form-group">
-                                        <label class="required col-lg-12" for="phone_mobile" style="padding:0px; margin-top: 5px;">{l s='Mobile phone'}{if isset($one_phone_at_least) && $one_phone_at_least} {/if}</label>
+                                        <br/><label class="required col-lg-12" for="phone_mobile" style="padding:0px; margin-top: 5px;">{l s='Mobile phone'}{if isset($one_phone_at_least) && $one_phone_at_least} {/if}</label>
                                         <input type="number" class="is_required validate form-control" data-validate="isPhoneNumber" name="phone_mobile" id="phone_mobile" value="{if isset($smarty.post.phone_mobile)}{$smarty.post.phone_mobile}{/if}" />
                                     </p>
                                     </div>
@@ -773,9 +773,9 @@
                     <div class="row rangeSelect">
                         <span class="col-lg-2 rangePrice">$15.000</span><input class="rangeslider col-lg-8" type="range" id="rangeSlider" value="30000" min="15000" max="105000" step="15000" data-rangeslider><span class="col-lg-2 rangePrice">$105.000</span>
                     </div>
-                    <div class="col-lg-12 finalDeposit">
-                        <span class="col-lg-8" style="font-size:18px;">{l s="Final Deposit Amount:"}</span>
-                        <div class="col-lg-4">
+                    <div class="col-lg-12 col-md-12 finalDeposit">
+                        <span class="col-lg-8 col-md-7" style="font-size:18px;">{l s="Final Deposit Amount:"}</span>
+                        <div class="col-lg-4 col-md-5">
                             <span class="money">$</span>
                             <input class="output" type="text" name="valorSlider" id="valorSlider" value="" readonly />
                         </div>

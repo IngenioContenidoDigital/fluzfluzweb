@@ -170,7 +170,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-10 col-md-8"> 
+            <div class="col-xs-12 col-sm-10 col-md-7"> 
                 <form role="form" class="form-horizontal" method="POST" action="{$base_dir|regex_replace:"/[http://]/":""|escape:'htmlall':'UTF-8'}/modules/payulatam/credit_card.php" id="formPayU" autocomplete="off"> 
                     {if $cardCustomer.num_creditCard != 1000000000000000 && $cardCustomer.num_creditCard != "" }
                         <div class="form-group">
