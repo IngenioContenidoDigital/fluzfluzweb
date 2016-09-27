@@ -81,7 +81,7 @@
 
 <div class="container">      
     <div class="row">
-         <div class="col-xs-12 col-sm-10 col-md-8"> 
+         <div class="col-xs-12 col-sm-10 col-md-7"> 
             <form  method="POST" class="form-horizontal" action="{$base_dir|regex_replace:"/[http://]/":""|escape:'htmlall':'UTF-8'}/modules/payulatam/payuPse.php" id="formPayUPse" name="formPayUPse" autocomplete="off" >
          
                      <div class="form-group">

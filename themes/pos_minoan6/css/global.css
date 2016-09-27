@@ -2646,7 +2646,7 @@ table.std td, table.table_block td { padding: 12px; /*border-right: 1px solid #e
 .rangeSelect{border-bottom:1px solid #D4D4D4; line-height: 90px; margin-bottom:10%;}
 .finalDeposit{margin-bottom:8%;}
 .containerDepo{background:#fcfcfc; padding:4%;}
-div.row.rowAccount{margin:0 auto; margin-bottom:6%;}
+div.row.rowAccount{margin:0 auto; margin-bottom: 40px; margin-top: 20px;}
 .titleInfo{text-align:center; font-family:'Montserrat';}
 .panelInfo{color:#414042; padding: 30px 35px;}
 .fieldInfo{background:#fcfcfc; margin-left:3%; width:70%;}
@@ -2654,7 +2654,9 @@ div.row.rowAccount{margin:0 auto; margin-bottom:6%;}
 .cardiv{background:#fcfcfc; padding-bottom: 5%; border-top:.5px solid #e6e7e8; margin-top:2%; padding-left:0px; display: flex; justify-content: center; align-content: center; flex-direction: column;}
 .lock{margin-top:4%; margin-bottom:4%;}
 .imglock{width:auto; height:auto; padding-left:0px;}
-.imglock2{width: auto; height: auto; padding-top:5%;}
+.imglock2{width: auto; height: auto; padding-top:12px;}
+.title-text{ font-size: 18px; margin: 0 auto;line-height: 25px;font-family: Montserrat;}
+.infRight{margin-top: 20px;}
 .infLock{font-size:14px;}
 .imgCardAccount{width:100%; height:auto;}
 .formInfo{text-align:left; margin-top:5%;}
@@ -4468,7 +4470,21 @@ font-family: 'Open Sans' !important;
 .Merchants1 button{font-size:7px;}
 .merchants3{height:50px !important;}
 #columns{padding:0;}
-.Merchants3 h1{line-height:63px; fonts-size:20px;}
+.Merchants3 h1{line-height:63px; font-size:20px;}
+.p-auth{text-align:center !important;}
+.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
+.stick>iframe {padding: 0;height: 150px;}
+#authentication .box {padding-bottom: 0px;line-height: 20px;margin-bottom: 0px;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
+.account_creation>h2{line-height: 30px;}
+.vdoTube>iframe {padding: 0;height: 196px;}
+#uniform-id_country{width:100% !important;}
+.rangePrice{padding-left:0px;padding-right: 0px;}
+.finalDeposit>span{font-size:14px !important;}
+.panel-title > a{font-size:12px;}
+.checkbox label{font-size:10px;}
 }
 
 @media (min-width:360px) and (max-width:419px){
@@ -4478,6 +4494,18 @@ font-family: 'Open Sans' !important;
 .Merchants-banner{min-height:184px;}
 .Merchants-banner2{min-height:128px;}
 .Merchants3 h1{line-height:8px;}
+.p-auth{text-align:center !important;}
+.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
+.stick>iframe {padding: 0;height: 150px;}
+#authentication .box {padding-bottom: 0px;line-height: 20px;margin-bottom: 0px;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
+.account_creation>h2{line-height: 30px;}
+.vdoTube>iframe {padding: 0;height: 196px;}
+#uniform-id_country{width:100% !important;}
+.rangePrice{padding-left:0px;padding-right: 0px;}
+.checkbox label{font-size:12px;}
 }
 
 @media (min-width:420px) and (max-width:760px){
@@ -4487,12 +4515,27 @@ font-family: 'Open Sans' !important;
 .Merchants-banner{min-height:220px;}
 .Merchants-banner2{min-height:151px;}
 .Merchants3 h1{line-height:151px;}
+.p-auth{text-align:center !important;}
+.stick {position:initial !important; width: 400px !important;}
+#authentication .box {padding-bottom: 0px;line-height: 20px;margin-bottom: 0px;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
+.account_creation>h2{line-height: 30px;}
+.vdoTube>iframe {padding: 0;height: 222px;}
 }
-@media (min-width:761px) and (max-width:1024px){
+@media (min-width:761px) and (max-width:1023px){
 .Merchants-banner{min-height:411px;}
 .Merchants-banner2{min-height:350px;}
 .Merchants3 h1{line-height:350px;}
 .breadcrumb{margin-left:10px;}
+.p-auth{text-align:center !important;}
+.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
+.stick>iframe {padding: 0;height: 150px !important;}
+.account_creation>h2{text-align:center;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
 }
 .Cards img{padding-right:0px; padding-left:0px;}
 @media (max-width:1024px){
@@ -4505,19 +4548,24 @@ font-family: 'Open Sans' !important;
     card-st{padding-left:0px;}
     .barTop{padding-left:0px !important;}
     .account-responsive{margin-right:10px !important;}
+    .stick{width: 455px;}
 }
 @media (min-width:1025px) and (max-width:1280px){
     .Merchants-banner{min-height:550px;}
     .Merchants-banner2{min-height:350px;}
     .Merchants3 h1{line-height:350px;}
     .card-st{padding-left:0px;}
+    .stick{width: 455px;}
 }
 @media (min-width:1281px){
     .Merchants-banner{min-height:520px;}
     .Merchants-banner2{min-height:100px;}
     .Merchants3 h1{line-height:100px;}
     .card-st{padding-left:0px;}
+    .stick{width: 560px;}
 }
+
+.vdo-auth{width:100%;}
 
 /* This code is only meant for previewing your Reflow design. */
 .primaryContainer {

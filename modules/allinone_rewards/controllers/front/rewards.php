@@ -43,13 +43,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 		// récupère le nombre de crédits convertibles
 		$totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
 		$totalGlobal = round(isset($totals['total']) ? (float)$totals['total'] : 0);
-		$totalConverted = isset($totals[RewardsStateModel::getConvertId()]) ? (float)$totals[RewardsStateModel::getConvertId()] : 0;
+                $totalConverted = isset($totals[RewardsStateModel::getConvertId()]) ? (float)$totals[RewardsStateModel::getConvertId()] : 0;
                 $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
 		$totalPending = (isset($totals[RewardsStateModel::getDefaultId()]) ? (float)$totals[RewardsStateModel::getDefaultId()] : 0) + (isset($totals[RewardsStateModel::getReturnPeriodId()]) ? $totals[RewardsStateModel::getReturnPeriodId()] : 0);
 		$totalWaitingPayment = isset($totals[RewardsStateModel::getWaitingPaymentId()]) ? (float)$totals[RewardsStateModel::getWaitingPaymentId()] : 0;
 		$totalPaid = isset($totals[RewardsStateModel::getPaidId()]) ? (float)$totals[RewardsStateModel::getPaidId()] : 0;
 		$totalForPaymentDefaultCurrency = round($totalAvailable * MyConf::get('REWARDS_PAYMENT_RATIO', null, $id_template) / 100, 2);
-                
                 $totalAvailableCurrency=RewardsModel::getmoneyReadyForDisplay($totalAvailableCurrency,(int)$this->context->currency->id);
                 $this->context->smarty->assign('totalAvailable', $totalAvailable);
                 $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
@@ -57,7 +56,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 		$totalAvailableUserCurrency = Tools::convertPrice($totalAvailable, $currency);
 		$voucherMininum = (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) > 0 ? (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) : 0;
 		$paymentMininum = (float)MyConf::get('REWARDS_PAYMENT_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) > 0 ? (float)MyConf::get('REWARDS_PAYMENT_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) : 0;
-
+                
 		$voucherAllowed = RewardsModel::isCustomerAllowedForVoucher((int)$this->context->customer->id);
 		$paymentAllowed = RewardsModel::isCustomerAllowedForPayment((int)$this->context->customer->id);
                 
@@ -68,26 +67,35 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     $cartValue=$_GET['price'];
                     $points=$_GET['points'];
                     $use=$_GET['use'];
-                     
+                    $a =  RewardsModel::getRewardReadyForDisplay($cartValue, (int)$this->context->currency->id);
+                    
                     if($points>0){
                         
                        if($use>0 && $use<=$points){
                             $money= RewardsModel::getMoneyReadyForDisplay($use, (int)$this->context->currency->id);
                             $cartpoints=RewardsModel::getRewardReadyForDisplay($money, (int)$this->context->currency->id);
-                       }else{
+                       }
+                       else{
                            $cartpoints=RewardsModel::getRewardReadyForDisplay($cartValue, (int)$this->context->currency->id);
                            if($points>=$cartpoints){
                               $money= RewardsModel::getMoneyReadyForDisplay($cartpoints, (int)$this->context->currency->id);
                            }else{
                               $money= RewardsModel::getMoneyReadyForDisplay($points, (int)$this->context->currency->id);
+                              $cartpoints=RewardsModel::getRewardReadyForDisplay($money, (int)$this->context->currency->id);
                            }
                            
                        }
                        
-                       if($use){
+                       if($use < $a){
                             $response=RewardsModel::createDiscount($money);
                             $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('4', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                            Db::getInstance()->execute($query1);
+                       }
+                       else if($use > $a){
+                            $response=RewardsModel::createDiscount($money);
+                            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$a.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                             Db::getInstance()->execute($query1);
                        }
                        else if($points < $cartpoints){
@@ -97,11 +105,11 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                     . "                          VALUES ('4', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$points.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                             Db::getInstance()->execute($query1);
                        }
-                       else{
+                       else {
                             $response=RewardsModel::createDiscount($money);
                             $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
-                       Db::getInstance()->execute($query1);
+                            Db::getInstance()->execute($query1);
                        }
                         echo $response;
                     }
