@@ -36,8 +36,8 @@
 	{/if}
 <div itemscope itemtype="https://schema.org/Product" class="containerprodinfo">
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
-	<div class="primary_block row">
-		<div class="{if !$content_only}col-lg-12 col-sm-12 col-md-12 col-xs-12{else} quick-view-body col-sm-12 col-md-12 col-xs-12{/if}">
+	<div class="primary_block">
+		<div class="row">
 			
 			{if !$content_only}
 				<div class="container">
@@ -314,22 +314,22 @@
                                                                         {if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}</div>
                                                                         <div class="row bloque-precio">
                                                                             {if $priceDisplay >= 0 && $priceDisplay <= 2}
-                                                                                <div class="col-lg-6 col-xs-4 col-md-5 col-sm-4 shop-price">
+                                                                                <div class="col-lg-6 col-xs-4 col-md-6 col-sm-4 shop-price">
                                                                                     {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
                                                                                         {if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
                                                                                     {/if}
                                                                                     <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
                                                                                 </div>
-                                                                                <div class="col-lg-6 col-xs-4 col-md-3 col-sm-4 shop-pri">
+                                                                                <div class="col-lg-6 col-xs-4 col-md-6 col-sm-4 shop-pri">
                                                                                     {l s='Tienda: '}
                                                                                     <span class="price-shop">{convertPrice price=$product->price_shop|floatval}</span>
                                                                                 </div>
                                                                                 {*<meta itemprop="priceCurrency" content="{$currency->iso_code}" />*}
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                    <div class="col-xs-3 col-lg-10 col-md-3 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                    <div class="col-xs-3 col-lg-10 col-md-10 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {else $logged}
-                                                                                    <div class="col-xs-3 col-sm-3 col-lg-10 col-md-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                    <div class="col-xs-3 col-sm-3 col-lg-10 col-md-10 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {/if}
                                                                             {/if}
                                                                         </div>

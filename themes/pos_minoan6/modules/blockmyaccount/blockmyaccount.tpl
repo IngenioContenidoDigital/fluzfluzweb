@@ -24,8 +24,7 @@
 *}
 
 <!-- Block myaccount module -->
-<div class="row">
-    <p class="title_block">
+<div class="row account-block">
             <a href="{$link->getPageLink('order', true, true)|escape:'html':'UTF-8'}" title="{l s='View my shopping cart' mod='blockmyaccount'}" rel="nofollow">
                     <div class="col-lg-12 col-sm-5 col-md-12 col-xs-12" style="margin-bottom:10px;">
                         <div class="menuAccountProfile"><i class="icon-shopping-cart iWhite"></i></div>
@@ -35,7 +34,6 @@
                         </div>
                     </div>
             </a>            
-            <br/>            
             <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" title="{l s='My account' mod='blockmyaccount'}">
                     <div class="col-lg-12 col-sm-5 col-md-12 col-xs-12">
                         <div class="menuAccountProfile"><i class="icon-user iWhite"></i></div>
@@ -44,11 +42,7 @@
                             {l s='My account' mod='blockmyaccount'}
                         </div>
                     </div>
-            </a>
-                        
-                       
-	</p>
-
+            </a>     
 	<div class="block_content list-block">
 		<ul>
 			<!--<li>
@@ -96,3 +90,8 @@
 	</div>
 </div>
 <!-- /Block myaccount module -->
+{literal}
+    <style>
+        .account-block{margin-top: 20px;}
+    </style>
+{/literal}

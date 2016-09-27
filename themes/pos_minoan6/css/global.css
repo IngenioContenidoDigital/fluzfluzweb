@@ -2849,7 +2849,7 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
 #page .rte { background: transparent none repeat scroll 0 0; }
 #page .rte em { font-style: italic !important; }
 
-.rte { margin-top: 70px; }
+.rte { margin-top: 0px; }
 .containerprodinfo { margin-top: 20px; }
 
 .listcomment { list-style-type: none; margin: 0 0 20px 0 !important; }

@@ -51,14 +51,14 @@
                                                         {$categoryProduct.name|truncate:25:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 <div>
-                                                        <span style="font-weight: bold;">{if $logged}{$categoryProduct.points}{else $logged}{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s=points}</span>
+                                                        <span style="font-weight: bold;">{if $logged}{$categoryProduct.points}{else $logged}{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s=Fluz}</span>
                                                 </div>
                                         </div>
                                         <div class="price-block">
                                                 {if (!$PS_CATALOG_MODE AND ((isset($categoryProduct.show_price) && $categoryProduct.show_price) || (isset($categoryProduct.available_for_order) && $categoryProduct.available_for_order)))}
                                                         {if isset($categoryProduct.show_price) && $categoryProduct.show_price && !isset($restricted_country_mode)}
                                                                 <div>
-                                                                        <span style="text-align: left; margin-right: 1px; font-weight: bold;">{l s='PRICE: '}</span>
+                                                                        <span style="text-align: left; margin-right: 1px; font-weight: bold;">{l s='Precio: '}</span>
                                                                         <span class="product-price" style="color:#ef4136; text-align: left;">
                                                                                 {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
                                                                         </span>
@@ -66,7 +66,7 @@
                                                                         <span class="redfl">({l s="Ahorra"} {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price}%)</span>
                                                                 </div>
                                                                 <div>
-                                                                        <span style="text-align: left; margin-right: 1px;">{l s='VALUE: '}</span>
+                                                                        <span style="text-align: left; margin-right: 1px;">{l s='Valor: '}</span>
                                                                         <span class="product-price redfl valuefl" style="color:#ef4136; text-align: left; font-weight: bold;">
                                                                                 {convertPrice price=$categoryProduct.price_shop|floatval}
                                                                         </span>
@@ -201,6 +201,5 @@
         .imgmanu { width: auto!important; }
         .points-block div:last-child { width: 25%; }
         .namepro { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 60%; font-family: 'Open Sans'; font-size: 12px; }
-        .price-block { padding: 15px 0%; }
     </style>    
 {/literal}
