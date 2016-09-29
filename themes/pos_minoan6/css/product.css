@@ -5,7 +5,7 @@
 /* product desc */
 /* primary_block ***************************************************************************** */
 .primary_block { margin-bottom: 40px; margin-left: 6px;}
-.shop-price, .shop-pri, .point-price { padding: 0!important; line-height: 20px; }
+.shop-price, .shop-pri, .point-price { padding: 0!important; line-height: 25px; }
 .shop-pri{color:#ef4136; margin-left: -5px;}
 .product-heading-h5 { color: #999999; font-weight: 200; margin: 3px 0 8px; font-size: 19px; font-family: "Open Sans", sans-serif; }
 
@@ -305,52 +305,62 @@ Quick View Styles
   #product.content_only div.primary_block div.pb-center-column, #product.content_only section.primary_block div.pb-center-column { width: 50%; float: left; padding-left: 35px; }
   #product.content_only div.primary_block div.pb-right-column, #product.content_only section.primary_block div.pb-right-column { width: 50%; float: left; }
   #product.content_only div.primary_block div.pb-right-column .box-info-product, #product.content_only section.primary_block div.pb-right-column .box-info-product { border-top-width: 1px; min-height: 1px; } }
-@media (max-width: 479px) { #product.content_only div.primary_block div.pb-left-column #thumbs_list { width: 194px; } }
+@media (max-width: 479px) { 
+    #product.content_only div.primary_block div.pb-left-column #thumbs_list { width: 194px; } 
+}
 /***** IE code ****/
 .ie8 .pb-left-column #image-block #view_full_size .span_link { background: #fff; border: 1px solid #e5e5e5; }
 .ie8 .box-security { filter: none; }
 
 
 /*Menu Mi Cuenta */
+.info-row{margin-top: 60px;}
 .more-info{width: 92%; margin: 0 auto; margin-bottom: 6%;}
 .menuAccount{background: #fff; width: 70%; font-weight: lighter; margin:0 auto; margin-left: -5%; margin-right: 0; font-family: "Open Sans", sans-serif; height: 45px; padding-left: 5%; color: #777777; font-size: 16px;  display: flex; justify-content: center; align-content: center; flex-direction: column;}
-.menuAccountProfile{background:#c8b79b; height: 45px; width: 15%; float: left; margin-left: 5%; text-align: center}
+.menuAccountProfile{background:#c8b79b; height: 45px; width: 15%; float: left; margin-left: 0; text-align: center}
 .iWhite{color: #fff; padding: 20%; font-size: 20px; margin: 3px 0px;}
 .prueba{position: absolute; top: 30px; left: 300px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 
 @media (min-width:761px) and (max-width:1023px){
+    .primary_block .pb-left-column img{width: 70% !important;}
+    .account-block{padding-left: 100px;}
     .col-sm-9{width:100%;}
-    .col-sm-3{width:30%; margin:0 auto; background: transparent; text-align: left !important;}
+    .pb-center-column h1{text-align: center !important; margin-top: 0px;}
+    .description-product{margin:0 auto;margin-left: 30px;}
     .blockCat{display:none;}
     .prueba{position: absolute; top: 46px;left: 316px; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
-    #quantity_wanted_p input {width:20%; font-size:20px;}
+    #quantity_wanted_p input {width:37% !important; font-size:20px;}
     .blockAccount{background:transparent; width:45%;}
-    .menuAccount{border:#E1E1E1 solid 1px; width: 24%; padding-left: 10px; font-size: 14px;}
+    .menuAccount{border:#E1E1E1 solid 1px; width: 70% !important; padding-left: 10px; font-size: 14px;}
     .iWhite{padding: 12%;}
-    .block{margin-left: 10%;}
+    .block{margin-left: 0px; text-align: center; margin-top: 20px;}
     .breadcrumb{display: none;}
     .menuSticky{margin-bottom: 0%; background: #fff;padding-top: 2%; border-bottom: none;}
     #search_block_top .btn.button-search{ border-right:none !important; left:700px;}
-    .btn-twitter{width:48%; height:50px; font-size:16px;}
-    .btn-facebook{width:48%; height:50px; font-size:16px;}
-    .btn-google-plus{width:48%; height:50px; font-size:16px;}
-    .btn-pinterest{width:48%; height:50px; font-size:16px;}
-    .pb-center-column #product_reference {font-size:14px; margin-left: 0%;}
+    .socialsharing_product button{width: 99px !important;}
+    .pos-title{width: 92% !important;}
+    .pb-center-column #product_reference {font-size:14px; margin-left: 0%; margin-left: -5px !important;}
     .pb-center-column #buy_block label{font-size:14px; font-family: 'Open Sans'; margin-left: -16px;}
     .tAccount{font-size:16px; text-align:left;}
     .pb-center-column h1{font-size:20px;}
-    .box-info-product .exclusive{width:60%;}
+    .box-info-product .exclusive{width:60% !important;}
     .cart-product .buttons_bottom_block {text-align:center;}
     .box-info-product p {text-align:left; margin-left: 10%; padding-left: 0px; width: 80%;}
     .socialsharing_product{margin-left: 10%;}
     p#loyalty {margin-left: 10% !important;}
     .more-info ul li a.selected{font-size: 14px !important;}
-    .item-product img, ul.product_list > li .product-container img{width: 70%; margin-top: -20%;}
+    .item-product img, ul.product_list > li .product-container img{width: 100%;}
     .pb-center-column #buy_block labe{margin-right: 14px; }
     .bloque-precio{width: 100%; margin-left: 0px !important; margin-right: auto;}
     .menuAccountProfile{width: 10%;}
     .redes_sociales{margin-bottom: 0px;}
     .tiendaP {margin-left: 0px !important;}
+    .box-cart-bottom {padding: 0;margin-left: 30px;margin-right: 30px;}
+    .point-price{text-align: left !important; margin-left: 0px !important;}
+    .socialsharing_product{text-align: left !important; margin-left: 0px !important;}
+    .price-point{ margin-left: 1px; padding-right: 56px !important;}
+    .shop-pri{text-align: right; padding-right: 50px !important;}
+    .info-row{margin-top: 0px;}
 }
 
 @media (min-width:1050px) and (max-width:1600px){
@@ -382,29 +392,29 @@ Quick View Styles
 @media (max-width:1024px){
     .owl-carousel .owl-wrapper-outer{margin-left: 15px;}
     .owl-carousel{width: 94%;}
-    .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px;}
+    .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px; margin-top: 26px;}
     #product p#loyalty{margin-left: 10% !important;}
-    .cart-product .buttons_bottom_block{text-align: left !important;}
+    .cart-product .buttons_bottom_block{text-align: left;}
     .box-info-product p{width:100%; text-align: center;}
     .box-info-product p {margin-left: -20px;}
-    .point-price{text-align: left !important;; margin-right: 0px; font-size: 14px; padding-right: 22px;}
+    .point-price{text-align: right; margin-right: 0px; margin-left: 25px; font-size: 16px; padding-right: 22px;}
     .tiendaP{text-align: center;    margin-left: 0px !important;}
     .shop-price{ padding-left: 38px !important; text-align: left !important;}
     .pb-center-column #buy_block label{margin-left: 6px !important;}
-    .pb-center-column #product_reference{margin-left: -2px !important;}
+    .pb-center-column #product_reference{margin-left: -2px;}
     .shop-price{padding-left: 0px !important;}
     .price{font-size: 13px !important;}
-    .price-shop{font-size: 10px !important;}
-    .shop-pri{font-size: 10px; width: 30%; margin-left: -15px;}
+    .price-shop{font-size: 15px !important;margin-left: 9px;}
+    .shop-pri{font-size: 16px;}
     .tiendaP{font-size: 12px !important;}
-    #quantity_wanted_p input{width: 52%;}
+    #quantity_wanted_p input{width: 55%;}
     .box-info-product .exclusive{width: 93%;height: 40px;}
     .more-info ul li a{font-size:10px !important;}
     .socialsharing_product button{width: 80px;font-size: 10px;text-align: center;padding: 8px;}
     p{line-height: 20px;}
     .owl-carousel .owl-item{margin-left: 12px !important;}
-    .owl-item{width: 219px !important}
-    .pos-title {width: 77% !important; margin-left: 4%; height: 49px !important;}
+    .owl-item{width: 216px !important}
+    .pos-title {width: 77%; margin-left: 4%; height: 49px !important;}
     .pos-title span{font-size: 12px !important;}
     .pos-title h2 {height: 49px;}
     .boxprevnext a.prev {right: 81px !important;}
@@ -416,7 +426,7 @@ Quick View Styles
     .description-product{font-size: 10px;line-height: 15px;}
     .title-price-point{ padding-left: 0px; padding-bottom: 20px; background: transparent; }
     .menuAccount{font-size: 12px;}
-    .price-point{ background: transparent; text-align: center; padding-bottom: 20px; padding-left: 66px; }
+    .price-point{ background: transparent; text-align: right; padding-bottom: 20px; padding-left: 0px; padding-right: 36px; }
     .prueba{position: absolute; top: 12px; left: 171px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }
 
@@ -481,80 +491,98 @@ Quick View Styles
     #categories_block_left h2.title_block {display:none;}
     .footer-container #footer h4:after {margin-right:20px;}
     #quantity_wanted_p input {width:35%;}
-    .btn-twitter{width:100%; height:40px;}
-    .btn-facebook{width:100%; height:40px;}
-    .btn-google-plus{width:100%; height:40px;}
-    .btn-pinterest{width:100%; height:40px;}
+    .price-point{padding-right: 15px;}
     #search_block_top .btn.button-search{ border-right:none !important; left:360px;}
     p{font-size:15px; line-height: 25px;}
    .our_price_display .price{font-size:20px;}
-   .block {padding-top: 0%; padding-left: 13%;}
+   .block { padding-top: 8px; padding-left: 0; text-align: center;}
    .breadcrumb{display: none;}
-   .pb-center-column h1{margin-left: 0px !important;}
-   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -13px;}
+   .pb-center-column h1{margin-left: 0px !important; margin-top: 10px; text-align: center;}
+   .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -2px;}
+   .description-product{padding-left: 14px;padding-right: 5px;}
    .socialsharing_product{margin-left: 10%;}
    p#loyalty{margin-left: 10% !important;}
-   .pb-center-column #buy_block label{margin-left: 8%;}
-   .pb-center-column #product_reference{margin-left: 3%;}
-   .bloque-precio{width: 100%;margin-left: -39px;margin-right: 0px;}
-   .point-price{line-height: 30px; text-align: right; margin-right: 30px; padding-right: 18px;}
-   .shop-price{padding-left: 18px !important;}
+   .pb-center-column #product_reference{margin-left: 14px;}
+   .bloque-precio{width: 100%;margin-left: 0px;margin-right: 0px;}
+   .point-price{line-height: 20px; text-align: right; margin-right: 0px; padding-right: 40px !important;}
+   .shop-price{padding-left: 15px !important;}
    .tiendaP{text-align: left; padding-right:17px; margin-left: 0px;}
-   .pb-left-column{margin-left: 0px;}
+   .pb-left-column{margin-left: 2px;}
    .pb-center-column #buy_block label{margin-left: 0px !important;}
    #product p#loyalty{margin-left: 0px !important;}
-   
+   .owl-item {width: 341px !important;}
+   .iWhite{padding: 10px !important;}
+   .menuAccountProfile{width: 52px !important;}
+   .account-block{margin-left: 65px;}
+   .box-info-product p{ margin: 0px; margin-bottom: 5px;}
+   .title-price-point{padding-left: 15px;}
+   .shop-pri{text-align: right; padding-right: 10px !important;}
+   .pos-title{ width: 92%;}
+   .pos-title span{line-height: 48px;}
+   .info-row{margin-top: 0px;}
 }
 
 @media (min-width:360px) and (max-width:411px){
     .prueba{position: absolute; top: 29px; left: 320px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
-    .menuAccount{border:#E1E1E1 solid 1px; width:80%;}
+    .menuAccount{border:#E1E1E1 solid 1px; width:74%;}
+    .account-block{margin-left: 30px;}
+    .info-row{margin-top: 0px;}
+    .menuAccountProfile{ width: 50px !important;}
     .block .title_block:after, .block h4:after{display:none;}
     #categories_block_left h2.title_block {display:none;}
     .footer-container #footer h4:after {margin-right:20px;}
-    .pb-center-column #buy_block label{width:90%;}
-    #quantity_wanted_p input {width:12%;}
-    .btn-twitter{width:100%; height:40px;}
-    .btn-facebook{width:100%; height:40px;}
-    .btn-google-plus{width:100%; height:40px;}
-    .btn-pinterest{width:100%; height:40px;}
+    #quantity_wanted_p input { width: 150px;}
+    .btn-twitter{width:92% !important; height:40px !important;}
+    .btn-facebook{width:92% !important; height:40px !important;}
+    .btn-google-plus{width:92% !important; height:40px !important;}
+    .btn-pinterest{width:92% !important; height:40px !important;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
     span{font-size:14px;}
     p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0;}
-    .socialsharing_product{margin-left: 10% !important;}
     .primary_block{margin-bottom: 20px;}
     .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -18px;}
-    .block{padding-top: 5%;}
     p#loyalty{margin-left: 10% !important; line-height: 23px !important;}
     .item-product img, ul.product_list > li .product-container img {width: 100% !important;}
     .pb-center-column #product_reference{margin-left: -5px !important;}
-    .pb-center-column #buy_block label{width: 45% !important;}
-    .pb-center-column #buy_block label{margin-left: -10px !important;}
-    .shop-price{text-align: left !important; margin-left: -13px; padding-left: 0px !important;}
+    .pb-center-column #buy_block label{margin-left: 17px !important; width: 50px;}
+    .referenceinfo{width: 100px !important;}
+    .shop-price{text-align: left !important; margin-left: 0px; padding-left: 12px !important;}
+    .box-info-product .exclusive{width: 92%; margin-left: 27px;}
     .tiendaP{ margin-left: 26px !important; text-align: left;}
-    .pb-left-column{margin-left: -15px !important;}
-    .pb-center-column h1{margin-left: -30px !important;}
+    .pb-left-column{margin-left: 3px !important;}
+    .pb-center-column h1{margin-left: 8px !important;}
+    .description-product{margin-left: 11px !important;}
     #product p#loyalty{margin-left: -20px !important; width: 100% !important; line-height: 19px !important;}
-    .box-info-product p{margin-left: -7% !important;}
     .bloque-precio{margin-left: 0px !important;}
-    .point-price{text-align: right; padding-right: 40px;}
+    .point-price{text-align: right !important; margin: 0 auto !important;padding-right: 20px !important;}
+    .title-price-point{padding-left: 13px;}
+    .price-point{padding-right: 19px;}
+    .socialsharing_product{margin-left: -5px !important;}
+    .shop-pri{padding-left: 6px !important;}
+    .pos-title{width: 92%;}
+    .pos-title h2{width: 55%;}
+    .pos-title span{line-height: 48px; margin-left: 8px;}
+    .owl-carousel .owl-wrapper{margin-left: 0;}
+    .owl-carousel .owl-item {margin-left: 5px !important;}
+    .owl-item {width: 326px !important;}
+    .owl-carousel .owl-wrapper-outer {margin-left: 0px;}
+    .block {padding-top: 10px;padding-left: 0;text-align: center;}
 }
 
 @media (max-width:359px){
     .prueba{position: absolute; top: 47px; left: 260px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
     .menuAccount{border:#E1E1E1 solid 1px; width:75%;}
     .block .title_block:after, .block h4:after{display:none;}
-    .block{padding-top: 12%;}
     #categories_block_left h2.title_block {display:none;}
     .footer-container #footer h4:after {margin-right:20px;}
-    .pb-center-column #buy_block label{width:40%; margin-left: -12px!important;}
-    #quantity_wanted_p input {width:20%;}
-    .btn-twitter{width:100%; height:40px;}
-    .btn-facebook{width:100%; height:40px;}
-    .btn-google-plus{width:100%; height:40px;}
-    .btn-pinterest{width:100%; height:40px;}
+    .pb-center-column #buy_block label{width:50px; margin-left: 0px!important;}
+    #quantity_wanted_p input {width: 130px;}
+    .btn-twitter{width:93% !important; height:40px !important;}
+    .btn-facebook{width:93% !important; height:40px !important;}
+    .btn-google-plus{width:93% !important; height:40px !important;}
+    .btn-pinterest{width:93% !important; height:40px !important;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
     span{font-size:12px;}
@@ -562,15 +590,32 @@ Quick View Styles
     .box-info-product p{padding:0; margin-left: 10% !important;}
     #product p#loyalty{margin-left: 10% !important;}
    .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -7% !important;margin-left: -18% !important; width: 334px;}
-   .shop-price{margin-left: -25% !important;}
+   .shop-price{margin-left: 0 !important;}
    .tiendaP{margin-left: 15% !important;}
    .pb-center-column #product_reference{padding-left: 0px;}
-   .pb-left-column{margin-left: -15px !important;}
-    .pb-center-column h1{margin-left: -30px !important;}
-    #product p#loyalty{margin-left: -20px !important; width: 96% !important; line-height: 19px !important;}
-    .box-info-product p{margin-left: -7% !important;}
+   .pb-left-column{margin-left: -5px !important;}
+    .pb-center-column h1{margin-left: 0px !important;}
+    #product p#loyalty{margin-left: 0px !important; width: 96% !important; line-height: 19px !important;}
+    .box-info-product p{margin-left: 0 !important;}
     .bloque-precio{margin-left: 0px !important;}
-    .point-price{text-align: right; padding-right: 50px;}
+    .point-price{text-align: right; padding-right: 50px !important;}
+    .title-price-point{padding-left: 0px;}
+    .price-point{padding-right: 22px;}
+    .socialsharing_product button{margin-left: -21px !important;}
+    .shop-pri{padding-left: 6px !important;}
+    .pos-title{width: 88%;}
+    .pos-title h2{width: 55%;}
+    .pos-title span{line-height: 48px; margin-left: 8px; font-size: 10px !important;}
+    .owl-carousel .owl-wrapper{margin-left: 0;}
+    .owl-carousel .owl-item {margin-left: 5px !important;}
+    .owl-item {width: 312px !important;}
+    .owl-carousel .owl-wrapper-outer {margin-left: 0px;}
+    .info-row{margin-top: 0px;}
+    .referenceinfo{width: 100px !important;}
+    .box-info-product .exclusive{width: 88%;margin-left: 57px;}
+    .price-shop{font-size: 13px !important;}
+    .shop-pri{font-size: 12px;}
+    .block {padding-top: 10px;padding-left: 0;text-align: center;}
 }
 
 .box-info-product .exclusive{
@@ -591,20 +636,21 @@ Quick View Styles
     .price{font-size: 14px; margin-left: 5px;}
     .description-product{width: 85%;}
     .p-reference{margin-left: 0px !important;}
-    #quantity_wanted_p input{height: 42px; width: 51%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
+    #quantity_wanted_p input{height: 42px; width: 52%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
     .btn.button-plus span, .btn.button-minus span{width: 40px; height: 40px; padding: 8%;}
     .box-info-product .exclusive{width: 88%;}
     .point-price{margin-right: 0px; margin-left: 5px; font-size: 16px; text-align: right !important;}
     .socialsharing_product button {width: 90px;height: 38px; font-size: 10px;}
-    .price-shop{font-size: 16px;}
+    .price-shop{font-size: 16px; margin-left: 5px;}
     .pb-center-column h1{padding-bottom: 7px;font-size: 21px; width: 85%;}
+    .shop-pri{margin-left: 0px;padding-left: 8px !important;}
     p{line-height: 22px;}
     .pos-title{margin-left: 4% !important; width: 81%!important; height: 50px;}
     .boxprevnext a.next{right: 4% !important;}
     .boxprevnext a.prev {right: 8.7% !important;}
     .primary_block{margin-bottom: 10px;}
     .title-price-point{padding-left: 0px;padding-bottom: 20px;background: transparent;}
-    .price-point{background: transparent;text-align: center;padding-bottom: 20px;padding-left: 48px;}
+    .price-point{background: transparent;text-align: center;padding-bottom: 20px; padding-left: 0px; padding-right: 66px;}
     .prueba{position: absolute; top: 12px; left: 240px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }
 
@@ -620,7 +666,7 @@ Quick View Styles
     .primary_block .pb-left-column img{width: 95%;}
     .pb-center-column #buy_block label{font-size: 16px; line-height: 45px;}
     .pb-center-column #product_reference{ margin-bottom: 20px; text-align: left; margin-left: 0; width: 83%; border-bottom: 1px solid #ddd;}
-    #quantity_wanted_p input{height: 50px; width: 50%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
+    #quantity_wanted_p input{height: 50px; width: 52%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
     .btn.button-plus span, .btn.button-minus span{width: 47px;height: 47px; padding: 17%;}
     .pb-center-column p{font-size: 18px;}
     .socialsharing_product button{width: 20%;height: 47px;}
@@ -636,10 +682,12 @@ Quick View Styles
     .owl-item{width: 310px !important;min-width: 0;margin-left: 6px;}
     .boxprevnext a i {padding: 10%; width: 60px;}
     .accountHeader{margin-right: 12% !important;}
-    .price-shop{font-size: 20px; margin-left: 6px;}
+    .price-shop{font-size: 21px; margin-left: 8px;}
+    .shop-pri{font-size: 16px;}
     .pos-title{width: 82% !important;}
     .primary_block{margin-bottom: 10px;}
+    .point-price{padding-right: 2px !important;}
     .title-price-point{padding-left: 0px;padding-bottom: 20px;background: transparent;}
-    .price-point{background: transparent;text-align: center;padding-bottom: 20px;padding-left: 48px;}
+    .price-point{background: transparent;text-align: right;padding-bottom: 20px;padding-left: 48px; padding-right: 96px;}
     .prueba {position: absolute;top: 12px;left: 330px;width: 20px;height: 20px;font-size: 10px;border-radius: 100%;font-weight: 700;background: #ffc21c;font-family: 'Open Sans';line-height: 20px;text-align: center;color: white;}
 }
