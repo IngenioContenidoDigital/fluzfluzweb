@@ -34,65 +34,53 @@ if (!empty($_POST)){
 
 if(!isset($_COOKIE['validar'])){
     echo'<!DOCTYPE html>
-<!-- saved from url=(0020)http://fluzfluz.com/ -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Fluz Fluz</title><style>                body {margin:0px;}
-                #custom_messaging_banner {background: #eb583c;padding: 7px 10px;color: white;border-bottom: solid 3px white;font-size:16px;position:relative;z-index:1;}
-                					body { background: url(/fluz-back.jpg) !important;}
-																body {background-size: cover !important;background-position: center !important;}
-															div#form_wrap {
-background-color: #d1a47f;
-}
-
-div#the_hint_wrap {
-background-color: #d1a47f;
-}
-
-button {
-background-color: #f61731 !important;
-text-transform: uppercase;
-}
-
-#form_wrap button {
-background-color: #f61731 !important;
-}
-
-div#custom_messaging_banner {
-font-size:13px;
-background-color:  #ff0525 !important;;
-font-family: open sans !important;
-color: #fff;
-border-bottom: none !important;
-}
-
-div#custom_messaging_banner {
-display:none;
-}					</style><style>
-						html, body {
-
-							text-align: center;
-							height: 100%;
-						}
-						body { background: #1caff6; font-family:Arial;}
-						#form_wrap { background-image: none;background-color: #1493d1;display: block;
-margin: 0px auto;
-height: 68px;
-width: 275px;
-position: relative;
-top: 0px;
-margin-top: 0px;margin-right: 100px;}
-						#form_wrap input[type=text], .enter_password {background-image: none; background: white;position: absolute;
-top: 13px;
-left: 25px;
-border: 0px;
-width: 150px;
-padding-left: 11px;
-font-size: 15px;
-line-height: 15px;
-padding-top: 9px;
-height: 30px;
-color: rgb(85, 86, 90);
-opacity: .9;
-padding-right: 10px;}
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Fluz Fluz</title>
+        <style>
+            body {margin:0px; background: url(/coming-soon-logo.png) !important;background-size: 230px 291px;background-position: center !important; background-color: rgba(255,0,0,0.85) !important; font-family:Arial; background-repeat: no-repeat !important;}
+            #custom_messaging_banner {background: #eb583c;padding: 7px 10px;color: white;border-bottom: solid 3px white;font-size:16px;position:relative;z-index:1;}
+            div#form_wrap {background-color: #d1a47f;}
+            div#the_hint_wrap {background-color: #d1a47f;}
+            button {background-color: #f61731 !important;text-transform: uppercase;}
+            #form_wrap button {background-color: #f61731 !important;}
+            div#custom_messaging_banner {
+                font-size:13px;
+                background-color:  #ff0525 !important;;
+                font-family: open sans !important;
+                color: #fff;
+                border-bottom: none !important;
+            }
+            div#custom_messaging_banner {display:none;}
+        </style>
+        <style>
+            html, body {
+                    text-align: center;
+                    height: 100%;
+            }
+            #form_wrap { 
+                background-image: none;background-color: #1493d1;display: block;
+                margin: 0px auto;
+                height: 68px;
+                width: 275px;
+                position: relative;
+                top: 0px;
+                margin-top: 0px;margin-right: 100px;
+            }
+            #form_wrap input[type=text], .enter_password {background-image: none; background: white;position: absolute;
+                top: 13px;
+                left: 25px;
+                border: 0px;
+                width: 150px;
+                padding-left: 11px;
+                font-size: 15px;
+                line-height: 15px;
+                padding-top: 9px;
+                height: 30px;
+                color: rgb(85, 86, 90);
+                opacity: .9;
+                padding-right: 10px;}
 
 						#form_wrap input:active, #form_wrap input:focus {outline:0;opacity:1;}
 						#form_wrap button {background: none;background-color: #1caff6;;
@@ -129,21 +117,22 @@ padding-bottom:13px;
 
 </head>
 					
-						<!--[if IE]>
-						<style>
-						#form_wrap input[type=text], .enter_password {
-						  line-height:30px;    /* adjust value */
-						}
-						</style>
-						<![endif]-->
-					<body>
-                    	<div id="custom_messaging_banner">Sitio en Desarrollo.</div>						<div id="form_wrap">
-							<form method="post" action="/index.php">
-								<input type="password" id="hwsp_motech" name="hwsp_motech" placeholder="Password" class="enter_password">
-								<button type="submit">Entrar</button>
-							</form>
-						</div>
-					</body></html>';
+    <!--[if IE]>
+    <style>
+    #form_wrap input[type=text], .enter_password {
+      line-height:30px;    /* adjust value */
+    }
+    </style>
+    <![endif]-->
+<body>
+    <div id="custom_messaging_banner">Sitio en Desarrollo.</div>
+        <div id="form_wrap">
+            <form method="post" action="/index.php">
+                <input type="password" id="hwsp_motech" name="hwsp_motech" placeholder="Password" class="enter_password">
+                <button type="submit">Entrar</button>
+        </form>
+    </div>
+</body></html>';
 }else{
     require(dirname(__FILE__).'/config/config.inc.php');
     Dispatcher::getInstance()->dispatch();
