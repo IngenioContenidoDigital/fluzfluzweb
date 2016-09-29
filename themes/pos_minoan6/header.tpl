@@ -104,9 +104,15 @@
                                             <div class="container-fluid">
                                                 <div class="row">
                                                     <div class="pos_logo col-xs-4 col-sm-4 col-md-3 col-lg-3">
-                                                        <a href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{$shop_name|escape:'html':'UTF-8'}">
-                                                            <img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
-                                                        </a>
+                                                            {if $logged}
+                                                            <a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="{$shop_name|escape:'html':'UTF-8'}">    
+                                                                <img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
+                                                            </a>
+                                                            {else $logged}
+                                                            <a href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{$shop_name|escape:'html':'UTF-8'}">    
+                                                                <img class="logo img-responsive" src="{$logo_url}" alt="{$shop_name|escape:'html':'UTF-8'}"{if isset($logo_image_width) && $logo_image_width} width="{$logo_image_width}"{/if}{if isset($logo_image_height) && $logo_image_height} height="{$logo_image_height}"{/if}/>
+                                                            </a>
+                                                            {/if}
                                                     </div>
                                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6" style="padding-right:0px;">
                                                         {capture name='megamenu'}{hook h='megamenu'}{/capture}

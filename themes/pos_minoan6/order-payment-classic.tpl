@@ -32,19 +32,18 @@
             <div id="order-detail-content" class="table_block table-responsive">
                 <table id="cart_summary" class="table table-bordered">
                     <thead>
-                    <tr>
-                        <th class="cart_product first_item">{l s='Product'}</th>
-                        <th class="cart_description item">{l s='Description'}</th>
-                        {if $PS_STOCK_MANAGEMENT}
-                            <th class="cart_availability item text-center">{l s='Availability'}</th>
-                        {/if}
-                        <th class="cart_unit item text-right" colspan="1">{l s='Puntos a Obtener'}</th>
-                        <th class="cart_unit item text-right">{l s='Unit price'}</th>
-                        <th class="cart_quantity item text-center">{l s='Qty'}</th>
-                        <th class="cart_total last_item text-right">{l s='Total'}</th>
-                    </tr>
+                        <tr>
+                            <th class="cart_product first_item">{l s='Product'}</th>
+                            <th class="cart_description item">{l s='Description'}</th>
+                            {if $PS_STOCK_MANAGEMENT}
+                                <th class="cart_availability item text-center">{l s='Availability'}</th>
+                            {/if}
+                            <th class="cart_unit item text-right" colspan="1">{l s='Puntos a Obtener'}</th>
+                            <th class="cart_unit item text-right">{l s='Unit price'}</th>
+                            <th class="cart_quantity item text-center">{l s='Qty'}</th>
+                            <th class="cart_total last_item text-right">{l s='Total'}</th>
+                        </tr>
                     </thead>
-                    
                     <tfoot>
                     {if $use_taxes}
                         {if $priceDisplay}

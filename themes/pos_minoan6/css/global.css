@@ -136,6 +136,8 @@ img { vertical-align: middle; }
 
 .img-responsive { display: block; max-width: 100%; height: auto; }
 
+.footable-first-column { width: 20%; }
+
 .img-rounded { border-radius: 6px; }
 
 .img-thumbnail, .thumbnail { padding: 4px; line-height: 1.42857; background-color: white; border: 1px solid #dddddd; border-radius: 0px; -webkit-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; display: inline-block; max-width: 100%; height: auto; }
@@ -2646,7 +2648,7 @@ table.std td, table.table_block td { padding: 12px; /*border-right: 1px solid #e
 .rangeSelect{border-bottom:1px solid #D4D4D4; line-height: 90px; margin-bottom:10%;}
 .finalDeposit{margin-bottom:8%;}
 .containerDepo{background:#fcfcfc; padding:4%;}
-div.row.rowAccount{margin:0 auto; margin-bottom:6%;}
+div.row.rowAccount{margin:0 auto; margin-bottom: 40px; margin-top: 20px;}
 .titleInfo{text-align:center; font-family:'Montserrat';}
 .panelInfo{color:#414042; padding: 30px 35px;}
 .fieldInfo{background:#fcfcfc; margin-left:3%; width:70%;}
@@ -2654,7 +2656,9 @@ div.row.rowAccount{margin:0 auto; margin-bottom:6%;}
 .cardiv{background:#fcfcfc; padding-bottom: 5%; border-top:.5px solid #e6e7e8; margin-top:2%; padding-left:0px; display: flex; justify-content: center; align-content: center; flex-direction: column;}
 .lock{margin-top:4%; margin-bottom:4%;}
 .imglock{width:auto; height:auto; padding-left:0px;}
-.imglock2{width: auto; height: auto; padding-top:5%;}
+.imglock2{width: auto; height: auto; padding-top:12px;}
+.title-text{ font-size: 18px; margin: 0 auto;line-height: 25px;font-family: Montserrat;}
+.infRight{margin-top: 20px;}
 .infLock{font-size:14px;}
 .imgCardAccount{width:100%; height:auto;}
 .formInfo{text-align:left; margin-top:5%;}
@@ -2846,6 +2850,9 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
 
 #page .rte { background: transparent none repeat scroll 0 0; }
 #page .rte em { font-style: italic !important; }
+
+.rte { margin-top: 0px; }
+.containerprodinfo { margin-top: 20px; }
 
 .listcomment { list-style-type: none; margin: 0 0 20px 0 !important; }
 
@@ -3373,7 +3380,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     #header .pos_logo img { width:auto; margin: auto; height:68px;}
     .footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}
     .profileCustomer{text-align:center;}
-    .contProfile{margin-left:300px;}
+    .contProfile{margin-left:150px;}
     .barTop{line-height:24px !important;}
 }
 @media (min-width:1026px) and (max-width:3000px){
@@ -3625,7 +3632,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 .footer-bottom address { color: #8e8e8e; margin: 0; }
 .footer-bottom address a { font-weight: 400; color: #ee4a42; }
 
-.banner-category { margin-top: 93px;  /*margin-bottom: 50px;*/ }
+.banner-category { margin-top: 93px;  margin-bottom: 50px!important; }
 
 .more-info { margin-bottom: 30px; }
 .more-info ul { background: #fff; display: inline-block; }
@@ -3688,6 +3695,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 }
 
 /* Estilo Mi cuenta My Gift Cards */
+.sign-account{padding-top: 60px;padding-bottom: 30px;}
 .textAccount{padding:0px; margin-left: -84px;}
 .textAccount2{float:right;}
 .nameCard{font-family:'Open Sans'; font-weight:lighter; margin-top:4px;}
@@ -3818,7 +3826,6 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 
 @media (min-width:761px) and (max-width:1023px){
     .col-sm-9{width:100%;}
-    .col-sm-3{width:100%; margin:0 auto;}
     .barTop{padding-left:0px !important;}
     .last-block{float:right;}
     .prueba{position: absolute; top: 47px; left: 315px !important; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
@@ -4247,7 +4254,7 @@ h2.title_blockSale {
 }
 
 .contenedor>div{
-    margin-top:4%;
+    margin-top:1%;
 }
 .blockFooterPay{
     margin-top:45px;
@@ -4465,7 +4472,21 @@ font-family: 'Open Sans' !important;
 .Merchants1 button{font-size:7px;}
 .merchants3{height:50px !important;}
 #columns{padding:0;}
-.Merchants3 h1{line-height:63px; fonts-size:20px;}
+.Merchants3 h1{line-height:63px; font-size:20px;}
+.p-auth{text-align:center !important;}
+.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
+.stick>iframe {padding: 0;height: 150px;}
+#authentication .box {padding-bottom: 0px;line-height: 20px;margin-bottom: 0px;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
+.account_creation>h2{line-height: 30px;}
+.vdoTube>iframe {padding: 0;height: 196px;}
+#uniform-id_country{width:100% !important;}
+.rangePrice{padding-left:0px;padding-right: 0px;}
+.finalDeposit>span{font-size:14px !important;}
+.panel-title > a{font-size:12px;}
+.checkbox label{font-size:10px;}
 }
 
 @media (min-width:360px) and (max-width:419px){
@@ -4475,6 +4496,18 @@ font-family: 'Open Sans' !important;
 .Merchants-banner{min-height:184px;}
 .Merchants-banner2{min-height:128px;}
 .Merchants3 h1{line-height:8px;}
+.p-auth{text-align:center !important;}
+.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
+.stick>iframe {padding: 0;height: 150px;}
+#authentication .box {padding-bottom: 0px;line-height: 20px;margin-bottom: 0px;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
+.account_creation>h2{line-height: 30px;}
+.vdoTube>iframe {padding: 0;height: 196px;}
+#uniform-id_country{width:100% !important;}
+.rangePrice{padding-left:0px;padding-right: 0px;}
+.checkbox label{font-size:12px;}
 }
 
 @media (min-width:420px) and (max-width:760px){
@@ -4484,12 +4517,27 @@ font-family: 'Open Sans' !important;
 .Merchants-banner{min-height:220px;}
 .Merchants-banner2{min-height:151px;}
 .Merchants3 h1{line-height:151px;}
+.p-auth{text-align:center !important;}
+.stick {position:initial !important; width: 400px !important;}
+#authentication .box {padding-bottom: 0px;line-height: 20px;margin-bottom: 0px;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
+.account_creation>h2{line-height: 30px;}
+.vdoTube>iframe {padding: 0;height: 222px;}
 }
-@media (min-width:761px) and (max-width:1024px){
+@media (min-width:761px) and (max-width:1023px){
 .Merchants-banner{min-height:411px;}
 .Merchants-banner2{min-height:350px;}
 .Merchants3 h1{line-height:350px;}
 .breadcrumb{margin-left:10px;}
+.p-auth{text-align:center !important;}
+.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
+.stick>iframe {padding: 0;height: 150px !important;}
+.account_creation>h2{text-align:center;}
+.finalDeposit {text-align:center;}
+.rangeSelect{text-align:center;}
+.formInfo {text-align: center;margin-bottom: 20px;}
 }
 .Cards img{padding-right:0px; padding-left:0px;}
 @media (max-width:1024px){
@@ -4502,19 +4550,24 @@ font-family: 'Open Sans' !important;
     card-st{padding-left:0px;}
     .barTop{padding-left:0px !important;}
     .account-responsive{margin-right:10px !important;}
+    .stick{width: 455px;}
 }
 @media (min-width:1025px) and (max-width:1280px){
     .Merchants-banner{min-height:550px;}
     .Merchants-banner2{min-height:350px;}
     .Merchants3 h1{line-height:350px;}
     .card-st{padding-left:0px;}
+    .stick{width: 455px;}
 }
 @media (min-width:1281px){
     .Merchants-banner{min-height:520px;}
     .Merchants-banner2{min-height:100px;}
     .Merchants3 h1{line-height:100px;}
     .card-st{padding-left:0px;}
+    .stick{width: 560px;}
 }
+
+.vdo-auth{width:100%;}
 
 /* This code is only meant for previewing your Reflow design. */
 .primaryContainer {

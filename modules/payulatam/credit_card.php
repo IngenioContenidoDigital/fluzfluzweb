@@ -265,6 +265,10 @@ class PayuCreditCard extends PayUControllerWS {
                     setcookie("datamailfirstname", "", -1, "/");
                     setcookie("datamaillastname", "", -1, "/");
                 }
+                
+                $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".(int)$customer->id." AND id_order=".(int) $order['id_order']." AND id_cart=".$this->context->cart->id;
+                Db::getInstance()->execute($qstate);
+                
                 Tools::redirectLink($url_confirmation);
                 exit();
             } else {

@@ -43,13 +43,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 		// récupère le nombre de crédits convertibles
 		$totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
 		$totalGlobal = round(isset($totals['total']) ? (float)$totals['total'] : 0);
-		$totalConverted = isset($totals[RewardsStateModel::getConvertId()]) ? (float)$totals[RewardsStateModel::getConvertId()] : 0;
+                $totalConverted = isset($totals[RewardsStateModel::getConvertId()]) ? (float)$totals[RewardsStateModel::getConvertId()] : 0;
                 $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
 		$totalPending = (isset($totals[RewardsStateModel::getDefaultId()]) ? (float)$totals[RewardsStateModel::getDefaultId()] : 0) + (isset($totals[RewardsStateModel::getReturnPeriodId()]) ? $totals[RewardsStateModel::getReturnPeriodId()] : 0);
 		$totalWaitingPayment = isset($totals[RewardsStateModel::getWaitingPaymentId()]) ? (float)$totals[RewardsStateModel::getWaitingPaymentId()] : 0;
 		$totalPaid = isset($totals[RewardsStateModel::getPaidId()]) ? (float)$totals[RewardsStateModel::getPaidId()] : 0;
 		$totalForPaymentDefaultCurrency = round($totalAvailable * MyConf::get('REWARDS_PAYMENT_RATIO', null, $id_template) / 100, 2);
-                
                 $totalAvailableCurrency=RewardsModel::getmoneyReadyForDisplay($totalAvailableCurrency,(int)$this->context->currency->id);
                 $this->context->smarty->assign('totalAvailable', $totalAvailable);
                 $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
@@ -57,7 +56,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 		$totalAvailableUserCurrency = Tools::convertPrice($totalAvailable, $currency);
 		$voucherMininum = (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) > 0 ? (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) : 0;
 		$paymentMininum = (float)MyConf::get('REWARDS_PAYMENT_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) > 0 ? (float)MyConf::get('REWARDS_PAYMENT_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) : 0;
-
+                
 		$voucherAllowed = RewardsModel::isCustomerAllowedForVoucher((int)$this->context->customer->id);
 		$paymentAllowed = RewardsModel::isCustomerAllowedForPayment((int)$this->context->customer->id);
                 
@@ -68,33 +67,49 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     $cartValue=$_GET['price'];
                     $points=$_GET['points'];
                     $use=$_GET['use'];
-                     
+                    $a =  RewardsModel::getRewardReadyForDisplay($cartValue, (int)$this->context->currency->id);
+                    
                     if($points>0){
                         
                        if($use>0 && $use<=$points){
                             $money= RewardsModel::getMoneyReadyForDisplay($use, (int)$this->context->currency->id);
                             $cartpoints=RewardsModel::getRewardReadyForDisplay($money, (int)$this->context->currency->id);
-                       }else{
+                       }
+                       else{
                            $cartpoints=RewardsModel::getRewardReadyForDisplay($cartValue, (int)$this->context->currency->id);
                            if($points>=$cartpoints){
                               $money= RewardsModel::getMoneyReadyForDisplay($cartpoints, (int)$this->context->currency->id);
                            }else{
                               $money= RewardsModel::getMoneyReadyForDisplay($points, (int)$this->context->currency->id);
+                              $cartpoints=RewardsModel::getRewardReadyForDisplay($money, (int)$this->context->currency->id);
                            }
                            
                        }
                        
-                       if($use){
+                       if($use < $a){
                             $response=RewardsModel::createDiscount($money);
                             $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('4', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
-                       Db::getInstance()->execute($query1);
+                            Db::getInstance()->execute($query1);
                        }
-                       else{
+                       else if($use > $a){
+                            $response=RewardsModel::createDiscount($money);
+                            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$a.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                            Db::getInstance()->execute($query1);
+                       }
+                       else if($points < $cartpoints){
+                            
+                            $response=RewardsModel::createDiscount($money);
+                            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('4', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$points.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                            Db::getInstance()->execute($query1);
+                       }
+                       else {
                             $response=RewardsModel::createDiscount($money);
                             $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$cartpoints.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
-                       Db::getInstance()->execute($query1);
+                            Db::getInstance()->execute($query1);
                        }
                         echo $response;
                     }
@@ -231,9 +246,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                                                 GROUP BY id_customer");
                     $pointsStatistics['oneweek'] += $datosGraph[0]['points'];
                     
-                    /*echo '<pre>';
-                    print_r($tree);
-                    die();*/
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
@@ -276,12 +288,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         }
         
         public function TopWorst() {
-            
+           
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.firstname AS name, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
-                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
                 $result = Db::getInstance()->executeS($queryTop);
                 if ( $result[0]['points'] != "" ) {
@@ -297,15 +309,21 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         }
         
         public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
+            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            $stringidsponsors = "";
+            foreach ($tree as $sponsor) {
+                $stringidsponsors .= $sponsor['id'].",";
+            }
             
-            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, n.credits AS points, n.date_add AS time FROM "._DB_PREFIX_.'rewards n 
-                          LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                          LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.(int)$this->context->customer->id;
+            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, a.credits AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
+                    LEFT JOIN "._DB_PREFIX_."customer c ON (c.id_customer = n.id_customer)
+                    LEFT JOIN "._DB_PREFIX_."rewards a ON (a.plugin = 'loyalty')
+                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (s.id_order = n.id_order) WHERE a.credits > 0 AND a.id_reward_state = 2 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ' AND a.id_customer !=".$this->context->customer->id;
             if ($onlyValidate === true)
-		$query .= ' AND n.id_reward_state = '.(int)RewardsStateModel::getValidationId();
-		$query .= ' GROUP BY n.id_reward ORDER BY n.date_add DESC '.
+		$query .= ' AND a.id_reward_state = 2';
+                $query .= ' GROUP BY a.id_reward ORDER BY a.date_add DESC '.
 		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
-             
+            
             $activity=Db::getInstance()->executeS($query);
             return $activity;
             

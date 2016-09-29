@@ -40,6 +40,19 @@
 #messagesendmessage { border-left: none; border-right: none; border-bottom: none; }
 #namesendmessage { margin-left: 5px; font-size: 16px; text-transform: capitalize; }
 
+/* my network feed */
+.pointstitlemnf { font-weight: bold; border-bottom: 1px solid #CDCED0; font-size: 13px; padding: 10px 7px; }
+.pointsmnf { font-weight: bold; color: #EF4136; }
+.networkfeed { }
+.networkfeed > .container1 { padding-left: 0px; padding-right: 0px; margin-right: 1%; margin-bottom: 15px; }
+.networkfeed > .container2 { padding-left:0px; padding-right: 0px; }
+.networkfeed > .container1 > .row > .containerimgprod { padding-left: 0px; padding-right: 0px; }
+.networkfeed > .container1 > .row > .containerinfor { padding: 3px 12px 0px 12px; background-color: #F4F4F4; }
+.networkfeed > .container1 > .row > .containerinfor > .row > .containerimgcustom { padding-left: 0px; padding-right: 0px; }
+.networkfeed > .container1 > .row > .containerinfor > .row > .containerpurchase { padding-left: 0px; padding-right: 0px; font-size: 11px; }
+.networkfeed > .container1 > .row > .containerinfor > .row > .message { padding: 10px 0; }
+.networkfeed > .page-heading { margin-bottom: 30px; }
+
 @media (max-width:420px){
     .spanSponsor{font-size:10px !important; padding-left: 5px !important;}   
 }

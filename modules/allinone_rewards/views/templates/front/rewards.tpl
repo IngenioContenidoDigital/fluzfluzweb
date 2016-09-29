@@ -19,7 +19,7 @@
 {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
 <div class="banner-home">
-    <div class="banner-box banner1" style="text-align: right; margin-top: -35px; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
+    <div class="banner-box banner-reward" style="text-align: right; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
             <div class='col-lg-12 col-xs-12 col-md-12 col-sm-12 bannerNetwork'>
             <div class="divNetwork">
                 <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}
@@ -37,8 +37,8 @@
 <div id="rewards_account" class="rewards">	
 <h1 class="page-heading">{l s='My rewards account' mod='allinone_rewards'}</h1>
 
-<div id="container" class="col-lg-6 graphicStat"></div>
-<div id="container2" class="col-lg-6 graphicStat">
+<div id="container" class="col-lg-6 col-md-6 col-sm-12 graphicStat"></div>
+<div id="container2" class="col-lg-6 col-md-6 col-sm-12 graphicStat">
     <h4 class="titleStats">{l s="Performance Summary" mod='allinone_rewards'}</h4>
     <div class="yourPointnet">
         <div id="yourPoint" class="puntoGrap">
@@ -136,7 +136,7 @@
 		</tbody>
 	</table>-->
     {if $rewards}    
-       <table class="std">
+       <table class="std row">
             <h2 class="tituloNet">{l s="Recent Network Activity" mod='allinone_rewards'}</h2>
                 <thead>
 			<tr>
@@ -284,7 +284,7 @@
 		<tbody>
 	{foreach from=$topWorst item=worst name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$topNet.lastname|escape:'html':'UTF-8'}</td>
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$worst.lastname|escape:'html':'UTF-8'}</td>
                                 <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.purchase|escape:'htmlall':'UTF-8'}</td>
                                 <td align="right" style="padding-top:17px !important;">{$worst.points|number_format:0}</td>
                                 <td style="padding-top:17px !important;">{dateFormat date=$worst.time full=1}</td>
@@ -402,7 +402,7 @@
         .breadcrumb{display: none !important;}
         #center_column{min-width: 100% !important; margin: 0px;}
         #columns{margin-bottom: 0px !important; min-width: 100%;}
-        .banner-home{margin: 0px;}
+        .banner-home{margin: 0px; margin-top: 35px;}
         .footer_links{display: none;}
         #transform {display: none;}
         #min_payment{display: none;}

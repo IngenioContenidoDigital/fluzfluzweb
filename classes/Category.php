@@ -788,8 +788,10 @@ class CategoryCore extends ObjectModel
         $lista=Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
         $result= array();
         foreach($lista as $x){
+            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($context->customer->id);
+            $sponsorships2=array_slice($sponsorships, 1, 15);
             $precio = RewardsProductModel::getProductReward($x['id_product'],$x['price'],1, $context->currency->id);
-            $x['points']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship($context->customer->id)));
+            $x['points']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/(count($sponsorships2)+1));
             $x['pointsNl']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/16);
             array_push($result,$x);
          }

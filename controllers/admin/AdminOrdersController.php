@@ -513,6 +513,132 @@ class AdminOrdersControllerCore extends AdminController
                 $this->errors[] = Tools::displayError('You do not have permission to edit this.');
             }
         }
+        
+        elseif ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport" ) {
+            $sql = "SELECT
+                            o.id_order orden,
+                            o.reference referencia,
+                            CONCAT(c.firstname,' ',c.lastname) cliente,
+                            c.username,
+                            c.email,
+                            osl.name estado,
+                            o.payment pago,
+                            o.total_paid total,
+                            o.date_add fecha,
+                            od.product_name nombre_producto,
+                            od.product_id id_product,
+                            od.product_reference referencia_producto,
+                            od.unit_price_tax_incl precio_producto,
+                            od.product_quantity cantidad,
+                            od.total_price_tax_incl total_producto,
+                            rp.value porcentaje_producto,
+                            ROUND( (((od.unit_price_tax_incl * od.product_quantity * IFNULL(rp.value,0)) / 100) / ".Configuration::get('REWARDS_VIRTUAL_VALUE_1').") , 2 ) puntos_producto
+                    FROM "._DB_PREFIX_."orders o
+                    INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+                    INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
+                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                    LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )
+                    ORDER BY o.id_order DESC";
+            
+            $orders = Db::getInstance()->executeS($sql);
+            
+            $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>orden</th>
+                                        <th>referencia</th> 
+                                        <th>cliente</th>
+                                        <th>usuario</th>
+                                        <th>email</th>
+                                        <th>nivel</th>
+                                        <th>estado</th>
+                                        <th>pago</th>
+                                        <th>total</th>
+                                        <th>fecha</th>
+                                        <th>nombre_producto</th>
+                                        <th>referencia_producto</th>
+                                        <th>precio_producto</th>
+                                        <th>cantidad</th>
+                                        <th>total_producto</th>
+                                        <th>porcentaje_producto</th>
+                                        <th>puntos_compra</th>
+                                        <th>puntos_pesos_compra</th>
+                                        <th>puntos_red</th>
+                                        <th>puntos_pesos_red</th>
+                                        <th>codigos_producto</th>
+                                        <th>usuarios_red</th>
+                                    </tr>";
+
+            foreach ( $orders as $order ) {
+                $sql = 'SELECT
+                                SUM(r.credits) as loyalty ,
+                                (SELECT SUM(s.credits) AS sponsorship
+                                FROM '._DB_PREFIX_.'rewards AS s
+                                WHERE s.id_order = r.id_order
+                                AND (s.id_reward_state = 2 OR s.id_reward_state = 5)
+                                AND s.id_customer <> 0
+                                AND s.`plugin`="sponsorship" ) AS sponsorship
+                        FROM '._DB_PREFIX_.'rewards AS r
+                        WHERE r.id_order = '.$order['orden'].' 
+                        AND (r.id_reward_state = 2 OR r.id_reward_state = 5)
+                        AND r.id_customer <> 0
+                        AND r.`plugin`="loyalty"';
+                $num_quantity = Db::getInstance()->executeS($sql);
+
+                $sql = 'SELECT GROUP_CONCAT(c.username) users
+                        FROM '._DB_PREFIX_.'rewards r
+                        INNER JOIN '._DB_PREFIX_.'customer c ON ( r.id_customer = c.id_customer )
+                        WHERE r.id_order = '.$order['orden'].'
+                        AND r.`plugin` = "sponsorship"';
+                $sponsors_order = Db::getInstance()->executeS($sql);
+
+                $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
+                        FROM '._DB_PREFIX_.'product_code
+                        WHERE id_order = '.$order['orden'].'
+                        AND id_product = '.$order['id_product'];
+                $codes_order = Db::getInstance()->executeS($sql);
+
+                $report .= "<tr>
+                                <td>".$order['orden']."</td>
+                                <td>".$order['referencia']."</td> 
+                                <td>".$order['cliente']."</td>
+                                <td>".$order['username']."</td>
+                                <td>".$order['email']."</td>
+                                <td>".round( (($order['total_producto'] * ($order['porcentaje_producto'] / 100)) / Configuration::get('REWARDS_VIRTUAL_VALUE_1')) / $num_quantity[0]['loyalty'], 0 )."</td>
+                                <td>".$order['estado']."</td>
+                                <td>".$order['pago']."</td>
+                                <td>".$order['total']."</td>
+                                <td>".$order['fecha']."</td>
+                                <td>".$order['nombre_producto']."</td>
+                                <td>".$order['referencia_producto']."</td>
+                                <td>".$order['precio_producto']."</td>
+                                <td>".$order['cantidad']."</td>
+                                <td>".$order['total_producto']."</td>
+                                <td>".$order['porcentaje_producto']."</td>
+                                <td>".$num_quantity[0]['loyalty']."</td>
+                                <td>".( $num_quantity[0]['loyalty'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
+                                <td>".$num_quantity[0]['sponsorship']."</td>
+                                <td>".( $num_quantity[0]['sponsorship'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
+                                <td>".$codes_order[0]['codigos_producto']."</td>
+                                <td>".$sponsors_order[0]['users']."</td>
+                            </tr>";
+            }
+
+            $report .= "         </table>
+                            </body>
+                        </html>";
+
+            header("Content-Type: application/vnd.ms-excel");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("content-disposition: attachment;filename=report_orders.xls");
+
+            die($report);
+        }
 
         /* Change order status, add a new entry in order history and send an e-mail to the customer if needed */
         elseif (Tools::isSubmit('submitState') && isset($order)) {
@@ -545,8 +671,8 @@ class AdminOrdersControllerCore extends AdminController
                             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
                             $productId = Db::getInstance()->executeS($query);
                             
-                        $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$this->context->customer->id." AND id_order=".$order->id." AND id_cart=".$this->context->cart->id;
-                        Db::getInstance()->execute($qstate);
+                            $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$this->context->customer->id." AND id_order=".$order->id." AND id_cart=".$this->context->cart->id;
+                            Db::getInstance()->execute($qstate);
                             
                             foreach ($productId as $valor) {
                                 for($i=0;$i<$valor['product_quantity'];$i++){
@@ -1613,6 +1739,15 @@ class AdminOrdersControllerCore extends AdminController
         }
         $helper->source = $this->context->link->getAdminLink('AdminStats').'&ajax=1&action=getKpi&kpi=netprofit_visit';
         $helper->refresh = (bool)(ConfigurationKPI::get('NETPROFIT_VISIT_EXPIRE') < $time);
+        $kpis[] = $helper->generate();
+        
+        $helper = new HelperKpi();
+        $helper->id = 'box-report_orders';
+        $helper->icon = 'icon-download';
+        $helper->color = 'color1';
+        $helper->title = $this->l('Reporte Ordenes', null, null, false);
+        $helper->subtitle = $this->l('Descargar', null, null, false);
+        $helper->href = $this->context->link->getAdminLink('AdminOrders').'&action=exportreport';
         $kpis[] = $helper->generate();
 
         $helper = new HelperKpiRow();

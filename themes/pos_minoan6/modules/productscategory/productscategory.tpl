@@ -45,27 +45,28 @@
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
                                         </div>
                                         <div class="points-block">
-                                                <div class="imgmanu"><img src="{$img_manu_dir}{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="imgMini"/></div>
+                                                <div class="imgmanu"><img src="{$img_manu_dir}{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                                 <div class="namepro">
                                                         {if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
-                                                        {$categoryProduct.name|truncate:35:'...'|escape:'html':'UTF-8'}
+                                                        {$categoryProduct.name|truncate:25:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 <div>
-                                                        <span style="font-weight: bold;">{if $logged}{$categoryProduct.points}{else $logged}{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s=points}</span>
+                                                        <span style="font-weight: bold;">{if $logged}{$categoryProduct.points}{else $logged}{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s=Fluz}</span>
                                                 </div>
                                         </div>
                                         <div class="price-block">
                                                 {if (!$PS_CATALOG_MODE AND ((isset($categoryProduct.show_price) && $categoryProduct.show_price) || (isset($categoryProduct.available_for_order) && $categoryProduct.available_for_order)))}
                                                         {if isset($categoryProduct.show_price) && $categoryProduct.show_price && !isset($restricted_country_mode)}
                                                                 <div>
-                                                                        <span style="text-align: left; margin-right: 1px; font-weight: bold;">{l s='PRICE: '}</span>
+                                                                        <span style="text-align: left; margin-right: 1px; font-weight: bold;">{l s='Precio: '}</span>
                                                                         <span class="product-price" style="color:#ef4136; text-align: left;">
                                                                                 {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
                                                                         </span>
-                                                                        <span class="redfl">({l s="Save"} {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price}%)</span>
+                                                                        <br>
+                                                                        <span class="redfl">({l s="Ahorra"} {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price}%)</span>
                                                                 </div>
                                                                 <div>
-                                                                        <span style="text-align: left; margin-right: 1px;">{l s='VALUE: '}</span>
+                                                                        <span style="text-align: left; margin-right: 1px;">{l s='Valor: '}</span>
                                                                         <span class="product-price redfl valuefl" style="color:#ef4136; text-align: left; font-weight: bold;">
                                                                                 {convertPrice price=$categoryProduct.price_shop|floatval}
                                                                         </span>
@@ -169,7 +170,7 @@
 		items : 4,
 		 pagination :false,
 		slideSpeed: 1000,
-		itemsDesktop : [2100,2],
+		itemsDesktop : [1199,3],
 		itemsDesktopSmall : [911,2], 
 		itemsTablet: [767,2], 
 		itemsMobile : [480,1],
@@ -183,7 +184,6 @@
 		owl.trigger('owl.prev');
 		})     
     });
-
 </script>
 {literal}
     <style>
@@ -201,6 +201,5 @@
         .imgmanu { width: auto!important; }
         .points-block div:last-child { width: 25%; }
         .namepro { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 60%; font-family: 'Open Sans'; font-size: 12px; }
-        .price-block { padding: 15px 0%; }
     </style>    
 {/literal}

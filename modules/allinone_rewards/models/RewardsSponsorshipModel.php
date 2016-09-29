@@ -394,10 +394,12 @@ class RewardsSponsorshipModel extends ObjectModel
 					$result['indirect_nb']++;
                                 }
 
-                                $sponsor_tree[] = array(
-                                    "id" => $row['id_customer'],
-                                    "level" => $level,
-                                );
+                                if ( $level <= 15 ) {
+                                    $sponsor_tree[] = array(
+                                        "id" => $row['id_customer'],
+                                        "level" => $level,
+                                    );
+                                }
 
 				// nb direct or indirect friends for each level 1 sponsored
 				if (!isset($result['direct_customer'.$idSponsor])) {

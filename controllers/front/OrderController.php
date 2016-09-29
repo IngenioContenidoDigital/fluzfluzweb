@@ -122,14 +122,26 @@ class OrderControllerCore extends ParentOrderController
         $this->context->smarty->assign('totalAvailable', $totalAvailable);
         $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
         
+        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+        $sponsorships2=array_slice($sponsorships, 1, 15);
+        
         foreach ($this->context->cart->getProducts() as $product) {
-        $price = RewardsProductModel::getProductReward($product['id_product'],$product['price'],1, $this->context->currency->id);
-        $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(RewardsSponsorshipModel::getNumberSponsorship((int)$this->context->customer->id)));
-        $productsPoints[$product['id_product']] = $productP;
+            $price = RewardsProductModel::getProductReward($product['id_product'],$product['price'],1, $this->context->currency->id);
+            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+            $productsPoints[$product['id_product']] = $productP;
+        }
+        
+        foreach ($this->context->cart->getProducts() as $product) {
+            $qprice_shop = 'SELECT price_shop FROM '._DB_PREFIX_.'product WHERE id_product = '.$product['id_product'];
+            $shop_value = DB::getInstance()->getRow($qprice_shop);
+            $p = $shop_value['price_shop'];
+            $shop[$product['id_product']] = $p;
+             
         }
         
         $this->context->smarty->assign(array(
             'productsPoints' => $productsPoints,
+            'shop' => $shop
         ));
         
         if (Tools::isSubmit('ajax') && Tools::getValue('method') == 'updateExtraCarrier') {
