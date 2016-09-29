@@ -3693,6 +3693,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 }
 
 /* Estilo Mi cuenta My Gift Cards */
+.sign-account{padding-top: 60px;padding-bottom: 30px;}
 .textAccount{padding:0px; margin-left: -84px;}
 .textAccount2{float:right;}
 .nameCard{font-family:'Open Sans'; font-weight:lighter; margin-top:4px;}
@@ -3823,7 +3824,6 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 
 @media (min-width:761px) and (max-width:1023px){
     .col-sm-9{width:100%;}
-    .col-sm-3{width:100%; margin:0 auto;}
     .barTop{padding-left:0px !important;}
     .last-block{float:right;}
     .prueba{position: absolute; top: 47px; left: 315px !important; width: 20px; height: 20px; font-size: 14px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}

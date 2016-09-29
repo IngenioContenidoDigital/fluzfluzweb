@@ -49,7 +49,7 @@
 		</ol>
 	</div>
 	{/if}-->
-	<div class="row">
+	<div class="row sign-account">
                 <div class="col-xs-12 col-sm-6">
                     <div class="info-box">
 			<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">

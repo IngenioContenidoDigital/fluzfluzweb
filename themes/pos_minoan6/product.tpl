@@ -37,7 +37,7 @@
 <div itemscope itemtype="https://schema.org/Product" class="containerprodinfo">
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
 	<div class="primary_block">
-		<div class="row">
+            <div class="row info-row">
 			
 			{if !$content_only}
 				<div class="container">
@@ -292,19 +292,19 @@
                                                                         </div>
 									{/if}
                                                                         {if $logged}
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price in points: "}</div>
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price in points: "}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
                                                                         {else $logged}
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price in points: "}</div>
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price in points: "}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
 									{/if}
                                                                         
                                                                         {if $logged}
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price earned: "}</div>
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$productP}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price earned: "}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productP}&nbsp;{l s="pts."}</div>
                                                                         {else $logged}
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 title-price-point">{l s="Price earned: "}</div>
-                                                                            <div  class="col-xs-12 col-lg-6 col-md-6 col-sm-3 price-point">{$resultProduct|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price earned: "}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$resultProduct|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
 									{/if}
                                                                         <!-- minimal quantity wanted -->
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
@@ -314,22 +314,22 @@
                                                                         {if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}</div>
                                                                         <div class="row bloque-precio">
                                                                             {if $priceDisplay >= 0 && $priceDisplay <= 2}
-                                                                                <div class="col-lg-6 col-xs-4 col-md-6 col-sm-4 shop-price">
+                                                                                <div class="col-lg-6 col-xs-6 col-md-6 col-sm-4 shop-price">
                                                                                     {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
                                                                                         {if $priceDisplay == 1} {l s='Total: '}{else} {l s='Total: '}{/if}
                                                                                     {/if}
                                                                                     <span id="our_price_display" class="price" itemprop="price" content="{$productPrice}">{convertPrice price=$productPrice|floatval}</span>
                                                                                 </div>
-                                                                                <div class="col-lg-6 col-xs-4 col-md-6 col-sm-4 shop-pri">
+                                                                                <div class="col-lg-6 col-xs-6 col-md-6 col-sm-4 shop-pri">
                                                                                     {l s='Tienda: '}
                                                                                     <span class="price-shop">{convertPrice price=$product->price_shop|floatval}</span>
                                                                                 </div>
                                                                                 {*<meta itemprop="priceCurrency" content="{$currency->iso_code}" />*}
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                    <div class="col-xs-3 col-lg-10 col-md-10 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                    <div class="col-xs-12 col-lg-10 col-md-10 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {else $logged}
-                                                                                    <div class="col-xs-3 col-sm-3 col-lg-10 col-md-10 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                    <div class="col-xs-12 col-sm-3 col-lg-10 col-md-10 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {/if}
                                                                             {/if}
                                                                         </div>
@@ -933,7 +933,7 @@
 {/if}
 {literal}
     <style>
-        .breadcrumb{padding: 0 6% 2%;}
+        .breadcrumb{display: none;}
         .actions{display: none !important;}
         .pb-left-column{padding-left: 5px;}
     </style>

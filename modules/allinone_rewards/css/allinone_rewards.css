@@ -608,3 +608,39 @@ ul.footer_links{
     float: left;
     margin-top: 8px !important;
 }
+
+@media (max-width:1024px){
+   .banner-home{margin-top: 10px !important;}
+}
+
+@media (max-width:768px){
+   .banner-home{margin-top: -8px !important;}
+   .graphicStat{margin-top: 0px;margin-bottom: 15px;}
+   .titleStats{margin-bottom: 0px;}
+   #general_txt{display: none;}
+   .tituloNet{margin-top: 0px;}
+   #container2{margin-bottom: 0px;padding-left: 0px;padding-right: 0px;}
+   .rewards{width: 90% !important; margin: 0 auto !important; padding-right: 0px; padding-left: 0;}
+}
+
+@media (max-width:425px){
+    .pNetwork{margin-top: -44px; font-size: 12px;}
+    .titleNetwork{margin-top: 62px; font-size: 25px;}
+    #container2{padding-left: 0px;padding-right: 0px;}
+    .banner-box {height: 212px;}
+    .banner-home {height: 170px;}
+    .puntoGrap>span{ line-height: 30px;}
+    .rewards{width: 95% !important; margin: 0 auto !important; padding-right: 0px; padding-left: 0;}
+    .rewards table.std td{font-size: 10px !important;}
+}
+
+@media (max-width:375px){
+    .pGrap{text-align: left;}
+    .tituloNet{width: 100% !important;}
+    #container2{padding-left: 0px;padding-right: 0px;}
+    .puntoGrap>span{ line-height: 30px;}
+}
+
+@media (max-width:320px){
+    
+}

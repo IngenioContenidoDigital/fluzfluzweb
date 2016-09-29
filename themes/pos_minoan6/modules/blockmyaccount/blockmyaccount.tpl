@@ -92,6 +92,6 @@
 <!-- /Block myaccount module -->
 {literal}
     <style>
-        .account-block{margin-top: 20px;}
+        .account-block{padding-top: 20px;}
     </style>
 {/literal}
