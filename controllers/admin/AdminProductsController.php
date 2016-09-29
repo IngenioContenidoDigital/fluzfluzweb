@@ -1476,6 +1476,74 @@ class AdminProductsControllerCore extends AdminController
                 _PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css'
             ));
         }
+        
+        if ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport" ) {
+            $sql = "SELECT
+                            p.id_product id,
+                            pl.name nombre_producto,
+                            p.reference referencia,
+                            p.price precio,
+                            IF(p.active=1,'Activo','Inactivo') estado,
+                            (SELECT COUNT(pc1.id_product)
+                                FROM "._DB_PREFIX_."product_code pc1
+                                WHERE pc1.id_product = p.id_product
+                                AND pc1.id_order = 0) unidades_disponibles,
+                            (SELECT COUNT(pc2.id_product)
+                                FROM "._DB_PREFIX_."product_code pc2
+                                WHERE pc2.id_product = p.id_product
+                                AND pc2.id_order <> 0) unidades_vendidas
+                    FROM "._DB_PREFIX_."product p
+                    INNER JOIN "._DB_PREFIX_."product_lang pl ON ( p.id_product = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
+                    GROUP BY p.id_product";
+
+            $products = Db::getInstance()->executeS($sql);
+            
+            $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>nombre_producto</th> 
+                                        <th>referencia</th>
+                                        <th>precio</th>
+                                        <th>categorias</th>
+                                        <th>estado</th>
+                                        <th>unidades_disponibles</th>
+                                        <th>unidades_vendidas</th>
+                                    </tr>";
+
+            foreach ( $products as $product ) {
+                $productCategories = Product::getProductCategoriesFull($product['id']);
+                $categories = "";
+                foreach ( $productCategories as $productCategorie ) {
+                    $categories .= $productCategorie['name'].",";
+                }
+                $report .= "<tr>
+                                <td>".$product['id']."</td>
+                                <td>".$product['nombre_producto']."</td> 
+                                <td>".$product['referencia']."</td>
+                                <td>".$product['precio']."</td>
+                                <td>".substr($categories, 0, -1)."</td>
+                                <td>".$product['estado']."</td>
+                                <td>".$product['unidades_disponibles']."</td>
+                                <td>".$product['unidades_vendidas']."</td>
+                            </tr>";
+            }
+
+            $report .= "         </table>
+                            </body>
+                        </html>";
+
+            header("Content-Type: application/vnd.ms-excel");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("content-disposition: attachment;filename=report_products.xls");
+
+            die($report);
+        }
     }
 
     public function ajaxProcessDeleteProductAttribute()
@@ -2580,6 +2648,15 @@ class AdminProductsControllerCore extends AdminController
         $helper->refresh = (bool)(ConfigurationKPI::get('DISABLED_PRODUCTS_EXPIRE') < $time);
         $helper->tooltip = $this->l('X% of your products are disabled and not visible to your customers', null, null, false);
         $helper->href = Context::getContext()->link->getAdminLink('AdminProducts').'&productFilter_active=0&submitFilterproduct=1';
+        $kpis[] = $helper->generate();
+        
+        $helper = new HelperKpi();
+        $helper->id = 'box-report_products';
+        $helper->icon = 'icon-download';
+        $helper->color = 'color1';
+        $helper->title = $this->l('Reporte Productos', null, null, false);
+        $helper->subtitle = $this->l('Descargar', null, null, false);
+        $helper->href = $this->context->link->getAdminLink('AdminProducts').'&action=exportreport';
         $kpis[] = $helper->generate();
 
         $helper = new HelperKpiRow();
