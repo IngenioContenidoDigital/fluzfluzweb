@@ -2,10 +2,10 @@
 {if !$cards}
     <h1>{l s='No hay resultados'}</h1>
 {else}
-    <div class='container c'>
+    <div class='row c'>
         {foreach from=$cards item=card}
             <a class="myfanc" href="#myspecialcontent">
-                <div class="card"><img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
+                <div class="card col-lg-6"><img class="col-lg-5 col-md-3 col-sm-3 col-xs-3 back-cardView" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
                     <div class="col-lg-7 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
                     <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
                 </div>

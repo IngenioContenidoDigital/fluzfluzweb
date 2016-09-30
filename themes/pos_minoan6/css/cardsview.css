@@ -58,6 +58,11 @@
     overflow-y: scroll;
     margin-bottom: 15px;
     padding: 0px;
+    margin-top: 60px;
+}
+
+.back-cardView{
+    background: #fff;
 }
 
 .fancybox-skin{
@@ -263,6 +268,7 @@ ul li .check::before {
     margin: 0 auto;
     margin-left: 0%;
     margin-bottom: 1%;
+    display:none;
 }
 
 .pagination > li:first-child > span{
