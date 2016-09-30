@@ -68,8 +68,8 @@
 		<input type="hidden" name="controller" value="search" />
 		<input type="hidden" name="orderby" value="position" />
 		<input type="hidden" name="orderway" value="desc" />
-                <i class="cerrar">X</i>
-		<input class="search_query form-control" type="text" id="search_query_top" name="search_query" placeholder="{l s='Buscar'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                <span class="cerrar">X</span>
+                <input class="search_query form-control" type="text" id="search_query_top" name="search_query" placeholder="{l s='Buscar'}..." value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
             </form>
 	{if !isset($content_only) || !$content_only}
 		{if isset($restricted_country_mode) && $restricted_country_mode}
@@ -124,7 +124,11 @@
                                                                     <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
                                                                     <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Merchants'}</a></li>
                                                                     <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
-                                                                    <li><a style="border-bottom:none;" href="{$link->getPageLink('search', true)|escape:'html'}"><span class="glyphicon glyphicon-search"></span>{l s='Search'}</a></li>
+                                                                    <li class="textbox">
+                                                                        <form id="searchbox2" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
+                                                                            <i class="icon-search icon-block-searchtoogle"></i></span><input type="text" id="search_query_top2" class="search_query2 form-control" name="search_query" placeholder="{l s='Buscar'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                                                        </form>    
+                                                                    </li>
                                                             </ul>
                                                     </div>
                                                     <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 hookLeft">
@@ -269,6 +273,9 @@
   
 {literal}
      <script>
+        $('.dropdown-menu').find('form').click(function (e) {
+            e.stopPropagation();
+        });
          var stickySidebar = $('.menuSticky');
                 if (stickySidebar.length > 0) {	
                   var stickyHeight = stickySidebar.height(),

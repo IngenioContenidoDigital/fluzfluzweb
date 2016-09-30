@@ -519,11 +519,14 @@ class AdminOrdersControllerCore extends AdminController
                             o.id_order orden,
                             o.reference referencia,
                             CONCAT(c.firstname,' ',c.lastname) cliente,
+                            c.username,
+                            c.email,
                             osl.name estado,
                             o.payment pago,
                             o.total_paid total,
                             o.date_add fecha,
                             od.product_name nombre_producto,
+                            od.product_id id_product,
                             od.product_reference referencia_producto,
                             od.unit_price_tax_incl precio_producto,
                             od.product_quantity cantidad,
@@ -549,6 +552,8 @@ class AdminOrdersControllerCore extends AdminController
                                         <th>orden</th>
                                         <th>referencia</th> 
                                         <th>cliente</th>
+                                        <th>usuario</th>
+                                        <th>email</th>
                                         <th>nivel</th>
                                         <th>estado</th>
                                         <th>pago</th>
@@ -561,7 +566,11 @@ class AdminOrdersControllerCore extends AdminController
                                         <th>total_producto</th>
                                         <th>porcentaje_producto</th>
                                         <th>puntos_compra</th>
+                                        <th>puntos_pesos_compra</th>
                                         <th>puntos_red</th>
+                                        <th>puntos_pesos_red</th>
+                                        <th>codigos_producto</th>
+                                        <th>usuarios_red</th>
                                     </tr>";
 
             foreach ( $orders as $order ) {
@@ -580,10 +589,25 @@ class AdminOrdersControllerCore extends AdminController
                         AND r.`plugin`="loyalty"';
                 $num_quantity = Db::getInstance()->executeS($sql);
 
+                $sql = 'SELECT GROUP_CONCAT(c.username) users
+                        FROM '._DB_PREFIX_.'rewards r
+                        INNER JOIN '._DB_PREFIX_.'customer c ON ( r.id_customer = c.id_customer )
+                        WHERE r.id_order = '.$order['orden'].'
+                        AND r.`plugin` = "sponsorship"';
+                $sponsors_order = Db::getInstance()->executeS($sql);
+
+                $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
+                        FROM '._DB_PREFIX_.'product_code
+                        WHERE id_order = '.$order['orden'].'
+                        AND id_product = '.$order['id_product'];
+                $codes_order = Db::getInstance()->executeS($sql);
+
                 $report .= "<tr>
                                 <td>".$order['orden']."</td>
                                 <td>".$order['referencia']."</td> 
                                 <td>".$order['cliente']."</td>
+                                <td>".$order['username']."</td>
+                                <td>".$order['email']."</td>
                                 <td>".round( (($order['total_producto'] * ($order['porcentaje_producto'] / 100)) / Configuration::get('REWARDS_VIRTUAL_VALUE_1')) / $num_quantity[0]['loyalty'], 0 )."</td>
                                 <td>".$order['estado']."</td>
                                 <td>".$order['pago']."</td>
@@ -596,7 +620,11 @@ class AdminOrdersControllerCore extends AdminController
                                 <td>".$order['total_producto']."</td>
                                 <td>".$order['porcentaje_producto']."</td>
                                 <td>".$num_quantity[0]['loyalty']."</td>
+                                <td>".( $num_quantity[0]['loyalty'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
                                 <td>".$num_quantity[0]['sponsorship']."</td>
+                                <td>".( $num_quantity[0]['sponsorship'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
+                                <td>".$codes_order[0]['codigos_producto']."</td>
+                                <td>".$sponsors_order[0]['users']."</td>
                             </tr>";
             }
 
@@ -1717,7 +1745,8 @@ class AdminOrdersControllerCore extends AdminController
         $helper->id = 'box-report_orders';
         $helper->icon = 'icon-download';
         $helper->color = 'color1';
-        $helper->title = $this->l('Descargar Reporte Ordenes', null, null, false);
+        $helper->title = $this->l('Reporte Ordenes', null, null, false);
+        $helper->subtitle = $this->l('Descargar', null, null, false);
         $helper->href = $this->context->link->getAdminLink('AdminOrders').'&action=exportreport';
         $kpis[] = $helper->generate();
 

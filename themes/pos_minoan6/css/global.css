@@ -136,6 +136,8 @@ img { vertical-align: middle; }
 
 .img-responsive { display: block; max-width: 100%; height: auto; }
 
+.footable-first-column { width: 20%; }
+
 .img-rounded { border-radius: 6px; }
 
 .img-thumbnail, .thumbnail { padding: 4px; line-height: 1.42857; background-color: white; border: 1px solid #dddddd; border-radius: 0px; -webkit-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; display: inline-block; max-width: 100%; height: auto; }
@@ -4252,7 +4254,7 @@ h2.title_blockSale {
 }
 
 .contenedor>div{
-    margin-top:4%;
+    margin-top:1%;
 }
 .blockFooterPay{
     margin-top:45px;
