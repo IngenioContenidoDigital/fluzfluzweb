@@ -53,12 +53,15 @@
 
 .c{
     line-height: 10px !important;
-    max-height: 179px;
+    max-height: 282px;
     overflow-x: hidden;
     overflow-y: scroll;
     margin-bottom: 15px;
     padding: 0px;
+    padding-top: 12px;
     margin-top: 60px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .back-cardView{
@@ -155,7 +158,7 @@ ul li .check::before {
 
 .codigoCard{
     font-family: 'Open Sans';
-    margin-top: 1px;
+    margin-top: 10px;
     line-height: 16px;
     font-size: 11px;
 }
@@ -173,47 +176,24 @@ ul li .check::before {
 .cardDesign .tCardView #nameViewCard { font-size: 20px; text-transform: uppercase; vertical-align: middle; }
 .cardDesign .tCardView #img-prod { width: 15%; vertical-align: middle; }
 
-
-
-@media (max-width:1440px){
-    
-}
-
-@media (max-width:100px){
-    //.fancybox-opened .fancybox-skin { width: 50%!important; }
-}
-
-@media (max-width:1024px){
-    //.fancybox-opened .fancybox-skin { width: 70%!important; }
-}
-
-@media (max-width:768px){
-    .menuSticky{background: #fff; border-bottom: none;}
-    //.fancybox-opened .fancybox-skin { width: 70%!important; }
-}
-
-@media (max-width:500px){
-    //.fancybox-opened .fancybox-skin { width: 100%!important; }
-}
-
 .card-view{
     background: #f4f4f4 !important;
     border-radius: 10px;
     margin-top: 0px;
     margin-bottom: 12px;
     padding: 0;
+    margin-left: 50px !important;
 }
 .title-card{
     color: #000 !important;
     background: #fff;
     text-align: left;
     padding-left: 15px;
+    margin-top: 40px;
 }
 #nameViewCard {
     color: #000;
 }
-
-
 
 .pDate{
     font-size: 12px;
@@ -252,7 +232,10 @@ ul li .check::before {
     height: auto;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 20px;
 }
+
+.cardview-ins{margin-top: 21px;margin-left: 39px;padding-left: 0px;padding-right: 0px;}
 
 .pointPrice{
     padding-top: 10px;
@@ -291,4 +274,54 @@ ul li .check::before {
     display: table;
     width: 100%;
     border:solid red 1px;
+}
+
+@media (max-width:2500px){
+    #bar-code{margin-bottom: 0px;margin-top: 20px;}
+}
+
+@media (max-width:1080px){
+    .card-view{ margin-left: 40px !important;}
+    .c{margin-left: 40px; margin-right: 40px;}
+    .cardview-ins{margin-left: 16px;}
+    #bar-code{margin-bottom: 0px;margin-top: 20px;}
+    .popText{margin-left: 5px !important;}
+}
+
+@media (max-width:768px){
+    .menuSticky{background: #fff; border-bottom: none; display: none;}
+    #bar-code{margin-bottom: 0px;margin-top: 20px;}
+    .popText{margin-left: 5px !important;}
+    .codigoCard{margin-top: 4px;}
+}
+
+@media (max-width:425px){
+    .cardview-ins {margin-left: 41px;margin-bottom: 10px;}
+    .c{ max-height: 252px;}
+    #priceCard{font-size: 16px !important;}
+    #nameViewCard{font-size: 12px;}
+    #bar-code{margin-bottom: 0px;margin-top: 10px;}
+    .popText{margin-left: 5px !important;}
+}
+
+@media (max-width:375px){
+    .c {margin-left: 15px;margin-right: 15px;}
+    .card-view{width: 92%;margin-left: 15px !important;}
+    .cardview-ins {margin-left: 15px;margin-bottom: 10px;width: 102%;}
+    #priceCard{font-size: 16px !important;}
+    #nameViewCard{font-size: 12px;}
+}
+
+@media (max-width:320px){
+    #priceCard{font-size: 14px !important;}
+    #nameViewCard{font-size: 10px;}
+    .micode{font-size: 14px !important;}
+    .title-card>img{width: 50%;}
+    .back-cardView{padding-right: 0px;padding-left: 0px;}
+    .pCode{margin-bottom: 0px;}
+    #bar-code{margin-bottom: 0px;margin-top: 10px;}
+    .popText{margin-left: 5px !important;}
+    .card-view {width: 95%;margin-left: 8px !important;}
+    .cardview-ins {margin-left: 8px;margin-bottom: 10px;width: 340px;}
+    .c {margin-left: 8px;margin-right: 8px;}
 }
