@@ -102,7 +102,7 @@
     <style>
         .btn-shop{width: 50%;}
         @media (max-width:420px){
-            article.sectionBanner{margin-right: 0px !important;}            
+            article.sectionBanner{margin-right: 0px !important;}   }         
         @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}
             .sectionFooter{text-align: center; padding-left: 0; margin-right: 0; }
         }

@@ -242,12 +242,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         public function graphStatistics(){
             
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            
             $pointsStatistics = array();
                 foreach ($tree as $valor){
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
-                                                                AND plugin = 'sponsorship'
                                                                 AND id_order IN (
                                                                     SELECT id_order
                                                                     FROM "._DB_PREFIX_."rewards 
@@ -259,7 +259,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
-                                                                AND plugin = 'sponsorship'
                                                                 AND id_order IN (
                                                                     SELECT id_order
                                                                     FROM "._DB_PREFIX_."rewards 
@@ -271,7 +270,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
-                                                                AND plugin = 'sponsorship'
                                                                 AND id_order IN (
                                                                     SELECT id_order
                                                                     FROM "._DB_PREFIX_."rewards 
@@ -283,7 +281,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
-                                                                AND plugin = 'sponsorship'
                                                                 AND id_order IN (
                                                                     SELECT id_order
                                                                     FROM "._DB_PREFIX_."rewards 
@@ -291,7 +288,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                                                     AND plugin = 'loyalty' AND (date_add >= (DATE_SUB(CURDATE(), INTERVAL 1 WEEK))))
                                                                 GROUP BY id_customer");
                     $pointsStatistics['fourweek'] += $datosGraph[0]['points'];
-                      
+                    
                 }
             
             return $pointsStatistics;    
@@ -328,7 +325,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, a.credits AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
                     LEFT JOIN "._DB_PREFIX_."customer c ON (c.id_customer = n.id_customer)
                     LEFT JOIN "._DB_PREFIX_."rewards a ON (a.plugin = 'loyalty')
-                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (s.id_order = n.id_order) WHERE a.credits > 0 AND a.id_reward_state = 2 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ' AND a.id_customer !=".$this->context->customer->id;
+                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (s.id_order = n.id_order) WHERE a.credits > 0 AND a.id_reward_state = 2 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ' ";
             if ($onlyValidate === true)
 		$query .= ' AND a.id_reward_state = 2';
                 $query .= ' GROUP BY a.id_reward ORDER BY a.date_add DESC '.

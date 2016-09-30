@@ -2,15 +2,19 @@
 {if !$cards}
     <h1>{l s='No hay resultados'}</h1>
 {else}
-    <div class='container c'>
+    <div class='row c'>
         {foreach from=$cards item=card}
-            <a class="myfanc" href="#myspecialcontent">
-                <div class="card"><img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
-                    <div class="col-lg-7 col-md-7 col-sm-5 col-xs-8 codigoCard"><span style="color: #000;">{l s='Tarjeta: '}</span><span class="codeImg">{$card.card_code}</span></div>
-                    <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
-                </div>
-            </a>
-
+            <div class="cardView-div">
+                <a class="myfanc" href="#myspecialcontent">
+                    <div class="card col-lg-6 col-md-6 col-sm-6">
+                        <img class="col-lg-5 col-md-6 col-sm-6 col-xs-6 back-cardView" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
+                        <div class="col-lg-7 col-md-6 col-sm-5 col-xs-6 codigoCard">
+                            <span style="color: #000;">{l s='Tarjeta: '}</span>
+                            <span class="codeImg">{$card.card_code}</span></div>
+                        <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
+                    </div>
+                </a>
+            </div>
             <div id="pOculto">{displayPrice price=$card.price no_utf8=false convert=false}</div>
             <div id="desc_oculto">{$card.description_short}</div>
             <div id="terms_oculto">{$card.description}</div>
@@ -77,7 +81,8 @@
                     </div>
             {/if}
     </div>
-    <div class="col-lg-5 card-view">
+    
+    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-10 card-view">
         <div class="title-card">
             <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
         </div>
@@ -90,7 +95,7 @@
             <span class="micode popText" id="code-img"></span>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-11 cardview-ins">
         <div class="CardInstru" data-toggle="collapse" data-target="#demo">
             <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
             <div class="pViewcard collapse" id="demo"></div>
@@ -265,7 +270,7 @@
     </script>
     
     <style>
-        .popText { margin-left: 15px !important; }
+        .popText { margin-left: 15px; }
         .title-card { padding: 10px 26px; }
         .card-view { margin: 20px 0 0 30px; }
         .CardInstru { width: 90%; }
