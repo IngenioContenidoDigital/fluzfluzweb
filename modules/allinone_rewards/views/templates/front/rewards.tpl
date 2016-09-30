@@ -22,7 +22,7 @@
     <div class="banner-box banner-reward" style="text-align: right; background: url('/img/cms/FluzFluz/network/bannerNetwork.png') center center / 100% no-repeat transparent;">
             <div class='col-lg-12 col-xs-12 col-md-12 col-sm-12 bannerNetwork'>
             <div class="divNetwork">
-                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}
+                <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))|number_format:0}
                     <br/><p class="pNetwork">{l s='Your Total Points' mod='allinone_rewards'}</p>
                 </h1>
             </div>
@@ -40,25 +40,24 @@
 <div id="container" class="col-lg-6 col-md-6 col-sm-12 graphicStat"></div>
 <div id="container2" class="col-lg-6 col-md-6 col-sm-12 graphicStat">
     <h4 class="titleStats">{l s="Performance Summary" mod='allinone_rewards'}</h4>
-    <div class="yourPointnet">
-        <div id="yourPoint" class="puntoGrap">
-            <span>{$totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0}{l s=" pts."}</span>
-        </div>
-        <p class="pGrap">{l s="YOUR POINT GENERATION" mod='allinone_rewards'}</p><br/>
+    <ul class="ul-graph">
+        <span class="barra-fondo">
+            <li class="barras" id="available" data-value="{(($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0)/($suma)*100)}"><span>{($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))|number_format:0}</span></li>
+        </span>
+        <p class="pGrap">{l s="YOUR POINT GENERATION" mod='allinone_rewards'}</p>
         {foreach from=$topPoint item=top}
-        <div id="topPoint" class="puntoGrap">
-            <span>{$top.points|number_format:0}{l s=" pts."}</span>
-        </div>
-        <p class="pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$top.name}</p><br/>
+        <span class="barra-fondo">
+            <li class="barras" id="top" data-value="{(($top.points/$suma)*100)}"><span>{$top.points|number_format:0}</span></li>
+        </span>
+        <p class="pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$top.name}</p>
         {/foreach}
         {foreach from=$worstPoint item=worst}
-        <div id="worstPoint" class="puntoGrap">
-            <span>{$worst.points|number_format:0}{l s=" pts."}</span>
-        </div>
+        <span class="barra-fondo">
+            <li class="barras" id="worst" data-value="{($worst.points/$suma)*100}"><span>{$worst.points|number_format:0}</span></li>
+        </span>
         <p class="pGrap">{l s="WORST POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$worst.name}</p>
         {/foreach}
-    </div>
-    
+    </ul>
 </div>
 
 {if isset($payment_error)}
@@ -149,10 +148,10 @@
 		<tbody>
                     {foreach from=$activityRecent item=activity name=myLoop}
                             <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$activity.name|escape:'html':'UTF-8'}</td>
-                                    <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$activity.purchase|escape:'htmlall':'UTF-8'}</td>
-                                    <td align="right" style="padding-top:17px !important;">{$activity.points|number_format:0}</td>
-                                    <td style="padding-top:17px !important;">{dateFormat date=$activity.time full=1}</td>
+                                <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.name|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.purchase|escape:'htmlall':'UTF-8'}</td>
+                                    <td align="right" style="padding-top:17px;">{$activity.points|number_format:0}</td>
+                                    <td style="padding-top:17px;">{dateFormat date=$activity.time full=1}</td>
 
                             </tr>
                     {/foreach}
@@ -262,10 +261,10 @@
 		<tbody>
 	{foreach from=$topNetwork item=topNet name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                            <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$topNet.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$topNet.lastname|escape:'html':'UTF-8'}</td>
-                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$topNet.purchase|escape:'htmlall':'UTF-8'}</td>
-                                <td align="right" style="padding-top:17px !important;">{$topNet.points|number_format:0}</td>
-                                <td style="padding-top:17px !important;">{dateFormat date=$topNet.time full=1}</td>
+                            <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$topNet.lastname|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.purchase|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right" style="padding-top:17px;">{$topNet.points|number_format:0}</td>
+                                <td style="padding-top:17px;">{dateFormat date=$topNet.time full=1}</td>
 				
 			</tr>
 	{/foreach}
@@ -284,15 +283,15 @@
 		<tbody>
 	{foreach from=$topWorst item=worst name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$worst.lastname|escape:'html':'UTF-8'}</td>
-                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$worst.purchase|escape:'htmlall':'UTF-8'}</td>
-                                <td align="right" style="padding-top:17px !important;">{$worst.points|number_format:0}</td>
-                                <td style="padding-top:17px !important;">{dateFormat date=$worst.time full=1}</td>
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$worst.lastname|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.purchase|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right" style="padding-top:17px;">{$worst.points|number_format:0}</td>
+                                <td style="padding-top:17px;">{dateFormat date=$worst.time full=1}</td>
 			</tr>
 	{/foreach}
 		</tbody>
 	</table>
-        <div id="idTab4" class="sponsorshipBlock">
+        <!--<div id="idTab4" class="sponsorshipBlock">
             {if $multilevel && $statistics.sponsored1}
             <div class="title">{l s='Details by sponsorship level' mod='allinone_rewards'}</div>
             <table class="std">
@@ -382,9 +381,10 @@
                     </tbody>
             </table>
                     {/if}
-        </div>        
+        </div>-->        
         
 </div>
+<div id="prueba" style="display:none;">{$base_dir}</div>
 {if version_compare($smarty.const._PS_VERSION_,'1.6','>=')}
 <ul class="footer_links clearfix">
 	<li><a class="btn btn-default button button-small" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}"><span><i class="icon-chevron-left"></i> {l s='Back to your account' mod='allinone_rewards'}</span></a></li>
@@ -423,7 +423,7 @@
 
         $('#container').highcharts({
             chart: {
-                zoomType: 'x'
+                type: 'area'
             },
             title: {
                 text: '{/literal}{l s='Network trend' mod='allinone_rewards'}{literal}'
@@ -445,20 +445,16 @@
             plotOptions: {
                 area: {
                     fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 1,
-                            y2: 1
-                        },
+                        radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
                         stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            [0, '#999999'],
+                            [1, '#E2E2E2']
                         ]
                         
                     },
                     marker: {
-                        radius: 2
+                        radius: 2,
+                        symbol: 'circle'
                     },
                     lineWidth: 1,
                     states: {
@@ -472,12 +468,30 @@
 
             series: [{
                 type: 'area',
+                color: '#E2E2E2',
                 name: 'Points',
                 data: columns
             }]
         });
     //});
 });
+    </script>
+{/literal}
+{literal}
+    <script>
+        // Grafica Barras Horizontales
+        $(document).ready(function() {
+          $('.barras').each(function() {
+            var total_point = document.getElementById("available").innerHTML;
+            var top = document.getElementById("top").innerHTML;
+            var worst = document.getElementById("worst").innerHTML;
+            var suma = ((parseInt(total_point)) + (parseInt(top)) + (parseInt(worst)));
+            var dataWidth = $(this).data('value');
+            var prueba = document.getElementById("prueba").innerHTML;
+            $(this).css("width", dataWidth + "%");
+            
+          });
+        });
     </script>
 {/literal}
 <!-- END : MODULE allinone_rewards -->
