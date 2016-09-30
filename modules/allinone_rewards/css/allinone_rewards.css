@@ -3,6 +3,7 @@
 /*******************/
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
+@import 'https://code.highcharts.com/css/highcharts.css';
 
 .rewards {
 	margin-bottom: 20px;
@@ -515,10 +516,10 @@
 }
 
 .graphicStat{
-    height: 350px; margin-top: 7%;
+    height: 330px; margin-top: 30px;
     margin-bottom:3%;
     border-bottom:1.5px solid #838383;
-    
+    z-index: 0;
 }
 
 .tituloNet{
@@ -558,6 +559,7 @@
 
 .pGrap{
     font-size:10px;
+    margin-bottom: 5px !important;
 }
 
 .puntoGrap{
@@ -609,8 +611,18 @@ ul.footer_links{
     margin-top: 8px !important;
 }
 
+.barra-fondo{
+  border-radius: 2px;
+  background: transparent;
+  margin-bottom: 0px;
+  display: block;
+}
+.highcharts-credits{display:none !important;}
+.highcharts-contextbutton{display: none;}
+.highcharts-root{font-family: 'Open Sans' !important;}
 @media (max-width:1024px){
    .banner-home{margin-top: 10px !important;}
+   .ul-graph {padding-top: 19px !important;}
 }
 
 @media (max-width:768px){
@@ -631,7 +643,9 @@ ul.footer_links{
     .banner-home {height: 170px;}
     .puntoGrap>span{ line-height: 30px;}
     .rewards{width: 95% !important; margin: 0 auto !important; padding-right: 0px; padding-left: 0;}
-    .rewards table.std td{font-size: 10px !important;}
+    .img-reward{display: none !important;}
+    .rewards table.std td{font-size: 10px !important;padding-top: 10px !important;}
+    .pNetwork{ font-size: 10px;}
 }
 
 @media (max-width:375px){
@@ -639,8 +653,76 @@ ul.footer_links{
     .tituloNet{width: 100% !important;}
     #container2{padding-left: 0px;padding-right: 0px;}
     .puntoGrap>span{ line-height: 30px;}
+    .graphicStat{padding-left: 0px;}
+    .pNetwork{ font-size: 8px;}
 }
 
 @media (max-width:320px){
+    .pGrap{text-align: left;}
+    .tituloNet{width: 100% !important;}
+    #container2{padding-left: 0px;padding-right: 0px;}
+    .puntoGrap>span{ line-height: 30px;}
+    .graphicStat{padding-left: 0px;}
+    .rewards table.std{margin-left: -7px;}
+    .banner-home{margin-top: -14px !important;}
+    .pNetwork{ font-size: 6px;}
+}
+
+#available{background-color: #ccc !important;height: 40px;line-height: 40px;  margin-bottom: 0px;}
+#top{background-color: #c9b197 !important;height: 40px;line-height: 40px;  margin-bottom: 0px;}
+#worst{background-color: #ef4136;height: 40px;line-height: 40px;  margin-bottom: 0px;}
+.ul-graph{padding-top: 8px;}
+
+.barras{  
+    background-color: cyan;    
+    color: #fff;
+    .transition(all 1s ease-out);
+    border-radius: 2px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding-left: .5em;
+    position: relative;
+    z-index: 9999;
+    display: block;
+    height: 20px;  
+    width: 0%; 
     
+    
+    &:hover {
+      .transition(all 0.5s ease);
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    &:after {
+      position: absolute;
+      content: attr(data-value);
+      display: none;
+      
+      font-size: 12px;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;      
+       
+      padding: 0 10px;
+      
+      margin-left: 5px;
+      left: 100%;
+      top: 0;
+    }
+    
+    &:hover:after {
+      display: block;
+    }
+  
+  
+  &-legend {
+    position: absolute;
+    margin-right: 10px;
+    left: -40px ;
+    z-index: 9999;
+  }
+
 }

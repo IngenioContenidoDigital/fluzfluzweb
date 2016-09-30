@@ -14,6 +14,8 @@
 
 class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 {
+    public $ValueTopNetworkUnique;
+    public $ValueWorstNetworkUnique;
 	public function init()
 	{
 		if (!$this->context->customer->isLogged())
@@ -67,6 +69,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     $cartValue=$_GET['price'];
                     $points=$_GET['points'];
                     $use=$_GET['use'];
+                    
                     $a =  RewardsModel::getRewardReadyForDisplay($cartValue, (int)$this->context->currency->id);
                     
                     if($points>0){
@@ -163,6 +166,13 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 		$displayrewards = RewardsModel::getAllByIdCustomer((int)$this->context->customer->id, false, false, true, ((int)(Tools::getValue('n')) > 0 ? (int)(Tools::getValue('n')) : 10), ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1), $this->context->currency->id, true);
                 $activityRecent = $this->recentActivity(false, true, ((int)(Tools::getValue('n')) > 0 ? (int)(Tools::getValue('n')) : 10), ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1));
                 
+                $NetworkUnique = $this->TopNetworkUnique();
+                $worstUnique = $this->WorstNetworkUnique();
+                $top = $this->ValueTopNetworkUnique;
+                $worst = $this->ValueWorstNetworkUnique;
+                $suma = round($top + $worst + $totalAvailable);
+                $this->context->smarty->assign('suma', $suma);
+                
 		$this->context->smarty->assign(array(
 			'return_days' => (Configuration::get('REWARDS_WAIT_RETURN_PERIOD') && Configuration::get('PS_ORDER_RETURN') && (int)Configuration::get('PS_ORDER_RETURN_NB_DAYS') > 0) ? (int)Configuration::get('PS_ORDER_RETURN_NB_DAYS') : 0,
 			'rewards_duration' => (int)Configuration::get('REWARDS_DURATION'),
@@ -176,8 +186,8 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                         'topNetwork'=> $this->TopNetwork(),
                         'topWorst'=> $this->TopWorst(),
                         'activityNet'=> $this->recentActivity(),
-                        'topPoint'=> $this->TopNetworkUnique(),
-                        'worstPoint'=> $this->WorstNetworkUnique(),
+                        'topPoint'=> $NetworkUnique,
+                        'worstPoint'=> $worstUnique,
                         'totalpointNetwork'=>$this->totalNetwork(),
 			'totalGlobal' => $this->module->getRewardReadyForDisplay($totalGlobal, (int)$this->context->currency->id),
 			'totalConverted' => $this->module->getRewardReadyForDisplay($totalConverted, (int)$this->context->currency->id),
@@ -294,7 +304,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.credits>0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
                 $result = Db::getInstance()->executeS($queryTop);
                 if ( $result[0]['points'] != "" ) {
                     $top[] = $result[0];
@@ -303,7 +313,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             usort($top, function($a, $b) {
                 return $a['points'] - $b['points'];
             });
-            
+           
             return array_slice($top, 0, 5);    
             
         }
@@ -347,6 +357,8 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 return $b['points'] - $a['points'];
             });
             
+            $this->ValueTopNetworkUnique = array_slice($top, 0, 1);
+            $this->ValueTopNetworkUnique = $this->ValueTopNetworkUnique[0]['points'];
             return array_slice($top, 0, 1);    
             
         }
@@ -367,6 +379,9 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             usort($top, function($a, $b) {
                 return $a['points'] - $b['points'];
             });
+            
+            $this->ValueWorstNetworkUnique = array_slice($top, 0, 1);
+            $this->ValueWorstNetworkUnique = $this->ValueWorstNetworkUnique[0]['points'];
             
             return array_slice($top, 0, 1);    
             

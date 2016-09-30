@@ -327,9 +327,9 @@
                                                                                 {*<meta itemprop="priceCurrency" content="{$currency->iso_code}" />*}
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
                                                                                 {if $logged}
-                                                                                    <div class="col-xs-12 col-lg-10 col-md-10 col-sm-3 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                    <div class="col-xs-12 col-lg-10 col-md-10 col-sm-6 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {else $logged}
-                                                                                    <div class="col-xs-12 col-sm-3 col-lg-10 col-md-10 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                    <div class="col-xs-12 col-sm-6 col-lg-10 col-md-10 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
                                                                                 {/if}
                                                                             {/if}
                                                                         </div>

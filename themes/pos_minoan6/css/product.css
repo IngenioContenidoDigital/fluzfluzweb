@@ -361,6 +361,7 @@ Quick View Styles
     .price-point{ margin-left: 1px; padding-right: 56px !important;}
     .shop-pri{text-align: right; padding-right: 50px !important;}
     .info-row{margin-top: 0px;}
+    #availability_statut, #pQuantityAvailable{margin-left: 26px;}
 }
 
 @media (min-width:1050px) and (max-width:1600px){
@@ -404,7 +405,7 @@ Quick View Styles
     .pb-center-column #product_reference{margin-left: -2px;}
     .shop-price{padding-left: 0px !important;}
     .price{font-size: 13px !important;}
-    .price-shop{font-size: 15px !important;margin-left: 9px;}
+    .price-shop{font-size: 14px !important;margin-left: 6px;}
     .shop-pri{font-size: 16px;}
     .tiendaP{font-size: 12px !important;}
     #quantity_wanted_p input{width: 55%;}
@@ -520,6 +521,7 @@ Quick View Styles
    .pos-title{ width: 92%;}
    .pos-title span{line-height: 48px;}
    .info-row{margin-top: 0px;}
+   #availability_statut, #pQuantityAvailable{margin-left: 5px;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -560,7 +562,7 @@ Quick View Styles
     .title-price-point{padding-left: 13px;}
     .price-point{padding-right: 19px;}
     .socialsharing_product{margin-left: -5px !important;}
-    .shop-pri{padding-left: 6px !important;}
+    .shop-pri{padding-left: 4px !important;font-size: 14px;}
     .pos-title{width: 92%;}
     .pos-title h2{width: 55%;}
     .pos-title span{line-height: 48px; margin-left: 8px;}
@@ -569,6 +571,7 @@ Quick View Styles
     .owl-item {width: 326px !important;}
     .owl-carousel .owl-wrapper-outer {margin-left: 0px;}
     .block {padding-top: 10px;padding-left: 0;text-align: center;}
+    #availability_statut, #pQuantityAvailable{margin-left: 10px;}
 }
 
 @media (max-width:359px){
@@ -602,7 +605,7 @@ Quick View Styles
     .title-price-point{padding-left: 0px;}
     .price-point{padding-right: 22px;}
     .socialsharing_product button{margin-left: -21px !important;}
-    .shop-pri{padding-left: 6px !important;}
+    .shop-pri{padding-left: 0px !important;}
     .pos-title{width: 88%;}
     .pos-title h2{width: 55%;}
     .pos-title span{line-height: 48px; margin-left: 8px; font-size: 10px !important;}
@@ -616,6 +619,8 @@ Quick View Styles
     .price-shop{font-size: 13px !important;}
     .shop-pri{font-size: 12px;}
     .block {padding-top: 10px;padding-left: 0;text-align: center;}
+    #availability_statut, #pQuantityAvailable{margin-left: 0px !important;}
+    .more-info{margin-left: 6px;}
 }
 
 .box-info-product .exclusive{
@@ -641,16 +646,16 @@ Quick View Styles
     .box-info-product .exclusive{width: 88%;}
     .point-price{margin-right: 0px; margin-left: 5px; font-size: 16px; text-align: right !important;}
     .socialsharing_product button {width: 90px;height: 38px; font-size: 10px;}
-    .price-shop{font-size: 16px; margin-left: 5px;}
+    .price-shop{font-size: 15px; margin-left: 5px;}
     .pb-center-column h1{padding-bottom: 7px;font-size: 21px; width: 85%;}
-    .shop-pri{margin-left: 0px;padding-left: 8px !important;}
+    .shop-pri{margin-left: 0px;padding-left: 3px !important;}
     p{line-height: 22px;}
     .pos-title{margin-left: 4% !important; width: 81%!important; height: 50px;}
     .boxprevnext a.next{right: 4% !important;}
     .boxprevnext a.prev {right: 8.7% !important;}
     .primary_block{margin-bottom: 10px;}
     .title-price-point{padding-left: 0px;padding-bottom: 20px;background: transparent;}
-    .price-point{background: transparent;text-align: center;padding-bottom: 20px; padding-left: 0px; padding-right: 66px;}
+    .price-point{background: transparent;text-align: right;padding-bottom: 20px; padding-left: 0px; padding-right: 66px;}
     .prueba{position: absolute; top: 12px; left: 240px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }
 
@@ -682,7 +687,7 @@ Quick View Styles
     .owl-item{width: 310px !important;min-width: 0;margin-left: 6px;}
     .boxprevnext a i {padding: 10%; width: 60px;}
     .accountHeader{margin-right: 12% !important;}
-    .price-shop{font-size: 21px; margin-left: 8px;}
+    .price-shop{font-size: 19px; margin-left: 10px;}
     .shop-pri{font-size: 16px;}
     .pos-title{width: 82% !important;}
     .primary_block{margin-bottom: 10px;}
