@@ -49,11 +49,10 @@
             </div>
         {/if}
         {if $cms->id==6}
-            <section class="col-sm-8 col-xs-12 section-cms">
-                <article class="sectionBanner"><img src="/img/cms/FluzFluz/categories/sectionBanner.png" /></article>
-                <article class="sectionFooter"><img src="/img/cms/FluzFluz/categories/bannerSectionFooter1.png" /> <img src="/img/cms/FluzFluz/categories/bannerSectionFooter2.png" /></article>
-            </section>
-            <aside class="asideCategory col-sm-4 col-xs-12"><img src="/img/cms/FluzFluz/categories/aside1.png" alt="aside1.png" /><img src="/img/cms/FluzFluz/categories/aside2.png" /></aside>
+            {capture name='blockPosition3'}{hook h='blockPosition3'}{/capture}
+            {if $smarty.capture.blockPosition3}
+                {$smarty.capture.blockPosition3}
+            {/if}
         {/if}
 	       
 {elseif isset($cms_category)}
