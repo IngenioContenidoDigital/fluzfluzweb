@@ -564,11 +564,11 @@ class AdminOrdersControllerCore extends AdminController
                                         <th>precio_producto</th>
                                         <th>cantidad</th>
                                         <th>total_producto</th>
-                                        <th>porcentaje_producto</th>
-                                        <th>puntos_compra</th>
-                                        <th>puntos_pesos_compra</th>
-                                        <th>puntos_red</th>
-                                        <th>puntos_pesos_red</th>
+                                        <th>recompensa_porcentaje_producto</th>
+                                        <th>recompensa_puntos_compra</th>
+                                        <th>recompensa_pesos_compra</th>
+                                        <th>recompensa_puntos_red</th>
+                                        <th>recompensa_pesos_red</th>
                                         <th>codigos_producto</th>
                                         <th>usuarios_red</th>
                                     </tr>";
