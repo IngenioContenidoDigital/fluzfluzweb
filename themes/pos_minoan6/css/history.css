@@ -37,7 +37,7 @@
 .history_list > .row > div { padding: 0; }
 .history_list > .row > div { border: 1px solid #d6d4d4; text-align: left; }
 .history_list > .row > div > .row > div:first-child { border-bottom: 1px solid #d6d4d4; color: #414042; font-weight: bold; font-family: 'Open Sans'; background: #f7f7fb; padding: 9px 8px 8px 9px; }
-.history_list > .row > div > .row > div:last-child { padding: 9px 8px 8px 9px; height: 190px; display: table-cell; vertical-align: middle; }
+.history_list > .row > div > .row > div:last-child { padding: 9px 8px 8px 9px; height: 230px; display: table-cell; vertical-align: middle; }
 .block-center { text-align: center!important; }
 .block-right { text-align: right!important; }
 .block-points { color: #ef4136; font-size: 20px; padding: 25px 10px!important; }
