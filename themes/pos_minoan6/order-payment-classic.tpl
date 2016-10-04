@@ -362,7 +362,11 @@
             </div> <!-- end order-detail-content -->
         {/if}
         
+        {if $base_dir}
+        <div id="prueba">{$base_dir}</div>
+        {elseif $base_dir_ssl}
         <div id="prueba">{$base_dir_ssl}</div>    
+        {/if}
         
         {if $opc}
             <div id="opc_payment_methods-content">
