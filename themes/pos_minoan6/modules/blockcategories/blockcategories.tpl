@@ -37,8 +37,13 @@
 </div>
 <!-- /Block categories module -->
 <script>
-    var id_current = {$currentCategory->id};
-    var id_parent = {$currentCategory->id_parent};
+    {if $currentCategory->id != "" && $currentCategory->id_parent != "" }
+        var id_current = {$currentCategory->id};
+        var id_parent = {$currentCategory->id_parent};
+    {else}
+        var id_current = 0;
+        var id_parent = 0;
+    {/if}
 </script>
 {literal}
     <script>
