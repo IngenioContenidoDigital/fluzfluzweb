@@ -24,7 +24,7 @@
         <div style="padding: 15px 0; color: #EE4A42;">
             <span>{l s="Aun no alcanzas el umbral requerido para redimir tus Fluz por dinero en efectivo."}</span>
         </div>
-    {/if}    
+    {/if}     
     <div class="cashoutDiv col-lg-12">
         <span class="cashoutTitle col-lg-6">{l s="Your Point Total: "}</span>
         <span class="cashoutPoint col-lg-6"> {$totalAvailable}</span>

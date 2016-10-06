@@ -74,8 +74,10 @@
     <table class="products table row">
         <tr class="head">
             <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Product'}</th>
-            <th class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{l s='Descripton'}</th>
-            <th class="col-xs-2 col-sm-2 col-md-3 col-lg-2">{l s='Total'}</th>
+            <th class="col-xs-5 col-sm-5 col-md-5 col-lg-5">{l s='Descripton'}</th>
+            <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Precio Tienda'}</th>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">{l s='Fluz'}</th>
+            <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Total'}</th>
         </tr>
         {foreach $order_products as $product}
             <tr>
@@ -85,23 +87,18 @@
                     <span class="number_product">{l s='Product'} #:</span><br>
                     <span class="number_product">{$product.product_reference}</span>
                 </td>
+                <td>{convertPrice price=$product.price_shop}</td>
+                <td>{$product.fluzpoints}</td>
                 <td>{convertPrice price=$product.total_price_tax_incl}</td>
             </tr>
         {/foreach}
         <tr>
-            <td colspan="2" rowspan="2" class="empty"></td>
+            <td colspan="4" rowspan="2" class="empty"></td>
             <td class="empty">{convertPrice price=$order->total_paid}</td>
         </tr>
         <tr>
             <td class="save">{l s='Total'}: {convertPrice price=$order->total_paid}</td>
         </tr>
-        {*<tr>
-            <td colspan="2" rowspan="2" class="not_view"></td>
-            <td class="card_value">{l s='Card Value'}: {convertPrice price=$order->total_paid}</td>
-        </tr>
-        <tr>
-            <td class="save">{l s='Save'}: 2%</td>
-        </tr>*}
     </table>
 
     <p class="cart_navigation exclusive btnaccount">

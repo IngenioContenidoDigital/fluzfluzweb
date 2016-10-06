@@ -24,7 +24,8 @@
 *}
 
 <!-- Block myaccount module -->
-<div class="row account-block">
+{*<div class="row">
+    <p class="title_block">
             <a href="{$link->getPageLink('order', true, true)|escape:'html':'UTF-8'}" title="{l s='View my shopping cart' mod='blockmyaccount'}" rel="nofollow">
                     <div class="col-lg-12 col-sm-5 col-md-12 col-xs-12" style="margin-bottom:10px;">
                         <div class="menuAccountProfile"><i class="icon-shopping-cart iWhite"></i></div>
@@ -88,7 +89,7 @@
 			</a>
 		</div>-->
 	</div>
-</div>
+</div>*}
 <!-- /Block myaccount module -->
 {literal}
     <style>
