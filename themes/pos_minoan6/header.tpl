@@ -276,7 +276,8 @@
         $('.dropdown-menu').find('form').click(function (e) {
             e.stopPropagation();
         });
-         var stickySidebar = $('.menuSticky');
+         //ORIGINAL var stickySidebar = $('.menuSticky');
+         var stickySidebar = $('.menuStickyABC123');
                 if (stickySidebar.length > 0) {	
                   var stickyHeight = stickySidebar.height(),
                       sidebarTop = stickySidebar.offset().top;
