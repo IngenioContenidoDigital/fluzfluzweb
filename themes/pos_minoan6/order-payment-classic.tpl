@@ -361,7 +361,7 @@
                 </table>
             </div> <!-- end order-detail-content -->
         {/if}
-        <div id="prueba" style="display:none;">{$base_dir}</div>    
+        <div id="prueba" style="display:none;">{$base_dir_ssl}</div>
         {if $opc}
             <div id="opc_payment_methods-content">
         {/if}

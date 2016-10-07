@@ -3451,8 +3451,23 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .pt_custommenu{width:125%; margin-top: -12px !important;}
 }
 
+/* CashOut */
+
+.select-amount{color: #000;font-size: 16px;letter-spacing: 0px;font-weight: bold;text-transform: UPPERCASE;}
+.full-amount{padding-left:0px; padding-right:0px; border:1px solid #b3b3b3;margin-right: 40px;margin-left: 40px;}
+.title-full{text-align:center;border-bottom: 1px solid #b3b3b3;padding: 20px; background:#f9f9f9; color:#000;}
+.avail-full{text-align:center;padding: 30px;color: #ef4136;font-size: 20px; margin-top:10px;margin-bottom:10px;}
+.avail-price{text-align:center;padding: 30px;color: #ef4136;font-size: 20px;margin-top:10px;margin-bottom:10px;}
+.slider-cash{padding-left:0px; padding-right:0px;margin-top:20px; margin-bottom:20px;margin-left:20px;}
+.info-cash{margin-top:18px; margin-bottom:18px;}
+.money-cash{padding-left:0px; padding-right:0px;}
+.cash-point{font-size:11px;}
 .shopping_cart, .pos-setting, .header_userinfo { text-align: left; }
+.cashout-money{color: #ef4136;text-align: right;font-size: 24px;float: right;margin-top: 5px;margin-bottom: 15px;}
+.cashout-pointRemaining{}
+
 /* static block */
+
 .banner-home{/*margin-top: 91px;*/}
 .banner-home .box-top { margin-bottom: 10px; }
 .banner-home .box1 { margin-bottom: 30px; }
@@ -3963,7 +3978,7 @@ h2.title_blockSale {
 .cashoutPoint{
     color:#ef4136;
     text-align:right;
-    font-size:24px;
+    font-size:16px;
     margin-top:5px;
 }
 
