@@ -49,14 +49,6 @@
             <span>{l s="Aun no alcanzas el umbral requerido para redimir tus Fluz por dinero en efectivo."}</span>
         </div>
     {/if}     
-    <div class="cashoutDiv col-lg-12">
-        <span class="cashoutTitle col-lg-6">{l s="Your Point Total: "}</span>
-        <span class="cashoutPoint col-lg-6"> {$totalAvailable}</span>
-    </div>
-    <div class="cashoutDiv col-lg-12">
-        <span class="cashoutTitle col-lg-6">{l s="Cash Conversion Total: "}</span>
-        <span class="cashoutPoint col-lg-6"> {displayPrice price=$pago currency=$payment_currency}</span>
-    </div>
 </div>
 {if $rewards}
     {if $payment_button_allowed}
