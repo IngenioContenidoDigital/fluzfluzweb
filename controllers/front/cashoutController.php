@@ -47,7 +47,6 @@ class cashoutControllerCore extends FrontController{
 		$voucherAllowed = RewardsModel::isCustomerAllowedForVoucher((int)$this->context->customer->id);
 		$paymentAllowed = RewardsModel::isCustomerAllowedForPayment((int)$this->context->customer->id);
                 
-                
 		/* transform credits into voucher if needed */
 		if ($voucherAllowed && Tools::getValue('transform-credits') == 'true' && $totalAvailableUserCurrency >= $voucherMininum && Tools::getValue('ajax') == 'false')
 		{
@@ -72,15 +71,42 @@ class cashoutControllerCore extends FrontController{
 				);
 				$this->context->smarty->assign($smarty_values);
 			}
-                
+               
 		if ($paymentAllowed && Tools::isSubmit('submitPayment') && $totalAvailableUserCurrency >= $paymentMininum && $totalForPaymentDefaultCurrency > 0) {
-			if (Tools::getValue('payment_details') && (!MyConf::get('REWARDS_PAYMENT_INVOICE', null, $id_template) || (isset($_FILES['payment_invoice']['name']) && !empty($_FILES['payment_invoice']['tmp_name'])))) {
+                    
+                    $name = Tools::getValue('nombre-customer');
+                    $lastname = Tools::getValue('lastname-customer');
+                    $num = Tools::getValue('numero_tarjeta');
+                    $bank = Tools::getValue('bank_cash');
+                    $point_used = Tools::getValue('pt_parciales');
+                    $validacion = Tools::getValue('radio');
+                    $pago_parcial = round(RewardsModel::getMoneyReadyForDisplay($point_used, (int)$this->context->currency->id));
+                    if($validacion == 0){
+                        
+                        $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$totalForPaymentDefaultCurrency.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                        Db::getInstance()->execute($query1);
+                        $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nombre, apellido, numero_tarjeta, banco, credits, detail, invoice, paid, date_add, date_upd)"
+                                    . "                          VALUES ('".$name."' ,'".$lastname."','".$num."','".$bank."',".(int)$pago.",'0','0',".-1*$pago.",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                        Db::getInstance()->execute($query2);
+                        Tools::redirect($this->context->link->getPageLink('my-account', true));
+                    }
+                    else if ($validacion == 1){
+                        $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$point_used.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                        Db::getInstance()->execute($query1);
+                        $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nombre, apellido, numero_tarjeta, banco, credits, detail, invoice, paid, date_add, date_upd)"
+                                    . "                          VALUES ('".$name."' ,'".$lastname."','".$num."','".$bank."',".(int)$pago_parcial.",'0','0',".-1*$pago_parcial.",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                        Db::getInstance()->execute($query2);
+                        Tools::redirect($this->context->link->getPageLink('my-account', true));}
+                        
+                        /*if (Tools::getValue('payment_details') && (!MyConf::get('REWARDS_PAYMENT_INVOICE', null, $id_template) || (isset($_FILES['payment_invoice']['name']) && !empty($_FILES['payment_invoice']['tmp_name'])))) {
 				if (RewardsPaymentModel::askForPayment($totalForPaymentDefaultCurrency, Tools::getValue('payment_details'), $_FILES['payment_invoice']))
 					Tools::redirect($this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true));
 				else
 					$this->context->smarty->assign('payment_error', 2);
 			} else
-				$this->context->smarty->assign('payment_error', 1);
+				$this->context->smarty->assign('payment_error', 1);*/
 		}
                 
 		$link = $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true);
