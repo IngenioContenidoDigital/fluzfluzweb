@@ -44,6 +44,10 @@
         var id_current = 0;
         var id_parent = 0;
     {/if}
+        
+    if ( id_parent == 1 || id_parent == 2 ) {
+        id_parent = id_current;
+    }
 </script>
 {literal}
     <script>
