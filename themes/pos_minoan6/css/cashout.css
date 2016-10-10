@@ -28,7 +28,11 @@ li.step_todo > .first{background: #ef4136;}
 .alert-validation{color: #ef4136;font-size: 18px;font-family: Monserrat;text-align: center;margin-bottom: 20px;}
 .alert-validation2{color: #ef4136;font-size: 18px;font-family: Monserrat;text-align: center;margin-bottom: 0px; margin-top: 20px;}
 .border-select{border:1px solid #ef4136;}
-
+.first{background: #ef4136 !important;}
+.second-cash{background: #ef4136!important; color: #fff !important;}
+.span-cash{color:#fff !important;}
+.first > span{color: #fff !important;}
+ul.step li.step_todo span:after{display: none;}
 @media (max-width:1024px){
     .full-amount{margin-left: 30px; margin-right: 30px;}
     #rangeSlider{margin-left: 5px !important;}
@@ -47,4 +51,19 @@ li.step_todo > .first{background: #ef4136;}
 @media (max-width:425px){
     .cart_navigation{margin-top: 20px!important;margin-bottom: 20px !important;}
     .full-amount{margin: 0px; margin-bottom: 10px;}
+    .avail-full{ line-height: 100px; margin-left: 50px;}
+    ul.step li.step_todo{width: 100%;}
+}
+
+@media (max-width:375px){
+    .avail-full{ line-height: 100px; margin-left: 25px;}
+    #rangeSlider{ margin-left: 10px !important;}
+}
+
+@media (max-width:320px){
+    .full-amount{width: 96%;}
+    .avail-full{ margin-left: 0px;}
+    #valorSlider{padding-left: 0px;}
+    #value-cash{font-size: 14px;}
+    ul.step{ width: 96%;}
 }
