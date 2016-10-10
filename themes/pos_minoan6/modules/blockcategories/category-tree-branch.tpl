@@ -36,6 +36,11 @@
 
 	{if $node.children|@count > 0}
 		<ul style="display: none;" id="categorychildren-{$node.id_category}" class="categorychildren">
+                        <li>
+                                <a id="category-opt-0" href="{$node.link|escape:'html':'UTF-8'}" style="font-weight: bold; font-style: italic;">
+                                        {l s='Todas'}
+                                </a>
+                        </li>
 			{foreach from=$node.children item=child2 name=categoryTreeBranch}
                                 {include file="$branche_tpl_path" node=$child2}
 			{/foreach}
