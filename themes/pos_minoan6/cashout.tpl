@@ -19,27 +19,31 @@
     {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
 <div id="prueba" style="display:none;">{$base_dir_ssl}</div>
+{capture name='blockPosition4'}{hook h='blockPosition4'}{/capture}
+            {if $smarty.capture.blockPosition4}
+                {$smarty.capture.blockPosition4}
+            {/if}
 <ul class="step clearfix" id="order_step" style="padding-left:0px; padding-top: 20px;">
         <li  class="{if $current_step=='summary'}step_current {elseif $current_step=='login'}step_done_last step_done{else}{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address' || $current_step=='login'}step_done{else}step_todo{/if}{/if} first">
 		{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address' || $current_step=='login'}
 		<a href="{$link->getPageLink('order', true)}">
-			<em>01.</em> {l s='Pago'}
+			<em>01.</em> {l s='Monto'}
 		</a>
 		{else}
-			<span><em>01.</em> {l s='Pago'}</span>
+                    <span id="step-one"><em>01.</em> {l s='Monto'}</span>
 		{/if}
 	</li>
 	<li class="{if $current_step=='login'}step_current{elseif $current_step=='address'}step_done step_done_last{else}{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address'}step_done{else}step_todo{/if}{/if} second">
 		{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address'}
 		<a href="{$link->getPageLink('order', true, NULL, "{$smarty.capture.url_back}&step=1{if $multi_shipping}&multi-shipping={$multi_shipping}{/if}")|escape:'html':'UTF-8'}">
-			<em>02.</em> {l s='Metodo de Pago'}
+			<em>02.</em> {l s='Forma de Redencion'}
 		</a>
 		{else}
-			<span><em>02.</em> {l s='Metodo de Pago'}</span>
+                    <span class="span-second"><em>02.</em> {l s='Forma de Redencion'}</span>
 		{/if}
 	</li>
 	<li id="step_end" class="{if $current_step=='payment'}step_current{else}step_todo{/if} last">
-		<span><em>03.</em> {l s='Confirmacion'}</span>
+		<span class="span-confirmation"><em>03.</em> {l s='Confirmacion'}</span>
 	</li>
 </ul>
 <div class="row">
@@ -55,11 +59,11 @@
     <div id="rewards-step1">
         <div class="row">    
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Your Point Total: "}</span>
+                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Fluz Totales: "}</span>
                 <span class="cashoutPoint col-lg-6 col-md-6 col-sm-6 col-xs-6" id="cash-point"> {$totalAvailable}</span>
             </div>
             <div class="cashoutDiv col-lg-12 col-md-12 col-xs-12">
-                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Cash Conversion Total: "}</span>
+                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Redencion Total en Efectivo: "}</span>
                 <span class="cashoutPoint col-lg-6 col-md-6 col-sm-6 col-xs-6" id="cash-price"> {displayPrice price=$pago currency=$payment_currency}</span>
             </div>
         </div>
@@ -70,24 +74,24 @@
                 <div class="col-lg-5 col-md-5 col-sm-10 col-xs-12 full-amount" id="all-point">
                     <div class="title-full">
                         <input type="radio" id="all-option" name="selector" value="0" required>
-                        <span style="margin-left:20px;">{l s="Seleccione Todos sus puntos"}</span>
+                        <span style="margin-left:20px;">{l s="Seleccion Monto"}</span>
                     </div>
-                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 avail-full" id="cash-pointselected"> {$totalAvailable}&nbsp;&nbsp;{l s="Puntos."}</span>
-                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 avail-price"> {displayPrice price=$pago currency=$payment_currency}</span>
+                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-12 avail-full" id="cash-pointselected"> {$totalAvailable}&nbsp;&nbsp;{l s="Puntos."}</span>
+                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-12 avail-price"> {displayPrice price=$pago currency=$payment_currency}</span>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-10 col-xs-12 full-amount" id="partial-point">
                     <div class="title-full">
                         <input type="radio" id="partial-option" name="selector" value="1" required>
-                        <span style="margin-left:20px;">{l s="Seleccione Puntos Parciales"}</span>
+                        <span style="margin-left:20px;">{l s="Seleccion Monto Parcial"}</span>
                     </div>
                     <div class="row">
-                        <input class="slider-cash col-lg-6 col-md-5 col-sm-5" type="range" id="rangeSlider" value="1800" min="1800" max="{$totalAvailable}" step="100" data-rangeslider>
-                        <div class="info-cash col-lg-5 col-md-6 col-sm-6">
-                                <span class="money-cash col-lg-2 col-md-1 col-sm-2">$</span>
-                                <input class="output-cash col-lg-6 col-md-6 col-sm-6" type="text" name="valorSlider" id="valorSlider" value=""/>
-                                <span class="col-lg-3 cash-point col-md-3 col-sm-3"> &nbsp;{l s="de"}&nbsp;{$totalAvailable}&nbsp;{l s="Pts."}</span>
+                        <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="1800" min="1800" max="{$totalAvailable}" step="100" data-rangeslider>
+                        <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
+                                <span class="money-cash col-lg-2 col-md-1 col-sm-2 col-xs-2">$</span>
+                                <input class="output-cash col-lg-6 col-md-6 col-sm-6 col-xs-5" type="text" name="valorSlider" id="valorSlider" value=""/>
+                                <span class="col-lg-3 cash-point col-md-3 col-sm-3 col-xs-4"> &nbsp;{l s="de"}&nbsp;{$totalAvailable}&nbsp;{l s="Pts."}</span>
                         </div>
-                                <span class="cashout-money col-lg-12 col-md-12 col-sm-12"> {l s ="COP"}&nbsp;<span id="value-cash"></span></span>
+                                <span class="cashout-money col-lg-12 col-md-12 col-sm-12 col-xs-12"> {l s ="COP"}&nbsp;<span id="value-cash"></span></span>
                                 <span class="cashout-money col-lg-12" style="display:none;"> {l s ="COP"}&nbsp;<span id="value-money">{(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</span></span>
                     </div>
                 </div>
@@ -156,11 +160,11 @@
             {/literal}
         <div class="row" style="margin-top:40px;">
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Puntos restantes: "}</span>
+                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Fluz Disponibles despues de Redencion: "}</span>
                 <span class="cashoutPoint col-lg-6 col-md-6 col-sm-6 col-xs-6"><span id="ptos_result"></span>&nbsp;{l s ="Puntos"}</span>
             </div>
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Cash Conversion Total: "}</span>
+                <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Redencion en efectivo Disponible: "}</span>
                 <span class="cashoutPoint col-lg-6 col-md-6 col-sm-6 col-xs-6"> {l s ="COP $"}&nbsp;&nbsp;<span id="cash_result"></span></span>
             </div>
         </div>    
@@ -187,7 +191,7 @@
         
         <p class="cart_navigation clearfix">
             <a class="button btn btn-default standard-checkout button-medium" id="nextStep" name="nextStep" title="{l s='Next Step'}">
-                    <span>{l s='Confirm Amount'}<i class="icon-chevron-right right"></i></span>
+                    <span>{l s='Confirmar Monto'}<i class="icon-chevron-right right"></i></span>
             </a>
         </p>
 </div>
@@ -249,7 +253,7 @@
                 </form>
             </div>
     <div class="row" id="card-oculto" style='display:none;'>
-        <div onClick="$('#card_form').toggle()" class="cheque-cashout col-lg-12">{l s='Wire Transfer'}</div>
+        <div onClick="$('#card_form').toggle()" class="cheque-cashout col-lg-12">{l s='Transferencia Electronica'}</div>
         <form id="card_form" class="std form-cheque" method="post" action="{$pagination_link|escape:'htmlall':'UTF-8'}" enctype="multipart/form-data" style="display: {if isset($smarty.post.payment_details)}block{else}none{/if}">
             <fieldset class="cheque-style">
                 <div id="alert2" class="alert-validation2" style="display:none;">{l s="Ingrese sus Datos Completos"}</div>
@@ -316,23 +320,23 @@
             <input type="hidden" id="radio" name="radio" value=""/>
             <div class="row confirmation-cashout">
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Remaining Points"}</label>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Fluz Disponibles"}</label>
                     <span class="p-step3 col-lg-4 col-md-4 col-sm-4"><span id="ptos_prueba"></span></span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Points Used for Cash Out"}</label>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Fluz Utilizados en Redencion"}</label>
                     <span class="col-lg-4 col-md-4 col-sm-4 p-step3">-<span id="points_used"></span></span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Cash Conversion Amount"}</label>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Monto Redimido en Efectivo"}</label>
                     <span class="col-lg-4 col-md-4 col-sm-4 pstep3"><span id="value-confirmation"></span></span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Valor de la Transaccion"}</label>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Costo Transferencia"}</label>
                     <span class="col-lg-4 col-md-4 col-sm-4 pstep3">-</span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Cash Conversion Total"}</label>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Redencion Total en Efectivo"}</label>
                     <span class="col-lg-4 col-md-4 col-sm-4 pstep3"><span id="total-valor"></span></span>
                 </div>
             </div>
@@ -453,6 +457,9 @@
                         $('#payment_cash').hide();
                         document.getElementById('card-oculto').style.display = 'block';
                         document.getElementById('stepBack').style.display = 'block';
+                        $('.second').addClass('second-cash');
+                        $('.span-second').addClass('span-cash');
+                        $('.first').removeClass('first');
                     }
                     else{
                         document.getElementById('alert').style.display = 'block';
@@ -478,6 +485,10 @@
                     $("#lastname-customer").val(lastname);
                     $("#numero_tarjeta").val(num);
                     $("#bank_cash").val(bank);
+                    $('.second').removeClass('second-cash');
+                    $('.first').removeClass('first');
+                    $('.span-second').addClass('span-cash');
+                    $('.span-confirmation').addClass('second-cash');
                     }
 		 });
                  $("#step-back").on( "click", function() {
@@ -486,6 +497,9 @@
                     $('#stepBack').hide();
                     $('#payment_cash').hide();
                     $('#card-oculto').hide();
+                    $('#step-one').addClass('second-cash');
+                    $('.second').removeClass('second-cash');
+                    $('.span-second').removeClass('span-cash');
 		 });
                  $("#step2").on( "click", function() {
                     $('#rewards-step1').hide();
