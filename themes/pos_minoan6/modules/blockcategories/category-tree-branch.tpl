@@ -37,7 +37,7 @@
 	{if $node.children|@count > 0}
 		<ul style="display: none;" id="categorychildren-{$node.id_category}" class="categorychildren">
                         <li>
-                                <a id="category-opt-0" href="{$node.link|escape:'html':'UTF-8'}" style="font-weight: bold; font-style: italic;">
+                                <a id="category-opt-{$node.id_category}" href="{$node.link|escape:'html':'UTF-8'}" style="font-weight: bold; font-style: italic;">
                                         {l s='Todas'}
                                 </a>
                         </li>
