@@ -241,8 +241,9 @@ class BlockCategories extends Module
                         $categoryInitial = Category::getRootCategories();
                         $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
                         foreach ( $categories as $key => &$categoryy ) {
-                            $categoryy['children'] = Category::getChildren($categoryy['id_category'], 1);
+                            $categoryy['link'] = $this->context->link->getCategoryLink($categoryy['id_category'], $categoryy['link_rewrite']);
                             $categoryy['father'] = "true";
+                            $categoryy['children'] = Category::getChildren($categoryy['id_category'], 1);
                             foreach ( $categoryy['children'] as &$categ ) {
                                 $categ['link'] = $this->context->link->getCategoryLink($categ['id_category'], $categ['link_rewrite']);
                                 $categ['father'] = "false";
