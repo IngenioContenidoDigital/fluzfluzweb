@@ -101,7 +101,7 @@
                             <label for="government" class="required">
                                 {l s='Government Id #'}:
                             </label>
-                            <input class="is_required validate form-control inputform enabled" disabled data-validate="isDniLite" type="password" name="government" id="government" value="{$customerGovernment}" />
+                            <input class="is_required validate form-control inputform enabled" disabled readonly data-validate="isDniLite" type="password" name="government" id="government" value="{$customerGovernment}" />
                         </div>
                         <div class="form-group dateBirth">
                             <label>
