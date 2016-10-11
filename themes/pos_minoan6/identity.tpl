@@ -337,21 +337,33 @@
 {literal}
     <script>
         $(function() {
-            var typecard = $("#typecard").val();
-            switch ( typecard ) {
-                case 'visa':
-                    $("#typecard").addClass('visa');
-                    break;
-                case 'mastercard':
-                    $("#typecard").addClass('mastercard');
-                    break;
-                case 'amex':
-                    $("#typecard").addClass('amex');
-                    break;
-                case 'discover':
-                    $("#typecard").addClass('discover');
-                    break;
-            }
+            $("#numbercard").validateCreditCard(function(result) {
+                switch ( result.card_type.name ) {
+                    case 'visa':
+                        $("#typecard").addClass('visa');
+                        $("#typecard").val("visa");
+                        break;
+                    case 'mastercard':
+                        $("#typecard").addClass('mastercard');
+                        $("#typecard").val("mastercard");
+                        break;
+                    case 'amex':
+                        $("#typecard").addClass('amex');
+                        $("#typecard").val("amex");
+                        break;
+                    case 'discover':
+                        $("#typecard").addClass('discover');
+                        $("#typecard").val("discover");
+                        break;
+                    default:
+                        $("#typecard").removeClass('visa');
+                        $("#typecard").removeClass('mastercard');
+                        $("#typecard").removeClass('amex');
+                        $("#typecard").removeClass('discover');
+                        $("#typecard").val("");
+                        break;
+                }
+            });
         });
         
         $('#numbercard').on('keyup',function(){
@@ -390,7 +402,7 @@
                             $("#typecard").val("");
                             break;
                     }
-                })
+                });
             }
         });
     </script>
