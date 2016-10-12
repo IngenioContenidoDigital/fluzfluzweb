@@ -1509,7 +1509,7 @@ th.visible-print, td.visible-print { display: none !important; }
 
 .icon-rotate-right:before, .icon-repeat:before { content: "\f01e"; }
 
-.icon-refresh:before { content: "\f021"; }
+.icon-refresh:before { content: "\f021"; font-size: 16px;}
 
 .icon-list-alt:before { content: "\f022"; }
 
@@ -3701,7 +3701,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 
 /* Estilo Perfil Cliente mi Cuenta */
 .nameProfile{font-size:14px; padding-left:0px; margin-top:12px;}
-.profileCustomer{ background: #f4f4f4; font-size:12px; text-transform:uppercase; color:#838383; padding:.5%; margin-bottom:2%; margin-top: -22px; -ms-display: flex; display: flex; align-items: center; min-height: 95px;}
+.profileCustomer{ background: #f4f4f4; font-size:12px; text-transform:uppercase; color:#838383; padding:.5%; margin-bottom:2%; -ms-display: flex; display: flex; align-items: center; min-height: 95px;}
 .ptoCustomer{color:#000; font-size:15px; margin-right:10px;}
 
 @media (max-width:1500px){

@@ -487,7 +487,7 @@
                     $("#bank_cash").val(bank);
                     $('.second').removeClass('second-cash');
                     $('.first').removeClass('first');
-                    $('.span-second').addClass('span-cash');
+                    $('.span-second').removeClass('span-cash');
                     $('.span-confirmation').addClass('second-cash');
                     }
 		 });
@@ -507,6 +507,11 @@
                     $('#step2').hide();
                     document.getElementById('card-oculto').style.display = 'block';
                     document.getElementById('stepBack').style.display = 'block';
+                    $('.span-confirmation').removeClass('second-cash');
+                    $('#step-one').removeClass('second-cash');
+                    $('.second').addClass('second-cash');
+                    $('.span-second').removeClass('span-cash');
+                    $('.span-second').addClass('span-cash');
 		 });
 	});
     </script>

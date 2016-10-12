@@ -40,6 +40,22 @@
 #messagesendmessage { border-left: none; border-right: none; border-bottom: none; }
 #namesendmessage { margin-left: 5px; font-size: 16px; text-transform: capitalize; }
 
+.glyphicon-refresh-animate {
+   -webkit-animation-name: rotateThis;
+   -webkit-animation-duration: 2s;
+   -webkit-animation-iteration-count: infinite;
+   -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes "rotateThis" {
+ from { 
+        -webkit-transform: rotate( 0deg );  
+    }
+ to  { 
+        -webkit-transform: rotate( 360deg ); 
+    }
+}
+
 /* my network feed */
 .pointstitlemnf { font-weight: bold; border-bottom: 1px solid #CDCED0; font-size: 13px; padding: 10px 7px; }
 .pointsmnf { font-weight: bold; color: #EF4136; }
@@ -171,3 +187,75 @@ display:inline-block;
 #terms_oculto{
     display: none;
 }
+
+.banner-advertencia{
+    margin-top: 70px;
+    height: 45px;
+    background: #ef4136;
+    color:#fff;
+}
+
+.p-advertencia{
+    text-align: center;
+    line-height: 45px;
+    font-size: 14px;
+}
+
+.Cards{display: none;}
+.last_shop{display: none;}
+.member{display:none}
+.t-messages{display:none; line-height: 22px;}
+.block-red{    margin-left: 20px;
+    padding-left: 0px;
+    padding-right: 0px;}
+
+.btn-more{
+    background-color: #c9b198;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px;
+    width: 69%;
+    margin-bottom: 20px;
+}
+.btn-more:hover{
+    color: #fff;
+    background: #ef4136;
+}
+.btn-moreload{
+    background-color: #c9b198;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 97%;
+}
+
+.btn-moreload:hover{
+    color: #fff;
+    background: #ef4136;
+}
+
+.btn-advertencia{    
+    color: #fff;
+    border-bottom: solid 1px #fff;
+    margin-left: 15px;}
+
+.icon-refresh:hover  {
+    -animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+.pmore{margin-right: 10px; font-size: 16px; text-transform: uppercase;}
