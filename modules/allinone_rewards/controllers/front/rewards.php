@@ -215,6 +215,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
 			'nArray' => array(10, 20, 50),
 			'max_page' => floor(sizeof($rewards) / ((int)(Tools::getValue('n') > 0) ? (int)(Tools::getValue('n')) : 10))
 		));
+                $this->addJS(_THEME_JS_DIR_.'discount.js');
 		$this->setTemplate('rewards.tpl');
 	}
         
@@ -222,10 +223,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.id_customer as id, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.id_customer as id, p.id_manufacturer, m.name as manufacturer, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits DESC';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
+                            LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = s.product_id)
+                            LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits DESC';
                 $result = Db::getInstance()->executeS($queryTop);
                 if ( $result[0]['points'] != "" ) {
                     $top[] = $result[0];
@@ -255,6 +258,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                                                                     AND plugin = 'loyalty' AND (date_add >= (DATE_SUB(CURDATE(), INTERVAL 4 WEEK)) AND date_add < (DATE_SUB(CURDATE(), INTERVAL 3 WEEK))))
                                                                 GROUP BY id_customer");
                     $pointsStatistics['oneweek'] += $datosGraph[0]['points'];
+                    /*$datosGraph = Db::getInstance()->ExecuteS('SELECT SUM(r.credits), DATE_FORMAT(r.date_add, "%Y-%m-%d") FROM ps_rewards as r WHERE 
+                                                                (r.date_add >= curdate() + interval -28 day) AND (r.date_add <= curdate() + interval -21 day) AND r.credits > 0 GROUP BY DATE_FORMAT(r.date_add, "%Y-%m-%d")');*/
+                    
+                    echo '<pre>';
+                    print_r($datosGraph);
+                    die();
                     
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
@@ -298,10 +307,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
            
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.firstname AS name, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.lastname AS lastname, p.id_manufacturer, m.name as manufacturer, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.credits>0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order)
+                            LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = s.product_id)
+                            LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.credits>0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
                 $result = Db::getInstance()->executeS($queryTop);
                 if ( $result[0]['points'] != "" ) {
                     $top[] = $result[0];
@@ -322,10 +333,12 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 $stringidsponsors .= $sponsor['id'].",";
             }
             
-            $query = "SELECT c.username AS username, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, a.credits AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
+            $query = "SELECT c.username AS username, s.product_id, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, p.id_manufacturer, m.name as manufacturer, a.credits AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
                     LEFT JOIN "._DB_PREFIX_."customer c ON (c.id_customer = n.id_customer)
                     LEFT JOIN "._DB_PREFIX_."rewards a ON (a.plugin = 'loyalty')
-                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (s.id_order = n.id_order) WHERE a.credits > 0 AND a.id_reward_state = 2 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ' ";
+                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (s.id_order = n.id_order)
+                    LEFT JOIN "._DB_PREFIX_."product p ON (p.id_product = s.product_id)
+                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE a.credits > 0 AND a.id_reward_state = 2 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ' ";
             if ($onlyValidate === true)
 		$query .= ' AND a.id_reward_state = 2';
                 $query .= ' GROUP BY a.id_reward ORDER BY a.date_add DESC '.
@@ -340,7 +353,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
@@ -363,7 +376,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         public function WorstNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';

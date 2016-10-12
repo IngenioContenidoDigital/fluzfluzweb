@@ -41,25 +41,62 @@
 <div id="container2" class="col-lg-6 col-md-6 col-sm-12 graphicStat">
     <h4 class="titleStats">{l s="Performance Summary" mod='allinone_rewards'}</h4>
     <ul class="ul-graph">
+        <div rowspan="2" class="img" style="display:none;">
+            {assign var="urlimgnet" value=""}
+            {if $member.img != ""}
+                <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
+                {$urlimgnet = $member.img}
+            {else}
+                <img src="{$img_dir}icon/profile.png" width="55" height="50">
+                {$urlimgnet = $img_dir|cat:"icon/profile.png"}
+            {/if}
+        </div>
         <span class="barra-fondo">
             <li class="barras" id="available" data-value="{(($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0)/($suma)*100)}"><span>{($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))|number_format:0}</span></li>
         </span>
         <p class="pGrap">{l s="YOUR POINT GENERATION" mod='allinone_rewards'}</p>
         {foreach from=$topPoint item=top}
-        <span class="barra-fondo">
-            <li class="barras" id="top" data-value="{(($top.points/$suma)*100)}"><span>{$top.points|number_format:0}</span></li>
-        </span>
-        <p class="pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$top.name}</p>
+        <div class="col-lg-10" style="padding-left:0px;">
+            <span class="barra-fondo">
+                <li class="barras" id="top" data-value="{(($top.points/$suma)*100)}"><span>{$top.points|number_format:0}</span></li>
+            </span>
+        </div>
+        <p class="col-lg-6 pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$top.name}</p>
+        
+        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$top.id}|{$top.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
         {/foreach}
+        
         {foreach from=$worstPoint item=worst}
+        <div class="col-lg-10" style="padding-left:0px;">
         <span class="barra-fondo">
             <li class="barras" id="worst" data-value="{($worst.points/$suma)*100}"><span>{$worst.points|number_format:0}</span></li>
         </span>
-        <p class="pGrap">{l s="WORST POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$worst.name}</p>
+        </div>
+        <p class="col-lg-6 pGrap">{l s="WORST POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$worst.name}</p>
+        
+        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id}|{$worst.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
         {/foreach}
     </ul>
 </div>
-
+<div id="not-shown" style="display:none;">
+    <div id="myspecialcontent" class="infoPopUp">
+        <div>
+            <img id="imgsendmessage" src="" width="55" height="50"> <span id="namesendmessage"></span>
+        </div>
+        <div>
+            <textarea rows="4" cols="50" placeholder="{l s='Escriba su mensaje aqui'}" id="messagesendmessage"></textarea>
+            <input type="hidden" id="idsendmessage" value="">
+            <input type="hidden" id="idreceivemessage" value="">
+        </div>
+        <div class="blockbutton">
+            <a class="btn btn-default button button-small" id="buttonsendmessage">
+                <span>
+                    {l s='Enviar'}
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
 {if isset($payment_error)}
 	{if $payment_error==1}
 	<p class="error">{l s='Please fill all the required fields' mod='allinone_rewards'}</p>
@@ -148,8 +185,8 @@
 		<tbody>
                     {foreach from=$activityRecent item=activity name=myLoop}
                             <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.name|escape:'html':'UTF-8'}</td>
-                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.purchase|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.username|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                     <td align="right" style="padding-top:17px;">{$activity.points|number_format:0}</td>
                                     <td style="padding-top:17px;">{dateFormat date=$activity.time full=1}</td>
 
@@ -251,23 +288,26 @@
         <table class="std">
             <h2 class="tituloNet">{l s="Top Network Performers" mod='allinone_rewards'}</h2>
 		<thead>
-			<tr>
-				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
-				<th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
-                                <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
-                                <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
-			</tr>
+                    <tr>
+                        <th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
+                        <th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
+                        <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
+                        <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
+                        <th class="item">{l s='Mensaje'}</th>
+                    </tr>
 		</thead>
 		<tbody>
-	{foreach from=$topNetwork item=topNet name=myLoop}
-			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                            <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$topNet.lastname|escape:'html':'UTF-8'}</td>
-                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.purchase|escape:'htmlall':'UTF-8'}</td>
-                                <td align="right" style="padding-top:17px;">{$topNet.points|number_format:0}</td>
-                                <td style="padding-top:17px;">{dateFormat date=$topNet.time full=1}</td>
-				
-			</tr>
-	{/foreach}
+                {foreach from=$topNetwork item=topNet name=myLoop}
+                                <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                    <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.username|escape:'html':'UTF-8'}</td>
+                                    <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.manufacturer|escape:'htmlall':'UTF-8'}</td>
+                                    <td align="right" style="padding-top:17px;">{$topNet.points|number_format:0}</td>
+                                    <td style="padding-top:17px;">{dateFormat date=$topNet.time full=1}</td>
+                                    <td>
+                                    <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$topNet.id}|{$topNet.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
+                                    </td>
+                                </tr>
+                {/foreach}
 		</tbody>
 	</table>
         <table class="std">
@@ -278,15 +318,19 @@
 				<th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
                                 <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
                                 <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
+                                <th class="item">{l s='Mensaje'}</th>
 			</tr>
 		</thead>
 		<tbody>
 	{foreach from=$topWorst item=worst name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.name|escape:'html':'UTF-8'}&nbsp;&nbsp;{$worst.lastname|escape:'html':'UTF-8'}</td>
-                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.purchase|escape:'htmlall':'UTF-8'}</td>
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.username|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                 <td align="right" style="padding-top:17px;">{$worst.points|number_format:0}</td>
                                 <td style="padding-top:17px;">{dateFormat date=$worst.time full=1}</td>
+                                <td>
+                                    <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id}|{$worst.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
+                                </td>
 			</tr>
 	{/foreach}
 		</tbody>
@@ -409,7 +453,7 @@
         .rewards{width: 80%; margin: 0 auto;}
         .page-heading{display: none;}
         #payment{display:none;}
-        .rewards table.std td { font-size: 11px; line-height: 13px; padding: 10px !important; background:#f9f9f9; border: #fff 5px solid; border-right:none; border-left:none;}
+        .rewards table.std td { font-size: 11px; line-height: 25px; padding: 1px !important; background:#f9f9f9; border: #fff 5px solid; border-right:none; border-left:none;}
     </style>
 {/literal}
 
@@ -493,5 +537,5 @@
           });
         });
     </script>
-{/literal}
+{/literal}   
 <!-- END : MODULE allinone_rewards -->

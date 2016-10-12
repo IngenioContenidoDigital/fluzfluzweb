@@ -26,9 +26,11 @@
 {capture name=path}{l s='My account'}{/capture}
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='My Gift Cards'}</h1>
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-10 col-md-10 col-sm-12 card-st">
+        <div class="col-lg-10 col-md-10 col-sm-12 card-st" id="card-div">
+        {assign var="counter" value=1}
         {foreach from=$manufacturers item=manufacturer}
                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 Cards algo myfancybox" href="#myspecialcontent">
                     <div class="col-lg-6 col-md-5 col-sm-12 col-xs-6 infoCard">
@@ -51,6 +53,7 @@
             </div>
         </div>
     </div>
+        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
 </div>
 
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin">{l s='My account'}</h1>
@@ -100,7 +103,7 @@
     </h1>
     {if $last_shopping_products}
         {foreach from=$last_shopping_products item=last_shopping_product}
-            <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 container1 account-responsive">
+            <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 last_shop container1 account-responsive">
                 <div class="row">
                     {assign var="link_rewrite" value=$last_shopping_product.link_rewrite}
                     {assign var="id_product" value=$last_shopping_product.id_product}
@@ -127,7 +130,7 @@
                                 {/if}
                             </div>
                             <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                                <span>{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
+                                <span style="font-size:11px;">{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
                             </div>
                         </div>
                         <div class="row" style="padding: 5px;">
@@ -142,6 +145,7 @@
                 </div>
             </div>
         {/foreach}
+        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
     {/if}
     <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
         <p class="titleFAQ">{l s='Need Support?'}</p>
@@ -150,18 +154,16 @@
         </div>    
     </div>
 </div>
-<div style="margin-bottom: 45px;">
+<div class="row">
     <h1 class="page-heading">
         {l s='My Messaging'}
     </h1>
-
     <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 block-red">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 block-r">
                 <h2 class="title-msj">{l s='My Network'}</h2>
-                <table class="tablenetwork">
+                <div class="tablenetwork">
                     {foreach from=$members item=member}
-                        <tr>
+                        <div class="member">
                             <td>
                                 <table class="tablecontent">
                                     <tr>
@@ -186,15 +188,17 @@
                                     </tr>
                                 </table>
                             </td>
-                        </tr>
+                        </div>
                     {/foreach}
-                </table>
+                </div>  
+                    <button id="loadMoreMember" class="col-lg-6 btn-moreload"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 block-red">
+            
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 block-red">
                 <h2 class="title-msj">{l s='My Messages'}</h2>
-                <table class="tablemessages">
+                <div class="tablemessages">
                     {foreach from=$messages item=message}
-                        <tr>
+                        <div class="t-messages">
                             <td>
                                 <table class="tablecontent tablecontentmessages">
                                     <tr>
@@ -218,11 +222,11 @@
                                     </tr>
                                 </table>
                             </td>
-                        </tr>
+                        </div>
                     {/foreach}
-                </table>
+                </div>
+                <button id="loadMoreMsg" class="col-lg-6 btn-moreload"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
-        </div>
     </form>
 </div>
 <div id="not-shown" style="display:none;">
@@ -587,6 +591,62 @@
                     }
                 });
             }
+        });
+    </script>
+{/literal}
+{literal}
+    <script>
+        $(function(){
+            $(".Cards").slice(0, 4).show(); // select the first ten
+            $("#loadMore").click(function(e){ // click event for load more
+                e.preventDefault();
+                $(".Cards:hidden").slice(0, 2).show(); 
+                if($("div:hidden").length == 0){ // check if any hidden divs still exist
+                    alert("No more divs"); // alert if there are none left
+                }
+            });
+        });
+    </script>
+{/literal}
+
+{literal}
+    <script>
+        $(function(){
+            $(".last_shop").slice(0, 4).show(); // select the first ten
+            $("#loadMoreNet").click(function(e){ // click event for load more
+                e.preventDefault();
+                $(".last_shop:hidden").slice(0, 2).show(); 
+                if($("div:hidden").length == 0){ // check if any hidden divs still exist
+                    alert("No more divs"); // alert if there are none left
+                }
+            });
+        });
+    </script>
+{/literal}
+
+{literal}
+    <script>
+        $(function(){
+            $(".member").slice(0, 4).show(); // select the first ten
+            $("#loadMoreMember").click(function(e){ // click event for load more
+                e.preventDefault();
+                $(".member:hidden").slice(0, 2).show(); 
+            });
+        });
+    </script>
+{/literal}
+
+{literal}
+    <script>
+        $(function(){
+            $(".t-messages").slice(0, 4).show(); // select the first ten
+            $("#loadMoreMsg").click(function(e){ // click event for load more
+                e.preventDefault();
+                $(".t-messages:hidden").slice(0, 2).show(); 
+                if($("div:hidden").length == 0){ // check if any hidden divs still exist
+                    alert("No more divs"); // alert if there are none left
+                }
+            });
         });
     </script>
 {/literal}

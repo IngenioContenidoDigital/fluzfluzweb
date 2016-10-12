@@ -18,17 +18,25 @@
 .rewards p {
     margin: 0px;
     padding: 0 !important;
-    width: 100%;
     border: none;
     color: #666666;
     font-family: 'Open sans';
     line-height: 30px;
     font-size: 13px;
 }
+.message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; }
+.message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
+
+/* pop up mensaje*/
+#myspecialcontent > div { margin-bottom: 15px; }
+.blockbutton { text-align: center; }
+#messagesendmessage { border-left: none; border-right: none; border-bottom: none; }
+#namesendmessage { margin-left: 5px; font-size: 16px; text-transform: capitalize; }
 
 .rewards table.std {
 	border-style: none !important;
 	margin-bottom: 20px;
+        text-transform: UPPERCASE;
 }
 
 .rewards table.std thead {
@@ -685,7 +693,7 @@ ul.footer_links{
     z-index: 9999;
     display: block;
     height: 20px;  
-    width: 0%; 
+    min-width: 10%; 
     
     
     &:hover {
