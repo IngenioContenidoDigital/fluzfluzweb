@@ -53,6 +53,7 @@ class DiscountControllerCore extends FrontController
                         $coincidence = strpos($name, $searchnetwork);
                         if ( $coincidence !== false ) {
                             $members[$sponsor['id']]['name'] = $name;
+                            $members[$sponsor['id']]['username'] = $customer->username;
                             $members[$sponsor['id']]['id'] = $sponsor['id'];
                             $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
                             $members[$sponsor['id']]['level'] = $sponsor['level'];
@@ -76,6 +77,7 @@ class DiscountControllerCore extends FrontController
                         }
                     } else {
                         $members[$sponsor['id']]['name'] = $name;
+                        $members[$sponsor['id']]['username'] = $customer->username;
                         $members[$sponsor['id']]['id'] = $sponsor['id'];
                         $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
                         $members[$sponsor['id']]['level'] = $sponsor['level'];

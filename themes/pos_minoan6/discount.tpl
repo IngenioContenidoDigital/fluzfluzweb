@@ -50,7 +50,7 @@
                                             {$urlimgnet = $img_dir|cat:"icon/profile.png"}
                                         {/if}
                                     </td>
-                                    <td colspan="2" class="line colname"><span class="name">{$member.name}</span></td>
+                                    <td colspan="2" class="line colname"><span class="name">{$member.username}</span></td>
                                     <td class="message line"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
                                     <td></td>
                                 </tr>

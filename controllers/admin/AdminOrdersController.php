@@ -565,10 +565,10 @@ class AdminOrdersControllerCore extends AdminController
                                         <th>cantidad</th>
                                         <th>total_producto</th>
                                         <th>recompensa_porcentaje_producto</th>
-                                        <th>recompensa_puntos_compra</th>
                                         <th>recompensa_pesos_compra</th>
-                                        <th>recompensa_puntos_red</th>
+                                        <th>recompensa_puntos_compra</th>
                                         <th>recompensa_pesos_red</th>
+                                        <th>recompensa_puntos_red</th>
                                         <th>codigos_producto</th>
                                         <th>usuarios_red</th>
                                     </tr>";
@@ -619,10 +619,10 @@ class AdminOrdersControllerCore extends AdminController
                                 <td>".$order['cantidad']."</td>
                                 <td>".$order['total_producto']."</td>
                                 <td>".$order['porcentaje_producto']."</td>
-                                <td>".$num_quantity[0]['loyalty']."</td>
                                 <td>".( $num_quantity[0]['loyalty'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
-                                <td>".$num_quantity[0]['sponsorship']."</td>
+                                <td>".$num_quantity[0]['loyalty']."</td>
                                 <td>".( $num_quantity[0]['sponsorship'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
+                                <td>".$num_quantity[0]['sponsorship']."</td>
                                 <td>".$codes_order[0]['codigos_producto']."</td>
                                 <td>".$sponsors_order[0]['users']."</td>
                             </tr>";
