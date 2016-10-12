@@ -141,7 +141,12 @@
                         </div>
                     </div>
                                 {if $page_name=='my-account'}
-                                    <div class="container-fluid profileCustomer" style="margin-top: 70px;">
+                                    {if $order_lastmonth < 2}
+                                        <div class="col-lg-12 banner-advertencia">
+                                            <p class="p-advertencia">{l s="Aun no cubres tu compra mínima de 2 productos al mes!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a></p>
+                                        </div>
+                                    {/if}
+                                    <div class="container-fluid profileCustomer" style="{if $order_lastmonth >= 2}margin-top:70px{/if};">
                                         <div class="row" style="width:100%;">
                                                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 contProfile">
                                                     {if $imgprofile != ""}
@@ -310,5 +315,10 @@
                     stickyHeight = stickySidebar.height();
                   }
                 });
+    </script>
+{/literal}
+{literal}
+    <script>
+        
     </script>
 {/literal}
