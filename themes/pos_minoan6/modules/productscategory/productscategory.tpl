@@ -36,7 +36,7 @@
                         </span>
 		</h2>
 	</div>	
-                        {debug}
+
 	<div id="productscategory_list" class="clearfix">
 		<div class="row pos-content">
 			<div id="product_category">
