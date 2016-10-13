@@ -236,7 +236,21 @@ class BlockCategories extends Module
 			}
 
 			$blockCategTree = $this->getTree($resultParents, $resultIds, $maxdepth, ($category ? $category->id : null));
-			$this->smarty->assign('blockCategTree', $blockCategTree);
+                        $this->smarty->assign('blockCategTree', $blockCategTree);
+
+                        $categoryInitial = Category::getRootCategories();
+                        $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
+                        foreach ( $categories as $key => &$categoryy ) {
+                            $categoryy['link'] = $this->context->link->getCategoryLink($categoryy['id_category'], $categoryy['link_rewrite']);
+                            $categoryy['father'] = "true";
+                            $categoryy['children'] = Category::getChildren($categoryy['id_category'], 1);
+                            foreach ( $categoryy['children'] as &$categ ) {
+                                $categ['link'] = $this->context->link->getCategoryLink($categ['id_category'], $categ['link_rewrite']);
+                                $categ['father'] = "false";
+                                $categ['children'] = array();
+                            }
+                        }
+                        $this->smarty->assign('blockTreeCategories', $categories);
 
 			if ((Tools::getValue('id_product') || Tools::getValue('id_category')) && isset($this->context->cookie->last_visited_category) && $this->context->cookie->last_visited_category)
 			{
@@ -251,6 +265,7 @@ class BlockCategories extends Module
 			else
 				$this->smarty->assign('branche_tpl_path', _PS_MODULE_DIR_.'blockcategories/category-tree-branch.tpl');
 		}
+                
 		return $this->display(__FILE__, 'blockcategories.tpl', $cacheId);
 	}
 

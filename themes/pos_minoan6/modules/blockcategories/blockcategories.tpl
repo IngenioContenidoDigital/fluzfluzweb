@@ -22,27 +22,53 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{if $blockCategTree && $blockCategTree.children|@count}
 <!-- Block categories module -->
 <div id="categories_block_left" class="block blockCat">
 	<h2 class="title_block">
-		{if isset($Category)}
-			{$Category->name|escape}
-		{else}
-			{l s='Categories' mod='blockcategories'}
-		{/if}
+            {l s='Categorias'}
 	</h2>
 	<div class="block_content">
 		<ul class="tree {if $isDhtml}dhtml{/if}">
-			{foreach from=$blockCategTree.children item=child name=blockCategTree}
-				{if $smarty.foreach.blockCategTree.last}
-					{include file="$branche_tpl_path" node=$child last='true'}
-				{else}
-					{include file="$branche_tpl_path" node=$child}
-				{/if}
+			{foreach from=$blockTreeCategories item=child name=blockTreeCategories}
+                                {include file="$branche_tpl_path" node=$child}
 			{/foreach}
 		</ul>
 	</div>
 </div>
 <!-- /Block categories module -->
-{/if}
+<script>
+    {if $currentCategory->id != "" && $currentCategory->id_parent != "" }
+        var id_current = {$currentCategory->id};
+        var id_parent = {$currentCategory->id_parent};
+    {else}
+        var id_current = 0;
+        var id_parent = 0;
+    {/if}
+        
+    if ( id_parent == 1 || id_parent == 2 ) {
+        id_parent = id_current;
+    }
+</script>
+{literal}
+    <script>
+        $(function() {
+            if ( id_current != "" ) {
+                $("#category-opt-"+id_current).css("color","#E1382C");
+                downcategory(id_parent, false);
+            }
+        });
+        function downcategory(id, colorfahter = true) {        
+            if( $("#categorychildren-"+id).is(":visible") ) {
+                $(".categoryfather").css("color","#6C6C6C");
+                $(".categorychildren").css("display","none");
+            } else {
+                $(".categoryfather").css("color","#6C6C6C");
+                $(".categorychildren").css("display","none");
+                $("#categorychildren-"+id).css("display","block");
+                if ( colorfahter ) {
+                    $("#categoryfather-"+id).css("color","#E1382C");
+                }
+            }
+        }
+    </script>
+{/literal}

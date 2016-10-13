@@ -65,6 +65,7 @@ class MyAccountControllerCore extends FrontController
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
+            'order_lastmonth' => $this->orderQuantity(),
             'topPoint'=> $this->TopNetworkUnique(),
             'worstPoint'=> $this->WorstNetworkUnique(),
             'returnAllowed' => (int)Configuration::get('PS_ORDER_RETURN')
@@ -162,8 +163,7 @@ class MyAccountControllerCore extends FrontController
                                                 INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
                                                 INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
                                                 WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." )
-                                                ORDER BY o.date_add DESC
-                                                LIMIT 4");
+                                                ORDER BY o.date_add DESC ");
         foreach ($last_shopping_products as &$last_shopping_product) {
             $imgprofile = "";
             if ( file_exists(_PS_IMG_DIR_."profile-images/".$last_shopping_product['id_customer'].".png") ) {
@@ -201,6 +201,7 @@ class MyAccountControllerCore extends FrontController
                 manufacturer_name ASC';
         
         $supplier = Db::getInstance()->executeS($query);
+        
         return $supplier;
     }
     
@@ -213,6 +214,17 @@ class MyAccountControllerCore extends FrontController
         $name = $row['firstname'];
         return $name;
     }
+    
+    public function orderQuantity(){
+            
+            $query = 'SELECT COUNT(o.id_order), o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+            LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
+            WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' AND r.id_reward_state=2 ORDER BY o.id_order DESC';
+            $order=Db::getInstance()->getRow($query);
+            $orders_lastmonth = $order['COUNT(o.id_order)'];
+            
+            return $orders_lastmonth;
+        }
     
     public function getPointsLastDays(){
      
@@ -231,7 +243,6 @@ class MyAccountControllerCore extends FrontController
                 }
                 
             }
-            
             usort($top, function($a, $b) {
                 return $b['points'] - $a['points'];
             });
@@ -241,7 +252,6 @@ class MyAccountControllerCore extends FrontController
             }
             
             return $sum;    
-            
         }
         
     public function getCustomerSponsorship($id_customer){

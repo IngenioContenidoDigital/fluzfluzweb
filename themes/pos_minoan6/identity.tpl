@@ -101,7 +101,7 @@
                             <label for="government" class="required">
                                 {l s='Government Id #'}:
                             </label>
-                            <input class="is_required validate form-control inputform enabled" disabled data-validate="isDniLite" type="password" name="government" id="government" value="{$customerGovernment}" />
+                            <input class="is_required validate form-control inputform enabled" disabled readonly data-validate="isDniLite" type="password" name="government" id="government" value="{$customerGovernment}" />
                         </div>
                         <div class="form-group dateBirth">
                             <label>
@@ -337,21 +337,33 @@
 {literal}
     <script>
         $(function() {
-            var typecard = $("#typecard").val();
-            switch ( typecard ) {
-                case 'visa':
-                    $("#typecard").addClass('visa');
-                    break;
-                case 'mastercard':
-                    $("#typecard").addClass('mastercard');
-                    break;
-                case 'amex':
-                    $("#typecard").addClass('amex');
-                    break;
-                case 'discover':
-                    $("#typecard").addClass('discover');
-                    break;
-            }
+            $("#numbercard").validateCreditCard(function(result) {
+                switch ( result.card_type.name ) {
+                    case 'visa':
+                        $("#typecard").addClass('visa');
+                        $("#typecard").val("visa");
+                        break;
+                    case 'mastercard':
+                        $("#typecard").addClass('mastercard');
+                        $("#typecard").val("mastercard");
+                        break;
+                    case 'amex':
+                        $("#typecard").addClass('amex');
+                        $("#typecard").val("amex");
+                        break;
+                    case 'discover':
+                        $("#typecard").addClass('discover');
+                        $("#typecard").val("discover");
+                        break;
+                    default:
+                        $("#typecard").removeClass('visa');
+                        $("#typecard").removeClass('mastercard');
+                        $("#typecard").removeClass('amex');
+                        $("#typecard").removeClass('discover');
+                        $("#typecard").val("");
+                        break;
+                }
+            });
         });
         
         $('#numbercard').on('keyup',function(){
@@ -390,7 +402,7 @@
                             $("#typecard").val("");
                             break;
                     }
-                })
+                });
             }
         });
     </script>

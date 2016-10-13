@@ -127,9 +127,15 @@ class OrderConfirmationControllerCore extends FrontController
                                                     WHERE o.id_order = ".$this->id_order."
                                                     ORDER BY fecha DESC");
         $order = new Order($this->id_order);
+        $order_products = $order->getProducts();
+        foreach ( $order_products as &$order_product ) {
+            $sponsorships = array_slice(RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id), 1, 15);
+            $order_product['fluzpoints'] = round( RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / (count($sponsorships)+1) );
+        }
+
         $this->context->smarty->assign(array(
             'order' => $order,
-            'order_products' => $order->getProducts(),
+            'order_products' => $order_products,
             'state_payment' => $state_payment[0]
         ));
 

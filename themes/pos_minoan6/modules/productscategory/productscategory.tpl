@@ -36,6 +36,7 @@
                         </span>
 		</h2>
 	</div>	
+
 	<div id="productscategory_list" class="clearfix">
 		<div class="row pos-content">
 			<div id="product_category">
@@ -45,30 +46,33 @@
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
                                         </div>
                                         <div class="points-block">
-                                                <div class="imgmanu"><img src="{$img_manu_dir}{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                <div class="namepro">
-                                                        {if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
-                                                        {$categoryProduct.name|truncate:25:'...'|escape:'html':'UTF-8'}
+                                                <div style="width: 55%;">
+                                                        {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                        <span style="font-weight: bold;">{if $logged}{$categoryProduct.points}{else $logged}{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s=Fluz}</span>
-                                                </div>
+                                                <div class="imgmanu" style="float: left;"><img src="{$img_manu_dir}{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                         </div>
                                         <div class="price-block">
+                                                <div style="font-size: 13px;">
+                                                    <span>{if $logged}{l s="Recibes"}&nbsp;{$categoryProduct.points}{else $logged}{l s="Recibes"}&nbsp;{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s="Fluz !"}</span>
+                                                </div>
                                                 {if (!$PS_CATALOG_MODE AND ((isset($categoryProduct.show_price) && $categoryProduct.show_price) || (isset($categoryProduct.available_for_order) && $categoryProduct.available_for_order)))}
                                                         {if isset($categoryProduct.show_price) && $categoryProduct.show_price && !isset($restricted_country_mode)}
                                                                 <div>
-                                                                        <span style="text-align: left; margin-right: 1px; font-weight: bold;">{l s='Precio: '}</span>
-                                                                        <span class="product-price" style="color:#ef4136; text-align: left;">
-                                                                                {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
+                                                                        <span style="text-align: left; margin-right: 1px;">{l s='Valor: '}</span>
+                                                                        <span class="product-price" style="text-align: left;">
+                                                                                {convertPrice price=$categoryProduct.price_shop|floatval}
                                                                         </span>
-                                                                        <br>
-                                                                        <span class="redfl">({l s="Ahorra"} {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price}%)</span>
                                                                 </div>
                                                                 <div>
-                                                                        <span style="text-align: left; margin-right: 1px;">{l s='Valor: '}</span>
-                                                                        <span class="product-price redfl valuefl" style="color:#ef4136; text-align: left; font-weight: bold;">
-                                                                                {convertPrice price=$categoryProduct.price_shop|floatval}
+                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio: '}</span>
+                                                                        <span class="product-price" style="color:#ef4136; text-align: left; font-weight: bold;">
+                                                                                {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
+                                                                        </span>
+                                                                </div>
+                                                                <div>
+                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio en Puntos: '}</span>
+                                                                        <span class="product-price" style="color:#ef4136; text-align: left;">
+                                                                                {(($categoryProduct.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}
                                                                         </span>
                                                                 </div>
                                                         {/if}
@@ -194,12 +198,10 @@
         .boxprevnext a { font-size: 25px; border: 0; }
         .boxprevnext a.prev { right: 10.5%; }
         .item-product { color: #777777; width: 100%; margin: 0; }
-        .product-price { color: #777777!important; }
         .redfl { color: #ef4136!important; font-weight: bold!important; }
         .valuefl { font-size: 13px; }
         .imgMini { width: 35px!important; }
         .imgmanu { width: auto!important; }
-        .points-block div:last-child { width: 25%; }
-        .namepro { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 60%; font-family: 'Open Sans'; font-size: 12px; }
+        .price-block { padding: 15px 0%; }
     </style>    
 {/literal}

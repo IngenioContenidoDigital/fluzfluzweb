@@ -1479,21 +1479,29 @@ class AdminProductsControllerCore extends AdminController
         
         if ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport" ) {
             $sql = "SELECT
-                            p.id_product id,
-                            pl.name nombre_producto,
-                            p.reference referencia,
-                            p.price precio,
-                            IF(p.active=1,'Activo','Inactivo') estado,
-                            (SELECT COUNT(pc1.id_product)
-                                FROM "._DB_PREFIX_."product_code pc1
-                                WHERE pc1.id_product = p.id_product
-                                AND pc1.id_order = 0) unidades_disponibles,
-                            (SELECT COUNT(pc2.id_product)
-                                FROM "._DB_PREFIX_."product_code pc2
-                                WHERE pc2.id_product = p.id_product
-                                AND pc2.id_order <> 0) unidades_vendidas
+                        p.id_product id,
+                        pl.name nombre_producto,
+                        p.reference referencia,
+                        p.price precio,
+                        p.price_shop precio_tienda,
+                        rp.value porcentaje_red,
+                        m.name fabricante,
+                        s.name proveedor,
+                        IF(p.active=1,'Activo','Inactivo') estado,
+                        (SELECT COUNT(pc1.id_product)
+                        FROM "._DB_PREFIX_."product_code pc1
+                        WHERE pc1.id_product = p.id_product
+                        AND pc1.id_order = 0) unidades_disponibles,
+                        (SELECT COUNT(pc2.id_product)
+                        FROM "._DB_PREFIX_."product_code pc2
+                        WHERE pc2.id_product = p.id_product
+                        AND pc2.id_order <> 0) unidades_vendidas
                     FROM "._DB_PREFIX_."product p
-                    INNER JOIN "._DB_PREFIX_."product_lang pl ON ( p.id_product = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
+                    LEFT JOIN "._DB_PREFIX_."product_lang pl ON ( p.id_product = pl.id_product AND pl.id_lang = ".$this->context->language->id.")
+                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+                    LEFT JOIN "._DB_PREFIX_."product_supplier ps ON ( p.id_product = ps.id_product )
+                    LEFT JOIN "._DB_PREFIX_."supplier s ON ( ps.id_supplier = s.id_supplier )
+                    LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( p.id_product = rp.id_product )
                     GROUP BY p.id_product";
 
             $products = Db::getInstance()->executeS($sql);
@@ -1509,24 +1517,43 @@ class AdminProductsControllerCore extends AdminController
                                         <th>nombre_producto</th> 
                                         <th>referencia</th>
                                         <th>precio</th>
+                                        <th>precio_tienda</th>
+                                        <th>precio_red</th>
+                                        <th>porcentaje_red</th>
+                                        <th>fabricante</th>
+                                        <th>proveedor</th>
                                         <th>categorias</th>
+                                        <th>imagen</th>
                                         <th>estado</th>
                                         <th>unidades_disponibles</th>
                                         <th>unidades_vendidas</th>
                                     </tr>";
 
             foreach ( $products as $product ) {
-                $productCategories = Product::getProductCategoriesFull($product['id']);
+                $productCategories = Product::getProductCategoriesFull($product['id']);                
                 $categories = "";
-                foreach ( $productCategories as $productCategorie ) {
-                    $categories .= $productCategorie['name'].",";
+                foreach ( $productCategories as $productCategory ) {
+                    $categories .= $productCategory['name'].",";
                 }
+
+                $imageurl = "";
+                $image = Image::getCover($product['id']);
+                $productdetail = new Product($product['id'], false, Context::getContext()->language->id);
+                $link = new Link;
+                $imageurl = $link->getImageLink($productdetail->link_rewrite, $image['id_image'], 'home_default');
+
                 $report .= "<tr>
                                 <td>".$product['id']."</td>
                                 <td>".$product['nombre_producto']."</td> 
                                 <td>".$product['referencia']."</td>
                                 <td>".$product['precio']."</td>
+                                <td>".$product['precio_tienda']."</td>
+                                <td>".( $product['precio']+($product['precio']*$product['porcentaje_red']/100) )."</td>
+                                <td>".$product['porcentaje_red']."</td>
+                                <td>".$product['fabricante']."</td>
+                                <td>".$product['proveedor']."</td>
                                 <td>".substr($categories, 0, -1)."</td>
+                                <td>".$imageurl."</td>
                                 <td>".$product['estado']."</td>
                                 <td>".$product['unidades_disponibles']."</td>
                                 <td>".$product['unidades_vendidas']."</td>
