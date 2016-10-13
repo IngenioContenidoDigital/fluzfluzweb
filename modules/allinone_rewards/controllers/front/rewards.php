@@ -261,10 +261,6 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                     /*$datosGraph = Db::getInstance()->ExecuteS('SELECT SUM(r.credits), DATE_FORMAT(r.date_add, "%Y-%m-%d") FROM ps_rewards as r WHERE 
                                                                 (r.date_add >= curdate() + interval -28 day) AND (r.date_add <= curdate() + interval -21 day) AND r.credits > 0 GROUP BY DATE_FORMAT(r.date_add, "%Y-%m-%d")');*/
                     
-                    echo '<pre>';
-                    print_r($datosGraph);
-                    die();
-                    
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_customer = ".$this->context->customer->id."
