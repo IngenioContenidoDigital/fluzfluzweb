@@ -467,7 +467,8 @@
 
         $('#container').highcharts({
             chart: {
-                type: 'area'
+                type: 'area',
+                zoomType: 'x'
             },
             title: {
                 text: '{/literal}{l s='Network trend' mod='allinone_rewards'}{literal}'
@@ -477,6 +478,12 @@
             },
             xAxis: {
                 categories: series,
+                allowDecimals: false,
+                    labels: {
+                        formatter: function () {
+                            return this.value;
+                        }
+                    }
             },
             yAxis: {
                 title: {
@@ -497,19 +504,19 @@
                         
                     },
                     marker: {
-                        radius: 2,
-                        symbol: 'circle'
+                    symbol: 'circle',
+                    radius: 2,
                     },
                     lineWidth: 1,
                     states: {
                         hover: {
-                            lineWidth: 2
+                            lineWidth: 1
                         }
                     },
                     threshold: null
                 }
             },
-
+                    
             series: [{
                 type: 'area',
                 color: '#E2E2E2',
