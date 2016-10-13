@@ -231,7 +231,7 @@ class MyAccountControllerCore extends FrontController
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             $sum=0;
             foreach ($tree as $valor){
-                $queryTop = 'SELECT SUM(n.credits) AS points
+                $queryTop = 'SELECT n.credits AS points
                              FROM '._DB_PREFIX_.'rewards n 
                              LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                              LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day'.' AND n.id_reward_state = 2 AND '.$valor['level'].'!=0';
@@ -241,7 +241,6 @@ class MyAccountControllerCore extends FrontController
                 if ($result[0]['points'] != "" ) {
                     $top[] = $result[0];
                 }
-                
             }
             usort($top, function($a, $b) {
                 return $b['points'] - $a['points'];

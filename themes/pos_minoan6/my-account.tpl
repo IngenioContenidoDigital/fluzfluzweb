@@ -30,7 +30,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-12 card-st" id="card-div">
-        {assign var="counter" value=1}
         {foreach from=$manufacturers item=manufacturer}
                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 Cards algo myfancybox" href="#myspecialcontent">
                     <div class="col-lg-6 col-md-5 col-sm-12 col-xs-6 infoCard">
@@ -44,6 +43,7 @@
                     <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
                 </div>
         {/foreach}
+        <button id="loadMore" class="col-lg-10 col-md-10 col-sm-12 btn-more"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
@@ -53,7 +53,6 @@
             </div>
         </div>
     </div>
-        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
 </div>
 
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin">{l s='My account'}</h1>
@@ -103,7 +102,7 @@
     </h1>
     {if $last_shopping_products}
         {foreach from=$last_shopping_products item=last_shopping_product}
-            <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 last_shop container1 account-responsive">
+            <div class="col-xs-12 col-md-4 col-sm-6 col-lg-4 last_shop container1 account-responsive">
                 <div class="row">
                     {assign var="link_rewrite" value=$last_shopping_product.link_rewrite}
                     {assign var="id_product" value=$last_shopping_product.id_product}
@@ -145,7 +144,7 @@
                 </div>
             </div>
         {/foreach}
-        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+        <button id="loadMore" class="col-lg-8 col-md-8 col-sm-8 btn-more2"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
     {/if}
     <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
         <p class="titleFAQ">{l s='Need Support?'}</p>
@@ -159,7 +158,7 @@
         {l s='My Messaging'}
     </h1>
     <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 block-r">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-r">
                 <h2 class="title-msj">{l s='My Network'}</h2>
                 <div class="tablenetwork">
                     {foreach from=$members item=member}
@@ -191,15 +190,14 @@
                         </div>
                     {/foreach}
                 </div>  
-                    <button id="loadMoreMember" class="col-lg-6 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+                    <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
             
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 block-red">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-red">
                 <h2 class="title-msj">{l s='My Messages'}</h2>
                 <div class="tablemessages">
                     {foreach from=$messages item=message}
                         <div class="t-messages">
-                            <td>
                                 <table class="tablecontent tablecontentmessages">
                                     <tr>
                                         <td rowspan="2" class="img">
@@ -221,11 +219,10 @@
                                         <td></td>
                                     </tr>
                                 </table>
-                            </td>
                         </div>
                     {/foreach}
                 </div>
-                <button id="loadMoreMsg" class="col-lg-6 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+                <button id="loadMoreMsg" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
     </form>
 </div>
