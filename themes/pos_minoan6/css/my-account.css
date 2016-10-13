@@ -65,8 +65,8 @@
 .networkfeed > .container1 > .row > .containerimgprod { padding-left: 0px; padding-right: 0px; }
 .networkfeed > .container1 > .row > .containerinfor { padding: 3px 12px 0px 12px; background-color: #F4F4F4; }
 .networkfeed > .container1 > .row > .containerinfor > .row > .containerimgcustom { padding-left: 0px; padding-right: 0px; }
-.networkfeed > .container1 > .row > .containerinfor > .row > .containerpurchase { padding-left: 0px; padding-right: 0px; font-size: 11px; }
-.networkfeed > .container1 > .row > .containerinfor > .row > .message { padding: 10px 0; }
+.networkfeed > .container1 > .row > .containerinfor > .row > .containerpurchase { padding-left: 0px; padding-right: 0px; font-size: 11px;}
+.networkfeed > .container1 > .row > .containerinfor > .row > .message { padding: 10px 0; background: transparent !important;}
 .networkfeed > .page-heading { margin-bottom: 30px; }
 
 @media (max-width:420px){

@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
+        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
 </div>
 
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin">{l s='My account'}</h1>
@@ -145,7 +145,7 @@
                 </div>
             </div>
         {/foreach}
-        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
+        <button id="loadMore" class="col-lg-8 btn-more"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
     {/if}
     <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
         <p class="titleFAQ">{l s='Need Support?'}</p>
@@ -191,7 +191,7 @@
                         </div>
                     {/foreach}
                 </div>  
-                    <button id="loadMoreMember" class="col-lg-6 btn-moreload"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
+                    <button id="loadMoreMember" class="col-lg-6 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
             
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 block-red">
@@ -225,7 +225,7 @@
                         </div>
                     {/foreach}
                 </div>
-                <button id="loadMoreMsg" class="col-lg-6 btn-moreload"><span class="pmore">{l s="More"}</span><i class="icon-refresh icon-white"></i></button>
+                <button id="loadMoreMsg" class="col-lg-6 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
     </form>
 </div>
