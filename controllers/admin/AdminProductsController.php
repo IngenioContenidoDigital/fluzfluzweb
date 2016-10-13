@@ -1548,7 +1548,7 @@ class AdminProductsControllerCore extends AdminController
                                 <td>".$product['referencia']."</td>
                                 <td>".$product['precio']."</td>
                                 <td>".$product['precio_tienda']."</td>
-                                <td>".( $product['precio']+($product['precio']*$product['porcentaje_red']/100) )."</td>
+                                <td>".( $product['precio'] * $product['porcentaje_red'] / 100 )."</td>
                                 <td>".$product['porcentaje_red']."</td>
                                 <td>".$product['fabricante']."</td>
                                 <td>".$product['proveedor']."</td>
