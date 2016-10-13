@@ -39,22 +39,7 @@
 .titlesendmessage { text-align: left; }
 #messagesendmessage { border-left: none; border-right: none; border-bottom: none; }
 #namesendmessage { margin-left: 5px; font-size: 16px; text-transform: capitalize; }
-
-.glyphicon-refresh-animate {
-   -webkit-animation-name: rotateThis;
-   -webkit-animation-duration: 2s;
-   -webkit-animation-iteration-count: infinite;
-   -webkit-animation-timing-function: linear;
-}
-
-@-webkit-keyframes "rotateThis" {
- from { 
-        -webkit-transform: rotate( 0deg );  
-    }
- to  { 
-        -webkit-transform: rotate( 360deg ); 
-    }
-}
+.close-advertencia{font-size: 18px; margin-left: 5px; cursor: pointer;}
 
 /* my network feed */
 .pointstitlemnf { font-weight: bold; border-bottom: 1px solid #CDCED0; font-size: 13px; padding: 10px 7px; }
@@ -214,8 +199,17 @@ display:inline-block;
     border: none;
     color: #FFFFFF;
     text-align: center;
-    padding: 15px;
-    width: 69%;
+    padding: 9px;
+    width: 84.3%;
+    margin-bottom: 20px;
+}
+.btn-more2{
+    background-color: #c9b198;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 9px;
+    width: 68.3%;
     margin-bottom: 20px;
 }
 .btn-more:hover{
@@ -227,7 +221,7 @@ display:inline-block;
     border: none;
     color: #FFFFFF;
     text-align: center;
-    padding: 15px;
+    padding: 9px;
     margin-bottom: 20px;
     margin-top: 20px;
     width: 97%;
@@ -258,4 +252,39 @@ display:inline-block;
     to { transform: scale(1) rotate(360deg);}
 }
 
-.pmore{margin-right: 10px; font-size: 16px; text-transform: uppercase;}
+.pmore{margin-right: 10px; font-size: 12px; text-transform: uppercase;}
+
+@media (max-width:1024px){
+    .btn-more{margin-left: 10px;}
+    .nameCard > span {font-size: 10px;}
+    .container1{margin-left: 5px; margin-right: 5px !important;}
+    .containerinfor{padding-left: 0px !important; padding-right: 0px !important;}
+    .networkfeed > .container1 > .row > .containerinfor > .row > .containerpurchase{font-size: 10px;}
+}
+
+@media (max-width:768px){
+    .btn-more{margin-left: 0px;width: 100%;}
+    .block-red{margin-left: 0px; padding-right: 15px;}
+    .nameCard > span {font-size: 12px;}
+    .networkfeed{    margin-top: 20px !important;padding-left: 15px;padding-right: 20px;}
+    .btn-more2{width: 100%;}
+    .containerinfor{padding-left: 0px;padding-right: 0px}
+    .container1{margin-left: 0px; margin-right: 0px !important;}
+}
+
+@media (max-width:425px){
+    .btn-more2{margin-left: 10px; width: 95%;}
+    .block-r{padding-right: 0px !important;}
+    .block-red{margin-left: 15px; padding-right: 15px;}
+    .container1{margin-left: 0px; margin-right: 5px !important;}
+    .networkfeed{    margin-top: 20px !important;padding-left: 0px;padding-right: 0px;}
+}
+
+@media (max-width:320px){
+    .account-responsive{padding-left: 0px !important;padding-right: 15px !important;}
+    .btn-more2 {margin-left: 0px;width: 96%;}
+    .block-red{margin-left: 4px;}
+    .block-r {padding-left: 0px !important;}
+    .card-st{ padding-left: 0px;}
+    .block_b{ padding-left: 0px !important;}
+}
