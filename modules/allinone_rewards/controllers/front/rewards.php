@@ -250,7 +250,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
-                                                                WHERE id_order IN ( SELECT id_order FROM "._DB_PREFIX_."rewards WHERE id_customer = 1 AND plugin = 'sponsorship' OR plugin = 'loyalty') AND id_customer NOT IN(0 ,1)
+                                                                WHERE id_order IN ( SELECT id_order FROM "._DB_PREFIX_."rewards WHERE id_customer =".$this->context->customer->id." AND plugin = 'sponsorship' OR plugin = 'loyalty') AND id_customer NOT IN(0 ,".$this->context->customer->id.")
                                                                 AND credits > 0 AND date_add >= curdate() + interval -30 day
                                                                 GROUP BY DATE_FORMAT(date_add, '%Y-%m-%d')");
                     
