@@ -4583,6 +4583,145 @@ font-family: 'Open Sans' !important;
 
 .vdo-auth{width:100%;}
 
+.head-merchants{
+    background: url('/img/cms/FluzFluz/merchants/merchant-back.png') no-repeat;
+    background-size: 100%;
+    height: 444px;
+    margin-top: 60px;
+    line-height: 41px;
+}
+
+.title-merchants{
+    color: #fff;
+    letter-spacing: 0px;
+    font-family: Montserrat !important;
+    font-weight: 700;
+    line-height: 45px;
+}
+
+.pbanner-merchants{
+    color: #fff;
+    letter-spacing: 0px;
+    line-height: 25px !important;
+    font-family: 'Open Sans' !important;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.phone-merchants{
+    background: url('/img/cms/FluzFluz/merchants/merchant-phone.png') no-repeat;
+    background-size: auto;
+    height: 444px;
+}
+
+.terminos-merchants{
+    margin-top: 0px;
+    margin-left: 0%;
+    clear: both;
+    height: 420px;
+}
+
+.title-termsMerchant{
+    margin-top: 50px;
+    line-height: 28px !important;
+    font-size: 30px;
+    text-align: center;
+    letter-spacing: 0px;
+    font-family: 'Montserrat Light';
+    font-size: 34px;
+    color: #000;
+}
+
+.p-termsMerchant{
+    margin-bottom: 60px;
+    color: rgb(141, 141, 141);
+    font-family: 'Montserrat Light';
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 0px;
+}
+
+.p-terms{
+    text-align: center;
+    color: rgb(141, 141, 141);
+    font-family: 'Montserrat Light';
+    font-size: 16px;
+}
+
+.t-terms{
+    color: rgb(141, 141, 141);
+    font-family: 'Montserrat Light';
+    text-align: center;
+    font-size: 20px;
+}
+
+.img-merchant{
+    text-align: center;
+}
+
+.btn-shopmerchants{
+    display: block;
+    background-color: #c9b198;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 12px;
+    padding: 12px 15px;
+    transition: all 0.2s;
+    cursor: pointer;
+    margin: 5px;
+    margin-left: 16px;
+    text-transform: UPPERCASE;
+}
+
+.btn-shopmerchants span:after {
+  content: url("right-arrow.png");
+  position: absolute;
+  opacity: 0;
+  right: -3px;
+  margin-right:-10px;
+  transition: 0.2s;
+  color:#fff;
+}
+
+.btn-shopmerchants:hover span {
+  padding-right: 25px;
+  margin-left:-10px;
+}
+
+.btn-shopmerchants:hover{
+    opacity:.7;
+    color:#fff;
+}
+
+.btn-shopmerchants:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.our-merchants{
+    float: left;
+    height: 200px;
+    width: 100%;
+    background-color: #ef4136;
+}
+
+.p-textmerchant{
+    font-size: 30px;
+    width: auto;
+    height: auto;
+    texto_merchant-align: center;
+    font-weight: normal;
+    line-height: 1em;
+    margin-top: 84.5px;
+    clear: none;
+    min-height: 0px;
+    font-family: 'Montserrat Light';
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+.izq-banner{margin-left:60px;}
+
 /* This code is only meant for previewing your Reflow design. */
 .primaryContainer {
     /*height: auto;
@@ -5910,14 +6049,15 @@ font-family: 'Open Sans' !important;
         width: 100%;
         font-size: 46px;
         font-weight: 900;
-        text-align: left;
+        text-align: justify;
         line-height: 45px;
     }
 
     #text1 {
         float: left;
-        font-size: 20px;
+        font-size: 22px;
         width: 81.774266%;
+        font-family: 'Open Sans';
         height: auto;
         text-align: left;
         font-weight: 600;
@@ -5975,7 +6115,7 @@ font-family: 'Open Sans' !important;
 
     #box3 {
         float: left;
-        height: 521px;
+        height: 500px;
         margin-left: 0%;
         margin-top: 0px;
         clear: both;
@@ -6017,8 +6157,9 @@ font-family: 'Open Sans' !important;
 
     #text2 {
         float: left;
-        font-size: 21px;
-        width: 80.326872%;
+        font-size: 24px;
+        width: 100%;
+        font-family: Montserrat;
         height: auto;
         text-align: left;
         font-weight: normal;
@@ -6043,10 +6184,11 @@ font-family: 'Open Sans' !important;
 
     #text3 {
         float: left;
-        font-size: 15px;
-        width: 74.060481%;
+        font-size: 16px;
+        width: 100%;
         height: auto;
-        text-align: left;
+        text-align: justify;
+        font-family:'Open Sans';
         font-weight: normal;
         line-height: 30px;
         margin-left: 4.469817%;
@@ -6079,8 +6221,9 @@ font-family: 'Open Sans' !important;
 
     #text4 {
         float: left;
-        font-size: 21px;
-        width: 57.91184%;
+        font-size: 24px;
+        width: 100%;
+        font-family:'Montserrat';
         height: auto;
         text-align: left;
         font-weight: normal;
@@ -6104,10 +6247,11 @@ font-family: 'Open Sans' !important;
 
     #text5 {
         float: left;
-        font-size: 15px;
+        font-size: 16px;
+        font-family:'Open Sans';
         width: 100%;
         height: auto;
-        text-align: left;
+        text-align: justify;
         font-weight: normal;
         line-height: 27px;
         margin-left: 4.47299%;
@@ -6151,8 +6295,9 @@ font-family: 'Open Sans' !important;
 
     #text6 {
         float: left;
-        font-size: 21px;
-        width: 65.179493%;
+        font-size: 24px;
+        width: 100%;
+        font-family:'Montserrat';
         height: auto;
         text-align: left;
         font-weight: 400;
@@ -6176,10 +6321,11 @@ font-family: 'Open Sans' !important;
 
     #text7 {
         float: left;
-        font-size: 15px;
-        width: 82.895592%;
+        font-size: 16px;
+        width: 100%;
+        font-family:'Open Sans';
         height: auto;
-        text-align: left;
+        text-align: justify;
         font-weight: 400;
         line-height: 30px;
         margin-left: 4.47299%;
@@ -6212,8 +6358,9 @@ font-family: 'Open Sans' !important;
 
     #text8 {
         float: left;
-        font-size: 21px;
-        width: 59.230799%;
+        font-size: 24px;
+        width: 100%;
+        font-family:'Montserrat';
         height: auto;
         text-align: left;
         font-weight: 400;
@@ -6237,10 +6384,11 @@ font-family: 'Open Sans' !important;
 
     #text9 {
         float: left;
-        font-size: 15px;
-        width: 82.635623%;
+        font-size: 16px;
+        width: 100%;
+        font-family:'Open Sans';
+        text-align:justify;
         height: auto;
-        text-align: left;
         font-weight: 400;
         line-height: 30px;
         margin-left: 4.47299%;
@@ -6295,8 +6443,9 @@ font-family: 'Open Sans' !important;
 
     #text10 {
         float: left;
-        font-size: 21px;
-        width: 59.135222%;
+        font-size: 24px;
+        width: 100%;
+        font-family:'Montserrat';
         height: auto;
         text-align: left;
         font-weight: 400;
@@ -6320,10 +6469,11 @@ font-family: 'Open Sans' !important;
 
     #text11 {
         float: left;
-        font-size: 15px;
-        width: 85.067095%;
+        font-size: 16px;
+        width: 100%;
         height: auto;
-        text-align: left;
+        text-align: justify;
+        font-family:'Open Sans';
         font-weight: 400;
         line-height: 30px;
         margin-left: 4.47299%;
@@ -6364,9 +6514,10 @@ font-family: 'Open Sans' !important;
     #text12 {
         float: left;
         font-size: 31px;
-        width: 60.326872%;
+        width: 100%;
+        font-family:'Montserrat';
         height: auto;
-        text-align: left;
+        text-align: justify;
         font-weight: 400;
         line-height: 35px;
         margin-left: 4.476813%;
@@ -6389,10 +6540,11 @@ font-family: 'Open Sans' !important;
 
     #text13 {
         float: left;
-        font-size: 15px;
-        width: 74.060481%;
+        font-size: 16px;
+        width: 100%;
+        font-family:'Open Sans';
         height: auto;
-        text-align: left;
+        text-align: justify;
         font-weight: 400;
         line-height: 30px;
         margin-left: 4.47299%;
@@ -6688,7 +6840,8 @@ font-family: 'Open Sans' !important;
 
     #text2 {
         height: auto;
-        width: 76.923077%;
+        width: 100%;
+        margin-top: 0px;
     }
 
     #box5 {
@@ -6703,7 +6856,8 @@ font-family: 'Open Sans' !important;
         margin-left: 4.469624%;
         clear: both;
         height: auto;
-        width: 88.953966%;
+        width: 100%;
+        text-align:justify;
     }
 
     #input1 {
@@ -6721,13 +6875,14 @@ font-family: 'Open Sans' !important;
     }
 
     #image {
+        margin-top:110px;
         height: auto;
         width: auto;
         max-width: 42.041016%;
     }
 
     #image1 {
-        margin-top: 51px;
+        margin-top: 110px;
         margin-left: 6.134033%;
         clear: none;
         height: auto;
@@ -6737,7 +6892,7 @@ font-family: 'Open Sans' !important;
 
     #text4 {
         height: auto;
-        width: 79.274611%;
+        width: 100%;
     }
 
     #box8 {
@@ -6752,7 +6907,7 @@ font-family: 'Open Sans' !important;
         margin-left: 4.469624%;
         clear: both;
         height: auto;
-        width: 76.050465%;
+        width: 100%;
     }
 
     #input2 {
@@ -6777,7 +6932,8 @@ font-family: 'Open Sans' !important;
 
     #text6 {
         height: auto;
-        width: 80.846097%;
+        width: 100%;
+        font-size: 22px;
     }
 
     #box11 {
@@ -6792,7 +6948,7 @@ font-family: 'Open Sans' !important;
         margin-left: 4.469624%;
         clear: both;
         height: auto;
-        width: 85.440984%;
+        width: 100%;
     }
 
     #box10 {
@@ -6803,7 +6959,7 @@ font-family: 'Open Sans' !important;
     }
 
     #box9 {
-        height: 563px;
+        height: 540px;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
@@ -6813,10 +6969,11 @@ font-family: 'Open Sans' !important;
         height: auto;
         width: auto;
         max-width: 43.90564%;
+        margin-top:110px;
     }
 
     #image3 {
-        margin-top: 60.125px;
+        margin-top: 110px;
         margin-left: 8.529663%;
         clear: none;
         height: auto;
@@ -6826,7 +6983,8 @@ font-family: 'Open Sans' !important;
 
     #text8 {
         height: auto;
-        width: 67.32335%;
+        width: 100%;
+        font-size: 22px;
     }
 
     #box14 {
@@ -6841,11 +6999,13 @@ font-family: 'Open Sans' !important;
         margin-left: 4.469624%;
         clear: both;
         height: auto;
-        width: 76.980015%;
+        width: 100%;
     }
     
     #text12{
         width:100%;
+        font-size: 22px;
+        margin-top:0px;
     }
     
     .btn-shop{
@@ -6874,11 +7034,13 @@ font-family: 'Open Sans' !important;
         height: auto;
         width: auto;
         max-width: 43.899536%;
+        margin-top: 110px;
     }
 
     #text10 {
         height: auto;
-        width: 79.149348%;
+        width: 100%;
+        font-size: 22px;
     }
 
     #box17 {
@@ -6889,7 +7051,7 @@ font-family: 'Open Sans' !important;
     }
 
     #text11 {
-        margin-top: 45px;
+        margin-top: 10px;
         margin-left: 4.469624%;
         clear: both;
     }
@@ -6992,6 +7154,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
+        margin-bottom: 0px;
     }
 
     #box12 {
@@ -7046,6 +7209,11 @@ font-family: 'Open Sans' !important;
     .contProfile{display:block;}
     .imgSponsor2{width:14% !important;}
     
+    .head-merchants{height: 648px; background-size: 230%;}
+    .phone-merchants{ height: 460px;margin-top: -84px !important;}
+    .title-merchants{font-size: 28px !important;width: 60% !important;font-family: Montserrat !important;}
+    .pbanner-merchants{ width: 80% !important;font-family: 'Open Sans' !important;}
+    .p-terms{font-size:13px;}
     #box22 {
         margin-top: 0px;
         margin-left: 0%;
@@ -7174,7 +7342,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image1 {
-        margin-top: 35.53125px;
+        margin-top: 65px;
         margin-left: 15.702311%;
         clear: both;
         max-width: 72.570801%;
@@ -7249,7 +7417,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image3 {
-        margin-top: 31px;
+        margin-top: 60px;
         margin-left: 16.070557%;
         clear: both;
         height: auto;
@@ -7430,9 +7598,13 @@ font-family: 'Open Sans' !important;
     
     .btn-shop2{
         width:70%;
-        margin-left:12px;
+        margin-left: 13px;
     }
     
+    #text4{margin-left: 0px; width: 100%;}
+    #box8{margin-left: 0px;}
+    #text5{margin-left:0px; width: 100%;}
+    #image2{margin-top: 31px;}
     .bartop{
         margin-bottom: -1%;
         margin-top: 3%;}
@@ -7451,7 +7623,7 @@ font-family: 'Open Sans' !important;
     #text {
         font-size: 32px;
         line-height: 35px;
-        margin-top: 105px;
+        margin-top: 75px;
         width: 60%;
     }
 
@@ -7512,7 +7684,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 335px;
+        height: 365px;
     }
 
     #box21 {
@@ -7546,7 +7718,7 @@ font-family: 'Open Sans' !important;
 
     #image1 {
         margin-top: 49px;
-        margin-left: 15.702206%;
+        margin-left: 50px;
         clear: both;
     }
 
@@ -7591,7 +7763,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image3 {
-        margin-top: 25px;
+        margin-top: 60px;
         margin-left: 16.069853%;
         clear: both;
     }
@@ -7603,6 +7775,7 @@ font-family: 'Open Sans' !important;
     #text10 {
         height: auto;
         width: 74.036859%;
+        margin-top: 0px;
     }
 
     #box17 {
@@ -7778,13 +7951,14 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
+        height: 770px;
     }
 
     #box9 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 717px;
+        height: 750px;
     }
 
     #box12 {
@@ -7827,6 +8001,7 @@ font-family: 'Open Sans' !important;
     #text4 {
         height: auto;
         width: 91.282999%;
+        margin-left:10px;
     }
 
     #box8 {
@@ -7839,6 +8014,8 @@ font-family: 'Open Sans' !important;
         margin-top: 6px;
         margin-left: 4.456177%;
         clear: both;
+        font-size: 13px;
+        line-height: 22px;
     }
 
     #input2 {
@@ -7849,13 +8026,15 @@ font-family: 'Open Sans' !important;
     }
 
     #image1 {
-        margin-top: 26px;
-        margin-left: 15.7%;
+        margin-top: 30px;
+        margin-left: 13.7%;
         clear: both;
     }
 
     #box7 {
         height: 471px;
+        width:75%;
+        margin-left: 40px;
     }
 
     #input1 {
@@ -7863,7 +8042,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image3 {
-        margin-top: 29px;
+        margin-top: 50px;
         margin-left: 16.066667%;
         clear: both;
     }
@@ -7936,6 +8115,10 @@ font-family: 'Open Sans' !important;
         width: 100%;
         font-size: 25px;
     }
+    
+    #image{margin-left: 12.702311%;}
+    #text2{margin-left:0px;}
+    #box5{margin-left:0px;}
 
     #text15 {
         margin-top: 33.75px;
@@ -7965,26 +8148,28 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 719.53125px;
+        height: 720px;
     }
 
     #box9 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
+        height: 690px;
     }
 
     #box12 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 665.984375px;
+        height: 610px;
     }
 
     #box15 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
+        height: 570px;
     }
 
     #box18 {
@@ -8019,24 +8204,25 @@ font-family: 'Open Sans' !important;
     }
 
     #image1 {
-        margin-top: 36px;
-        margin-left: 15.698242%;
+        margin-top: 30px;
+        margin-left: 12.698242%;
         clear: both;
     }
 
     #box7 {
-        height: 483px;
+        width: 72%;
+        margin-left: 31px;
     }
 
     #image2 {
         margin-top: 37.25px;
-        margin-left: 15.698242%;
+        margin-left: 12.698242%;
         clear: none;
     }
 
     #box10 {
         margin-top: 32.0625px;
-        margin-left: 12.543945%;
+        margin-left: 9.543945%;
         clear: both;
         height: 457px;
     }
@@ -8056,6 +8242,8 @@ font-family: 'Open Sans' !important;
         margin-top: 20px;
         margin-left: 4.461082%;
         clear: both;
+        font-size: 13px;
+        line-height: 25px;
     }
 
     #input1 {
@@ -8068,8 +8256,8 @@ font-family: 'Open Sans' !important;
     #text8 {
         height: auto;
         width: 95.526544%;
-        margin-top: 41px;
-        margin-left: 4.467269%;
+        margin-top: 10px;
+        margin-left: 0%;
         clear: none;
     }
 
@@ -8077,33 +8265,40 @@ font-family: 'Open Sans' !important;
         margin-top: 19px;
         margin-left: 12.539063%;
         clear: none;
-        height: 444px;
     }
 
     #image3 {
         margin-top: 15px;
-        margin-left: 16.064453%;
+        margin-left:13%;
         clear: both;
     }
 
     #box14 {
-        margin-top: 15px;
-        margin-left: 4.467269%;
+        margin-top: 10px;
+        margin-left: 0%;
         clear: both;
     }
 
     #text9 {
         margin-top: 14px;
-        margin-left: 4.461082%;
+        margin-left: 0%;
         clear: both;
+        font-size:13px;
+        ine-height: 25px;
     }
 
     #image4 {
         margin-top: 34px;
-        margin-left: 15.859375%;
+        margin-left: 12.859375%;
         clear: none;
     }
-
+    #text10{
+        margin-left:0px;
+        width: 100%;
+    }    
+    #box17{margin-left:0px;}
+    #text11{margin-left:0px; font-size: 13px;}
+    .btn-shop2{margin-left:35px;}
     #box16 {
         margin-top: 25.53125px;
         margin-left: 12.060547%;
@@ -8124,7 +8319,7 @@ font-family: 'Open Sans' !important;
 
     #text13 {
         margin-top: 34px;
-        margin-left: 3.422852%;
+        margin-left: 6px;
         clear: both;
         height: auto;
         width: 91.99707%;
@@ -8135,9 +8330,9 @@ font-family: 'Open Sans' !important;
         margin-left: 2.797852%;
         clear: none;
         height: auto;
-        width: 98.134766%;
+        width: 80%;
         min-height: 0px;
-        font-size: 25px;
+        font-size: 21px;
     }
 
     #box20 {
@@ -8203,13 +8398,14 @@ font-family: 'Open Sans' !important;
         clear: none;
         font-size: 30px;
         height: auto;
-        width: 93.78418%;
+        width: 80%;
     }
 
     #text3 {
-        margin-top: 44px;
-        margin-left: 4.450661%;
+        margin-top: 13px;
+        margin-left: 0;
         clear: both;
+        font-size:13px;
     }
 }
 
@@ -8223,22 +8419,6 @@ font-family: 'Open Sans' !important;
     width: 100%;
 }
 
-#caja {
-    float: left;
-    height: 444px;
-    margin-left: 0%;
-    margin-top: 0px;
-    clear: none;
-    width: 100%;
-    background-color: rgb(239, 67, 53);
-    background-image:url("/img/cms/FluzFluz/merchants/merchant-back.png");
-    background-attachment: scroll;
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-position: 0% 0%;
-    background-repeat: no-repeat no-repeat;
-}
-
 #caja1 {
     float: left;
     height: 444px;
@@ -8246,24 +8426,6 @@ font-family: 'Open Sans' !important;
     margin-top: 0px;
     clear: none;
     width: 22.694672%;
-}
-
-#texto_merchant {
-    float: left;
-    font-size: 30px;
-    width: 89.255079%;
-    height: auto;
-    texto_merchant-align: left;
-    font-weight: 700;
-    line-height: 30px !important;
-    margin-left: 10.744921%;
-    margin-top: 49px;
-    margin-right:16px;
-    clear: none;
-    min-height: 45px;
-    color: rgb(255, 255, 255);
-    letter-spacing: 0px;
-    font-family: Montserrat;
 }
 
 #texto_merchant1 {
@@ -8297,53 +8459,9 @@ font-family: 'Open Sans' !important;
     border-width: 0px;
     font-family: Montserrat;
 }
-
-#caja2 {
-    float: left;
-    height: 444px;
-    margin-left: 2.90329%;
-    margin-top: 0px;
-    clear: none;
-    width: 67.068648%;
-    margin-right: 0%;
-    background-image:url("/img/cms/FluzFluz/merchants/merchant-phone.png");
-    background-attachment: scroll;
-    -webkit-background-size: 534px;
-    background-size: 534px;
-    background-position: 50.9% 100%;
-    background-repeat: no-repeat no-repeat;
-}
-
-#caja3 {
-    float: left;
-    height: 521px;
-    margin-left: 0%;
-    margin-top: 0px;
-    clear: both;
-    width: 100%;
-    background-color: rgb(255, 255, 255);
-}
-
-#texto_merchant2 {
-    float: left;
-    font-size: 30px;
-    width: 50.326872%;
-    height: auto;
-    texto_merchant-align: center;
-    font-weight: 400;
-    line-height: 1em;
-    margin-left: 24.878908%;
-    margin-top: 47px;
-    clear: none;
-    min-height: 0px;
-    color: rgb(133, 133, 133);
-    letter-spacing: 0px;
-    font-family: 'Montserrat Light';
-}
-
 #caja8 {
     float: left;
-    height: 482.890625px!important;
+    height: 482.890625px;
     margin-left: 0%;
     margin-top: 0px;
     clear: both;
@@ -8392,23 +8510,22 @@ font-family: 'Open Sans' !important;
 
 #texto_merchant12 {
     float: left;
-    font-size: 15px !important;
-    width: 74.060481% !important;
-    height: auto !important;
-    texto_merchant-align: left !important;
-    font-weight: 200 !important;
-    line-height: 30px !important;
-    margin-left: 4.47299% !important;
-    margin-top: 16px !important;
-    clear: both !important;
-    min-height: 139px !important;
-    color: rgb(141, 141, 141) !important;
-    font-family: 'Montserrat Light' !important;
+    font-size: 15px;
+    width: 74.060481%;
+    height: auto ;
+    font-weight: 200 ;
+    line-height: 30px ;
+    margin-left: 4.47299% ;
+    margin-top: 16px ;
+    clear: both ;
+    min-height: 139px ;
+    color: rgb(141, 141, 141) ;
+    font-family: 'Montserrat Light' ;
 }
 
 #caja11 {
     float: left;
-    height: 521px !important;
+    height: 521px;
     margin-left: 0%;
     margin-top: 0px;
     clear: both;
@@ -8447,7 +8564,7 @@ font-family: 'Open Sans' !important;
     font-weight: 400 !important;
     line-height: 1em !important;
     margin-left: 4.476813% !important;
-    margin-top: 43px !important;
+    margin-top: 43px;
     clear: none;
     min-height: 0px;
     color: rgb(141, 141, 141) !important;
@@ -8567,36 +8684,6 @@ font-family: 'Open Sans' !important;
     clear: none;
     color: rgb(0, 0, 0);
 }
-
-#texto_merchant3 {
-    float: left;
-    font-size: 16px;
-    width: 32.834201%;
-    height: auto;
-    texto_merchant-align: center;
-    font-weight: 400;
-    line-height: 30px;
-    margin-left: 33.615102%;
-    margin-top: 8px;
-    clear: both;
-    min-height: 35px;
-    color: rgb(141, 141, 141);
-    font-family: 'Montserrat Light';
-    margin-right: 0%;
-}
-
-#caja7 {
-    float: left;
-    height: 200px;
-    margin-left: 0%;
-    margin-top: 151.21875px;
-    clear: both;
-    width: 100%;
-    display: block;
-    margin-right: 0%;
-    background-color: rgb(239, 67, 53);
-}
-
 #texto_merchant10 {
     font-size: 30px;
     width: auto;
@@ -8636,36 +8723,6 @@ font-family: 'Open Sans' !important;
     font-family: Montserrat;
     color: rgb(255, 255, 255);
 	text-align:center;
-}
-
-#caja4 {
-    float: left;
-    height: 203px;
-    margin-left: 0%;
-    margin-top: 37px;
-    clear: both;
-    width: 31.733199%;
-    background-color: rgb(255, 255, 255);
-}
-
-#caja5 {
-    float: left;
-    height: 203px;
-    margin-left: 5.598325%;
-    margin-top: 37px;
-    clear: none;
-    width: 25.622559%;
-    background-color: rgb(255, 255, 255);
-}
-
-#caja6 {
-    float: left;
-    height: 203px;
-    margin-left: 5.312266%;
-    margin-top: 37px;
-    clear: none;
-    width: 31.709215%;
-    background-color: rgb(255, 255, 255);
 }
 
 #image_merchant {
@@ -8875,11 +8932,6 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 1700px) {
-    #texto_merchant {
-        height: auto;
-        min-height: 86px;
-        line-height: 31px !important;
-    }
 
     #texto_merchant1 {
         margin-top: 0px;
@@ -8895,22 +8947,9 @@ font-family: 'Open Sans' !important;
         clear: both;
     }
 
-    #caja2 {
-        margin-top: 0px;
-        margin-left: 2.903689%;
-        clear: none;
-        height: 444px;
-    }
 }
 
 @media only screen and (max-width: 1440px) {
-    #caja2 {
-        margin-top: 0px;
-        margin-left: 0.43077257%;
-        clear: none;
-        height: 444px;
-        width: 55.401476%;
-    }
     
     .btn-shop{
         margin-left:5%;
@@ -8941,47 +8980,24 @@ font-family: 'Open Sans' !important;
         width: 32.290582%;
     }
 
-    #texto_merchant {
-        height: auto !important;
-        min-height: 83px !important;
-        line-height: 31px !important;
-        margin-top:20%;
-        margin-bottom:5%;
-        margin-left:16px;
-    }
-
     #input {
         margin-top: 10px;
         margin-left: 10.164992%;
         clear: both;
     }
 
-    #caja3 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        height: 491px;
-    }
-
-    #caja7 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        height: 161px;
-    }
-
     #caja8 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 100%;
+        height: 482.890625px;
     }
 
     #caja11 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 100%;
+        height: 521px;
     }
 
     #caja14 {
@@ -8996,54 +9012,7 @@ font-family: 'Open Sans' !important;
         margin-left: 0%;
         clear: both;
     }
-
-    #texto_merchant2 {
-        margin-top: 39px;
-        margin-left: 24.672309%;
-        clear: none;
-        text-align:center;
-        color:#3d3d3d;
-    }
-
-    #texto_merchant3 {
-        margin-top: 8px;
-        margin-left: 24.398872%;
-        clear: both;
-        height: auto;
-        width: 50.600043%;
-        text-align:center;
-    }
-
-    #caja4 {
-        margin-top: 70px;
-        margin-left: 0%;
-        clear: both;
-        height: 237px;
-        width: 31.732856%;
-        padding:2%;
-        text-align:center;
-    }
-
-    #caja5 {
-        margin-top: 70px;
-        margin-left: 2.399089%;
-        clear: none;
-        height: 237px;
-        width: 31.595052%;
-        padding:2%;
-        text-align:center;
-    }
-
-    #caja6 {
-        margin-top: 70px;
-        margin-left: 2.537977%;
-        clear: none;
-        height: 237px;
-        width: 31.708984%;
-        padding:2%;
-        text-align:center;
-    }
-
+    
     #image_merchant1 {
         margin-top: 19px;
         margin-left: 39.27811% !important;
@@ -9082,6 +9051,7 @@ font-family: 'Open Sans' !important;
     #texto_merchant11 {
         height: auto;
         width: 100%;
+        margin-top: 0px;
         color: #3d3d3d;
         font-size: 30px;
         font-family: Open Sans !important;
@@ -9095,13 +9065,15 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant12 {
-        margin-top: 31px !important;
-        margin-left: 4.469162% !important;
+        margin-top: 31px ;
+        margin-left: 4.469162% ;
         clear: both;
-        height: auto !important;
-        width: 94.319608% !important;
-        color: #888 !important;
-        font-size:16px !important;
+        height: auto ;
+        width: 94.319608%;
+        color: #888 ;
+        font-size:16px ;
+        line-height: 25px !important;
+        text-align:justify;
     }
 
     #input1 {
@@ -9162,7 +9134,8 @@ font-family: 'Open Sans' !important;
        height: auto !important;
        color: #888 !important;
        font-size: 16px !important;
-       width: 89.719487% !important;
+       width: 95% !important;
+       text-align:justify;
     }
 
     #input2 {
@@ -9189,7 +9162,7 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant15 {
         width: 100% !important;
-        margin-top: 23px;
+        margin-top: 5px;
         margin-left: 4.469817% !important;
         color: #3d3d3d !important;
         clear: none;
@@ -9205,12 +9178,13 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant16 {
-        width: 94.319608% !important;
-        margin-top: 18px !important;
-        margin-left: 4.469817% !important;
+        width: 95% !important;
+        margin-top: 18px ;
+        margin-left: 4.469817% ;
         clear: both;
-        font-size: 16px !important;
+        font-size: 16px ;
         color: #888 !important;
+        text-align:justify;
     }
 
     #input3 {
@@ -9249,37 +9223,8 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 1024px) {
-    #texto_merchant2 {
-        height: auto;
-        width: 48.800659%;
-        margin-top: 52px;
-        margin-left: 25.598145%;
-        clear: none;
-    }
     
     .contProfile{margin-left:0px !important;}
-
-    #texto_merchant3 {
-        margin-top: 7px;
-        margin-left: 25.598145%;
-        clear: both;
-        height: auto;
-        width: 48.800659%;
-    }
-
-    #caja3 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        height: 454px;
-    }
-
-    #caja7 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        height: 179px;
-    }
 
     #caja8 {
         margin-top: 0px;
@@ -9291,14 +9236,14 @@ font-family: 'Open Sans' !important;
         margin-top: 0px !important;
         margin-left: 0% !important;
         clear: both !important;
-        height: 553px;
+        height: 522px;
     }
 
     #caja14 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 542.890625px;
+        height: 480px !important;
     }
 
     #caja17 {
@@ -9306,44 +9251,6 @@ font-family: 'Open Sans' !important;
         margin-left: 0%;
         clear: both;
     }
-
-    #texto_merchant {
-        height: auto;
-        width: 95.320975%;
-        font-size: 33px;
-        margin-top: 39px;
-        margin-left: 4.684985%;
-        clear: none;
-        line-height: 31px;
-    }
-
-    #caja4 {
-        float: left;
-        height: 240px;
-        margin-left: 0%;
-        margin-top: 43px;
-        clear: both;
-        width: 31.732178%;
-    }
-
-    #caja5 {
-        float: left;
-        height: 240px;
-        margin-left: 2.397156%;
-        margin-top: 43px;
-        clear: none;
-        width: 31.733704%;
-    }
-
-    #caja6 {
-        float: left;
-        height: 240px;
-        margin-left: 2.397156%;
-        margin-top: 43px;
-        clear: none;
-        width: 31.712341%;
-    }
-
     #image_merchant {
         float: left;
         width: auto;
@@ -9479,7 +9386,7 @@ font-family: 'Open Sans' !important;
     #texto_merchant11 {
         height: auto;
         width: 100%;
-        margin-top: 25px;
+        margin-top: 0px;
         margin-left: 4.469624%;
         clear: none;
     }
@@ -9495,15 +9402,7 @@ font-family: 'Open Sans' !important;
         margin-left: 4.469624%;
         clear: both;
         height: auto;
-        width: 88.481467%;
-    }
-
-    #caja2 {
-        margin-top: 0px;
-        margin-left: 3.613281%;
-        clear: none;
-        width: 60.427856%;
-        height: 444px;
+        width: 100%;
     }
 
     #caja1 {
@@ -9548,15 +9447,15 @@ font-family: 'Open Sans' !important;
 
     #caja12 {
         margin-top: 44px;
-        margin-left: 7.319641%;
+        margin-left: 7.319641% !important;
         clear: none;
-        width: 29.354858%;
+        width: 29.354858% !important;
         height: 456.890625px;
     }
 
     #image_merchant4 {
         margin-top: 78px !important;
-        margin-left: 3.590393% !important;
+        margin-left:80px !important;
         clear: none !important;
         height: auto !important;
         width: auto !important;
@@ -9581,7 +9480,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image_merchant5 {
-        margin-top: 60.125px !important;
+        margin-top: 90px !important;
         margin-left: 8.67157% !important;
         clear: none !important;
         max-width: 45%!important;
@@ -9598,9 +9497,12 @@ font-family: 'Open Sans' !important;
     #texto_merchant15 {
         height: auto !important;
         width: 92.227979% !important;
-        margin-top: 27px !important;
+        margin-top: 0px !important;
         margin-left: 4.469624% !important;
         clear: none !important;
+        text-align: justify;
+        letter-spacing: 0px;
+        font-size: 25px !important;
     }
 
     #caja16 {
@@ -9642,12 +9544,6 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 768px) {
-    #caja7 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        height: 133px;
-    }
 
     #caja8 {
         margin-top: 0px !important;
@@ -9663,21 +9559,6 @@ font-family: 'Open Sans' !important;
         height: 857.421875px !important;
     }
 
-    #caja3 {
-        height: 917.984375px;
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #texto_merchant3 {
-        margin-top: 7px;
-        margin-left: 17.063395%;
-        clear: both;
-        height: auto;
-        width: 65.869141%;
-    }
-
     #caja14 {
         margin-top: 0px;
         margin-left: 0%;
@@ -9689,29 +9570,6 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-    }
-
-    #caja6 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        margin-right: 0%;
-        width: 100%;
-    }
-
-    #caja5 {
-        margin-top: 0px;
-        margin-right: 0%;
-        margin-left: 0%;
-        clear: both;
-        width: 100%;
-    }
-
-    #caja4 {
-        margin-top: 30px;
-        margin-left: 0%;
-        clear: both;
-        width: 100%;
     }
 
     #texto_merchant5 {
@@ -9776,15 +9634,6 @@ font-family: 'Open Sans' !important;
     #caja {
         height: 727px;
     }
-
-    #caja2 {
-        margin-top: 17px;
-        margin-left: 16.900635%;
-        clear: both;
-        width: 68.44279%;
-        height: 493px;
-    }
-
     #caja1 {
         height: 217px;
         width: 68.95752%;
@@ -9801,15 +9650,6 @@ font-family: 'Open Sans' !important;
     #input {
         width: 48.338939%;
     }
-
-    #texto_merchant2 {
-        height: auto;
-        width: 65.869141%;
-        margin-top: 48px;
-        margin-left: 17.063395%;
-        clear: none;
-    }
-
     #texto_merchant10 {
         margin-top: 51px;
         clear: none;
@@ -9909,8 +9749,10 @@ font-family: 'Open Sans' !important;
     }
 
     #texto_merchant17 {
-        margin-top: 53.5px;
+        margin-top: 40px;
+        line-height: 30px !important;
         clear: none;
+        margin-bottom: 0px;
     }
 
     #input4 {
@@ -9921,13 +9763,6 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 425px) {
-    #caja2 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        width: 89.323529%;
-        height: 500px;
-    }
 
     #caja1 {
         height: 259px;
@@ -9950,12 +9785,6 @@ font-family: 'Open Sans' !important;
         margin-top: 28px;
         margin-left: 38.481618%;
         clear: none;
-    }
-    
-    #texto_merchant2{
-       line-height: 38px !important;
-        color: #3d3d3d;
-        font-size: 30px;
     }
     
     #texto_merchant4 {
@@ -9982,10 +9811,6 @@ font-family: 'Open Sans' !important;
         clear: none;
     }
 
-    #caja6 {
-        height: 228.984375px;
-    }
-
     #texto_merchant10 {
         margin-top: 21px;
         clear: none;
@@ -9997,20 +9822,6 @@ font-family: 'Open Sans' !important;
         clear: both;
         height: 719.890625px !important;
     }
-
-    #caja7 {
-        height: 75px;
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja3 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-    }
-
     #caja11 {
         margin-top: 0px;
         margin-left: 0%;
@@ -10043,9 +9854,15 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant13 {
         height: auto;
-        width: 90.670569%;
+        margin-top:0px;
+        width: 90.670569% !important;
     }
-
+    .title-merchants{
+        width:100% !important;
+    }
+    .izq-banner{
+        margin-left:0px;
+    }
     #caja13 {
         margin-top: 16px;
         margin-left: 4.385311%;
@@ -10099,10 +9916,44 @@ font-family: 'Open Sans' !important;
     #texto_merchant17 {
         margin-top: 34px;
         clear: none;
+        font-size:16px;
+    }
+    
+    .terminos-merchants {
+        margin-top: 0px;
+        margin-left: 0%;
+        clear: both;
+        height: 830px;
+    }
+    .title-termsMerchant{
+        font-size: 18px;
+        line-height: 18px !important;
+        margin-top: 0px;
+    }
+    
+    .head-merchants{
+        height: 742px;
+        background-size: 448%;
+    }
+    
+    .our-merchants{
+       height: 100px;
+    }
+    
+    .p-textmerchant{
+        font-size: 20px;
+        margin-top: 40px;
+    }
+    
+    #texto_merchant14{margin-top:0px !important;}
+    
+    .p-termsMerchant{
+        font-size: 14px;
+        margin-bottom: 5px;
     }
 
     #input4 {
-        margin-top: 23.3125px;
+        margin-top: 8px;
         margin-left: 29.529412%;
         clear: both;
         width: 40.275735%;
@@ -10110,69 +9961,7 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 375px) {
-    #caja2 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-        width: 95.45%;
-    }
-    #texto_merchant {
-    height: auto;
-    width: 95.320975%;
-    font-size: 42px !important;
-    margin-top: 39px;
-    margin-left: 4.684985%;
-    clear: none;
-    line-height: 31px;
-    }
-    
-    #texto_merchant2 {
-        height: auto;
-        width: 82.933333%;
-        margin-top: 48px;
-        margin-left: 8.533333%;
-        clear: none;
-    }
-
-    #texto_merchant3 {
-        margin-top: 16px;
-        margin-left: 8.529167%;
-        clear: both;
-        height: auto;
-        width: 82.929167%;
-    }
-
-    #caja4 {
-        margin-top: 17px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja5 {
-        margin-top: 3px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja6 {
-        margin-top: 11px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja3 {
-        height: 971.234375px;
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja7 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-    }
-
+   
     #caja8 {
         margin-top: 0px;
         margin-left: 0%;
@@ -10184,7 +9973,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 800px !important;
+        height: 720px !important;
     }
 
     #caja14 {
@@ -10204,6 +9993,14 @@ font-family: 'Open Sans' !important;
         clear: none;
         font-size: 18px;
     }
+    
+    #texto_merchant11{
+        margin-left: 0px;
+        text-align: justify;
+        font-size: 24px !important;
+        text-align: justify;
+        line-height: 37px !important;
+    }
 
     #caja9 {
         margin-top: 32.25px;
@@ -10216,7 +10013,7 @@ font-family: 'Open Sans' !important;
         height: auto;
         width: 93.910427%;
         margin-top: 14px;
-        margin-left: 4.466867%;
+        margin-left: 0px !important;
         clear: both;
     }
 
@@ -10228,7 +10025,7 @@ font-family: 'Open Sans' !important;
 
     #caja10 {
         margin-top: 14px;
-        margin-left: 4.466867%;
+        margin-left: 0px;
         clear: both;
     }
 
@@ -10240,29 +10037,40 @@ font-family: 'Open Sans' !important;
     }
 
     #image_merchant4 {
-        margin-top: 174px !important;
-        margin-left: 15.4125% !important;
+        margin-top: 84px !important;
+        margin-left: 69px !important;
         clear: both;
         max-width: 70% !important;
     }
 
     #texto_merchant13 {
         height: auto;
-        width: 95.524764%;
+        width: 95.524764% !important;
+        font-size: 24px !important;
+        text-align: justify;
+        margin-left:0px !important;
     }
 
     #texto_merchant14 {
         height: auto;
-        width: 95.644772%;
+        width: 100% !important;
         margin-top: 18px;
-        margin-left: 4.355228%;
+        margin-left: 0px !important;
         clear: both;
     }
 
     #caja13 {
         margin-top: 16px;
-        margin-left: 4.382689%;
+        margin-left: 0px;
         clear: both;
+    }
+    
+    .btn-shop{
+        margin-left: 16px;
+    }
+    
+    #box3{
+        height: 605px;
     }
 
     #input2 {
@@ -10294,14 +10102,18 @@ font-family: 'Open Sans' !important;
 
     #caja16 {
         margin-top: 8px;
-        margin-left: 4.461639%;
+        margin-left: 0px !important;
         clear: both;
     }
 
     #texto_merchant16 {
         margin-top: 20px;
-        margin-left: 4.461639%;
+        margin-left: 0px !important;
         clear: both;
+    }
+    
+    #texto_merchant15{
+        margin-left:0px !important;
     }
 
     #input3 {
@@ -10315,13 +10127,25 @@ font-family: 'Open Sans' !important;
         margin-left: 28.870833%;
         clear: both;
     }
+    
+    .title-merchants{
+       font-size: 22px !important;
+    }
+    
+    .pbanner-merchants{
+       text-align: left;
+    }
+    
+    .head-merchants{
+        background-size: 510%;
+    }
 
     #texto_merchant17 {
-        margin-top: 27px;
+        margin-top: 33px;
         text-align: center;
         clear: none;
-        font-size: 29px;
-        line-height: 30px !important;
+        font-size: 16px;
+        line-height: 20px !important;
     }
     
     #texto_merchant1{
@@ -10340,13 +10164,8 @@ font-family: 'Open Sans' !important;
     #caja {
         height: 764px;
     }
-
-    #caja2 {
-        margin-top: 37px;
-        margin-left: 0%;
-        clear: both;
-        width: 100%;
-    }
+    
+    .btn-shop{margin-left: 15px;width: 80%;}
     
     #texto_merchant12{
         width: 93.910427% !important;
@@ -10355,61 +10174,36 @@ font-family: 'Open Sans' !important;
     }
     
     #texto_merchant13{
-        margin-top:0px !important;
+        margin-top: 0px !important;
+        font-size: 20px !important;
+        width: 100% !important;
+        margin-left: -40px !important;
     }
     
+    #caja13{
+        margin-left:-40px !important;
+    }
+    #texto_merchant14{
+        margin-left: -40px !important;
+        width: 261px !important;
+    }
+    #texto_merchant15{
+        margin-left:-10px !important;
+    }
+    #texto_merchant16{
+        margin-left:-10px !important;
+    }
+    #caja16{
+        margin-left:-10px !important;
+    }
+    .head-merchants{
+        background-size: 590%;
+    }
     #caja1 {
         width: 94.326172%;
         margin-top: 0px;
         margin-left: 2.211914%;
         clear: none;
-    }
-
-    #texto_merchant2 {
-        height: auto;
-        margin-top: 48px;
-        margin-left: 0%;
-        clear: none;
-        width: 99.995117%;
-    }
-
-    #texto_merchant3 {
-        margin-top: 8px;
-        margin-left: 0%;
-        clear: both;
-        height: auto;
-        width: 100%;
-    }
-
-    #caja4 {
-        margin-top: 21px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja5 {
-        margin-top: 3px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja6 {
-        margin-top: 3px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja7 {
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
-    }
-
-    #caja3 {
-        height: 957.234375px;
-        margin-top: 0px;
-        margin-left: 0%;
-        clear: both;
     }
 
     #caja8 {
@@ -10450,6 +10244,11 @@ font-family: 'Open Sans' !important;
     #texto_merchant11 {
         height: auto;
         width: 95.532812%;
+        font-size: 20px !important;
+    }
+    
+    #texto_merchant12{
+        margin-left:0px !important;
     }
 
     #caja9 {
@@ -10474,8 +10273,8 @@ font-family: 'Open Sans' !important;
     }
 
     #image_merchant4 {
-        margin-top: 54px;
-        margin-left: 15.410156%;
+        margin-top: 60px;
+        margin-left:44px!important;
         clear: both;
     }
 
@@ -10567,3 +10366,25 @@ font-family: 'Open Sans' !important;
     .dropdown-menu > li > a{padding: 8px 6px;}
 }
 
+@media (max-width:1024px){
+    .title-merchants{margin-top: 50px;line-height: 27px;font-size: 26px;}
+    .pbanner-merchants{font-size: 16px;line-height: 20px !important;margin-bottom: 40px;margin-top: 40px;}
+    .phone-merchants{height: 435px;margin-top: -57px;}
+    #texto_merchant12{}
+}
+
+@media (min-width:1851px){
+    .title-merchants{ width: 70%;line-height: 50px;}
+    .pbanner-merchants{width: 70%; text-align: justify; font-size:24px;}
+    .btn-shopmerchants{width:30%;}
+    #texto_merchant11{margin-top:0px !important;font-size: 34px;width: 60%;}
+    #texto_merchant12{font-size: 22px !important;width: 80% !important;text-align: justify; line-height: 30px !important;}
+    #image_merchant3{max-width: 40%;margin-left: 14.666206% !important;margin-top: 92.125px !important;}
+    #caja8{height: 682px!important;}
+    #image_merchant4{    margin-top: 60px !important;margin-left: 9% !important;}
+    #texto_merchant13{margin-top: 130px;font-size: 21px !important; width: 50.326872% !important;}
+    #texto_merchant14{font-size: 22px !important; text-align: justify;}
+    #caja11{height: 660px;}
+    #image_merchant5{margin-left: 14.887917% !important;margin-top: 70.125px !important;}
+    #texto_merchant16{font-size: 22px !important; text-align:justify;}
+}
