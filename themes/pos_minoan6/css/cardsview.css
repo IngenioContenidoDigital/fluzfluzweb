@@ -189,7 +189,7 @@ ul li .check::before {
     background: #fff;
     text-align: left;
     padding-left: 15px;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 #nameViewCard {
     color: #000;
@@ -281,8 +281,8 @@ ul li .check::before {
 }
 
 @media (max-width:1080px){
-    .card-view{ margin-left: 40px !important;}
-    .c{margin-left: 40px; margin-right: 40px;}
+    .card-view{ margin-left: 20px !important;}
+    .c{margin-left: 0px; margin-right: 40px;}
     .cardview-ins{margin-left: 16px;}
     #bar-code{margin-bottom: 0px;margin-top: 20px;}
     .popText{margin-left: 5px !important;}
@@ -293,6 +293,8 @@ ul li .check::before {
     #bar-code{margin-bottom: 0px;margin-top: 20px;}
     .popText{margin-left: 5px !important;}
     .codigoCard{margin-top: 4px;}
+    .card-view{ margin-left: 0px !important;}
+    .instrucciones-pop{padding-left: 0px; padding-right: 0px;}
 }
 
 @media (max-width:425px){

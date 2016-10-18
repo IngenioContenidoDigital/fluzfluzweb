@@ -284,7 +284,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 instrucciones-pop">
                     <div class="CardInstru" data-toggle="collapse" data-target="#demo">
                         <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
                         <div class="pViewcard collapse" id="demo"></div>
