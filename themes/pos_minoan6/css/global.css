@@ -2698,12 +2698,12 @@ div.row.rowAccount{margin:0 auto; margin-bottom: 40px; margin-top: 20px;}
 .block .title_block, .block h4 { position: relative; color: #222222; display: block; line-height: 50px; /*border-top: 1px solid #e5e5e5;*/ text-transform: uppercase; margin-bottom: 20px; font-size: 20px; font-weight: normal; }
 @media (min-width: 768px) and (max-width: 991px) { .block .title_block, .block h4 { font-size: 14px; } }
 @media (max-width: 768px) { .block .title_block, .block h4 { position: relative; margin-bottom: 0; }
-  .block .title_block:after, .block h4:after { display: block; font-family: "FontAwesome"; content: ""; position: absolute; right: 0; top: 0; height: 36px; width: 36px; font-size: 18px; font-weight: normal; text-align: center; }
+  .block .title_block:after, .block h4:after { display: block; cursor: pointer; font-family: "FontAwesome"; content: ""; position: absolute; right: 0; top: 0; height: 36px; width: 36px; font-size: 18px; font-weight: normal; text-align: center; }
   .block .title_block.active:after, .block h4.active:after { content: ""; } }
 .block .title_block a, .block h4 a { color: #555454; }
 .block .title_block a:hover, .block h4 a:hover { color: #252525; }
 .block .list-block { margin-top: -8px; }
-@media (max-width: 767px) { .block .list-block { margin-top: 0; } }
+@media (max-width: 768px) { .block .list-block { margin-top: 0; } }
 .block .list-block li { padding: 5px 0 6px 20px; border-top: 1px solid #e5e5e5; }
 .block .list-block li a i { display: none; }
 .block .list-block li a:before { content: "\f105"; display: inline; font-family: "FontAwesome"; color: #252525; padding-right: 8px; }
@@ -3682,7 +3682,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
   #header .block-cart { float: none !important; display: inline-block !important; }
   header .nav { text-align: center; }
   #currencies-block-top, #languages-block-top, .header_userinfo, nav #social_block { float: none !important; display: inline-block; margin: 0; } }
-@media (max-width: 767px) { #header .nav nav { width: 100%; text-align: center; }
+@media (max-width: 768px) { #header .nav nav { width: 100%; text-align: center; }
   .pos-setting, .header_userinfo, #header .block-cart { float: none !important; display: inline-block; margin-left: 0; }
   .postabcateslider .cate_image_bg img { display: none; }
   nav #social_block { float: none !important; display: inline-block; width: 100%; margin: 0; }
@@ -3878,9 +3878,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     .divFooter{text-align:left !important;}
     #search_block_top .btn.button-search{display:none !important;}
     #header .pos_logo { padding-bottom: 0; height: auto; width:40% !important;}
-    .menuSticky {margin-bottom: 0%;background: #fff;padding-top: 2%;}
     .menuAccountProfile {background: #c8b79b;height: 45px;width: 10%;float: left;margin-left: 5%;text-align: center;}
-    .block {margin-left: 10%;}
     .title_blockSale{margin-bottom:0px !important;}
     .title-category{font-size: 40px !important; letter-spacing: 0px; margin: 0;}
     .fancybox-inner{height:100% !important;}
@@ -5148,7 +5146,7 @@ font-family: 'Open Sans' !important;
 #text10 {
     float: left;
     font-size: 28px;
-    width: 50.326872%;
+    width: 60%;
     height: auto;
     text-align: left;
     font-weight: 400;
@@ -5249,7 +5247,7 @@ font-family: 'Open Sans' !important;
     font-size: 22px;
     width: 100%;
     height: auto;
-    text-align: left;
+    text-align: justify;
     font-weight: 400;
     line-height: 25px;
     margin-left: 4.47299%;
@@ -5469,33 +5467,38 @@ font-family: 'Open Sans' !important;
     }
     
     #text3{
-        font-size:15px;
+        font-size:20px;
         width:65%;
-        line-height:40px;
+        line-height:35px;
+        text-align: justify;
     }
     
     #text5{
-        font-size:15px;
-        width:65%;
-        line-height:40px;
+        font-size: 20px;
+        width: 65%;
+        line-height: 35px;
+        text-align: justify;
     }
     
     #text7{
-        font-size:15px;
-        width:65%;
-        line-height:40px;
+        font-size: 20px;
+        width: 80%;
+        line-height: 35px;
+        text-align: justify;
     }
     
     #text9{
-        font-size:15px;
-        width:65%;
-        line-height:40px;
+        font-size: 20px;
+        width: 75%;
+        line-height: 35px;
+        text-align: justify;
     }
     
     #text11{
-        font-size:15px;
-        width:65%;
-        line-height:40px;
+        font-size: 20px;
+        width: 65%;
+        line-height: 35px;
+        text-align: justify;
     }
     
     #text1 {
