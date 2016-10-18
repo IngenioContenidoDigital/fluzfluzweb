@@ -279,25 +279,28 @@
 {addJsDef comparator_max_item=$comparator_max_item}
 {addJsDef comparedProductsIds=$compared_products}
 {/if}
-<script type="text/javascript"> 
-    $(document).ready(function() {
-		var owl = $("#product_categoryAll");
-		owl.owlCarousel({
-		items : 4,
-		 pagination :false,
-		slideSpeed: 1000,
-		itemsDesktop : [1199,3],
-		itemsDesktopSmall : [911,2], 
-		itemsTablet: [767,2], 
-		itemsMobile : [480,1],
-		});
-		 
-		// Custom Navigation Events
-		$(".next-product").click(function(){
-		owl.trigger('owl.next');
-		})
-		$(".prev-product").click(function(){
-		owl.trigger('owl.prev');
-		})     
-    });
-</script>
+{literal}
+    <script type="text/javascript"> 
+        $(document).ready(function() {
+                    var owl = $("#product_categoryAll");
+                    owl.owlCarousel({
+                    items : 4,
+                    pagination :false,
+                    slideSpeed: 1000,
+                    responsiveClass:true,
+                    itemsDesktop : [1199,4],
+                    itemsDesktopSmall : [1080,3], 
+                    itemsTablet: [768,3], 
+                    itemsMobile : [480,1],
+                    });
+
+                    // Custom Navigation Events
+                    $(".next-product").click(function(){
+                    owl.trigger('owl.next');
+                    })
+                    $(".prev-product").click(function(){
+                    owl.trigger('owl.prev');
+                    })     
+        });
+    </script>
+{/literal}

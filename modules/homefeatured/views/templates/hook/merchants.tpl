@@ -104,5 +104,4 @@
 
 <style>
     .title-merchant { text-transform: capitalize; color: #000; }
-    .pruebaImgCategory { width: 300px!important; height: 200px!important; }
 </style>
