@@ -39,7 +39,7 @@ if(!isset($_COOKIE['validar'])){
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Fluz Fluz</title>
         <style>
-            body {margin:0px; background: url(/coming-soon-logo.png) !important;background-size: 230px 291px;background-position: center !important; background-color: rgba(255,0,0,0.85) !important; font-family:Arial; background-repeat: no-repeat !important;}
+            body {margin:0px; background: url(/logo.png) !important;background-size: 230px 291px;background-position: center !important; background-color: rgba(255,0,0,0.85) !important; font-family:Arial; background-repeat: no-repeat !important;}
             #custom_messaging_banner {background: #eb583c;padding: 7px 10px;color: white;border-bottom: solid 3px white;font-size:16px;position:relative;z-index:1;}
             div#form_wrap {background-color: #d1a47f;}
             div#the_hint_wrap {background-color: #d1a47f;}
