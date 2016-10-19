@@ -7261,7 +7261,7 @@ font-family: 'Open Sans' !important;
     .contProfile{display:block;}
     .imgSponsor2{width:14% !important;}
     
-    .head-merchants{height: 648px !important; background-size: 222.5%;}
+    .head-merchants{height: 648px !important;background-size: 1677px;}
     .phone-merchants{ height: 460px;margin-top: -84px !important;}
     .title-merchants{font-size: 28px !important;width: 60% !important;font-family: Montserrat !important;}
     .pbanner-merchants{ width: 80% !important;font-family: 'Open Sans' !important;}
@@ -10251,7 +10251,7 @@ font-family: 'Open Sans' !important;
     }
     
     .head-merchants{
-       background-size: 465.5%;
+        background-size: 1677px;
     }
 
     #texto_merchant17 {
@@ -10311,7 +10311,7 @@ font-family: 'Open Sans' !important;
         margin-left:-10px !important;
     }
     .head-merchants{
-        background-size: 524%;
+        background-size: 1677px;
     }
     #caja1 {
         width: 94.326172%;
