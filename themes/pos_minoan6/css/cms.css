@@ -77,10 +77,6 @@ margin-right: 0;
 
 .img-category{width:15% !important;}
 
-@media (max-width:768px){
-    .owl-carousel{left: -4px;}
-}
-
 @media (max-width:1024px){
     .owl-item{width: 234px !important;min-width: 0; margin:0px; margin-left: 18px !important;}
     .title-category{margin-top:0px !important; margin-bottom:0px !important;}
@@ -103,8 +99,14 @@ margin-right: 0;
     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
 }
 
+@media (max-width:768px){
+    .owl-carousel{left: -4px;}
+    .divTitleFeatured{width:98%;}
+    .owl-item{width: 237px !important;}
+}
+
 @media (max-width:425px){
-    .owl-item{width: 397px !important;margin-left: 13px !important;}
+    .owl-item{width: 413px !important;margin-left: 13px !important;}
     .title-category{margin-top: -20px !important;font-size:25px !important;}
     .btn-shop{ margin-top: -30px !important;}
     .divTitleFeatured{margin-top: 10px !important; margin-left: 6px !important;margin-bottom: 10px !important; width: 97%;}
@@ -116,13 +118,14 @@ margin-right: 0;
     .boxprevnext2 a.next{right: 8px; width: 50px;}
     .icon-chevron-left:before{font-size:16px;}
     .icon-chevron-right:before{font-size:16px;}
+    .banner-box{background-size:500px !important;}
 }
 
 @media (max-width:375px){
     .menuSticky{ margin-bottom: 21px !important;}
-    .owl-item{ width: 350px !important;}
+    .owl-item{ width: 365px !important;}
     .owl-carousel .owl-item{ margin-left: 12px !important;}
-    .banner2{margin-top: -21px !important;}
+    .banner2{margin-top: -21px !important;background-size: 450px !important;}
     .boxprevnext2 a{width: 50px;}
     .boxprevnext2 a.prev{right: 55px; width: 50px;}
     .boxprevnext2 a.next{right: 6px;}
@@ -133,10 +136,10 @@ margin-right: 0;
 @media (max-width:320px){
     .title-category{ margin-top: -33px !important; font-size: 16px !important;}
     .btn-shop>span {font-size: 8px !important;}
-    .owl-item {width: 310px !important;}
+    .owl-item {width: 325px !important;}
     .boxprevnext2 a.prev{right: 70px;}
     .boxprevnext2 a.next{right: 21px;}
-    .divTitleFeatured{width: 92%;}
+    .divTitleFeatured{width: 96%;}
     .title-block{width:95%;}
     .pruebaImgCategory{width: 95% !important;}
 }
