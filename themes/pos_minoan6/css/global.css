@@ -10279,6 +10279,9 @@ font-family: 'Open Sans' !important;
         height: 764px;
     }
     
+    .title-termsMerchant{font-size: 12px !important;}
+    .p-termsMerchant{font-size: 11px !important;}
+    
     .btn-shop{margin-left: 15px;width: 80%;}
     
     #texto_merchant12{
@@ -10387,7 +10390,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image_merchant4 {
-        margin-top: 60px;
+        margin-top: 0px !important;
         margin-left:44px!important;
         clear: both;
     }
