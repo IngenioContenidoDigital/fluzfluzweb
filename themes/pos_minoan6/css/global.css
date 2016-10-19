@@ -4049,15 +4049,14 @@ h2.title_blockSale {
 	font-size: 41px;
 	font-weight: bold;
 	color: #fff;
-	max-width: 250px;
+        margin-top:120px;
 }
 
 .members1 p{
 	margin-top:5px;
 	font-family:'Montserrat';
 	color:#fff;
-	max-width:320px;
-	font-size:16px;
+	font-size:22px;
 }
 
 .members1 button{
@@ -4065,7 +4064,7 @@ h2.title_blockSale {
 	background: #ef4136;
 	color: #fff;
 	border: none;
-	padding: 2% 5%;
+	padding: 3% 5%;
 	font-size: 12px;
 	letter-spacing:2px;
 }
@@ -4097,8 +4096,9 @@ h2.title_blockSale {
     display:inline-block;
     line-height: 25px;
     color: #333333;
-    width: 280px;
     margin-top: 5px;
+    font-size:18px;
+    font-family: Open Sans;
 }
 
 .members3{
@@ -4118,28 +4118,33 @@ h2.title_blockSale {
 .members4 h3{font-size:14px !important; text-align:center;font-weight:normal;}
 
 @media (max-width:359px){
-.members1 h1{font-size: 15px;}
+.members1 h1{font-size: 16px;    margin-bottom: 0px !important;}
+.img-member{margin-left:-8px !important;}
+.banner-mem{font-size:16px;}
+.members2 span{font-size:13px !important;}
 .members1 p{margin-top:2px;max-width:320px;font-size:10px;line-height:5px !important;}
 .members1 button{font-size:7px;}
-.members-banner{min-height:160px;    margin-top: -21px;}
+.members-banner{min-height:300px;}
 .members-banner2{min-height:113px;}
 .members3 h1{line-height:113px;}
 }
 
 @media (min-width:360px) and (max-width:419px){
-.members1 h1{font-size: 15px;}
-.members1 p{margin-top:2px;max-width:320px;font-size:10px;line-height:5px !important;}
+.members1 h1{font-size: 15px; margin-bottom:0px !important;}
+.members1 p{margin-top:2px;max-width:320px;font-size:12px;line-height:5px !important; text-align:left;}
 .members1 button{font-size:7px;}
-.members-banner{min-height:184px; margin-top: -21px;}
+.members-banner{min-height:260px;}
+.img-member{    margin-left: 0 !important;}
 .members-banner2{min-height:128px;}
 .members3 h1{line-height:128px;}
 }
 
 @media (min-width:420px) and (max-width:760px){
-.members1 h1{font-size: 15px;}
-.members1 p{margin-top:2px;max-width:320px;font-size:10px;line-height:5px !important;}
+.members1 h1{font-size: 20px;margin-bottom: 0px !important;}
+.img-member{margin-left:0px !important;}
+.members1 p{margin-top:2px;max-width:320px;font-size:15px;line-height:5px !important;}
 .members1 button{font-size:7px;}
-.members-banner{min-height:220px;    margin-top: -21px;}
+.members-banner{min-height:300px;}
 .members-banner2{min-height:151px;}
 .members3 h1{line-height:151px;}
 .textAccount{float:none;}
@@ -4602,7 +4607,7 @@ font-family: 'Open Sans' !important;
     letter-spacing: 0px;
     line-height: 25px !important;
     font-family: 'Open Sans' !important;
-    font-size: 22px;
+    font-size: 36px;
     margin-top: 20px;
 }
 
@@ -4616,7 +4621,7 @@ font-family: 'Open Sans' !important;
     margin-top: 0px;
     margin-left: 0%;
     clear: both;
-    height: 420px;
+    height: 450px;
 }
 
 .title-termsMerchant{
@@ -4625,7 +4630,7 @@ font-family: 'Open Sans' !important;
     font-size: 30px;
     text-align: center;
     letter-spacing: 0px;
-    font-family: 'Montserrat Light';
+    font-family: 'Montserrat';
     font-size: 34px;
     color: #000;
 }
@@ -4633,7 +4638,7 @@ font-family: 'Open Sans' !important;
 .p-termsMerchant{
     margin-bottom: 60px;
     color: rgb(141, 141, 141);
-    font-family: 'Montserrat Light';
+    font-family: 'Montserrat';
     text-align: center;
     font-size: 18px;
     letter-spacing: 0px;
@@ -4642,13 +4647,13 @@ font-family: 'Open Sans' !important;
 .p-terms{
     text-align: center;
     color: rgb(141, 141, 141);
-    font-family: 'Montserrat Light';
+    font-family: 'Open Sans';
     font-size: 16px;
 }
 
 .t-terms{
-    color: rgb(141, 141, 141);
-    font-family: 'Montserrat Light';
+    color:#000;
+    font-family: 'Montserrat';
     text-align: center;
     font-size: 20px;
 }
@@ -5460,31 +5465,66 @@ font-family: 'Open Sans' !important;
 
 @media only screen and (max-width: 2560px) {
     #text {
-        line-height: 56px;
+        line-height: 35px;
         margin-top: 90px;
-        font-size: 54px;
+        font-size: 32px;
         margin-left: 18px;
     }
     
     #text3{
-        font-size:20px;
-        width:65%;
+        font-size:22px;
+        width:100%;
         line-height:35px;
         text-align: justify;
+        font-family:'Open Sans';
     }
     
+    #text4{
+        width:100%;
+    }
+    
+    #text6{width:100%;}
+    
     #text5{
-        font-size: 20px;
-        width: 65%;
+        font-size: 22px;
+        width: 100%;
         line-height: 35px;
         text-align: justify;
+        font-family:'Open Sans';
+    }
+    #text13{
+        font-size: 22px;
+        width: 100%;
+        line-height: 35px;
+        text-align: justify;
+        font-family:'Open Sans';
+    }
+    
+    #text12{
+        width: 100%;
+        font-family:'Montserrat';
+        margin-top: 0px;
     }
     
     #text7{
-        font-size: 20px;
-        width: 80%;
+        font-size: 22px;
+        width: 100%;
         line-height: 35px;
         text-align: justify;
+        font-family:'Open Sans';
+    }
+    
+    .video-home{    
+        font-size: 28px;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        color:#000;
+        font-family: 'Open Sans';}
+    
+    .video-title{
+        font-size: 20px;
+        font-family: Open Sans;
+        margin-top: 0px !important;
     }
     
     #text9{
@@ -6050,10 +6090,10 @@ font-family: 'Open Sans' !important;
         height: auto;
         min-height: 139px;
         width: 100%;
-        font-size: 46px;
+        font-size: 30px;
         font-weight: 900;
-        text-align: justify;
-        line-height: 45px;
+        text-align: left;
+        line-height: 30px;
     }
 
     #text1 {
@@ -6822,11 +6862,20 @@ font-family: 'Open Sans' !important;
     }
 
     #text {
-        font-size: 44px;
-        line-height: 37px;
+        font-size: 24px;
+        line-height: 28px;
         /*margin-top: 105px;*/
         margin-left: 16px;
         clear: none;
+    }
+    
+    .video-home{
+        font-size: 20px;
+        color: #000;
+    }
+    
+    .video-title{
+        font-size: 16px;
     }
 
     #text1 {
@@ -6921,7 +6970,7 @@ font-family: 'Open Sans' !important;
     }
 
     #box6 {
-        height: 606px;
+        height: 530px;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
@@ -6962,7 +7011,7 @@ font-family: 'Open Sans' !important;
     }
 
     #box9 {
-        height: 540px;
+        height: 500px;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
@@ -7212,11 +7261,14 @@ font-family: 'Open Sans' !important;
     .contProfile{display:block;}
     .imgSponsor2{width:14% !important;}
     
-    .head-merchants{height: 648px; background-size: 230%;}
+    .head-merchants{height: 648px !important; background-size: 222.5%;}
     .phone-merchants{ height: 460px;margin-top: -84px !important;}
     .title-merchants{font-size: 28px !important;width: 60% !important;font-family: Montserrat !important;}
     .pbanner-merchants{ width: 80% !important;font-family: 'Open Sans' !important;}
-    .p-terms{font-size:13px;}
+    .p-terms{font-size:12px !important;}
+    .t-terms{font-size:12px !important;}
+    .title-termsMerchant{font-size:20px !important;}
+    .p-termsMerchant{font-size:12px;}
     #box22 {
         margin-top: 0px;
         margin-left: 0%;
@@ -7273,8 +7325,8 @@ font-family: 'Open Sans' !important;
     }
 
     #text {
-    font-size: 55px;
-    line-height: 51px;
+    font-size: 24px;
+    line-height: 25px;
     margin-top: 105px;
     margin-bottom: 18px;
     }
@@ -7501,7 +7553,7 @@ font-family: 'Open Sans' !important;
 
     #text12 {
         height: auto;
-        width: 60.353309%;
+        width: 100%;
         min-height: 0px;
     }
 
@@ -7512,12 +7564,14 @@ font-family: 'Open Sans' !important;
     }
 
     #text13 {
-        margin-top: 54px;
+        margin-top: 30px;
         margin-left: 4.466682%;
         clear: both;
         height: auto;
         width: 95.531017%;
         min-height: 97px;
+        font-family: 'Open Sans';
+        font-size: 18px;
     }
 
     #input6 {
@@ -7624,10 +7678,10 @@ font-family: 'Open Sans' !important;
     }
     
     #text {
-        font-size: 32px;
-        line-height: 35px;
+        font-size: 20px;
+        line-height: 20px;
         margin-top: 75px;
-        width: 60%;
+        width: 90%;
     }
 
     #text1 {
@@ -7909,13 +7963,13 @@ font-family: 'Open Sans' !important;
     }
     
     #text {
-        margin-top: 105px;
-        font-size: 29px;
-        line-height: 30px;
+        margin-top: 60px;
+        font-size: 20px;
+        line-height: 22px;
         height: auto;
         min-height: 122px;
         margin-bottom: 0px;
-        width: 80%;
+        width: 90%;
     }
 
     #text1 {
@@ -7954,7 +8008,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 770px;
+        height: 675px;
     }
 
     #box9 {
@@ -8035,9 +8089,13 @@ font-family: 'Open Sans' !important;
     }
 
     #box7 {
-        height: 471px;
+        height: 400px;
         width:75%;
         margin-left: 40px;
+    }
+    
+    #text13{
+       font-size: 14px;
     }
 
     #input1 {
@@ -8151,14 +8209,14 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 720px;
+        height: 650px;
     }
 
     #box9 {
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 690px;
+        height: 660px;
     }
 
     #box12 {
@@ -8207,7 +8265,7 @@ font-family: 'Open Sans' !important;
     }
 
     #image1 {
-        margin-top: 30px;
+        margin-top: 30px !important;
         margin-left: 12.698242%;
         clear: both;
     }
@@ -8326,6 +8384,7 @@ font-family: 'Open Sans' !important;
         clear: both;
         height: auto;
         width: 91.99707%;
+        font-family: Open Sans;
     }
 
     #text12 {
@@ -8396,12 +8455,14 @@ font-family: 'Open Sans' !important;
     }
 
     #text {
-        margin-top: 105px;
+        margin-top: 60px;
         margin-left: 14px;
         clear: none;
         font-size: 30px;
         height: auto;
-        width: 80%;
+        width: 85%;
+        line-height: 20px;
+        font-size: 16px;
     }
 
     #text3 {
@@ -8534,7 +8595,7 @@ font-family: 'Open Sans' !important;
     clear: both;
     width: 100%;
     display: block;
-    background-color: rgb(255, 255, 255);
+    background-color: #f5f5f5;
     margin-right: 0%;
 }
 
@@ -8960,6 +9021,29 @@ font-family: 'Open Sans' !important;
         font-size:12px;
     }    
     
+    .title-termsMerchant{
+        font-size: 22px;
+        margin-bottom: 0px !important;
+        margin-top: 40px !important;
+    }
+    
+    .p-termsMerchant{
+        font-size: 12px;
+        margin-top: 0px;
+    }
+    
+    .t-terms{
+        font-size: 13px;
+    }
+    
+    .p-terms{
+        font-size: 13px;
+    }
+    
+    .terminos-merchants{
+        height: 410px;
+    }
+    
     #texto_merchant1 {
         height: auto;
         width: 82.835047%;
@@ -9057,7 +9141,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         color: #3d3d3d;
         font-size: 30px;
-        font-family: Open Sans !important;
+        font-family: 'Montserrat' !important;
         font-weight: lighter !important;
     }
 
@@ -9077,6 +9161,7 @@ font-family: 'Open Sans' !important;
         font-size:16px ;
         line-height: 25px !important;
         text-align:justify;
+        font-family: Open Sans;
     }
 
     #input1 {
@@ -9120,7 +9205,7 @@ font-family: 'Open Sans' !important;
         line-height: 37px !important;
         font-size: 32px !important;
         color: #3d3d3d !important;
-        font-family: Open Sans !important;
+        font-family: 'Montserrat' !important;
         font-weight: lighter !important;
     }
 
@@ -9139,6 +9224,8 @@ font-family: 'Open Sans' !important;
        font-size: 16px !important;
        width: 95% !important;
        text-align:justify;
+       font-family: Open Sans !important;
+       line-height:25px !important;
     }
 
     #input2 {
@@ -9170,7 +9257,7 @@ font-family: 'Open Sans' !important;
         color: #3d3d3d !important;
         clear: none;
         font-size: 32px !important;
-        font-family: Open Sans !important;
+        font-family: 'Montserrat' !important;
         font-weight: lighter !important;
     }
 
@@ -9185,9 +9272,11 @@ font-family: 'Open Sans' !important;
         margin-top: 18px ;
         margin-left: 4.469817% ;
         clear: both;
-        font-size: 16px ;
+        font-size: 16px !important;
         color: #888 !important;
         text-align:justify;
+        line-height: 25px !important;
+        font-family: Open Sans !important;
     }
 
     #input3 {
@@ -9228,6 +9317,14 @@ font-family: 'Open Sans' !important;
 @media only screen and (max-width: 1024px) {
     
     .contProfile{margin-left:0px !important;}
+    
+    .members1 h1{margin-top: 60px;}
+    
+    .members2 span{font-size:16px;}
+    
+    .members2 p{margin-top:0px;}
+    
+    .members2 h1{margin-bottom:0px !important;}
 
     #caja8 {
         margin-top: 0px;
@@ -9547,6 +9644,12 @@ font-family: 'Open Sans' !important;
 }
 
 @media only screen and (max-width: 768px) {
+    
+    .img-member{
+        padding-left:0px;
+        padding-right:0px;
+        margin-left: 30px;
+    }
 
     #caja8 {
         margin-top: 0px !important;
@@ -9680,7 +9783,7 @@ font-family: 'Open Sans' !important;
     #caja12 {
         height: 382.890625px !important;
         margin-top: 23px !important;
-        margin-left: 19.561768% !important;
+        margin-left: 60px !important;
         clear: none !important;
         width: 69.083659% !important;
     }
@@ -9694,12 +9797,12 @@ font-family: 'Open Sans' !important;
 
     #texto_merchant13 {
         height: auto !important;
-        width: 82.503828% !important;
+        width: 100% !important;
     }
 
     #texto_merchant14 {
         height: auto !important;
-        width: 92.719559% !important;
+        width: 100% !important;
     }
 
     #input2 {
@@ -9829,7 +9932,7 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 724.421875px !important;
+        height: 670px !important;
     }
 
     #caja14 {
@@ -9858,7 +9961,8 @@ font-family: 'Open Sans' !important;
     #texto_merchant13 {
         height: auto;
         margin-top:0px;
-        width: 90.670569% !important;
+        width: 98% !important;
+        text-align:justify;
     }
     .title-merchants{
         width:100% !important;
@@ -9877,7 +9981,7 @@ font-family: 'Open Sans' !important;
         margin-left: 4.358701%;
         clear: both;
         height: auto;
-        width: 90.856839%;
+        width: 98% !important;
     }
 
     #input2 {
@@ -9887,10 +9991,10 @@ font-family: 'Open Sans' !important;
     }
 
     #image_merchant4 {
-            margin-top: 105px !important;
-            margin-left: 20.231618% !important;
-            clear: both;
-            width: 100% !important;
+        margin-top: 30px !important;
+        margin-left: 70px !important;
+        clear: both;
+        width: 400px !important;
     }
 
     #caja12 {
@@ -9926,17 +10030,17 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 830px;
+        height: 700px;
     }
     .title-termsMerchant{
-        font-size: 18px;
+        font-size: 14px !important;
         line-height: 18px !important;
         margin-top: 0px;
     }
     
     .head-merchants{
-        height: 742px;
-        background-size: 448%;
+        height: 650px;
+        background-size: 409%;
     }
     
     .our-merchants{
@@ -9951,7 +10055,7 @@ font-family: 'Open Sans' !important;
     #texto_merchant14{margin-top:0px !important;}
     
     .p-termsMerchant{
-        font-size: 14px;
+        font-size: 12px !important;
         margin-bottom: 5px;
     }
 
@@ -9976,9 +10080,13 @@ font-family: 'Open Sans' !important;
         margin-top: 0px;
         margin-left: 0%;
         clear: both;
-        height: 720px !important;
+        height: 630px !important;
     }
-
+    .owl-item{width: 350px !important;}
+    .t-terms{
+        margin-top:0px;
+    }
+    .img-merchant>img{margin-bottom:0px !important;} 
     #caja14 {
         margin-top: 0px;
         margin-left: 0%;
@@ -10040,8 +10148,8 @@ font-family: 'Open Sans' !important;
     }
 
     #image_merchant4 {
-        margin-top: 84px !important;
-        margin-left: 69px !important;
+        margin-top: 15px !important;
+        margin-left: 61px !important;
         clear: both;
         max-width: 70% !important;
     }
@@ -10069,13 +10177,16 @@ font-family: 'Open Sans' !important;
     }
     
     .btn-shop{
-        margin-left: 16px;
+        margin-left: 15px !important;
     }
     
     #box3{
-        height: 605px;
+        height: 600px;
     }
-
+    #image1{
+        margin-top:0px;
+    }
+    
     #input2 {
         margin-top: 14px;
         margin-left: 4.289323%;
@@ -10140,7 +10251,7 @@ font-family: 'Open Sans' !important;
     }
     
     .head-merchants{
-        background-size: 510%;
+       background-size: 465.5%;
     }
 
     #texto_merchant17 {
@@ -10200,7 +10311,7 @@ font-family: 'Open Sans' !important;
         margin-left:-10px !important;
     }
     .head-merchants{
-        background-size: 590%;
+        background-size: 524%;
     }
     #caja1 {
         width: 94.326172%;
@@ -10371,6 +10482,7 @@ font-family: 'Open Sans' !important;
 
 @media (max-width:1024px){
     .title-merchants{margin-top: 50px;line-height: 27px;font-size: 26px;}
+    .title-termsMerchant{margin-top:0px !important;}
     .pbanner-merchants{font-size: 16px;line-height: 20px !important;margin-bottom: 40px;margin-top: 40px;}
     .phone-merchants{height: 435px;margin-top: -57px;}
     #texto_merchant12{}
@@ -10378,15 +10490,15 @@ font-family: 'Open Sans' !important;
 
 @media (min-width:1851px){
     .title-merchants{ width: 70%;line-height: 50px;}
-    .pbanner-merchants{width: 70%; text-align: justify; font-size:24px;}
+    .pbanner-merchants{width: 70%; text-align: justify; font-size:24px;font-family: Open Sans !important;}
     .btn-shopmerchants{width:30%;}
     #texto_merchant11{margin-top:0px !important;font-size: 34px;width: 60%;}
     #texto_merchant12{font-size: 22px !important;width: 80% !important;text-align: justify; line-height: 30px !important;}
     #image_merchant3{max-width: 40%;margin-left: 14.666206% !important;margin-top: 92.125px !important;}
     #caja8{height: 682px!important;}
     #image_merchant4{    margin-top: 60px !important;margin-left: 9% !important;}
-    #texto_merchant13{margin-top: 130px;font-size: 21px !important; width: 50.326872% !important;}
-    #texto_merchant14{font-size: 22px !important; text-align: justify;}
+    #texto_merchant13{margin-top: 130px;font-size: 28px !important;font-family: Montserrat;width: 100% !important;font-weight: lighter !important;color: #000 !important;}
+    #texto_merchant14{font-size: 24px !important;text-align: justify;width: 100%!important;font-family: Open Sans !important;}
     #caja11{height: 660px;}
     #image_merchant5{margin-left: 14.887917% !important;margin-top: 70.125px !important;}
     #texto_merchant16{font-size: 22px !important; text-align:justify;}
