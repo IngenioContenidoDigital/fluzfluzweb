@@ -105,8 +105,5 @@
         @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}
             .sectionFooter{text-align: center; padding-left: 0; margin-right: 0; }
         }
-        @media (max-width: 375px){
-            .btn-shop {margin-top: -47px !important;}
-        }
     </style>
     {/literal}
