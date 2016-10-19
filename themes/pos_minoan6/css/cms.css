@@ -116,13 +116,14 @@ margin-right: 0;
     .boxprevnext2 a.next{right: 8px; width: 50px;}
     .icon-chevron-left:before{font-size:16px;}
     .icon-chevron-right:before{font-size:16px;}
+    .banner-box{background-size:500px !important;}
 }
 
 @media (max-width:375px){
     .menuSticky{ margin-bottom: 21px !important;}
     .owl-item{ width: 350px !important;}
     .owl-carousel .owl-item{ margin-left: 12px !important;}
-    .banner2{margin-top: -21px !important;}
+    .banner2{margin-top: -21px !important;background-size: 450px !important;}
     .boxprevnext2 a{width: 50px;}
     .boxprevnext2 a.prev{right: 55px; width: 50px;}
     .boxprevnext2 a.next{right: 6px;}
