@@ -114,7 +114,9 @@
                     {assign var="id_customer_sponsor" value=$last_shopping_product.id_customer}
                     {assign var="id_image" value=$last_shopping_product.id_image}
                     <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
-                        <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
+                        <a class="product_img_link" href="{$link->getProductLink($id_product, $link_rewrite)|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" itemprop="url">
+                            <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
+                        </a>
                     </div>
                     <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">
                         <div class="row">
@@ -134,7 +136,11 @@
                         </div>
                         <div class="row" style="padding: 5px;">
                             <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
-                                {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} <span class="pointsmnf">{$name_product}</span>.
+                                {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} 
+                                <span class="pointsmnf">
+                                 <a class="product_img_link" href="{$link->getCategoryLink({$merchant.category})}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                     {$name_product}</a>
+                                </span>.
                             </div>
                             <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 message">
                                 <span class="myfancybox" href="#myspecialcontent2" send="{$id_customer_sponsor}|{$name_customer}|{$urlimgnetfeed}|{$id_customer}">{l s='Mensaje'}</span>

@@ -47,7 +47,7 @@
 .networkfeed { }
 .networkfeed > .container1 { padding-left: 0px; padding-right: 0px; margin-right: 1%; margin-bottom: 15px; }
 .networkfeed > .container2 { padding-left:0px; padding-right: 0px; }
-.networkfeed > .container1 > .row > .containerimgprod { padding-left: 0px; padding-right: 0px; }
+.networkfeed > .container1 > .row > .containerimgprod { padding-left: 0px; padding-right: 0px; cursor:pointer;}
 .networkfeed > .container1 > .row > .containerinfor { padding: 3px 12px 0px 12px; background-color: #F4F4F4; }
 .networkfeed > .container1 > .row > .containerinfor > .row > .containerimgcustom { padding-left: 0px; padding-right: 0px; }
 .networkfeed > .container1 > .row > .containerinfor > .row > .containerpurchase { padding-left: 0px; padding-right: 0px; font-size: 11px;}
