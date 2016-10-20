@@ -101,8 +101,9 @@ margin-right: 0;
 
 @media (max-width:768px){
     .owl-carousel{left: -4px;}
-    .divTitleFeatured{width:98%;}
+    .divTitleFeatured{width:98%;margin-top: 0px;}
     .owl-item{width: 237px !important;}
+    .boxprevnext2 a{margin-top:0px;}
 }
 
 @media (max-width:425px){
