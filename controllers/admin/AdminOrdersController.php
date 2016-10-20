@@ -559,12 +559,12 @@ class AdminOrdersControllerCore extends AdminController
                                         <th>estado</th>
                                         <th>pago</th>
                                         <th>total</th>
+                                        <th>pago_puntos</th>
                                         <th>fecha</th>
                                         <th>nombre_producto</th>
                                         <th>referencia_producto</th>
                                         <th>precio_producto</th>
                                         <th>cantidad</th>
-                                        <th>total_producto</th>
                                         <th>recompensa_porcentaje_producto</th>
                                         <th>recompensa_pesos_compra</th>
                                         <th>recompensa_puntos_compra</th>
@@ -613,12 +613,12 @@ class AdminOrdersControllerCore extends AdminController
                                 <td>".$order['estado']."</td>
                                 <td>".$order['pago']."</td>
                                 <td>".$order['total']."</td>
+                                <td>".$order['pago_puntos']."</td>
                                 <td>".$order['fecha']."</td>
                                 <td>".$order['nombre_producto']."</td>
                                 <td>".$order['referencia_producto']."</td>
                                 <td>".$order['precio_producto']."</td>
                                 <td>".$order['cantidad']."</td>
-                                <td>".$order['total_producto']."</td>
                                 <td>".$order['porcentaje_producto']."</td>
                                 <td>".( $num_quantity[0]['loyalty'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
                                 <td>".$num_quantity[0]['loyalty']."</td>
