@@ -281,10 +281,12 @@ display:inline-block;
 }
 
 @media (max-width:320px){
-    .account-responsive{padding-left: 0px !important;padding-right: 15px !important;}
-    .btn-more2 {margin-left: 0px;width: 96%;}
-    .block-red{margin-left: 4px;}
+    .account-responsive{padding-left: 0px !important;padding-right: 0px !important;}
+    .btn-more2 {margin-left: 0px;width: 100%;}
+    .block-red{margin-left: 0px; padding-right: 0px;}
     .block-r {padding-left: 0px !important;}
-    .card-st{ padding-left: 0px;}
-    .block_b{ padding-left: 0px !important;}
+    .card-st{ padding-left: 0px;padding-right: 0px !important;}
+    .block_b{ padding-left: 0px !important;padding-right: 0px !important;}
+    .tablenetwork, .tablemessages{width: 100%;}
+    .btn-moreload{width: 100%;}
 }
