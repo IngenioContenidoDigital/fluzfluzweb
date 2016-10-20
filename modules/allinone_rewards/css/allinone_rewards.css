@@ -663,6 +663,7 @@ ul.footer_links{
     .puntoGrap>span{ line-height: 30px;}
     .graphicStat{padding-left: 0px;}
     .pNetwork{ font-size: 8px;}
+    .table-reward{margin-left: -5px;}
 }
 
 @media (max-width:320px){
@@ -671,9 +672,10 @@ ul.footer_links{
     #container2{padding-left: 0px;padding-right: 0px;}
     .puntoGrap>span{ line-height: 30px;}
     .graphicStat{padding-left: 0px;}
-    .rewards table.std{margin-left: -7px;}
+    .rewards table.std{margin-left: 0px;}
     .banner-home{margin-top: -14px !important;}
     .pNetwork{ font-size: 6px;}
+    .time-reward{display: none;}
 }
 
 #available{background-color: #ccc !important;height: 40px;line-height: 40px;  margin-bottom: 0px;}
