@@ -289,4 +289,5 @@ display:inline-block;
     .block_b{ padding-left: 0px !important;padding-right: 0px !important;}
     .tablenetwork, .tablemessages{width: 100%;}
     .btn-moreload{width: 100%;}
+    .nameProfile{padding-right: 0px !important;}
 }

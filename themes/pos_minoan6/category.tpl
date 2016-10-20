@@ -134,18 +134,12 @@
                     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
 
                     @media (max-width: 1440px) and (min-width: 1200px){
-                        .owl-item{width: 225px !important;}
-                    }
-                    
-                    @media (max-width: 1024px){
-                        .owl-item { width: 220px !important; min-width: 0; margin-left: 18px !important;}
-                        .owl-wrapper{margin-left: 1px; transition:none !important; transform: none !important;}
-                        .prueba {left: 180px;}
+                        .owl-item{width: 225px;}
                     }
                     
                     @media (min-width:1025px) and (max-width:1120px){
                         .prueba{left: 186px;}
-                        .owl-item {width: 235px !important;}
+                        .owl-item {width: 235px;}
                         .owl-wrapper{margin-left: 12px;}
                         .content_sortPagiBar .sortPagiBar #productsSortForm{ margin: 0 14px 0 30px;}
                     }
