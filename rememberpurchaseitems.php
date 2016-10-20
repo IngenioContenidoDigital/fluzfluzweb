@@ -10,6 +10,7 @@ $query = "SELECT
                 c.username,
                 CONCAT(c.firstname,' ',c.lastname) name,
                 c.email,
+                o.date_add,
                 (SELECT SUM(r.credits)
                 FROM "._DB_PREFIX_."rewards r
                 WHERE r.id_customer = c.id_customer
@@ -33,14 +34,32 @@ $query = "SELECT
                 FROM "._DB_PREFIX_."rewards r
                 WHERE r.id_customer = c.id_customer
                 AND r.id_reward_state = 2) points,
-                DATE_FORMAT(ADDDATE(o.date_add, INTERVAL 30 DAY) ,'%d/%m/%Y') end_date,
-                DATEDIFF(NOW(),o.date_add) days
+                (SELECT date_add
+                FROM "._DB_PREFIX_."orders
+                WHERE id_customer = c.id_customer
+                ORDER BY date_add DESC
+                LIMIT 1) AS date_add,
+                (SELECT DATE_FORMAT(ADDDATE(oo.date_add, INTERVAL 30 DAY) ,'%d/%m/%Y')
+                FROM "._DB_PREFIX_."orders oo
+                WHERE oo.id_customer = c.id_customer
+                ORDER BY oo.date_add DESC
+                LIMIT 1) end_date,
+                (SELECT DATEDIFF(NOW(),oo.date_add) days
+                FROM "._DB_PREFIX_."orders oo
+                WHERE oo.id_customer = c.id_customer
+                ORDER BY oo.date_add DESC
+                LIMIT 1) days
         FROM "._DB_PREFIX_."customer c
         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
         LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference <> 'MFLUZ' )
         WHERE c.active = 1
         AND o.date_add IS NOT NULL
-        AND DATEDIFF(NOW(),o.date_add) > 30
+        AND DATEDIFF(NOW(), (SELECT date_add
+                            FROM "._DB_PREFIX_."orders
+                            WHERE id_customer = c.id_customer
+                            ORDER BY date_add DESC
+                            LIMIT 1)
+                    ) > 30
         GROUP BY c.id_customer
         HAVING COUNT(od.id_order_detail) <= 1
         ORDER BY o.date_add DESC";
