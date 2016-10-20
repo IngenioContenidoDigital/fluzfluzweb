@@ -76,7 +76,7 @@ class ManufacturerCore extends ObjectModel
         'multilang' => true,
         'fields' => array(
             'name' =>                array('type' => self::TYPE_STRING, 'validate' => 'isCatalogName', 'required' => true, 'size' => 64),
-            'category' =>            array('type' => self::TYPE_INT, 'size' => 2),
+            'category' =>            array('type' => self::TYPE_INT, 'size' => 5),
             'active' =>            array('type' => self::TYPE_BOOL),
             'date_add' =>            array('type' => self::TYPE_DATE),
             'date_upd' =>            array('type' => self::TYPE_DATE),
