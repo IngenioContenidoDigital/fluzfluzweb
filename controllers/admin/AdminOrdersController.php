@@ -523,20 +523,21 @@ class AdminOrdersControllerCore extends AdminController
                             c.email,
                             osl.name estado,
                             o.payment pago,
-                            o.total_paid total,
+                            od.total_price_tax_incl total,
+                            IFNULL(ocr.value ,0)  / (SELECT COUNT(*) FROM "._DB_PREFIX_."order_detail WHERE id_order = o.id_order) pago_puntos,
                             o.date_add fecha,
                             od.product_name nombre_producto,
                             od.product_id id_product,
                             od.product_reference referencia_producto,
                             od.unit_price_tax_incl precio_producto,
                             od.product_quantity cantidad,
-                            od.total_price_tax_incl total_producto,
                             rp.value porcentaje_producto,
                             ROUND( (((od.unit_price_tax_incl * od.product_quantity * IFNULL(rp.value,0)) / 100) / ".Configuration::get('REWARDS_VIRTUAL_VALUE_1').") , 2 ) puntos_producto
-                    FROM "._DB_PREFIX_."orders o
+                    FROM ps_orders o
                     INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
                     INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
                     INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                    LEFT JOIN "._DB_PREFIX_."order_cart_rule ocr ON ( o.id_order = ocr.id_order )
                     LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )
                     ORDER BY o.id_order DESC";
             
