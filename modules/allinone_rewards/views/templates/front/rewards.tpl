@@ -285,14 +285,14 @@
 </div>
 	{/if}
 {/if}
-        <table class="std">
+        <table class="std table-reward">
             <h2 class="tituloNet">{l s="Top Network Performers" mod='allinone_rewards'}</h2>
 		<thead>
                     <tr>
                         <th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
                         <th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
                         <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
-                        <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
+                        <th class="item time-reward">{l s='TIME' mod='allinone_rewards'}</th>
                         <th class="item">{l s='Mensaje'}</th>
                     </tr>
 		</thead>
@@ -302,7 +302,7 @@
                                     <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.username|escape:'html':'UTF-8'}</td>
                                     <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                     <td align="right" style="padding-top:17px;">{$topNet.points|number_format:0}</td>
-                                    <td style="padding-top:17px;">{dateFormat date=$topNet.time full=1}</td>
+                                    <td style="padding-top:17px;" class="time-reward">{dateFormat date=$topNet.time full=1}</td>
                                     <td>
                                     <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$topNet.id}|{$topNet.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
                                     </td>
@@ -310,14 +310,14 @@
                 {/foreach}
 		</tbody>
 	</table>
-        <table class="std">
+        <table class="std table-reward">
             <h2 class="tituloNet">{l s="Worst Network Performers" mod='allinone_rewards'}</h2>
 		<thead>
 			<tr>
 				<th class="first_item">{l s='NAME' mod='allinone_rewards'}</th>
 				<th class="item">{l s='PURCHASE' mod='allinone_rewards'}</th>
                                 <th class="first_item">{l s='POINTS' mod='allinone_rewards'}</th>
-                                <th class="item">{l s='TIME' mod='allinone_rewards'}</th>
+                                <th class="item time-reward">{l s='TIME' mod='allinone_rewards'}</th>
                                 <th class="item">{l s='Mensaje'}</th>
 			</tr>
 		</thead>
@@ -327,7 +327,7 @@
 				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.username|escape:'html':'UTF-8'}</td>
                                 <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                 <td align="right" style="padding-top:17px;">{$worst.points|number_format:0}</td>
-                                <td style="padding-top:17px;">{dateFormat date=$worst.time full=1}</td>
+                                <td style="padding-top:17px;" class="time-reward">{dateFormat date=$worst.time full=1}</td>
                                 <td>
                                     <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id}|{$worst.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
                                 </td>
