@@ -47,8 +47,8 @@ $query = "SELECT
 $remembers2 = Db::getInstance()->executeS($query);
 
 $remembers = array_merge($remembers1, $remembers2);
- // echo '<pre>'; print_r($remembers);
- // die();
+//  echo '<pre>'; print_r($remembers);
+//  die();
 
 foreach ( $remembers as $key => $remember ) {
     $vars = array(
