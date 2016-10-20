@@ -138,7 +138,7 @@
                             <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
                                 {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} 
                                 <span class="pointsmnf">
-                                 <a class="product_img_link" href="{$link->getCategoryLink({$merchant.category})}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                 <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
                                      {$name_product}</a>
                                 </span>.
                             </div>
