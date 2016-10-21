@@ -577,21 +577,6 @@ class AdminOrdersControllerCore extends AdminController
                                     </tr>";
 
             foreach ( $orders as $order ) {
-                $sql = 'SELECT
-                                SUM(r.credits) as loyalty ,
-                                (SELECT SUM(s.credits) AS sponsorship
-                                FROM '._DB_PREFIX_.'rewards AS s
-                                WHERE s.id_order = r.id_order
-                                AND (s.id_reward_state = 2 OR s.id_reward_state = 5)
-                                AND s.id_customer <> 0
-                                AND s.`plugin`="sponsorship" ) AS sponsorship
-                        FROM '._DB_PREFIX_.'rewards AS r
-                        WHERE r.id_order = '.$order['orden'].' 
-                        AND (r.id_reward_state = 2 OR r.id_reward_state = 5)
-                        AND r.id_customer <> 0
-                        AND r.`plugin`="loyalty"';
-                $num_quantity = Db::getInstance()->executeS($sql);
-
                 $sql = 'SELECT GROUP_CONCAT(c.username) users
                         FROM '._DB_PREFIX_.'rewards r
                         INNER JOIN '._DB_PREFIX_.'customer c ON ( r.id_customer = c.id_customer )
@@ -604,10 +589,22 @@ class AdminOrdersControllerCore extends AdminController
                         WHERE id_order = '.$order['orden'].'
                         AND id_product = '.$order['id_product'];
                 $codes_order = Db::getInstance()->executeS($sql);
-                
+
+                // NIVEL USUARIO
                 $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($order['id_customer']);
                 $sponsorships2 = array_slice($sponsorships, 1, 15);
-                // <td>".round( (($order['total_producto'] * ($order['porcentaje_producto'] / 100)) / Configuration::get('REWARDS_VIRTUAL_VALUE_1')) / $num_quantity[0]['loyalty'], 0 )."</td>
+                $nivel = count($sponsorships2);
+
+                // PORCENTAJE PRODUCTO Y RECOMPENSA A TODO EL ARBOL
+                $porcentaje = ($order['porcentaje_producto'] / 100) * (1 - ( $order['pago_puntos'] / $order['total'] ));
+                $recompensapesos = $order['total'] * $porcentaje;
+                $recompensapuntos = $recompensapesos / Configuration::get('REWARDS_VIRTUAL_VALUE_1');
+                // RECOMPENSA USUARIO
+                $usuariopuntospesos = $recompensapesos / ($nivel + 1);
+                $usuariopuntos = $usuariopuntospesos / Configuration::get('REWARDS_VIRTUAL_VALUE_1');
+                // RECOMPENSA RED
+                $redpuntospesos = $recompensapesos - $usuariopuntospesos;
+                $redpuntos = $recompensapuntos - $usuariopuntos;
 
                 $report .= "<tr>
                                 <td>".$order['orden']."</td>
@@ -615,21 +612,21 @@ class AdminOrdersControllerCore extends AdminController
                                 <td>".$order['cliente']."</td>
                                 <td>".$order['username']."</td>
                                 <td>".$order['email']."</td>
-                                <td>".count($sponsorships2)."</td>
+                                <td>".$nivel."</td>
                                 <td>".$order['estado']."</td>
                                 <td>".$order['pago']."</td>
-                                <td>".$order['total']."</td>
-                                <td>".$order['pago_puntos']."</td>
+                                <td>".number_format($order['total'], 2, ',', '')."</td>
+                                <td>".number_format($order['pago_puntos'], 2, ',', '')."</td>
                                 <td>".$order['fecha']."</td>
                                 <td>".$order['nombre_producto']."</td>
                                 <td>".$order['referencia_producto']."</td>
-                                <td>".$order['precio_producto']."</td>
-                                <td>".$order['cantidad']."</td>
-                                <td>".$order['porcentaje_producto']."</td>
-                                <td>".( $num_quantity[0]['loyalty'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
-                                <td>".$num_quantity[0]['loyalty']."</td>
-                                <td>".( $num_quantity[0]['sponsorship'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1') )."</td>
-                                <td>".$num_quantity[0]['sponsorship']."</td>
+                                <td>".number_format($order['precio_producto'], 2, ',', '')."</td>
+                                <td>".number_format($order['cantidad'], 2, ',', '')."</td>
+                                <td>".number_format($porcentaje, 4, ',', '')."</td>
+                                <td>".number_format($usuariopuntospesos, 2, ',', '')."</td>
+                                <td>".number_format($usuariopuntos, 2, ',', '')."</td>
+                                <td>".number_format($redpuntospesos, 2, ',', '')."</td>
+                                <td>".number_format($redpuntos, 2, ',', '')."</td>
                                 <td>".$codes_order[0]['codigos_producto']."</td>
                                 <td>".$sponsors_order[0]['users']."</td>
                             </tr>";
