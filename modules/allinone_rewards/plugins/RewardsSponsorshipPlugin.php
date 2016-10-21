@@ -1521,7 +1521,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                         $rowdisc = Db::getInstance()->getRow($qdiscount);
                         $discount = $rowdisc['total_discounts'];
                         $paid = $rowdisc['total_products'];
-                        $porcentaje_desc = $discount / $paid;
+                        $porcentaje_desc = 1-($discount / $paid);
                         $paid_total = $discount - $paid;
                         
                         foreach($sponsorships2 as $sponsorship) {

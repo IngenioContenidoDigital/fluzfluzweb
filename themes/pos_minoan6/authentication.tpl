@@ -50,7 +50,7 @@
 	</div>
 	{/if}-->
 	<div class="row sign-account">
-                <div class="col-xs-12 col-sm-6">
+                <div class="col-xs-12 col-sm-6 signup-account">
                     <div class="info-box">
 			<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">
 				<h3 class="page-subheading borde-inf">{l s='Already registered?'}</h3>
@@ -77,11 +77,11 @@
 			</form>
                     </div>
 		</div>
-		<div class="col-xs-12 col-sm-6">
+		<div class="col-xs-12 col-sm-6 signup-account">
                     <div class="info-box">
                     <div class="box">
                     <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
-                    <p>{l s="In order to register, you need to be invited by a current member of the Fluz Fluz network. Once you've been invited by a current member, you will receive a confirmation e-mail with detailed instructions on how to finalize your registration and maximize all of benefits of Fluz Fluz's point network, discounts and member giveaways."}</p>
+                    <p>{l s="Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibiras un correo de confirmacion con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz."}</p>
                     </div>
 		   </div>
 		</div>

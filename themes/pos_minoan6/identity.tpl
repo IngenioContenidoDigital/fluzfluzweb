@@ -58,7 +58,7 @@
                     <h1 class="edit" id="editProfile">{l s='Edit'}</h1>
                     <div class="fieldInfo">
                         <p class="required requiredinfo"><sup>*</sup>{l s='Required field'}</p>
-                        <div class="required form-group">
+                        <div class="required form-group img-identity">
                             {if $imgprofile != ""}
                                 <img src="{$imgprofile}">
                             {else}

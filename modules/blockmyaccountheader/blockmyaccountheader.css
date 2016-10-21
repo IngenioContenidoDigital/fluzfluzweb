@@ -49,3 +49,44 @@ and open the template in the editor.
 }
 
 button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: inline-block; font-size: 20px; color: #808285; text-align: center; width: 75px; height: 86px; line-height: 120px; vertical-align: top; border-right: 0px solid #d3d3d3; border-top:none; border-bottom: none;text-align: center;}
+
+@media (max-width:2500px){
+    .dropdown-menu > li > a{padding: 10px 10px;border-bottom: 1px solid #818181;}
+    .menu-account{width: 295px;}
+}
+
+@media (max-width:1440px){
+    .dropdown-menu > li > a{padding: 10px 10px;border-bottom: 1px solid #818181;}
+    .menu-account{width: 265px;}
+}
+
+@media (max-width:1024px){
+    .dropdown-menu > li > a{padding: 10px 10px;border-bottom: 1px solid #818181;}
+    .menu-account{width: 265px;}
+}
+
+@media (max-width:768px){
+     .menu-account{
+         width: 775px;
+         margin-left: -568px;}
+}
+
+@media (max-width:425px){
+    .menu-account{
+        width: 427px;
+        margin-left: -263px;}
+}
+
+@media (max-width:375px){
+    .menu-account{
+        width: 380px;
+        margin-left: -220px;}
+    .dropdown-menu > li > a{padding: 12px 12px;border-bottom: 1px solid #818181;text-transform: uppercase;}
+}
+
+@media (max-width:320px){
+    .menu-account{
+        width: 325px;
+        margin-left: -177px;}
+    .dropdown-menu > li > a{padding: 12px 12px;border-bottom: 1px solid #818181; text-transform: uppercase;}
+}
