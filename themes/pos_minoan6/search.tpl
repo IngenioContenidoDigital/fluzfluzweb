@@ -86,3 +86,45 @@ class="page-heading {if !isset($instant_search) || (isset($instant_search) && !$
         </div>
     </div>
 {/if}
+
+{literal}
+    <style>
+        .pruebaImgCategory{width: 100% !important;}
+        .hidden-xs{display: none !important;}
+        .divTitleFeatured{margin-top: 10px !important;}
+        .top-pagination-content{padding-left: 0px !important;}
+        .boxprevnext2 a{margin-top: 10px !important;}
+        .owl-item{    width: 283px !important; margin-left: 0px !important;}
+        .product_list{margin-left: -5px !important;}
+        
+        @media (max-width:1024px){
+            .owl-item { width: 315px !important;margin-left: 0px !important;}
+        }
+        
+        @media (max-width:768px){
+            .owl-item {width: 241px !important;margin-left: 0px !important;}
+            .title-block div:last-child{font-size: 14px;}
+            .divTitleFeatured{margin-left: 10px; width: 97%;}
+            .top-pagination-content{padding-left: 10px !important;}
+        }
+        
+        @media (max-width:425px){
+            .owl-item {width: 403px !important;margin-left: 0px !important;}
+            .divTitleFeatured{width: 95%;}
+            .content_sortPagiBar .sortPagiBar{float: left;margin-left: 10px;}
+        }
+        
+        @media (max-width:375px){
+            .owl-item {width: 359px !important;margin-left: 0px !important;}
+            .owl-wrapper{margin-left:0px !important;}
+        }
+        
+        @media (max-width:320px){
+            .owl-item {width: 307px !important;margin-left: 0px !important;}
+            .owl-wrapper{margin-left:5px !important;}
+            .divTitleFeatured{width: 97%;margin-left: 5px;}
+            .title-block div:last-child{font-size: 10px; padding-left: 0px;}
+        }
+        
+    </style>
+{/literal}
