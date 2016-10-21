@@ -518,6 +518,7 @@ class AdminOrdersControllerCore extends AdminController
             $sql = "SELECT
                             o.id_order orden,
                             o.reference referencia,
+                            c.id_customer,
                             CONCAT(c.firstname,' ',c.lastname) cliente,
                             c.username,
                             c.email,
@@ -531,6 +532,7 @@ class AdminOrdersControllerCore extends AdminController
                             od.product_reference referencia_producto,
                             od.unit_price_tax_incl precio_producto,
                             od.product_quantity cantidad,
+                            od.total_price_tax_incl total_producto,
                             rp.value porcentaje_producto,
                             ROUND( (((od.unit_price_tax_incl * od.product_quantity * IFNULL(rp.value,0)) / 100) / ".Configuration::get('REWARDS_VIRTUAL_VALUE_1').") , 2 ) puntos_producto
                     FROM ps_orders o
@@ -602,6 +604,10 @@ class AdminOrdersControllerCore extends AdminController
                         WHERE id_order = '.$order['orden'].'
                         AND id_product = '.$order['id_product'];
                 $codes_order = Db::getInstance()->executeS($sql);
+                
+                $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($order['id_customer']);
+                $sponsorships2 = array_slice($sponsorships, 1, 15);
+                // <td>".round( (($order['total_producto'] * ($order['porcentaje_producto'] / 100)) / Configuration::get('REWARDS_VIRTUAL_VALUE_1')) / $num_quantity[0]['loyalty'], 0 )."</td>
 
                 $report .= "<tr>
                                 <td>".$order['orden']."</td>
@@ -609,7 +615,7 @@ class AdminOrdersControllerCore extends AdminController
                                 <td>".$order['cliente']."</td>
                                 <td>".$order['username']."</td>
                                 <td>".$order['email']."</td>
-                                <td>".round( (($order['total_producto'] * ($order['porcentaje_producto'] / 100)) / Configuration::get('REWARDS_VIRTUAL_VALUE_1')) / $num_quantity[0]['loyalty'], 0 )."</td>
+                                <td>".count($sponsorships2)."</td>
                                 <td>".$order['estado']."</td>
                                 <td>".$order['pago']."</td>
                                 <td>".$order['total']."</td>
