@@ -150,7 +150,7 @@
                 </div>
             </div>
         {/foreach}
-        <button id="loadMore" class="col-lg-8 col-md-8 col-sm-8 btn-more2"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+        <button id="loadMoreNet" class="col-lg-8 col-md-8 col-sm-8 btn-more2"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
     {/if}
     <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
         <p class="titleFAQ">{l s='Need Support?'}</p>
@@ -166,67 +166,71 @@
     <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
             <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-r">
                 <h2 class="title-msj">{l s='My Network'}</h2>
-                <div class="tablenetwork">
-                    {foreach from=$members item=member}
-                        <div class="member">
-                            <td>
-                                <table class="tablecontent">
-                                    <tr>
-                                        <td rowspan="2" class="img">
-                                            {assign var="urlimgnet" value=""}
-                                            {if $member.img != ""}
-                                                <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
-                                                {$urlimgnet = $member.img}
-                                            {else}
-                                                <img src="{$img_dir}icon/profile.png" width="55" height="50">
-                                                {$urlimgnet = $img_dir|cat:"icon/profile.png"}
-                                            {/if}
-                                        </td>
-                                        <td colspan="2" class="line colname"><span class="name">{$member.name}</span></td>
-                                        <td class="message line"><span class="myfancybox" href="#myspecialcontent2" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><span class="information">{l s='Points Contributed:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
-                                        <td>&nbsp;</td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </div>
-                    {/foreach}
+                <div class="containtertables">
+                    <div class="tablenetwork">
+                        {foreach from=$members item=member}
+                            <div class="member">
+                                <td>
+                                    <table class="tablecontent">
+                                        <tr>
+                                            <td rowspan="2" class="img">
+                                                {assign var="urlimgnet" value=""}
+                                                {if $member.img != ""}
+                                                    <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
+                                                    {$urlimgnet = $member.img}
+                                                {else}
+                                                    <img src="{$img_dir}icon/profile.png" width="55" height="50">
+                                                    {$urlimgnet = $img_dir|cat:"icon/profile.png"}
+                                                {/if}
+                                            </td>
+                                            <td colspan="2" class="line colname"><span class="name">{$member.name}</span></td>
+                                            <td class="message line"><span class="myfancybox" href="#myspecialcontent2" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><span class="information">{l s='Points Contributed:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
+                                            <td>&nbsp;</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </div>
+                        {/foreach}
+                    </div>
                 </div>  
                     <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
             
             <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-red">
                 <h2 class="title-msj">{l s='My Messages'}</h2>
-                <div class="tablemessages">
-                    {foreach from=$messages item=message}
-                        <div class="t-messages">
-                                <table class="tablecontent tablecontentmessages">
-                                    <tr>
-                                        <td rowspan="2" class="img">
-                                            {assign var="urlimgmes" value=""}
-                                            {if $message.img != ""}
-                                                <img src="{$message.img}" width="50" height="50" style="margin-left: 5px;">
-                                                {$urlimgmes = $message.img}
-                                            {else}
-                                                <img src="{$img_dir}icon/profile.png" width="55" height="50">
-                                                {$urlimgmes = $img_dir|cat:"icon/profile.png"}
-                                            {/if}
-                                        </td>
-                                        <td colspan="2" class="line colname">{if $message.id_customer_send == $id_customer}<img src="/img/admin/enabled.gif">{/if} <span class="name">{$message.username}</span></td>
-                                        <td class="message line">{if $message.id_customer_send != $id_customer}<span class="myfancybox" href="#myspecialcontent2" send="{$message.id_customer_send}|{$message.username}|{$urlimgmes}|{$id_customer}">{l s='Responder'}</span>{/if}</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3"><span class="information">{$message.message}</span></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                        </div>
-                    {/foreach}
+                <div class="containtertables">
+                    <div class="tablemessages">
+                        {foreach from=$messages item=message}
+                            <div class="t-messages">
+                                    <table class="tablecontent tablecontentmessages">
+                                        <tr>
+                                            <td rowspan="2" class="img">
+                                                {assign var="urlimgmes" value=""}
+                                                {if $message.img != ""}
+                                                    <img src="{$message.img}" width="50" height="50" style="margin-left: 5px;">
+                                                    {$urlimgmes = $message.img}
+                                                {else}
+                                                    <img src="{$img_dir}icon/profile.png" width="55" height="50">
+                                                    {$urlimgmes = $img_dir|cat:"icon/profile.png"}
+                                                {/if}
+                                            </td>
+                                            <td colspan="2" class="line colname">{if $message.id_customer_send == $id_customer}<img src="/img/admin/enabled.gif">{/if} <span class="name">{$message.username}</span></td>
+                                            <td class="message line">{if $message.id_customer_send != $id_customer}<span class="myfancybox" href="#myspecialcontent2" send="{$message.id_customer_send}|{$message.username}|{$urlimgmes}|{$id_customer}">{l s='Responder'}</span>{/if}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3"><span class="information">{$message.message}</span></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                            </div>
+                        {/foreach}
+                    </div>
                 </div>
                 <button id="loadMoreMsg" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
             </div>
@@ -600,12 +604,17 @@
 {literal}
     <script>
         $(function(){
-            $(".Cards").slice(0, 4).show(); // select the first ten
+            $(".Cards").slice(0, 4).show();
+            // select the first ten
+            if($(".Cards").length <= 4){
+                $("#loadMore").css('display','none');
+            }
+            else
             $("#loadMore").click(function(e){ // click event for load more
                 e.preventDefault();
-                $(".Cards:hidden").slice(0, 2).show(); 
-                if($("div:hidden").length == 0){ // check if any hidden divs still exist
-                    alert("No more divs"); // alert if there are none left
+                $(".Cards:hidden").slice(0, 2).show();
+                if($(".Cards:hidden").length == 0){ // check if any hidden divs still exist
+                    $("#loadMore").css('display','none'); // alert if there are none left
                 }
             });
         });
@@ -616,14 +625,18 @@
     <script>
         $(function(){
             $(".last_shop").slice(0, 4).show(); // select the first ten
-            $("#loadMoreNet").click(function(e){ // click event for load more
-                e.preventDefault();
-                $(".last_shop:hidden").slice(0, 2).show(); 
-                if($("div:hidden").length == 0){ // check if any hidden divs still exist
-                    alert("No more divs"); // alert if there are none left
-                }
+            if($(".last_shop").length <= 4){
+                $("#loadMoreNet").css('display','none');
+            }
+            else
+                $("#loadMoreNet").click(function(e){ // click event for load more
+                    e.preventDefault();
+                    $(".last_shop:hidden").slice(0, 2).show(); 
+                    if($(".last_shop:hidden").length == 0){ // check if any hidden divs still exist
+                        $("#loadMoreNet").css('display','none');; // alert if there are none left
+                    }
+                });
             });
-        });
     </script>
 {/literal}
 
@@ -631,10 +644,17 @@
     <script>
         $(function(){
             $(".member").slice(0, 4).show(); // select the first ten
-            $("#loadMoreMember").click(function(e){ // click event for load more
-                e.preventDefault();
-                $(".member:hidden").slice(0, 2).show(); 
-            });
+            if($(".member").length <= 4){
+                $("#loadMoreMember").css('display','none');
+            }
+                else
+                $("#loadMoreMember").click(function(e){ // click event for load more
+                    e.preventDefault();
+                    $(".member:hidden").slice(0, 2).show(); 
+                    if($(".member:hidden").length == 0){ // check if any hidden divs still exist
+                        $("#loadMoreMember").css('display','none'); // alert if there are none left
+                    }
+                });
         });
     </script>
 {/literal}
@@ -643,13 +663,17 @@
     <script>
         $(function(){
             $(".t-messages").slice(0, 4).show(); // select the first ten
-            $("#loadMoreMsg").click(function(e){ // click event for load more
-                e.preventDefault();
-                $(".t-messages:hidden").slice(0, 2).show(); 
-                if($("div:hidden").length == 0){ // check if any hidden divs still exist
-                    alert("No more divs"); // alert if there are none left
-                }
-            });
+            if($(".t-messages").length <= 4){
+                $("#loadMoreMsg").css('display','none');
+            }
+                else
+                $("#loadMoreMsg").click(function(e){ // click event for load more
+                    e.preventDefault();
+                    $(".t-messages:hidden").slice(0, 2).show(); 
+                    if($(".t-messages:hidden").length == 0){ // check if any hidden divs still exist
+                        $("#loadMoreMsg").css('display','none');// alert if there are none left
+                    }
+                });
         });
     </script>
 {/literal}

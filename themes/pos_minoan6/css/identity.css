@@ -8,7 +8,7 @@
 .edit { font-size: 16px; color: #E1382C; float: right; cursor: pointer; }
 .edit:hover { opacity: 0.5; }
 .profile h1 { margin: 0; }
-.fieldInfo { background-color: #F9F9F9; padding: 2%; margin: 0; }
+.fieldInfo { background-color: #F9F9F9; padding: 2%; margin: 0; width: 100%;}
 .fieldInfo label { font-weight: lighter; }
 .fieldInfo .clearfix, .fieldInfo .form-group, .fieldInfo .checkbox { margin-bottom: 20px!important; }
 .std, .stdcard { color: #3A3A3A; font-weight: bold; font-family: 'Montserrat'; }
@@ -39,4 +39,19 @@ div.selector.disabled span, div.selector.disabled.active span { color: #585858; 
     .dateBirth, .dateExpiration { display: inline-block; }
     .deactivate { float: none; }
     .headinformation h1 { margin: 0; }
+}
+
+@media (max-width: 768px){
+    .img-identity{text-align: center;}
+}
+
+@media (max-width: 425px){
+    .bodyinformation{padding-left: 0px; padding-right: 0px;}
+    .form-group > input {font-size: 12px; width: 215px;}
+    .title{font-size: 14px!important;}
+    .edit{font-size: 14px!important;}
+}
+
+@media (max-width:320px){
+    #identity .box {padding-left: 10px; padding-right: 10px;}
 }

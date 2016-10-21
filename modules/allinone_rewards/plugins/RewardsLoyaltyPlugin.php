@@ -756,7 +756,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
                         $discount = $rowdisc['total_discounts'];
                         $paid = $rowdisc['total_products'];
                         
-                        $porcentaje_desc = $discount / $paid;
+                        $porcentaje_desc = 1-($discount / $paid);
                         $paid_total = $discount - $paid;
                         $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
                         $sponsorships2=array_slice($sponsorships, 1, 15);
