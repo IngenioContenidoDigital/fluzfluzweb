@@ -3393,9 +3393,9 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 
 @media (min-width:425px) and (max-width:520px){
     #header .pos_logo{width:60% !important; margin-top:7px !important;}
-    .block_content3{margin-right:5px; width:15% !important; margin-right:8px !important; margin-top:3px !important;}
+    .block_content3{margin-right:5px; width:15% !important; margin-right:8px !important; margin-top:2px !important;}
     .accountHeader{top:-153.5px; left:290px !important; padding-right:0px !important; border:none !important;}
-    .shopping_cart > a:first-child:before{position:absolute!important; top: -64px!important; left: 111px !important;}
+    .shopping_cart > a:first-child:before{position:absolute!important; top: -57px!important; left: 111px !important;}
     .infoCard{margin-top:-12px;}
     .priceCard{margin-top:-7px !important;}
 }
@@ -3492,7 +3492,9 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
   .banner-home .box-banner-static .text-content a { font-size: 10px; line-height: 20px; } }
 @media (max-width: 480px) { .banner-home .box-banner-static { width: 100%; } }
 .banner-box { overflow: hidden; position: relative; display: block; text-align: center; }
-@media (max-width: 768px) { .banner-box { margin-bottom: 30px !important; } }
+@media (max-width: 768px) { 
+    .banner-box { margin-bottom: 30px !important; }     
+}
 .banner-box img { width: auto; margin-top:5% !important;}
 .banner-box:hover img { -moz-transform: scale(1.05); -webkit-transform: scale(1.05); -o-transform: scale(1.05); -ms-transform: scale(1.05); transform: scale(1.05); -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
 
@@ -10438,10 +10440,10 @@ font-family: 'Open Sans' !important;
 @media (min-width:415px) and (max-width:600px){
     .navbar{display:none;}
     .dropdown-menu > li > a{ font-family:'Open Sans'!important; text-transform:uppercase !important; padding: 12px !important; border-bottom: 1px solid #818181;}
-    .accountHeader{ left: 262px !important; top: -179px; float:left !important; border:none !important;}
-    .shopping_cart > a:first-child:before{ margin-left: 204px; margin-top: 0px !important;}
+    .accountHeader{ left: 262px !important; top: -173px; float:left !important; border:none !important;}
+    .shopping_cart > a:first-child:before{ margin-left: 196px;}
     .block_content3{margin-right:2%; width: 40px !important;}
-    .shopping_cart .ajax_cart_quantity{top: -53px !important; left: 334px !important;}
+    .shopping_cart .ajax_cart_quantity{top: -46px !important; left: 334px !important;}
     #product p#loyalty{margin-left: 0px !important;}
      .imgSponsor2{width:25% !important;}
     .vdo-fluz{ width: 360px;height: 226px;}
@@ -10471,7 +10473,7 @@ font-family: 'Open Sans' !important;
     .block_content3{ margin-right: 0px !important; width: 50px !important;}
     .shopping_cart > a:first-child:before{ margin-left: 10px; margin-top: -1px !important;}
     .accountHeader{ margin-top: -87px !important;left: 53px !important;}
-    .img-responsive {    max-width: none !important;width: 90%;margin-top: 0px !important; padding-left: 0px; margin-left:0px !important;}
+    .img-responsive {    max-width: none !important;width: 90% !important;margin-top: 0px !important; padding-left: 0px; margin-left:0px !important;}
     .shopping_cart .ajax_cart_quantity{left:28px !important;}
     .imgSponsor2{margin-bottom: 5%; width:45% !important;}
     .barTop{ float: left; margin-bottom: 5%;}

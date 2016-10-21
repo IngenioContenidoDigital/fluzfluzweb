@@ -28,7 +28,7 @@
         {if $logged}
         <button class="block_content2" type="button" data-toggle="dropdown"></button>
 		
-                <ul class="bullet dropdown-menu">
+                <ul class="bullet dropdown-menu menu-account">
 			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccountheader'}</a></li>
 			{*if $returnAllowed}<li><a href="{$link->getPageLink('order-follow', true)|escape:'html'}" title="{l s='My merchandise returns' mod='blockmyaccountheader'}">{l s='My merchandise returns' mod='blockmyaccountheader'}</a></li>{/if*}
 			{*<li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='My Cards' mod='blockmyaccountheader'}">{l s='My Cards' mod='blockmyaccountheader'}</a></li>*}

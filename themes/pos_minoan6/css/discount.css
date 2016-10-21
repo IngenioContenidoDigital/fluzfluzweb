@@ -1,8 +1,10 @@
-.page-heading { letter-spacing: 2px; font-weight: bold; padding: 0; }
-.blockcontainer { width: 100%; }
-.blockcontainer > div { width: 49%; display: inline-block; padding: 4px; }
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
+
+.page-heading { letter-spacing: 2px; font-weight: bold; padding: 0; margin-left: 0px;}
+.blockcontainer > div { display: inline-block; padding: 4px; }
 .blockcontainer > div > h2 { font-size: 17px; letter-spacing: 0; font-weight: bold; }
-.textsearch { padding: 15px 35px 15px 15px; width: 97%; background-color: #f9f9f9; border: none; }
+.textsearch { padding: 15px 35px 15px 15px; background-color: #f9f9f9; border: none; }
 .searchimg { position: relative; left: -30px; cursor: pointer; }
 .tablenetwork, .tablemessages { width: 97%; }
 .tablenetwork > tbody > tr > td { padding: 0; }
@@ -19,10 +21,55 @@
 .colpoints { width: 180px; }
 .message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; }
 .message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
-.containtertables { overflow-y: auto; height: 600px; margin: 20px 0; }
+.containtertables { overflow-y: auto; height: 330px; margin: 20px 0; }
 
 /* popup */
 #myspecialcontent > div { margin-bottom: 15px; }
 .blockbutton { text-align: center; }
 #messagesendmessage { border-left: none; border-right: none; border-bottom: none; }
 #namesendmessage { margin-left: 5px; font-size: 16px; text-transform: capitalize; }
+.member{display:none}
+.t-messages{display: none;}
+ul.footer_links{margin-left: 0px;}
+.btn-moreload{
+    background-color: #c9b198;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 9px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 97%;
+}
+
+.btn-moreload:hover{
+    color: #fff;
+    background: #ef4136;
+}
+
+.icon-refresh:hover  {
+    -animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+.pmore{margin-right: 10px; font-size: 12px; text-transform: uppercase;}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+@media (max-width:1024px){
+    .blockcontainer > div{padding-left: 15px;}
+}
+
+@media (max-width:768px){
+    .information{font-size: 10px;}
+    .page-heading{text-align: center;}
+    .data{font-size: 10px;}
+}

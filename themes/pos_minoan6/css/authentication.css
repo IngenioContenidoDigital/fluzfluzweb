@@ -65,3 +65,7 @@ p + .required { font-weight: bold; }
     border-bottom-style: solid !important;
     border-bottom-width: 1px !important;
 }
+
+@media (max-width:320px){
+    .signup-account{padding-left: 0px;}
+}
