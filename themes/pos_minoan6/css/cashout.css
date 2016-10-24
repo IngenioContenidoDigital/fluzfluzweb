@@ -53,6 +53,7 @@ ul.step li.step_todo span:after{display: none;}
     .full-amount{margin: 0px; margin-bottom: 10px;}
     .avail-full{ line-height: 100px; margin-left: 50px;}
     ul.step li.step_todo{width: 100%;}
+    .l-step3{font-size: 12px;}
 }
 
 @media (max-width:375px){
@@ -61,9 +62,11 @@ ul.step li.step_todo span:after{display: none;}
 }
 
 @media (max-width:320px){
-    .full-amount{width: 96%;}
-    .avail-full{ margin-left: 0px;}
+    .full-amount{width: 100%; text-align: center;}
+    .avail-full{ margin-left: 0px; font-size: 14px;}
+    .avail-price{font-size: 14px;}
     #valorSlider{padding-left: 0px;}
     #value-cash{font-size: 14px;}
-    ul.step{ width: 96%;}
+    ul.step{ width: 100%;}
+    .l-step3{font-size: 10px;}
 }

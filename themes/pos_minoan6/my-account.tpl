@@ -135,7 +135,7 @@
                             </div>
                         </div>
                         <div class="row" style="padding: 5px;">
-                            <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9 containerpurchase">
+                            <div class="col-xs-8 col-md-9 col-sm-9 col-lg-9 containerpurchase">
                                 {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} 
                                 <span class="pointsmnf">
                                  <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
