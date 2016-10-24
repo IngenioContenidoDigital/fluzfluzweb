@@ -259,16 +259,16 @@
                 <div id="alert2" class="alert-validation2" style="display:none;">{l s="Ingrese sus Datos Completos"}</div>
                 <div class="row cheque-row" style="margin-top:40px;">
                     <div class="col-lg-3 col-md-6 col-sm-6">
-                        <label class="col-lg-12 col-md-12 col-sm-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
-                        <input type="text" class="col-lg-12 col-md-12 col-sm-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
+                        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
+                        <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6 required">
-                        <label class="col-lg-12 col-md-12 col-sm-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
-                        <input type="text" class="col-lg-12 col-sm-12 col-md-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
+                        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
+                        <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
-                        <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
-                        <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
+                        <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
+                        <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
@@ -320,24 +320,24 @@
             <input type="hidden" id="radio" name="radio" value=""/>
             <div class="row confirmation-cashout">
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Fluz Disponibles"}</label>
-                    <span class="p-step3 col-lg-4 col-md-4 col-sm-4"><span id="ptos_prueba"></span></span>
+                    <label class="col-lg-8 col-md-8 col-sm-8 col-xs-7 l-step3">{l s="Fluz Disponibles"}</label>
+                    <span class="p-step3 col-lg-4 col-md-4 col-sm-4 col-xs-5"><span id="ptos_prueba"></span></span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Fluz Utilizados en Redencion"}</label>
-                    <span class="col-lg-4 col-md-4 col-sm-4 p-step3">-<span id="points_used"></span></span>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3 col-xs-7">{l s="Fluz Utilizados en Redencion"}</label>
+                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 p-step3">-<span id="points_used"></span></span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Monto Redimido en Efectivo"}</label>
-                    <span class="col-lg-4 col-md-4 col-sm-4 pstep3"><span id="value-confirmation"></span></span>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3 col-xs-7">{l s="Monto Redimido en Efectivo"}</label>
+                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3"><span id="value-confirmation"></span></span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Costo Transferencia"}</label>
-                    <span class="col-lg-4 col-md-4 col-sm-4 pstep3">-</span>
+                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3 col-xs-7">{l s="Costo Transferencia"}</label>
+                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3">-</span>
                 </div>
                 <div class="row c-cashout">
-                    <label class="col-lg-8 col-md-8 col-sm-8 l-step3">{l s="Redencion Total en Efectivo"}</label>
-                    <span class="col-lg-4 col-md-4 col-sm-4 pstep3"><span id="total-valor"></span></span>
+                    <label class="col-lg-8 col-md-8 col-sm-8 col-xs-7 l-step3">{l s="Redencion Total en Efectivo"}</label>
+                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3"><span id="total-valor"></span></span>
                 </div>
             </div>
             <input class="button" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment" style="float:right;">        
