@@ -151,6 +151,39 @@ class AdminOrdersControllerCore extends AdminController
             )
         ));
 
+        $this->fields_options = array(
+            'general' => array(
+                'title' =>    $this->l('Exportar Listado Ordenes'),
+                'icon' =>    'icon-download',
+                'fields' =>    array(
+                    'date_start_report' => array(
+                        'title' => $this->l('Fecha Inicio'),
+                        'hint' => $this->l('Fecha inicio del filtro.'),
+                        'desc' => $this->l('Ej: "1999-12-01"'),
+                        'defaultValue' => date("Y-m").'-01',
+                        'suffix' => 'YYYY-MM-DD',
+                        'type' => 'text'
+                    ),
+                    'date_end_report' => array(
+                        'title' => $this->l('Fecha Fin'),
+                        'hint' => $this->l('Fecha final del filtro.'),
+                        'desc' => $this->l('Ej: "1999-12-31"'),
+                        'defaultValue' => date("Y-m").'-31',
+                        'suffix' => 'YYYY-MM-DD',
+                        'type' => 'text'
+                    ),
+                ),
+                'buttons' => array(
+                    array('title' => $this->l('Exportar'),
+                        'icon' => 'process-icon-export',
+                        'name' => 'exportreport',
+                        'type' => 'submit',
+                        'class' => 'btn btn-default pull-right'
+                    )
+                )
+            )
+        );
+
         if (Country::isCurrentlyUsed('country', true)) {
             $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS('
 			SELECT DISTINCT c.id_country, cl.`name`
@@ -514,7 +547,7 @@ class AdminOrdersControllerCore extends AdminController
             }
         }
         
-        elseif ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport" ) {
+        elseif ( (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport") || (Tools::isSubmit('exportreport')) ) {
             $sql = "SELECT
                             o.id_order orden,
                             o.reference referencia,
@@ -540,8 +573,13 @@ class AdminOrdersControllerCore extends AdminController
                     INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
                     INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
                     LEFT JOIN "._DB_PREFIX_."order_cart_rule ocr ON ( o.id_order = ocr.id_order )
-                    LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )
-                    ORDER BY o.id_order DESC";
+                    LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )";
+
+            if ( Tools::isSubmit('exportreport') ) {
+                $sql .= " WHERE o.date_add BETWEEN '".Tools::getValue('date_start_report')." 00:00:00' and '".Tools::getValue('date_end_report')." 23:59:59'";
+            }
+
+            $sql .= " ORDER BY o.id_order DESC";
             
             $orders = Db::getInstance()->executeS($sql);
             
@@ -1750,7 +1788,7 @@ class AdminOrdersControllerCore extends AdminController
         $helper->icon = 'icon-download';
         $helper->color = 'color1';
         $helper->title = $this->l('Reporte Ordenes', null, null, false);
-        $helper->subtitle = $this->l('Descargar', null, null, false);
+        $helper->subtitle = $this->l('Descargar todas', null, null, false);
         $helper->href = $this->context->link->getAdminLink('AdminOrders').'&action=exportreport';
         $kpis[] = $helper->generate();
 
