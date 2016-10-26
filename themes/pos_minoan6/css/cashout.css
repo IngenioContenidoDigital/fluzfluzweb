@@ -33,6 +33,39 @@ li.step_todo > .first{background: #ef4136;}
 .span-cash{color:#fff !important;}
 .first > span{color: #fff !important;}
 ul.step li.step_todo span:after{display: none;}
+.datos-back{padding-left: 0px !important;}
+.style-bank{margin-top: 10px;}
+.paid-btn{margin-top: 30px;}
+.btn-cash{text-align: center;}
+
+/* CASHOUT BACKOFFICE */
+.cash-table{padding: 19px;
+    background-color: #FFF;
+    border: 1px solid #e1ebf5;}
+
+.style-label{padding: 2px;}
+
+.proceso{
+    background: #FF8C00;
+    width: 20% !important;
+    color: #fff;
+    font-weight: bold;
+    padding-left: 5px !important;}
+
+.solicitada{
+    background: #FEFF64;
+    width: 20% !important;
+    color: #000;
+    padding-left: 5px !important;}
+
+.pagada{
+    background: #108510;
+    width: 20% !important;
+    color: #fff;
+    font-weight: bold;
+    padding-left: 5px !important;
+}
+
 @media (max-width:1024px){
     .full-amount{margin-left: 30px; margin-right: 30px;}
     #rangeSlider{margin-left: 5px !important;}
