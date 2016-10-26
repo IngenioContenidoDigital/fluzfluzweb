@@ -8,16 +8,21 @@ class AdminCashOutControllerCore extends AdminController
         $this->lang = false;
         $this->context = Context::getContext();
         $this->table = 'rewards_payment';
+        $this->addRowAction('view');
         
-        $this->_select = 'a.id_payment, a.nombre, a.apellido, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status';
+        $this->explicitSelect = true;
+        $this->allow_export = true;
+        $this->deleted = false;
+        
+        $this->_select = 'a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status';
         $this->_join = '
 		LEFT JOIN `'._DB_PREFIX_.'rewards_payment_state` b ON (b.`id_status` = a.`id_status`)
                 ';
-        $this->_orderBy = 'a.id_payment';
+        $this->_orderBy = 'a.id_rewards_payment';
         $this->_use_found_rows = true;
         
         $this->fields_list = array(
-            'id_payment' => array('title' => $this->l('ID Pago'), 'align' => 'center', 'class' => 'fixed-width-xs'),
+            'id_rewards_payment' => array('title' => $this->l('ID Pago'), 'align' => 'center', 'class' => 'fixed-width-xs'),
             'nombre' => array('title' => $this->l('Nombre')),
             'apellido' => array('title' => $this->l('Apellido')),
             'numero_tarjeta' => array('title' => $this->l('Numero de Tarjeta')),
@@ -42,6 +47,7 @@ class AdminCashOutControllerCore extends AdminController
             /*'active' => array('title' => $this->l('Active'), 'align' => 'center', 'active' => 'status',
                 'type' => 'bool', 'class' => 'fixed-width-sm'),*/
         );
+        
         
         /*$this->fields_options = array(
             'general' => array(
@@ -73,23 +79,56 @@ class AdminCashOutControllerCore extends AdminController
 
         parent::__construct();
     }
+   
     
     public function status(){
+        
+        
+        $select = array('',);
+        $query = 'SELECT name, id_status FROM '._DB_PREFIX_.'rewards_payment_state';
+        $array = DB::getInstance()->executeS($query);
+        
+        $list = array_map('current', $array);
+        
+        return array_merge($select, $list);
+        
+    }
+    
+    public function change_status(){
         
         $query = 'SELECT name, id_status FROM '._DB_PREFIX_.'rewards_payment_state';
         $array = DB::getInstance()->executeS($query);
         
-        return array_map('current', $array);
+        return $array;
         
     }
-
-    public function postProcess()
+    
+    public function renderView()
     {
-        return parent::postProcess();
+        $tpl = $this->context->smarty->createTemplate(_PS_BO_ALL_THEMES_DIR_.'default/template/controllers/cash_out/views/payment_cash.tpl', $this->context->smarty);
+        $tpl->assign(array( 
+            'datos'=>$this->datos_cash(Tools::getValue('id_rewards_payment'))
+            ));
+        return $tpl->fetch();
     }
-
+    
     public function initContent()
-    {
+    {   
+        
+        $this->context->smarty->assign(array( 
+            'state' => $this->change_status(),
+        ));
+        
         return parent::initContent();
+    }
+    
+    public function datos_cash($id_payment){
+        $query = 'SELECT a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status
+                  FROM '._DB_PREFIX_.'rewards_payment a  
+                  LEFT JOIN `'._DB_PREFIX_.'rewards_payment_state` b ON (b.`id_status` = a.`id_status`) WHERE id_rewards_payment='.$id_payment;
+        
+        $list_tpl = DB::getInstance()->executeS($query);
+        
+        return $list_tpl;
     }
 }
