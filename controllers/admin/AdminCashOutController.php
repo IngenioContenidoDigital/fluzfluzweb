@@ -14,7 +14,7 @@ class AdminCashOutControllerCore extends AdminController
         $this->allow_export = true;
         $this->deleted = false;
         
-        $this->_select = 'a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status';
+        $this->_select = 'a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.color, b.name AS name, b.id_status';
         $this->_join = '
 		LEFT JOIN `'._DB_PREFIX_.'rewards_payment_state` b ON (b.`id_status` = a.`id_status`)
                 ';
@@ -109,6 +109,9 @@ class AdminCashOutControllerCore extends AdminController
         $tpl->assign(array( 
             'datos'=>$this->datos_cash(Tools::getValue('id_rewards_payment'))
             ));
+        $id = Tools::getValue('id_rewards_payment');
+        $this->context->smarty->assign('id', $id);
+        
         return $tpl->fetch();
     }
     
@@ -130,5 +133,38 @@ class AdminCashOutControllerCore extends AdminController
         $list_tpl = DB::getInstance()->executeS($query);
         
         return $list_tpl;
+    }
+    
+    public function postProcess()
+    {   
+        if (Tools::isSubmit('submitState')) {
+            
+            $qstate="UPDATE "._DB_PREFIX_."rewards_payment SET id_status= ".Tools::getValue('id_status')." WHERE id_rewards_payment=".Tools::getValue('id_payment');
+                            Db::getInstance()->execute($qstate);
+            
+            $query = 'SELECT firstname, lastname, id_employee FROM '._DB_PREFIX_.'employee WHERE id_employee='.$this->context->employee->id;
+            $row = DB::getInstance()->getRow($query);
+            $name_employee = $row['firstname'];
+            $lastname_employee = $row['lastname'];
+            
+            $paid = Tools::getValue('paid');
+            
+            $query_insert = "INSERT INTO "._DB_PREFIX_."rewards_payment_employee(id_rewards_payment, id_employee, name, lastname, credits, id_status, date_add)"
+                            . "                          VALUES (".Tools::getValue('id_payment').", ".(int)$this->context->employee->id.",'".$name_employee."','".$lastname_employee."',".$paid.",".Tools::getValue('id_status').",'".date("Y-m-d H:i:s")."')";
+                        Db::getInstance()->execute($query_insert);
+                        
+            $qstate_employee="UPDATE "._DB_PREFIX_."rewards_payment_employee SET id_status= ".Tools::getValue('id_status')." WHERE id_rewards_payment=".Tools::getValue('id_payment');
+                            Db::getInstance()->execute($qstate_employee);            
+                        
+            Tools::redirectAdmin(self::$currentIndex.'&id_rewards_payment='.Tools::getValue('id_payment').'&viewrewards_payment&token='.$this->token);
+        }
+        
+        parent::postProcess();
+    }
+    
+    public function setMedia()
+    {
+        parent::setMedia();
+        $this->addCSS(_THEME_CSS_DIR_.'cashout.css');
     }
 }
