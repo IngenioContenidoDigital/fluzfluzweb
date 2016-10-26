@@ -258,19 +258,19 @@
             <fieldset class="cheque-style">
                 <div id="alert2" class="alert-validation2" style="display:none;">{l s="Ingrese sus Datos Completos"}</div>
                 <div class="row cheque-row" style="margin-top:40px;">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
                         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
                         <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 required">
+                    <div class="col-lg-4 col-md-6 col-sm-6 required">
                         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
                         <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
                         <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
                         <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6 style-bank">
                         <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
                         <div class="col-lg-12"  style="padding-left:0px;">
                             <select id="pse_bank" name="pse_bank" onchange="bank();" class="col-lg-12" required>
@@ -300,15 +300,33 @@
                             </select> 
                             <input type="hidden" value="" name="name_bank" id="name_bank"/>
                         </div>
-                    </div>    
-                </div>        
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 style-bank">
+                        <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
+                        <div class="col-lg-12"  style="padding-left:0px;">
+                            <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12" required>
+                                <option value="">Seleccione una entidad</option>
+                                <option value="Cuenta Ahorros">CUENTA AHORROS</option>
+                                <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
+                            </select> 
+                            <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                        </div>
+                    </div>
+                    
+        </div>    
             </fieldset>
-            <div class="row">
-                <a class="btn-order2 col-lg-3" id="nextstep2" name="next-step2">
+            <div class="col-lg-6" id="stepBack">
+                <a class="btn-order2 col-lg-6" id="step-back" name="step-back" style="float:left;">
+                   <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
+                </a>
+            </div>            
+            <div class="col-lg-6">
+                <a class="btn-order2 col-lg-6" id="nextstep2" name="next-step2" style="float:right;">
                    <span>{l s="Siguiente Paso"}</span><i class="icon-chevron-right right"></i>
                 </a>
             </div>
         </form>
+    </div>
     </div>
     <div id="payment_cash" style="display:none;">
         <form id="payment_form" class="std" method="post" action="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" enctype="multipart/form-data">
@@ -316,6 +334,7 @@
             <input type="hidden" id="lastname-customer" name="lastname-customer" value=""/>
             <input type="hidden" id="numero_tarjeta" name="numero_tarjeta" value=""/>
             <input type="hidden" id="bank_cash" name="bank_cash" value=""/>
+            <input type="hidden" id="bank_account" name="bank_account" value=""/>
             <input type="hidden" id="pt_parciales" name="pt_parciales" value=""/>
             <input type="hidden" id="radio" name="radio" value=""/>
             <div class="row confirmation-cashout">
@@ -340,7 +359,14 @@
                     <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3"><span id="total-valor"></span></span>
                 </div>
             </div>
-            <input class="button" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment" style="float:right;">        
+            <div class="col-lg-6" id="step2" style="display:none;">
+                <a class="btn-order2 col-lg-6" id="step2" name="step2" style="float:left;">
+                   <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
+                </a>
+            </div> 
+            <div class="col-lg-6 paid-btn">    
+                <input class="col-lg-6 button btn-cash" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment" style="float:right;">   
+            </div>
         </form>
     </div>
     <!--<div id="payment" style="display:none;">
@@ -370,16 +396,6 @@
                     </fieldset>
             </form>
     </div>-->
-        <div class="row" id="step2" style="display:none;">
-            <a class="btn-order2 col-lg-3" id="step2" name="step2" style="float:left;">
-               <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
-            </a>
-        </div>                            
-        <div class="row" id="stepBack" style="display:none;">
-            <a class="btn-order2 col-lg-3" id="step-back" name="step-back" style="float:left;">
-               <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
-            </a>
-        </div>
         {/if}                         
     {/if}
         
@@ -468,6 +484,7 @@
                  $("#nextstep2").on( "click", function() {
                     
                     var bank = $( "#pse_bank option:selected" ).text();
+                    var bank_account = $( "#pse_bank_account option:selected" ).text();
                     var name = $("#firstnameCard").val();
                     var lastname = $("#lastnameCard").val();
                     var num = $("#numeroCard").val();
@@ -485,6 +502,7 @@
                     $("#lastname-customer").val(lastname);
                     $("#numero_tarjeta").val(num);
                     $("#bank_cash").val(bank);
+                    $("#bank_account").val(bank_account);
                     $('.second').removeClass('second-cash');
                     $('.first').removeClass('first');
                     $('.span-second').removeClass('span-cash');
