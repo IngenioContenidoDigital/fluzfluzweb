@@ -138,6 +138,9 @@ class CustomerCore extends ObjectModel
 
     public $groupBox;
 
+    /** @var string DNI number */
+    public $dni;
+
     protected $webserviceParameters = array(
         'fields' => array(
             'id_default_group' => array('xlink_resource' => 'groups'),
@@ -192,6 +195,7 @@ class CustomerCore extends ObjectModel
             'id_lang' =>                    array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'copy_post' => false),
             'date_add' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
             'date_upd' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
+            'dni' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isDniLite', 'size' => 16),
         ),
     );
 
