@@ -37,8 +37,16 @@
                     <div class="datos-back col-lg-6">{$cashout.numero_tarjeta}</div>
                 </div>
                 <div class='style-label row'>
+                    <label class="datos-back col-lg-6">{l s="Tipo de Cuenta:"}</label>
+                    <div class="datos-back col-lg-6">{$cashout.tipo_cuenta}</div>
+                </div>
+                <div class='style-label row'>
                     <label class="datos-back col-lg-6">{l s="Nombre del Banco:"}</label>
                     <div class="datos-back col-lg-6">{$cashout.banco}</div>
+                </div>
+                <div class='style-label row'>
+                    <label class="datos-back col-lg-6">{l s="Puntos Utilizados:"}</label>
+                    <div class="datos-back col-lg-6">{$cashout.points}</div>
                 </div>
                 <div class='style-label row'>
                     <label class="datos-back col-lg-6">{l s="Cantidad a Pagar:"}</label>
@@ -64,6 +72,7 @@
                         </select>
                         <input type="hidden" name="id_payment" value="{$id}" />
                         <input type="hidden" id="paid" name="paid" value="{$cashout.credits}">
+                        <input type="hidden" id="option-sel" name="option-sel" value=""/>
                 </div>
                 <div class="col-lg-3">
                         <button type="submit" name="submitState" class="btn btn-primary">
@@ -85,6 +94,8 @@
         else if(selected == 'Pagada'){
             $("#select-name").addClass('pagada');
         }
+        
+        $('#option-sel').val(selected);
     });
 </script>
 {literal}

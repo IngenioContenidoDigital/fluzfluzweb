@@ -642,6 +642,8 @@ ul.footer_links{
    #container2{margin-bottom: 0px;padding-left: 0px;padding-right: 0px;}
    .rewards{width: 90% !important; margin: 0 auto !important; padding-right: 0px; padding-left: 0;}
    .rewards table.std td{font-size: 10px;}
+   input.button_large{padding: 5px 30px;}
+   .sponsorshipBlock div{font-size: 10px;}
 }
 
 @media (max-width:425px){
@@ -655,9 +657,14 @@ ul.footer_links{
     .img-reward{display: none !important;}
     .rewards table.std td{font-size: 10px !important;padding-top: 10px !important;}
     .pNetwork{ font-size: 10px;}
-    .rewards p{font-size: 10px;}
+    .rewards p{font-size: 10px; text-align: center;}
     .rewards table.std{ margin-left: -10px;}
     .rewards table.std th{font-size: 10px;}
+    .sponsorshipBlock div{text-align: center;}
+    .second-item{display:none;}
+    .bold{text-align: left !important;}
+    .checkbox{text-align: left !important;}
+    .text-btn{text-align: center !important;}
 }
 
 @media (max-width:375px){
@@ -686,6 +693,12 @@ ul.footer_links{
 #top{background-color: #c9b197 !important;height: 40px;line-height: 40px;  margin-bottom: 0px;}
 #worst{background-color: #ef4136;height: 40px;line-height: 40px;  margin-bottom: 0px;}
 .ul-graph{padding-top: 8px;}
+.t-sponsor{    
+    background: #777777;
+    color: #fff;
+    padding: 10px;
+    padding-left: 10px !important;
+}
 
 .barras{  
     background-color: cyan;    
