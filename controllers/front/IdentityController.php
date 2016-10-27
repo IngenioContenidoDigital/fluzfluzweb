@@ -114,6 +114,8 @@ class IdentityControllerCore extends FrontController
                     $this->context->cookie->passwd = $this->customer->passwd;
                 }
 
+                $this->customer->dni = Tools::getValue('government');
+
                 $address = $this->customer->getAddresses();
                 $address = new Address($address[0]['id_address']);
                 $address->dni = Tools::getValue('government');
