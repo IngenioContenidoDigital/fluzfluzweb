@@ -117,6 +117,7 @@
                                $("#ptos_prueba").html(result);
                                $("#cash_result").html(cash_result);
                                $("#points_used").html(total_point);
+                               $('#pto_total').val(total_point);
                                $("#value-confirmation").html(cash_confirmation);
                                $("#total-valor").html(total);
                             }
@@ -132,6 +133,7 @@
                                   $("#ptos_result").html(result);
                                   $("#ptos_prueba").html(result);
                                   $("#points_used").html(value);
+                                  $('#pto_total').val(value);
                                   var mult = (result * value_money); 
                                   $("#cash_result").html(mult);
                                 });
@@ -336,6 +338,7 @@
             <input type="hidden" id="bank_cash" name="bank_cash" value=""/>
             <input type="hidden" id="bank_account" name="bank_account" value=""/>
             <input type="hidden" id="pt_parciales" name="pt_parciales" value=""/>
+            <input type="hidden" id="pto_total" name="pto_total" value=""/>
             <input type="hidden" id="radio" name="radio" value=""/>
             <div class="row confirmation-cashout">
                 <div class="row c-cashout">

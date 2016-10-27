@@ -338,8 +338,17 @@ class SearchCore
 				GROUP BY product_shop.id_product
 				'.($order_by ? 'ORDER BY  '.$alias.$order_by : '').($order_way ? ' '.$order_way : '').'
 				LIMIT '.(int)(($page_number - 1) * $page_size).','.(int)$page_size;
-        $result = $db->executeS($sql, true, false);
-
+        $lista=Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
+        $result= array();
+        foreach($lista as $x){
+            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($context->customer->id);
+            $sponsorships2=array_slice($sponsorships, 1, 15);
+            $precio = RewardsProductModel::getProductReward($x['id_product'],$x['price'],1, $context->currency->id);
+            $x['points']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/(count($sponsorships2)+1));
+            $x['pointsNl']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/16);
+            array_push($result,$x);
+         }
+         
         $sql = 'SELECT COUNT(*)
 				FROM '._DB_PREFIX_.'product p
 				'.Shop::addSqlAssociation('product', 'p').'

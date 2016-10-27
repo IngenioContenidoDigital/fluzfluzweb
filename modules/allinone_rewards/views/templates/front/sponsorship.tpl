@@ -140,142 +140,124 @@
 					<form id="list_contacts_form" method="post" action="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}">
                                                 <p class="title-sponsor">{l s='Add a friend' mod='allinone_rewards'}<span>{l s='(maximum of two invites per sponsor)' mod='allinone_rewards'}</span></p><br/><br/>
 						<!--<textarea name="message" class="text">{if isset($message)}{$message|escape:'html':'UTF-8'}{/if}</textarea>-->
-						<table class="std">
-						<thead>
-                                                        {if $subscribeFriends|@count == 2}
-                                                            <tr>
-                                                                <th class="item" colspan="3">{l s='Tus Amigos Patrocinados' mod='allinone_rewards'}</th>
-                                                            </tr>
-                                                        {elseif $subscribeFriends|@count == 1}
-                                                            <tr>
-                                                                <th class="item">{l s='First name' mod='allinone_rewards'}</th>
-								<th class="item">{l s='Last name' mod='allinone_rewards'}</th>
-								<th class="last_item">{l s='Email' mod='allinone_rewards'}</th>
-                                                            </tr>
-                                                        {elseif $pendingFriends|@count == 1}
-                                                            <tr>
-                                                                <th class="item">{l s='First name' mod='allinone_rewards'}</th>
-								<th class="item">{l s='Last name' mod='allinone_rewards'}</th>
-								<th class="last_item">{l s='Email' mod='allinone_rewards'}</th>
-                                                            </tr>
-                                                        {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count >= 1}
+                                                        
+                                                        {if $subscribeFriends|@count == 0 AND $pendingFriends|@count == 0}
+                                                                
+                                                            {section name=friends start=0 loop=$nbFriends step=1}
+                                                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">           
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                </div>    
+                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                </div>
+                                                            {/section}
+                                                        {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 1}
+                                                            <div style="color:#ef4136;">{l s="Seleccione a su amigo en estado pendiente para reenviar la invitacion."}</div><br>
+                                                            <div class="row">
+                                                                 <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                                                                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 item t-sponsor second-item">{l s='Last name' mod='allinone_rewards'}</div>
+                                                                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                                                             </div>
+                                                            {foreach from=$pendingFriends item=pendingFriend name=myLoop}
+                                                                <div class="row {if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email" style="line-height: 25px;">
+                                                                        <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
+                                                                        {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
+                                                                    </div>
+                                                                    <div style="color:#eabf1e; line-height: 25px; text-align: center;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email">{l s="Estado: Pendiente"}</div>
+                                                                </div>
+                                                            {/foreach}
+                                                            {foreach from=$subscribeFriends item=subscribeFriend name=myLoop}
+                                                                <div class="row {if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email"><img src="{$img_dir}icon/points.png" style="width: 30px; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</div>
+                                                                    <div style="color:#22b573; line-height: 25px;height: 53px;text-align:center;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email">{l s="Estado: confirmado"}</div>
+                                                                </div>
+                                                            {/foreach}    
                                                         {elseif $pendingFriends|@count == 2}
-                                                        <tr>
-                                                            <th class="item" colspan="3">{l s='Por Confirmar sus amigos en espera' mod='allinone_rewards'}</th>
-							</tr>
-                                                        {else}        
-							<tr>
-                                                                <th class="item">{l s='First name' mod='allinone_rewards'}</th>
-								<th class="item">{l s='Last name' mod='allinone_rewards'}</th>
-								<th class="last_item">{l s='Email' mod='allinone_rewards'}</th>
-							</tr>
-                                                        {/if}
-						</thead>
-						<tbody>
-                                                            {if $subscribeFriends|@count == 2}
-                                                                    <tr class="alternate_item">
-                                                                        {foreach from=$subscribeFriends item=subscribeFriend name=myLoop}
-                                                                        <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                                                            <td class="status-email"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</td>
-                                                                            <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="Estado: confirmado"}</td>
-                                                                        </tr>
-                                                                        {/foreach}
-                                                                   </tr>
+                                                            <div style="color:#ef4136;">{l s="Seleccione a sus amigos en estado pendiente para reenviar la invitacion."}</div>
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 item second-item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                                                            </div>
+                                                            {foreach from=$pendingFriends item=pendingFriend name=myLoop}
+                                                                <div class="row {if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email" style="line-height: 25px;">
+                                                                        <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
+                                                                        {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
+                                                                    </div>
+                                                                    <div style="color:#eabf1e; line-height: 25px; text-align: center;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email">{l s="Estado: Pendiente"}</div>
+                                                                </div>
+                                                            {/foreach}
+                                                        {elseif $pendingFriends|@count == 1}
+                                                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">           
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                </div>
+								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                </div>    
+                                                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                </div>
+                                                                {foreach from=$pendingFriends item=pendingFriend name=myLoop}
+                                                                    <div class="row {if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 status-email" style="line-height: 25px;">
+                                                                            <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
+                                                                            {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
+                                                                        </div>
+                                                                        <div style="color:#eabf1e; line-height: 25px; text-align: center;" class="col-lg-6 col-md-6 col-sm-6 status-email">{l s="Estado: Pendiente"}</div>
+                                                                    </div>
+                                                                {/foreach}
+                                                            {elseif $subscribeFriends|@count == 1}
+                                                            <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">           
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                            </div>    
+                                                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                            </div>    
+                                                            {foreach from=$subscribeFriends item=subscribeFriend name=myLoop}
+                                                            <div class="row {if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 status-email"><img src="{$img_dir}icon/points.png" style="width: 30px; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</div>
+                                                                <div style="color:#22b573; line-height: 25px;height: 53px;text-align:center;" class="col-lg-6 col-md-6 col-sm-6 status-email">{l s="Estado: confirmado"}</div>
+                                                            </div>
+                                                            {/foreach}    
+                                                            
+                                                            {elseif $subscribeFriends|@count == 2}
+                                                                    <div style="color:#ef4136;">{l s="Tus Amigos Confirmados."}</div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                                                                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 item second-item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
+                                                                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                                                                    </div>
+                                                                    {foreach from=$subscribeFriends item=subscribeFriend name=myLoop}
+                                                                        <div class="row {if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email"><img src="{$img_dir}icon/points.png" style="width: 30px; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</div>
+                                                                            <div style="color:#22b573; line-height: 25px;height: 53px;text-align:center;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email">{l s="Estado: confirmado"}</div>
+                                                                        </div>
+                                                                    {/foreach}
                                                                    {literal}
                                                                         <style>
                                                                             #submitSponsorFriends{display: none;}
                                                                             .checkbox{display: none;}
                                                                         </style>
                                                                    {/literal}
-                                                                
-                                                                {elseif $pendingFriends|@count == 2}
-                                                                   <div style="color:#ef4136;">{l s="Seleccione a sus amigos en estado pendiente para reenviar la invitacion."}</div><br>
-                                                                   <tr class="alternate_item">
-                                                                    {foreach from=$pendingFriends item=pendingFriend name=myLoop}
-                                                                        <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                                                            <td class="status-email">
-                                                                                <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
-                                                                                {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
-                                                                            </td>
-                                                                            <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="Estado: Pendiente"}</td>
-                                                                        </tr>
-                                                                    {/foreach}
-                                                                   </tr>
-                                                                   
-                                                                {elseif $pendingFriends|@count == 1 AND $subscribeFriends|@count == 0}
-                                                                    
-                                                                    <tr class="alternate_item">
-                                                                                    <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                                    <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                                    <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                    </tr>
-                                                                    <tr class="alternate_item">
-                                                                        {foreach from=$pendingFriends item=pendingFriend name=myLoop}
-                                                                        <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                                                            <td class="status-email">
-                                                                                <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
-                                                                                {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
-                                                                            </td><td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="Estado: Pendiente"}</td>
-                                                                        </tr>
-                                                                        {/foreach}
-                                                                       
-                                                                    </tr>
-                                                                    
-                                                                {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 0}
-                                                                        <tr class="alternate_item">
-                                                                                    <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                                    <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                                    <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                        </tr>
-                                                                    <tr class="alternate_item">
-                                                                        {foreach from=$subscribeFriends item=subscribeFriend name=myLoop}
-                                                                        <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                                                            <td class="status-email"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</td>
-                                                                            <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="Estado: confirmado"}</td>
-                                                                        </tr>
-                                                                        {/foreach}
-                                                                   </tr>   
-                                                                
-                                                                  
-                                                                {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 1}
-                                                                   <div style="color:#ef4136;">{l s="Seleccione a su amigo en estado pendiente para reenviar la invitacion."}</div><br>
-                                                                   <tr class="alternate_item">
-                                                                        {foreach from=$pendingFriends item=pendingFriend name=myLoop}
-                                                                        <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                                                            <td class="status-email">
-                                                                                <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
-                                                                                {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
-                                                                            </td>                                                                            <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#eabf1e; line-height: 25px;" class="status-email">{l s="Estado: Pendiente"}</td>
-                                                                        </tr>
-                                                                        {/foreach}
-                                                                       
-                                                                   </tr>
-                                                                   <tr class="alternate_item">
-                                                                        {foreach from=$subscribeFriends item=subscribeFriend name=myLoop}
-                                                                        <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                                                            <td class="status-email"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;"/>{$subscribeFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$subscribeFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$subscribeFriend.email|escape:'html':'UTF-8'}</td>
-                                                                            <td class="status-email" style="line-height: 25px;"><a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a></td>
-                                                                            <td style="color:#22b573; line-height: 25px;" class="status-email">{l s="Estado: confirmado"}</td>
-                                                                        </tr>
-                                                                        {/foreach}
-                                                                   </tr>     
-                                                            {else}
-                                                            {section name=friends start=0 loop=$nbFriends step=1}
-                                                                <tr class="alternate_item">
-                                                                            <td><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                            <td><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                            <td><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></td>
-                                                                </tr>
-                                                            {/section}
                                                             {/if}
                                                     
-						</tbody>
-						</table>
                                                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                                         <p class="bold"><span style="color:#ef4136;">{l s="Important: " mod='allinone_rewards'}</span>{l s='Data provided for any action outside the intended shall not be used.' mod='allinone_rewards'}</p>
                                                         <p class="checkbox">
@@ -290,11 +272,11 @@
                                                         <p class="submit" align="right"><input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='ADD FRIENDS' mod='allinone_rewards'}" /></p>
                                                     </div>
                                                     {elseif $pendingFriends|@count == 2}
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="text-align:right;">
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-btn" style="text-align:right;">
                                                            <input type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
                                                         </div>
                                                     {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 1}
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="text-align:right;">
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-btn" style="text-align:right;">
                                                            <input type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
                                                         </div>
                                                     {elseif $pendingFriends|@count == 1}

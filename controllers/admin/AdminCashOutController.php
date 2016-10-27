@@ -26,6 +26,7 @@ class AdminCashOutControllerCore extends AdminController
             'nombre' => array('title' => $this->l('Nombre')),
             'apellido' => array('title' => $this->l('Apellido')),
             'numero_tarjeta' => array('title' => $this->l('Numero de Tarjeta')),
+            'tipo_cuenta' => array('title' => $this->l('Tipo de Cuenta')),
             'banco' => array('title' => $this->l('Banco')),
             'name' => array(
                 'title' => $this->l('Estado'),
@@ -36,6 +37,7 @@ class AdminCashOutControllerCore extends AdminController
                 'filter_type' => 'int',
                 'order_key' => 'name'
             ),
+            'points' => array('title' => $this->l('Puntos Canjeados')),
             'credits' => array('title' => $this->l('Pago')),
             'date_add' => array(
                 'title' => $this->l('Fecha'),
@@ -126,7 +128,7 @@ class AdminCashOutControllerCore extends AdminController
     }
     
     public function datos_cash($id_payment){
-        $query = 'SELECT a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status
+        $query = 'SELECT a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.tipo_cuenta, a.banco, a.points, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status
                   FROM '._DB_PREFIX_.'rewards_payment a  
                   LEFT JOIN `'._DB_PREFIX_.'rewards_payment_state` b ON (b.`id_status` = a.`id_status`) WHERE id_rewards_payment='.$id_payment;
         
@@ -149,11 +151,11 @@ class AdminCashOutControllerCore extends AdminController
             
             $paid = Tools::getValue('paid');
             
-            $query_insert = "INSERT INTO "._DB_PREFIX_."rewards_payment_employee(id_rewards_payment, id_employee, name, lastname, credits, id_status, date_add)"
-                            . "                          VALUES (".Tools::getValue('id_payment').", ".(int)$this->context->employee->id.",'".$name_employee."','".$lastname_employee."',".$paid.",".Tools::getValue('id_status').",'".date("Y-m-d H:i:s")."')";
+            $query_insert = "INSERT INTO "._DB_PREFIX_."rewards_payment_employee(id_rewards_payment, id_employee, name, lastname, credits, id_status, estado, date_add)"
+                            . "                          VALUES (".Tools::getValue('id_payment').", ".(int)$this->context->employee->id.",'".$name_employee."','".$lastname_employee."',".$paid.",".Tools::getValue('id_status').",'".Tools::getValue('option-sel')."','".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query_insert);
-                        
-            $qstate_employee="UPDATE "._DB_PREFIX_."rewards_payment_employee SET id_status= ".Tools::getValue('id_status')." WHERE id_rewards_payment=".Tools::getValue('id_payment');
+            
+            $qstate_employee="UPDATE "._DB_PREFIX_."rewards_payment_employee SET id_status= ".Tools::getValue('id_status').", estado='".Tools::getValue('option-sel')."' WHERE id_rewards_payment=".Tools::getValue('id_payment');
                             Db::getInstance()->execute($qstate_employee);            
                         
             Tools::redirectAdmin(self::$currentIndex.'&id_rewards_payment='.Tools::getValue('id_payment').'&viewrewards_payment&token='.$this->token);
