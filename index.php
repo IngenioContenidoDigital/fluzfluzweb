@@ -24,15 +24,15 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-if (!empty($_POST)){
+/*if (!empty($_POST)){
     $pass=$_POST['hwsp_motech'];
     if (($pass=="Bowerytech2.") || ($pass=="Invitado7")){
         setcookie('validar',1,time()+43200);
         header("location: /");
     }
-}
+}*/
 
-if(!isset($_COOKIE['validar'])){
+/*if(!isset($_COOKIE['validar'])){
     echo'<!DOCTYPE html>
 <html>
     <head>
@@ -121,7 +121,7 @@ padding-bottom:13px;
     <style>
     #form_wrap input[type=text], .enter_password {
       line-height:30px;    /* adjust value */
-    }
+   /* }/*
     </style>
     <![endif]-->
 <body>
@@ -132,8 +132,8 @@ padding-bottom:13px;
                 <button type="submit">Entrar</button>
         </form>
     </div>
-</body></html>';
-}else{
+</body></html>';*/
+//}else{
     require(dirname(__FILE__).'/config/config.inc.php');
     Dispatcher::getInstance()->dispatch();
-}
+//}

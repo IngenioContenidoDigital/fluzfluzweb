@@ -24,6 +24,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+include_once(_PS_MODULE_DIR_.'allinone_rewards/models/RewardsTemplateModel.php');
+
 class OrderDetailCore extends ObjectModel
 {
     /** @var int */
@@ -46,7 +48,10 @@ class OrderDetailCore extends ObjectModel
 
     /** @var string */
     public $product_name;
-
+    
+    public $porcentaje;
+    
+    public $points;
     /** @var int */
     public $product_quantity;
 
@@ -172,6 +177,9 @@ class OrderDetailCore extends ObjectModel
             'product_id' =>                array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId'),
             'product_attribute_id' =>        array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId'),
             'product_name' =>                array('type' => self::TYPE_STRING, 'validate' => 'isGenericName', 'required' => true),
+            'porcentaje' =>    array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),
+            'points' =>    array('type' => self::TYPE_INT, 'validate' => 'isFloat'),
+            'discount_quantity_applied' =>    array('type' => self::TYPE_INT, 'validate' => 'isInt'),
             'product_quantity' =>            array('type' => self::TYPE_INT, 'validate' => 'isInt', 'required' => true),
             'product_quantity_in_stock' =>    array('type' => self::TYPE_INT, 'validate' => 'isInt'),
             'product_quantity_return' =>    array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
@@ -608,8 +616,10 @@ class OrderDetailCore extends ObjectModel
      * @param int $id_order_invoice
      * @param bool $use_taxes set to false if you don't want to use taxes
      */
+    
     protected function create(Order $order, Cart $cart, $product, $id_order_state, $id_order_invoice, $use_taxes = true, $id_warehouse = 0)
     {
+        
         if ($use_taxes) {
             $this->tax_calculator = new TaxCalculator();
         }
@@ -621,7 +631,19 @@ class OrderDetailCore extends ObjectModel
         $this->product_name = $product['name'].
             ((isset($product['attributes']) && $product['attributes'] != null) ?
                 ' - '.$product['attributes'] : '');
-
+        
+        $query = 'SELECT value FROM '._DB_PREFIX_.'rewards_product WHERE id_product='.(int)$product['id_product'];
+        $row = Db::getInstance()->getRow($query);
+        $porcentaje_detail = $row['value']/100;
+        $this->porcentaje = $porcentaje_detail;
+        
+        
+        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants((int)$order->id_customer);
+        $sponsorships2=array_slice($sponsorships, 1, 15);
+        $points_detail=  round((RewardsModel::getRewardReadyForDisplay((int)$product['price'], $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_detail); 
+                       
+        $this->points = $points_detail;
+        
         $this->product_quantity = (int)$product['cart_quantity'];
         $this->product_ean13 = empty($product['ean13']) ? null : pSQL($product['ean13']);
         $this->product_upc = empty($product['upc']) ? null : pSQL($product['upc']);
@@ -666,6 +688,7 @@ class OrderDetailCore extends ObjectModel
      * @param int $id_order_invoice
      * @param bool $use_taxes set to false if you don't want to use taxes
     */
+    
     public function createList(Order $order, Cart $cart, $id_order_state, $product_list, $id_order_invoice = 0, $use_taxes = true, $id_warehouse = 0)
     {
         $this->vat_address = new Address((int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});

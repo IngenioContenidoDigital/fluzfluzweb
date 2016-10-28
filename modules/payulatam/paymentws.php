@@ -83,10 +83,10 @@ class PayUControllerWS extends FrontController {
         if (Configuration::get('PAYU_LATAM_ACCOUNT_ID') != 0)
             $params[] = array('accountId' => (int) Configuration::get('PAYU_LATAM_ACCOUNT_ID'), 'name' => 'accountId');
 
-        if (Db::getInstance()->getValue('SELECT `token` FROM `' . _DB_PREFIX_ . 'payu_token` WHERE `id_cart` = ' . (int) $this->context->cart->id))
+        /*if (Db::getInstance()->getValue('SELECT `token` FROM `' . _DB_PREFIX_ . 'payu_token` WHERE `id_cart` = ' . (int) $this->context->cart->id))
             Db::getInstance()->Execute('UPDATE `' . _DB_PREFIX_ . 'payu_token` SET `token` = "' . pSQL($token) . '" WHERE `id_cart` = ' . (int) $this->context->cart->id);
         else
-            Db::getInstance()->Execute('INSERT INTO `' . _DB_PREFIX_ . 'payu_token` (`id_cart`, `token`) VALUES (' . (int) $this->context->cart->id . ', \'' . pSQL($token) . '\')');
+            Db::getInstance()->Execute('INSERT INTO `' . _DB_PREFIX_ . 'payu_token` (`id_cart`, `token`) VALUES (' . (int) $this->context->cart->id . ', \'' . pSQL($token) . '\')');*/
 
         return $params;
     }
