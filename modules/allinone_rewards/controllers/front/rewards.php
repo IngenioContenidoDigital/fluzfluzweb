@@ -303,18 +303,20 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 $stringidsponsors .= $sponsor['id'].",";
             }
             
-            $query = "SELECT c.username AS username, s.product_id, c.firstname AS name, IFNULL(s.product_name, 'USO PUNTOS FLUZ') AS purchase, p.id_manufacturer, m.name as manufacturer, a.credits AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
+            $query = "SELECT c.username AS username, s.product_id, c.firstname AS name, s.product_name AS purchase, p.id_manufacturer, m.name as manufacturer, s.points AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
                     LEFT JOIN "._DB_PREFIX_."customer c ON (c.id_customer = n.id_customer)
                     LEFT JOIN "._DB_PREFIX_."rewards a ON (a.plugin = 'loyalty')
-                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (s.id_order = n.id_order)
+                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (n.id_order = s.id_order)
                     LEFT JOIN "._DB_PREFIX_."product p ON (p.id_product = s.product_id)
-                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE a.credits > 0 AND a.id_reward_state = 2 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ' ";
+                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE s.points > 0 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ'";
+            
             if ($onlyValidate === true)
 		$query .= ' AND a.id_reward_state = 2';
-                $query .= ' GROUP BY a.id_reward ORDER BY a.date_add DESC '.
+                $query .= ' GROUP BY a.id_reward ORDER BY a.date_add DESC ';
 		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
-            
+               
             $activity=Db::getInstance()->executeS($query);
+            
             return $activity;
             
         }

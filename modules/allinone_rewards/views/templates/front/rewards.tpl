@@ -172,7 +172,8 @@
 		</tbody>
 	</table>-->
     {if $rewards}    
-       <table class="std row">
+        <div>
+        <table class="std row">
             <h2 class="tituloNet">{l s="Recent Network Activity" mod='allinone_rewards'}</h2>
                 <thead>
 			<tr>
@@ -183,7 +184,7 @@
 			</tr>
 		</thead>
 		<tbody>
-                    {foreach from=$activityRecent item=activity name=myLoop}
+                    {foreach from=$activityRecent item=activity}
                             <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
                                 <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.username|escape:'html':'UTF-8'}</td>
                                 <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.manufacturer|escape:'htmlall':'UTF-8'}</td>
@@ -194,7 +195,26 @@
                     {/foreach}
 		</tbody>
 	</table>
-
+            <!--<button id="loadMoreReward" class="col-lg-12 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>-->
+        </div>        
+        {*literal}
+            <script>
+                $(function(){
+                    $(".prueba").slice(0, 4).show(); // select the first ten
+                    if($(".prueba").length <= 4){
+                        $("#loadMoreReward").css('display','none');
+                    }
+                    else
+                    $("#loadMoreMember").click(function(e){ // click event for load more
+                        e.preventDefault();
+                        $(".prueba:hidden").slice(0, 2).show(); 
+                        if($(".prueba:hidden").length == 0){ // check if any hidden divs still exist
+                            $("#loadMoreReward").css('display','none'); // alert if there are none left
+                        }
+                    });
+                });
+            </script>
+        {/literal*}
 	{if $nbpagination < $rewards|@count || $rewards|@count > 10}
 <div id="pagination" class="pagination">
 		{if true || $nbpagination < $rewards|@count}

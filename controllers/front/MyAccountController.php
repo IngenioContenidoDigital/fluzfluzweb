@@ -151,9 +151,10 @@ class MyAccountControllerCore extends FrontController
                                                         pl.id_product,
                                                         i.id_image,
                                                         m.name name_product,
+                                                        m.id_manufacturer,
                                                         pl.link_rewrite,
                                                         p.price,
-                                                        r.credits
+                                                        od.points as credits
                                                 FROM "._DB_PREFIX_."orders o
                                                 INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = ".$this->context->customer->id." )
                                                 INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
