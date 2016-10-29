@@ -116,6 +116,7 @@
                     <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
                         <a class="product_img_link" href="{$link->getProductLink($id_product, $link_rewrite)|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" itemprop="url">
                             <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
+                            <!--<img itemprop="image" src="{$img_manu_dir}{$last_shopping_product.id_manufacturer}.jpg" alt="{$last_shopping_product.name_product|escape:'htmlall':'UTF-8'}"/>-->
                         </a>
                     </div>
                     <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">

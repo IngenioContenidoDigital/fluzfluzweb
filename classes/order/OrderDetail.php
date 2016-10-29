@@ -640,7 +640,7 @@ class OrderDetailCore extends ObjectModel
         
         $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants((int)$order->id_customer);
         $sponsorships2=array_slice($sponsorships, 1, 15);
-        $points_detail=  round((RewardsModel::getRewardReadyForDisplay((int)$product['price'], $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_detail); 
+        $points_detail=  (round((RewardsModel::getRewardReadyForDisplay((int)$product['price'], $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_detail)*(int)$product['cart_quantity']); 
                        
         $this->points = $points_detail;
         
