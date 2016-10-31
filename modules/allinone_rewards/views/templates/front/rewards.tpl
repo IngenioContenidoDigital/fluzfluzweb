@@ -61,9 +61,9 @@
                 <li class="barras" id="top" data-value="{(($top.points/$suma)*100)}"><span>{$top.points|number_format:0}</span></li>
             </span>
         </div>
-        <p class="col-lg-6 pGrap">{l s="TOP POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$top.name}</p>
+        <p class="col-lg-6 pGrap">{l s="MAYOR CONSUMO: " mod='allinone_rewards'}&nbsp;{$top.username}</p>
         
-        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$top.id}|{$top.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
+        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$top.id_sponsor}|{$top.name}|{$urlimgnet}|{$top.id}">{l s='Mensaje'}</span></div>
         {/foreach}
         
         {foreach from=$worstPoint item=worst}
@@ -72,9 +72,9 @@
             <li class="barras" id="worst" data-value="{($worst.points/$suma)*100}"><span>{$worst.points|number_format:0}</span></li>
         </span>
         </div>
-        <p class="col-lg-6 pGrap">{l s="WORST POINT GENERATION: " mod='allinone_rewards'}&nbsp;{$worst.name}</p>
+        <p class="col-lg-6 pGrap">{l s="MENOR CONSUMO: " mod='allinone_rewards'}&nbsp;{$worst.username}</p>
         
-        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id}|{$worst.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
+        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id_sponsor}|{$worst.name}|{$urlimgnet}|{$worst.id}">{l s='Mensaje'}</span></div>
         {/foreach}
     </ul>
 </div>
@@ -172,7 +172,7 @@
 		</tbody>
 	</table>-->
     {if $rewards}    
-        <div>
+        <div class="container-fluid">
         <table class="std row">
             <h2 class="tituloNet">{l s="Recent Network Activity" mod='allinone_rewards'}</h2>
                 <thead>
@@ -185,37 +185,52 @@
 		</thead>
 		<tbody>
                     {foreach from=$activityRecent item=activity}
-                            <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
+                    <div class="t-reward"><tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
                                 <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.username|escape:'html':'UTF-8'}</td>
                                 <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                     <td align="right" style="padding-top:17px;">{$activity.points|number_format:0}</td>
                                     <td style="padding-top:17px;">{dateFormat date=$activity.time full=1}</td>
 
-                            </tr>
+                            </tr></div>
+                            
                     {/foreach}
 		</tbody>
 	</table>
-            <!--<button id="loadMoreReward" class="col-lg-12 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>-->
         </div>        
-        {*literal}
+        <div>        
+        <button id="loadMoreReward" class="col-lg-12 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>        
+        </div>
+        {literal}
             <script>
-                $(function(){
-                    $(".prueba").slice(0, 4).show(); // select the first ten
-                    if($(".prueba").length <= 4){
-                        $("#loadMoreReward").css('display','none');
-                    }
-                    else
-                    $("#loadMoreMember").click(function(e){ // click event for load more
-                        e.preventDefault();
-                        $(".prueba:hidden").slice(0, 2).show(); 
-                        if($(".prueba:hidden").length == 0){ // check if any hidden divs still exist
-                            $("#loadMoreReward").css('display','none'); // alert if there are none left
+                var numShown = 10; // Initial rows shown & index
+                var numMore = 4;  // Increment
+
+                var $table = $('table').find('tbody');  // tbody containing all the rows
+                var numRows = $table.find('tr').length; // Total # rows
+
+                $(function () {
+                    // Hide rows and add clickable div
+                    $table.find('tr:gt(' + (numShown - 1) + ')').hide().end()
+                        .after('<tbody id="more"><tr><td colspan="' +
+                               $table.find('tr:first td').length + '">');
+
+                    $('#loadMoreReward').click(function() {
+                        numShown = numShown + numMore;
+                        // no more "show more" if done
+                        if (numShown >= numRows) {
+                            $('#loadMoreReward').remove();
                         }
+                        // change rows remaining if less than increment
+                        if (numRows - numShown < numMore) {
+                            $('#loadMoreReward span').html(numRows - numShown);
+                        }
+                        $table.find('tr:lt(' + numShown + ')').show();
                     });
+
                 });
             </script>
-        {/literal*}
-	{if $nbpagination < $rewards|@count || $rewards|@count > 10}
+        {/literal}
+	{*if $nbpagination < $rewards|@count || $rewards|@count > 10}
 <div id="pagination" class="pagination">
 		{if true || $nbpagination < $rewards|@count}
 	<ul class="pagination">
@@ -270,7 +285,7 @@
 	</form>
 		{/if}
 </div>
-	{/if}
+	{/if*}
 
 	{if $voucher_minimum_allowed}
 <div id="min_transform" style="clear: both">{l s='The minimum required to be able to transform your rewards into vouchers is' mod='allinone_rewards'} <b>{$voucherMinimum|escape:'html':'UTF-8'}</b></div>
@@ -324,7 +339,7 @@
                                     <td align="right" style="padding-top:17px;">{$topNet.points|number_format:0}</td>
                                     <td style="padding-top:17px;" class="time-reward">{dateFormat date=$topNet.time full=1}</td>
                                     <td>
-                                    <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$topNet.id}|{$topNet.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
+                                    <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$topNet.id_sponsor}|{$topNet.name}|{$urlimgnet}|{$topNet.id}">{l s='Mensaje'}</span></div>
                                     </td>
                                 </tr>
                 {/foreach}
@@ -349,7 +364,7 @@
                                 <td align="right" style="padding-top:17px;">{$worst.points|number_format:0}</td>
                                 <td style="padding-top:17px;" class="time-reward">{dateFormat date=$worst.time full=1}</td>
                                 <td>
-                                    <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id}|{$worst.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
+                                    <div class="message line" style="text-align:center;"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id_sponsor}|{$worst.name}|{$urlimgnet}|{$worst.id}">{l s='Mensaje'}</span></div>
                                 </td>
 			</tr>
 	{/foreach}
