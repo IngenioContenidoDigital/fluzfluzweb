@@ -2469,8 +2469,8 @@ class OrderCore extends ObjectModel
                         od.unit_price_tax_incl precio_producto,
                         od.product_quantity cantidad,
                         od.total_price_tax_incl total_producto,
-                        rp.value porcentaje_producto,
-                        ROUND( (((od.unit_price_tax_incl * od.product_quantity * IFNULL(rp.value,0)) / 100) / ".Configuration::get('REWARDS_VIRTUAL_VALUE_1').") , 2 ) puntos_producto
+                        od.porcentaje porcentaje_producto,
+                        od.points puntos_producto
                 FROM ps_orders o
                 INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
                 INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
@@ -2483,9 +2483,9 @@ class OrderCore extends ObjectModel
             }
 
             $sql .= " ORDER BY o.id_order DESC";
-            
+
             $orders = Db::getInstance()->executeS($sql);
-            
+
             $report = "<html>
                         <head>
                             <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
@@ -2496,7 +2496,7 @@ class OrderCore extends ObjectModel
                                         <th>orden</th>
                                         <th>referencia</th> 
                                         <th>fecha</th>
-                                        <th>cliente</th>
+                                        <!--th>cliente</th-->
                                         <th>usuario</th>
                                         <th>email</th>
                                         <th>nivel</th>
@@ -2524,7 +2524,33 @@ class OrderCore extends ObjectModel
             $report .= "</tr>";
 
             foreach ( $orders as $order ) {
-                $sql = 'SELECT c.id_customer, c.username, r.credits
+                // NIVEL USUARIO
+                $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($order['id_customer']);
+                $sponsorships2 = array_slice($sponsorships, 1, 15);
+                $nivel = count($sponsorships2);
+
+                // CODIGOS PRODUCTO
+                $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
+                        FROM '._DB_PREFIX_.'product_code
+                        WHERE id_order = '.$order['orden'].'
+                        AND id_product = '.$order['id_product'];
+                $codes_order = Db::getInstance()->executeS($sql);
+                
+                // RECOMPENSA USUARIO
+                $usuariopuntospesos = $order['puntos_producto'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1');
+                $usuariopuntos = $order['puntos_producto'];
+
+                // RECOMPENSA RED
+                if ( $order['porcentaje_producto'] != "1" ) {
+                    $redpuntospesos = $usuariopuntospesos * count($sponsorships2);
+                    $redpuntos = $usuariopuntos * count($sponsorships2);
+                } else {
+                    $redpuntospesos = 0;
+                    $redpuntos = 0;
+                }
+
+                // USUARIOS RED
+                $sql = 'SELECT c.id_customer, c.username
                         FROM '._DB_PREFIX_.'rewards r
                         INNER JOIN '._DB_PREFIX_.'customer c ON ( r.id_customer = c.id_customer )
                         WHERE r.id_order = '.$order['orden'];
@@ -2538,33 +2564,11 @@ class OrderCore extends ObjectModel
                     return $a['nivel'] - $b['nivel'];
                 });
 
-                $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
-                        FROM '._DB_PREFIX_.'product_code
-                        WHERE id_order = '.$order['orden'].'
-                        AND id_product = '.$order['id_product'];
-                $codes_order = Db::getInstance()->executeS($sql);
-
-                // NIVEL USUARIO
-                $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($order['id_customer']);
-                $sponsorships2 = array_slice($sponsorships, 1, 15);
-                $nivel = count($sponsorships2);
-
-                // PORCENTAJE PRODUCTO Y RECOMPENSA A TODO EL ARBOL
-                $porcentaje = ($order['porcentaje_producto'] / 100) * (1 - ( $order['pago_puntos'] / $order['total'] ));
-                $recompensapesos = $order['total'] * $porcentaje;
-                $recompensapuntos = $recompensapesos / Configuration::get('REWARDS_VIRTUAL_VALUE_1');
-                // RECOMPENSA USUARIO
-                $usuariopuntospesos = $recompensapesos / ($nivel + 1);
-                $usuariopuntos = $usuariopuntospesos / Configuration::get('REWARDS_VIRTUAL_VALUE_1');
-                // RECOMPENSA RED
-                $redpuntospesos = $recompensapesos - $usuariopuntospesos;
-                $redpuntos = $recompensapuntos - $usuariopuntos;
-
                 $report .= "<tr>
                                 <td>".$order['orden']."</td>
                                 <td>".$order['referencia']."</td> 
                                 <td>".$order['fecha']."</td>
-                                <td>".$order['cliente']."</td>
+                                <!--td>".$order['cliente']."</td-->
                                 <td>".$order['username']."</td>
                                 <td>".$order['email']."</td>
                                 <td>".$nivel."</td>
@@ -2576,30 +2580,21 @@ class OrderCore extends ObjectModel
                                 <td>".$order['referencia_producto']."</td>
                                 <td>".number_format($order['precio_producto'], 2, ',', '')."</td>
                                 <td>".number_format($order['cantidad'], 2, ',', '')."</td>
-                                <td>".number_format($porcentaje, 4, ',', '')."</td>
+                                <td>".number_format($order['porcentaje_producto'], 4, ',', '')."</td>
                                 <td>".number_format($usuariopuntospesos, 2, ',', '')."</td>
                                 <td>".number_format($usuariopuntos, 2, ',', '')."</td>
                                 <td>".number_format($redpuntospesos, 2, ',', '')."</td>
                                 <td>".number_format($redpuntos, 2, ',', '')."</td>
                                 <td>".$codes_order[0]['codigos_producto']."</td>";
-                
+
                 foreach ($sponsors_order as $sponsor_order) {
-                    $abc = 15 - $sponsor_order['nivel'];
-                    for ($index = 0; $index <= $abc; $index++) {
-                        
-                    }
-                    if ( $sponsor_order['nivel'] == $i ) {
-                        $puntos_pesos = $sponsor_order['credits'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1');
-                        $report .= "<td>".$sponsor_order['username']."-".$sponsor_order['nivel']."</td>
-                                    <td>".number_format($puntos_pesos, 2, ',', '')."</td>
-                                    <td>".number_format($sponsor_order['credits'], 2, ',', '')."</td>";
-                    } else {
-                        $report .= "<td></td>
-                                    <td></td>
-                                    <td></td>";
+                    if ( $order['id_customer'] != $sponsor_order['id_customer'] ) {
+                        $report .= "<td>".$sponsor_order['username']."</td>
+                                    <td>".number_format($usuariopuntospesos, 2, ',', '')."</td>
+                                    <td>".number_format($usuariopuntos, 2, ',', '')."</td>";
                     }
                 }
-                
+
                 $report .= "</tr>";
             }
 
