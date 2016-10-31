@@ -24,7 +24,7 @@
     line-height: 30px;
     font-size: 13px;
 }
-.message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; }
+.message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; line-height: 34px;}
 .message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
 
 /* pop up mensaje*/
@@ -133,7 +133,7 @@
     padding: 9px;
     padding-left: 0px;
     margin-bottom: 20px;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 .btn-moreload:hover{
@@ -157,8 +157,6 @@
 }
 
 .pmore{margin-right: 10px; font-size: 12px; text-transform: uppercase;}
-.prueba{display:none !important;}
-
 .rewards div#payment a:hover{
     background:#fff;
     color:#c9b197;

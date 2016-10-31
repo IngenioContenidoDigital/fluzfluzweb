@@ -188,7 +188,7 @@
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <span class="ptoCustomer" style="text-transform: none;">{$top.points|number_format:0}{l s=" pts."}</span>
-                                                        <span style="color:#000;">{$top.name}</span>
+                                                        <span style="color:#000;">{$top.username}</span>
                                                     </div>
                                                 {/foreach}
                                                 </div>
@@ -199,7 +199,7 @@
                                                         <!--<a class="btnCash" href="#" title="{l s='Message'}">{l s='Message'}</a>--></div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <span class="ptoCustomer" style="text-transform: none;">{$worst.points|number_format:0}{l s=" pts: "}</span>
-                                                        <span style="color:#000;">{$worst.name}</span>
+                                                        <span style="color:#000;">{$worst.username}</span>
                                                     </div>
                                                 {/foreach}
                                                 </div>

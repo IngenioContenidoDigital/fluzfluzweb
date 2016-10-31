@@ -227,10 +227,11 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.id_customer as id, p.id_manufacturer, m.name as manufacturer, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.id_customer as id, rs.id_sponsor AS id_sponsor, p.id_manufacturer, m.name as manufacturer, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
+                            LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)    
                             LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = s.product_id)
                             LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits DESC';
                 $result = Db::getInstance()->executeS($queryTop);
@@ -277,10 +278,11 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.lastname AS lastname, p.id_manufacturer, m.name as manufacturer, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.lastname AS lastname, rs.id_sponsor AS id_sponsor, p.id_manufacturer, m.name as manufacturer, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer)
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order)
+                            LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)    
                             LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = s.product_id)
                             LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.credits>0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
                 $result = Db::getInstance()->executeS($queryTop);
@@ -296,25 +298,38 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             
         }
         
-        public function recentActivity($onlyValidate = false,$pagination = false, $nb = 10, $page = 1) {
+        public function recentActivity() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             $stringidsponsors = "";
             foreach ($tree as $sponsor) {
                 $stringidsponsors .= $sponsor['id'].",";
             }
             
-            $query = "SELECT c.username AS username, s.product_id, c.firstname AS name, s.product_name AS purchase, p.id_manufacturer, m.name as manufacturer, s.points AS points, a.date_add AS time FROM "._DB_PREFIX_."orders n 
-                    LEFT JOIN "._DB_PREFIX_."customer c ON (c.id_customer = n.id_customer)
-                    LEFT JOIN "._DB_PREFIX_."rewards a ON (a.plugin = 'loyalty')
-                    LEFT JOIN "._DB_PREFIX_."order_detail s ON (n.id_order = s.id_order)
-                    LEFT JOIN "._DB_PREFIX_."product p ON (p.id_product = s.product_id)
-                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE s.points > 0 AND a.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND a.id_customer=n.id_customer AND s.product_reference != 'MFLUZ'";
+            $query = "SELECT
+            o.id_order,
+            o.date_add AS time,
+            o.id_customer,
+            c.username AS username,
+            c.firstname AS name,
+            pl.id_product,
+            i.id_image,
+            m.name as manufacturer,
+            m.id_manufacturer,
+            pl.link_rewrite,
+            p.price,
+            p.id_manufacturer,
+            od.points AS points
+            FROM "._DB_PREFIX_."orders o
+            INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = ".$this->context->customer->id." )
+            INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+            INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+            INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
+            INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
+            INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
+            INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+            WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." )
+            ORDER BY o.date_add DESC ";
             
-            if ($onlyValidate === true)
-		$query .= ' AND a.id_reward_state = 2';
-                $query .= ' GROUP BY a.id_reward ORDER BY a.date_add DESC ';
-		($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');
-               
             $activity=Db::getInstance()->executeS($query);
             
             return $activity;
@@ -325,9 +340,10 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, s.product_reference AS reference,rs.id_sponsor AS id_sponsor, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)        
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
@@ -348,9 +364,10 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         public function WorstNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT c.username AS username, c.id_customer AS id, s.product_reference AS reference,rs.id_sponsor AS id_sponsor, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)            
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 

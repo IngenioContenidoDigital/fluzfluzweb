@@ -209,10 +209,10 @@ class MyAccountControllerCore extends FrontController
     public function getProfileCustomer($id_customer){
         
         
-        $query = 'SELECT firstname FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$id_customer;
+        $query = 'SELECT username FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$id_customer;
         
         $row= Db::getInstance()->getRow($query);
-        $name = $row['firstname'];
+        $name = $row['username'];
         return $name;
     }
     
