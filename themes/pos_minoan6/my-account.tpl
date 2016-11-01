@@ -266,7 +266,7 @@
             </div>
             <br>
             <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12 c'></div>    
-            <div class="row">
+            <div class="row" style="margin-bottom: 0px;">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 card-view">
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -286,8 +286,9 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                            <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode">></div>
-                            <div class="pPrice">{l s="Value: "}</div><div id="priceCard"></div>
+                            <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
+                            <div class="pPrice col-lg-6">{l s="Value: "}</div><div id="priceCard" class="col-lg-6"></div>
+                            <div class="pPrice-used col-lg-6">{l s="Utilizado: "}</div><div id="priceCard_used" class="col-lg-6"></div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <p style="text-align: center;"><img id="bar-code" class="img-responsive" src=""/></p>
@@ -306,7 +307,11 @@
                     </div>  
                 </div>
             </div>
-            <br>
+            <div class="row update-card">
+                <div style="display:none;" id="code_x" name="code_x"/></div>
+                <input class="input-price col-lg-4" id="update" name="update" value=""/>
+                <button name="update-used" id="update-used" class="btn-update"><span class="update-price">{l s="Actualizar Precio"}</span></button>
+            </div>    
             <div class="row">
                 <div class="containerCard">
                 <ul>
@@ -366,17 +371,27 @@
                            $('#used').addClass('checkConfirm');
                            $('#not-used').removeClass('checkConfirm');
                            $('#labelCard2').removeClass('labelcard');
+                           $('.update-card').fadeIn(600);
+                           $('.pPrice-used').fadeIn(600);
+                           $('#priceCard_used').fadeIn(600);
+                           
                         } else if(response.used == 2){
                            $('#labelCard2').addClass('labelcard');
                            $('#labelCard').removeClass('labelcard');
                            $('#not-used').addClass('checkConfirm');
                            $('#used').removeClass('checkConfirm');
+                           $('.update-card').fadeOut(600);
+                           $('.pPrice-used').fadeOut(600);
+                           $('#priceCard_used').fadeOut(600);
                         }
                         else if(response.used == 0){
                            $('#labelCard2').removeClass('labelcard');
                            $('#labelCard').removeClass('labelcard');
                            $('#not-used').removeClass('checkConfirm');
                            $('#used').removeClass('checkConfirm');
+                           $('.update-card').fadeOut(600);
+                           $('.pPrice-used').fadeOut(600);
+                           $('#priceCard_used').fadeOut(600);
                         }
                         
                         if ( response.codetype == 0 ) {
@@ -392,6 +407,10 @@
                             $('.popText').css("color","#fff");
                         }
                         
+                        if (response.price_card_used){
+                            $('#priceCard_used').html(response.price_card_used);
+                        }
+                        
                         $('.micode').html(codeImg2);
                         $('#priceCard').html(price);
                         $('#nameViewCard').html(name);
@@ -399,6 +418,7 @@
                         $('.terms-card').html(terms);
                         $('.price_value_content').html(priceValue);
                         $('.date_purchased').html(dateP);
+                        $('#code_x').html(codeImg2);
                     }
         })}
         
@@ -513,7 +533,7 @@
                         $('#labelCard').removeClass('labelcard');
                         $('#labelCard2').removeClass('labelcard');
                         $('#not-used').removeClass('checkConfirm');
-                        
+                        $('.update-card').fadeOut(600);
                     }
                     else{
                         algo.html('<div class="la-amarilla"></div>');
@@ -521,6 +541,7 @@
                         $('#labelCard').addClass('labelcard');
                         $('#labelCard2').removeClass('labelcard');
                         $('#not-used').removeClass('checkConfirm');
+                        $('.update-card').fadeIn(600);
                     }
                 }
             });
@@ -528,6 +549,7 @@
         
         $('#labelCard2').click(function(){
             var code = $('.micode').html();
+            $('.update-card').fadeOut(600);
             $('.codeImg').each(function(){
                 var compare = $(this).html();
                 if(compare==code){
@@ -560,6 +582,19 @@
                     data: {'action': 'updateUsed','val': val, 'codeImg2': codeImg2,'idproduct':idproduct},
                     url: '/raizBarcode.php'
               });
+        });
+        
+        $('#update-used').click(function(){
+        
+            var price = $("#update").val();
+            var code = document.getElementById("code_x").innerHTML;
+            
+            $.ajax({
+                    method:"POST",
+                    data: {'action': 'updatePrice','price': price, 'code': code},
+                    url: '/raizBarcode.php',
+              });
+            $('#update').removeAttr('value');
         });
         
         // popup message
