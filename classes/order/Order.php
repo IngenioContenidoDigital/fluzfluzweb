@@ -2503,17 +2503,19 @@ class OrderCore extends ObjectModel
                                         <th>estado</th>
                                         <th>pago</th>
                                         <th>total</th>
+                                        <th>pago_pesos</th>
                                         <th>pago_puntos</th>
+                                        <th>puntos_utilizados</th>
                                         <th>nombre_producto</th>
                                         <th>referencia_producto</th>
                                         <th>precio_producto</th>
                                         <th>cantidad</th>
+                                        <th>codigos_producto</th>
                                         <th>recompensa_porcentaje_producto</th>
                                         <th>recompensa_pesos_compra</th>
                                         <th>recompensa_puntos_compra</th>
                                         <th>recompensa_pesos_red</th>
-                                        <th>recompensa_puntos_red</th>
-                                        <th>codigos_producto</th>";
+                                        <th>recompensa_puntos_red</th>";
 
             for ($index = 0; $index <= 15; $index++) {
                 $report .= "<th>usuario_nivel_".$index."</th>
@@ -2575,17 +2577,19 @@ class OrderCore extends ObjectModel
                                 <td>".$order['estado']."</td>
                                 <td>".$order['pago']."</td>
                                 <td>".number_format($order['total'], 2, ',', '')."</td>
+                                <td>".number_format(($order['total'] - $order['pago_puntos']), 2, ',', '')."</td>
                                 <td>".number_format($order['pago_puntos'], 2, ',', '')."</td>
+                                <td>".number_format(($order['pago_puntos'] / Configuration::get('REWARDS_VIRTUAL_VALUE_1') ), 2, ',', '')."</td>
                                 <td>".$order['nombre_producto']."</td>
                                 <td>".$order['referencia_producto']."</td>
                                 <td>".number_format($order['precio_producto'], 2, ',', '')."</td>
                                 <td>".number_format($order['cantidad'], 2, ',', '')."</td>
+                                <td>".$codes_order[0]['codigos_producto']."</td>
                                 <td>".number_format($order['porcentaje_producto'], 4, ',', '')."</td>
                                 <td>".number_format($usuariopuntospesos, 2, ',', '')."</td>
                                 <td>".number_format($usuariopuntos, 2, ',', '')."</td>
                                 <td>".number_format($redpuntospesos, 2, ',', '')."</td>
-                                <td>".number_format($redpuntos, 2, ',', '')."</td>
-                                <td>".$codes_order[0]['codigos_producto']."</td>";
+                                <td>".number_format($redpuntos, 2, ',', '')."</td>";
 
                 foreach ($sponsors_order as $sponsor_order) {
                     if ( $order['id_customer'] != $sponsor_order['id_customer'] ) {
