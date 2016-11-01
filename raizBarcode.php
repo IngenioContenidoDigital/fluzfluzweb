@@ -13,6 +13,8 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
     $archivo="code-".$barnumber;
     $extension=".png";
     $used = $_POST["val"];
+    $price = $_POST['price'];
+    $code = $_POST['code'];
     
     if (file_exists($ruta.$archivo.$extension)) unlink($ruta.$archivo.$extension);
     
@@ -21,9 +23,16 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
             $raizBarcode = new raizBarcode();
             $codebar = $raizBarcode->consultcodebar($idproduct,$ruta,$archivo,$extension,$barnumber);
             $response['code'] = $codebar['code'];
+            $response['price_card_used'] = $raizBarcode->getPriceUsed($idproduct,$barnumber);
             $response['codetype'] = $codebar['codetype'];
             $response['used'] = $raizBarcode->getUsed($idproduct,$barnumber);
+            
             echo json_encode($response);
+            break;
+        
+        case "updatePrice":
+            $raizBarcode = new raizBarcode();
+            echo $raizBarcode->updatePrice($price, $code);
             break;
 
         case "updateUsed":
@@ -67,10 +76,23 @@ class raizBarcode {
         return Db::getInstance()->execute($query2);
     }
     
+    public function updatePrice($price, $code){
+        
+        $query = 'UPDATE '._DB_PREFIX_.'product_code SET price_card_used = '.$price.' WHERE code='."'$code'";
+        Db::getInstance()->execute($query);
+    }
+    
     public function getUsed($idproduct, $barnumber){
         $query = 'SELECT used FROM '._DB_PREFIX_.'product_code WHERE id_product = '.$idproduct.' AND code= "'.$barnumber.'"';
         $row = Db::getInstance()->getRow($query);
         return $row["used"];
     }   
+    
+    public function getPriceUsed($idproduct, $barnumber){
+        
+        $query = 'SELECT price_card_used FROM '._DB_PREFIX_.'product_code WHERE id_product = '.$idproduct.' AND code= "'.$barnumber.'"';
+        $row = Db::getInstance()->getRow($query);
+        return $row["price_card_used"];
+    }
 }
 

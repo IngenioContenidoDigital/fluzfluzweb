@@ -158,7 +158,6 @@ ul li .check::before {
 
 .codigoCard{
     font-family: 'Open Sans';
-    margin-top: 10px;
     line-height: 16px;
     font-size: 11px;
 }
@@ -215,13 +214,13 @@ ul li .check::before {
     color: #777 !important;
     text-align: center;
 }
-.micode { font-family: 'Open Sans' !important; text-align: center; width: 100%; font-size: 18px; color: #ef4136;}
-#priceCard{color: #ef4136; font-size: 18px; text-align: center;}
+.micode { font-family: 'Open Sans' !important; text-align: center; width: 100%; font-size: 18px; color: #ef4136; margin-bottom: 20px;}
+#priceCard{color: #ef4136; font-size: 18px; text-align: center; margin-top: 10px;}
 .pPrice {
-    margin-top: 5px;
     color: #777 !important;
     font-family: 'Open Sans' !important;
-    text-align: center;
+    text-align: left;
+    margin-top: 10px;
 }
 
 #bar-code{
