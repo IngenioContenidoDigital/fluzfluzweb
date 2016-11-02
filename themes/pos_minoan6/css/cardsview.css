@@ -60,8 +60,8 @@
     padding: 0px;
     padding-top: 12px;
     margin-top: 60px;
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .back-cardView{
@@ -70,7 +70,7 @@
 
 .fancybox-skin{
     margin:0 auto !important;
-    max-width: 770px;
+    max-width: 850px;
 }
 
 .containerCard{
@@ -289,11 +289,14 @@ ul li .check::before {
 
 @media (max-width:768px){
     .menuSticky{background: #fff; border-bottom: none; display: none;}
-    #bar-code{margin-bottom: 0px;margin-top: 20px;}
+    #bar-code{margin-bottom: 0px;margin-top: 90px;}
     .popText{margin-left: 5px !important;}
     .codigoCard{margin-top: 4px;}
     .card-view{ margin-left: 0px !important;}
     .instrucciones-pop{padding-left: 0px; padding-right: 0px;}
+    .fancybox-skin {margin: 0 auto !important;max-width: 500px;}
+    .c{padding-top: 0px; margin-top: 20px; max-height: 255px;}
+    .update-card{margin-top: 20px;}
 }
 
 @media (max-width:425px){
@@ -301,8 +304,18 @@ ul li .check::before {
     .c{ max-height: 252px;}
     #priceCard{font-size: 16px !important;}
     #nameViewCard{font-size: 12px;}
-    #bar-code{margin-bottom: 0px;margin-top: 10px;}
+    #bar-code{margin-bottom: 0px;margin-top: 90px;}
     .popText{margin-left: 5px !important;}
+    .update-card{margin-left: 17px;}
+    .pValuePrice {
+    font-size: 10px;}
+    .price_value_content {
+    color: #ef4136;
+    font-size: 12px;}
+    .pDate {
+    font-size: 10px;}
+    .pCode{margin-top: 10px;}
+    .micode{margin-bottom: 10px;}
 }
 
 @media (max-width:375px){
@@ -310,19 +323,19 @@ ul li .check::before {
     .card-view{width: 92%;margin-left: 15px !important;}
     .cardview-ins {margin-left: 15px;margin-bottom: 10px;width: 102%;}
     #priceCard{font-size: 16px !important;}
-    #nameViewCard{font-size: 12px;}
+    #nameViewCard{font-size: 9px;}
 }
 
 @media (max-width:320px){
     #priceCard{font-size: 14px !important;}
-    #nameViewCard{font-size: 10px;}
+    #nameViewCard{font-size: 9px;}
     .micode{font-size: 14px !important;}
     .title-card>img{width: 50%;}
     .back-cardView{padding-right: 0px;padding-left: 0px;}
     .pCode{margin-bottom: 0px;}
-    #bar-code{margin-bottom: 0px;margin-top: 10px;}
+    #bar-code{width: 50% !important;margin-right: 0px !important;margin-left: 50px !important;margin-top: 90px !important;}
     .popText{margin-left: 5px !important;}
     .card-view {width: 95%;margin-left: 8px !important;}
     .cardview-ins {margin-left: 8px;margin-bottom: 10px;width: 340px;}
-    .c {margin-left: 8px;margin-right: 8px;}
+    .c {margin-left: 0px;margin-right: 8px;}
 }

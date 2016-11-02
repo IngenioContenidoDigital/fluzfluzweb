@@ -287,8 +287,8 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
-                            <div class="pPrice col-lg-6">{l s="Value: "}</div><div id="priceCard" class="col-lg-6"></div>
-                            <div class="pPrice-used col-lg-6">{l s="Utilizado: "}</div><div id="priceCard_used" class="col-lg-6"></div>
+                            <div class="pPrice col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                            <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <p style="text-align: center;"><img id="bar-code" class="img-responsive" src=""/></p>
@@ -309,23 +309,23 @@
             </div>
             <div class="row update-card">
                 <div style="display:none;" id="code_x" name="code_x"/></div>
-                <input class="input-price col-lg-4" id="update" name="update" value=""/>
+                <input class="input-price col-lg-4 col-sm-6 col-xs-6" id="update" name="update" value=""/>
                 <button name="update-used" id="update-used" class="btn-update"><span class="update-price">{l s="Actualizar Precio"}</span></button>
             </div>    
             <div class="row">
                 <div class="containerCard">
-                <ul>
-                    <li>
-                      <input type="radio" id="f-option" name="selector" value="1">
-                      <div class="check" id="used"></div>
-                      <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
-                    </li>
-                    <li>
-                      <input type="radio" id="s-option" name="selector" value="2">
-                      <div id="not-used" class="check"></div>
-                      <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
-                    </li>
-                </ul>
+                    <ul>
+                        <li>
+                          <input type="radio" id="f-option" name="selector" value="1">
+                          <div class="check" id="used" for="f-option"></div>
+                          <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
+                        </li>
+                        <li>
+                          <input type="radio" id="s-option" name="selector" value="2">
+                          <div id="not-used" class="check" for="s-option"></div>
+                          <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -520,7 +520,63 @@
             renderCard(codeImg2,price,priceValue, dateP, name,description, terms, idproduct, ruta);
         });
         
+        $('#used').click(function(){
+            var code = $('.micode').html();
+            $('.codeImg').each(function(){
+                var compare = $(this).html();
+                if(compare==code){
+                    var algo = $(this).parent().parent().children('.used-oculto');
+                    if($('#used').hasClass('checkConfirm')){
+                        algo.html('<div class="la-verde"></div>');
+                        $('#used').removeClass('checkConfirm');
+                        $('#labelCard').removeClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#not-used').removeClass('checkConfirm');
+                        $('.update-card').fadeOut(600);
+                    }
+                    else{
+                        algo.html('<div class="la-amarilla"></div>');
+                        $('#used').addClass('checkConfirm');
+                        $('#labelCard').addClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#not-used').removeClass('checkConfirm');
+                        $('.update-card').fadeIn(600);
+                        $('.pPrice-used').fadeIn(600);
+                        $('#priceCard_used').fadeIn(600);
+                    }
+                }
+            });
+        });
         
+        $('#not-used').click(function(){
+            var code = $('.micode').html();
+            $('.update-card').fadeOut(600);
+            $('.codeImg').each(function(){
+                var compare = $(this).html();
+                if(compare==code){
+                    var algo = $(this).parent().parent().children('.used-oculto');
+                    if($('#not-used').hasClass('checkConfirm')){
+                        algo.html('<div class="la-verde"></div>');
+                        $('#not-used').removeClass('checkConfirm');
+                        $('#labelCard').removeClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#used').removeClass('checkConfirm');
+                        $('.update-card').fadeOut(600);
+                        
+                    }else{
+                        algo.html('<div class="la-roja"></div>');
+                        $('#not-used').addClass('checkConfirm');
+                        $('#labelCard').addClass('labelcard');
+                        $('#labelCard2').removeClass('labelcard');
+                        $('#used').removeClass('checkConfirm');
+                        $('.update-card').fadeOut(600);
+                        $('.pPrice-used').fadeOut(600);
+                        $('#priceCard_used').fadeOut(600);
+                    }
+                }
+            });
+        });
+       
         $('#labelCard').click(function(){
             var code = $('.micode').html();
             $('.codeImg').each(function(){
@@ -542,6 +598,8 @@
                         $('#labelCard2').removeClass('labelcard');
                         $('#not-used').removeClass('checkConfirm');
                         $('.update-card').fadeIn(600);
+                        $('.pPrice-used').fadeIn(600);
+                        $('#priceCard_used').fadeIn(600);
                     }
                 }
             });
@@ -560,12 +618,17 @@
                         $('#labelCard').removeClass('labelcard');
                         $('#labelCard2').removeClass('labelcard');
                         $('#used').removeClass('checkConfirm');
+                        $('.update-card').fadeOut(600);
+                        
                     }else{
                         algo.html('<div class="la-roja"></div>');
                         $('#not-used').addClass('checkConfirm');
                         $('#labelCard').addClass('labelcard');
                         $('#labelCard2').removeClass('labelcard');
                         $('#used').removeClass('checkConfirm');
+                        $('.update-card').fadeOut(600);
+                        $('.pPrice-used').fadeOut(600);
+                        $('#priceCard_used').fadeOut(600);
                     }
                 }
             });
@@ -594,6 +657,7 @@
                     data: {'action': 'updatePrice','price': price, 'code': code},
                     url: '/raizBarcode.php',
               });
+            $('#priceCard_used').html(price);  
             $('#update').removeAttr('value');
         });
         

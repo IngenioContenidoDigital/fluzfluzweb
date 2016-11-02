@@ -276,6 +276,9 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         public function TopWorst() {
            
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            usort($tree, function($a, $b) {
+                return $a['level'] - $b['level'];
+            });
             
             foreach ($tree as $valor){
                 $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.lastname AS lastname, rs.id_sponsor AS id_sponsor, p.id_manufacturer, m.name as manufacturer, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time

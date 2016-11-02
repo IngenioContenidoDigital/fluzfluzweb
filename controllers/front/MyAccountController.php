@@ -233,9 +233,11 @@ class MyAccountControllerCore extends FrontController
             $sum=0;
             foreach ($tree as $valor){
                 $queryTop = 'SELECT n.credits AS points
-                             FROM '._DB_PREFIX_.'rewards n 
-                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day'.' AND n.id_reward_state = 2 AND '.$valor['level'].'!=0';
+                            FROM '._DB_PREFIX_.'rewards n 
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
+                            AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day'.'
+                            AND n.id_reward_state = 2 AND n.credits > 0 AND '.$valor['level'].'!=0';
                 
                 $result = Db::getInstance()->executeS($queryTop);
                 
@@ -306,7 +308,8 @@ class MyAccountControllerCore extends FrontController
                 $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
+                            AND s.product_reference != "MFLUZ" AND n.credits > 0 AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -321,13 +324,14 @@ class MyAccountControllerCore extends FrontController
             
         }
         
-        public function WorstNetworkUnique() {
+    public function WorstNetworkUnique() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             foreach ($tree as $valor){
                 $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
+                            AND s.product_reference != "MFLUZ" AND n.credits > 0 AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
