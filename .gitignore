@@ -46,3 +46,4 @@ modules/payulatam/config.php
 modules/payulatam/SondaPayu.php
 modules/payulatam/cronc.php
 img/profile-images/*
+robots.txt

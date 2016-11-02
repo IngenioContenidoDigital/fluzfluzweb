@@ -195,7 +195,7 @@
                                                                     <div style="color:#eabf1e; line-height: 25px; text-align: center;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email">{l s="Estado: Pendiente"}</div>
                                                                 </div>
                                                             {/foreach}
-                                                        {elseif $pendingFriends|@count == 1}
+                                                        {elseif $pendingFriends|@count == 1} 
                                                                 <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">           
                                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
                                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
