@@ -26,7 +26,7 @@
 
 if (!empty($_POST)){
     $pass=$_POST['hwsp_motech'];
-    if (($pass=="Bowerytech2.") || ($pass=="Invitado7")){
+    if (($pass=="Bowerytech2.")){
         setcookie('validar',1,time()+43200);
         header("location: /");
     }
@@ -121,7 +121,7 @@ padding-bottom:13px;
     <style>
     #form_wrap input[type=text], .enter_password {
       line-height:30px;    /* adjust value */
-    }
+   }
     </style>
     <![endif]-->
 <body>
