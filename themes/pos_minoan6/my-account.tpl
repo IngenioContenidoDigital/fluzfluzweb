@@ -373,7 +373,7 @@
                            $('#labelCard2').removeClass('labelcard');
                            $('.update-card').fadeIn(600);
                            $('.pPrice-used').fadeIn(600);
-                           $('#priceCard_used').fadeIn(600);
+                           $('#priceCard_used').fadeIn(600); 
                            
                         } else if(response.used == 2){
                            $('#labelCard2').addClass('labelcard');
