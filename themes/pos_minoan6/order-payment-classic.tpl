@@ -265,6 +265,7 @@
                         {assign var='noDeleteButton' value=1}
 
                         {* Display the product line *}
+                        
                         {include file="$tpl_dir./shopping-cart-product-line.tpl"}
                         {* Then the customized datas ones*}
                         {if isset($customizedDatas.$productId.$productAttributeId)}
