@@ -64,12 +64,12 @@
                         </tr>
                     {/if}
                     <tr class="alternate_item" colspan="4">
-                        <td  class="history_method bold" style="text-align:center; color: #ef4136; width: 20%; font-weight: bold;">
+                        <td  class="history_method bold pto-disponible" style="text-align:center; color: #ef4136; font-weight: bold;">
                             <input type="hidden" value="{$totalAvailable}" id="ptosTotalOculto"/>
-                            {l s='Puntos Totales'}<br/><p style="font-size:20px; margin-top: 0px;margin-bottom: 0px;" id="ptosTotal">{$totalAvailable}</p>
+                            <p class="pto-totaltext">{l s='Puntos Totales'}</p><p style="font-size:20px; margin-top: 0px;margin-bottom: 0px;" id="ptosTotal">{$totalAvailable}</p>
                         </td>
                         
-                        <td colspan="3"> 
+                        <td colspan="2"> 
                             <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
                             <input type="hidden" id="avail" value="{$totalAvailable}" />
                            {if $voucherAllowed}
@@ -81,9 +81,9 @@
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
                                                     {if count($discounts)}
-                                                        <p style="width:100%; font-size: 12px;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
+                                                        <p style="width:100%; font-size: 12px;" class="text-allpoint"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
                                                     {else}
-                                                    <p style="width:100%; font-size: 12px;"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
+                                                    <p style="width:100%; font-size: 12px;" class="text-allpoint"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
                                                     {/if}    
                                                     {*if $displayVouchers}
                                                             <div id="display_cart_vouchers">
@@ -99,7 +99,7 @@
                         </td>
                             {/if}
                          
-                        <td style="font-size: 10px;" colspan="3"> 
+                        <td style="font-size: 10px;" colspan="4"> 
                             <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
                             <input type="hidden" id="avail" value="{$totalAvailable}" />
                             {if $voucherAllowed}
@@ -110,12 +110,12 @@
                                                 <fieldset>
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
-                                                      <div style="text-align: left; font-size: 12px; width: 100%;" class="item">{l s='Use specific amount of points:'}
+                                                      <div style="text-align: left; font-size: 12px; width: 100%;" class="item use-text">{l s='Use specific amount of points:'}
                                                             {if count($discounts)}
-                                                            <input type="number" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right; width: 20%;" autocomplete="off" disabled/>
+                                                            <input type="number" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off" disabled/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;" disabled><span>{l s='ok'}</span></button>
                                                             {else}
-                                                            <input type="number" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right; width: 20%;" autocomplete="off"/>
+                                                            <input type="number" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off"/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;"><span>{l s='ok'}</span></button>
                                                             {/if}
                                                       </div> 
@@ -265,8 +265,8 @@
                         {assign var='noDeleteButton' value=1}
 
                         {* Display the product line *}
+                        
                         {include file="$tpl_dir./shopping-cart-product-line.tpl"}
-
                         {* Then the customized datas ones*}
                         {if isset($customizedDatas.$productId.$productAttributeId)}
                             {foreach from=$customizedDatas.$productId.$productAttributeId[$product.id_address_delivery] key='id_customization' item='customization'}
@@ -457,3 +457,16 @@
         }
     </script>
 {/literal}
+{*literal}
+    <script>
+        $(function() {
+            $(".table-bordered tr:not(.accordion)").hide();
+            $(".table-bordered tr:first-child").show();
+
+            $(".table-bordered tr.accordion").click(function(){
+                $(this).nextAll("tr").fadeToggle(500);
+            }).eq(0).trigger('click');
+          });
+    </script>
+{/literal*}
+
