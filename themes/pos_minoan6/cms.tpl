@@ -100,6 +100,7 @@
 {literal}
     <style>
         .btn-shop{width: 50%;}
+        .quick .icon-search:before{display: none;}
         @media (max-width:420px){
             article.sectionBanner{margin-right: 0px !important;}   }         
         @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}
