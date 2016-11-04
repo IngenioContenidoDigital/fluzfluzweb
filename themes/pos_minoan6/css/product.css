@@ -389,6 +389,7 @@ Quick View Styles
 #product.content_only div.pb-left-column p.resetimg { display: none!important; }
 .primary_block .pb-left-column #bigpic { margin-top: 0; }
 .pb-center-column p.online_only{display: none;}
+.btn.button-plus span, .btn.button-minus span{width: 32px;height: 32px;line-height: 30px;}
 
 @media (max-width:1024px){
     .owl-carousel .owl-wrapper-outer{margin-left: 15px;}
@@ -553,7 +554,7 @@ Quick View Styles
     .shop-price{text-align: left !important; margin-left: 0px; padding-left: 12px !important;}
     .box-info-product .exclusive{width: 92%; margin-left: 27px;}
     .tiendaP{ margin-left: 26px !important; text-align: left;}
-    .pb-left-column{margin-left: 3px !important;}
+    .pb-left-column{ padding-left: 5px; padding-right: 10px;}
     .pb-center-column h1{margin-left: 8px !important;}
     .description-product{margin-left: 11px !important;}
     #product p#loyalty{margin-left: -20px !important; width: 100% !important; line-height: 19px !important;}
@@ -562,7 +563,7 @@ Quick View Styles
     .title-price-point{padding-left: 13px;}
     .price-point{padding-right: 19px;}
     .socialsharing_product{margin-left: -5px !important;}
-    .shop-pri{padding-left: 4px !important;font-size: 14px;}
+    .shop-pri{padding-left: 20px !important;font-size: 14px;}
     .pos-title{width: 92%;}
     .pos-title h2{width: 55%;}
     .pos-title span{line-height: 48px; margin-left: 8px;}
@@ -580,12 +581,12 @@ Quick View Styles
     .block .title_block:after, .block h4:after{display:none;}
     #categories_block_left h2.title_block {display:none;}
     .footer-container #footer h4:after {margin-right:20px;}
-    .pb-center-column #buy_block label{width:50px; margin-left: 0px!important;}
+    .pb-center-column #buy_block label{width:50px; margin-left: 6px!important;}
     #quantity_wanted_p input {width: 130px;}
-    .btn-twitter{width:93% !important; height:40px !important;}
-    .btn-facebook{width:93% !important; height:40px !important;}
-    .btn-google-plus{width:93% !important; height:40px !important;}
-    .btn-pinterest{width:93% !important; height:40px !important;}
+    .btn-twitter{width:96% !important; height:40px !important;}
+    .btn-facebook{width:96% !important; height:40px !important;}
+    .btn-google-plus{width:96% !important; height:40px !important;}
+    .btn-pinterest{width:96% !important; height:40px !important;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
     span{font-size:12px;}
@@ -593,34 +594,36 @@ Quick View Styles
     .box-info-product p{padding:0; margin-left: 10% !important;}
     #product p#loyalty{margin-left: 10% !important;}
    .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -7% !important;margin-left: -18% !important; width: 334px;}
-   .shop-price{margin-left: 0 !important;}
+   .shop-price{margin-left: 5px !important;}
    .tiendaP{margin-left: 15% !important;}
    .pb-center-column #product_reference{padding-left: 0px;}
-   .pb-left-column{margin-left: -5px !important;}
-    .pb-center-column h1{margin-left: 0px !important;}
+   .pb-left-column{    margin-left: 0px !important; padding-right: 10px;}
+    .pb-center-column h1{    margin-left: 4px !important;width: 95%;line-height: 22px;}
+    .description-product{width: 95% !important;margin-left: 5px;}
     #product p#loyalty{margin-left: 0px !important; width: 96% !important; line-height: 19px !important;}
     .box-info-product p{margin-left: 0 !important;}
     .bloque-precio{margin-left: 0px !important;}
-    .point-price{text-align: right; padding-right: 50px !important;}
-    .title-price-point{padding-left: 0px;}
-    .price-point{padding-right: 22px;}
-    .socialsharing_product button{margin-left: -21px !important;}
+    .point-price{text-align: right; padding-right: 32px !important;}
+    .title-price-point{padding-left: 6px;}
+    .price-point{padding-right: 6px;}
+    .socialsharing_product button{margin-left: -8px !important;}
     .shop-pri{padding-left: 0px !important;}
-    .pos-title{width: 88%;}
+    .pos-title{width: 93%;}
     .pos-title h2{width: 55%;}
     .pos-title span{line-height: 48px; margin-left: 8px; font-size: 10px !important;}
     .owl-carousel .owl-wrapper{margin-left: 0;}
     .owl-carousel .owl-item {margin-left: 5px !important;}
-    .owl-item {width: 312px !important;}
+    .owl-item {width: 330px !important;}
     .owl-carousel .owl-wrapper-outer {margin-left: 0px;}
     .info-row{margin-top: 0px;}
     .referenceinfo{width: 100px !important;}
-    .box-info-product .exclusive{width: 88%;margin-left: 57px;}
+    .box-info-product .exclusive{width: 90%;margin-left: 60px;}
     .price-shop{font-size: 13px !important;}
-    .shop-pri{font-size: 12px;}
+    .shop-pri{font-size: 12px;padding-left: 14px !important;}
     .block {padding-top: 10px;padding-left: 0;text-align: center;}
     #availability_statut, #pQuantityAvailable{margin-left: 0px !important;}
-    .more-info{margin-left: 6px;}
+    .more-info{margin-left: 9px;width: 94%;}
+    .owl-carousel {width: 96%;}
 }
 
 .box-info-product .exclusive{
