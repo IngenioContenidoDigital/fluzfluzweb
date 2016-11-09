@@ -82,41 +82,75 @@ class MyAccountControllerCore extends FrontController
         // SPONSORS
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();
+        $searchnetwork = strtolower(Tools::getValue('searchnetwork'));
+
         foreach ($tree as $sponsor) {
             if ( $this->context->customer->id != $sponsor['id'] ) {
-                $points = Db::getInstance()->ExecuteS("SELECT credits, date_add
-                                                        FROM "._DB_PREFIX_."rewards
-                                                        WHERE  id_customer = ".$this->context->customer->id."
-                                                        AND plugin = 'sponsorship'
-                                                        AND id_order IN (
-                                                                SELECT id_order
+                $customer = new Customer($sponsor['id']);
+                $name = strtolower($customer->firstname." ".$customer->lastname);
+                if ( $customer->firstname != "" ) {
+                    if ( $searchnetwork != "" ) {
+                        $coincidence = strpos($name, $searchnetwork);
+                        if ( $coincidence !== false ) {
+                            $members[$sponsor['id']]['name'] = $name;
+                            $members[$sponsor['id']]['username'] = $customer->username;
+                            $members[$sponsor['id']]['id'] = $sponsor['id'];
+                            $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
+                            $members[$sponsor['id']]['level'] = $sponsor['level'];
+                            $imgprofile = "";
+                            if ( file_exists(_PS_IMG_DIR_."profile-images/".$sponsor['id'].".png") ) {
+                                $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
+                            }
+                            $members[$sponsor['id']]['img'] = $imgprofile;
+                            $points = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                                    FROM "._DB_PREFIX_."rewards
+                                                                    WHERE  id_customer = ".$this->context->customer->id."
+                                                                    AND plugin = 'sponsorship'
+                                                                    AND id_order IN (
+                                                                            SELECT id_order
+                                                                            FROM "._DB_PREFIX_."rewards
+                                                                            WHERE  id_customer = ".$sponsor['id']."
+                                                                            AND plugin = 'loyalty'
+                                                                    )
+                                                                    GROUP BY id_customer");
+                            $members[$sponsor['id']]['points'] = $points[0]['points'];
+                        }
+                    } else {
+                        $members[$sponsor['id']]['name'] = $name;
+                        $members[$sponsor['id']]['username'] = $customer->username;
+                        $members[$sponsor['id']]['id'] = $sponsor['id'];
+                        $members[$sponsor['id']]['dateadd'] = date_format( date_create($customer->date_add) ,"d/m/y");
+                        $members[$sponsor['id']]['level'] = $sponsor['level'];
+                        $imgprofile = "";
+                        if ( file_exists(_PS_IMG_DIR_."profile-images/".$sponsor['id'].".png") ) {
+                            $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
+                        }
+                        $members[$sponsor['id']]['img'] = $imgprofile;
+                        $points = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
-                                                                WHERE  id_customer = ".$sponsor['id']."
-                                                                AND plugin = 'loyalty'
-                                                        )
-                                                        ORDER BY date_add DESC
-                                                        LIMIT 1");
-                if ( !empty($points) ) {
-                    $customer = new Customer($sponsor['id']);
-                    $name = strtolower($customer->firstname." ".$customer->lastname);
-                    $members[$sponsor['id']]['name'] = $name;
-                    $members[$sponsor['id']]['id'] = $sponsor['id'];
-                    $members[$sponsor['id']]['points'] = $points[0]['credits'];
-                    $members[$sponsor['id']]['dateaddorder'] = date_format( date_create($points[0]['date_add']) ,"d/m/y");
-                    $members[$sponsor['id']]['dateaddorderunformat'] = $points[0]['date_add'];
-                    $imgprofile = "";
-                    if ( file_exists(_PS_IMG_DIR_."profile-images/".$sponsor['id'].".png") ) {
-                        $imgprofile = "/img/profile-images/".$sponsor['id'].".png";
+                                                                WHERE  id_customer = ".$this->context->customer->id."
+                                                                AND plugin = 'sponsorship'
+                                                                AND id_order IN (
+                                                                        SELECT id_order
+                                                                        FROM "._DB_PREFIX_."rewards
+                                                                        WHERE  id_customer = ".$sponsor['id']."
+                                                                        AND plugin = 'loyalty'
+                                                                )
+                                                                GROUP BY id_customer");
+                        $members[$sponsor['id']]['points'] = $points[0]['points'];
                     }
-                    $members[$sponsor['id']]['img'] = $imgprofile;
                 }
             }
         }
-        /* ORGANIZAR POR FECHA ORDEN */
+        /* ORGANIZAR POR NOMBRE */
+        // asort($members);
+        
+        /* ORGANIZAR POR NIVEL */
         usort($members, function($a, $b) {
-            return strtotime($b['dateaddorderunformat']) - strtotime($a['dateaddorderunformat']);
+            return  $a['level'] - $b['level'];
         });
-        $this->context->smarty->assign('members', array_slice($members, 0, 5));
+        $this->context->smarty->assign('members', $members);
+        $this->context->smarty->assign('searchnetwork', $searchnetwork);
         
         
         // MESSAGES
