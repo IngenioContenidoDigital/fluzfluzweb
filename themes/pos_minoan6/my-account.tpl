@@ -492,6 +492,7 @@
                         switch (estado){
                             case '0':
                                 $(this).html('<div class="la-verde"></div>');
+                                avail++;
                                 break;
                             case '1':
                                 $(this).html('<div class="la-amarilla"></div>');

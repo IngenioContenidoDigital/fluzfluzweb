@@ -32,13 +32,15 @@ class cardsviewControllerCore extends FrontController {
         $this->setTemplate(_PS_THEME_DIR_.'cardsview.tpl');
     }
 
-    public function getCardsbySupplier($id_customer, $id_manufacturer, $id_order, $onlyValidate = false, $pagination = false, $nb = 10, $page = 1) {
+    public function getCardsbySupplier($id_customer, $id_manufacturer, $id_order) {
         $query = "SELECT PC.`code` AS card_code, 
                         PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description, PL.description_short,
                         PC.id_product, 
                         PP.id_manufacturer, 
                         PP.id_supplier, 
                         PP.price_shop AS price,
+                        ROUND(PP.price) AS price_shop,
+                        DATE_FORMAT(PO.date_add, '%M %d, %Y') AS date,
                         PPI.id_image, 
                         PPI.cover
                 FROM ps_product_code PC INNER JOIN ps_order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
@@ -56,11 +58,6 @@ class cardsviewControllerCore extends FrontController {
                 AND PO.id_order = ".$id_order."
                 GROUP BY PC.`code`, PL.`name`, PL.link_rewrite
                 ORDER BY product_name ASC";
-
-        /*if ($onlyValidate === true)
-              $query .= ' AND r.id_reward_state = '.(int)RewardsStateModel::getValidationId();
-              $query .= ' ORDER BY POD.date_add DESC '.
-              ($pagination ? 'LIMIT '.(((int)($page) - 1) * (int)($nb)).', '.(int)$nb : '');*/
 
         $cards = Db::getInstance()->executeS($query);
         return $cards;
