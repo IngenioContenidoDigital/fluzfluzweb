@@ -74,7 +74,7 @@
 
 .update-card{
     text-align: left;
-    margin-left: 50px;
+    margin-left: 20px;
     margin-bottom: 10px;
     display: none;
 }
@@ -296,6 +296,10 @@ display:inline-block;
 
 .pmore{margin-right: 10px; font-size: 12px; text-transform: uppercase;}
 .containtertables { overflow-y: auto; height: 330px; margin: 20px 0; }
+
+@media (max-width:1440px){
+    .update-card{margin-left: 52px;}
+}
 
 @media (max-width:1024px){
     .btn-more{margin-left: 10px;}
