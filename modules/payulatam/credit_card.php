@@ -259,13 +259,11 @@ class PayuCreditCard extends PayUControllerWS {
                 $payulatam = new PayULatam();
                 $url_confirmation = __PS_BASE_URI__ . 'order-confirmation.php?key=' . $customer->secure_key . '&id_cart=' . (int) $this->context->cart->id . '&id_module='.(int)$payulatam->id.'&id_order=' . (int) $order['id_order'];
                 $this->context->cookie->{'url_confirmation'} = json_encode($url_confirmation);
-                if ( $membership ) {
-                    Db::getInstance()->execute( 'INSERT INTO '._DB_PREFIX_.'customer_group(id_customer, id_group) VALUES ('.(int)$customer->id.',3)' );
-                    setcookie("datamailemail", "", -1, "/");
-                    setcookie("datamailfirstname", "", -1, "/");
-                    setcookie("datamaillastname", "", -1, "/");
-                }
                 
+                if ( $response['transactionResponse']['state'] !== 'PENDING' ) {
+                    $this->createAccountSuccess($membership, $customer->id);
+                }
+
                 $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".(int)$customer->id." AND id_order=".(int) $order['id_order']." AND id_cart=".$this->context->cart->id;
                 Db::getInstance()->execute($qstate);
                 

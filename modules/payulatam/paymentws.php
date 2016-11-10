@@ -114,16 +114,23 @@ class PayUControllerWS extends FrontController {
         }
     }
     
+    public function createAccountSuccess( $membership, $customer ) {
+        if ( $membership ) {
+            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 1 WHERE id_customer = ".(int)$customer);
+            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."address SET active = 1 WHERE id_customer = ".(int)$customer);
+            Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group(id_customer, id_group) VALUES (".(int)$customer.",3)");
+            setcookie("datamailemail", "", -1, "/");
+            setcookie("datamailfirstname", "", -1, "/");
+            setcookie("datamaillastname", "", -1, "/");
+        }
+    }
+    
     public function deleteAccountFail( $membership = false ) {
-        try {
-            if ( $membership ) {
-                $this->context->customer->logout();
-                Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".(int)$this->context->customer->id);
-                Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."address WHERE id_customer = ".(int)$this->context->customer->id);
-                Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."cards WHERE id_customer = ".(int)$this->context->customer->id);
-            }
-        } catch (Exception $e) {
-            exit('<pre>PayU:'.  print_r($e,TRUE).'</pre>');
+        if ( $membership ) {
+            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 0 WHERE id_customer = ".(int)$this->context->customer->id);
+            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."address SET active = 0 WHERE id_customer = ".(int)$this->context->customer->id);
+            Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_group = 3 AND id_customer = ".(int)$this->context->customer->id);
+            $this->context->customer->logout();
         }
     }
 }

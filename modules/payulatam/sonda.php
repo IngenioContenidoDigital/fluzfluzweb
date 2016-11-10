@@ -8,5 +8,4 @@ if (empty(Context::getContext()->link))
 $sonda = new SondaPayu();
 $sonda->updatePendyngOrdesConfirmation();
 $sonda->updatePendyngOrdes();
-
-
+$sonda->updatePendyngCustomers();
