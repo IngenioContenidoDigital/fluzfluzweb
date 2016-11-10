@@ -395,7 +395,8 @@ class AuthControllerCore extends FrontController
         }
         // Checked the user address in case he changed his email address
         if (Validate::isEmail($email = Tools::getValue('email')) && !empty($email)) {
-            if (Customer::customerExists($email)) {
+            $activeCustom = Db::getInstance()->getValue("SELECT active FROM "._DB_PREFIX_."customer WHERE email LIKE '%".$email."%'");
+            if (Customer::customerExists($email) && $activeCustom == 1) {
                 $this->errors[] = Tools::displayError('An account using this email address has already been registered.', false);
             }
         }
@@ -468,7 +469,25 @@ class AuthControllerCore extends FrontController
                 $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                 $customer->active = 1;
                 if (!count($this->errors)) {
-                    if ($customer->add()) {
+
+                    $customerLoaded = false;
+                    $customExists = Customer::customerExists( Tools::getValue('email') );
+                    if ( $customExists ) {
+                        $idCustom = Customer::getCustomersByEmail( Tools::getValue('email') );
+                        $customer = new Customer($idCustom[0]['id_customer']);
+                        $customer->username = Tools::getValue("username");
+                        $customer->firstname = Tools::getValue("customer_firstname");
+                        $customer->lastname = Tools::getValue("customer_lastname");
+                        $customer->passwd = Tools::encrypt( Tools::getValue("passwd") );
+                        $customer->dni = Tools::getValue("gover");
+                        $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
+                        $customer->update();
+                        $customerLoaded = true;
+                    } else {
+                        $customerLoaded = $customer->add();
+                    }
+
+                    if ( $customerLoaded ) {
                         if (!$customer->is_guest) {
                             if (!$this->sendConfirmationMail($customer)) {
                                 $this->errors[] = Tools::displayError('The email cannot be sent.');
@@ -480,10 +499,18 @@ class AuthControllerCore extends FrontController
                         {
                             $cart = new Cart($this->context->cookie->id_cart);
                         }
+
                         if (!isset($cart) OR !$cart->id)
                         {
                             Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'rewards_sponsorship` SET `id_customer` = '.(int)$customer->id.' WHERE `email` = "'.$customer->email.'"');
-                            $address = new Address();
+
+                            if ( $customExists ) {
+                                $addressexist = $customer->getAddresses(0);
+                                $address = new Address($addressexist[0]['id_address']);
+                            } else {
+                                $address = new Address();
+                            }
+
                             $address->id_customer = $customer->id;
                             $address->id_country = 69;
                             $address->alias = 'Mi Direccion';
@@ -491,13 +518,17 @@ class AuthControllerCore extends FrontController
                             $address->firstname = Tools::getValue("customer_firstname");
                             $address->type_document = Tools::getValue("typedocument");
                             $address->dni = Tools::getValue("gover");
-                            $address->checkdigit = Tools::getValue("checkdigit");
+                            $address->checkdigit = ( empty(Tools::getValue("checkdigit")) || Tools::getValue("checkdigit") == "" ) ? "" : Tools::getValue("checkdigit");
                             $address->address1 = Tools::getValue("address1");
                             $address->address2 = Tools::getValue("address2");
                             $address->city = Tools::getValue("city");
                             $address->phone = Tools::getValue("phone_mobile");
-                            $address->add();
-                            $addresscreate = $customer->getAddresses(0);
+
+                            if ( $customExists ) {
+                                $address->update();
+                            } else {
+                                $address->add();
+                            }
 
                             $numCardCredit = "1000000000000000";
                             $cardExpirationDate = '01/'.date("Y");
@@ -506,7 +537,9 @@ class AuthControllerCore extends FrontController
                                 $cardExpirationDate = $_POST['Month'].'/'.$_POST['year'];
                             }
                             Db::getInstance()->Execute( 'INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$customer->firstname." ".$customer->lastname .'","'.$numCardCredit.'", "'.$cardExpirationDate.'")' );
-                            
+
+                            $addresscreate = $customer->getAddresses(0);
+
                             $cart = new Cart();
                             $cart->id_customer = (int)($customer->id);
                             $cart->id_lang = (int)($this->context->cookie->id_lang);
@@ -518,14 +551,13 @@ class AuthControllerCore extends FrontController
                             $cart->add();
                             $this->context->cookie->id_cart = (int)($cart->id);
                             $cart->update();
-                            
+
                             $valorProduct = $_POST['valorSlider'];
                             $row = DB::getInstance()->getRow( 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"' );
                             $idProduct = $row['id_product'];
                             $this->context->cart = $cart;
                             $this->context->cart->updateQty(1,$idProduct,NULL,FALSE);
                             $cart->update();
-                            
                             
                             switch ( $methodPayment ) {
                                 case "cc":
