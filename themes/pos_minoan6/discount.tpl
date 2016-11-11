@@ -66,7 +66,7 @@
                     {/foreach}
                 </div>
             </div>
-                <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+                    <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga" class="icon-refresh icon-white"></i></button>
         </div>
         <div class="block-messages col-lg-6 col-md-6 col-sm-6">
             <h2>{l s='My Messages'}</h2>
@@ -102,7 +102,7 @@
                     {/foreach}
                 </div>
             </div>
-            <button id="loadMoreMsg" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+                    <button id="loadMoreMsg" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga-msg" class="icon-refresh icon-white"></i></button>
         </div>
     </div>
 </form>
@@ -147,27 +147,51 @@
     <script>
         $(function(){
             $(".member").slice(0, 4).show(); // select the first ten
-            $("#loadMoreMember").click(function(e){ // click event for load more
-                e.preventDefault();
-                $(".member:hidden").slice(0, 2).show(); 
-                if($(".member:hidden").length == 0){ // check if any hidden divs still exist
-                   $("#loadMoreMember").css('display','none'); // alert if there are none left
-                }
+            if($(".member").length <= 4){
+                $("#loadMoreMember").css('display','none');
+            }
+            else
+                $("#loadMoreMember").click(function(e){
+                    $(this).find('i').addClass('icon-refresh2');
+                    e.preventDefault();
+                    $(".member:hidden").slice(0, 8).show();
+                    if($(".member:hidden").length == 0){ // check if any hidden divs still exist
+                        $("#loadMoreMember").css('display','none'); // alert if there are none left
+                    }
+                    
+                    setTimeout(function() {
+                    $('#boton-carga').removeClass('icon-refresh2');
+                    setTimeout(function() {
+                      $('#pmore').html("Cargar Mas");
+                    }, 1);
+                }, 1000);
             });
         });
     </script>
 {/literal}
+
 {literal}
     <script>
         $(function(){
             $(".t-messages").slice(0, 4).show(); // select the first ten
-            $("#loadMoreMsg").click(function(e){ // click event for load more
-                e.preventDefault();
-                $(".t-messages:hidden").slice(0, 2).show(); 
-                if($(".t-messages:hidden").length == 0){ // check if any hidden divs still exist
-                    $("#loadMoreMsg").css('display','none'); // alert if there are none left
-                }
-            });
+            if($(".t-messages").length <= 4){
+                $("#loadMoreMsg").css('display','none');
+            }
+            else
+                $("#loadMoreMsg").click(function(e){ // click event for load more
+                    $(this).find('i').addClass('icon-refresh2');
+                    e.preventDefault();
+                    $(".t-messages:hidden").slice(0, 8).show(); 
+                    if($(".t-messages:hidden").length == 0){ // check if any hidden divs still exist
+                        $("#loadMoreMsg").css('display','none');// alert if there are none left
+                    }
+                setTimeout(function() {
+                        $('#boton-carga-msg').removeClass('icon-refresh2');
+                        setTimeout(function() {
+                          $('#pmore').html("Cargar Mas");
+                        }, 1);
+                    }, 1000);    
+                });
         });
     </script>
 {/literal}

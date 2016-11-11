@@ -248,28 +248,64 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         }
         
         public function graphStatistics(){
+                    
+                    /*$datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
+                                                                FROM "._DB_PREFIX_."rewards
+                                                                WHERE id_order 
+                                                                IN ( SELECT id_order FROM "._DB_PREFIX_."rewards WHERE id_customer =".$this->context->customer->id." "
+                            . "                                 AND plugin = 'loyalty') AND id_customer NOT IN(0 ,".$this->context->customer->id.")
+                                                                AND credits > 0 AND date_add >= curdate() + interval -30 day
+                                                                GROUP BY DATE_FORMAT(date_add, '%Y-%m-%d')");*/
             
+                    $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+                    $pointsStatistics = array();
+                    foreach ($tree as $valor){
                     $datosGraph = Db::getInstance()->ExecuteS("SELECT SUM(credits) AS points
                                                                 FROM "._DB_PREFIX_."rewards
-                                                                WHERE id_order IN ( SELECT id_order FROM "._DB_PREFIX_."rewards WHERE id_customer =".$this->context->customer->id." AND plugin = 'sponsorship' OR plugin = 'loyalty') AND id_customer NOT IN(0 ,".$this->context->customer->id.")
-                                                                AND credits > 0 AND date_add >= curdate() + interval -30 day
+                                                                WHERE id_customer = ".$this->context->customer->id."
+                                                                AND id_order IN (
+                                                                    SELECT id_order
+                                                                    FROM "._DB_PREFIX_."rewards 
+                                                                    WHERE id_customer = ".$valor['id']."
+                                                                    AND plugin = 'loyalty' 
+                                                                AND credits > 0 AND date_add >= curdate() + interval -30 day)
                                                                 GROUP BY DATE_FORMAT(date_add, '%Y-%m-%d')");
                     
-                    $pointsStatistics = array_map('current', $datosGraph);
+                    $pointsStatistics = array_merge($pointsStatistics, $datosGraph);
+                    }
+                    $pointsStatistics = array_map('current', $pointsStatistics);
                     
-            return $pointsStatistics;    
+                    return $pointsStatistics;    
         }
         
         public function graphStatisticsDate(){
             
-                    $datosGraph = Db::getInstance()->ExecuteS("SELECT DATE_FORMAT(date_add, '%Y-%m-%d') AS fecha
+                    /*$datosGraph = Db::getInstance()->ExecuteS("SELECT DATE_FORMAT(date_add, '%Y-%m-%d') AS fecha
                                                                 FROM "._DB_PREFIX_."rewards
                                                                 WHERE id_order IN ( SELECT id_order FROM "._DB_PREFIX_."rewards WHERE id_customer = ".$this->context->customer->id." AND plugin = 'sponsorship' OR plugin = 'loyalty') AND id_customer NOT IN(0 ,".$this->context->customer->id.")
                                                                 AND credits > 0 AND date_add >= curdate() + interval -30 day
                                                                 GROUP BY DATE_FORMAT(date_add, '%Y-%m-%d')");
                     
-                    $pointsStatistics = array_map('current', $datosGraph);
+                    $pointsStatistics = array_map('current', $datosGraph);*/
                     
+                    $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+                    $pointsStatistics = array();
+                    foreach ($tree as $valor){
+                        $datosGraph = Db::getInstance()->ExecuteS("SELECT DATE_FORMAT(date_add, '%Y-%m-%d') AS fecha
+                                                                    FROM "._DB_PREFIX_."rewards
+                                                                    WHERE id_customer = ".$this->context->customer->id."
+                                                                    AND id_order IN (
+                                                                        SELECT id_order
+                                                                        FROM "._DB_PREFIX_."rewards 
+                                                                        WHERE id_customer = ".$valor['id']."
+                                                                        AND plugin = 'loyalty' AND credits > 0 AND date_add >= curdate() + interval -30 day)
+                                                                    GROUP BY DATE_FORMAT(date_add, '%Y-%m-%d')");
+                        
+                        $pointsStatistics = array_merge($pointsStatistics, $datosGraph);                        
+                    }
+                    
+                    $pointsStatistics = array_map('current', $pointsStatistics);
+
             return $pointsStatistics;    
         }
         
@@ -347,7 +383,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)        
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND credits > 0 AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -371,7 +407,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)            
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -396,7 +432,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 $queryTop = 'SELECT SUM(n.credits) AS points
                              FROM '._DB_PREFIX_.'rewards n 
                              LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
                 
                 $result = Db::getInstance()->executeS($queryTop);
                 

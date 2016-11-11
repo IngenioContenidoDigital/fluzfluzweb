@@ -52,7 +52,7 @@
             {/if}
         </div>
         <span class="barra-fondo">
-            <li class="barras" id="available" data-value="{(($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0)/($suma)*100)}"><span>{($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))|number_format:0}</span></li>
+            <li class="barras" id="available" data-value="{(($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0)/($suma)*100)}" style="max-width: 100%;"><span>{($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))|number_format:0}</span></li>
         </span>
         <p class="pGrap">{l s="YOUR POINT GENERATION" mod='allinone_rewards'}</p>
         {foreach from=$topPoint item=top}
@@ -198,12 +198,12 @@
 	</table>
         </div>        
         <div>        
-        <button id="loadMoreReward" class="col-lg-12 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>        
+            <button id="loadMoreReward" class="col-lg-12 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="carga-rewards" class="icon-refresh icon-white"></i></button>        
         </div>
         {literal}
             <script>
                 var numShown = 10; // Initial rows shown & index
-                var numMore = 4;  // Increment
+                var numMore = 8;  // Increment
 
                 var $table = $('table').find('tbody');  // tbody containing all the rows
                 var numRows = $table.find('tr').length; // Total # rows
@@ -215,6 +215,7 @@
                                $table.find('tr:first td').length + '">');
 
                     $('#loadMoreReward').click(function() {
+                        $(this).find('i').addClass('icon-refresh2');
                         numShown = numShown + numMore;
                         // no more "show more" if done
                         if (numShown >= numRows) {
@@ -225,6 +226,12 @@
                             $('#loadMoreReward span').html(numRows - numShown);
                         }
                         $table.find('tr:lt(' + numShown + ')').show();
+                        setTimeout(function() {
+                            $('#carga-rewards').removeClass('icon-refresh2');
+                            setTimeout(function() {
+                              $('#pmore').html("Cargar Mas");
+                            }, 1);
+                        }, 1000);
                     });
 
                 });

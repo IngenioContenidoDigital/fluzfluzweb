@@ -168,7 +168,7 @@ class MyAccountControllerCore extends FrontController
             }
             $message['img'] = $imgprofile;
         }
-        $this->context->smarty->assign('messages', array_slice($messages, 0, 5));
+        $this->context->smarty->assign('messages', $messages);
         $this->context->smarty->assign('id_customer', $this->context->customer->id);
         
         // MEMBERS FEED
