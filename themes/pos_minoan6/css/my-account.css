@@ -300,6 +300,10 @@ display:inline-block;
 .pmore{margin-right: 10px; font-size: 12px; text-transform: uppercase;}
 .containtertables { overflow-y: auto; height: 370px; margin: 20px 0; }
 
+@media (min-width:1680px){
+    .update-card{margin-left: 52px;}
+}
+
 @media (max-width:1440px){
     .update-card{margin-left: 52px;}
 }

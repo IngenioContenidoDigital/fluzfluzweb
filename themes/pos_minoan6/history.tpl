@@ -51,7 +51,7 @@
                     <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
                         <div class="row">
                             <div>{l s='Description'}</div>
-                            <div><p class="block-product-name">{$product.purchase}<p><br>{l s="Product #: "} {$product.referencia}</div>
+                            <div><p class="block-product-name">{$product.manufacturer}<p><br>{l s="Product #: "} {$product.referencia}</div>
                         </div>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
