@@ -485,6 +485,27 @@ class AdminCustomersControllerCore extends AdminController
                     'disabled' =>  (bool)!Configuration::get('PS_CUSTOMER_OPTIN'),
                     'hint' => $this->l('This customer will receive your ads via email.')
                 ),
+                array(
+                    'type' => 'switch',
+                    'label' => $this->l('Expulsar'),
+                    'name' => 'kick_out',
+                    'required' => false,
+                    'class' => 't',
+                    'is_bool' => true,
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => 1,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => 0,
+                            'label' => $this->l('Disabled')
+                        )
+                    ),
+                    'hint' => $this->l('Enable or disable customer login.')
+                ),
             )
         );
 

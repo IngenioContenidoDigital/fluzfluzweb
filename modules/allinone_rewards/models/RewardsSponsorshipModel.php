@@ -425,6 +425,75 @@ class RewardsSponsorshipModel extends ObjectModel
 			}
 		}
 	}
+        
+        public static function _getTreeComplete($idSponsor) {
+            $result = array('maxlevel' => 1, 'rewards1' => 0, 'direct_nb1' => 0, 'direct_nb2' => 0, 'direct_nb3' => 0, 'direct_nb4' => 0, 'direct_nb5' => 0, 'indirect_nb' => 0,
+						'indirect_nb_orders' => 0, 'nb_orders_channel1' => 0, 'nb_orders_channel2' => 0, 'nb_orders_channel3' => 0, 'nb_orders_channel4' => 0, 'nb_orders_channel5' => 0,
+						'direct_rewards_orders1' => 0, 'direct_rewards_orders2' => 0, 'direct_rewards_orders3' => 0, 'direct_rewards_orders4' => 0, 'direct_rewards_orders5' => 0, 'indirect_rewards' => 0,
+						'direct_rewards_registrations1' => 0, 'direct_rewards_registrations2' => 0, 'direct_rewards_registrations3' => 0, 'direct_rewards_registrations4' => 0, 'direct_rewards_registrations5' => 0,
+						'sponsored1' => array(), 'total_direct_rewards' => 0, 'total_indirect_rewards' => 0, 'total_direct_orders' => 0, 'total_indirect_orders' => 0,
+						'total_orders' => 0, 'total_registrations' => 0, 'total_global' => 0);
+            $sponsor_tree = array();
+            $sponsor_tree[] = array(
+                                    "id" => $idSponsor,
+                                    "level" => 0,
+                                );
+            self::_getRecursiveDescendantsTreeComplete($idSponsor, $result, $sponsor_tree);
+            return $sponsor_tree;
+        }
+        
+        public static function _getRecursiveDescendantsTreeComplete($idSponsor, &$result, &$sponsor_tree, $level=1, $father=null) {
+		$query = '
+			SELECT rs.*
+			FROM `'._DB_PREFIX_.'rewards_sponsorship` AS rs
+			WHERE id_sponsor = '.(int)$idSponsor.'
+			AND id_customer > 0';
+		$rows = Db::getInstance()->ExecuteS($query);
+
+		if (is_array($rows) && count($rows) > 0) {
+			if ($level > $result['maxlevel']) {
+				$result['maxlevel'] = $level;
+				$result['rewards'.$result['maxlevel']] = 0;
+			}
+
+			foreach ($rows AS $row)	{
+				if ($level == 1) {
+					$result['direct_nb'.$row['channel']]++;
+					$father = $row['id_customer'];
+				} else {
+					$result['indirect_nb']++;
+                                }
+
+                                $sponsor_tree[] = array(
+                                    "id" => $row['id_customer'],
+                                    "level" => $level,
+                                    "sponsor" => $row['id_sponsor']
+                                );
+
+				// nb direct or indirect friends for each level 1 sponsored
+				if (!isset($result['direct_customer'.$idSponsor])) {
+					$result['direct_customer'.$idSponsor] = 0;
+                                }
+
+				$result['direct_customer'.$idSponsor]++;
+
+				if (isset($father) && $level > 1 && $father != $idSponsor) {
+					if (!isset($result['indirect_customer'.$father])) {
+						$result['indirect_customer'.$father] = 0;
+                                        }
+					$result['indirect_customer'.$father]++;
+				}
+
+				// nb sponsored by level
+				if (!isset($result['nb'.$level])) {
+					$result['nb'.$level] = 0;
+                                }
+
+				$result['nb'.$level]++;
+				self::_getRecursiveDescendantsTreeComplete($row['id_customer'], $result, $sponsor_tree, $level+1, $father);
+			}
+		}
+	}
 
 	// get all statistics for the given sponsor
 	static public function getStatistics($readyForDisplay = false) {
