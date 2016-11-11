@@ -279,10 +279,13 @@ display:inline-block;
     border-bottom: solid 1px #fff;
     margin-left: 15px;}
 
-.icon-refresh:hover  {
-    -animation: spin 1s infinite linear;
-    -webkit-animation: spin2 1s infinite linear;
+.load-more {
+  animation: rotate 1s;
 }
+
+.abc{ 
+    -animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;}
 
 @-webkit-keyframes spin2 {
     from { -webkit-transform: rotate(0deg);}
@@ -295,7 +298,7 @@ display:inline-block;
 }
 
 .pmore{margin-right: 10px; font-size: 12px; text-transform: uppercase;}
-.containtertables { overflow-y: auto; height: 330px; margin: 20px 0; }
+.containtertables { overflow-y: auto; height: 370px; margin: 20px 0; }
 
 @media (max-width:1440px){
     .update-card{margin-left: 52px;}
