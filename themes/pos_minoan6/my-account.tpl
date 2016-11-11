@@ -43,7 +43,7 @@
                     <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
                 </div>
         {/foreach}
-        <button id="loadMore" class="col-lg-10 col-md-10 col-sm-12 btn-more"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+        <button id="loadMore" class="col-lg-10 col-md-10 col-sm-12 btn-more"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga-card" class="icon-refresh icon-white"></i></button>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
@@ -69,7 +69,7 @@
         <!--<li><a href="{$link->getPageLink('address', true)|escape:'html':'UTF-8'}" title="{l s='Add my first address'}"><i class="icon-building"></i><span>{l s='Add my first address'}</span></a></li>-->
         {/if}
         {if $returnAllowed}
-            <li><a href="{$link->getPageLink('order-follow', true)|escape:'html':'UTF-8'}" title="{l s='Merchandise returns'}"><i class="icon-refresh"></i><span>{l s='My merchandise returns'}</span></a></li>
+            <li><a href="{$link->getPageLink('order-follow', true)|escape:'html':'UTF-8'}" title="{l s='Merchandise returns'}"><i id="boton-carga" class="icon-refresh"></i><span>{l s='My merchandise returns'}</span></a></li>
         {/if}
         <!--<li><a href="{$link->getPageLink('order-slip', true)|escape:'html':'UTF-8'}" title="{l s='Credit slips'}"><i class="icon-file-o"></i><span>{l s='My credit slips'}</span></a></li>-->
         <li><a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Orders'}"><img src="{$img_dir}icon/orderList.png" class="imgSponsor" /><span class="spanSponsor">{l s='Order history and details'}</span></a></li>
@@ -151,7 +151,7 @@
                 </div>
             </div>
         {/foreach}
-        <button id="loadMoreNet" class="col-lg-8 col-md-8 col-sm-8 btn-more2"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+        <button id="loadMoreNet" class="col-lg-8 col-md-8 col-sm-8 btn-more2"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carganet" class="icon-refresh icon-white"></i></button>
     {/if}
     <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
         <p class="titleFAQ">{l s='Need Support?'}</p>
@@ -184,7 +184,7 @@
                                                     {$urlimgnet = $img_dir|cat:"icon/profile.png"}
                                                 {/if}
                                             </td>
-                                            <td colspan="2" class="line colname"><span class="name">{$member.name}</span></td>
+                                            <td colspan="2" class="line colname"><span class="name">{$member.username}</span></td>
                                             <td class="message line"><span class="myfancybox" href="#myspecialcontent2" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
                                             <td></td>
                                         </tr>
@@ -199,7 +199,7 @@
                         {/foreach}
                     </div>
                 </div>  
-                    <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+                    <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga" class="icon-refresh icon-white"></i></button>
             </div>
             
             <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-red">
@@ -233,7 +233,7 @@
                         {/foreach}
                     </div>
                 </div>
-                <button id="loadMoreMsg" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i class="icon-refresh icon-white"></i></button>
+                <button id="loadMoreMsg" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga-msg" class="icon-refresh icon-white"></i></button>
             </div>
     </form>
 </div>
@@ -711,12 +711,19 @@
                 $("#loadMore").css('display','none');
             }
             else
-            $("#loadMore").click(function(e){ // click event for load more
+            $("#loadMore").click(function(e){// click event for load more
+                $(this).find('i').addClass('icon-refresh2');
                 e.preventDefault();
-                $(".Cards:hidden").slice(0, 2).show();
+                $(".Cards:hidden").slice(0, 8).show();
                 if($(".Cards:hidden").length == 0){ // check if any hidden divs still exist
                     $("#loadMore").css('display','none'); // alert if there are none left
                 }
+                setTimeout(function() {
+                    $('#boton-carga-card').removeClass('icon-refresh2');
+                    setTimeout(function() {
+                      $('#pmore').html("Cargar Mas");
+                    }, 1);
+                }, 1000);
             });
         });
     </script>
@@ -731,13 +738,20 @@
             }
             else
                 $("#loadMoreNet").click(function(e){ // click event for load more
+                    $(this).find('i').addClass('icon-refresh2');
                     e.preventDefault();
-                    $(".last_shop:hidden").slice(0, 2).show(); 
+                    $(".last_shop:hidden").slice(0, 8).show(); 
                     if($(".last_shop:hidden").length == 0){ // check if any hidden divs still exist
                         $("#loadMoreNet").css('display','none');; // alert if there are none left
                     }
-                });
-            });
+                    setTimeout(function() {
+                    $('#boton-carganet').removeClass('icon-refresh2');
+                    setTimeout(function() {
+                      $('#pmore').html("Cargar Mas");
+                    }, 1);
+                }, 1000);
+              });
+           });
     </script>
 {/literal}
 
@@ -748,14 +762,22 @@
             if($(".member").length <= 4){
                 $("#loadMoreMember").css('display','none');
             }
-                else
-                $("#loadMoreMember").click(function(e){ // click event for load more
+            else
+                $("#loadMoreMember").click(function(e){
+                    $(this).find('i').addClass('icon-refresh2');
                     e.preventDefault();
-                    $(".member:hidden").slice(0, 2).show(); 
+                    $(".member:hidden").slice(0, 8).show();
                     if($(".member:hidden").length == 0){ // check if any hidden divs still exist
                         $("#loadMoreMember").css('display','none'); // alert if there are none left
                     }
-                });
+                    
+                    setTimeout(function() {
+                    $('#boton-carga').removeClass('icon-refresh2');
+                    setTimeout(function() {
+                      $('#pmore').html("Cargar Mas");
+                    }, 1);
+                }, 1000);
+            });
         });
     </script>
 {/literal}
@@ -767,13 +789,20 @@
             if($(".t-messages").length <= 4){
                 $("#loadMoreMsg").css('display','none');
             }
-                else
+            else
                 $("#loadMoreMsg").click(function(e){ // click event for load more
+                    $(this).find('i').addClass('icon-refresh2');
                     e.preventDefault();
-                    $(".t-messages:hidden").slice(0, 2).show(); 
+                    $(".t-messages:hidden").slice(0, 8).show(); 
                     if($(".t-messages:hidden").length == 0){ // check if any hidden divs still exist
                         $("#loadMoreMsg").css('display','none');// alert if there are none left
                     }
+                setTimeout(function() {
+                        $('#boton-carga-msg').removeClass('icon-refresh2');
+                        setTimeout(function() {
+                          $('#pmore').html("Cargar Mas");
+                        }, 1);
+                    }, 1000);    
                 });
         });
     </script>
