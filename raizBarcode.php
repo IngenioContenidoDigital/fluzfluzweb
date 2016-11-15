@@ -15,7 +15,7 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
     $used = $_POST["val"];
     $price = $_POST['price'];
     $code = $_POST['code'];
-    
+   
     if (file_exists($ruta.$archivo.$extension)) unlink($ruta.$archivo.$extension);
     
     switch ( $_POST["action"] ) {        
@@ -62,8 +62,14 @@ class raizBarcode {
             if ( $code == 1 ) {
                 $algo = $barcode->_c128Barcode($barnumber,1,$archivo,$ruta);
                 $response['code'] = $ruta.$archivo.$extension;
-            } elseif ( $code == 0 ) {
+            } 
+            elseif ( $code == 0 ) {
                 $algo = $barcode->QRCode_save("text", $barnumber, $archivo, $ruta, $type = "png", $height = 50, $scale = 2, $bgcolor = "#FFFFFF", $barcolor = "#000000", $ECLevel = "L", $margin = true);
+                $response['code'] = $ruta.$archivo.$extension;
+            }
+            
+            elseif ( $code == 3 ) {
+                $algo = $barcode->_eanBarcode($barnumber, 1, $archivo, $ruta);
                 $response['code'] = $ruta.$archivo.$extension;
             }
         }

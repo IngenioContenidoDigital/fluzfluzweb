@@ -54,6 +54,8 @@ class MyAccountControllerCore extends FrontController
         $this->context->smarty->assign('customerProfile', $customerProfile);
         $this->context->smarty->assign('profile', $this->context->customer->id);
         
+        $ptosTotal = $this->getPointTotal($this->context->customer->id);
+        $this->context->smarty->assign('ptosTotal', $ptosTotal);
         
         $datePoint = $this->getPointsLastDays($this->context->customer->id);
         $lastPoint = round($datePoint, $precision=0);
@@ -248,6 +250,15 @@ class MyAccountControllerCore extends FrontController
         $row= Db::getInstance()->getRow($query);
         $name = $row['username'];
         return $name;
+    }
+    
+    public function getPointTotal($id_customer){
+        
+        $query = 'SELECT SUM(credits) FROM '._DB_PREFIX_.'rewards WHERE id_customer='.$id_customer.' AND credits > 0 AND id_reward_state = 2';
+        $pto = Db::getInstance()->getRow($query);
+        $row = $pto['SUM(credits)'];
+        
+        return $row;
     }
     
     public function orderQuantity(){
