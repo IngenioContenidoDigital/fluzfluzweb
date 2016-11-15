@@ -257,7 +257,7 @@ ul li .check::before {
     width: auto;
     height: auto;
     margin-right: 10px;
-    margin-left: 30px;
+    margin-left: 0px;
     margin-top: 20px;
 }
 

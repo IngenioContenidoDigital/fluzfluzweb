@@ -397,14 +397,20 @@
                         if ( response.codetype == 0 ) {
                             $('#bar-code').attr('src','.'+response.code);
                             $('.popText').css("font-size","14px");
+                            $('#bar-code').css("margin-left","30px");
                         }
                         if ( response.codetype == 1 ) {
                             $('#bar-code').attr('src','.'+response.code);
                         }
+                        if ( response.codetype == 3 ) {
+                            $('#bar-code').attr('src','.'+response.code);
+                            $('#bar-code').css("margin-left","20px");
+                        }
                         if ( response.codetype == 2 ) {
+                            $('.popText').css("display","none");
                             $('.popText').parent().css("margin-top","50px");
                             $('.popText').css("background","none");
-                            $('.popText').css("color","#fff");
+                            $('.popText').css("color","none");
                         }
                         
                         if (response.price_card_used){

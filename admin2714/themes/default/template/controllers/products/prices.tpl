@@ -215,6 +215,7 @@ $(document).ready(function () {
 		<label class="control-label col-lg-3" for="codetype">{l s='Seleccione Tipo de Codigo'}</label>
 		<div class="input-group col-lg-2">
                         <input type="radio" name="codetype" id="codeBR" value="1" {if $product->codetype == 1}checked="checked"{/if}/> {l s="Codigo de Barras"} <br/>
+                        <input type="radio" name="codetype" id="codeEAN" value="3" {if $product->codetype == 3}checked="checked"{/if}/> {l s="Codigo EAN-13"} <br/>
                         <input type="radio" name="codetype" id="codeQR" value="0" {if $product->codetype == 0}checked="checked"{/if}/> {l s="Codigo QR"}<br />
                         <input type="radio" name="codetype" id="codeNO" value="2" {if $product->codetype == 2}checked="checked"{/if}/> {l s="Codigo"}<br />
                 </div>
