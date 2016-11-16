@@ -436,7 +436,7 @@ class RewardsSponsorshipModel extends ObjectModel
             $sponsor_tree = array();
             $sponsor_tree[] = array(
                                     "id" => $idSponsor,
-                                    "level" => 0,
+                                    "level" => 0
                                 );
             self::_getRecursiveDescendantsTreeComplete($idSponsor, $result, $sponsor_tree);
             return $sponsor_tree;
