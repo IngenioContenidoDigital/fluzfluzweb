@@ -390,7 +390,7 @@ abstract class PaymentModuleCore extends Module
                 }
             }
             
-            if($order_status->id == 2 || $order_status->id == 5){
+            if($order_status->id == 2){
                             
                             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
                             $productId = Db::getInstance()->executeS($query);
@@ -404,9 +404,11 @@ abstract class PaymentModuleCore extends Module
                             
             $codeText = 'select code from ps_product_code WHERE id_order = '.(int)$order->id;
             $rowCode = Db::getInstance()->executeS($codeText);
-            $bar_codes = "";
+            
+            if (file_exists($ruta.$archivo.$extension)) unlink($ruta.$archivo.$extension);
+            
             foreach ($rowCode AS $code){
-                $bar_codes .= "<label>".$code['code']."</label><br>";
+                $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
             }
             
             $product_list = $order->getProducts();
@@ -790,9 +792,9 @@ abstract class PaymentModuleCore extends Module
                         '{date}' => Tools::displayDate(date('Y-m-d H:i:s'), null, 1),
                         '{carrier}' => ($virtual_product || !isset($carrier->name)) ? Tools::displayError('No carrier') : $carrier->name,
                         '{payment}' => Tools::substr($order->payment, 0, 32),
-                        '{bar_codes}'=> $bar_codes,
                         '{point_discount}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
                         '{products}' => $product_list_html,
+                        '{image}'=> $image_url,
                         '{products_txt}' => $product_list_txt,
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
@@ -823,21 +825,22 @@ abstract class PaymentModuleCore extends Module
                         if (self::DEBUG_MODE) {
                             PrestaShopLogger::addLog('PaymentModule::validateOrder - Mail is about to be sent', 1, null, 'Cart', (int)$id_cart, true);
                         }
-
-                        if (Validate::isEmail($this->context->customer->email)) {
-                            Mail::Send(
-                                (int)$order->id_lang,
-                                'order_conf',
-                                Mail::l('Order confirmation', (int)$order->id_lang),
-                                $data,
-                                $this->context->customer->email,
-                                $this->context->customer->firstname.' '.$this->context->customer->lastname,
-                                null,
-                                null,
-                                $file_attachement,
-                                null, _PS_MAIL_DIR_, false, (int)$order->id_shop
-                            );
-                        }
+                            if($order_status->id == 2){
+                                    if (Validate::isEmail($this->context->customer->email)) {
+                                        Mail::Send(
+                                            (int)$order->id_lang,
+                                            'order_conf',
+                                            Mail::l('Order confirmation', (int)$order->id_lang),
+                                            $data,
+                                            $this->context->customer->email,
+                                            $this->context->customer->firstname.' '.$this->context->customer->lastname,
+                                            null,
+                                            null,
+                                            $file_attachement,
+                                            null, _PS_MAIL_DIR_, false, (int)$order->id_shop
+                                        );
+                                    }    
+                            }
                     }
 
                     // updates stock in shops
@@ -914,6 +917,11 @@ abstract class PaymentModuleCore extends Module
      */
 
     protected function _getFormatedAddress(Address $the_address, $line_sep, $fields_style = array())
+    {
+        return AddressFormat::generateAddress($the_address, array('avoid' => array()), $line_sep, ' ', $fields_style);
+    }
+    
+    public static function _getFormatedAddress2(Address $the_address, $line_sep, $fields_style = array())
     {
         return AddressFormat::generateAddress($the_address, array('avoid' => array()), $line_sep, ' ', $fields_style);
     }
@@ -1053,4 +1061,5 @@ abstract class PaymentModuleCore extends Module
         }
         return '';
     }
+    
 }
