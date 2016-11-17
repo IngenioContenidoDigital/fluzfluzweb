@@ -28,7 +28,6 @@ class kickoutCustomers {
     }
 
     public function kickOut( $customer_kick_out ) {
-        echo '<h1>KICK OUT: '.$customer_kick_out['id'].'</h1>';
         $sponsorships = $this->geTreeInformation($customer_kick_out['id']);
 
         // tomar clientes que estan debajo del cliente kick out
@@ -38,10 +37,6 @@ class kickoutCustomers {
                 $sponsors[] = $sponsorship;
             }
         }
-
-        echo '<pre>';
-        print_r($sponsors);
-        echo '</pre>';
 
         // validar subida cliente
         $up = 2;
@@ -71,11 +66,17 @@ class kickoutCustomers {
         }
 
         if ( $up != 2 ) {
+            if ( count($this->updatesNetwork) == 0 ) {
+                $this->updateCustomerNetwork($sponsors[$up]['id'], $customer_kick_out['id_sponsor']);
+            } else {
+                $this->updateCustomerNetwork($sponsors[$up]['id'], $customer_kick_out['id']);
+            }
+            
             if ( $numSponsors == 2 ) {
                 $down = ($up == 1) ? 0 : 1;
                 $this->updateCustomerNetwork($sponsors[$down]['id'], $sponsors[$up]['id']);
             }
-            $this->updateCustomerNetwork($sponsors[$up]['id'], $customer_kick_out['id_sponsor']);
+            
             $this->kickOut( $sponsors[$up] );
         }
     }
@@ -98,13 +99,15 @@ class kickoutCustomers {
         $this->updatesNetwork[] = "UPDATE "._DB_PREFIX_."rewards_sponsorship
                                             SET id_sponsor = ".$id_sponsor.", date_upd = NOW()
                                             WHERE id_customer = ".$id_customer;
+        Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."promoted (id_customer, date_add)
+                                        VALUES (".$id_customer.", NOW())");
     }
 
     public function insertCustomerKickOut($customer) {
         $numSponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer['id']);
         $level = count( array_slice($numSponsorships, 1, 15) );
 
-        $query = "INSERT INTO "._DB_PREFIX_."rewards_sponsorship_kick_out(id_sponsor, id_customer, email, lastname, firstname, date_add, date_kick_out, level)
+        $query = "INSERT INTO "._DB_PREFIX_."rewards_sponsorship_kick_out (id_sponsor, id_customer, email, lastname, firstname, date_add, date_kick_out, level)
                     VALUES (".$customer['id_sponsor'].", ".$customer['id'].", '".$customer['email']."', '".$customer['lastname']."', '".$customer['firstname']."', '".$customer['date_add']."', NOW(), ".$level.")";
         return Db::getInstance()->execute($query);
     }
