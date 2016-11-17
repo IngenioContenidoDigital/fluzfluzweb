@@ -352,6 +352,58 @@ class AdminCustomersControllerCore extends AdminController
         $years = Tools::dateYears();
         $months = Tools::dateMonths();
         $days = Tools::dateDays();
+        
+        $field_active = array(
+                            'type' => 'switch',
+                            'label' => $this->l('Enabled'),
+                            'name' => 'active',
+                            'required' => false,
+                            'class' => 't',
+                            'is_bool' => true,
+                            'values' => array(
+                                array(
+                                    'id' => 'active_on',
+                                    'value' => 1,
+                                    'label' => $this->l('Enabled')
+                                ),
+                                array(
+                                    'id' => 'active_off',
+                                    'value' => 0,
+                                    'label' => $this->l('Disabled')
+                                )
+                            ),
+                            'hint' => $this->l('Enable or disable customer login.')
+                        );
+
+        $field_kick_out = array(
+                            'type' => 'switch',
+                            'label' => $this->l('Expulsar'),
+                            'name' => 'kick_out',
+                            'required' => false,
+                            'class' => 't',
+                            'is_bool' => true,
+                            'values' => array(
+                                array(
+                                    'id' => 'active_on',
+                                    'value' => 1,
+                                    'label' => $this->l('Enabled')
+                                ),
+                                array(
+                                    'id' => 'active_off',
+                                    'value' => 0,
+                                    'label' => $this->l('Disabled')
+                                )
+                            ),
+                            'hint' => $this->l('Expulsar al cliente de la red.')
+                        );
+        if ( $this->context->employee->id_profile != 1 ) {
+            if ( $obj->active == 0 ) {
+                $field_active = array();
+            }
+            if ( $obj->kick_out == 1 ) {
+                $field_kick_out = array();
+            }
+        }
 
         $groups = Group::getGroups($this->default_form_language, true);
         $this->fields_form = array(
@@ -420,27 +472,7 @@ class AdminCustomersControllerCore extends AdminController
                         'years' => $years
                     )
                 ),
-                array(
-                    'type' => 'switch',
-                    'label' => $this->l('Enabled'),
-                    'name' => 'active',
-                    'required' => false,
-                    'class' => 't',
-                    'is_bool' => true,
-                    'values' => array(
-                        array(
-                            'id' => 'active_on',
-                            'value' => 1,
-                            'label' => $this->l('Enabled')
-                        ),
-                        array(
-                            'id' => 'active_off',
-                            'value' => 0,
-                            'label' => $this->l('Disabled')
-                        )
-                    ),
-                    'hint' => $this->l('Enable or disable customer login.')
-                ),
+                $field_active,
                 array(
                     'type' => 'switch',
                     'label' => $this->l('Newsletter'),
@@ -485,6 +517,7 @@ class AdminCustomersControllerCore extends AdminController
                     'disabled' =>  (bool)!Configuration::get('PS_CUSTOMER_OPTIN'),
                     'hint' => $this->l('This customer will receive your ads via email.')
                 ),
+                $field_kick_out,
             )
         );
 
