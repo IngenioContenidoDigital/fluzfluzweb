@@ -141,6 +141,9 @@ class CustomerCore extends ObjectModel
     /** @var string DNI number */
     public $dni;
 
+    /** @var string kick_out number */
+    public $kick_out;
+
     protected $webserviceParameters = array(
         'fields' => array(
             'id_default_group' => array('xlink_resource' => 'groups'),
@@ -196,6 +199,7 @@ class CustomerCore extends ObjectModel
             'date_add' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
             'date_upd' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
             'dni' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isDniLite', 'size' => 16),
+            'kick_out' =>                   array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
         ),
     );
 
