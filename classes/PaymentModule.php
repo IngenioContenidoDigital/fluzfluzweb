@@ -23,6 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
+include('../classes/codeBar/barcode.class.php');
 
 abstract class PaymentModuleCore extends Module
 {
@@ -402,12 +403,13 @@ abstract class PaymentModuleCore extends Module
                         }
                     }
                             
-            $codeText = 'select code from ps_product_code WHERE id_order = '.(int)$order->id;
+            $codeText = 'select code, id_product from ps_product_code WHERE id_order = '.(int)$order->id;
             $rowCode = Db::getInstance()->executeS($codeText);
             
             if (file_exists($ruta.$archivo.$extension)) unlink($ruta.$archivo.$extension);
             
             foreach ($rowCode AS $code){
+                $this->consultcodebar($code['id_product'], $code['code']);
                 $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
             }
             
@@ -958,6 +960,39 @@ abstract class PaymentModuleCore extends Module
         }
         $currency = new Currency((int)$id_currency);
         return $currency;
+    }
+    
+    public static function consultcodebar($idproduct,$barnumber) {
+        
+        $ruta="../upload/";
+        $archivo="code-".$barnumber;
+        $extension=".png";
+        
+        $query = 'SELECT codetype FROM '._DB_PREFIX_.'product WHERE id_product = '.$idproduct;
+        $row = Db::getInstance()->getRow($query);
+        $code = $row["codetype"];
+
+        $response['codetype'] = $code;
+        $response['code'] = 0;
+        
+        if ( !empty($barnumber) ) {
+            
+            $barcode = new BARCODE();
+            if ( $code == 1 ) {
+                $algo = $barcode->_c128Barcode($barnumber,1,$archivo,$ruta);
+                $response['code'] = $ruta.$archivo.$extension;
+            } 
+            elseif ( $code == 0 ) {
+                $algo = $barcode->QRCode_save("text", $barnumber, $archivo, $ruta, $type = "png", $height = 50, $scale = 2, $bgcolor = "#FFFFFF", $barcolor = "#000000", $ECLevel = "L", $margin = true);
+                $response['code'] = $ruta.$archivo.$extension;
+            }
+            
+            elseif ( $code == 3 ) {
+                $algo = $barcode->_eanBarcode($barnumber, 1, $archivo, $ruta);
+                $response['code'] = $ruta.$archivo.$extension;
+            }
+        }
+        return $response;
     }
 
     /**

@@ -48,8 +48,9 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
     echo 0;
 }
      
-class raizBarcode {
-    public function consultcodebar($idproduct,$ruta,$archivo,$extension,$barnumber) {
+class raizBarcode{
+    
+    public static function consultcodebar($idproduct,$ruta,$archivo,$extension,$barnumber) {
         $query = 'SELECT codetype FROM '._DB_PREFIX_.'product WHERE id_product = '.$idproduct;
         $row = Db::getInstance()->getRow($query);
         $code = $row["codetype"];

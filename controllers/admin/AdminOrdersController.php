@@ -24,6 +24,12 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+include_once('../../config/config.inc.php');
+include_once('../../config/defines.inc.php');
+include('../../classes/codeBar/barcode.class.php');
+include('../../raizBarcode.php');
+include_once ('../../modules/barcodesimage/barcodesimage.php');
+
 class BoOrder extends PaymentModule
 {
     public $active = 1;
@@ -34,6 +40,17 @@ class BoOrder extends PaymentModule
         $this->displayName = $this->l('Back office order');
     }
 }
+
+/*class barOrder extends barcodesimage
+{
+    public $active = 1;
+    public $name = 'barOrder';
+
+    public function __construct()
+    {
+        $this->displayName = $this->l('Back office order');
+    }
+}*/
 
 /**
  * @property Order $object
@@ -564,10 +581,11 @@ class AdminOrdersControllerCore extends AdminController
                                 }
                             }
                             
-                            $codeText = 'select code from ps_product_code WHERE id_order = '.(int)$order->id;
+                            $codeText = 'select code, id_product from ps_product_code WHERE id_order = '.(int)$order->id;
                             $rowCode = Db::getInstance()->executeS($codeText);
                             
                             foreach ($rowCode AS $code){
+                                PaymentModuleCore::consultcodebar($code['id_product'], $code['code']);
                                 $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                             }
                             
