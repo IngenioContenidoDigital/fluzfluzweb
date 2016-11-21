@@ -40,6 +40,10 @@ class cashoutControllerCore extends FrontController{
                 $this->context->smarty->assign('totalAvailable', $totalAvailable);
                 $this->context->smarty->assign('totalAvailableCurrency', $totalAvailableCurrency);
 		$currency = Currency::getCurrency((int)$this->context->currency->id);
+                
+                $costoTransferencia = Tools::convertPrice(7000);
+                $this->context->smarty->assign('costoTransferencia', $costoTransferencia);
+                
 		$totalAvailableUserCurrency = Tools::convertPrice($totalAvailable, $currency);
 		$voucherMininum = (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) > 0 ? (float)MyConf::get('REWARDS_VOUCHER_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) : 0;
 		$paymentMininum = (float)MyConf::get('REWARDS_PAYMENT_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) > 0 ? (float)MyConf::get('REWARDS_PAYMENT_MIN_VALUE_'.(int)$this->context->currency->id, null, $id_template) : 0;
@@ -84,13 +88,14 @@ class cashoutControllerCore extends FrontController{
                     
                     $validacion = Tools::getValue('radio');
                     $pago_parcial = round(RewardsModel::getMoneyReadyForDisplay($point_used, (int)$this->context->currency->id));
+                    
                     if($validacion == 0){
                         
                         $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$totalForPaymentDefaultCurrency.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query1);
                         $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
-                                    . "                          VALUES ('".$name."' ,'".$lastname."','".$num."','".$bank_account."','".$bank."',".(int)$point_total.",".(int)$pago.",'0','0',".-1*$pago.",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                                    . "                          VALUES ('".$name."' ,'".$lastname."','".$num."','".$bank_account."','".$bank."',".(int)$point_total.",".((int)$pago-7000).",'0','0',".(-1*$pago+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query2);
                         Tools::redirect($this->context->link->getPageLink('my-account', true));
                     }
@@ -99,7 +104,7 @@ class cashoutControllerCore extends FrontController{
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$point_used.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query1);
                         $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
-                                    . "                          VALUES ('".$name."' ,'".$lastname."','".$num."','".$bank_account."','".$bank."',".(int)$point_used.",".(int)$pago_parcial.",'0','0',".-1*$pago_parcial.",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                                    . "                          VALUES ('".$name."' ,'".$lastname."','".$num."','".$bank_account."','".$bank."',".(int)$point_used.",".((int)$pago_parcial-7000).",'0','0',".(-1*$pago_parcial+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query2);
                         Tools::redirect($this->context->link->getPageLink('my-account', true));}
                         

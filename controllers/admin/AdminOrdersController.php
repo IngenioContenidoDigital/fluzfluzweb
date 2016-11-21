@@ -24,12 +24,6 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-include_once('../../config/config.inc.php');
-include_once('../../config/defines.inc.php');
-include('../../classes/codeBar/barcode.class.php');
-include('../../raizBarcode.php');
-include_once ('../../modules/barcodesimage/barcodesimage.php');
-
 class BoOrder extends PaymentModule
 {
     public $active = 1;
@@ -567,7 +561,12 @@ class AdminOrdersControllerCore extends AdminController
                         $delivery_state = $delivery->id_state ? new State((int)$delivery->id_state) : false;
                         $invoice_state = $invoice->id_state ? new State((int)$invoice->id_state) : false;
                         
-                        if($order_state->id == 2){
+                        $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$order->id;
+                        $row = Db::getInstance()->getRow($queryValidation);
+                        $orderValidation = $row['total'];
+                        
+
+                        if(($order_state->id == 2 ) && (($orderValidation < 1))){
                             
                             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
                             $productId = Db::getInstance()->executeS($query);
@@ -576,12 +575,12 @@ class AdminOrdersControllerCore extends AdminController
                             Db::getInstance()->execute($qstate);
                             
                             foreach ($productId as $valor) {
-                                for($i=0;$i<$valor['product_quantity'];$i++){
-                                    $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
-                                }
+                                    for($i=0;$i<$valor['product_quantity'];$i++){
+                                            $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
+                                        }
                             }
                             
-                            $codeText = 'select code, id_product from ps_product_code WHERE id_order = '.(int)$order->id;
+                            $codeText = 'SELECT code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id;
                             $rowCode = Db::getInstance()->executeS($codeText);
                             
                             foreach ($rowCode AS $code){

@@ -53,7 +53,7 @@ class AdminCashOutControllerCore extends AdminController
         
         /*$this->fields_options = array(
             'general' => array(
-                'title' =>    $this->l('Employee options'),
+                'title' =>    $this->l('Valor de Trasnferencia'),
                 'fields' =>    array(
                     'PS_PASSWD_TIME_BACK' => array(
                         'title' => $this->l('Password regeneration'),
