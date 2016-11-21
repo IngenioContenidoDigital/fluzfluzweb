@@ -109,7 +109,7 @@
                                var result = ((parseInt(total_point))-(parseInt(total_point2)));
                                var cash_result = 0;
                                var cash_confirmation = ((parseInt(total_point))*(value_money));
-                               var total = cash_confirmation - 0;
+                               var total = cash_confirmation - 7000;
                                $("#all-point").addClass("border-select");
                                $("#partial-point").removeClass("border-select");
                                $("#total-valor").html(total);
@@ -119,7 +119,6 @@
                                $("#points_used").html(total_point);
                                $('#pto_total').val(total_point);
                                $("#value-confirmation").html(cash_confirmation);
-                               $("#total-valor").html(total);
                             }
                             else if(val==1){
                               var total_point = $('#cash-point').text();
@@ -153,7 +152,7 @@
                           var mult = (value * value_money); 
                           $("#value-cash").html(mult);
                           $("#value-confirmation").html(mult);
-                          var total = mult - 0;
+                          var total = mult - 7000;
                           $("#total-valor").html(total);
                         });
                         
@@ -355,7 +354,7 @@
                 </div>
                 <div class="row c-cashout">
                     <label class="col-lg-8 col-md-8 col-sm-8 l-step3 col-xs-7">{l s="Costo Transferencia"}</label>
-                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3">-</span>
+                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3">-{$costoTransferencia}</span>
                 </div>
                 <div class="row c-cashout">
                     <label class="col-lg-8 col-md-8 col-sm-8 col-xs-7 l-step3">{l s="Redencion Total en Efectivo"}</label>
