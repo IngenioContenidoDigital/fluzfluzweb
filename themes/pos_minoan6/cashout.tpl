@@ -259,15 +259,19 @@
             <fieldset class="cheque-style">
                 <div id="alert2" class="alert-validation2" style="display:none;">{l s="Ingrese sus Datos Completos"}</div>
                 <div class="row cheque-row" style="margin-top:40px;">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <label class="col-lg-12 required label-cheque" for="gover">{l s='Cedula o Nit'}</label>
+                        <input type="text" class="col-lg-12 input-cash is_required validate" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
                         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
                         <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 required">
+                    <div class="col-lg-3 col-md-6 col-sm-6 required">
                         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
                         <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
                         <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
                         <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
                     </div>
@@ -336,6 +340,7 @@
             <input type="hidden" id="numero_tarjeta" name="numero_tarjeta" value=""/>
             <input type="hidden" id="bank_cash" name="bank_cash" value=""/>
             <input type="hidden" id="bank_account" name="bank_account" value=""/>
+            <input type="hidden" id="nit_cedula" name="nit_cedula" value=""/>
             <input type="hidden" id="pt_parciales" name="pt_parciales" value=""/>
             <input type="hidden" id="pto_total" name="pto_total" value=""/>
             <input type="hidden" id="radio" name="radio" value=""/>
@@ -490,8 +495,9 @@
                     var name = $("#firstnameCard").val();
                     var lastname = $("#lastnameCard").val();
                     var num = $("#numeroCard").val();
+                    var ced = $("#gover").val();
                     var url = document.getElementById("prueba").innerHTML;
-                    if ( name == "" || lastname == "" || num == "" || bank == "Seleccione una entidad") {
+                    if ( name == "" || ced == "" || lastname == "" || num == "" || bank == "Seleccione una entidad") {
                         document.getElementById('alert2').style.display = 'block';
                     }
                     else{
@@ -504,6 +510,7 @@
                     $("#lastname-customer").val(lastname);
                     $("#numero_tarjeta").val(num);
                     $("#bank_cash").val(bank);
+                    $("#nit_cedula").val(ced);
                     $("#bank_account").val(bank_account);
                     $('.second').removeClass('second-cash');
                     $('.first').removeClass('first');

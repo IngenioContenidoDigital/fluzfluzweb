@@ -250,10 +250,15 @@ class FrontControllerCore extends Controller
             $this->context->cookie->id_cart = (int)$id_cart;
         }
 
-        if ($this->auth && !$this->context->customer->isLogged($this->guestAllowed)) {
+        $variable= Tools::getValue("s");
+            
+        if ($variable != ""){
+            Tools::redirect('index.php?controller=authentication&create_account=1');
+        }
+        else if (($this->auth) && (!$this->context->customer->isLogged($this->guestAllowed))){
             Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection : ''));
         }
-
+            
         /* Theme is missing */
         if (!is_dir(_PS_THEME_DIR_)) {
             throw new PrestaShopException((sprintf(Tools::displayError('Current theme unavailable "%s". Please check your theme directory name and permissions.'), basename(rtrim(_PS_THEME_DIR_, '/\\')))));
