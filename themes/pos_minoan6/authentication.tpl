@@ -69,7 +69,7 @@
 						<button type="submit" id="SubmitLogin" name="SubmitLogin" class="button btn btn-default button-medium">
 							<span>
 								<i class="icon-lock left"></i>
-								{l s='Sign in'}
+								{l s='Log In'}
 							</span>
 						</button>
 					</p>
