@@ -1571,6 +1571,68 @@ class AdminProductsControllerCore extends AdminController
 
             die($report);
         }
+        
+        if ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreportdescriptions" ) {
+            $sql = "SELECT
+                        p.id_product,
+                        pl.name,
+                        p.reference,
+                        m.name merchant,
+                        IF(p.active = 1,'Activo','Inactivo') status,
+                        pl.description product_description,
+                        pl.description_short product_description_short,
+                        ml.description merchant_description,
+                        ml.short_description merchant_description_short
+                    FROM "._DB_PREFIX_."product p
+                    LEFT JOIN "._DB_PREFIX_."product_lang pl ON ( p.id_product = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
+                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+                    LEFT JOIN "._DB_PREFIX_."manufacturer_lang ml ON ( p.id_manufacturer = ml.id_manufacturer AND ml.id_lang = ".$this->context->language->id." )";
+
+            $products = Db::getInstance()->executeS($sql);
+            
+            $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>producto</th>
+                                        <th>nombre</th> 
+                                        <th>referencia</th>
+                                        <th>fabricante</th>
+                                        <th>estado</th>
+                                        <th>descripcion larga producto</th>
+                                        <th>descripcion corta producto</th>
+                                        <th>descripcion larga fabricante</th>
+                                        <th>descripcion corta fabricante</th>
+                                    </tr>";
+
+            foreach ( $products as $product ) {
+                $report .= "<tr>
+                                <td>".$product['id_product']."</td>
+                                <td>".$product['name']."</td>
+                                <td>".$product['reference']."</td>
+                                <td>".$product['merchant']."</td>
+                                <td>".$product['status']."</td>
+                                <td>".$product['product_description']."</td>
+                                <td>".$product['product_description_short']."</td>
+                                <td>".$product['merchant_description']."</td>
+                                <td>".$product['merchant_description_short']."</td>
+                            </tr>";
+            }
+
+            $report .= "         </table>
+                            </body>
+                        </html>";
+
+            header("Content-Type: application/vnd.ms-excel");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("content-disposition: attachment;filename=report_products_descriptions.xls");
+
+            die($report);
+        }
     }
 
     public function ajaxProcessDeleteProductAttribute()
@@ -2620,7 +2682,7 @@ class AdminProductsControllerCore extends AdminController
             $helper = new HelperKpi();
             $helper->id = 'box-products-stock';
             $helper->icon = 'icon-archive';
-            $helper->color = 'color1';
+            $helper->color = 'color3';
             $helper->title = $this->l('Out of stock items', null, null, false);
             if (ConfigurationKPI::get('PERCENT_PRODUCT_OUT_OF_STOCK') !== false) {
                 $helper->value = ConfigurationKPI::get('PERCENT_PRODUCT_OUT_OF_STOCK');
@@ -2632,7 +2694,7 @@ class AdminProductsControllerCore extends AdminController
             $kpis[] = $helper->generate();
         }
 
-        $helper = new HelperKpi();
+        /*$helper = new HelperKpi();
         $helper->id = 'box-avg-gross-margin';
         $helper->icon = 'icon-tags';
         $helper->color = 'color2';
@@ -2660,7 +2722,7 @@ class AdminProductsControllerCore extends AdminController
         if (Module::isInstalled('statsbestproducts')) {
             $helper->href = Context::getContext()->link->getAdminLink('AdminStats').'&module=statsbestproducts&datepickerFrom='.date('Y-m-d', strtotime('-30 days')).'&datepickerTo='.date('Y-m-d');
         }
-        $kpis[] = $helper->generate();
+        $kpis[] = $helper->generate();*/
 
         $helper = new HelperKpi();
         $helper->id = 'box-disabled-products';
@@ -2684,6 +2746,15 @@ class AdminProductsControllerCore extends AdminController
         $helper->title = $this->l('Reporte Productos', null, null, false);
         $helper->subtitle = $this->l('Descargar', null, null, false);
         $helper->href = $this->context->link->getAdminLink('AdminProducts').'&action=exportreport';
+        $kpis[] = $helper->generate();
+        
+        $helper = new HelperKpi();
+        $helper->id = 'box-report_products_descriptions';
+        $helper->icon = 'icon-download';
+        $helper->color = 'color2';
+        $helper->title = $this->l('Reporte Descripciones Productos', null, null, false);
+        $helper->subtitle = $this->l('Descargar', null, null, false);
+        $helper->href = $this->context->link->getAdminLink('AdminProducts').'&action=exportreportdescriptions';
         $kpis[] = $helper->generate();
 
         $helper = new HelperKpiRow();
