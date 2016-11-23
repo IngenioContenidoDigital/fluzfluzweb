@@ -253,6 +253,7 @@ class FrontControllerCore extends Controller
         $variable= Tools::getValue("s");
             
         if ($variable != ""){
+            
             Tools::redirect('index.php?controller=authentication&create_account=1');
         }
         else if (($this->auth) && (!$this->context->customer->isLogged($this->guestAllowed))){
