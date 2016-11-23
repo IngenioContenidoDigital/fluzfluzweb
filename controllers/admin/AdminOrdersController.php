@@ -608,7 +608,7 @@ class AdminOrdersControllerCore extends AdminController
                                     'reference' => $product['reference'],
                                     'name' => $product['product_name'].(isset($product['attributes']) ? ' - '.$product['attributes'] : ''),
                                     //'image'=> $image_url,
-                                    //'descripcion'=>$desc,
+                                    //'descripcion'=>$product['reference'],
                                     'unit_price' => Tools::displayPrice($product_price, $this->context->currency, false),
                                     'price' => Tools::displayPrice($product_price * $product['product_quantity'], $this->context->currency, false),
                                     'quantity' => $product['product_quantity']
