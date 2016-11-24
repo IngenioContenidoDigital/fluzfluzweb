@@ -5,6 +5,7 @@ if (!defined('_PS_VERSION_'))
 
 class reportkickoutcustomers extends ModuleGrid
 {
+    private $html;
     private $query;
     private $columns;
 
@@ -16,8 +17,6 @@ class reportkickoutcustomers extends ModuleGrid
         $this->author = 'Ingenio Contenido Digital SAS';
 
         parent::__construct();
-
-        $this->empty_message = $this->l('There is npt any records');
 
         $this->columns = array(
             array(
@@ -75,8 +74,11 @@ class reportkickoutcustomers extends ModuleGrid
                         FROM "._DB_PREFIX_."rewards_sponsorship_kick_out rws
                         LEFT JOIN "._DB_PREFIX_."rewards r ON ( rws.id_customer = r.id_customer )";
 
-        $this->_values = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($this->query);
-        $this->_totalCount = Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('SELECT FOUND_ROWS()');
+        $list = Db::getInstance()->executeS($this->query);
+
+        if ( $list[0]['id_customer'] != "" ) {
+            $this->_values = $list;
+        }
     }
 
     public function hookAdminStatsModules($params)

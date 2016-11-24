@@ -118,14 +118,14 @@ class AdminCustomersControllerCore extends AdminController
                 'align' => 'text-right',
                 'badge_success' => true
             ),
-            'active' => array(
+            /*'active' => array(
                 'title' => $this->l('Enabled'),
                 'align' => 'text-center',
                 'active' => 'status',
                 'type' => 'bool',
                 'orderby' => false,
                 'filter_key' => 'a!active'
-            ),
+            ),*/
             'newsletter' => array(
                 'title' => $this->l('Newsletter'),
                 'align' => 'text-center',
@@ -133,13 +133,13 @@ class AdminCustomersControllerCore extends AdminController
                 'callback' => 'printNewsIcon',
                 'orderby' => false
             ),
-            'optin' => array(
+            /*'optin' => array(
                 'title' => $this->l('Opt-in'),
                 'align' => 'text-center',
                 'type' => 'bool',
                 'callback' => 'printOptinIcon',
                 'orderby' => false
-            ),
+            ),*/
             'date_add' => array(
                 'title' => $this->l('Registration'),
                 'type' => 'date',
