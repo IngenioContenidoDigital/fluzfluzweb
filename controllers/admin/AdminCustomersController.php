@@ -145,6 +145,11 @@ class AdminCustomersControllerCore extends AdminController
                 'type' => 'date',
                 'align' => 'text-right'
             ),
+            'date_kick_out' => array(
+                'title' => $this->l('Fecha Expulsion'),
+                'type' => 'date',
+                'align' => 'text-right'
+            ),
             'connect' => array(
                 'title' => $this->l('Last visit'),
                 'type' => 'datetime',
@@ -171,7 +176,11 @@ class AdminCustomersControllerCore extends AdminController
             WHERE g.id_customer = a.id_customer
             ORDER BY c.date_add DESC
             LIMIT 1
-        ) as connect';
+        ) as connect, (
+            SELECT rsk.date_kick_out
+            FROM '._DB_PREFIX_.'rewards_sponsorship_kick_out rsk
+            WHERE rsk.id_customer = a.id_customer
+        ) as date_kick_out';
 
         // Check if we can add a customer
         if (Shop::isFeatureActive() && (Shop::getContext() == Shop::CONTEXT_ALL || Shop::getContext() == Shop::CONTEXT_GROUP)) {
