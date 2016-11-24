@@ -12,6 +12,8 @@
  * Support on Skype : Patanock13
  */
 
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipCodeModel.php');
+
 if (!defined('_PS_VERSION_'))
 	exit;
 
