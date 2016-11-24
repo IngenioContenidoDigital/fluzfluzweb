@@ -1001,7 +1001,11 @@ class AdminCustomersControllerCore extends AdminController
         $customer = new Customer();
         $this->errors = array_merge($this->errors, $customer->validateFieldsRequiredDatabase());
 
-        return parent::processSave();
+        $save = parent::processSave();
+
+        require_once(_PS_ROOT_DIR_.'/kickoutcustomers.php');
+
+        return $save;
     }
 
     protected function afterDelete($object, $old_id)
