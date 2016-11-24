@@ -401,18 +401,7 @@ abstract class PaymentModuleCore extends Module
                                     $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
                             }
                         }
-                    }
                             
-            $codeText = 'select code, id_product from ps_product_code WHERE id_order = '.(int)$order->id;
-            $rowCode = Db::getInstance()->executeS($codeText);
-            
-            if (file_exists($ruta.$archivo.$extension)) unlink($ruta.$archivo.$extension);
-            
-            foreach ($rowCode AS $code){
-                $this->consultcodebar($code['id_product'], $code['code']);
-                $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
-            }
-            
             $product_list = $order->getProducts();
             $total_value = "";
             foreach ($product_list as $product) {
@@ -492,14 +481,29 @@ abstract class PaymentModuleCore extends Module
 
                     $product_var_tpl_list = array();
                     foreach ($order->product_list as $product) {
+                        $image_url = "";    
+                        $codeText = 'select code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
+                        $rowCode = Db::getInstance()->executeS($codeText);
+                        
+                        foreach ($rowCode AS $code){
+                            $this->consultcodebar($code['id_product'], $code['code']);
+                            $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                        }
+                        
                         $price = Product::getPriceStatic((int)$product['id_product'], false, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 6, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
                         $price_wt = Product::getPriceStatic((int)$product['id_product'], true, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 2, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
 
                         $product_price = Product::getTaxCalculationMethod() == PS_TAX_EXC ? Tools::ps_round($price, 2) : $price_wt;
-
+                        
+                        $query = 'SELECT description_short FROM '._DB_PREFIX_.'product_lang WHERE id_product = '.$product['id_product'];
+                                $row = Db::getInstance()->getRow($query);
+                                $desc = $row['description_short'];
+                        
                         $product_var_tpl = array(
                             'reference' => $product['reference'],
                             'name' => $product['name'].(isset($product['attributes']) ? ' - '.$product['attributes'] : ''),
+                            'descripcion'=>$desc,
+                            'image_code'=> $image_url,
                             'unit_price' => Tools::displayPrice($product_price, $this->context->currency, false),
                             'price' => Tools::displayPrice($product_price * $product['quantity'], $this->context->currency, false),
                             'quantity' => $product['quantity'],
@@ -827,7 +831,6 @@ abstract class PaymentModuleCore extends Module
                         if (self::DEBUG_MODE) {
                             PrestaShopLogger::addLog('PaymentModule::validateOrder - Mail is about to be sent', 1, null, 'Cart', (int)$id_cart, true);
                         }
-                            if($order_status->id == 2){
                                     if (Validate::isEmail($this->context->customer->email)) {
                                         Mail::Send(
                                             (int)$order->id_lang,
@@ -842,7 +845,6 @@ abstract class PaymentModuleCore extends Module
                                             null, _PS_MAIL_DIR_, false, (int)$order->id_shop
                                         );
                                     }    
-                            }
                     }
 
                     // updates stock in shops
@@ -875,12 +877,14 @@ abstract class PaymentModuleCore extends Module
             }
 
             return true;
-        } else {
-            $error = Tools::displayError('Cart cannot be loaded or an order has already been placed using this cart');
-            PrestaShopLogger::addLog($error, 4, '0000001', 'Cart', intval($this->context->cart->id));
-            die($error);
+        } 
+            }
+            else {
+                $error = Tools::displayError('Cart cannot be loaded or an order has already been placed using this cart');
+                PrestaShopLogger::addLog($error, 4, '0000001', 'Cart', intval($this->context->cart->id));
+                die($error);
         }
-    }
+    } 
 
     /**
      * @deprecated 1.6.0.7

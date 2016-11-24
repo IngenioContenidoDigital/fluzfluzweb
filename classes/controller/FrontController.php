@@ -24,6 +24,9 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsTemplateModel.php');
+
 class FrontControllerCore extends Controller
 {
     /**
@@ -249,23 +252,16 @@ class FrontControllerCore extends Controller
         if ($id_cart = (int)$this->recoverCart()) {
             $this->context->cookie->id_cart = (int)$id_cart;
         }
-/*
+
         $variable= Tools::getValue("s");
             
         if ($variable != ""){
-            
-            //die('entra');
-            //Tools::redirect('index.php?controller=authentication&create_account=1');
-            RewardsSponsorshipModel::getSponsorshipLink($this->context->customer->id);
+            $this->_checkSponsorshipLink();
         }
-        else if (($this->auth) && (!$this->context->customer->isLogged($this->guestAllowed))){
-            Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection : ''));
-        }*/
-        
-        if ($this->auth && !$this->context->customer->isLogged($this->guestAllowed)) {
+        else if ($this->auth && !$this->context->customer->isLogged($this->guestAllowed)){
             Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection : ''));
         }
-            
+       
         /* Theme is missing */
         if (!is_dir(_PS_THEME_DIR_)) {
             throw new PrestaShopException((sprintf(Tools::displayError('Current theme unavailable "%s". Please check your theme directory name and permissions.'), basename(rtrim(_PS_THEME_DIR_, '/\\')))));
@@ -573,7 +569,33 @@ class FrontControllerCore extends Controller
     public function postProcess()
     {
     }
+    
+    private function _checkSponsorshipLink()
+	{
+		if (Tools::getValue('s')) {
+                    
+			$sponsor = null;
+			$id_template = 0;
+			$sponsorship = new RewardsSponsorshipModel(RewardsSponsorshipModel::decodeSponsorshipMailLink(Tools::getValue('s')));
+			if (Validate::isLoadedObject($sponsorship))
+				$sponsor = new Customer($sponsorship->id_sponsor);
+			else
+				$sponsor = new Customer(RewardsSponsorshipModel::decodeSponsorshipLink(Tools::getValue('s')));
+			if (Validate::isLoadedObject($sponsor) && RewardsSponsorshipModel::isCustomerAllowed($sponsor)) {
+				$this->context->cookie->rewards_sponsor_id = $sponsor->id;
+				$this->context->cookie->rewards_sponsor_channel = (Tools::getValue('c') && is_numeric(Tools::getValue('c'))) ? Tools::getValue('c') : 2;
+				$this->context->cookie->rewards_sponsorship_id = Validate::isLoadedObject($sponsorship) ? $sponsorship->id : '';
+				$id_template = (int)MyConf::getIdTemplate('sponsorship', $sponsor->id);
+			}
 
+			if (MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template) != 'home' && $this->context->controller instanceof IndexController) {
+				if (MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template) == 'form')
+					Tools::redirect('index.php?controller=authentication&create_account=1');
+				else
+					Tools::redirect($this->context->link->getCMSLink(MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template)));
+			}
+		}
+	}
     /**
      * Initializes common front page content: header, footer and side columns
      */

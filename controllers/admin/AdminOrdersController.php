@@ -565,8 +565,12 @@ class AdminOrdersControllerCore extends AdminController
                         $row = Db::getInstance()->getRow($queryValidation);
                         $orderValidation = $row['total'];
                         
-
-                        if(($order_state->id == 2 ) && (($orderValidation < 1))){
+                        $quantityProducts = 'SELECT COUNT(product_id) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$order->id;
+                        
+                        $row2 = Db::getInstance()->getRow($quantityProducts);
+                        $productos = $row2['productos'];
+                        
+                        if(($order_state->id == 2 ) && (($orderValidation < $productos))){
                             
                             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
                             $productId = Db::getInstance()->executeS($query);
@@ -580,19 +584,19 @@ class AdminOrdersControllerCore extends AdminController
                                         }
                             }
                             
-                            $codeText = 'SELECT code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id;
-                            $rowCode = Db::getInstance()->executeS($codeText);
-                            
-                            foreach ($rowCode AS $code){
-                                PaymentModuleCore::consultcodebar($code['id_product'], $code['code']);
-                                $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
-                            }
-                            
                             $product_list = $order->getProducts();
                             $total_value = "";
                             $virtual_product = true;
                             $product_var_tpl_list = array();
                             foreach ($product_list as $product) {
+                                $image_url = "";    
+                                $codeText = 'select code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
+                                $rowCode = Db::getInstance()->executeS($codeText);
+
+                                foreach ($rowCode AS $code){
+                                    PaymentModuleCore::consultcodebar($code['id_product'], $code['code']);
+                                    $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                }
                                 
                                 $total_value .= "<label>".round($product['price_shop'])."</label><br>";
                                 $price = ProductCore::getPriceStatic((int)$product['id_product'], false, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 6, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
@@ -600,15 +604,15 @@ class AdminOrdersControllerCore extends AdminController
                                 
                                 $product_price = ProductCore::getTaxCalculationMethod() == PS_TAX_EXC ? Tools::ps_round($price, 2) : $price_wt;
                                 
-                                /*$query = 'SELECT description_short FROM '._DB_PREFIX_.'product_lang WHERE id_product = '.$product['id_product'];
+                                $query = 'SELECT description_short FROM '._DB_PREFIX_.'product_lang WHERE id_product = '.$product['id_product'];
                                 $row = Db::getInstance()->getRow($query);
-                                $desc = $row['description_short'];*/
+                                $desc = $row['description_short'];
                                 
                                 $product_var_tpl = array(
                                     'reference' => $product['reference'],
                                     'name' => $product['product_name'].(isset($product['attributes']) ? ' - '.$product['attributes'] : ''),
-                                    //'image'=> $image_url,
-                                    //'descripcion'=>$product['reference'],
+                                    'descripcion'=>$desc,
+                                    'image_code'=> $image_url,
                                     'unit_price' => Tools::displayPrice($product_price, $this->context->currency, false),
                                     'price' => Tools::displayPrice($product_price * $product['product_quantity'], $this->context->currency, false),
                                     'quantity' => $product['product_quantity']
@@ -694,7 +698,7 @@ class AdminOrdersControllerCore extends AdminController
                             '{payment}' => Tools::substr($order->payment, 0, 32), 
                             '{point_discount}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
                             '{products}' => $product_list_html,
-                            '{image}'=> $image_url,    
+                            //'{image}'=> $image_url,    
                             '{products_txt}' => $product_list_txt,
                             '{total_value}' => Tools::displayPrice($total_value),    
                             '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
