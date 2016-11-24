@@ -148,6 +148,7 @@ class AdminCustomersControllerCore extends AdminController
             'date_kick_out' => array(
                 'title' => $this->l('Fecha Expulsion'),
                 'type' => 'date',
+                'search' => false,
                 'align' => 'text-right'
             ),
             'connect' => array(
