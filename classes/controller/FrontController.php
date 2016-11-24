@@ -249,13 +249,20 @@ class FrontControllerCore extends Controller
         if ($id_cart = (int)$this->recoverCart()) {
             $this->context->cookie->id_cart = (int)$id_cart;
         }
-
+/*
         $variable= Tools::getValue("s");
             
         if ($variable != ""){
-            Tools::redirect('index.php?controller=authentication&create_account=1');
+            
+            //die('entra');
+            //Tools::redirect('index.php?controller=authentication&create_account=1');
+            RewardsSponsorshipModel::getSponsorshipLink($this->context->customer->id);
         }
         else if (($this->auth) && (!$this->context->customer->isLogged($this->guestAllowed))){
+            Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection : ''));
+        }*/
+        
+        if ($this->auth && !$this->context->customer->isLogged($this->guestAllowed)) {
             Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection : ''));
         }
             
