@@ -262,14 +262,42 @@ class MyAccountControllerCore extends FrontController
     }
     
     public function orderQuantity(){
+            $alertpurchaseorder = false;
+
+            $querydays = 'SELECT DATEDIFF(NOW(), date_add) AS days FROM '._DB_PREFIX_.'customer WHERE id_customer ='.$this->context->customer->id;
+            $rowday = db::getInstance()->getRow($querydays);
+            $days = $rowday['days'];
+           
+            if($days > 60){
+                $query = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+                LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
+                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' AND r.id_reward_state=2 ORDER BY o.id_order DESC';
+
+                $order=Db::getInstance()->getRow($query);
+                $orders_lastmonth = $order['num_order'];
+                
+                $query2 = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+                LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
+                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' AND r.id_reward_state=2 ORDER BY o.id_order DESC';
+
+                $order2=Db::getInstance()->getRow($query2);
+                $orders_aftermonth = $order2['num_order'];
+                
+                if ( $days < 90 ) {
+                    $query3 = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+                    LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
+                    WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 3 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' AND r.id_reward_state=2 ORDER BY o.id_order DESC';
+
+                    $order3=Db::getInstance()->getRow($query3);
+                    $orders_aftermonth += $order3['num_order'];
+                }
+                
+                if ( ($orders_aftermonth+$orders_lastmonth) < 4 ) {
+                    $alertpurchaseorder = true;
+                }
+            }
             
-            $query = 'SELECT COUNT(o.id_order), o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
-            LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
-            WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' AND r.id_reward_state=2 ORDER BY o.id_order DESC';
-            $order=Db::getInstance()->getRow($query);
-            $orders_lastmonth = $order['COUNT(o.id_order)'];
-            
-            return $orders_lastmonth;
+            return $alertpurchaseorder;
         }
     
     public function getPointsLastDays(){

@@ -33,7 +33,7 @@ class cardsSupplier {
 	PP.id_supplier, 
         PP.price_shop AS price,
         PP.price AS price_value,
-        PO.date_add AS date,
+        DATE_FORMAT( PO.date_add ,'%d/%m/%Y') AS date,
 	PPI.id_image, 
 	PPI.cover
         FROM ps_product_code PC INNER JOIN ps_order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id

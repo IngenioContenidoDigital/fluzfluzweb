@@ -474,7 +474,7 @@
                         var content = '';
                         //var fecha = x[0].date;
                         for (var i=0;i<x.length;i++){
-                          var fecha = x[i].date;
+                          
             content += '<a class="col-xs-12 col-sm-12 col-md-6 col-lg-6 myfanc" href="#myspecialcontent">'+
                     '<div class="card">'+
                         '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 used-oculto">'+x[i].used+'</div>'+
@@ -487,7 +487,7 @@
                     '<div id="terms_oculto">'+x[i].description+'</div>'+
                     '<div id="prodid_oculto">'+x[i].id_product+'</div>'+
                     '<div id="price_value">'+Math.round(x[i].price_value)+'</div>'+
-                    '<div id="date">'+fecha.substring(0,10)+'</div>'+
+                    '<div id="date">'+x[i].date+'</div>'+
                     '<div id="nameOculto">'+x[i].product_name+'</div>'+
                     '</a>';
                     }
@@ -509,7 +509,7 @@
                         }
                     });
                     $('.avail').html(avail);
-                    renderCard(x[0].card_code, Math.round(x[0].price), Math.round(x[0].price_value), fecha.substring(0,10),x[0].product_name,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
+                    renderCard(x[0].card_code, Math.round(x[0].price), Math.round(x[0].price_value), x[0].date,x[0].product_name,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
                     $('#myspecialcontent').parent().show();
               }});
         });
@@ -518,7 +518,7 @@
             var codeImg2 = $(this).find(".codeImg").html();
             var price = document.getElementById("pOculto").innerHTML;
             var priceValue = document.getElementById("price_value").innerHTML;
-            var dateP = document.getElementById("date").innerHTML;
+            var dateP = $(this).find("#date").html();
             var name = document.getElementById("nameOculto").innerHTML;
             var description = document.getElementById("desc_oculto").innerHTML;
             var terms = document.getElementById("terms_oculto").innerHTML;
