@@ -47,7 +47,7 @@ class DiscountControllerCore extends FrontController
         foreach ($tree as $sponsor) {
             if ( $this->context->customer->id != $sponsor['id'] ) {
                 $customer = new Customer($sponsor['id']);
-                $name = strtolower($customer->firstname." ".$customer->lastname);
+                $name = strtolower($customer->username);
                 if ( $customer->firstname != "" ) {
                     if ( $searchnetwork != "" ) {
                         $coincidence = strpos($name, $searchnetwork);
