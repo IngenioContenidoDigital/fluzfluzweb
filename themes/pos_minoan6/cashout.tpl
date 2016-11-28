@@ -261,8 +261,22 @@
                 <div class="row cheque-row" style="margin-top:40px;">
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <label class="col-lg-12 required label-cheque" for="gover">{l s='Cedula o Nit'}</label>
-                        <input type="text" class="col-lg-12 input-cash is_required validate" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>
+                        <div class="col-lg-12"  style="padding-left:0px;">
+                            <select id="typedocument" name="typedocument" class="col-lg-12 input-background" required>
+                                        <option value="" selected="selected">Seleccione tipo de Documento</option>
+                                        <option value="0">CC</option>
+                                        <option value="1">NIT</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 required" style="padding: 0;">
+                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">{l s='Document number'}</label>
+                            <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
+                    </div>
+                    <div class="form-group required col-lg-3 col-md-3 col-xs-3 blockcheckdigit" style="display: none;">
+                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">{l s='Digito de Verificacion'}</label>
+                            <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isCheckDigit" id="checkdigit" name="checkdigit" oninput="if(value.length>1)value=value.slice(0,1)" value="{if isset($smarty.post.checkdigit)}{$smarty.post.checkdigit}{/if}"/>
+                    </div>    
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
                         <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
@@ -271,14 +285,14 @@
                         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
                         <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
                         <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
                         <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 style-bank">
+                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
                         <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
                         <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="pse_bank" name="pse_bank" onchange="bank();" class="col-lg-12" required>
+                            <select id="pse_bank" name="pse_bank" onchange="bank();" class="col-lg-12 input-background" required>
                                 <option value="">Seleccione una entidad</option>
                                 <option value="BA">BANCO AGRARIO</option>
                                 <option value="BCS">BANCO CAJA SOCIAL</option>
@@ -306,10 +320,10 @@
                             <input type="hidden" value="" name="name_bank" id="name_bank"/>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 style-bank">
+                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
                         <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
                         <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12" required>
+                            <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
                                 <option value="">Seleccione una entidad</option>
                                 <option value="Cuenta Ahorros">CUENTA AHORROS</option>
                                 <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
@@ -547,6 +561,22 @@
     <style>
     div.uploader span.filename{margin-left: 18px !important;}
     </style>
+{/literal}
+{literal}
+    <script>
+        $(document).ready(function(){                    
+            $("#typedocument").change(function() {
+                $("#checkdigit").val("");
+                if ( $("#typedocument").val() == 1 ) {
+                    $(".blockcheckdigit").css("display", "block");
+                    $("#gover").attr("data-validate", "isNITNumber");
+                } else {
+                    $(".blockcheckdigit").css("display", "none");                
+                    $("#gover").attr("data-validate", "isGoverNumber");                
+                }
+                });
+        });
+    </script>
 {/literal}
 {literal}
     <script>       

@@ -45,6 +45,10 @@ ul.step li.step_todo span:after{display: none;}
 
 .style-label{padding: 2px;}
 
+.input-background{
+    background: #fff;
+}
+
 .proceso{
     background: #FF8C00;
     width: 20% !important;
