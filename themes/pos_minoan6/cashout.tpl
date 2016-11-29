@@ -270,7 +270,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6 required" style="padding: 0;">
-                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">{l s='Document number'}</label>
+                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">N&uacute;mero de Identificaci&oacute;n{*l s='N&uacute;mero de Identificaci&oacute;n'*}</label>
                             <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
                     </div>
                     <div class="form-group required col-lg-3 col-md-3 col-xs-3 blockcheckdigit" style="display: none;">
