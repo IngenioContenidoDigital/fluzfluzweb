@@ -242,6 +242,9 @@ class OrderControllerCore extends ParentOrderController
                         $this->context->customer->mylogout(); // If guest we clear the cookie for security reason
                         Tools::redirect('index.php?controller=guest-tracking&id_order='.urlencode($order->reference).'&email='.urlencode($email));
                     } else {
+                        
+                        $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$this->context->customer->id." AND id_order=".$id_order." AND id_cart=".$this->context->cart->id;
+                        Db::getInstance()->execute($qstate);
                         Tools::redirect($this->context->link->getPageLink('my-account', true));
                     }
                 }
@@ -275,6 +278,7 @@ class OrderControllerCore extends ParentOrderController
      */
     public function autoStep()
     {
+       
         /*if ($this->step >= 2 && (!$this->context->cart->id_address_delivery || !$this->context->cart->id_address_invoice)) {
             Tools::redirect('index.php?controller=order&step=1');
         }*/
