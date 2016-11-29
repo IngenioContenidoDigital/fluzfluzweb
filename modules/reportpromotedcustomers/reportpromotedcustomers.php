@@ -3,7 +3,7 @@
 if (!defined('_PS_VERSION_'))
     exit;
 
-class reportkickoutcustomers extends ModuleGrid
+class reportpromotedcustomers extends ModuleGrid
 {
     private $html;
     private $query;
@@ -11,7 +11,7 @@ class reportkickoutcustomers extends ModuleGrid
 
     public function __construct()
     {
-        $this->name = 'reportkickoutcustomers';
+        $this->name = 'reportpromotedcustomers';
         $this->tab = 'analytics_stats';
         $this->version = '1.0';
         $this->author = 'Ingenio Contenido Digital SAS';
@@ -50,15 +50,15 @@ class reportkickoutcustomers extends ModuleGrid
                 'align' => 'center'
             ),
             array(
-                'id' => 'date_kick_out',
-                'header' => $this->l('Fecha Expulsion'),
-                'dataIndex' => 'date_kick_out',
+                'id' => 'date_add',
+                'header' => $this->l('Fecha Promocion'),
+                'dataIndex' => 'date_add',
                 'align' => 'center'
             ),
         );
 
-        $this->displayName = $this->l('Reporte Clientes Expulsados');
-        $this->description = $this->l('Reporte clientes expulsados de la red');
+        $this->displayName = $this->l('Reporte Clientes Promovidos');
+        $this->description = $this->l('Reporte clientes promovidos de la red');
     }
 
     public function install()
@@ -70,10 +70,11 @@ class reportkickoutcustomers extends ModuleGrid
     public function getData()
     {
         // $date_between = $this->getDate();
-        $this->query = "SELECT rws.id_customer, rws.firstname, rws.lastname, rws.email, rws.date_kick_out, SUM(r.credits) points
-                        FROM "._DB_PREFIX_."rewards_sponsorship_kick_out rws
-                        LEFT JOIN "._DB_PREFIX_."rewards r ON ( rws.id_customer = r.id_customer )
-                        GROUP BY rws.id_customer";
+        $this->query = "SELECT p.id_customer, c.firstname, c.lastname, c.email, SUM(r.credits) points, p.date_add 
+                        FROM "._DB_PREFIX_."promoted p
+                        LEFT JOIN "._DB_PREFIX_."customer c ON ( p.id_customer = c.id_customer )
+                        LEFT JOIN "._DB_PREFIX_."rewards r ON ( c.id_customer = r.id_customer )
+                        GROUP BY p.id_customer";
 
         $list = Db::getInstance()->executeS($this->query);
 
