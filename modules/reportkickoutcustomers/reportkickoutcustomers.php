@@ -72,7 +72,7 @@ class reportkickoutcustomers extends ModuleGrid
         // $date_between = $this->getDate();
         $this->query = "SELECT rws.id_customer, rws.firstname, rws.lastname, rws.email, rws.date_kick_out, SUM(r.credits) points
                         FROM "._DB_PREFIX_."rewards_sponsorship_kick_out rws
-                        LEFT JOIN "._DB_PREFIX_."rewards r ON ( rws.id_customer = r.id_customer )
+                        INNER JOIN "._DB_PREFIX_."rewards r ON ( rws.id_customer = r.id_customer )
                         GROUP BY rws.id_customer";
 
         $list = Db::getInstance()->executeS($this->query);
