@@ -2451,42 +2451,15 @@ class OrderCore extends ObjectModel
     
     public static function exportOrders( $date_from = "", $date_to = "" )
     {
-        $sql = "SELECT
-                        o.id_order orden,
-                        o.reference referencia,
-                        c.id_customer,
-                        CONCAT(c.firstname,' ',c.lastname) cliente,
-                        c.username,
-                        c.email,
-                        osl.name estado,
-                        o.payment pago,
-                        od.total_price_tax_incl total,
-                        IFNULL(ocr.value ,0)  / (SELECT COUNT(*) FROM "._DB_PREFIX_."order_detail WHERE id_order = o.id_order) pago_puntos,
-                        o.date_add fecha,
-                        od.product_name nombre_producto,
-                        od.product_id id_product,
-                        od.product_reference referencia_producto,
-                        od.unit_price_tax_incl precio_producto,
-                        od.product_quantity cantidad,
-                        od.total_price_tax_incl total_producto,
-                        od.porcentaje porcentaje_producto,
-                        od.points puntos_producto
-                FROM ps_orders o
-                INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
-                INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
-                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
-                LEFT JOIN "._DB_PREFIX_."order_cart_rule ocr ON ( o.id_order = ocr.id_order )
-                LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )";
-
-            if ( $date_from != "" && $date_to != "" ) {
-                $sql .= " WHERE o.date_add BETWEEN '".$date_from." 00:00:00' and '".$date_to." 23:59:59'";
-            }
-
-            $sql .= " ORDER BY o.id_order DESC";
-
-            $orders = Db::getInstance()->executeS($sql);
-
-            $report = "<html>
+        $sql = "SELECT * FROM "._DB_PREFIX_."report_orders";
+        if ( $date_from != "" && $date_to != "" ) {
+            $sql .= " WHERE fecha BETWEEN '".$date_from." 00:00:00' and '".$date_to." 23:59:59'";
+        }
+        $sql .= " ORDER BY orden DESC";
+        
+        $orders = Db::getInstance()->executeS($sql);
+        
+        $report = "<html>
                         <head>
                             <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
                         </head>
@@ -2517,100 +2490,224 @@ class OrderCore extends ObjectModel
                                         <th>recompensa_pesos_red</th>
                                         <th>recompensa_puntos_red</th>";
 
-            for ($index = 0; $index <= 15; $index++) {
-                $report .= "<th>usuario_nivel_".$index."</th>
-                            <th>recompensa_pesos_nivel_".$index."</th>
-                            <th>recompensa_puntos_nivel_".$index."</th>";
+        for ($index = 0; $index <= 15; $index++) {
+            $report .= "<th>usuario_nivel_".$index."</th>
+                        <th>recompensa_pesos_nivel_".$index."</th>
+                        <th>recompensa_puntos_nivel_".$index."</th>";
+        }
+
+        $report .= "</tr>";
+        
+        foreach ( $orders as $order ) {
+            $report .= "<tr>
+                            <td>".$order['orden']."</td>
+                            <td>".$order['referencia']."</td>
+                            <td>".$order['fecha']."</td>
+                            <td>".$order['usuario']."</td>
+                            <td>".$order['email']."</td>
+                            <td>".$order['nivel']."</td>
+                            <td>".$order['estado']."</td>
+                            <td>".$order['pago']."</td>
+                            <td>".$order['total']."</td>
+                            <td>".$order['pago_pesos']."</td>
+                            <td>".$order['pago_puntos']."</td>
+                            <td>".$order['puntos_utilizados']."</td>
+                            <td>".$order['nombre_producto']."</td>
+                            <td>".$order['referencia_producto']."</td>
+                            <td>".$order['precio_producto']."</td>
+                            <td>".$order['cantidad']."</td>
+                            <td>".$order['codigos_producto']."</td>
+                            <td>".$order['recompensa_porcentaje_producto']."</td>
+                            <td>".$order['recompensa_pesos_compra']."</td>
+                            <td>".$order['recompensa_puntos_compra']."</td>
+                            <td>".$order['recompensa_pesos_red']."</td>
+                            <td>".$order['recompensa_puntos_red']."</td>
+                            <td>".$order['usuario_nivel_0']."</td>
+                            <td>".$order['recompensa_pesos_nivel_0']."</td>
+                            <td>".$order['recompensa_puntos_nivel_0']."</td>
+                            <td>".$order['usuario_nivel_1']."</td>
+                            <td>".$order['recompensa_pesos_nivel_1']."</td>
+                            <td>".$order['recompensa_puntos_nivel_1']."</td>
+                            <td>".$order['usuario_nivel_2']."</td>
+                            <td>".$order['recompensa_pesos_nivel_2']."</td>
+                            <td>".$order['recompensa_puntos_nivel_2']."</td>
+                            <td>".$order['usuario_nivel_3']."</td>
+                            <td>".$order['recompensa_pesos_nivel_3']."</td>
+                            <td>".$order['recompensa_puntos_nivel_3']."</td>
+                            <td>".$order['usuario_nivel_4']."</td>
+                            <td>".$order['recompensa_pesos_nivel_4']."</td>
+                            <td>".$order['recompensa_puntos_nivel_4']."</td>
+                            <td>".$order['usuario_nivel_5']."</td>
+                            <td>".$order['recompensa_pesos_nivel_5']."</td>
+                            <td>".$order['recompensa_puntos_nivel_5']."</td>
+                            <td>".$order['usuario_nivel_6']."</td>
+                            <td>".$order['recompensa_pesos_nivel_6']."</td>
+                            <td>".$order['recompensa_puntos_nivel_6']."</td>
+                            <td>".$order['usuario_nivel_7']."</td>
+                            <td>".$order['recompensa_pesos_nivel_7']."</td>
+                            <td>".$order['recompensa_puntos_nivel_7']."</td>
+                            <td>".$order['usuario_nivel_8']."</td>
+                            <td>".$order['recompensa_pesos_nivel_8']."</td>
+                            <td>".$order['recompensa_puntos_nivel_8']."</td>
+                            <td>".$order['usuario_nivel_9']."</td>
+                            <td>".$order['recompensa_pesos_nivel_9']."</td>
+                            <td>".$order['recompensa_puntos_nivel_9']."</td>
+                            <td>".$order['usuario_nivel_10']."</td>
+                            <td>".$order['recompensa_pesos_nivel_10']."</td>
+                            <td>".$order['recompensa_puntos_nivel_10']."</td>
+                            <td>".$order['usuario_nivel_11']."</td>
+                            <td>".$order['recompensa_pesos_nivel_11']."</td>
+                            <td>".$order['recompensa_puntos_nivel_11']."</td>
+                            <td>".$order['usuario_nivel_12']."</td>
+                            <td>".$order['recompensa_pesos_nivel_12']."</td>
+                            <td>".$order['recompensa_puntos_nivel_12']."</td>
+                            <td>".$order['usuario_nivel_13']."</td>
+                            <td>".$order['recompensa_pesos_nivel_13']."</td>
+                            <td>".$order['recompensa_puntos_nivel_13']."</td>
+                            <td>".$order['usuario_nivel_14']."</td>
+                            <td>".$order['recompensa_pesos_nivel_14']."</td>
+                            <td>".$order['recompensa_puntos_nivel_14']."</td>
+                            <td>".$order['usuario_nivel_15']."</td>
+                            <td>".$order['recompensa_pesos_nivel_15']."</td>
+                            <td>".$order['recompensa_puntos_nivel_15']."</td>
+                        </tr>";
+        }
+        $report .= "         </table>
+                        </body>
+                    </html>";
+
+        header("Content-Type: application/vnd.ms-excel");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("content-disposition: attachment;filename=report_orders.xls");
+
+        die($report);
+    }
+    
+    public static function saveExportOrders()
+    {
+        $sql = "SELECT
+                        o.id_order orden,
+                        o.reference referencia,
+                        c.id_customer,
+                        CONCAT(c.firstname,' ',c.lastname) cliente,
+                        c.username,
+                        c.email,
+                        osl.name estado,
+                        o.payment pago,
+                        od.total_price_tax_incl total,
+                        IFNULL(ocr.value ,0)  / (SELECT COUNT(*) FROM "._DB_PREFIX_."order_detail WHERE id_order = o.id_order) pago_puntos,
+                        o.date_add fecha,
+                        od.product_name nombre_producto,
+                        od.product_id id_product,
+                        od.product_reference referencia_producto,
+                        od.unit_price_tax_incl precio_producto,
+                        od.product_quantity cantidad,
+                        od.total_price_tax_incl total_producto,
+                        od.porcentaje porcentaje_producto,
+                        od.points puntos_producto
+                FROM ps_orders o
+                INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+                INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
+                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                LEFT JOIN "._DB_PREFIX_."order_cart_rule ocr ON ( o.id_order = ocr.id_order )
+                LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )
+                LEFT JOIN "._DB_PREFIX_."report_orders ro ON ( o.id_order = ro.orden )
+                WHERE ro.orden IS NULL
+                ORDER BY o.id_order DESC";
+
+        $orders = Db::getInstance()->executeS($sql);
+
+        foreach ( $orders as $order ) {
+            // NIVEL USUARIO
+            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($order['id_customer']);
+            $sponsorships2 = array_slice($sponsorships, 1, 15);
+            $nivel = count($sponsorships2);
+
+            // CODIGOS PRODUCTO
+            $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
+                    FROM '._DB_PREFIX_.'product_code
+                    WHERE id_order = '.$order['orden'].'
+                    AND id_product = '.$order['id_product'];
+            $codes_order = Db::getInstance()->executeS($sql);
+
+            // RECOMPENSA USUARIO
+            $usuariopuntospesos = $order['puntos_producto'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1');
+            $usuariopuntos = $order['puntos_producto'];
+
+            // RECOMPENSA RED
+            if ( $order['porcentaje_producto'] != "1" ) {
+                $redpuntospesos = $usuariopuntospesos * count($sponsorships2);
+                $redpuntos = $usuariopuntos * count($sponsorships2);
+            } else {
+                $redpuntospesos = 0;
+                $redpuntos = 0;
             }
 
-            $report .= "</tr>";
+            // USUARIOS RED
+            $sql = 'SELECT c.id_customer, c.username
+                    FROM '._DB_PREFIX_.'rewards r
+                    INNER JOIN '._DB_PREFIX_.'customer c ON ( r.id_customer = c.id_customer )
+                    WHERE r.id_order = '.$order['orden'];
+            $sponsors_order = Db::getInstance()->executeS($sql);
+            foreach ( $sponsors_order as &$sponsor_order ) {
+                $sponsorships_order = RewardsSponsorshipModel::getSponsorshipAscendants($sponsor_order['id_customer']);
+                $sponsorships_order_2 = array_slice($sponsorships_order, 1, 15);
+                $sponsor_order['nivel'] = count($sponsorships_order_2);
+            }
+            usort($sponsors_order, function($a, $b) {
+                return $a['nivel'] - $b['nivel'];
+            });
 
-            foreach ( $orders as $order ) {
-                // NIVEL USUARIO
-                $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($order['id_customer']);
-                $sponsorships2 = array_slice($sponsorships, 1, 15);
-                $nivel = count($sponsorships2);
-
-                // CODIGOS PRODUCTO
-                $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
-                        FROM '._DB_PREFIX_.'product_code
-                        WHERE id_order = '.$order['orden'].'
-                        AND id_product = '.$order['id_product'];
-                $codes_order = Db::getInstance()->executeS($sql);
-                
-                // RECOMPENSA USUARIO
-                $usuariopuntospesos = $order['puntos_producto'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1');
-                $usuariopuntos = $order['puntos_producto'];
-
-                // RECOMPENSA RED
-                if ( $order['porcentaje_producto'] != "1" ) {
-                    $redpuntospesos = $usuariopuntospesos * count($sponsorships2);
-                    $redpuntos = $usuariopuntos * count($sponsorships2);
-                } else {
-                    $redpuntospesos = 0;
-                    $redpuntos = 0;
+            $queryInsertReport = "";
+            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, referencia_producto, precio_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
+                                  VALUES (
+                                    ".$order['orden'].",
+                                    '".$order['referencia']."',
+                                    '".$order['fecha']."',
+                                    '".$order['username']."',
+                                    '".$order['email']."',
+                                    ".$nivel.",
+                                    '".$order['estado']."',
+                                    '".$order['pago']."',
+                                    ".number_format($order['total'], 2, '.', '').",
+                                    ".number_format(($order['total'] - $order['pago_puntos']), 2, '.', '').",
+                                    ".number_format($order['pago_puntos'], 2, '.', '').",
+                                    ".number_format(($order['pago_puntos'] / Configuration::get('REWARDS_VIRTUAL_VALUE_1') ), 2, '.', '').",
+                                    '".$order['nombre_producto']."',
+                                    '".$order['referencia_producto']."',
+                                    ".number_format($order['precio_producto'], 2, '.', '').",
+                                    ".number_format($order['cantidad'], 2, '.', '').",
+                                    '".$codes_order[0]['codigos_producto']."'   ,
+                                    ".number_format($order['porcentaje_producto'], 4, '.', '').",
+                                    ".number_format($usuariopuntospesos, 2, '.', '').",
+                                    ".number_format($usuariopuntos, 2, '.', '').",
+                                    ".number_format($redpuntospesos, 2, '.', '').",
+                                    ".number_format($redpuntos, 2, '.', '').",";
+            
+            $emptys = 15;
+            foreach ($sponsors_order as $sponsor_order) {
+                if ( $order['id_customer'] != $sponsor_order['id_customer'] ) {
+                    $queryInsertReport .= "'".$sponsor_order['username']."',
+                                          ".number_format($usuariopuntospesos, 2, '.', '').",
+                                          ".number_format($usuariopuntos, 2, '.', '').",";
+                    $emptys--;
                 }
-
-                // USUARIOS RED
-                $sql = 'SELECT c.id_customer, c.username
-                        FROM '._DB_PREFIX_.'rewards r
-                        INNER JOIN '._DB_PREFIX_.'customer c ON ( r.id_customer = c.id_customer )
-                        WHERE r.id_order = '.$order['orden'];
-                $sponsors_order = Db::getInstance()->executeS($sql);
-                foreach ( $sponsors_order as &$sponsor_order ) {
-                    $sponsorships_order = RewardsSponsorshipModel::getSponsorshipAscendants($sponsor_order['id_customer']);
-                    $sponsorships_order_2 = array_slice($sponsorships_order, 1, 15);
-                    $sponsor_order['nivel'] = count($sponsorships_order_2);
-                }
-                usort($sponsors_order, function($a, $b) {
-                    return $a['nivel'] - $b['nivel'];
-                });
-
-                $report .= "<tr>
-                                <td>".$order['orden']."</td>
-                                <td>".$order['referencia']."</td> 
-                                <td>".$order['fecha']."</td>
-                                <!--td>".$order['cliente']."</td-->
-                                <td>".$order['username']."</td>
-                                <td>".$order['email']."</td>
-                                <td>".$nivel."</td>
-                                <td>".$order['estado']."</td>
-                                <td>".$order['pago']."</td>
-                                <td>".number_format($order['total'], 2, ',', '')."</td>
-                                <td>".number_format(($order['total'] - $order['pago_puntos']), 2, ',', '')."</td>
-                                <td>".number_format($order['pago_puntos'], 2, ',', '')."</td>
-                                <td>".number_format(($order['pago_puntos'] / Configuration::get('REWARDS_VIRTUAL_VALUE_1') ), 2, ',', '')."</td>
-                                <td>".$order['nombre_producto']."</td>
-                                <td>".$order['referencia_producto']."</td>
-                                <td>".number_format($order['precio_producto'], 2, ',', '')."</td>
-                                <td>".number_format($order['cantidad'], 2, ',', '')."</td>
-                                <td>".$codes_order[0]['codigos_producto']."</td>
-                                <td>".number_format($order['porcentaje_producto'], 4, ',', '')."</td>
-                                <td>".number_format($usuariopuntospesos, 2, ',', '')."</td>
-                                <td>".number_format($usuariopuntos, 2, ',', '')."</td>
-                                <td>".number_format($redpuntospesos, 2, ',', '')."</td>
-                                <td>".number_format($redpuntos, 2, ',', '')."</td>";
-
-                foreach ($sponsors_order as $sponsor_order) {
-                    if ( $order['id_customer'] != $sponsor_order['id_customer'] ) {
-                        $report .= "<td>".$sponsor_order['username']."</td>
-                                    <td>".number_format($usuariopuntospesos, 2, ',', '')."</td>
-                                    <td>".number_format($usuariopuntos, 2, ',', '')."</td>";
-                    }
-                }
-
-                $report .= "</tr>";
             }
 
-            $report .= "         </table>
-                            </body>
-                        </html>";
+            for ($i = 0; $i <= $emptys; $i++) {
+                $queryInsertReport .= "null,null,null,";
+            }
 
-            header("Content-Type: application/vnd.ms-excel");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("content-disposition: attachment;filename=report_orders.xls");
+            $queryInsertReport = substr($queryInsertReport, 0, -1).")";
 
-            die($report);
+            Db::getInstance()->execute($queryInsertReport);
+        }
+
+        // ACTUALIZAR ESTADO DE ORDEN EN TABLA DE REPORTE
+        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
+                                    INNER JOIN "._DB_PREFIX_."orders o ON ( ro.orden = o.id_order )
+                                    INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
+                                    SET ro.estado = osl.name");
     }
 }
