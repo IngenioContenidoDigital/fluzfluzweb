@@ -357,7 +357,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             pl.link_rewrite,
             p.price,
             p.id_manufacturer,
-            od.points AS points
+            r.credits AS points
             FROM "._DB_PREFIX_."orders o
             INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = ".$this->context->customer->id." )
             INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
