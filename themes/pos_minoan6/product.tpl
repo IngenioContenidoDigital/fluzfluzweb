@@ -326,10 +326,15 @@
                                                                                 </div>
                                                                                 {*<meta itemprop="priceCurrency" content="{$currency->iso_code}" />*}
                                                                                 {hook h="displayProductPriceBlock" product=$product type="price"}
-                                                                                {if $logged}
-                                                                                    <div class="col-xs-12 col-lg-10 col-md-10 col-sm-6 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
-                                                                                {else $logged}
-                                                                                    <div class="col-xs-12 col-sm-6 col-lg-10 col-md-10 point-price">{l s="Save: "} {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}%</div>
+                                                                                {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
+                                                                                {if $logged AND !$save_price <= 0}
+                                                                                    <div class="col-xs-12 col-lg-10 col-md-10 col-sm-6 point-price">{l s="Save: "}{$save_price}%</div>
+                                                                                {else if !$logged AND !$save_price <= 0}
+                                                                                    <div class="col-xs-12 col-sm-6 col-lg-10 col-md-10 point-price">{l s="Save: "}{$save_price}%</div>
+                                                                                {else if $logged AND $save_price <= 0}
+                                                                                    <div class="col-xs-12 col-sm-6 col-lg-10 col-md-10 point-price"></div>
+                                                                                {else if !$logged AND $save_price <= 0}
+                                                                                    <div class="col-xs-12 col-sm-6 col-lg-10 col-md-10 point-price"></div>
                                                                                 {/if}
                                                                             {/if}
                                                                         </div>

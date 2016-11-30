@@ -173,6 +173,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 						$sponsorship->lastname = $friendLastName;
 						$sponsorship->channel = 1;
 						$sponsorship->email = $friendEmail;
+                                                $send = "";
 						if ($sponsorship->save()) {
 							$vars = array(
 								'{message}' => Tools::nl2br(Tools::getValue('message')),
@@ -183,6 +184,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 								'{firstname}' => $this->context->customer->firstname,
 								'{email_friend}' => $friendEmail,
 								'{link}' => $sponsorship->getSponsorshipMailLink(),
+                                                                '{Expiration}'=> $send,
 								'{nb_discount}' => $nb_discount,
 								'{discount}' => $discount_gc);
 							$this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
@@ -241,6 +243,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 								'{email_friend}' => $sponsorship->email,
 								'{link}' => $sponsorship->getSponsorshipMailLink(),
 								'{nb_discount}' => $nb_discount,
+                                                                
 								'{discount}' => $discount_gc
 							);
 							$sponsorship->save();

@@ -54,10 +54,15 @@
                         {if $totModulo == 0}{assign var='totModulo' value=$nbItemsPerLine}{/if}
                         {if $totModuloTablet == 0}{assign var='totModuloTablet' value=$nbItemsPerLineTablet}{/if}
                         {if $totModuloMobile == 0}{assign var='totModuloMobile' value=$nbItemsPerLineMobile}{/if}
+                        {assign var='save_price' value={math equation='round(((p - r) / p)*100)' r=$product.price p=$product.price_shop}}
                         <li class="ajax_block_product nopadding">
                                 <div class="row title-block">
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 0px;padding-right: 0px;"><img src="{$img_manu_dir}{$product.id_manufacturer}.jpg" alt="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$product.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 save-product">{l s="Save"} {math equation='round(((p - r) / p)*100)' r=$product.price p=$product.price_shop}%</div>
+                                    {if $save_price <= 0}
+                                    <div class="col-lg-6 col-md-6 col-sm-6 save-product"></div>
+                                    {else}
+                                    <div class="col-lg-6 col-md-6 col-sm-6 save-product">{l s="Save"} {$save_price}%</div>
+                                    {/if}
                                         {if isset($product.is_virtual) && !$product.is_virtual}{hook h="displayProductDeliveryTime" product=$product}{/if}
                                         {hook h="displayProductPriceBlock" product=$product type="weight"}
                                 </div>
