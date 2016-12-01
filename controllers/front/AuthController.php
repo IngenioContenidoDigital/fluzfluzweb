@@ -396,7 +396,8 @@ class AuthControllerCore extends FrontController
         // Checked the user address in case he changed his email address
         if (Validate::isEmail($email = Tools::getValue('email')) && !empty($email)) {
             $activeCustom = Db::getInstance()->getValue("SELECT active FROM "._DB_PREFIX_."customer WHERE email LIKE '%".$email."%'");
-            if (Customer::customerExists($email) && $activeCustom == 1) {
+            $kickoutCustom = Db::getInstance()->getValue("SELECT COUNT(*) num FROM "._DB_PREFIX_."rewards_sponsorship_kick_out WHERE email = '".$email."'");
+            if (Customer::customerExists($email) && $activeCustom == 1 && $kickoutCustom == 0 ) {
                 $this->errors[] = Tools::displayError('An account using this email address has already been registered.', false);
             }
         }
@@ -480,6 +481,7 @@ class AuthControllerCore extends FrontController
                         $customer->lastname = Tools::getValue("customer_lastname");
                         $customer->passwd = Tools::encrypt( Tools::getValue("passwd") );
                         $customer->dni = Tools::getValue("gover");
+                        $customer->kick_out = 0;
                         $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                         $customer->update();
                         $customerLoaded = true;

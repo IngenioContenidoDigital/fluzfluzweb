@@ -98,7 +98,7 @@ class PayUControllerWS extends FrontController {
             $sql = "INSERT INTO "._DB_PREFIX_."sonda_payu (id_cart,date_add,`interval`,last_update, pasarela)
                     VALUES(".(int)$this->context->cart->id.",'".$date."',";
             if ($metodo_de_pago === 'Tarjeta_credito' || $metodo_de_pago === 'PSE') {
-                $sql.=11;         
+                $sql.=1;         
             } else {
                 $sql.=61; 
             }

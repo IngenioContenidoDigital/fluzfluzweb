@@ -160,10 +160,13 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 						if (empty($friendEmail) && empty($friendLastName) && empty($friendFirstName))
 							continue;
 
-						if (RewardsSponsorshipModel::isEmailExists($friendEmail) || Customer::customerExists($friendEmail))	{
-							$error = 'email exists';
-							$mails_exists[] = $friendEmail;
-							continue;
+						if (RewardsSponsorshipModel::isEmailExists($friendEmail) || Customer::customerExists($friendEmail)) {
+                                                        $customerKickOut = Db::getInstance()->getValue("SELECT COUNT(*) num FROM "._DB_PREFIX_."rewards_sponsorship_kick_out WHERE email = '".$friendEmail."'");
+                                                        if ( $customerKickOut == 0 ) {
+                                                            $error = 'email exists';
+                                                            $mails_exists[] = $friendEmail;
+                                                            continue;
+                                                        }
 						}
 
 						$sponsorship = new RewardsSponsorshipModel();
