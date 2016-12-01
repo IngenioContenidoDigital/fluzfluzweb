@@ -96,7 +96,7 @@ class cashoutControllerCore extends FrontController{
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$totalForPaymentDefaultCurrency.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query1);
                         $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nit_cedula, nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
-                                    . "                          VALUES ('".$nit_cedula."','".$name."' ,'".$lastname."','".$num."','".$bank_account."','".$bank."',".(int)$point_total.",".((int)$pago-7000).",'0','0',".(-1*$pago+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                                    . "                          VALUES ('".$nit_cedula."','".$name."' ,'".$lastname."',''".$num."','".$bank_account."','".$bank."',".(int)$point_total.",".((int)$pago-7000).",'0','0',".(-1*$pago+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query2);
                         Tools::redirect($this->context->link->getPageLink('my-account', true));
                     }
@@ -105,7 +105,7 @@ class cashoutControllerCore extends FrontController{
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$point_used.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query1);
                         $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nit_cedula, nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
-                                    . "                          VALUES ('".$nit_cedula."','".$name."' ,'".$lastname."','".$num."','".$bank_account."','".$bank."',".(int)$point_used.",".((int)$pago_parcial-7000).",'0','0',".(-1*$pago_parcial+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                                    . "                          VALUES ('".$nit_cedula."','".$name."' ,'".$lastname."',''".$num."','".$bank_account."','".$bank."',".(int)$point_used.",".((int)$pago_parcial-7000).",'0','0',".(-1*$pago_parcial+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query2);
                         Tools::redirect($this->context->link->getPageLink('my-account', true));}
                         

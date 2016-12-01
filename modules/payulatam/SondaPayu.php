@@ -70,6 +70,10 @@ public function updatePendyngOrdes(){
                                   $this->response_sonda_payu($order, $response);
                                }
   }
+  
+    if ( $order-> getCurrentState() == 2 ) {
+        Order::updateCodes($order);
+    }
 
 }
 }
@@ -249,6 +253,10 @@ public function updatePendyngOrdesConfirmation(){
                             $order->setCurrentState((int) Configuration::get('PS_OS_ERROR'));
                             }  
                           }
+
+        if ( $order-> getCurrentState() == 2 ) {
+            Order::updateCodes($order);
+        }
 
         if (_PS_VERSION_ >= 1.5) {
             $payment = $order->getOrderPaymentCollection();
