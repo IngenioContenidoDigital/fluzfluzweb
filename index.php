@@ -23,7 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
+/*
 if (!empty($_POST)){
     $pass=$_POST['hwsp_motech'];
     if (($pass=="Bowerytech2.")){
@@ -120,7 +120,7 @@ padding-bottom:13px;
     <!--[if IE]>
     <style>
     #form_wrap input[type=text], .enter_password {
-      line-height:30px;    /* adjust value */
+      line-height:30px;
     }
     </style>
     <![endif]-->
@@ -133,7 +133,7 @@ padding-bottom:13px;
         </form>
     </div>
 </body></html>';
-}else{
+}else{*/
     require(dirname(__FILE__).'/config/config.inc.php');
     Dispatcher::getInstance()->dispatch();
-}
+//}
