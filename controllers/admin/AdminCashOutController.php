@@ -25,7 +25,7 @@ class AdminCashOutControllerCore extends AdminController
             'id_rewards_payment' => array('title' => $this->l('ID Pago'), 'align' => 'center', 'class' => 'fixed-width-xs'),
             'nombre' => array('title' => $this->l('Nombre')),
             'apellido' => array('title' => $this->l('Apellido')),
-            'numero_tarjeta' => array('title' => $this->l('Numero de Tarjeta')),
+            'numero_tarjeta' => array('title' => $this->l('Numero de Cuenta Bancaria')),
             'tipo_cuenta' => array('title' => $this->l('Tipo de Cuenta')),
             'banco' => array('title' => $this->l('Banco')),
             'name' => array(

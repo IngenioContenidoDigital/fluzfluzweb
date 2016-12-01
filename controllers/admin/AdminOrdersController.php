@@ -556,11 +556,6 @@ class AdminOrdersControllerCore extends AdminController
                             $templateVars = array('{followup}' => str_replace('@', $order->shipping_number, $carrier->url));
                         }
                         
-                        $invoice = new Address((int)$order->id_address_invoice);
-                        $delivery = new Address((int)$order->id_address_delivery);
-                        $delivery_state = $delivery->id_state ? new State((int)$delivery->id_state) : false;
-                        $invoice_state = $invoice->id_state ? new State((int)$invoice->id_state) : false;
-                        
                         $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$order->id;
                         $row = Db::getInstance()->getRow($queryValidation);
                         $orderValidation = $row['total'];
@@ -571,170 +566,9 @@ class AdminOrdersControllerCore extends AdminController
                         $productos = $row2['productos'];
                         
                         if(($order_state->id == 2 ) && (($orderValidation < $productos))){
-                            
-                            $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
-                            $productId = Db::getInstance()->executeS($query);
-                            
-                            $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$this->context->customer->id." AND id_order=".$order->id." AND id_cart=".$this->context->cart->id;
-                            Db::getInstance()->execute($qstate);
-                            
-                            foreach ($productId as $valor) {
-                                    for($i=0;$i<$valor['product_quantity'];$i++){
-                                            $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
-                                        }
-                            }
-                            
-                            $product_list = $order->getProducts();
-                            $total_value = "";
-                            $virtual_product = true;
-                            $product_var_tpl_list = array();
-                            foreach ($product_list as $product) {
-                                $image_url = "";    
-                                $codeText = 'select code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
-                                $rowCode = Db::getInstance()->executeS($codeText);
-
-                                foreach ($rowCode AS $code){
-                                    PaymentModuleCore::consultcodebar($code['id_product'], $code['code']);
-                                    $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
-                                }
-                                
-                                $total_value .= "<label>".round($product['price_shop'])."</label><br>";
-                                $price = ProductCore::getPriceStatic((int)$product['id_product'], false, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 6, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
-                                $price_wt = ProductCore::getPriceStatic((int)$product['id_product'], true, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 2, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
-                                
-                                $product_price = ProductCore::getTaxCalculationMethod() == PS_TAX_EXC ? Tools::ps_round($price, 2) : $price_wt;
-                                
-                                $query = 'SELECT description_short FROM '._DB_PREFIX_.'product_lang WHERE id_product = '.$product['id_product'];
-                                $row = Db::getInstance()->getRow($query);
-                                $desc = $row['description_short'];
-                                
-                                $product_var_tpl = array(
-                                    'reference' => $product['reference'],
-                                    'name' => $product['product_name'].(isset($product['attributes']) ? ' - '.$product['attributes'] : ''),
-                                    'descripcion'=>$desc,
-                                    'image_code'=> $image_url,
-                                    'unit_price' => Tools::displayPrice($product_price, $this->context->currency, false),
-                                    'price' => Tools::displayPrice($product_price * $product['product_quantity'], $this->context->currency, false),
-                                    'quantity' => $product['product_quantity']
-                                );
-                                
-                                $product_var_tpl_list[] = $product_var_tpl;
-                                // Check if is not a virutal product for the displaying of shipping
-                                
-                                if (!$product['is_virtual']) {
-                                    $virtual_product &= false;
-                                }
-                            } // end foreach ($products)
-                            
-                            $product_list_txt = '';
-                            $product_list_html = '';
-                            if (count($product_var_tpl_list) > 0) {
-                                $product_list_txt = $this->getEmailTemplateContent('order_conf_product_list.txt', Mail::TYPE_TEXT, $product_var_tpl_list);
-                                $product_list_html = $this->getEmailTemplateContent('order_conf_product_list.tpl', Mail::TYPE_HTML, $product_var_tpl_list);
-                            }
-                            
-                            $data = array(
-                            '{username}' => $this->context->customer->username,
-                            '{firstname}' => $this->context->customer->firstname,
-                            '{lastname}' => $this->context->customer->lastname,
-                            '{email}' => $this->context->customer->email,
-                            '{delivery_company}' => $delivery->company,
-                            '{delivery_firstname}' => $delivery->firstname,
-                            '{delivery_lastname}' => $delivery->lastname,
-                            '{delivery_address1}' => $delivery->address1,
-                            '{delivery_address2}' => $delivery->address2,
-                            '{delivery_city}' => $delivery->city,
-                            '{delivery_postal_code}' => $delivery->postcode,
-                            '{delivery_country}' => $delivery->country,
-                            '{delivery_state}' => $delivery->id_state ? $delivery_state->name : '',
-                            '{delivery_phone}' => ($delivery->phone) ? $delivery->phone : $delivery->phone_mobile,
-                            '{delivery_other}' => $delivery->other,
-                            '{invoice_company}' => $invoice->company,
-                            '{invoice_vat_number}' => $invoice->vat_number,
-                            '{invoice_firstname}' => $invoice->firstname,
-                            '{invoice_lastname}' => $invoice->lastname,
-                            '{invoice_address2}' => $invoice->address2,
-                            '{invoice_address1}' => $invoice->address1,
-                            '{invoice_city}' => $invoice->city,
-                            '{invoice_postal_code}' => $invoice->postcode,
-                            '{invoice_country}' => $invoice->country,
-                            '{invoice_state}' => $invoice->id_state ? $invoice_state->name : '',
-                            '{invoice_phone}' => ($invoice->phone) ? $invoice->phone : $invoice->phone_mobile,
-                            '{delivery_block_txt}' => PaymentModuleCore::_getFormatedAddress2($delivery, "\n"),
-                            '{invoice_block_txt}' => PaymentModuleCore::_getFormatedAddress2($invoice, "\n"),
-                            '{delivery_block_html}' => PaymentModuleCore::_getFormatedAddress2($delivery, '<br />', array(
-                                'firstname'    => '<span style="font-weight:bold;">%s</span>',
-                                'lastname'    => '<span style="font-weight:bold;">%s</span>'
-                            )),    
-                                    
-                            '{invoice_block_html}' => PaymentModuleCore::_getFormatedAddress2($invoice, '<br />', array(
-                            'firstname'    => '<span style="font-weight:bold;">%s</span>',
-                            'lastname'    => '<span style="font-weight:bold;">%s</span>'
-                            )),
-                            '{delivery_company}' => $delivery->company,
-                            '{delivery_firstname}' => $delivery->firstname,
-                            '{delivery_lastname}' => $delivery->lastname,
-                            '{delivery_address1}' => $delivery->address1,
-                            '{delivery_address2}' => $delivery->address2,
-                            '{delivery_city}' => $delivery->city,
-                            '{delivery_postal_code}' => $delivery->postcode,
-                            '{delivery_country}' => $delivery->country,
-                            '{delivery_state}' => $delivery->id_state ? $delivery_state->name : '',
-                            '{delivery_phone}' => ($delivery->phone) ? $delivery->phone : $delivery->phone_mobile,
-                            '{delivery_other}' => $delivery->other,
-                            '{invoice_company}' => $invoice->company,
-                            '{invoice_vat_number}' => $invoice->vat_number,
-                            '{invoice_firstname}' => $invoice->firstname,
-                            '{invoice_lastname}' => $invoice->lastname,
-                            '{invoice_address2}' => $invoice->address2,
-                            '{invoice_address1}' => $invoice->address1,
-                            '{invoice_city}' => $invoice->city,
-                            '{invoice_postal_code}' => $invoice->postcode,
-                            '{invoice_country}' => $invoice->country,
-                            '{invoice_state}' => $invoice->id_state ? $invoice_state->name : '',
-                            '{invoice_phone}' => ($invoice->phone) ? $invoice->phone : $invoice->phone_mobile,
-                            '{invoice_other}' => $invoice->other,    
-                            '{date}' => Tools::displayDate(date('Y-m-d H:i:s'), null, 1),
-                            '{payment}' => Tools::substr($order->payment, 0, 32), 
-                            '{point_discount}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
-                            '{products}' => $product_list_html,
-                            //'{image}'=> $image_url,    
-                            '{products_txt}' => $product_list_txt,
-                            '{total_value}' => Tools::displayPrice($total_value),    
-                            '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
-                            '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
-                            '{total_discounts}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
-                            '{total_shipping}' => Tools::displayPrice($order->total_shipping, $this->context->currency, false),
-                            '{total_wrapping}' => Tools::displayPrice($order->total_wrapping, $this->context->currency, false),
-                            '{total_tax_paid}' => Tools::displayPrice(($order->total_products_wt - $order->total_products) + ($order->total_shipping_tax_incl - $order->total_shipping_tax_excl), $this->context->currency, false));
-                            
-                            
-                            if ((int)Configuration::get('PS_INVOICE') && $order_state->invoice && $order->invoice_number) {
-                            $order_invoice_list = $order->getInvoicesCollection();
-                            Hook::exec('actionPDFInvoiceRender', array('order_invoice_list' => $order_invoice_list));
-                            $pdf = new PDF($order_invoice_list, PDF::TEMPLATE_INVOICE, $this->context->smarty);
-                            $file_attachement['content'] = $pdf->render(false);
-                            $file_attachement['name'] = Configuration::get('PS_INVOICE_PREFIX', (int)$order->id_lang, null, $order->id_shop).sprintf('%06d', $order->invoice_number).'.pdf';
-                            $file_attachement['mime'] = 'application/pdf';
-                            } else {
-                                $file_attachement = null;
-                            }
-                            //$this->context->link->getModuleLink('module_folder_name','controller_name',array_of_params);
-                            if (Validate::isEmail($this->context->customer->email)) {
-                                        Mail::Send(
-                                            (int)$order->id_lang,
-                                            'order_conf',
-                                            Mail::l('Order confirmation', (int)$order->id_lang),
-                                            $data,
-                                            $this->context->customer->email,
-                                            $this->context->customer->firstname.' '.$this->context->customer->lastname,
-                                            null,
-                                            null,
-                                            $file_attachement,
-                                            null, _PS_MAIL_DIR_, false, (int)$order->id_shop
-                                        );
-                            }
+                            Order::updateCodes($order, $order_state);
                         }
+                        
                         // Save all changes
                         if ($history->addWithemail(true, $templateVars)) {
                             // synchronizes quantities if needed..
@@ -1732,27 +1566,6 @@ class AdminOrdersControllerCore extends AdminController
         parent::postProcess();
     }
     
-    protected function getEmailTemplateContent($template_name, $mail_type, $var)
-    {
-        $email_configuration = Configuration::get('PS_MAIL_TYPE');
-        if ($email_configuration != $mail_type && $email_configuration != Mail::TYPE_BOTH) {
-            return '';
-        }
-
-        $theme_template_path = _PS_THEME_DIR_.'mails'.DIRECTORY_SEPARATOR.$this->context->language->iso_code.DIRECTORY_SEPARATOR.$template_name;
-        $default_mail_template_path = _PS_MAIL_DIR_.$this->context->language->iso_code.DIRECTORY_SEPARATOR.$template_name;
-
-        if (Tools::file_exists_cache($theme_template_path)) {
-            $default_mail_template_path = $theme_template_path;
-        }
-
-        if (Tools::file_exists_cache($default_mail_template_path)) {
-            $this->context->smarty->assign('list', $var);
-            return $this->context->smarty->fetch($default_mail_template_path);
-        }
-        return '';
-    }
-
     public function renderKpis()
     {
         $time = time();
