@@ -21,7 +21,7 @@ $query = "SELECT
         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
         WHERE c.active = 1
         AND o.date_add IS NULL
-        GROUP BY c.id_customer LIMIT 1";
+        GROUP BY c.id_customer";
 $remembers1 = Db::getInstance()->executeS($query);
 
 // customers without shopping for more than a month
@@ -62,7 +62,7 @@ $query = "SELECT
                     ) > 30
         GROUP BY c.id_customer
         HAVING COUNT(od.id_order_detail) <= 1
-        ORDER BY o.date_add DESC LIMIT 1";
+        ORDER BY o.date_add DESC";
 $remembers2 = Db::getInstance()->executeS($query);
 
 $remembers = array_merge($remembers1, $remembers2);
@@ -87,8 +87,7 @@ foreach ( $remembers as $key => $remember ) {
         'remember_buy',
         'Recordatorio compra minima',
         $vars,
-        //$remember['email'],
-        'verdolaga273@hotmail.com',
+        $remember['email'],
         $remember['name']
     );
 }
