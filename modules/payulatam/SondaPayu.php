@@ -49,7 +49,6 @@ public function updatePendyngOrdes(){
                                 else if ($statePol == 4){
                                     if($order-> getCurrentState() != (int) Configuration::get('PS_OS_PAYMENT') ){
                                     $order->setCurrentState((int) Configuration::get('PS_OS_PAYMENT'));
-                                    Order::updateCodes($order);
                                     $update = true;
                                   }
                                 }else {
@@ -71,8 +70,12 @@ public function updatePendyngOrdes(){
                                   $this->response_sonda_payu($order, $response);
                                }
   }
+  if($order->getCurrentState() == 2){
+                Order::updateCodes($order);
+            }
 
 }
+        
 }
 
 public function getByOrderId($order_id){
@@ -244,7 +247,6 @@ public function updatePendyngOrdesConfirmation(){
                         else if ($statePol == 4){
                             if($order-> getCurrentState() != (int) Configuration::get('PS_OS_PAYMENT') )
                             $order->setCurrentState((int) Configuration::get('PS_OS_PAYMENT'));
-                            Order::updateCodes($order);
                         }
                         else {
                             if($order-> getCurrentState() != (int) Configuration::get('PS_OS_ERROR') ){
@@ -258,7 +260,12 @@ public function updatePendyngOrdesConfirmation(){
                $payment[0]->transaction_id = pSQL("payU_".$key['id_cart']);
                $payment[0]->save();
             }
-        }                          
+        }        
+        
+        if($order->getCurrentState() == 2){
+            Order::updateCodes($order);
+        }
+        
 echo '<br>Order: '.$key['id_order'];
   }
 }
