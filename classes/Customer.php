@@ -943,4 +943,26 @@ class CustomerCore extends ObjectModel
         $sql_filter .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'main');
         return parent::getWebserviceObjectList($sql_join, $sql_filter, $sql_sort, $sql_limit);
     }
+    
+    public static function customerPurchaseLicense($email) {
+        $membresias = Db::getInstance()->getValue("SELECT COUNT(*) membresias
+                                                    FROM "._DB_PREFIX_."customer c
+                                                    LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
+                                                    LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                                                    LEFT JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order )
+                                                    WHERE c.email = '".$email."'
+                                                    AND od.product_reference = 'MFLUZ'
+                                                    AND oh.id_order_state = 2");
+
+        $expulsiones = Db::getInstance()->getValue("SELECT COUNT(*) expulsiones
+                                                    FROM "._DB_PREFIX_."rewards_sponsorship_kick_out
+                                                    WHERE email = '".$email."'");
+        
+        if ( $membresias > 0 && $membresias > $expulsiones ) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 }
