@@ -35,17 +35,6 @@ class BoOrder extends PaymentModule
     }
 }
 
-/*class barOrder extends barcodesimage
-{
-    public $active = 1;
-    public $name = 'barOrder';
-
-    public function __construct()
-    {
-        $this->displayName = $this->l('Back office order');
-    }
-}*/
-
 /**
  * @property Order $object
  */

@@ -408,11 +408,17 @@ class AuthControllerCore extends FrontController
         $_POST['lastname'] = Tools::getValue('customer_lastname', $lastnameAddress);
         $_POST['firstname'] = Tools::getValue('customer_firstname', $firstnameAddress);
 
-        if ( Tools::getValue('typedocument') != 1 ) {
+        if ( Tools::getValue('typedocument') == 0 ) {
             if ( Validate::isIdentification( Tools::getValue('gover') ) || Tools::getValue('gover') == "" ) {
                 $this->errors[] = Tools::displayError('Government Id es incorrecto');
             }
-        } else {
+        } 
+        else if ( Tools::getValue('typedocument') == 2 ){
+            if ( Validate::isIdentificationCE( Tools::getValue('gover') ) || Tools::getValue('gover') == "" ) {
+                $this->errors[] = Tools::displayError('Government Id es incorrecto');
+            }
+        }
+        else {
             if ( Tools::getValue('gover') == "" ) {
                 $this->errors[] = Tools::displayError('Government Id es incorrecto');
             }

@@ -77,6 +77,10 @@ foreach ( $remembers as $key => $remember ) {
         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
         '{expiration_date}' => $remember['end_date']
     );
+    
+    $queryMessage = "INSERT INTO "._DB_PREFIX_."message_sponsor (id_message_sponsor, id_customer_send, id_customer_receive, message, date_send)
+                    VALUES('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$remember['id_customer'].", 'No has realizado tus 2 compras minimas mensuales para permanecer activo.', NOW())";
+    Db::getInstance()->execute($queryMessage);
 
     Mail::Send(
         Context::getContext()->language->id,
