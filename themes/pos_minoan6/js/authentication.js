@@ -54,10 +54,16 @@ $(document).ready(function(){
             if ( $("#typedocument").val() == 1 ) {
                 $(".blockcheckdigit").css("display", "block");
                 $("#gover").attr("data-validate", "isNITNumber");
-            } else {
+            } 
+            if ( $("#typedocument").val() == 2 ) {
+                $(".blockcheckdigit").css("display", "none");                
+                $("#gover").attr("data-validate", "isGoverNumberCE");                
+            }
+            if ( $("#typedocument").val() == 0 ) {
                 $(".blockcheckdigit").css("display", "none");                
                 $("#gover").attr("data-validate", "isGoverNumber");                
             }
+            
         });
 });
 

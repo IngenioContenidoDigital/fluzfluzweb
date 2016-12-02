@@ -21,7 +21,7 @@ $query = "SELECT
         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
         WHERE c.active = 1
         AND o.date_add IS NULL
-        GROUP BY c.id_customer";
+        GROUP BY c.id_customer LIMIT 1";
 $remembers1 = Db::getInstance()->executeS($query);
 
 // customers without shopping for more than a month
@@ -62,7 +62,7 @@ $query = "SELECT
                     ) > 30
         GROUP BY c.id_customer
         HAVING COUNT(od.id_order_detail) <= 1
-        ORDER BY o.date_add DESC";
+        ORDER BY o.date_add DESC LIMIT 1";
 $remembers2 = Db::getInstance()->executeS($query);
 
 $remembers = array_merge($remembers1, $remembers2);
@@ -77,13 +77,18 @@ foreach ( $remembers as $key => $remember ) {
         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
         '{expiration_date}' => $remember['end_date']
     );
+    
+    $queryMessage = "INSERT INTO "._DB_PREFIX_."message_sponsor (id_message_sponsor, id_customer_send, id_customer_receive, message, date_send)
+                    VALUES('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$remember['id_customer'].", 'No has realizado tus 2 compras minimas mensuales para permanecer activo.', NOW())";
+    Db::getInstance()->execute($queryMessage);
 
     Mail::Send(
         Context::getContext()->language->id,
         'remember_buy',
         'Recordatorio compra minima',
         $vars,
-        $remember['email'],
+        //$remember['email'],
+        'verdolaga273@hotmail.com',
         $remember['name']
     );
 }

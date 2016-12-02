@@ -49,6 +49,7 @@ public function updatePendyngOrdes(){
                                 else if ($statePol == 4){
                                     if($order-> getCurrentState() != (int) Configuration::get('PS_OS_PAYMENT') ){
                                     $order->setCurrentState((int) Configuration::get('PS_OS_PAYMENT'));
+                                    Order::updateCodes($order);
                                     $update = true;
                                   }
                                 }else {
@@ -70,10 +71,6 @@ public function updatePendyngOrdes(){
                                   $this->response_sonda_payu($order, $response);
                                }
   }
-  
-    if ( $order-> getCurrentState() == 2 ) {
-        Order::updateCodes($order);
-    }
 
 }
 }
@@ -247,16 +244,13 @@ public function updatePendyngOrdesConfirmation(){
                         else if ($statePol == 4){
                             if($order-> getCurrentState() != (int) Configuration::get('PS_OS_PAYMENT') )
                             $order->setCurrentState((int) Configuration::get('PS_OS_PAYMENT'));
+                            Order::updateCodes($order);
                         }
                         else {
                             if($order-> getCurrentState() != (int) Configuration::get('PS_OS_ERROR') ){
                             $order->setCurrentState((int) Configuration::get('PS_OS_ERROR'));
                             }  
                           }
-
-        if ( $order-> getCurrentState() == 2 ) {
-            Order::updateCodes($order);
-        }
 
         if (_PS_VERSION_ >= 1.5) {
             $payment = $order->getOrderPaymentCollection();

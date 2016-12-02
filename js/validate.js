@@ -164,6 +164,12 @@ function validate_isDniLite(s)
 	return reg.test(s);
 }
 
+function validate_isGoverNumberCE(s)
+{
+	var reg = /^[0-9A-Za-z-.]{1,16}$/i;
+	return reg.test(s);
+}
+
 function validate_isNITNumber(s)
 {
 	var reg = /^[1-9]{1}[0-9]{6,9}$/;
