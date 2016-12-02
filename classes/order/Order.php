@@ -2475,11 +2475,20 @@ class OrderCore extends ObjectModel
                     $image_url = "";    
                     $codeText = 'select code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
                     $rowCode = Db::getInstance()->executeS($codeText);
+                    
+                    $query = 'SELECT codetype FROM '._DB_PREFIX_.'product WHERE id_product = '.$product['id_product'];
+                    $rowType = Db::getInstance()->getRow($query);
+                    $code2 = $rowType["codetype"];
 
                     foreach ($rowCode AS $code){
-                        PaymentModuleCore::consultcodebar($code['id_product'], $code['code']);
-                        $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
-                    }
+                            if ($code2 == 2){
+                                $image_url .=  "<label>".$code['code']."</label><br>";
+                            }
+                            else{
+                                PaymentModuleCore::consultcodebar($code['id_product'], $code['code']);
+                                $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                            }
+                        }
 
                     $total_value .= "<label>".round($product['price_shop'])."</label><br>";
                     $price = ProductCore::getPriceStatic((int)$product['id_product'], false, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 6, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
