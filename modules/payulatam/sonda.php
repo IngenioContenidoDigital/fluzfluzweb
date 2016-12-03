@@ -6,6 +6,6 @@ if (empty(Context::getContext()->link))
 	Context::getContext()->link = new Link();
 
 $sonda = new SondaPayu();
-$sonda->updatePendyngOrdesConfirmation();
+//$sonda->updatePendyngOrdesConfirmation();
 $sonda->updatePendyngOrdes();
 $sonda->updatePendyngCustomers();
