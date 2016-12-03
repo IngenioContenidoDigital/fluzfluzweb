@@ -70,9 +70,18 @@ public function updatePendyngOrdes(){
                                   $this->response_sonda_payu($order, $response);
                                }
   }
-  if($order->getCurrentState() == 2){
-                Order::updateCodes($order);
-            }
+        $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$key['id_order'];
+        $row = Db::getInstance()->getRow($queryValidation);
+        $orderValidation = $row['total'];
+
+        $quantityProducts = 'SELECT COUNT(product_id) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$key['id_order'];
+
+        $row2 = Db::getInstance()->getRow($quantityProducts);
+        $productos = $row2['productos'];                  
+        
+        if($order->getCurrentState() == 2 && (($orderValidation < $productos))){
+            Order::updateCodes($order);
+        } 
 
 }
         
@@ -253,7 +262,20 @@ public function updatePendyngOrdesConfirmation(){
                             $order->setCurrentState((int) Configuration::get('PS_OS_ERROR'));
                             }  
                           }
+                          
+        $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$key['id_order'];
+        $row = Db::getInstance()->getRow($queryValidation);
+        $orderValidation = $row['total'];
 
+        $quantityProducts = 'SELECT COUNT(product_id) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$key['id_order'];
+
+        $row2 = Db::getInstance()->getRow($quantityProducts);
+        $productos = $row2['productos'];                  
+        
+        if($order->getCurrentState() == 2 && (($orderValidation < $productos))){
+            Order::updateCodes($order);
+        }                  
+                          
         if (_PS_VERSION_ >= 1.5) {
             $payment = $order->getOrderPaymentCollection();
             if (isset($payment[0])) {
@@ -261,10 +283,6 @@ public function updatePendyngOrdesConfirmation(){
                $payment[0]->save();
             }
         }        
-        
-        if($order->getCurrentState() == 2){
-            Order::updateCodes($order);
-        }
         
 echo '<br>Order: '.$key['id_order'];
   }
