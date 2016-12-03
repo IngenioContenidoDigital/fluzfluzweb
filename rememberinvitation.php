@@ -111,6 +111,29 @@ $query = "SELECT
         $friendLastName = $invitation['lastname'];
         $friendFirstName = $invitation['firstname'];
 
+<<<<<<< HEAD
+    $sponsorship = new RewardsSponsorshipModel();
+    $sponsorship->id_sponsor = $invitation['sponsorid'];
+    $sponsorship->id_customer = substr($idTemporary, 0, 10);
+    $sponsorship->firstname = $friendFirstName;
+    $sponsorship->lastname = $friendLastName;
+    $sponsorship->channel = 1;
+    $sponsorship->email = $friendEmail;
+
+    $vars = array(
+                '{message}' => "PRUEBA",
+                '{email}' => $invitation['sponsoremail'],
+                '{inviter_username}' => $invitation['sponsorusername'],
+                '{username}' => $friendFirstName,
+                '{lastname}' => $invitation['sponsorlastname'],
+                '{firstname}' => $invitation['sponsorfirstname'],
+                '{email_friend}' => $friendEmail,
+                '{link}' => $sponsorship->getSponsorshipMailLink()
+            );
+
+    $allinone_rewards = new allinone_rewards();
+    $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
+=======
         $template = 'sponsorship-invitation-novoucher';
         //$template = 'sponsorship-invitation';
 
@@ -184,4 +207,5 @@ $query = "SELECT
         $deletemail = "DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_customer=".$invitation['id_customer'];
         Db::getInstance()->execute($deletemail);
     }
+>>>>>>> fd61baa9d75a3d032d23a0bbbcc2071e15fa41b0
 }
