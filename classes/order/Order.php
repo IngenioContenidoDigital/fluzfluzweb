@@ -24,7 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-include('./classes/codeBar/barcode.class.php');
+//include('./classes/codeBar/barcode.class.php');
 
 class OrderCore extends ObjectModel
 {
