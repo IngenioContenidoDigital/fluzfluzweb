@@ -159,7 +159,7 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span>{$customerProfile}</span></div>   
                                                 </div>   
                                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 barTop">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span class="totalPoint">{l s='Total Points'}</span><a class="btnCash" href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}">{l s='Cash Out'}</a></div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span class="totalPoint">{l s='FLUZ TOTALES'}</span><a class="btnCash" href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}">{l s='Cash Out'}</a></div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <span class="ptoCustomer">+{$totalAvailable}</span>
                                                         <span style="color:#000;">{displayPrice price=$totalAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>

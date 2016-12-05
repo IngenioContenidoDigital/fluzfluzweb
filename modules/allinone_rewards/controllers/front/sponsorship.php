@@ -267,6 +267,27 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 				if ((int)($stats['nb_orders']) >= $orderQuantityS)
 					$canSendInvitations = true;
 			}
+                        
+                        if (!$popup) {
+				// Mailing reviveCancel
+				
+				if (Tools::isSubmit('reviveCancel'))
+				{
+					$activeTab = 'pending';
+					if (Tools::getValue('friendChecked') && sizeof($friendsChecked = Tools::getValue('friendChecked')) >= 1)
+					{
+                                            foreach ($friendsChecked as $key => $friendChecked)
+                                            {
+                                                $sponsorship = new RewardsSponsorshipModel((int)$key);
+                                                $query = 'DELETE FROM '._DB_PREFIX_.'rewards_sponsorship WHERE email = "'.$sponsorship->email.'"';
+                                                Db::getInstance()->execute($query);
+                                                Tools::redirect($this->context->link->getPageLink('cancelinvitation', true, (int)$this->context->language->id));
+                                            }
+					}
+					else
+						$error = 'no revive checked';
+				}
+			}
 
 			// lien de parrainage
 			$link_sponsorship = RewardsSponsorshipModel::getSponsorshipLink($this->context->customer);
