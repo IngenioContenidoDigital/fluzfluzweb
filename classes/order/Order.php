@@ -2625,11 +2625,6 @@ class OrderCore extends ObjectModel
                                 null, _PS_MAIL_DIR_, false, (int)$order->id_shop
                             );
                 }
-                
-                
-                echo '<pre>';
-                print_r($data);
-                die();
     }
     
     public static function getEmailTemplateContent($template_name, $mail_type, $var)
