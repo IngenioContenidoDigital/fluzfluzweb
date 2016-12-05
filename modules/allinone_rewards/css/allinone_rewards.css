@@ -26,6 +26,7 @@
 }
 .message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; line-height: 34px;}
 .message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
+.button_large:hover{background: #ef4136;}
 
 /* pop up mensaje*/
 #myspecialcontent > div { margin-bottom: 15px; }

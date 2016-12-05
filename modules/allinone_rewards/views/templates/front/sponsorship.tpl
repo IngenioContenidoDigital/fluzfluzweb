@@ -260,7 +260,7 @@
                                                                    {/literal}
                                                             {/if}
                                                     
-                                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
                                                         <p class="bold"><span style="color:#ef4136;">{l s="Important: " mod='allinone_rewards'}</span>{l s='Data provided for any action outside the intended shall not be used.' mod='allinone_rewards'}</p>
                                                         <p class="checkbox">
                                                             <input class="cgv" type="checkbox" name="conditionsValided" id="conditionsValided" value="1" {if isset($smarty.post.conditionsValided) AND $smarty.post.conditionsValided eq 1}checked="checked"{/if} />&nbsp;
@@ -274,16 +274,25 @@
                                                         <p class="submit" align="right"><input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='ADD FRIENDS' mod='allinone_rewards'}" /></p>
                                                     </div>
                                                     {elseif $pendingFriends|@count == 2}
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-btn" style="text-align:right;">
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
                                                            <input type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
+                                                           <input type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
                                                         </div>
                                                     {elseif $subscribeFriends|@count == 1 AND $pendingFriends|@count == 1}
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-btn" style="text-align:right;">
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
                                                            <input type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
                                                         </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
+                                                           <input type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
+                                                        </div>
                                                     {elseif $pendingFriends|@count == 1}
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                                            <p class="submit" align="right"><input type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='ADD FRIENDS' mod='allinone_rewards'}" /></p>
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
+                                                           <input type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
+                                                           <input type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
                                                         </div>
                                                     {elseif $subscribeFriends|@count == 1}
                                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">

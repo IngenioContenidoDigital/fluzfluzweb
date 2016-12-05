@@ -41,7 +41,7 @@
 	{/if}
         {assign var="idprod" value=$product.id_product}
         <td colspan="1" style="text-align:right;" class="td-pto" data-title="{l s='Puntos A Obtener'}">
-            <p class="ptoCart">{$productsPoints.$idprod}&nbsp;{l s="pts."}</p>
+            <p class="ptoCart">{$productsPoints.$idprod}&nbsp;{l s="Fluz."}</p>
         </td>
         
         <td class="cart_unit" data-title="{l s='Unit price'}">

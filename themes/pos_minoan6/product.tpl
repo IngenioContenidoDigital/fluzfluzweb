@@ -293,18 +293,18 @@
 									{/if}
                                                                         {if $logged}
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price in points: "}</div>
-                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
                                                                         {else $logged}
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price in points: "}</div>
-                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
 									{/if}
                                                                         
                                                                         {if $logged}
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price earned: "}</div>
-                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productP}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productP}&nbsp;{l s="Fluz."}</div>
                                                                         {else $logged}
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price earned: "}</div>
-                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$resultProduct|escape:'html':'UTF-8'}&nbsp;{l s="pts."}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$resultProduct|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
 									{/if}
                                                                         <!-- minimal quantity wanted -->
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
