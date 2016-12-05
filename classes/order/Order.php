@@ -2450,15 +2450,15 @@ class OrderCore extends ObjectModel
         
             $context = Context::getContext();
             $invoice = new Address((int)$order->id_address_invoice);
-
             $delivery = new Address((int)$order->id_address_delivery);
+            $customer = new Customer((int)$order->id_customer);
             $delivery_state = $delivery->id_state ? new State((int)$delivery->id_state) : false;
             $invoice_state = $invoice->id_state ? new State((int)$invoice->id_state) : false;
-
+            
             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
             $productId = Db::getInstance()->executeS($query);
 
-            $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$context->customer->id." AND id_order=".$order->id." AND id_cart=".$context->cart->id;
+            $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$customer->id." AND id_order=".$order->id." AND id_cart=".$order->id_cart;
             Db::getInstance()->execute($qstate);
 
                 foreach ($productId as $valor) {
@@ -2505,8 +2505,8 @@ class OrderCore extends ObjectModel
                         'name' => $product['product_name'].(isset($product['attributes']) ? ' - '.$product['attributes'] : ''),
                         'descripcion'=>$desc,
                         'image_code'=> $image_url,
-                        'unit_price' => Tools::displayPrice($product_price, $context->currency, false),
-                        'price' => Tools::displayPrice($product_price * $product['product_quantity'], $context->currency, false),
+                        'unit_price' => Tools::displayPrice($product_price, 1, false),
+                        'price' => Tools::displayPrice($product_price * $product['product_quantity'], 1, false),
                         'quantity' => $product['product_quantity']
                     );
 
@@ -2524,12 +2524,12 @@ class OrderCore extends ObjectModel
                     $product_list_txt = Order::getEmailTemplateContent('order_conf_product_list.txt', Mail::TYPE_TEXT, $product_var_tpl_list);
                     $product_list_html = Order::getEmailTemplateContent('order_conf_product_list.tpl', Mail::TYPE_HTML, $product_var_tpl_list);
                 }
-
+                
                 $data = array(
-                '{username}' => $context->customer->username,
-                '{firstname}' => $context->customer->firstname,
-                '{lastname}' => $context->customer->lastname,
-                '{email}' => $context->customer->email,
+                '{username}' => $customer->username,
+                '{firstname}' => $customer->firstname,
+                '{lastname}' => $customer->lastname,
+                '{email}' => $customer->email,
                 '{delivery_company}' => $delivery->company,
                 '{delivery_firstname}' => $delivery->firstname,
                 '{delivery_lastname}' => $delivery->lastname,
@@ -2588,19 +2588,18 @@ class OrderCore extends ObjectModel
                 '{invoice_other}' => $invoice->other,    
                 '{date}' => Tools::displayDate(date('Y-m-d H:i:s'), null, 1),
                 '{payment}' => Tools::substr($order->payment, 0, 32), 
-                '{point_discount}' => Tools::displayPrice($order->total_discounts, $context->currency, false),
+                '{point_discount}' => Tools::displayPrice($order->total_discounts, 1, false),
                 '{products}' => $product_list_html,
                 //'{image}'=> $image_url,    
                 '{products_txt}' => $product_list_txt,
                 '{total_value}' => Tools::displayPrice($total_value),    
-                '{total_paid}' => Tools::displayPrice($order->total_paid, $context->currency, false),
-                '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $context->currency, false),
-                '{total_discounts}' => Tools::displayPrice($order->total_discounts, $context->currency, false),
-                '{total_shipping}' => Tools::displayPrice($order->total_shipping, $context->currency, false),
-                '{total_wrapping}' => Tools::displayPrice($order->total_wrapping, $context->currency, false),
-                '{total_tax_paid}' => Tools::displayPrice(($order->total_products_wt - $order->total_products) + ($order->total_shipping_tax_incl - $order->total_shipping_tax_excl), $context->currency, false));
-
-
+                '{total_paid}' => Tools::displayPrice($order->total_paid, 1, false),
+                '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, 1, false),
+                '{total_discounts}' => Tools::displayPrice($order->total_discounts, 1, false),
+                '{total_shipping}' => Tools::displayPrice($order->total_shipping, 1, false),
+                '{total_wrapping}' => Tools::displayPrice($order->total_wrapping, 1, false),
+                '{total_tax_paid}' => Tools::displayPrice(($order->total_products_wt - $order->total_products) + ($order->total_shipping_tax_incl - $order->total_shipping_tax_excl), 1, false));
+                
                 if ((int)Configuration::get('PS_INVOICE') && $order->invoice_number) {
                 $order_invoice_list = $order->getInvoicesCollection();
                 Hook::exec('actionPDFInvoiceRender', array('order_invoice_list' => $order_invoice_list));
@@ -2612,21 +2611,25 @@ class OrderCore extends ObjectModel
                     $file_attachement = null;
                 }
                 //$this->context->link->getModuleLink('module_folder_name','controller_name',array_of_params);
-                if (Validate::isEmail($context->customer->email)) {
+                if (Validate::isEmail($customer->email)) {
                             Mail::Send(
                                 (int)$order->id_lang,
                                 'order_conf',
                                 Mail::l('Order confirmation', (int)$order->id_lang),
                                 $data,
-                                $context->customer->email,
-                                $context->customer->firstname.' '.$context->customer->lastname,
+                                $customer->email,
+                                $customer->firstname.' '.$customer->lastname,
                                 null,
                                 null,
                                 $file_attachement,
                                 null, _PS_MAIL_DIR_, false, (int)$order->id_shop
                             );
                 }
-                            
+                
+                
+                echo '<pre>';
+                print_r($data);
+                die();
     }
     
     public static function getEmailTemplateContent($template_name, $mail_type, $var)
