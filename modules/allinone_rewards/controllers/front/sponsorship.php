@@ -132,6 +132,10 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 				$friendsFirstName = Tools::getValue('friendsFirstName');
 				$mails_exists = array();
 
+                                if ( !Customer::customerPurchaseLicense($this->context->customer->email) ) {
+                                    $error = 'purchase incomplete';
+                                }
+
 				// 1ere boucle pour contrôle des erreurs
 				foreach ($friendsEmail as $key => $friendEmail)
 				{
