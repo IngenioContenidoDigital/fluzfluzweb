@@ -54,7 +54,7 @@
         <span class="barra-fondo">
             <li class="barras" id="available" data-value="{(($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|number_format:0)/($suma)*100)}" style="max-width: 100%;"><span>{($totalAvailable/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))|number_format:0}</span></li>
         </span>
-        <p class="pGrap">{l s="YOUR POINT GENERATION" mod='allinone_rewards'}</p>
+        <p class="pGrap">{l s="Tus Fluz" mod='allinone_rewards'}</p>
         {foreach from=$topPoint item=top}
         <div class="col-lg-10" style="padding-left:0px;">
             <span class="barra-fondo">

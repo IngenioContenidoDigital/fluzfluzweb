@@ -132,7 +132,7 @@
                                 {/if}
                             </div>
                             <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                                <span style="font-size:11px;">{l s='Points you earned'}: </span><span class="pointsmnf">{$credits}</span>
+                                <span style="font-size:11px;">{l s='Fluz Recibidos:'}: </span><span class="pointsmnf">{$credits}</span>
                             </div>
                         </div>
                         <div class="row" style="padding: 5px;">
@@ -189,7 +189,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><span class="information">{l s='Points Contributed:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
+                                            <td colspan="2"><span class="information">{l s='Fluz Otorgados:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
                                             <td>&nbsp;</td>
                                             <td></td>
                                         </tr>
