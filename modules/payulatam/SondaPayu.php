@@ -345,6 +345,20 @@ public function response_sonda_payu($order, $response_ws){
 }
 
     public function updatePendyngCustomers(){
+        // Inactivar Clientes - Orden Error de pago
+        $sql = "UPDATE "._DB_PREFIX_."customer
+                SET active = 0
+                WHERE id_customer
+                IN ( SELECT 
+                        o.id_customer
+                    FROM "._DB_PREFIX_."orders o
+                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
+                    INNER JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order AND oh.id_order_state = 15 )
+                    WHERE o.current_state = 8 OR o.current_state = 15
+                )";
+        Db::getInstance()->Execute($sql);
+
+        // Activar Clientes - Orden Pago aceptado
         $sql = "UPDATE "._DB_PREFIX_."customer
                 SET active = 1
                 WHERE id_customer
@@ -357,6 +371,5 @@ public function response_sonda_payu($order, $response_ws){
                 )";
         Db::getInstance()->Execute($sql);
     }
-
 }
 ?>
