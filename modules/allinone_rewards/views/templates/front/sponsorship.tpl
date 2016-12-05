@@ -50,6 +50,8 @@
 			{l s='This mobile phone has already been invited during last 10 days, please retry later.' mod='allinone_rewards'}
 		{elseif $error == 'sms impossible'}
 			{l s='An error occured, the SMS has not been sent' mod='allinone_rewards'}
+		{elseif $error == 'purchase incomplete'}
+			{l s='Por favor verifica el estado de tu afiliacion, tu proceso de registro esta incompleto. Si tienes una invitacion por favor realiza el proceso de registro nuevamente.'}
 		{/if}
 	</p>
 	{/if}
