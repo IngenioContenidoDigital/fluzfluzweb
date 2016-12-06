@@ -185,6 +185,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 							$vars = array(
 								'{message}' => Tools::nl2br(Tools::getValue('message')),
 								'{email}' => $this->context->customer->email,
+                                                                '{firstname_invited}'=> $sponsorship->firstname,
                                                                 '{inviter_username}' => $this->context->customer->username,
                                                                 '{username}' => $this->context->customer->username,
 								'{lastname}' => $this->context->customer->lastname,
@@ -240,15 +241,18 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 					if (Tools::getValue('friendChecked') && sizeof($friendsChecked = Tools::getValue('friendChecked')) >= 1)
 					{
 						foreach ($friendsChecked as $key => $friendChecked)
-						{
+						{       
+                                                        $send = "";
 							$sponsorship = new RewardsSponsorshipModel((int)$key);
 							$vars = array(
 								'{email}' => $this->context->customer->email,
+                                                                '{firstname_invited}'=> $sponsorship->firstname,
                                                                 '{username}' => $this->context->customer->username,
 								'{lastname}' => $this->context->customer->lastname,
 								'{firstname}' => $this->context->customer->firstname,
 								'{email_friend}' => $sponsorship->email,
 								'{link}' => $sponsorship->getSponsorshipMailLink(),
+                                                                '{Expiration}'=> $send,
 								'{nb_discount}' => $nb_discount,
                                                                 
 								'{discount}' => $discount_gc
@@ -285,6 +289,25 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                 $sponsorship = new RewardsSponsorshipModel((int)$key);
                                                 $query = 'DELETE FROM '._DB_PREFIX_.'rewards_sponsorship WHERE email = "'.$sponsorship->email.'"';
                                                 Db::getInstance()->execute($query);
+                                                
+                                                $vars = array(
+								'{email}' => $this->context->customer->email,
+                                                                '{username}' => $this->context->customer->username,
+								'{lastname}' => $sponsorship->lastname,
+								'{firstname}' => $sponsorship->firstname,
+								'{email_friend}' => $sponsorship->email,
+								'{link}' => $sponsorship->getSponsorshipMailLink(),
+								'{nb_discount}' => $nb_discount,
+								'{discount}' => $discount_gc
+							);
+                                                Mail::Send(
+                                                    (int)$this->context->language->id,
+                                                    'invitationCancel',
+                                                    'Invitacion Cancelada',
+                                                    $vars,
+                                                    $sponsorship->email,
+                                                    $sponsorship->firstname.' '.$sponsorship->lastname
+                                                );
                                                 Tools::redirect($this->context->link->getPageLink('cancelinvitation', true, (int)$this->context->language->id));
                                             }
 					}

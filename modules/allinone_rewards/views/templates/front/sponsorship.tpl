@@ -288,11 +288,16 @@
                                                            <input type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
                                                         </div>
                                                     {elseif $pendingFriends|@count == 1}
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
-                                                           <input type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 text-btn" style="text-align:right;">
-                                                           <input type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
+                                                        <diV class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
+                                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
+                                                                <p class="submit" align="right"><input style="width: 250px;" type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='Invitar Fluzzers' mod='allinone_rewards'}" /></p>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 text-btn" style="text-align:right;">
+                                                               <input style="width: 250px;" type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 text-btn" style="text-align:right;">
+                                                               <input style="width: 250px;" type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
+                                                            </div>
                                                         </div>
                                                     {elseif $subscribeFriends|@count == 1}
                                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
