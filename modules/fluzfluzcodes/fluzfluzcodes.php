@@ -209,11 +209,11 @@ class fluzfluzCodes extends Module{
     }
     
     public function updateQuantities(){
-        $qr0= "UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=0 WHERE p.reference <>'MFLUZ'";
+        //$qr0= "UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=0 WHERE p.reference <>'MFLUZ'";
         //$qr0 = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=0";
         //$qr = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product)";
         $qr="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product) WHERE p.reference <>'MFLUZ'";
-        Db::getInstance()->execute($qr0);
+        //Db::getInstance()->execute($qr0);
         Db::getInstance()->execute($qr);
     }
     

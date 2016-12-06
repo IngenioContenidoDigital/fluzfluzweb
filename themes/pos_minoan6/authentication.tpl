@@ -882,7 +882,7 @@
         {literal}
         <script type="text/javascript">
             $(document).ready(function(){
-                document.getElementById( 'valorSlider' ).value=30000 ;  
+                document.getElementById( 'valorSlider' ).value=15000 ;  
                 
                 $('#rangeSlider').change(function() 
                 {

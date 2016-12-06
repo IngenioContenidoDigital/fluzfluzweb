@@ -23,10 +23,10 @@ $query = "SELECT
         $invitations = Db::getInstance()->executeS($query);
 
         $send = "";
-        $sixDays = "<label>Esto es un recordatorio de que le quedan 6 d&iacuteas antes de que expire su invitaci&oacuten.</label>";
-        $twoDays = "<label>Esto es un recordatorio de que le quedan 2 d&iacuteas antes de que expire su invitaci&oacuten.</label>";
-        $oneDays = "<label>Esto es un recordatorio de que le quedan 1 d&iacuteas antes de que expire su invitaci&oacuten.</label>";
-        $sixHour = "<label>Esto es un recordatorio de que le quedan 6 horas antes de que expire su invitaci&oacuten.</label>";
+        $sixDays = "<label>Esto es un recordatorio de que le quedan 6 d&iacute;as antes de que expire su invitaci&oacute;n.</label>";
+        $twoDays = "<label>Esto es un recordatorio de que le quedan 2 d&iacute;as antes de que expire su invitaci&oacute;n.</label>";
+        $oneDays = "<label>Esto es un recordatorio de que le quedan 1 d&iacute;as antes de que expire su invitaci&oacute;n.</label>";
+        $sixHour = "<label>Esto es un recordatorio de que le quedan 6 horas antes de que expire su invitaci&oacute;n.</label>";
         
     foreach ($invitations as $key => $invitation){
     
@@ -55,9 +55,9 @@ $query = "SELECT
 
         $vars = array(
                     '{message}' => "PRUEBA",
+                    '{firstname_invited}'=> $friendFirstName,
                     '{email}' => $invitation['sponsoremail'],
-                    '{inviter_username}' => $invitation['sponsorusername'],
-                    '{username}' => $friendFirstName,
+                    '{username}' => $invitation['sponsorusername'],
                     '{lastname}' => $invitation['sponsorlastname'],
                     '{firstname}' => $invitation['sponsorfirstname'],
                     '{email_friend}' => $friendEmail,
@@ -92,9 +92,9 @@ $query = "SELECT
 
         $vars = array(
                     '{message}' => "PRUEBA",
+                    '{firstname_invited}'=> $friendFirstName,
                     '{email}' => $invitation['sponsoremail'],
-                    '{inviter_username}' => $invitation['sponsorusername'],
-                    '{username}' => $friendFirstName,
+                    '{username}' => $invitation['sponsorusername'],
                     '{lastname}' => $invitation['sponsorlastname'],
                     '{firstname}' => $invitation['sponsorfirstname'],
                     '{email_friend}' => $friendEmail,
@@ -111,7 +111,6 @@ $query = "SELECT
         $friendLastName = $invitation['lastname'];
         $friendFirstName = $invitation['firstname'];
 
-<<<<<<< HEAD
     $sponsorship = new RewardsSponsorshipModel();
     $sponsorship->id_sponsor = $invitation['sponsorid'];
     $sponsorship->id_customer = substr($idTemporary, 0, 10);
@@ -122,9 +121,9 @@ $query = "SELECT
 
     $vars = array(
                 '{message}' => "PRUEBA",
+                '{firstname_invited}'=> $friendFirstName,
                 '{email}' => $invitation['sponsoremail'],
-                '{inviter_username}' => $invitation['sponsorusername'],
-                '{username}' => $friendFirstName,
+                '{username}' => $invitation['sponsorusername'],
                 '{lastname}' => $invitation['sponsorlastname'],
                 '{firstname}' => $invitation['sponsorfirstname'],
                 '{email_friend}' => $friendEmail,
@@ -133,7 +132,6 @@ $query = "SELECT
 
     $allinone_rewards = new allinone_rewards();
     $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
-=======
         $template = 'sponsorship-invitation-novoucher';
         //$template = 'sponsorship-invitation';
 
@@ -152,9 +150,9 @@ $query = "SELECT
 
         $vars = array(
                     '{message}' => "PRUEBA",
+                    '{firstname_invited}'=> $friendFirstName,
                     '{email}' => $invitation['sponsoremail'],
-                    '{inviter_username}' => $invitation['sponsorusername'],
-                    '{username}' => $friendFirstName,
+                    '{username}' => $invitation['sponsorusername'],
                     '{lastname}' => $invitation['sponsorlastname'],
                     '{firstname}' => $invitation['sponsorfirstname'],
                     '{email_friend}' => $friendEmail,
@@ -189,9 +187,9 @@ $query = "SELECT
 
         $vars = array(
                     '{message}' => "PRUEBA",
+                    '{firstname_invited}'=> $friendFirstName,
                     '{email}' => $invitation['sponsoremail'],
-                    '{inviter_username}' => $invitation['sponsorusername'],
-                    '{username}' => $friendFirstName,
+                    '{username}' => $invitation['sponsorusername'],
                     '{lastname}' => $invitation['sponsorlastname'],
                     '{firstname}' => $invitation['sponsorfirstname'],
                     '{email_friend}' => $friendEmail,
@@ -204,8 +202,45 @@ $query = "SELECT
     }
     
     else if ($days > 7){
+        $friendEmail = $invitation['email'];
+        $friendLastName = $invitation['lastname'];
+        $friendFirstName = $invitation['firstname'];
+        
+        $idTemporary = '1';
+        for ($i = 0; $i < strlen($friendEmail); $i++) {
+            $idTemporary .= (string) ord($friendEmail[$i]);
+        }
+
+        $sponsorship = new RewardsSponsorshipModel();
+        $sponsorship->id_sponsor = $invitation['sponsorid'];
+        $sponsorship->id_customer = substr($idTemporary, 0, 10);
+        $sponsorship->firstname = $friendFirstName;
+        $sponsorship->lastname = $friendLastName;
+        $sponsorship->channel = 1;
+        $sponsorship->email = $friendEmail;
+
+        $vars = array(
+                    '{message}' => "PRUEBA",
+                    '{firstname_invited}'=> $sponsorship->firstname,
+                    '{email}' => $invitation['sponsoremail'],
+                    '{username}' => $invitation['sponsorusername'],
+                    '{lastname}' => $sponsorship->lastname,
+                    '{firstname}' => $sponsorship->firstname,
+                    '{email_friend}' => $friendEmail,
+                    '{link}' => $sponsorship->getSponsorshipMailLink()
+                );
+        
+        Mail::Send(
+            Context::getContext()->language->id,
+            'invitationCancel',
+            'Invitacion Cancelada',
+            $vars,
+            $friendEmail,
+            $invitation['sponsorfirstname'].' '.$invitation['sponsorlastname']
+        );
+        
         $deletemail = "DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_customer=".$invitation['id_customer'];
         Db::getInstance()->execute($deletemail);
+        
     }
->>>>>>> fd61baa9d75a3d032d23a0bbbcc2071e15fa41b0
 }

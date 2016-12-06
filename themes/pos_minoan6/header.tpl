@@ -143,7 +143,7 @@
                                 {if $page_name=='my-account'}
                                     {if $order_lastmonth}
                                         <div class="col-lg-12 banner-advertencia">
-                                            <p class="p-advertencia">{l s="Aun no cubres tu compra mínima de 2 productos al mes!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
+                                            <p class="p-advertencia">{l s="Ha hecho 1 de 2 compras y está pasado su fecha de vencimiento "}{$date_last}{". Si usted no hace 1 compra más por "}{$date_cancel}{" su cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
                                         </div>
                                     {/if}
                                     <div class="container-fluid profileCustomer" style="{if !$order_lastmonth}margin-top:70px{/if};">
