@@ -141,11 +141,24 @@
                         </div>
                     </div>
                                 {if $page_name=='my-account'}
-                                    {if $order_lastmonth}
+                                    {if $order_lastmonth['alert'] == 3}
                                         <div class="col-lg-12 banner-advertencia">
-                                            <p class="p-advertencia">{l s="Ha hecho 1 de 2 compras y está pasado su fecha de vencimiento "}{$date_last}{". Si usted no hace 1 compra más por "}{$date_cancel}{" su cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
+                                            <p class="p-advertencia">{l s="Ha hecho "}{$order_lastmonth['orden']}{" de 2 compras y está pasado de su fecha de vencimiento "}{$date_last}{". Si usted no hace 1 compra más por "}{$date_cancel}{" su cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
+                                        </div>
+                                    {/if}    
+                                    
+                                    {if $order_lastmonth['alert'] == 1}
+                                        <div class="col-lg-12 banner-advertencia-month">
+                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de 2 compras. Usted necesitará hacer 1 compra más hasta la fecha ("}{$order_lastmonth['date']}{") para cubrir su requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
                                         </div>
                                     {/if}
+                                    
+                                    {if $order_lastmonth['alert'] == 2}
+                                        <div class="col-lg-12 banner-advertencia-awesome">
+                                            <p class="p-advertencia">{l s="¡Increíble! Su compra mensual mínima se ha cumplido. "}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-awesome"></i></p>
+                                        </div>
+                                    {/if}
+                                    
                                     <div class="container-fluid profileCustomer" style="{if !$order_lastmonth}margin-top:70px{/if};">
                                         <div class="row" style="width:100%;">
                                                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 contProfile">
@@ -320,7 +333,19 @@
 {literal}
     <script>
         $('.close-advertencia').click( function() {
-            $('.banner-advertencia').fadeOut(600);
+            $('.banner-advertencia').toggle("slow");
+            $('.profileCustomer').css('margin-top', '70px');
+        });
+    </script>
+    <script>
+        $('.close-advertencia-month').click( function() {
+            $('.banner-advertencia-month').toggle("slow");
+            $('.profileCustomer').css('margin-top', '70px');
+        });
+    </script>
+    <script>
+        $('.close-advertencia-awesome').click( function() {
+            $('.banner-advertencia-awesome').toggle("slow");
             $('.profileCustomer').css('margin-top', '70px');
         });
     </script>
