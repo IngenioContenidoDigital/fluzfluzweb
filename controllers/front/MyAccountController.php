@@ -274,7 +274,7 @@ class MyAccountControllerCore extends FrontController
             $orders = $roworders['orders'];
             
             if($orders <= 30){
-                $query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%m-%d-%Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+                $query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
                 WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' AND r.id_reward_state=2 
@@ -310,7 +310,7 @@ class MyAccountControllerCore extends FrontController
                 $order=Db::getInstance()->getRow($query);
                 $orders_lastmonth = $order['num_order'];
                 
-                $query2 = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+                $query2 = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, DATE_FORMAT(date_add(o.date_add, INTERVAL 2 MONTH),"%d %b %Y") AS dateCancel, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
                 WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.'
@@ -318,23 +318,32 @@ class MyAccountControllerCore extends FrontController
                 AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
 
                 $order2=Db::getInstance()->getRow($query2);
+                
                 $orders_aftermonth = $order2['num_order'];
+                $orderdateExpired = $order2['dateCancel'];
+                $orderdatelimit2 = $order2['date'];
                 
                 if ( $days < 90 ) {
-                    $query3 = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
-                    LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
-                    LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
-                    WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 3 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.'
-                    AND r.plugin="loyalty"
-                    AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
+                    $query3 = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 2 MONTH),"%d %b %Y") AS date,
+                            DATE_FORMAT(date_add(o.date_add, INTERVAL 3 MONTH),"%d %b %Y") AS dateCancel,
+                            o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+                            LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
+                            WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 3 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.'
+                            AND r.plugin="loyalty"
+                            AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
 
                     $order3=Db::getInstance()->getRow($query3);
                     $orders_aftermonth += $order3['num_order'];
+                    $orderdateExpired = $order3['dateCancel'];
+                    $orderdatelimit2 = $order3['date'];
                 }
                 
                 if ( ($orders_aftermonth+$orders_lastmonth) < 4 ) {
                     $alertpurchaseorder['alert'] = 3;
                     $alertpurchaseorder['orden'] = $orders_aftermonth+$orders_lastmonth;
+                    $alertpurchaseorder['date'] = $orderdatelimit2;
+                    $alertpurchaseorder['dateCancel'] = $orderdateExpired; 
                 }
             }
             return $alertpurchaseorder;
