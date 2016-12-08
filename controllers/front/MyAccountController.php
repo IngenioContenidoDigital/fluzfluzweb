@@ -347,6 +347,7 @@ class MyAccountControllerCore extends FrontController
                     $orders_aftermonth += $order3['num_order'];
                     $orderdateExpired = $order3['dateCancel'];
                     $orderdatelimit2 = $order3['date'];
+                    $alertpurchaseorder['alert'] = 3;
                 }
                 
                 if ( ($orders_aftermonth+$orders_lastmonth) < 4 ) {
