@@ -149,7 +149,7 @@
                                     
                                     {if $order_lastmonth['alert'] == 1}
                                         <div class="col-lg-12 banner-advertencia-month">
-                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de 2 compras. Necesitaras hacer 1 compra más hasta el ("}{$order_lastmonth['date']}{") para cubrir tu requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
+                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de 2 compras. Necesitaras hacer "}{$order_lastmonth['quantity']}{" compra más hasta el ("}{$order_lastmonth['date']}{") para cubrir tu requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
                                         </div>
                                     {/if}
                                     
