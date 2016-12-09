@@ -143,7 +143,7 @@
                                 {if $page_name=='my-account'}
                                     {if $order_lastmonth['alert'] == 3}
                                         <div class="col-lg-12 banner-advertencia">
-                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de 4 compras y te estas pasando de la fecha de vencimiento "}{$order_lastmonth['date']}{". Si no haces 1 compra más hasta el "}{$order_lastmonth['dateCancel']}{" tu cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
+                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "}{$order_lastmonth['quantity_max']}{" compras y te estas pasando de la fecha de vencimiento ("}{$order_lastmonth['date']}{"). Si no haces "}{$order_lastmonth['quantity']}{" compra más hasta el ("}{$order_lastmonth['dateCancel']}{") tu cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
                                         </div>
                                     {/if}    
                                     
@@ -159,7 +159,7 @@
                                         </div>
                                     {/if}
                                     
-                                    <div class="container-fluid profileCustomer" style="{if !$order_lastmonth}margin-top:70px{/if};">
+                                    <div class="container-fluid profileCustomer" style="{if $order_lastmonth['alert'] == 0}margin-top:70px{/if};">
                                         <div class="row" style="width:100%;">
                                                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 contProfile">
                                                     {if $imgprofile != ""}
