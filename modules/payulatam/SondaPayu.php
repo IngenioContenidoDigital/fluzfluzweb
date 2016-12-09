@@ -373,30 +373,31 @@ public function response_sonda_payu($order, $response_ws){
 
     public function updatePendyngCustomers(){
         // Inactivar Clientes - Orden Error de pago
-        $sql = "UPDATE "._DB_PREFIX_."customer
-                SET active = 0
-                WHERE id_customer
-                IN ( SELECT 
-                        o.id_customer
-                    FROM "._DB_PREFIX_."orders o
-                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
-                    INNER JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order AND oh.id_order_state = 15 )
-                    WHERE o.current_state = 8 OR o.current_state = 15
-                )";
-        Db::getInstance()->Execute($sql);
+        $customers = Db::getInstance()->ExecuteS("SELECT o.id_customer
+                                                FROM "._DB_PREFIX_."orders o
+                                                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
+                                                INNER JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order AND oh.id_order_state = 15 )
+                                                WHERE o.current_state = 8 OR o.current_state = 15
+                                                GROUP BY o.id_customer");
+        foreach ( $customers as $customer ) {
+            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 0, id_default_group = 2 WHERE id_customer = ".$customer['id_customer']);
+            Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer['id_customer']);
+            Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",2)");
+        }
 
         // Activar Clientes - Orden Pago aceptado
-        $sql = "UPDATE "._DB_PREFIX_."customer
-                SET active = 1
-                WHERE id_customer
-                IN ( SELECT 
-                        o.id_customer
-                    FROM "._DB_PREFIX_."orders o
-                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
-                    INNER JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order AND oh.id_order_state = 15 )
-                    WHERE o.current_state = 2
-                )";
-        Db::getInstance()->Execute($sql);
+        $customers = Db::getInstance()->ExecuteS("SELECT o.id_customer
+                                                FROM "._DB_PREFIX_."orders o
+                                                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
+                                                INNER JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order AND oh.id_order_state = 15 )
+                                                WHERE o.current_state = 2
+                                                GROUP BY o.id_customer");
+        foreach ( $customers as $customer ) {
+            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 1, id_default_group = 4 WHERE id_customer = ".$customer['id_customer']);
+            Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer['id_customer']);
+            Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",3)");
+            Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",4)");
+        }
     }
 }
 ?>
