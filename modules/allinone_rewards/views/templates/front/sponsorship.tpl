@@ -200,20 +200,20 @@
                                                         {elseif $pendingFriends|@count == 1} 
                                                                 <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">           
                                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
-                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsFirstName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsFirstName[$smarty.section.friends.index])}{$friendsFirstName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" onfocus="focusFunction()" onblur="blurFunction()"/></div>
                                                                 </div>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
-                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsLastName[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsLastName[$smarty.section.friends.index])}{$friendsLastName[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" onfocus="focusFunction()" onblur="blurFunction()"/></div>
                                                                 </div>    
                                                                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
-                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" /></div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsEmail[{$smarty.section.friends.index|escape:'html':'UTF-8'}]" size="20" value="{if isset($friendsEmail[$smarty.section.friends.index])}{$friendsEmail[$smarty.section.friends.index]|escape:'html':'UTF-8'}{/if}" onfocus="focusFunction()" onblur="blurFunction()"/></div>
                                                                 </div>
                                                                 {foreach from=$pendingFriends item=pendingFriend name=myLoop}
                                                                     <div class="row {if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6 status-email" style="line-height: 25px;">
-                                                                            <input type="checkbox" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
+                                                                            <input type="checkbox" class="abc" name="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" id="friendChecked[{$pendingFriend.id_sponsorship|escape:'html':'UTF-8'}]" value="1" />
                                                                             {$pendingFriend.firstname|escape:'html':'UTF-8'}&nbsp;&nbsp;&nbsp;{$pendingFriend.lastname|escape:'html':'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{$pendingFriend.email|escape:'html':'UTF-8'}
                                                                         </div>
                                                                         <div style="color:#eabf1e; line-height: 25px; text-align: center;" class="col-lg-6 col-md-6 col-sm-6 status-email">{l s="Estado: Pendiente"}</div>
@@ -289,14 +289,14 @@
                                                         </div>
                                                     {elseif $pendingFriends|@count == 1}
                                                         <diV class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
-                                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12">
-                                                                <p class="submit" align="right"><input style="width: 250px;" type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='Invitar Fluzzers' mod='allinone_rewards'}" /></p>
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                                                <p class="submit" align="right"><input style="width: 180px; text-align: center;" type="submit" id="submitSponsorFriends" name="submitSponsorFriends" class="button_large" value="{l s='Invitar Fluzzers' mod='allinone_rewards'}"/></p>
                                                             </div>
-                                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 text-btn" style="text-align:right;">
-                                                               <input style="width: 250px;" type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 text-btn" style="text-align:right;">
+                                                               <input style="width: 180px; text-align: center;" type="submit" value="{l s='Remind my friends' mod='allinone_rewards'}" name="revive" id="revive" class="button_large" />
                                                             </div>
-                                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 text-btn" style="text-align:right;">
-                                                               <input style="width: 250px;" type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
+                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 text-btn" style="text-align:right;">
+                                                               <input style="width: 180px; text-align: center;" type="submit" value="{l s='Cancelar Invitacion' mod='allinone_rewards'}" name="reviveCancel" id="reviveCancel" class="button_large" />
                                                             </div>
                                                         </div>
                                                     {elseif $subscribeFriends|@count == 1}
@@ -579,3 +579,32 @@
         .btnCash{display: none;}
     </style>
 {/literal}
+
+{literal}
+    <script>
+        function focusFunction() {
+            $('input[type="submit"]').removeAttr('disabled','disabled');
+            $('#revive').attr('disabled','disabled');
+            $('#revive').addClass('deshabilitar');
+            $('#reviveCancel').attr('disabled','disabled');
+            $('#reviveCancel').addClass('deshabilitar');
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('.abc').change(function() {
+                if($(this).is(":checked")) {
+                    $('#submitSponsorFriends').attr('disabled','disabled');
+                    $('#submitSponsorFriends').addClass('deshabilitar');
+                    $('#revive').removeAttr('disabled','disabled');
+                    $('#revive').removeClass('deshabilitar');
+                    $('#reviveCancel').removeAttr('disabled','disabled');
+                    $('#reviveCancel').removeClass('deshabilitar');
+                } else {
+                    $('#submitSponsorFriends').removeAttr('disabled','disabled');
+                    $('#submitSponsorFriends').removeClass('deshabilitar');
+                }
+            });
+    });
+    </script>
+{/literal}    

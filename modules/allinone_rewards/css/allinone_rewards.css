@@ -27,6 +27,7 @@
 .message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; line-height: 34px;}
 .message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
 .button_large:hover{background: #ef4136;}
+#reviveCancel{background: #ef4136 !important;}
 
 /* pop up mensaje*/
 #myspecialcontent > div { margin-bottom: 15px; }
@@ -616,9 +617,13 @@
 }
 
 input.button_large{
-    padding: 8px 33px;
-    margin-top: 20px;
-    font-size: 14px;
+    padding: 8px 15px;
+    margin-top: 0px;
+    font-size: 11px;
+}
+
+.deshabilitar{
+    opacity: 0.5;
 }
 
 #idTab3{
@@ -674,7 +679,7 @@ ul.footer_links{
    #container2{margin-bottom: 0px;padding-left: 0px;padding-right: 0px;}
    .rewards{width: 90% !important; margin: 0 auto !important; padding-right: 0px; padding-left: 0;}
    .rewards table.std td{font-size: 10px;}
-   input.button_large{padding: 5px 30px;}
+   input.button_large{padding: 5px 18px;}
    .sponsorshipBlock div{font-size: 10px;}
 }
 
