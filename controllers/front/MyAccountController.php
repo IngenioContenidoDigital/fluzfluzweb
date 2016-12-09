@@ -72,6 +72,12 @@ class MyAccountControllerCore extends FrontController
             'worstPoint'=> $this->WorstNetworkUnique(),
             'returnAllowed' => (int)Configuration::get('PS_ORDER_RETURN')
         ));
+        
+        $groupCustomer = 'SELECT id_default_group as afiliado FROM '._DB_PREFIX_.'customer WHERE id_customer = '.$this->context->customer->id;
+        $rowcustomer = Db::getInstance()->getRow($groupCustomer);
+        $grupo = $rowcustomer['afiliado'];
+        
+        $this->context->smarty->assign('grupo',$grupo);
 
         $imgprofile = "";
         if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ) {
