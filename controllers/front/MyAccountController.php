@@ -303,7 +303,7 @@ class MyAccountControllerCore extends FrontController
                     $alertpurchaseorder['quantity'] = 2 - $orders_lastmonth;
                 }
                 
-                else if($orders_lastmonth >= 2){
+                if($orders_lastmonth >= 2 && $orders < 30){
                     $alertpurchaseorder['alert'] = 2;
                 }
                 
