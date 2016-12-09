@@ -273,7 +273,7 @@ class MyAccountControllerCore extends FrontController
             $roworders = db::getInstance()->getRow($queryorders);
             $orders = $roworders['orders'];
             
-            if($days >= 30 && $days < 60){
+            if($days >= 30 && $orders <= 30){
                 $query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
@@ -303,13 +303,12 @@ class MyAccountControllerCore extends FrontController
                     $alertpurchaseorder['quantity'] = 2 - $orders_lastmonth;
                 }
                 
-                else if($orders_lastmonth >= 2){
+                if($orders_lastmonth >= 2){
                     $alertpurchaseorder['alert'] = 2;
                 }
-                
             }
             
-            if($days >= 60 && $days <= 90){
+            else if(($days >= 60 && $days <= 90)){
                 $query = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
