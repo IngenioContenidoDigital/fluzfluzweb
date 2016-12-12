@@ -144,6 +144,9 @@ class CustomerCore extends ObjectModel
     /** @var string kick_out number */
     public $kick_out;
 
+    /** @var string manual_inactivation number */
+    public $manual_inactivation;
+
     protected $webserviceParameters = array(
         'fields' => array(
             'id_default_group' => array('xlink_resource' => 'groups'),
@@ -200,6 +203,7 @@ class CustomerCore extends ObjectModel
             'date_upd' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
             'dni' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isDniLite', 'size' => 16),
             'kick_out' =>                   array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
+            'manual_inactivation' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
         ),
     );
 
@@ -247,6 +251,7 @@ class CustomerCore extends ObjectModel
     public function update($nullValues = false)
     {
         $this->birthday = (empty($this->years) ? $this->birthday : (int)$this->years.'-'.(int)$this->months.'-'.(int)$this->days);
+        $this->manual_inactivation = (!$this->active) ? 1 : 0;
 
         if ($this->newsletter && !Validate::isDate($this->newsletter_date_add)) {
             $this->newsletter_date_add = date('Y-m-d H:i:s');
