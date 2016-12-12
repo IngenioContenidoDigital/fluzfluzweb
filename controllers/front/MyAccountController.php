@@ -275,7 +275,8 @@ class MyAccountControllerCore extends FrontController
             $rowday = db::getInstance()->getRow($querydays);
             $days = $rowday['days'];
             
-            $queryorders = 'SELECT DATEDIFF(NOW(), date_add) AS orders FROM '._DB_PREFIX_.'orders WHERE id_customer ='.$this->context->customer->id.' ORDER BY id_order DESC';
+            $queryorders = 'SELECT DATEDIFF(NOW(), date_add) AS orders FROM '._DB_PREFIX_.'orders WHERE id_customer ='.$this->context->customer->id.'
+                    ORDER BY id_order DESC';
             $roworders = db::getInstance()->getRow($queryorders);
             $orders = $roworders['orders'];
             
@@ -283,7 +284,10 @@ class MyAccountControllerCore extends FrontController
                 $query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
-                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' AND r.id_reward_state=2 
+                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() 
+                AND o.id_customer='.(int)$this->context->customer->id.' 
+                AND o.payment != "Pedido gratuito"
+                AND r.id_reward_state=2 
                 AND r.plugin="loyalty"
                 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
                 
@@ -318,7 +322,9 @@ class MyAccountControllerCore extends FrontController
                 $query = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
-                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.' 
+                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() 
+                AND o.id_customer='.(int)$this->context->customer->id.' 
+                AND o.payment != "Pedido gratuito"    
                 AND r.plugin="loyalty"
                 AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
 
@@ -329,6 +335,7 @@ class MyAccountControllerCore extends FrontController
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
                 WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.'
+                AND o.payment != "Pedido gratuito"        
                 AND r.plugin="loyalty"
                 AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
 
@@ -344,6 +351,7 @@ class MyAccountControllerCore extends FrontController
                             LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
                             WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 3 MONTH) AND NOW() AND o.id_customer='.(int)$this->context->customer->id.'
+                            AND o.payment != "Pedido gratuito"
                             AND r.plugin="loyalty"
                             AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
 
