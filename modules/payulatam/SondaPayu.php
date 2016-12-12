@@ -373,11 +373,17 @@ public function response_sonda_payu($order, $response_ws){
 
     public function updatePendyngCustomers(){
         // Inactivar Clientes - Orden Error de pago
-        $customers = Db::getInstance()->ExecuteS("SELECT o.id_customer
-                                                FROM "._DB_PREFIX_."orders o
+        $customers = Db::getInstance()->ExecuteS("SELECT c.id_customer
+                                                FROM "._DB_PREFIX_."customer c
+                                                INNER JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
                                                 INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
-                                                INNER JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order AND oh.id_order_state = 15 )
-                                                WHERE o.current_state = 8 OR o.current_state = 15
+                                                WHERE o.id_customer NOT IN (
+                                                    SELECT c.id_customer
+                                                    FROM "._DB_PREFIX_."customer c
+                                                    INNER JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer AND o.current_state = 2 )
+                                                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
+                                                    GROUP BY c.id_customer
+                                                )
                                                 GROUP BY o.id_customer");
         foreach ( $customers as $customer ) {
             Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 0, id_default_group = 2 WHERE id_customer = ".$customer['id_customer']);
@@ -386,12 +392,12 @@ public function response_sonda_payu($order, $response_ws){
         }
 
         // Activar Clientes - Orden Pago aceptado
-        $customers = Db::getInstance()->ExecuteS("SELECT o.id_customer
-                                                FROM "._DB_PREFIX_."orders o
+        $customers = Db::getInstance()->ExecuteS("SELECT c.id_customer
+                                                FROM "._DB_PREFIX_."customer c
+                                                INNER JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer AND o.current_state = 2 )
                                                 INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
-                                                INNER JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order AND oh.id_order_state = 15 )
-                                                WHERE o.current_state = 2
-                                                GROUP BY o.id_customer");
+                                                WHERE c.manual_inactivation = 0
+                                                GROUP BY c.id_customer");
         foreach ( $customers as $customer ) {
             Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 1, id_default_group = 4 WHERE id_customer = ".$customer['id_customer']);
             Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer['id_customer']);
