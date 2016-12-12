@@ -10,6 +10,7 @@ $customers = Db::getInstance()->executeS("SELECT
                                             c.email
                                         FROM "._DB_PREFIX_."customer c
                                         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
+                                        WHERE o.payment != 'Pedido gratuito'    
                                         GROUP BY c.id_customer
                                         HAVING days_inactive IN ( 30 , 45 , 52 , 59 , 60 )");
 
