@@ -589,10 +589,17 @@ class FrontControllerCore extends Controller
 			}
 
 			if (MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template) != 'home' && $this->context->controller instanceof IndexController) {
-				if (MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template) == 'form')
-					Tools::redirect('index.php?controller=authentication&create_account=1');
+                                if (MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template) == 'form'){
+                                    
+                                        if($sponsor->id == ""){
+                                            Tools::redirect($this->context->link->getPageLink('delete-invitation', true));
+                                        }
+                                        else{
+                                            Tools::redirect('index.php?controller=authentication&create_account=1');
+                                        }
+                                    }
 				else
-					Tools::redirect($this->context->link->getCMSLink(MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template)));
+                                    Tools::redirect($this->context->link->getCMSLink(MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template)));
 			}
 		}
 	}
