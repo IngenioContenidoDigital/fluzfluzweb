@@ -275,12 +275,15 @@ class MyAccountControllerCore extends FrontController
             $rowday = db::getInstance()->getRow($querydays);
             $days = $rowday['days'];
             
-            $queryorders = 'SELECT DATEDIFF(NOW(), date_add) AS orders FROM '._DB_PREFIX_.'orders WHERE id_customer ='.$this->context->customer->id.'
-                    ORDER BY id_order DESC';
+            $queryorders = 'SELECT DATEDIFF(NOW(), date_add) AS orders FROM '._DB_PREFIX_.'orders o
+                    LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
+                    WHERE o.id_customer ='.$this->context->customer->id.'
+                    AND od.product_reference != "MFLUZ"
+                    ORDER BY o.id_order DESC';
             $roworders = db::getInstance()->getRow($queryorders);
             $orders = $roworders['orders'];
             
-            if($days >= 30 && $orders <= 30){
+            if($days >= 30 && $orders <= 30 && $orders != ""){
                 $query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
@@ -319,6 +322,7 @@ class MyAccountControllerCore extends FrontController
             }
             
             else if(($days >= 60 && $days <= 90)){
+
                 $query = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
@@ -360,7 +364,7 @@ class MyAccountControllerCore extends FrontController
                 $orderdateExpired3 = $order3['dateCancel'];
                 $orderdatelimit3 = $order3['date'];
                 
-                if( ($orders_lastmonth == 0) && $orders < 30 ){
+                if( ($orders_lastmonth == 0)){
                     
                     $queryCustomer = 'SELECT DATE_FORMAT(date_add(date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, DATE_FORMAT(date_add(date_add, INTERVAL 2 MONTH),"%d %b %Y") AS dateCancel FROM ps_customer WHERE id_customer ='.(int)$this->context->customer->id;
                     $rowCustomer = Db::getInstance()->getRow($queryCustomer);
@@ -376,7 +380,7 @@ class MyAccountControllerCore extends FrontController
                     
                 }
                 
-                if( ($orders_lastmonth == 1  && $orders_lastmonth <=2) && $orders < 30 ){
+                if( ($orders_lastmonth == 1  && $orders_lastmonth <=2)){
                     
                     $queryCustomer = 'SELECT DATE_FORMAT(date_add(date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, DATE_FORMAT(date_add(date_add, INTERVAL 2 MONTH),"%d %b %Y") AS dateCancel FROM ps_customer WHERE id_customer ='.(int)$this->context->customer->id;
                     $rowCustomer = Db::getInstance()->getRow($queryCustomer);
@@ -392,14 +396,14 @@ class MyAccountControllerCore extends FrontController
                     
                 }
                 
-                if((($orders_aftermonth+$orders_lastmonth) > 2  && ($orders_aftermonth+$orders_lastmonth) <=4)){
+                if((($orders_aftermonth+$orders_lastmonth) >= 2  && ($orders_aftermonth+$orders_lastmonth) <=4)){
                     
                     $alertpurchaseorder['alert'] = 3;
-                    $alertpurchaseorder['orden'] = $orders_lastmonth;
+                    $alertpurchaseorder['orden'] = ($orders_aftermonth+$orders_lastmonth);
                     $alertpurchaseorder['date'] = $orderdatelimit3;
                     $alertpurchaseorder['dateCancel'] = $orderdateExpired3;
                     $alertpurchaseorder['quantity'] = 4 - ($orders_aftermonth+$orders_lastmonth);
-                    $alertpurchaseorder['quantity_max'] = 2;
+                    $alertpurchaseorder['quantity_max'] = 4;
                     
                 }
             }
