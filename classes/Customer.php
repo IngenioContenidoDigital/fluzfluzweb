@@ -147,6 +147,9 @@ class CustomerCore extends ObjectModel
     /** @var string manual_inactivation number */
     public $manual_inactivation;
 
+    /** @var string days_inactive number */
+    public $days_inactive;
+
     protected $webserviceParameters = array(
         'fields' => array(
             'id_default_group' => array('xlink_resource' => 'groups'),
@@ -204,7 +207,8 @@ class CustomerCore extends ObjectModel
             'dni' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isDniLite', 'size' => 16),
             'kick_out' =>                   array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'manual_inactivation' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-        ),
+            'days_inactive' =>              array('type' => self::TYPE_INT),
+        ),  
     );
 
     protected static $_defaultGroupId = array();
