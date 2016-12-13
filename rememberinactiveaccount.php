@@ -12,15 +12,20 @@ $customers = Db::getInstance()->executeS("SELECT
                                         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
                                         WHERE o.payment != 'Pedido gratuito'    
                                         GROUP BY c.id_customer
-                                        HAVING days_inactive IN ( 30 , 45 , 52 , 59 , 60 )");
+                                        HAVING days_inactive IN (0, 30 , 45 , 52 , 59 , 60, 90 )");
 
 // echo '<pre>'; print_r($customers); die();
 
-foreach ( $customers as $key => $customer ) {
+$execute_kickout = false;
+foreach ( $customers as $key => &$customer ) {
 
     $subject = "";
+    $template = 'remember_inactive_account';
     $message_alert = "Si tu cuenta Fluz Fluz permanece inactiva por un total de 60 dias,";
     switch ( $customer['days_inactive'] ) {
+        case 0:
+            $customer['days_inactive'] = "NULL";
+            break;
         case 30:
             $subject = "Tus 2 compras minimas del mes!";
             $message_alert .= " se cancelara.";
@@ -41,7 +46,16 @@ foreach ( $customers as $key => $customer ) {
             $subject = "Tu cuenta sera Cancelada.";
             $message_alert .= " se cancelara. Este es el ultimo dia para que renueves la actividad, antes de que tu cuenta se cancele.";
             break;
+        case 90:
+            $subject = "Tu cuenta fue Cancelada.";
+            $template = 'cancellation_account';
+            $message_alert = "";
+            $execute_kickout = true;
+            Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET kick_out = 1 WHERE id_customer = ".$customer['id_customer']);
+            break;
     }
+    
+    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET days_inactive = ".$customer['days_inactive']." WHERE id_customer = ".$customer['id_customer']);
     
     $contributor_count = 0;
     $listsponsorships = "";
@@ -70,13 +84,18 @@ foreach ( $customers as $key => $customer ) {
         '{learn_more_url}' => "http://reglas.fluzfluz.co"
     );
 
-    Mail::Send(
-        Context::getContext()->language->id,
-        'remember_inactive_account',
-        $subject,
-        $vars,
-        $customer['email'],
-        $customer['username']
-    );
+    if ( $customer['days_inactive'] != "NULL" ) { 
+        Mail::Send(
+            Context::getContext()->language->id,
+            $template,
+            $subject,
+            $vars,
+            $customer['email'],
+            $customer['username']
+        );
+    }
 }
 
+if ( $execute_kickout ) {
+    require_once(_PS_ROOT_DIR_.'/kickoutcustomers.php');
+}
