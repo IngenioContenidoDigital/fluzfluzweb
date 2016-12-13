@@ -122,7 +122,7 @@
                                                             <button class="block_content3 aprueba" type="button" data-toggle="dropdown"></button>
                                                             <ul class="bullet dropdown-menu">
                                                                     <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Merchants'}</a></li>
+                                                                    <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Comercios'}</a></li>
                                                                     <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
                                                                     <li class="textbox">
                                                                         <form id="searchbox2" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
