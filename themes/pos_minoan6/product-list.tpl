@@ -248,7 +248,7 @@
                                                                 </span>
                                                         </div>
                                                         <div>
-                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Price in Points: '}</span>
+                                                                <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio en Fluz: '}</span>
                                                                 <span class="price product-price" style="color:#ef4136; text-align: left;">
                                                                         {if !$priceDisplay}{(($product.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{else}{(($product.price_tax_exc)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}{/if}
                                                                 </span>
