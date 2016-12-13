@@ -40,7 +40,7 @@
 		<td class="cart_avail"><span class="label{if $product.quantity_available <= 0 && isset($product.allow_oosp) && !$product.allow_oosp} label-danger{elseif $product.quantity_available <= 0} label-warning{else} label-success{/if}">{if $product.quantity_available <= 0}{if isset($product.allow_oosp) && $product.allow_oosp}{if isset($product.available_later) && $product.available_later}{$product.available_later}{else}{l s='In Stock'}{/if}{else}{l s='Out of stock'}{/if}{else}{if isset($product.available_now) && $product.available_now}{$product.available_now}{else}{l s='In Stock'}{/if}{/if}</span>{if !$product.is_virtual}{hook h="displayProductDeliveryTime" product=$product}{/if}</td>
 	{/if}
         {assign var="idprod" value=$product.id_product}
-        <td colspan="1" style="text-align:right;" class="td-pto" data-title="{l s='Puntos A Obtener'}">
+        <td colspan="1" style="text-align:right;" class="td-pto" data-title="{l s='Fluz A Obtener'}">
             <p class="ptoCart">{$productsPoints.$idprod}&nbsp;{l s="Fluz."}</p>
         </td>
         
