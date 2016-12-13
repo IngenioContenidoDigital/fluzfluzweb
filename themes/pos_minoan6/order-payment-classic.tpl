@@ -81,9 +81,9 @@
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
                                                     {if count($discounts)}
-                                                        <p style="width:100%; font-size: 12px;" class="text-allpoint"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
+                                                        <p style="width:100%; font-size: 12px;" class="text-allpoint"> {l s='Usar todos los Fluz necesarios para cubrir el costo de la compra: '} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
                                                     {else}
-                                                    <p style="width:100%; font-size: 12px;" class="text-allpoint"> {l s='use all points necessary to conver the cost of purchase:'} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
+                                                    <p style="width:100%; font-size: 12px;" class="text-allpoint"> {l s='Usar todos los Fluz necesarios para cubrir el costo de la compra: '} &nbsp;&nbsp;<button name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
                                                     {/if}    
                                                     {*if $displayVouchers}
                                                             <div id="display_cart_vouchers">
@@ -110,7 +110,7 @@
                                                 <fieldset>
                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                     <input type="hidden" name="submitDiscount" />
-                                                      <div style="text-align: left; font-size: 12px; width: 100%;" class="item use-text">{l s='Use specific amount of points:'}
+                                                      <div style="text-align: left; font-size: 12px; width: 100%;" class="item use-text">{l s='Usar un monto especifico de Fluz:'}
                                                             {if count($discounts)}
                                                             <input type="number" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off" disabled/>
                                                             <button name="submitLabel" id="submitLabel" class="btn" style="background:#ef4136; color:#FFF;" disabled><span>{l s='ok'}</span></button>
