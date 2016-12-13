@@ -453,7 +453,12 @@ abstract class PaymentModuleCore extends Module
                             }
                             else{
                                 $this->consultcodebar($code['id_product'], $code['code']);
-                                $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                if (isset($_SERVER['HTTPS'])) {
+                                    $image_url .=  "<label>".$code['code']."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                }
+                                else{
+                                    $image_url .=  "<center><label>".$code['code']."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                }
                             }
                         }
                         
@@ -731,11 +736,11 @@ abstract class PaymentModuleCore extends Module
                         '{payment}' => Tools::substr($order->payment, 0, 32),
                         '{point_discount}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
                         '{products}' => $product_list_html,
-                        '{image}'=> $image_url,
+                        //'{image}'=> $image_url,
                         '{products_txt}' => $product_list_txt,
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
-                        '{total_value}' => Tools::displayPrice($total_value),    
+                        '{total_value}' => Tools::displayPrice($total_value, $this->context->currency, false),    
                         '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
                         '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
                         '{total_discounts}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
@@ -892,7 +897,7 @@ abstract class PaymentModuleCore extends Module
     
     public static function consultcodebar($idproduct,$barnumber) {
         
-        $ruta="../upload/";
+        $ruta= _PS_ROOT_DIR_."/upload/";
         $archivo="code-".$barnumber;
         $extension=".png";
         

@@ -2486,10 +2486,15 @@ class OrderCore extends ObjectModel
                             }
                             else{
                                 PaymentModuleCore::consultcodebar($code['id_product'], $code['code']);
-                                $image_url .=  "<label>".$code['code']."</label><br><img src='".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                if (isset($_SERVER['HTTPS'])) {
+                                    $image_url .=  "<label>".$code['code']."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                }
+                                else{
+                                    $image_url .=  "<center><label>".$code['code']."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                }
                             }
                         }
-
+                    
                     $total_value .= "<label>".round($product['price_shop'])."</label><br>";
                     $price = ProductCore::getPriceStatic((int)$product['id_product'], false, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 6, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
                     $price_wt = ProductCore::getPriceStatic((int)$product['id_product'], true, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 2, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
@@ -2512,7 +2517,7 @@ class OrderCore extends ObjectModel
 
                     $product_var_tpl_list[] = $product_var_tpl;
                     // Check if is not a virutal product for the displaying of shipping
-
+                    
                     if (!$product['is_virtual']) {
                         $virtual_product &= false;
                     }
@@ -2599,6 +2604,7 @@ class OrderCore extends ObjectModel
                 '{total_shipping}' => Tools::displayPrice($order->total_shipping, 1, false),
                 '{total_wrapping}' => Tools::displayPrice($order->total_wrapping, 1, false),
                 '{total_tax_paid}' => Tools::displayPrice(($order->total_products_wt - $order->total_products) + ($order->total_shipping_tax_incl - $order->total_shipping_tax_excl), 1, false));
+                
                 
                 if ((int)Configuration::get('PS_INVOICE') && $order->invoice_number) {
                 $order_invoice_list = $order->getInvoicesCollection();
