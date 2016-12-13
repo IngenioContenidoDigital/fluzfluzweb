@@ -99,6 +99,9 @@ class AdminCustomersControllerCore extends AdminController
             'email' => array(
                 'title' => $this->l('Email address')
             ),
+            'days_inactive' => array(
+                'title' => $this->l('Dias Inactividad')
+            ),
         );
 
         if (Configuration::get('PS_B2B_ENABLE')) {
