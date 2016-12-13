@@ -292,10 +292,10 @@
                                                                         </div>
 									{/if}
                                                                         {if $logged}
-                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price in points: "}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Precio en Fluz: "}</div>
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
                                                                         {else $logged}
-                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price in points: "}</div>
+                                                                            <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Precio en Fluz: "}</div>
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
 									{/if}
                                                                         

@@ -38,7 +38,7 @@
                             {if $PS_STOCK_MANAGEMENT}
                                 <th class="cart_availability item text-center">{l s='Availability'}</th>
                             {/if}
-                            <th class="cart_unit item text-right" colspan="1">{l s='Puntos a Obtener'}</th>
+                            <th class="cart_unit item text-right" colspan="1">{l s='Fluz a Obtener'}</th>
                             <th class="cart_unit item text-right">{l s='Unit price'}</th>
                             <th class="cart_quantity item text-center">{l s='Qty'}</th>
                             <th class="cart_total last_item text-right">{l s='Total'}</th>
