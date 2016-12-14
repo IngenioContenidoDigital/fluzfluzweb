@@ -272,7 +272,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 card-view">
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <p class="pValuePrice">{l s="Valor Original: "}<span class="price_value_content"></span></p>
+                            <p class="pValuePrice">{l s="Valor de Compra: "}<span class="price_value_content"></span></p>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <p class="pDate">{l s="Compra: "}<span class="date_purchased"></span></p>
@@ -289,8 +289,8 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
-                            <div class="pPrice col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
-                            <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                            <div class="pPrice col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:0px; padding-right:0px;">{l s="Valor Original: "}</div><div id="priceCard" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                            <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:0px;">{l s="Utilizado: "}</div><div id="priceCard_used" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <p style="text-align: center;"><img id="bar-code" class="img-responsive" src=""/></p>
@@ -424,7 +424,7 @@
                         $('#nameViewCard').html(name);
                         $('.pViewcard').html(description);
                         $('.terms-card').html(terms);
-                        $('.price_value_content').html(priceValue);
+                        $('.price_value_content').html(price);
                         $('.date_purchased').html(dateP);
                         $('#code_x').html(codeImg2);
                     }
