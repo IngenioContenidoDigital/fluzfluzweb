@@ -79,7 +79,18 @@ class raizBarcode{
     }
     
     public function updateUsed($idproduct, $barnumber, $used) {
-        $query2 = 'UPDATE '._DB_PREFIX_.'product_code SET used ='.$used.' WHERE id_product = '.$idproduct.' AND code= "'.$barnumber.'"';
+        
+        if($used == 0){
+            $state = "Disponible";
+        }
+        else if($used == 1){
+            $state = "Usada";
+        }
+        if($used == 2){
+            $state = "Terminada";
+        }
+        
+        $query2 = 'UPDATE '._DB_PREFIX_.'product_code SET used ='.$used.', state = "'.$state.'" WHERE id_product = '.$idproduct.' AND code= "'.$barnumber.'"';
         return Db::getInstance()->execute($query2);
     }
     

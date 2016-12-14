@@ -2686,6 +2686,8 @@ class OrderCore extends ObjectModel
                                         <th>pago_puntos</th>
                                         <th>puntos_utilizados</th>
                                         <th>nombre_producto</th>
+                                        <th>estado_tarjeta</th>
+                                        <th>valor_utilizado</th>
                                         <th>referencia_producto</th>
                                         <th>precio_producto</th>
                                         <th>cantidad</th>
@@ -2719,6 +2721,8 @@ class OrderCore extends ObjectModel
                             <td>".$order['pago_puntos']."</td>
                             <td>".$order['puntos_utilizados']."</td>
                             <td>".$order['nombre_producto']."</td>
+                            <td>".$order['estado_tarjeta']."</td>
+                            <td>".$order['valor_utilizado']."</td>
                             <td>".$order['referencia_producto']."</td>
                             <td>".$order['precio_producto']."</td>
                             <td>".$order['cantidad']."</td>
@@ -2831,12 +2835,13 @@ class OrderCore extends ObjectModel
             $nivel = count($sponsorships2);
 
             // CODIGOS PRODUCTO
-            $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto
+            $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(code,-4)) ) codigos_producto, 
+                    state AS estado_tarjeta, price_card_used AS valor_utilizado
                     FROM '._DB_PREFIX_.'product_code
                     WHERE id_order = '.$order['orden'].'
                     AND id_product = '.$order['id_product'];
             $codes_order = Db::getInstance()->executeS($sql);
-
+            
             // RECOMPENSA USUARIO
             $usuariopuntospesos = $order['puntos_producto'] * Configuration::get('REWARDS_VIRTUAL_VALUE_1');
             $usuariopuntos = $order['puntos_producto'];
@@ -2866,7 +2871,7 @@ class OrderCore extends ObjectModel
             });
 
             $queryInsertReport = "";
-            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, referencia_producto, precio_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
+            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, estado_tarjeta, valor_utilizado, referencia_producto, precio_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
                                   VALUES (
                                     ".$order['orden'].",
                                     '".$order['referencia']."',
@@ -2881,6 +2886,8 @@ class OrderCore extends ObjectModel
                                     ".number_format($order['pago_puntos'], 2, '.', '').",
                                     ".number_format(($order['pago_puntos'] / Configuration::get('REWARDS_VIRTUAL_VALUE_1') ), 2, '.', '').",
                                     '".$order['nombre_producto']."',
+                                    '".$codes_order[0]['estado_tarjeta']."', 
+                                    ".number_format($codes_order[0]['valor_utilizado'], 2, '.', '').",
                                     '".$order['referencia_producto']."',
                                     ".number_format($order['precio_producto'], 2, '.', '').",
                                     ".number_format($order['cantidad'], 2, '.', '').",
@@ -2908,12 +2915,21 @@ class OrderCore extends ObjectModel
             $queryInsertReport = substr($queryInsertReport, 0, -1).")";
 
             Db::getInstance()->execute($queryInsertReport);
+            
         }
 
-        // ACTUALIZAR ESTADO DE ORDEN EN TABLA DE REPORTE
-        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
+            // ACTUALIZAR ESTADO DE ORDEN EN TABLA DE REPORTE
+            Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
                                     INNER JOIN "._DB_PREFIX_."orders o ON ( ro.orden = o.id_order )
                                     INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
                                     SET ro.estado = osl.name");
+            
+            //ACTUALIZA EL ESTADO DE TARJETA Y VALOR UTILIZADO
+            
+            Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
+                                LEFT JOIN "._DB_PREFIX_."product_code pc ON (ro.orden = pc.id_order)
+                                LEFT JOIN "._DB_PREFIX_."product p ON (pc.id_product = p.id_product)
+                                SET ro.valor_utilizado = pc.price_card_used, ro.estado_tarjeta = pc.state
+                                WHERE ro.orden = pc.id_order AND ro.referencia_producto = p.reference");
     }
 }
