@@ -50,6 +50,7 @@ foreach ( $customers as $key => &$customer ) {
             $template = 'cancellation_account';
             $message_alert = "";
             $execute_kickout = true;
+            Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."message_sponsor (id_message_sponsor, id_customer_send, id_customer_receive, message, date_send) VALUES ('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$customer['id_customer'].", 'Tu cuenta ha estado inactiva por 90 dias. Debido a esto, por desgracia, su cuenta ha sido cancelada.', NOW())");
             Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET kick_out = 1 WHERE id_customer = ".$customer['id_customer']);
             break;
     }
