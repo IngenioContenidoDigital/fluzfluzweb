@@ -96,11 +96,18 @@ class kickoutCustomers {
     }
 
     public function updateCustomerNetwork($id_customer, $id_sponsor) {
+        // almacenar actualizacion de la red
         $this->updatesNetwork[] = "UPDATE "._DB_PREFIX_."rewards_sponsorship
                                             SET id_sponsor = ".$id_sponsor.", date_upd = NOW()
                                             WHERE id_customer = ".$id_customer;
+        // almacenar en la tabla de promovidos
         Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."promoted (id_customer, date_add)
-                                        VALUES (".$id_customer.", NOW())");
+                                    VALUES (".$id_customer.", NOW())");
+        
+        // mensaje alertar sponsor de su nuevo sponsorship
+        $usernamepromoted = Db::getInstance()->getValue("SELECT username FROM ps_customer WHERE id_customer = ".$id_customer);
+        Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."message_sponsor (id_message_sponsor, id_customer_send, id_customer_receive, message, date_send)
+                                    VALUES ('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$id_sponsor.", 'Uno de los usuarios en tu red ha abandonado. ".$usernamepromoted." ha sido promovido en tu red. ', NOW())");
     }
 
     public function insertCustomerKickOut($customer) {
