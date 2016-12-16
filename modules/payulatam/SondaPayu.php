@@ -371,7 +371,7 @@ public function response_sonda_payu($order, $response_ws){
           return false;
 }
 
-    public function updatePendyngCustomers(){
+/*    public function updatePendyngCustomers(){
         // Inactivar Clientes - Orden Error de pago
         $customers = Db::getInstance()->ExecuteS("SELECT c.id_customer
                                                 FROM "._DB_PREFIX_."customer c
@@ -404,6 +404,6 @@ public function response_sonda_payu($order, $response_ws){
             Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",3)");
             Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",4)");
         }
-    }
+    }*/
 }
 ?>
