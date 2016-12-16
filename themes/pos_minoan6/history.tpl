@@ -42,64 +42,64 @@
         {foreach from=$products item=product name=myLoop}
             <div class="row history_list">
                 <div class="row">
-                    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
                         <div class="row">
                             <div>{l s='Product'}</div>
-                            <div><img id="bigpic" class="img-responsive" src="{$link->getImageLink($product.link_rewrite, $product.image, 'thickbox_default')}"/></div>
+                            <div><img id="bigpic" class="img-responsive image-resp" src="{$link->getImageLink($product.link_rewrite, $product.image, 'thickbox_default')}"/></div>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
                         <div class="row">
                             <div>{l s='Description'}</div>
                             <div><p class="block-product-name">{$product.manufacturer}<p><br>{l s="Product #: "} {$product.referencia}</div>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
                         <div class="row">
                             <div>{l s='Date'}</div>
                             <div><p>{$product.time}</p></div>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 block-right">
-                        <div class="row">
-                            <div>{l s='Unit Price'}</div>
-                            <div>
-                                <p>{l s="Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
-                                <p>{l s="You Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</p>
-                                <p>{l s="Unit Price: "}{displayPrice price=$product.precio no_utf8=false convert=false}</p>
+                         <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-right">
+                            <div class="row">
+                                <div>{l s='Unit Price'}</div>
+                                <div>
+                                    <p>{l s="Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
+                                    <p>{l s="You Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</p>
+                                    <p>{l s="Unit Price: "}{displayPrice price=$product.precio no_utf8=false convert=false}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-2 col-md-1 col-lg-1 block-center">
-                        <div class="row">
-                            <div>{l s='Qty'}</div>
-                            <div class="block-qty"><p>{$product.cantidad}</p></div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-2 col-md-1 col-lg-1 block-center">
-                        <div class="row">
-                            <div>{l s='Factura'}</div>
-                            <div>
-                                <p><a class="link-button" href="{$link->getPageLink('pdf-invoice', true, NULL, "id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Invoice'}" target="_blank">
-                                    <i class="icon-file-text large"></i>{l s='PDF'}
-                                </a></p>
+                        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 block-center">
+                            <div class="row">
+                                <div>{l s='Qty'}</div>
+                                <div class="block-qty"><p>{$product.cantidad}</p></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 block-right">
-                        <div class="row">
-                            <div>{l s='Total'}</div>
-                            <div>
-                                <p class="price">{l s="Price: "}{displayPrice price=$product.total no_utf8=false convert=false}</p>
-                                <p class="block-price">{l s="Card Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
+                        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 block-center">
+                            <div class="row">
+                                <div>{l s='Factura'}</div>
+                                <div>
+                                    <p><a class="link-button" href="{$link->getPageLink('pdf-invoice', true, NULL, "id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Invoice'}" target="_blank">
+                                        <i class="icon-file-text large"></i>{l s='PDF'}
+                                    </a></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-right">
+                            <div class="row">
+                                <div>{l s='Total'}</div>
+                                <div>
+                                    <p class="price">{l s="Price: "}{displayPrice price=$product.total no_utf8=false convert=false}</p>
+                                    <p class="block-price">{l s="Card Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Points"}</div>
-                    <div class="col-xs-6 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
-                    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 block-save">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</div>
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Points"}</div>
+                    <div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</div>
                 </div>
                 <br><br><br><br>
             </div>
