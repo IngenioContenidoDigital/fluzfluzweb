@@ -40,6 +40,11 @@
 <div class="block-center" id="block-history">
     {if $orders && count($orders)}
         {foreach from=$products item=product name=myLoop}
+            <div id="button_{$product.id_order}" class="row buttonAccordion" onclick="accordion_display({$product.id_order})"> 
+                <div class="col-lg-6 col-md-6 col-sm-6"><span class="col-lg-12 col-md-12 col-sm-12">Numero de Orden: {$product.id_order}</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6"><span class="col-lg-12 col-md-12 col-sm-12">Fecha: {$product.time|date_format:"%D"}</span></div>
+            </div>
+            <div id="container_{$product.id_order}" class="container_order" style="display:none;">
             <div class="row history_list">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
@@ -101,8 +106,9 @@
                     <div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</div>
                 </div>
-                <br><br><br><br>
+                <br><br>
             </div>
+            </div>    
         {/foreach}
     {else}
         <p class="alert alert-warning">{l s='You have not placed any orders.'}</p>
@@ -133,4 +139,42 @@
         ul.footer_links{margin-bottom: 5% !important; border-top: none !important;}
         p.info-account{margin: 11px 0 24px 0;}
     </style>
+{/literal}
+{*literal}
+    <script>
+        function accordion_display(id) {
+            
+            var esVisible = $('#container_'+id).is(":visible");
+                if(esVisible){
+                    $('#container_'+id).toggle("slow");
+                }
+                else {
+                    $('.container_order').css('display','none');
+                    $('#container_'+id).toggle("slow");
+                }
+        }
+    </script>
+{/literal*}
+{literal}
+    <script>
+        if (($(window).width()) <= 768)
+        {
+            function accordion_display(id) {
+
+                    var esVisible = $('#container_'+id).is(":visible");
+                    if(esVisible){
+                        //$('#container_'+id).css('display','none');
+                        $('#container_'+id).toggle("slow");
+                    }
+                    else {
+                        $('.container_order').css('display','none');
+                        $('#container_'+id).toggle("slow");
+                    }
+                }
+        }
+        else if (($(window).width()) > 768){
+            $('.container_order').show();
+            $('.buttonAccordion').hide();
+        }
+    </script>
 {/literal}
