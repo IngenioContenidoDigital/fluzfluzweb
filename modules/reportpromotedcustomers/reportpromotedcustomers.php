@@ -26,15 +26,9 @@ class reportpromotedcustomers extends ModuleGrid
                 'align' => 'center'
             ),
             array(
-                'id' => 'firstname',
-                'header' => $this->l('Nombre'),
-                'dataIndex' => 'firstname',
-                'align' => 'center'
-            ),
-            array(
-                'id' => 'lastname',
-                'header' => $this->l('Apellido'),
-                'dataIndex' => 'lastname',
+                'id' => 'username',
+                'header' => $this->l('Cliente'),
+                'dataIndex' => 'username',
                 'align' => 'center'
             ),
             array(
@@ -55,6 +49,12 @@ class reportpromotedcustomers extends ModuleGrid
                 'dataIndex' => 'date_add',
                 'align' => 'center'
             ),
+            array(
+                'id' => 'sponsor',
+                'header' => $this->l('Nuevo Padrino'),
+                'dataIndex' => 'sponsor',
+                'align' => 'center'
+            ),
         );
 
         $this->displayName = $this->l('Reporte Clientes Promovidos');
@@ -70,10 +70,12 @@ class reportpromotedcustomers extends ModuleGrid
     public function getData()
     {
         // $date_between = $this->getDate();
-        $this->query = "SELECT p.id_customer, c.firstname, c.lastname, c.email, SUM(r.credits) points, p.date_add 
+        $this->query = "SELECT p.id_customer, c.username, c.email, SUM(r.credits) points, p.date_add, c2.username sponsor
                         FROM "._DB_PREFIX_."promoted p
-                        LEFT JOIN "._DB_PREFIX_."customer c ON ( p.id_customer = c.id_customer )
-                        LEFT JOIN "._DB_PREFIX_."rewards r ON ( c.id_customer = r.id_customer )
+                        INNER JOIN "._DB_PREFIX_."customer c ON ( p.id_customer = c.id_customer )
+                        INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs1 ON ( p.id_customer = rs1.id_customer )
+                        INNER JOIN "._DB_PREFIX_."customer c2 ON ( rs1.id_sponsor = c2.id_customer )
+                        LEFT JOIN "._DB_PREFIX_."rewards r ON ( c.id_customer = r.id_customer AND r.id_reward_state = 2  AND plugin = 'loyalty' )
                         GROUP BY p.id_customer";
 
         $list = Db::getInstance()->executeS($this->query);
