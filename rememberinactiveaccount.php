@@ -58,6 +58,15 @@ foreach ( $customers as $key => &$customer ) {
     
     Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET days_inactive = ".$customer['days_inactive']." WHERE id_customer = ".$customer['id_customer']);
     
+    if ( $customer['days_inactive'] != "NULL" ) { 
+        $existNotificationInactive = Db::getInstance()->getValue("SELECT COUNT(*) FROM ps_notification_inactive WHERE id_customer = ".$customer['id_customer']);
+        if ( $existNotificationInactive == 0 ) {
+            Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_inactive (id_customer, date_alert_".$customer['days_inactive'].") VALUES (".$customer['id_customer'].", NOW())");
+        } else {
+            Db::getInstance()->execute("UPDATE "._DB_PREFIX_."notification_inactive SET date_alert_".$customer['days_inactive']." = NOW() WHERE id_customer = ".$customer['id_customer']);
+        }
+    }
+    
     $contributor_count = 0;
     $listsponsorships = "";
     $sponsorships = RewardsSponsorshipModel::_getTree($customer['id_customer']);
