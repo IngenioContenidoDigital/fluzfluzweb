@@ -71,7 +71,7 @@ class AdminCustomersControllerCore extends AdminController
             $titles_array[$gender->id_gender] = $gender->name;
         }
 
-        $this->_join = 'LEFT JOIN '._DB_PREFIX_.'gender_lang gl ON (a.id_gender = gl.id_gender AND gl.id_lang = '.(int)$this->context->language->id.')';
+        $this->_join = ' LEFT JOIN '._DB_PREFIX_.'gender_lang gl ON (a.id_gender = gl.id_gender AND gl.id_lang = '.(int)$this->context->language->id.')';
         $this->_use_found_rows = false;
         $this->fields_list = array(
             'id_customer' => array(
@@ -184,6 +184,7 @@ class AdminCustomersControllerCore extends AdminController
             SELECT rsk.date_kick_out
             FROM '._DB_PREFIX_.'rewards_sponsorship_kick_out rsk
             WHERE rsk.id_customer = a.id_customer
+            GROUP BY rsk.id_customer
         ) as date_kick_out';
 
         // Check if we can add a customer
