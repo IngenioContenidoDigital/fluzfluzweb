@@ -66,7 +66,7 @@
                     <tr class="alternate_item" colspan="4">
                         <td  class="history_method bold pto-disponible" style="text-align:center; color: #ef4136; font-weight: bold;">
                             <input type="hidden" value="{$totalAvailable}" id="ptosTotalOculto"/>
-                            <p class="pto-totaltext">{l s='Puntos Totales'}</p><p style="font-size:20px; margin-top: 0px;margin-bottom: 0px;" id="ptosTotal">{$totalAvailable}</p>
+                            <p class="pto-totaltext">{l s='Fluz Totales'}</p><p style="font-size:20px; margin-top: 0px;margin-bottom: 0px;" id="ptosTotal">{$totalAvailable}</p>
                         </td>
                         
                         <td colspan="2"> 
