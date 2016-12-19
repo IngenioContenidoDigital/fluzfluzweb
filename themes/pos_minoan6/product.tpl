@@ -941,5 +941,7 @@
         .breadcrumb{display: none;}
         .actions{display: none !important;}
         .pb-left-column{padding-left: 5px;}
+        .description-product ul li { list-style: initial!important; }
+        .description-product ul { padding-left: 20px!important; }
     </style>
 {/literal}
