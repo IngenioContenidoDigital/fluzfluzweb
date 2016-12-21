@@ -113,6 +113,13 @@ class AdminCustomerPreferencesControllerCore extends AdminController
                         'cast' => 'intval',
                         'type' => 'bool'
                     ),
+                    'PS_BUY_MEMBERSHIP' => array(
+                        'title' => $this->l('Activar compra de membresia'),
+                        'hint' => $this->l('Activa el campo para la compra y pago de la membresia.'),
+                        'validation' => 'isBool',
+                        'cast' => 'intval',
+                        'type' => 'bool'
+                    ),
                 ),
                 'submit' => array('title' => $this->l('Save')),
             ),
