@@ -767,6 +767,7 @@
                                 </fieldset>
                     </div>                
             </div>
+            {if $PS_BUY_MEMBERSHIP}
                 <div>
                     <label class="depoTitle page-subheading col-lg-12">{l s='DEPOSIT'}</label>
                     <div class="containerDepo">
@@ -783,75 +784,6 @@
                     </div>
                     </div>    
                 </div>
-                        
-                {*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <label class="depoTitle page-subheading col-lg-12">{l s='PAYMENT INFORMATION'}</label>
-                    <div class="cardiv">
-                    <div class="lock">
-                        <img src="{$img_dir}icon/lock.png" class="col-lg-6 col-md-6 imglock" />
-                        <p>{l s='Secure credit card payment'}<p>
-                        <span class="infLock">{l s='This is a secure 128-bit SSL encrypted payment '}</span>
-                    </div>
-                    <div class="row">    
-                        <div class="required form-group col-lg-6 col-md-6">
-                            <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">
-                            <label class="required">
-                                {l s='Numero de Tarjeta'}
-                            </label>
-                            </div>
-                            {literal}
-                                <div class="col-xs-12 col-sm-7 col-md-12 col-lg-12">
-                                    <input style="text-align:right;" type="text" pattern="[0-9]{13,16}" class="imageCard form-control" id="numCard" name="numCard" autocomplete="off" required/>
-                                </div>
-                            {/literal}
-                        </div>        
-
-                        <div class="required form-group col-lg-6 col-md-12">
-                            <div class="col-xs-12 col-sm-5 col-md-6 col-lg-12">
-                            <label class="required">
-                                {l s='Codigo de Verificacion'}
-                            </label>
-                            </div>
-                            {literal}
-                            <div class="col-xs-12 col-sm-7 col-md-6 col-lg-12">    
-                                <input style="text-align:right;" type="text" pattern="[0-9]{3,4}" class="form-control" name="codigot" id="codigot" autocomplete="off" required/>
-                            </div>
-                            {/literal}
-                        </div>    
-                    </div>
-                        <div class="row">
-                            <div class="form-group col-lg-12 col-md-12">
-                            <div class="col-xs-12 col-sm-5 col-md-12 col-lg-12">    
-                            <label class="required">
-                                {l s='Fecha Vencimiento'}
-                            </label>
-                            </div>
-
-                                <div class="col-xs-12 col-sm-5 col-md-12 col-lg-6">
-
-                                    <div style="display:table-cell;">     
-                                    <select name="daysExpiration" id="days" style="width:120%;" class="form-control">
-                                        <option value="">-</option>
-                                        {foreach from=$days item=v}
-                                            <option value="{$v}" {if ($sl_day == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                        {/foreach}
-                                    </select>
-                                    </div>
-                                    <div style="display:table-cell; padding-left:8px;">
-                                        <select id="yearsExpiration" name="yearsExpiration" class="form-control">
-                                        <option value="">-</option>
-                                        {foreach from=$yearsExpiration item=v}
-                                            <option value="{$v}" {if ($sl_year == $v)}selected="selected"{/if}>{$v}&nbsp;&nbsp;</option>
-                                        {/foreach}
-                                    </select>
-                                    </div>
-
-                                </div>    
-
-                            </div>
-                        </div>            
-                    </div>            
-                </div>*}
                 <div style="display: none">
                     <input type="hidden" id="psebank" name="psebank">
                     <input type="hidden" id="namebank" name="namebank">
@@ -862,6 +794,7 @@
                 <div class="payublock">
                     {hook h="displayPayment"}
                 </div>
+            {/if}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div style="display:none;">{$HOOK_CREATE_ACCOUNT_FORM}</div>
