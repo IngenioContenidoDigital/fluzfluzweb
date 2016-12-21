@@ -139,6 +139,8 @@ class AuthControllerCore extends FrontController
             $_POST['customer_firstname'] = $_COOKIE["datamailfirstname"];
             $_POST['customer_lastname'] = $_COOKIE["datamaillastname"];
         }
+        
+        $this->context->smarty->assign('PS_BUY_MEMBERSHIP', Configuration::get('PS_BUY_MEMBERSHIP'));
 
         // Just set $this->template value here in case it's used by Ajax
         $this->setTemplate(_PS_THEME_DIR_.'authentication.tpl');
@@ -363,23 +365,25 @@ class AuthControllerCore extends FrontController
         Hook::exec('actionBeforeSubmitAccount');
         
         $methodPayment = "";
-        if ( isset($_POST['nombre']) && isset($_POST['numerot']) && isset($_POST['Month']) && isset($_POST['year']) && isset($_POST['codigot']) &&
-             !empty($_POST['nombre']) && !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) && !empty($_POST['codigot']) &&
-             $_POST['nombre'] != "" && $_POST['numerot'] != "" && $_POST['Month'] != "" && $_POST['year'] != "" && $_POST['codigot'] != "" )
-        {
-            $methodPayment = "cc";
-        } elseif ( isset($_POST['psebank']) && isset($_POST['psetypedoc']) && isset($_POST['psenumdoc']) && isset($_POST['namebank']) &&
-                    !empty($_POST['psebank']) && !empty($_POST['psetypedoc']) && !empty($_POST['psenumdoc']) && !empty($_POST['namebank']) &&
-                    $_POST['psebank'] != "" && $_POST['psetypedoc'] != "" && $_POST['psenumdoc'] != "" && $_POST['namebank'] != "" )
-        {
-            $methodPayment = "pse";
-            $_POST['pse_bank'] = $_POST['psebank'];
-            $_POST['name_bank'] = $_POST['namebank'];
-            $_POST['pse_tipoCliente'] = $_POST['psetypecustomer'];
-            $_POST['pse_docType'] = $_POST['psetypedoc'];
-            $_POST['pse_docNumber'] = $_POST['psenumdoc'];
-        } else {
-            $this->errors[] = Tools::displayError('Por favor indique un medio de pago');
+        if ( Configuration::get('PS_BUY_MEMBERSHIP') ) {
+            if ( isset($_POST['nombre']) && isset($_POST['numerot']) && isset($_POST['Month']) && isset($_POST['year']) && isset($_POST['codigot']) &&
+                 !empty($_POST['nombre']) && !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) && !empty($_POST['codigot']) &&
+                 $_POST['nombre'] != "" && $_POST['numerot'] != "" && $_POST['Month'] != "" && $_POST['year'] != "" && $_POST['codigot'] != "" )
+            {
+                $methodPayment = "cc";
+            } elseif ( isset($_POST['psebank']) && isset($_POST['psetypedoc']) && isset($_POST['psenumdoc']) && isset($_POST['namebank']) &&
+                        !empty($_POST['psebank']) && !empty($_POST['psetypedoc']) && !empty($_POST['psenumdoc']) && !empty($_POST['namebank']) &&
+                        $_POST['psebank'] != "" && $_POST['psetypedoc'] != "" && $_POST['psenumdoc'] != "" && $_POST['namebank'] != "" )
+            {
+                $methodPayment = "pse";
+                $_POST['pse_bank'] = $_POST['psebank'];
+                $_POST['name_bank'] = $_POST['namebank'];
+                $_POST['pse_tipoCliente'] = $_POST['psetypecustomer'];
+                $_POST['pse_docType'] = $_POST['psetypedoc'];
+                $_POST['pse_docNumber'] = $_POST['psenumdoc'];
+            } else {
+                $this->errors[] = Tools::displayError('Por favor indique un medio de pago');
+            }
         }
 
         $this->create_account = true;
@@ -562,20 +566,26 @@ class AuthControllerCore extends FrontController
                             $this->context->cookie->id_cart = (int)($cart->id);
                             $cart->update();
 
-                            $valorProduct = $_POST['valorSlider'];
+                            $valorProduct = ( isset($_POST['valorSlider']) ) ? $_POST['valorSlider'] : 0;
                             $row = DB::getInstance()->getRow( 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"' );
                             $idProduct = $row['id_product'];
                             $this->context->cart = $cart;
                             $this->context->cart->updateQty(1,$idProduct,NULL,FALSE);
                             $cart->update();
                             
-                            switch ( $methodPayment ) {
-                                case "cc":
-                                    require_once(_PS_MODULE_DIR_ . 'payulatam/credit_card.php');
-                                    break;
-                                case "pse":
-                                    require_once(_PS_MODULE_DIR_ . 'payulatam/payuPse.php');
-                                    break;
+                            if ( Configuration::get('PS_BUY_MEMBERSHIP') ) {
+                                switch ( $methodPayment ) {
+                                    case "cc":
+                                        require_once(_PS_MODULE_DIR_ . 'payulatam/credit_card.php');
+                                        break;
+                                    case "pse":
+                                        require_once(_PS_MODULE_DIR_ . 'payulatam/payuPse.php');
+                                        break;
+                                }
+                            } else {
+                                $payment_module = Module::getInstanceByName('bankwire');
+                                $payment_module->validateOrder($cart->id, 2, 0, 'Pedido Gratuito');
+                                Tools::redirect($this->context->link->getPageLink('my-account', true));
                             }
                             
                             /*$customer = new Customer($cart->id_customer);
