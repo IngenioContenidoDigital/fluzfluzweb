@@ -217,3 +217,5 @@ define('_PS_SMARTY_CONSOLE_OPEN_', 2);
 if (!defined('_PS_JQUERY_VERSION_')) {
     define('_PS_JQUERY_VERSION_', '1.11.0');
 }
+
+define('_S3_PATH_','https://s3.amazonaws.com/imagenes-fluzfluz/');
