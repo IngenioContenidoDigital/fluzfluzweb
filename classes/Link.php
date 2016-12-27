@@ -433,8 +433,10 @@ class LinkCore
                 $uri_path = _THEME_PROD_DIR_.Image::getImgFolderStatic($id_image).$id_image.($type ? '-'.$type : '').$theme.'.jpg';
             }
         }
-
-        return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
+        if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
+        //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
+        return _S3_PATH_.$dev.'p/'.$id_image.'-'.$type.'.jpg';
+        
     }
 
     public function getMediaLink($filepath)
@@ -497,7 +499,10 @@ class LinkCore
         } else {
             $uri_path = _THEME_CAT_DIR_.$id_category.($type ? '-'.$type : '').'.jpg';
         }
-        return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
+        //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
+        if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
+        //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
+        return _S3_PATH_.$dev.'c/'.$id_category.'-'.$type.'.jpg';
     }
 
     /**
