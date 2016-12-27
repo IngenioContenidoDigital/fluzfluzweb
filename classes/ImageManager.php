@@ -540,9 +540,23 @@ class ImageManagerCore
                 imageinterlace($resource, 1); /// make it PROGRESSIVE
                 $success = imagejpeg($resource, $filename, (int)$quality);
             break;
-        }
+        }        
         imagedestroy($resource);
         @chmod($filename, 0664);
+        
+        // Sube las imágenes al AWS S3
+        $awsObj = new Aws();
+        
+        if ($filename) {
+                $oriPath = str_replace(_PS_IMG_DIR_, "", $filename);
+                preg_match('/^([a-zA-Z]+).*(\/[_a-zA-Z0-9-]+\.jpg)$/i', $oriPath, $matches);
+                array_shift($matches);
+                $objAws = implode('', $matches);
+                //error_log("objAws: "."$objAws"."\n",3,"/var/log/php_errors.log");
+                if (!($success && $objAws && $awsObj->setObjectImage($filename, $objAws))) {
+                    $success = false;
+                }
+        }
         return $success;
     }
 
