@@ -146,6 +146,7 @@ class CategoryControllerCore extends FrontController
         $this->assignProductList();
 
         $this->context->smarty->assign(array(
+            's3'=>_S3_PATH_,
             'category'             => $this->category,
             'description_short'    => Tools::truncateString($this->category->description, 350),
             'products'             => (isset($this->cat_products) && $this->cat_products) ? $this->cat_products : null,
@@ -212,6 +213,7 @@ class CategoryControllerCore extends FrontController
     {
         $hook_executed = false;
         Hook::exec('actionProductListOverride', array(
+            's3'=> _S3_PATH_,
             'nbProducts'   => &$this->nbProducts,
             'catProducts'  => &$this->cat_products,
             'hookExecuted' => &$hook_executed,
