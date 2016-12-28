@@ -894,8 +894,13 @@ class AdminManufacturersControllerCore extends AdminController
                     $this->errors[] = Tools::displayError('El archivo medium cargado no se encuentra en un formato correcto (JPEG, JPG).');
                 } else {
                     $target_path = _PS_MANU_IMG_DIR_ . "m/" . basename( $id_manufacturer.".jpg" );
-                    if ( !move_uploaded_file($_FILES['medium']['tmp_name'], $target_path) ) {
-                        $this->errors[] = Tools::displayError('No fue posible cargar la imagen medium.');
+                    
+                    if (move_uploaded_file($_FILES['medium']['tmp_name'], $target_path) ) {
+                        // Sube las imágenes al AWS S3
+                        $awsObj = new Aws();
+                        if (!($awsObj->setObjectImage($target_path,basename( $id_manufacturer.".jpg"),'m/m/'))) {
+                            $this->errors[] = Tools::displayError('No fue posible cargar la imagen medium.');
+                        }
                     }
                 }
             }
@@ -904,9 +909,13 @@ class AdminManufacturersControllerCore extends AdminController
                 if ( $typeimg[0] != "image" || ($typeimg[1] != "jpeg" && $typeimg[1] != "jpg" ) ) {
                     $this->errors[] = Tools::displayError('El archivo banner cargado no se encuentra en un formato correcto (JPEG, JPG).');
                 } else {
-                    $target_path = _PS_MANU_IMG_DIR_ . "b/" . basename( $id_manufacturer.".jpg" );
+                    $target_path = _PS_MANU_IMG_DIR_ . basename( $id_manufacturer.".jpg" );
                     if ( !move_uploaded_file($_FILES['banner']['tmp_name'], $target_path) ) {
-                        $this->errors[] = Tools::displayError('No fue posible cargar la imagen banner.');
+                        // Sube las imágenes al AWS S3
+                        $awsObj = new Aws();
+                        if (!($awsObj->setObjectImage($target_path,basename( $id_manufacturer.".jpg"),'m/'))) {
+                            $this->errors[] = Tools::displayError('No fue posible cargar la imagen banner.');
+                        }
                     }
                 }
             }
