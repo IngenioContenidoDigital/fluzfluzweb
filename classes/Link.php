@@ -433,9 +433,9 @@ class LinkCore
                 $uri_path = _THEME_PROD_DIR_.Image::getImgFolderStatic($id_image).$id_image.($type ? '-'.$type : '').$theme.'.jpg';
             }
         }
-        if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
+        //if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
         //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
-        return _S3_PATH_.$dev.'p/'.$id_image.'-'.$type.'.jpg';
+        return _S3_PATH_.'p/'.$id_image.'-'.$type.'.jpg';
         
     }
 
@@ -500,9 +500,9 @@ class LinkCore
             $uri_path = _THEME_CAT_DIR_.$id_category.($type ? '-'.$type : '').'.jpg';
         }
         //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
-        if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
+        //if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
         //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
-        return _S3_PATH_.$dev.'c/'.$id_category.'-'.$type.'.jpg';
+        return _S3_PATH_.'c/'.$id_category.'-'.$type.'.jpg';
     }
 
     /**

@@ -23,6 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
+
 date_default_timezone_set("America/Bogota");
 @ini_set('max_input_vars', 5000);
 /* Debug only */
@@ -218,4 +219,8 @@ if (!defined('_PS_JQUERY_VERSION_')) {
     define('_PS_JQUERY_VERSION_', '1.11.0');
 }
 
-define('_S3_PATH_','https://s3.amazonaws.com/imagenes-fluzfluz/');
+if($_SERVER['HTTP_HOST']!='fluzfluz.co'){
+    define('_S3_PATH_','https://s3.amazonaws.com/imagenes-fluzfluz/dev/');
+}else{
+    define('_S3_PATH_','https://s3.amazonaws.com/imagenes-fluzfluz/');
+}
