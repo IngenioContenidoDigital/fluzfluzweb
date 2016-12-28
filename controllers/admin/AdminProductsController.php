@@ -1633,6 +1633,34 @@ class AdminProductsControllerCore extends AdminController
 
             die($report);
         }
+
+        if ( Tools::isSubmit('deleteImgBannerProduct_0') ) {
+            unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_0.jpg");
+            $this->confirmations[] = "Banner borrado correctamente.";
+        }
+        
+        if ( Tools::isSubmit('deleteImgBannerProduct_1') ) {
+            unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_1.jpg");
+            $this->confirmations[] = "Banner borrado correctamente.";
+        }
+
+        if ( Tools::isSubmit('submitImgBannerProduct') ) {
+            if ( isset($_FILES['img_0']) && $_FILES['img_0']['size'] != 0 ) {
+                $target_path = _PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_0.jpg";
+                if ( !move_uploaded_file($_FILES['img_0']['tmp_name'], $target_path) ) {
+                    $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
+                }
+            }
+
+            if ( isset($_FILES['img_1']) && $_FILES['img_1']['size'] != 0 ) {
+                $target_path = _PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_1.jpg";
+                if ( !move_uploaded_file($_FILES['img_1']['tmp_name'], $target_path) ) {
+                    $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
+                }
+            }
+
+            $this->confirmations[] = "Banners cargados correctamente.";
+        }
     }
 
     public function ajaxProcessDeleteProductAttribute()
