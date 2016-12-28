@@ -3166,6 +3166,7 @@ class BlockLayered extends Module
 			$product_list = $smarty->fetch(_PS_THEME_DIR_.'product-list.tpl');
 
 		$vars = array(
+                        's3'=> _S3_PATH_,
 			'filtersBlock' => utf8_encode($this->generateFiltersBlock($selected_filters)),
 			'productList' => utf8_encode($product_list),
 			'pagination' => $smarty->fetch(_PS_THEME_DIR_.'pagination.tpl'),
