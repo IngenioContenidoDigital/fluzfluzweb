@@ -135,6 +135,7 @@ class HomeFeatured extends Module
 		{
 			$this->smarty->assign(
 				array(
+                                        's3'=> _S3_PATH_,
 					'merchants' => ManufacturerCore::getManufacturers(),
 				)
 			);
@@ -208,6 +209,7 @@ class HomeFeatured extends Module
 			$this->_cacheProducts();
 			$this->smarty->assign(
 				array(
+                                        's3'=> _S3_PATH_,
 					'products' => HomeFeatured::$cache_products,
 					'add_prod_display' => Configuration::get('PS_ATTRIBUTE_CATEGORY_DISPLAY'),
 					'homeSize' => Image::getSize(ImageType::getFormatedName('home')),

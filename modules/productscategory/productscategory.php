@@ -194,6 +194,7 @@ class ProductsCategory extends Module
 			// Display tpl
 			$this->smarty->assign(
 				array(
+                                        's3'=>_S3_PATH_,
 					'categoryProducts' => $category_products,
 					'middlePosition' => (int)$middle_position,
 					'ProdDisplayPrice' => Configuration::get('PRODUCTSCATEGORY_DISPLAY_PRICE')
