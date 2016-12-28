@@ -22,8 +22,8 @@ class AwsCore extends ObjectModel
                   'version' => 'latest',
                   'region'  => 'us-east-1',
                   'credentials' => [
-                        'key'    => 'AKIAJQ45NVDTHPITK4CQ',
-                        'secret' => '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',
+                        'key'    => Configuration::get('PS_IMAGE_KEY'),
+                        'secret' => Configuration::get('PS_IMAGE_SECRET'),
                     ],
                 ]);
         }

@@ -49,7 +49,7 @@
                                                 <div style="width: 55%;">
                                                         {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div class="imgmanu" style="float: left;"><img src="{$img_manu_dir}{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
+                                                <div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                         </div>
                                         <div class="price-block">
                                                 <div style="font-size: 13px;">
