@@ -104,6 +104,9 @@ foreach ( $customers as $key => &$customer ) {
             $customer['username']
         );
     }
+    
+    Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history (id_customer, type_message, message, date_send)
+                                VALUES (".$customer['id_customer'].",'Recordatorio cuenta inactiva', '".$message_alert."', NOW())");
 }
 
 if ( $execute_kickout ) {
