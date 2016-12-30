@@ -243,4 +243,7 @@ $query = "SELECT
         Db::getInstance()->execute($deletemail);
         
     }
+    
+    Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history(id_customer, type_message, message, date_send)
+                                VALUES (".$invitation['id_customer'].",'Recordatorio invitación', 'Recordatorio de invitación fluz fluz pendiente por responder', NOW())");
 }
