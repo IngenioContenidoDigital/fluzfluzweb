@@ -82,6 +82,9 @@ foreach ( $remembers as $key => $remember ) {
                     VALUES('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$remember['id_customer'].", 'No has realizado tus 2 compras minimas mensuales para permanecer activo.', NOW())";
     Db::getInstance()->execute($queryMessage);
 
+    Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history(id_customer, type_message, message, date_send)
+                                VALUES (".$remember['id_customer'].",'Recordatorio compra minima', 'No has realizado tus 2 compras minimas mensuales para permanecer activo.', NOW())");
+
     Mail::Send(
         Context::getContext()->language->id,
         'remember_buy',
