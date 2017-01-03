@@ -84,6 +84,7 @@ class SearchControllerCore extends FrontController
             $this->addColorsToProductList($search['result']);
 
             $this->context->smarty->assign(array(
+                's3'=> _S3_PATH_,
                 'products' => $search['result'], // DEPRECATED (since to 1.4), not use this: conflict with block_cart module
                 'search_products' => $search['result'],
                 'nbProducts' => $search['total'],
@@ -110,6 +111,7 @@ class SearchControllerCore extends FrontController
             $this->addColorsToProductList($search['result']);
 
             $this->context->smarty->assign(array(
+                's3' => _S3_PATH_,
                 'products' => $search['result'], // DEPRECATED (since to 1.4), not use this: conflict with block_cart module
                 'search_products' => $search['result'],
                 'nbProducts' => $search['total'],
@@ -124,6 +126,7 @@ class SearchControllerCore extends FrontController
             $this->addColorsToProductList($result);
 
             $this->context->smarty->assign(array(
+                's3' => _S3_PATH_,
                 'search_tag' => $tag,
                 'products' => $result, // DEPRECATED (since to 1.4), not use this: conflict with block_cart module
                 'search_products' => $result,
@@ -131,6 +134,7 @@ class SearchControllerCore extends FrontController
                 'homeSize' => Image::getSize(ImageType::getFormatedName('home'))));
         } else {
             $this->context->smarty->assign(array(
+                '$s3' => _S3_PATH_,
                 'products' => array(),
                 'search_products' => array(),
                 'pages_nb' => 1,
