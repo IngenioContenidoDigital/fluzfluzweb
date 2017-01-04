@@ -1647,15 +1647,27 @@ class AdminProductsControllerCore extends AdminController
         if ( Tools::isSubmit('submitImgBannerProduct') ) {
             if ( isset($_FILES['img_0']) && $_FILES['img_0']['size'] != 0 ) {
                 $target_path = _PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_0.jpg";
-                if ( !move_uploaded_file($_FILES['img_0']['tmp_name'], $target_path) ) {
-                    $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
+                if ( move_uploaded_file($_FILES['img_0']['tmp_name'], $target_path) ) {
+                    // Sube las imágenes al AWS S3
+                    $awsObj = new Aws();
+                    if (!($awsObj->setObjectImage($target_path,basename( Tools::getValue('id_product')."_0.jpg"),'p-banners/'))) {
+                         $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
+                    } else {
+                        unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_0.jpg");
+                    }
                 }
             }
 
             if ( isset($_FILES['img_1']) && $_FILES['img_1']['size'] != 0 ) {
                 $target_path = _PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_1.jpg";
-                if ( !move_uploaded_file($_FILES['img_1']['tmp_name'], $target_path) ) {
-                    $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
+                if ( move_uploaded_file($_FILES['img_1']['tmp_name'], $target_path) ) {
+                    // Sube las imágenes al AWS S3
+                    $awsObj = new Aws();
+                    if (!($awsObj->setObjectImage($target_path,basename( Tools::getValue('id_product')."_1.jpg"),'p-banners/'))) {
+                         $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
+                    } else {
+                        unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_1.jpg");
+                    }
                 }
             }
 
