@@ -359,7 +359,7 @@
 
 .sponsorshipBlock input[type=text],
 .sponsorshipBlock input[type=password] {
-    height: 25px !important;
+    height: 45px !important;
     width: 98%;
     background-color: #f9f9f9;
     border: none;
@@ -367,7 +367,7 @@
 
 .sponsorshipBlock input[type=text]:first-child{
     margin-top: 5px;
-    padding: 20px;
+    padding: 13px;
 }
 
 
