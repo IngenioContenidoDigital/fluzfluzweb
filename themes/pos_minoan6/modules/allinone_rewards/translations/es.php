@@ -502,9 +502,6 @@ $_MODULE['<{allinone_rewards}pos_minoan6>rewards_4994295678f9d59b30e22735f0a2cad
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_b7735409e8bcc36c197563d3268f28cf'] = 'Tus puntos totales';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_53fcb0d8e58d207892c38d651eff6b15'] = 'Puntos de la red';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_3dbdf2a33c8b18f419a08b1bb53b8854'] = 'Resumen';
-$_MODULE['<{allinone_rewards}pos_minoan6>rewards_0b03388d2f6db7d9bad8daa46b6d096c'] = 'Tus Puntos';
-$_MODULE['<{allinone_rewards}pos_minoan6>rewards_2b8f7e9d1b52367c3127ee02b6d27c09'] = 'Mejor Desempeño';
-$_MODULE['<{allinone_rewards}pos_minoan6>rewards_7d5ed7a048a373d7b9356041e41f0e69'] = 'Desempeño Bajo';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_40de818267d880711336dd48d4d826eb'] = 'Rellene todos los campos obligatorios';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_76111c07e4393583a39f6d53b48456b7'] = 'Ha ocurrido un error durante la ejecución de la actualización';
 $_MODULE['<{allinone_rewards}pos_minoan6>rewards_579be85c52a56e2d20072d668d3d40ec'] = 'Las recompensas estaran disponible %s después de la validación de cada pedido.';
@@ -586,11 +583,9 @@ $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_a76483d7286ffbd53a010f19042
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_5a1d5d1d28e16b78d36d14445a1ef32d'] = 'Rellene el siguiente formulario y les llegará un correo de invitación.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_948b9fddb0c76473abe766d8fa4d91e1'] = 'Agregar Fluzzer';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_35cf09db88f09bf2d42a97398ca3db81'] = '(máximo 2 personas)';
-$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_e3e6f315d28834f77bdd5749f182962c'] = 'Tus Fluzzers';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_20db0bfeecd8fe60533206a2b5e9891a'] = 'Nombre';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_8d3f5eff9c40ee315d452392bed5309b'] = 'Apellidos';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo';
-$_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_d157ce5c719d9ca05b20612aeec24107'] = 'Por confirmar';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_c3c1cf7bf26dbc677683b17501413623'] = 'Importante:';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_776593996ed16c7a0d87cdfa2de65278'] = 'Los datos no se usaran con un propósito diferente a la invitación.';
 $_MODULE['<{allinone_rewards}pos_minoan6>sponsorship_605eef3cad421619ce034ab48415190f'] = 'Acepto las condiciones en su totalidad.';

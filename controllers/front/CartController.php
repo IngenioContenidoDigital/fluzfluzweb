@@ -68,7 +68,7 @@ class CartControllerCore extends FrontController
     public function postProcess()
     {
         // Update the cart ONLY if $this->cookies are available, in order to avoid ghost carts created by bots
-        if ($this->context->cookie->exists() && !$this->errors && !($this->context->customer->isLogged() && !$this->isTokenValid())) {
+       if ($this->context->cookie->exists() && !$this->errors && !($this->context->customer->isLogged() && !$this->isTokenValid())) {
             if (Tools::getIsset('add') || Tools::getIsset('update')) {
                 $this->processChangeProductInCart();
             } elseif (Tools::getIsset('delete')) {
@@ -216,8 +216,9 @@ class CartControllerCore extends FrontController
      */
     protected function processChangeProductInCart()
     {
+        
         $mode = (Tools::getIsset('update') && $this->id_product) ? 'update' : 'add';
-
+        
         if ($this->qty == 0) {
             $this->errors[] = Tools::displayError('Null quantity.', !Tools::getValue('ajax'));
         } elseif (!$this->id_product) {
@@ -232,7 +233,7 @@ class CartControllerCore extends FrontController
 
         $qty_to_check = $this->qty;
         $cart_products = $this->context->cart->getProducts();
-
+        
         if (is_array($cart_products)) {
             foreach ($cart_products as $cart_product) {
                 if ((!isset($this->id_product_attribute) || $cart_product['id_product_attribute'] == $this->id_product_attribute) &&
@@ -290,7 +291,13 @@ class CartControllerCore extends FrontController
             if (!$this->errors) {
                 $cart_rules = $this->context->cart->getCartRules();
                 $available_cart_rules = CartRule::getCustomerCartRules($this->context->language->id, (isset($this->context->customer->id) ? $this->context->customer->id : 0), true, true, true, $this->context->cart, false, true);
+                
+                /*$cart = new Cart();
+                $carro = $this->context->cart;
+                $this->context->cart = $carro;*/
+                
                 $update_quantity = $this->context->cart->updateQty($this->qty, $this->id_product, $this->id_product_attribute, $this->customization_id, Tools::getValue('op', 'up'), $this->id_address_delivery);
+                
                 if ($update_quantity < 0) {
                     // If product has attribute, minimal quantity is set with minimal quantity of attribute
                     $minimal_quantity = ($this->id_product_attribute) ? Attribute::getAttributeMinimalQty($this->id_product_attribute) : $product->minimal_quantity;

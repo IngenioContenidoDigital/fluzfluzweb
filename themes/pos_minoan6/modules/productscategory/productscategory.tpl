@@ -36,6 +36,7 @@
                         </span>
 		</h2>
 	</div>	
+        <div class="border-title"></div>                
 
 	<div id="productscategory_list" class="clearfix">
 		<div class="row pos-content">
@@ -70,7 +71,7 @@
                                                                         </span>
                                                                 </div>
                                                                 <div>
-                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio en Puntos: '}</span>
+                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio en Fluz: '}</span>
                                                                         <span class="product-price" style="color:#ef4136; text-align: left;">
                                                                                 {(($categoryProduct.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}
                                                                         </span>
@@ -171,10 +172,10 @@
     $(document).ready(function() {
 		var owl = $("#product_category");
 		owl.owlCarousel({
-		items : 4,
+		items : 1,
 		 pagination :false,
 		slideSpeed: 1000,
-		itemsDesktop : [1199,3],
+		itemsDesktop : [1199,2],
 		itemsDesktopSmall : [911,2], 
 		itemsTablet: [767,2], 
 		itemsMobile : [480,1],
@@ -191,17 +192,21 @@
 </script>
 {literal}
     <style>
+        .pos-title{margin-bottom: 0px;}
         .pos-title span { color: #838383; font-size: 17px; }
         .pos-title h2 { width: 40%; text-align: center }
         .pos-title h2:before { display: none; }
-        .boxprevnext a i { display: block; line-height: 50px; background: #f4f4f4; }
-        .boxprevnext a { font-size: 25px; border: 0; }
+        .boxprevnext a i { display: block; line-height: 32px; background: #f4f4f4; }
+        .boxprevnext a { font-size: 25px; border: 0; height: 32px;}
         .boxprevnext a.prev { right: 10.5%; }
         .item-product { color: #777777; width: 100%; margin: 0; }
         .redfl { color: #ef4136!important; font-weight: bold!important; }
         .valuefl { font-size: 13px; }
+        /*.owl-carousel .owl-wrapper{width: 260px !important;}*/
         .imgMini { width: 35px!important; }
         .imgmanu { width: auto!important; }
         .price-block { padding: 15px 0%; }
+        .points-block div:first-child{margin-left: 10px; margin-top: 10px;}
+        .more-info ul li a{font-size: 10px;}
     </style>    
 {/literal}

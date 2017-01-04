@@ -74,7 +74,7 @@
 			</div>
 			{/if}
 			{* Don't display file form if the product has combinations *}
-			{if empty($product->cache_default_attribute)}
+			{*if empty($product->cache_default_attribute)*}
 				{if $product->productDownload->id}
 					<input type="hidden" id="virtual_product_id" name="virtual_product_id" value="{$product->productDownload->id}" />
 				{/if}
@@ -139,12 +139,12 @@
 						{*<span class="alert alert-info" name="help_box" style="display:none">{l s='Please specify if the file can be shared.'}</span>*}
 					{*</div>*}
 				{*</div>*}
-			{else}
+			{*else}
 				<div class="alert alert-info">
 					{l s='You cannot edit your file here because you used combinations. Please edit this file in the Combinations tab.'}
 				</div>
 				{if isset($error_product_download)}{$error_product_download}{/if}
-			{/if}
+			{/if*}
 		</div>
 	</div>
 	<div class="panel-footer">
