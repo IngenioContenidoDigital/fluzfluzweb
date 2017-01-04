@@ -42,8 +42,9 @@ class productsbanners extends Module {
     }
     
     public function hookdisplayAdminProductsExtra($params) {
-        $images[] = "/img/p-banners/".Tools::getValue('id_product')."_0.jpg";
-        $images[] = "/img/p-banners/".Tools::getValue('id_product')."_1.jpg";
+        $rnd = rand();
+        $images[] = _S3_PATH_."p-banners/".Tools::getValue('id_product')."_0.jpg?nocache=".$rnd;
+        $images[] = _S3_PATH_."p-banners/".Tools::getValue('id_product')."_1.jpg?nocache=".$rnd;
         
         $this->context->smarty->assign('id_product', Tools::getValue('id_product') );
         $this->context->smarty->assign('images', $images );
