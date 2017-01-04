@@ -933,7 +933,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
 .navbar-inverse .navbar-link { color: #999999; }
 .navbar-inverse .navbar-link:hover { color: white; }
 
-.breadcrumb { padding: 8px 15px; margin-bottom: 18px; list-style: none; background-color: #f6f6f6; border-radius: 0px; font-family:?Open Sans?; color: #585858;}
+.breadcrumb { padding: 8px 15px; margin-bottom: 18px; list-style: none; background-color: #f6f6f6; border-radius: 0px; font-family:'Open Sans'; color: #585858;}
 .breadcrumb > li { display: inline-block; }
 .breadcrumb > li + li:before { content: "/\00a0"; padding: 0 5px; color: #333333; }
 .breadcrumb > .active { color: #333333; }
@@ -2879,7 +2879,7 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
 .breadcrumb a:hover { color: #ee4a42; }
 
 .ie8 .breadcrumb { min-height: 1px; }
-.ie8 .breadcrumb a:after { display: none; }
+/*.ie8 .breadcrumb a:after { display: none; }*/
 .ie8 .breadcrumb .navigation-pipe { width: 20px; }
 
 #reinsurance_block { clear: both !important; }
@@ -3432,7 +3432,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 #header .header-middle { background: rgba(252,252,252,100); /*padding: 30px 0 0 0;*/ box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.22); -webkit-box-shadow:0 0 3px 0 rgba(0, 0, 0, 0.22); -moz-box-shadow:0 0 3px 0 rgba(0, 0, 0, 0.22)}
 #header .header-middle .header-middle-right { position: static; text-align: center; }
 #header .header-bottom { background: white; }
-#header .pos_logo { padding-top: 0; padding-left:4%;}
+#header .pos_logo { padding-top: 0; padding-left: 15px; width: 22%;}
 #header .pos_logo img { width:auto; margin: auto; height:auto;}
 @media (max-width: 1025px) { 
     #header .pos_logo { padding-bottom: 0; height: auto; width: 30%;} 
@@ -3449,7 +3449,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}
 }
 @media (min-width:1450px) {
-    #header .pos_logo img { width:auto; margin: auto; height:68px;}
+    #header .pos_logo img { width:auto; margin: auto; height: 73px; margin-left: 0px;}
     .footer-container #footer ul li a{font-size:14px !important; letter-spacing:0px !important;}
     .profileCustomer{text-align:center;}
     .contProfile{margin-left:150px;}
@@ -3731,7 +3731,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
 
 .page-product-box { margin-top: -1px; border: 1px solid #ddd; padding: 30px; }
 
-.blockaccessories, .blockproductscategory { padding: 0; border: 0; width: 100%; margin: 0 auto; cursor: default!important; }
+.blockaccessories, .blockproductscategory { padding: 0; border: 0; width: 100%; margin: 0 auto; cursor: default!important;text-align: left;}
 
 nav #social_block { float: right; padding: 10px 0; width: auto; }
 nav #social_block ul { line-height: 0; }

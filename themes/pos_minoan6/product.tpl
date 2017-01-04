@@ -23,6 +23,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {include file="$tpl_dir./errors.tpl"}
+{include file="$tpl_dir./breadcrumb.tpl"}
 {if $errors|@count == 0}
 	{if !isset($priceDisplayPrecision)}
 		{assign var='priceDisplayPrecision' value=2}
@@ -34,7 +35,9 @@
 		{assign var='productPrice' value=$product->getPrice(false, $smarty.const.NULL, 6)}
 		{assign var='productPriceWithoutReduction' value=$product->getPriceWithoutReduct(true, $smarty.const.NULL)}
 	{/if}
+   
 <div itemscope itemtype="https://schema.org/Product" class="containerprodinfo">
+    
 	<meta itemprop="url" content="{$link->getProductLink($product)}">
 	<div class="primary_block">
             <div class="row info-row">
@@ -64,7 +67,7 @@
 				</p>
 			{/if}
 				<!-- left infos-->
-				<div class="pb-left-column col-lg-7 col-xs-12 col-sm-12 col-md-6">
+				<div class="pb-left-column col-lg-3 col-xs-12 col-sm-6 col-md-5">
 					<!-- product img-->
 					<div class="clearfix">
 						{*if $product->new}
@@ -96,9 +99,9 @@
 							<span id="view_full_size">
 								<img itemprop="image" src="{$img_prod_dir}{$lang_iso}-default-large_default.jpg" id="bigpic" alt="" title="{$product->name|escape:'html':'UTF-8'}" width="{$largeSize.width}" height="{$largeSize.height}"/>
 								{if !$content_only}
-									<span class="span_link">
+									<!--<span class="span_link">
 										{l s='View larger'}
-									</span>
+									</span>-->
 								{/if}
 							</span>
 						{/if}
@@ -150,14 +153,18 @@
 							</span>
 						</p>
 					{/if}
+                                        
+                                        <div class="hook-product col-lg-12">{if isset($HOOK_PRODUCT_FOOTER) && $HOOK_PRODUCT_FOOTER}{$HOOK_PRODUCT_FOOTER}{/if}</div>
 				</div> <!-- end pb-left-column -->
 				<!-- end left infos-->
 				<!-- center infos -->
-				<div class="pb-center-column col-lg-5 col-xs-12 col-sm-12 col-md-6">
+				<div class="pb-center-column col-lg-9 col-xs-12 col-sm-12 col-md-12">
 					{if $product->online_only}
 						<p class="online_only">{l s='Online only'}</p>
 					{/if}
-					<h1 itemprop="name">{$product->name|escape:'html':'UTF-8'}</h1>
+                                        <h1 itemprop="name" class="title-product">{$product->name|escape:'html':'UTF-8'}
+                                            <div class="border-title border-title-responsive"></div>
+                                        </h1>
                                         <div class="description-product">
                                             {$product_manufacturer->short_description}
                                         </div>
@@ -256,8 +263,8 @@
 					
 					{if ($product->show_price && !isset($restricted_country_mode)) || isset($groups) || $product->reference || (isset($HOOK_PRODUCT_ACTIONS) && $HOOK_PRODUCT_ACTIONS)}
 						<!-- add to cart form-->
-						<form id="buy_block"{if $PS_CATALOG_MODE && !isset($groups) && $product->quantity > 0} class="hidden"{/if} action="{$link->getPageLink('cart')|escape:'html':'UTF-8'}" method="post">
-							<!-- hidden datas -->
+						<form id="buy_block"{if $PS_CATALOG_MODE && !isset($groups) && $product->quantity > 0} class="hidden"{/if} action="{$link->getPageLink('cart')|escape:'html':'UTF-8'}">
+                                                        <!-- hidden datas -->
                                                         <!-- hook allinone Rewards -->
                                                         {*if isset($HOOK_EXTRA_RIGHT) && $HOOK_EXTRA_RIGHT}{$HOOK_EXTRA_RIGHT}{/if*}
 							<p class="hidden">
@@ -273,25 +280,80 @@
 								<div class="box-cart-bottom">
 									<!-- quantity wanted -->
 									{if !$PS_CATALOG_MODE}
-                                                                            <p id="product_reference"{if empty($product->reference) || !$product->reference} class="col-xs-12" style="display: none;"{/if}>
-                                                                                <label class="p-reference referenceinfo">{l s='Reference:'} </label>
-                                                                                <label class="editable referenceinfo" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</label>
-                                                                        </p>    
-                                                                        <div class="col-lg-12">
-                                                                        <p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: block;"{/if}>
-										<label for="quantity_wanted">{l s='Quantity: '}</label>
-										<input type="number" min="1" name="qty" id="quantity_wanted" class="text" value="{if isset($quantityBackup)}{$quantityBackup|intval}{else}{if $product->minimal_quantity > 1}{$product->minimal_quantity}{else}1{/if}{/if}" />
-										<a href="#" data-field-qty="qty" class="btn btn-default button-minus product_quantity_down">
-											<span><i class="icon-minus"></i></span>
-										</a>
-										<a href="#" data-field-qty="qty" class="btn btn-default button-plus product_quantity_up">
-											<span><i class="icon-plus"></i></span>
-										</a>
-										<span class="clearfix"></span>
-									</p>
+                                                                            <!--<p id="product_reference"{if empty($product->reference) || !$product->reference} class="col-xs-12" style="display: none;"{/if}>
+                                                                                <label class="p-reference referenceinfo" style="display: none;">{l s='Reference:'} </label>
+                                                                                <label class="editable referenceinfo" style="display: none;" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</label>
+                                                                            </p>-->  
+                                                                        <div class="row">
+                                                                            
+                                                                        {if $combinations} 
+                                                                            <div class="title-table-combinations row"> 
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title">{l s='% Ahorro'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a recibir'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Price'}</div>
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title"></div>
+                                                                            </div>    
+                                                                        {foreach from=$combinationsList item=list}
+                                                                            {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$list.price_shop r=$list.price}}
+                                                                            <div class="content-table-combinations row"> 
+                                                                                <input type="hidden" value="{$list.id_attribute}" id="{$list.id_product}"/>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">${$list.price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" style="color:#ef4136;">{$save_price}%</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">${$list.price|number_format:0}</div>
+                                                                                <button type="submit" name="Submit" class="btn-combinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" comb="{$list.id_product_attribute}" id="{$list.id_attribute}">
+                                                                                    <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
+                                                                                </button> 
+                                                                            </div>
+                                                                        {/foreach}
+                                                                        
+                                                                        {elseif !$combinations}
+                                                                            
+                                                                            <div class="title-table-nocombinations row"> 
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title">{l s='% Ahorro'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a recibir'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Price'}</div>
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title"></div>
+                                                                            </div>
+                                                                            {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
+                                                                            <div class="content-table-combinations row"> 
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$product->id_manufacturer}.jpg" style="margin-right: 0px; padding-left: 10px;" alt="{$product->name|lower|escape:'htmlall':'UTF-8'}" title="{$product->name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">${$product->price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" style="color:#ef4136;">{$save_price}%</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{$productP|string_format:"%d"}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">${$productPrice|number_format:0}</div>
+                                                                                <button type="submit" name="Submit" class="btn-nocombinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list">
+                                                                                    <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            
+                                                                        {/if}    
                                                                         </div>
+                                                                        
+                                                                        <!--<div class="col-lg-12">
+                                                                            <p id="quantity_wanted_p"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || $PS_CATALOG_MODE} style="display: block;"{/if}>
+                                                                                    <label for="quantity_wanted">{l s='Quantity: '}</label>
+                                                                                    <input type="number" min="1" name="qty" id="quantity_wanted" class="text" value="{if isset($quantityBackup)}{$quantityBackup|intval}{else}{if $product->minimal_quantity > 1}{$product->minimal_quantity}{else}1{/if}{/if}" />
+                                                                                    <a href="#" data-field-qty="qty" class="btn btn-default button-minus product_quantity_down">
+                                                                                            <span><i class="icon-minus"></i></span>
+                                                                                    </a>
+                                                                                    <a href="#" data-field-qty="qty" class="btn btn-default button-plus product_quantity_up">
+                                                                                            <span><i class="icon-plus"></i></span>
+                                                                                    </a>
+                                                                                    <span class="clearfix"></span>
+                                                                            </p>
+                                                                        </div>-->
 									{/if}
-                                                                        {if $logged}
+                                                                        {*if $logged}
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Precio en Fluz: "}</div>
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
                                                                         {else $logged}
@@ -305,14 +367,14 @@
                                                                         {else $logged}
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Price earned: "}</div>
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$resultProduct|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
-									{/if}
+									{/if*}
                                                                         <!-- minimal quantity wanted -->
 									<p id="minimal_quantity_wanted_p"{if $product->minimal_quantity <= 1 || !$product->available_for_order || $PS_CATALOG_MODE} style="display: none;"{/if}>
 										{l s='The minimum purchase order quantity for the product is'} <b id="minimal_quantity_label">{$product->minimal_quantity}</b>
 									</p>
                                                                         <div class="row our_price_display" itemprop="offers" itemscope itemtype="https://schema.org/Offer">{strip}
                                                                         {if $product->quantity > 0}<link itemprop="availability" href="https://schema.org/InStock"/>{/if}</div>
-                                                                        <div class="row bloque-precio">
+                                                                        <!--<div class="row bloque-precio">
                                                                             {if $priceDisplay >= 0 && $priceDisplay <= 2}
                                                                                 <div class="col-lg-6 col-xs-6 col-md-6 col-sm-4 shop-price">
                                                                                     {if $tax_enabled  && ((isset($display_tax_label) && $display_tax_label == 1) || !isset($display_tax_label))}
@@ -337,14 +399,14 @@
                                                                                     <div class="col-xs-12 col-sm-6 col-lg-10 col-md-10 point-price"></div>
                                                                                 {/if}
                                                                             {/if}
-                                                                        </div>
+                                                                        </div>-->
                                                                         {/strip}
                                                                         
                                                                         <div class="cart-product"{if (!$allow_oosp && $product->quantity <= 0) || !$product->available_for_order || (isset($restricted_country_mode) && $restricted_country_mode) || $PS_CATALOG_MODE} class="unvisible"{/if}>
-                                                                                <div id="add_to_cart" class="col-lg-12 col-md-6 col-sm-6 col-xs-12 buttons_bottom_block no-print">
-											<button type="submit" name="Submit" class="exclusive">
+                                                                                <div id="add_to_cart" class="col-lg-3 col-md-6 col-sm-6 col-xs-12 buttons_bottom_block no-print">
+                                                                                    <button type="submit" name="Submit" id="btn_submit" class="exclusive">
                                                                                             <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
-											</button>
+                                                                                    </button>
 										</div>
 									</div>
 									<!-- usefull links-->
@@ -362,7 +424,6 @@
 							
 								</div> <!-- end box-cart-bottom -->
 								<div class="product_attributes clearfix">
-									
 									{if isset($groups)}
 										<!-- attributes -->
 										<div id="attributes">
@@ -376,7 +437,7 @@
 															{if ($group.group_type == 'select')}
 																<select name="{$groupName}" id="group_{$id_attribute_group|intval}" class="form-control attribute_select no-print">
 																	{foreach from=$group.attributes key=id_attribute item=group_attribute}
-																		<option value="{$id_attribute|intval}"{if (isset($smarty.get.$groupName) && $smarty.get.$groupName|intval == $id_attribute) || $group.default == $id_attribute} selected="selected"{/if} title="{$group_attribute|escape:'html':'UTF-8'}">{$group_attribute|escape:'html':'UTF-8'}</option>
+                                                                                                                                            <option value="{$id_attribute|intval}"{if (isset($smarty.get.$groupName) && $smarty.get.$groupName|intval == $id_attribute) || $group.default == $id_attribute} selected="selected"{/if} title="{$group_attribute|escape:'html':'UTF-8'}">{$group_attribute|escape:'html':'UTF-8'}</option>
 																	{/foreach}
 																</select>
 															{elseif ($group.group_type == 'color')}
@@ -442,22 +503,11 @@
 					<div id="oosHook"{if $product->quantity > 0} style="display: none;"{/if}>
 						{$HOOK_PRODUCT_OOS}
 					</div>
-					
-				
-				</div>
-				<!-- end center infos-->
-		
-			<!-- pb-right-column-->
-		</div>
-                <!-- IMAGEN COLUMNA DERECHA -->                        
-		<!--<div class=" col-sm-3 col-md-3 col-xs-12">
-		{if !$content_only} 
-		{hook h="blockPosition8"}
-		{/if}
-		</div>-->
-	</div> <!-- end primary_block -->
-	{if !$content_only}
+                                        
+                                        {if !$content_only}
 		<div class="more-info">
+                        <h1>{l s='INSTRUCCIONES TARJETA DE REGALO'|escape:'html':'UTF-8'}</h1>
+                        <div class="border-title"></div>
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
 				{if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
                                 {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
@@ -576,7 +626,6 @@
 			</div>-->
 			<!--end HOOK_PRODUCT_TAB -->
 
-		
 			<!-- description & features -->
 			{if (isset($product) && $product->description) || (isset($features) && $features) || (isset($accessories) && $accessories) || (isset($HOOK_PRODUCT_TAB) && $HOOK_PRODUCT_TAB) || (isset($attachments) && $attachments) || isset($product) && $product->customizable}
 				{if isset($attachments) && $attachments}
@@ -809,32 +858,23 @@
 			</section>
 			<!--end Accessories -->
 		{/if}
-		{if isset($HOOK_PRODUCT_FOOTER) && $HOOK_PRODUCT_FOOTER}{$HOOK_PRODUCT_FOOTER}{/if}	
 	{/if}
-</div> <!-- itemscope product wrapper -->
-<script type="text/javascript"> 
-    $(document).ready(function() {
-		var owl = $(".accessories_carousel");
-		owl.owlCarousel({
-		items : 4,
-		pagination :false,
-		slideSpeed: 1000,
-		itemsDesktop : [1199,3],
-		itemsDesktopSmall : [911,2], 
-		itemsTablet: [767,2], 
-		itemsMobile : [480,1],
-		});
+				
+				</div>
+				<!-- end center infos-->
 		
-		// Custom Navigation Events
-		$(".next-accessory").click(function(){
-		owl.trigger('owl.next');
-		})
-		$(".prev-accessory").click(function(){
-		owl.trigger('owl.prev');
-		})     
-    });
+			<!-- pb-right-column-->
+		</div>
+                <!-- IMAGEN COLUMNA DERECHA -->                        
+		<div class=" col-sm-3 col-md-3 col-xs-12">
+                    {if !$content_only} 
+                        {hook h="blockPosition8"}
+                    {/if}
+		</div>
+	</div> <!-- end primary_block -->
+	
+</div> <!-- itemscope product wrapper -->
 
-</script>
 {strip}
 {if isset($smarty.get.ad) && $smarty.get.ad}
 	{addJsDefL name=ad}{$base_dir|cat:$smarty.get.ad|escape:'html':'UTF-8'}{/addJsDefL}
@@ -938,10 +978,26 @@
 {/if}
 {literal}
     <style>
-        .breadcrumb{display: none;}
-        .actions{display: none !important;}
+        /*.actions{display: none !important;}*/
         .pb-left-column{padding-left: 5px;}
-        .description-product ul li { list-style: initial!important; }
-        .description-product ul { padding-left: 20px!important; }
+        .pos-title span{font-size: 12px;}
+        .pos-title h2 {width: 100%;text-align: left; background: #fff;line-height: 30px;}
+        .breadcrumb{margin-top: 9px;background: #f4f4f4;padding-left: 34px;}
+        
+        @media (max-width:1080px){
+           .hook-product{padding-left: 0px;display: none;}
+        }
     </style>
+{/literal}
+{literal}
+    <script>
+           $('.btn-combinations').on('click',function(e){
+               var id = $(this).attr("id");
+               var at = $(this).attr("comb");
+                
+               $('#idCombination').val(at);
+               $('#btn_submit').submit();
+           });
+        
+    </script>
 {/literal}

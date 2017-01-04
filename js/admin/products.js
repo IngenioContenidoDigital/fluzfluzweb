@@ -1140,13 +1140,6 @@ product_tabs['Informations'] = new function(){
 			}
 			else if (product_type == product_type_virtual)
 			{
-				if (has_combinations)
-				{
-					$('#simple_product').attr('checked', true);
-					$('#warn_virtual_combinations').show();
-				}
-				else
-				{
 					$('a[id*="VirtualProduct"]').show();
 					$('#is_virtual').val(1);
 
@@ -1167,7 +1160,6 @@ product_tabs['Informations'] = new function(){
 						$('#condition option[value=refurbished]').removeAttr('selected');
 						$('#condition option[value=used]').removeAttr('selected');
 					});
-				}
 			}
 			else
 			{

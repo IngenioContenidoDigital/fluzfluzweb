@@ -181,6 +181,8 @@ class ProductControllerCore extends FrontController
             $this->product->description = $this->transformDescriptionWithImg($this->product->description);
             $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
             $sponsorships2=array_slice($sponsorships, 1, 15);
+            $sponsor = count($sponsorships2)+1;
+            $this->context->smarty->assign('sponsor', $sponsor);
             //$price = (int)$this->product->price - RewardsProductModel::getCostDifference($this->product->id);
             $price = RewardsProductModel::getProductReward($this->product->id,(int)$this->product->price,1, $this->context->currency->id);
             $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
@@ -449,11 +451,12 @@ class ProductControllerCore extends FrontController
                     $groups[$row['id_attribute_group']] = array(
                         'group_name' => $row['group_name'],
                         'name' => $row['public_group_name'],
+                        'id_product' => $row['id_product_attribute'],
                         'group_type' => $row['group_type'],
                         'default' => -1,
                     );
                 }
-
+                
                 $groups[$row['id_attribute_group']]['attributes'][$row['id_attribute']] = $row['attribute_name'];
                 if ($row['default_on'] && $groups[$row['id_attribute_group']]['default'] == -1) {
                     $groups[$row['id_attribute_group']]['default'] = (int)$row['id_attribute'];
@@ -479,6 +482,7 @@ class ProductControllerCore extends FrontController
                 $combinations[$row['id_product_attribute']]['reference'] = $row['reference'];
                 $combinations[$row['id_product_attribute']]['unit_impact'] = Tools::convertPriceFull($row['unit_price_impact'], null, Context::getContext()->currency);
                 $combinations[$row['id_product_attribute']]['minimal_quantity'] = $row['minimal_quantity'];
+                
                 if ($row['available_date'] != '0000-00-00' && Validate::isDate($row['available_date'])) {
                     $combinations[$row['id_product_attribute']]['available_date'] = $row['available_date'];
                     $combinations[$row['id_product_attribute']]['date_formatted'] = Tools::displayDate($row['available_date']);
@@ -548,6 +552,7 @@ class ProductControllerCore extends FrontController
                     }
                 }
             }
+            
             foreach ($combinations as $id_product_attribute => $comb) {
                 $attribute_list = '';
                 foreach ($comb['attributes'] as $id_attribute) {
@@ -556,13 +561,32 @@ class ProductControllerCore extends FrontController
                 $attribute_list = rtrim($attribute_list, ',');
                 $combinations[$id_product_attribute]['list'] = $attribute_list;
             }
-
+            
+            $listproducts = array();
+            
+            foreach ($combinations as $prueba) {
+                
+                $query = 'SELECT p.price_shop, p.price, p.id_product, p.id_manufacturer, pl.link_rewrite, 
+                          pl.name, pa.id_product_attribute, ac.id_attribute,
+                          (rp.value/100) as value FROM '._DB_PREFIX_.'product p
+                          LEFT JOIN '._DB_PREFIX_.'product_lang pl ON (p.id_product = pl.id_product)
+                          LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (p.id_product = rp.id_product)
+                          LEFT JOIN '._DB_PREFIX_.'product_attribute pa ON (p.reference = pa.reference)        
+                          LEFT JOIN '._DB_PREFIX_.'product_attribute_combination ac ON (pa.id_product_attribute=ac.id_product_attribute)        
+                          WHERE p.reference = "'.$prueba['reference'].'" AND pl.id_lang = '.$this->context->language->id;
+                
+                $for = Db::getInstance()->executeS($query);
+                array_push($listproducts, $for[0]);
+            }
+            
             $this->context->smarty->assign(array(
                 'groups' => $groups,
                 'colors' => (count($colors)) ? $colors : false,
                 'combinations' => $combinations,
+                'combinationsList' => $listproducts,
                 'combinationImages' => $combination_images
             ));
+            
         }
     }
 
