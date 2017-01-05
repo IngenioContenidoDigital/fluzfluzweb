@@ -2690,6 +2690,7 @@ class OrderCore extends ObjectModel
                                         <th>valor_utilizado</th>
                                         <th>referencia_producto</th>
                                         <th>precio_producto</th>
+                                        <th>costo_producto</th>
                                         <th>cantidad</th>
                                         <th>codigos_producto</th>
                                         <th>recompensa_porcentaje_producto</th>
@@ -2725,6 +2726,7 @@ class OrderCore extends ObjectModel
                             <td>".$order['valor_utilizado']."</td>
                             <td>".$order['referencia_producto']."</td>
                             <td>".$order['precio_producto']."</td>
+                            <td>".$order['costo_producto']."</td>
                             <td>".$order['cantidad']."</td>
                             <td>".$order['codigos_producto']."</td>
                             <td>".$order['recompensa_porcentaje_producto']."</td>
@@ -2815,7 +2817,8 @@ class OrderCore extends ObjectModel
                         od.product_quantity cantidad,
                         od.total_price_tax_incl total_producto,
                         od.porcentaje porcentaje_producto,
-                        od.points puntos_producto
+                        od.points puntos_producto,
+                        ps.product_supplier_price_te costo_producto
                 FROM ps_orders o
                 INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
                 INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
@@ -2823,6 +2826,7 @@ class OrderCore extends ObjectModel
                 LEFT JOIN "._DB_PREFIX_."order_cart_rule ocr ON ( o.id_order = ocr.id_order )
                 LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )
                 LEFT JOIN "._DB_PREFIX_."report_orders ro ON ( o.id_order = ro.orden )
+                LEFT JOIN "._DB_PREFIX_."product_supplier ps ON ( od.product_id = ps.id_product )
                 WHERE ro.orden IS NULL
                 ORDER BY o.id_order DESC";
 
@@ -2871,7 +2875,7 @@ class OrderCore extends ObjectModel
             });
 
             $queryInsertReport = "";
-            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, estado_tarjeta, valor_utilizado, referencia_producto, precio_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
+            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, estado_tarjeta, valor_utilizado, referencia_producto, precio_producto, costo_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
                                   VALUES (
                                     ".$order['orden'].",
                                     '".$order['referencia']."',
@@ -2890,6 +2894,7 @@ class OrderCore extends ObjectModel
                                     ".number_format($codes_order[0]['valor_utilizado'], 2, '.', '').",
                                     '".$order['referencia_producto']."',
                                     ".number_format($order['precio_producto'], 2, '.', '').",
+                                    ".number_format($order['costo_producto'], 2, '.', '').",
                                     ".number_format($order['cantidad'], 2, '.', '').",
                                     '".$codes_order[0]['codigos_producto']."'   ,
                                     ".number_format($order['porcentaje_producto'], 4, '.', '').",
