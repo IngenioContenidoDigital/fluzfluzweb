@@ -80,6 +80,15 @@ class AwsCore extends ObjectModel
                         return $e->getMessage() . "\n";
                 }
         }
+        
+        public function deleteObject($keyname = ''){
+            $folder = Configuration::get('PS_SHOP_DOMAIN') == $this->shopDomainProd ? $folder : 'dev/' . $folder;
+            $result = $this->s3Client->deleteObject(array(
+                'Bucket' => $bucket,
+                'Key'    => $folder.$keyname
+            ));
+            return $result;
+        }
 
         /**
          * Carga un objeto de hasta 5 GB
