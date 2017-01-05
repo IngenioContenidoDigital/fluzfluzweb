@@ -44,6 +44,12 @@ class reportnotificationinactive extends ModuleGrid
                 'align' => 'center'
             ),
             array(
+                'id' => 'last_purchase',
+                'header' => $this->l('Ultima Compra'),
+                'dataIndex' => 'last_purchase',
+                'align' => 'center'
+            ),
+            array(
                 'id' => 'date_alert_30',
                 'header' => $this->l('Fecha Alerta Dia 30'),
                 'dataIndex' => 'date_alert_30',
@@ -94,7 +100,20 @@ class reportnotificationinactive extends ModuleGrid
     public function getData()
     {
         // $date_between = $this->getDate();
-        $this->query = "SELECT c.id_customer, c.username, c.email, c.date_add, ni.date_alert_30, ni.date_alert_45, ni.date_alert_52, ni.date_alert_59, ni.date_alert_60, ni.date_alert_90
+        $this->query = "SELECT
+                            c.id_customer,
+                            c.username,
+                            c.email,
+                            c.date_add,
+                            ni.date_alert_30,
+                            ni.date_alert_45,
+                            ni.date_alert_52,
+                            ni.date_alert_59,
+                            ni.date_alert_60,
+                            ni.date_alert_90,
+                            (SELECT MAX(date_add)
+                            FROM "._DB_PREFIX_."orders
+                            WHERE id_customer = ni.id_customer ) last_purchase
                         FROM "._DB_PREFIX_."notification_inactive ni
                         INNER JOIN "._DB_PREFIX_."customer c ON ( ni.id_customer = c.id_customer )";
 
