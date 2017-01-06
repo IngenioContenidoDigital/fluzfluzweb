@@ -24,5 +24,5 @@
 #categories_block_left li span.grower:hover + a, #categories_block_left li a:hover, #categories_block_left li a.selected { color: #ee4a42; }
 #categories_block_left li li a { font-weight: normal; color: #777777; }
 /*#categories_block_left li li a:before { content: "\f105"; font-family: "FontAwesome"; line-height: 29px; padding-right: 8px; }*/
-#categories_block_left li li a { padding-left: 12%; }
+#categories_block_left li li a { padding-left: 20px; }
 .categoryfather { cursor: pointer; }

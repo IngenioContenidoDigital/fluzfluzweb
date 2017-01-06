@@ -994,7 +994,7 @@
         .pb-left-column{padding-left: 5px;}
         .pos-title span{font-size: 12px;}
         .pos-title h2 {width: 100%;text-align: left; background: #fff;line-height: 30px;}
-        .breadcrumb{margin-top: 9px;background: #f4f4f4;padding-left: 34px;}
+        .breadcrumb{margin-top: 9px;background: #f4f4f4;padding-left: 34px;letter-spacing: 1.5px;font-size: 12px;}
         
         @media (max-width:1080px){
            .hook-product{padding-left: 0px;display: none;}
