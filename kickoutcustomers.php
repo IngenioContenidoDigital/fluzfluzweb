@@ -98,8 +98,8 @@ class kickoutCustomers {
     public function updateCustomerNetwork($id_customer, $id_sponsor) {
         // almacenar actualizacion de la red
         $this->updatesNetwork[] = "UPDATE "._DB_PREFIX_."rewards_sponsorship
-                                            SET id_sponsor = ".$id_sponsor.", date_upd = NOW()
-                                            WHERE id_customer = ".$id_customer;
+                                    SET id_sponsor = ".$id_sponsor.", date_upd = NOW()
+                                    WHERE id_customer = ".$id_customer;
         // almacenar en la tabla de promovidos
         Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."promoted (id_customer, date_add)
                                     VALUES (".$id_customer.", NOW())");
@@ -113,6 +113,10 @@ class kickoutCustomers {
     public function insertCustomerKickOut($customer) {
         $numSponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer['id']);
         $level = count( array_slice($numSponsorships, 1, 15) );
+        
+        // Mover usuario a grupo de clientes
+        Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_group IN (1,2,4) AND id_customer = ".$customer['id']);
+        Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET id_default_group = 3 WHERE id_customer = ".$customer['id']);
 
         $query = "INSERT INTO "._DB_PREFIX_."rewards_sponsorship_kick_out (id_sponsor, id_customer, email, lastname, firstname, date_add, date_kick_out, level)
                     VALUES (".$customer['id_sponsor'].", ".$customer['id'].", '".$customer['email']."', '".$customer['lastname']."', '".$customer['firstname']."', '".$customer['date_add']."', NOW(), ".$level.")";

@@ -963,11 +963,11 @@ class CustomerCore extends ObjectModel
                                                     AND od.product_reference = 'MFLUZ'
                                                     AND oh.id_order_state = 2");
 
-        $expulsiones = Db::getInstance()->getValue("SELECT COUNT(*) expulsiones
+        /*$expulsiones = Db::getInstance()->getValue("SELECT COUNT(*) expulsiones
                                                     FROM "._DB_PREFIX_."rewards_sponsorship_kick_out
-                                                    WHERE email = '".$email."'");
+                                                    WHERE email = '".$email."'");*/
         
-        if ( $membresias > 0 && $membresias > $expulsiones ) {
+        if ( $membresias > 0 /*&& $membresias > $expulsiones*/ ) {
             return true;
         } else {
             return false;
