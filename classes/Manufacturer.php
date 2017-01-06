@@ -174,9 +174,11 @@ class ManufacturerCore extends ObjectModel
         }
 
         $manufacturers = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
-		SELECT m.*, ml.`description`, ml.`short_description`
+		SELECT m.*, ml.`description`, ml.`short_description`, p.price, (rp.`value`/100) as value
 		FROM `'._DB_PREFIX_.'manufacturer` m
 		'.Shop::addSqlAssociation('manufacturer', 'm').'
+                LEFT JOIN `'._DB_PREFIX_.'product` as p ON (m.`id_manufacturer`= p.`id_manufacturer`)    
+                LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (p.id_product = rp.id_product)    
 		INNER JOIN `'._DB_PREFIX_.'manufacturer_lang` ml ON (m.`id_manufacturer` = ml.`id_manufacturer` AND ml.`id_lang` = '.(int)$id_lang.')
 		'.($active ? 'WHERE m.`active` = 1' : '')
         .($group_by ? ' GROUP BY m.`id_manufacturer`' : '').'
@@ -194,7 +196,7 @@ class ManufacturerCore extends ObjectModel
             }
 
             $results = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
-					SELECT  p.`id_manufacturer`, COUNT(DISTINCT p.`id_product`) as nb_products
+					SELECT  p.`id_manufacturer`, p.price as p, COUNT(DISTINCT p.`id_product`) as nb_products
 					FROM `'._DB_PREFIX_.'product` p USE INDEX (product_manufacturer)
 					'.Shop::addSqlAssociation('product', 'p').'
 					LEFT JOIN `'._DB_PREFIX_.'manufacturer` as m ON (m.`id_manufacturer`= p.`id_manufacturer`)
@@ -232,7 +234,78 @@ class ManufacturerCore extends ObjectModel
         }
         return $manufacturers;
     }
+    
+    
+    public static function getNewManufacturers($get_nb_products = false, $id_lang = 0, $active = true, $p = false, $n = false, $all_group = false, $group_by = false)
+    {
+        if (!$id_lang) {
+            $id_lang = (int)Configuration::get('PS_LANG_DEFAULT');
+        }
+        if (!Group::isFeatureActive()) {
+            $all_group = true;
+        }
 
+        $manufacturers = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
+		SELECT m.*, ml.`description`, ml.`short_description`, p.price, (rp.`value`/100) as value
+		FROM `'._DB_PREFIX_.'manufacturer` m
+		'.Shop::addSqlAssociation('manufacturer', 'm').'
+                LEFT JOIN `'._DB_PREFIX_.'product` as p ON (m.`id_manufacturer`= p.`id_manufacturer`)    
+                LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (p.id_product = rp.id_product)    
+		INNER JOIN `'._DB_PREFIX_.'manufacturer_lang` ml ON (m.`id_manufacturer` = ml.`id_manufacturer` AND ml.`id_lang` = '.(int)$id_lang.')
+		'.($active ? 'WHERE m.`active` = 1' : '')
+        .($group_by ? ' GROUP BY m.`id_manufacturer`' : '').'
+		ORDER BY m.date_add DESC
+		'.($p ? ' LIMIT '.(((int)$p - 1) * (int)$n).','.(int)$n : ''));
+        if ($manufacturers === false) {
+            return false;
+        }
+
+        if ($get_nb_products) {
+            $sql_groups = '';
+            if (!$all_group) {
+                $groups = FrontController::getCurrentCustomerGroups();
+                $sql_groups = (count($groups) ? 'IN ('.implode(',', $groups).')' : '= 1');
+            }
+
+            $results = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
+					SELECT  p.`id_manufacturer`, p.price as p, COUNT(DISTINCT p.`id_product`) as nb_products
+					FROM `'._DB_PREFIX_.'product` p USE INDEX (product_manufacturer)
+					'.Shop::addSqlAssociation('product', 'p').'
+					LEFT JOIN `'._DB_PREFIX_.'manufacturer` as m ON (m.`id_manufacturer`= p.`id_manufacturer`)
+					WHERE p.`id_manufacturer` != 0 AND product_shop.`visibility` NOT IN ("none")
+					'.($active ? ' AND product_shop.`active` = 1 ' : '').'
+					'.(Group::isFeatureActive() && $all_group ? '' : ' AND EXISTS (
+						SELECT 1
+						FROM `'._DB_PREFIX_.'category_group` cg
+						LEFT JOIN `'._DB_PREFIX_.'category_product` cp ON (cp.`id_category` = cg.`id_category`)
+						WHERE p.`id_product` = cp.`id_product` AND cg.`id_group` '.$sql_groups.'
+					)').'
+					GROUP BY p.`id_manufacturer`'
+                );
+
+            $counts = array();
+            foreach ($results as $result) {
+                $counts[(int)$result['id_manufacturer']] = (int)$result['nb_products'];
+            }
+
+            if (count($counts)) {
+                foreach ($manufacturers as $key => $manufacturer) {
+                    if (array_key_exists((int)$manufacturer['id_manufacturer'], $counts)) {
+                        $manufacturers[$key]['nb_products'] = $counts[(int)$manufacturer['id_manufacturer']];
+                    } else {
+                        $manufacturers[$key]['nb_products'] = 0;
+                    }
+                }
+            }
+        }
+
+        $total_manufacturers = count($manufacturers);
+        $rewrite_settings = (int)Configuration::get('PS_REWRITING_SETTINGS');
+        for ($i = 0; $i < $total_manufacturers; $i++) {
+            $manufacturers[$i]['link_rewrite'] = ($rewrite_settings ? Tools::link_rewrite($manufacturers[$i]['name']) : 0);
+        }
+        return $manufacturers;
+    }
     /**
      * Return name from id
      *

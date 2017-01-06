@@ -69,8 +69,7 @@
                   {/if}
             </div>
 		{/if} -->
-		<h1 class="page-heading{if (isset($subcategories) && !$products) || (isset($subcategories) && $products) || !isset($subcategories) && $products} product-listing{/if}"><span class="cat-name">{$category->name|escape:'html':'UTF-8'}{if isset($categoryNameComplement)}&nbsp;{$categoryNameComplement|escape:'html':'UTF-8'}{/if}</span>{include file="$tpl_dir./category-count.tpl"}</h1>
-	<!-- 	{if isset($subcategories)}
+	{*if isset($subcategories)}
         {if (isset($display_subcategories) && $display_subcategories eq 1) || !isset($display_subcategories) }
 		<!-- Subcategories --
 		<div id="subcategories">
@@ -96,24 +95,30 @@
 			</ul>
 		</div>
         {/if}
-		{/if} -->
+		{/if*}
+                <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">
+                    {$HOOK_LEFT_COLUMN}
+                </div>
 		{if $products}
-        
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding-left: 0px;">
+                        <h1 class="page-heading{if (isset($subcategories) && !$products) || (isset($subcategories) && $products) || !isset($subcategories) && $products} product-listing{/if}"><span class="cat-name">{$category->name|escape:'html':'UTF-8'}{if isset($categoryNameComplement)}&nbsp;{$categoryNameComplement|escape:'html':'UTF-8'}{/if}</span>{include file="$tpl_dir./category-count.tpl"}</h1>
+   
 			<div class="content_sortPagiBar clearfix">
-                    <div class="sortPagiBar clearfix">
-			{include file="./product-compare.tpl"}
-            		{include file="./product-sort.tpl"}
-                	{include file="./nbr-product-page.tpl"}
-                    </div>
+                            <div class="sortPagiBar clearfix">
+                                {include file="./product-compare.tpl"}
+                                {include file="./product-sort.tpl"}
+                                {include file="./nbr-product-page.tpl"}
+                            </div>
 
 			</div>
-			{include file="./product-list.tpl" products=$products}
+                        {include file="./product-list.tpl" products=$products}
 			<div class="content_sortPagiBar">
 			<div class="bottom-pagination-content clearfix">
 			{include file="./product-compare.tpl" paginationId='bottom'}
                         {include file="./pagination.tpl" paginationId='bottom'}
 			</div>
 			</div>
+                </div>         
 		{/if}
 	{elseif $category->id}
 		<p class="alert alert-warning">{l s='This category is currently unavailable.'}</p>
@@ -127,12 +132,13 @@
                     .page-heading.product-listing{margin: 0 auto; width: 90%;}
                     .content_sortPagiBar .sortPagiBar{margin-left: 5%;}
                     .boxprevnext2 a{display: none;}
-                    .breadcrumb{display: none;}
                     .owl-wrapper{width: 100% !important; margin-left: 50px; transition:none !important; transform: none !important;}
                     .content_sortPagiBar .display li{display: none;}
                     .bottom-pagination-content ul.pagination{margin-top: 0 !important;}
                     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
-
+                    .style-search{background:#ef4136;height: 75px;}
+                    form#searchbox input#search_query_block{margin-bottom: 0px !important;padding: 18.5px !important; max-width: 380px; margin-right: 0px !important;}
+                    
                     @media (max-width: 1440px) and (min-width: 1200px){
                         .owl-item{width: 225px;}
                     }

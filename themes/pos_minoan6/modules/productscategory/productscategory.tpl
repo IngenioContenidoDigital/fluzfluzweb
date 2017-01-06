@@ -47,12 +47,17 @@
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
                                         </div>
                                         <div class="points-block">
-                                                <div style="width: 55%;">
+                                        {assign var="idprodshop" value=$product.reference}
+                                        {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                <div style="width: 55%; font-size:14px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
+                                                <div>
+                                                    <span style="color:#ef4136; font-size: 14px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                </div>
+                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                         </div>
-                                        <div class="price-block">
+                                        <!--<div class="price-block">
                                                 <div style="font-size: 13px;">
                                                     <span>{if $logged}{l s="Recibes"}&nbsp;{$categoryProduct.points}{else $logged}{l s="Recibes"}&nbsp;{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s="Fluz !"}</span>
                                                 </div>
@@ -78,7 +83,7 @@
                                                                 </div>
                                                         {/if}
                                                 {/if}
-                                        </div>
+                                        </div>-->
 					{*<div class="products-inner">
 						<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
 				

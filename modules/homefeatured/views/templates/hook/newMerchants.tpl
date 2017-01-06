@@ -48,16 +48,16 @@
         
         <section class="page-product-box blockproductscategory">
                 <div class="divTitleFeatured">
-                    <h1 class="titleFeatured2">{l s="COMERCIOS DESTACADOS"}</h1>
+                    <h1 class="titleFeatured2">{l s="NUEVOS COMERCIOS"}</h1>
                 </div>
 
                 <div class="boxprevnext2">
-                    <a class="prev prev-product2"><i class="icon-chevron-left"></i></a>
-                    <a class="next next-product2"><i class="icon-chevron-right"></i></a>
+                    <a class="prev prev-product3"><i class="icon-chevron-left"></i></a>
+                    <a class="next next-product3"><i class="icon-chevron-right"></i></a>
                 </div>
 
                 <ul{if isset($id) && $id} id="{$id}"{/if} class="product_list grid row{if isset($class) && $class} {$class}{/if}">
-                        <div id="product_categoryAll2">
+                        <div id="product_categoryAll3" style="margin-bottom:80px;">
                                 {foreach from=$merchants item=merchant name=merchants}
                                         <li class="ajax_block_product nopadding">
                                                 <div>
@@ -79,7 +79,7 @@
 
 <script type="text/javascript"> 
     $(document).ready(function() {
-		var owl = $("#product_categoryAll2");
+		var owl = $("#product_categoryAll3");
 		owl.owlCarousel({
 		items : 4,
 		 pagination :false,
@@ -91,10 +91,10 @@
 		});
 		 
 		// Custom Navigation Events
-		$(".next-product2").click(function(){
+		$(".next-product3").click(function(){
 		owl.trigger('owl.next');
 		})
-		$(".prev-product2").click(function(){
+		$(".prev-product3").click(function(){
 		owl.trigger('owl.prev');
 		})     
     });

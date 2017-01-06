@@ -221,35 +221,30 @@
                                 {/if}    
                                 
                                 {if isset($left_column_size) && !empty($left_column_size)}
-                                    <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">{$HOOK_LEFT_COLUMN}
-                                                
-                                            <form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>
-                                            <!--<div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
-                                                <div data-role="rangeslider">
-                                                    <input name="range-1a" id="range-1a" min="0" max="100" value="20" type="range" style="width:100%;"/>
-                                                    <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />
-                                                </div>
-                                            </div>-->
-                                           
+                                    <!--<div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">-->
+                                        {*$HOOK_LEFT_COLUMN*}
+                                        <!--<form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>-->
+                                        <!--<div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
+                                            <div data-role="rangeslider">
+                                                <input name="range-1a" id="range-1a" min="0" max="100" value="20" type="range" style="width:100%;"/>
+                                                <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />
+                                            </div>
+                                        </div>-->
                                         {if $cms->id==8 || $cms->id==9}
-                                        
                                             {literal}
                                                 <style>
                                                     #left_column{display: none !important;}
                                                     .breadcrumb{display: none !important;}
-                                                    #center_column{min-width: 100% !important; margin: 0px;}
+                                                    /*#center_column{min-width: 100% !important; margin: 0px;}*/
                                                     #columns{margin-bottom: 0px !important; min-width: 100%;}
                                                     .banner-home{margin: 0px;}
                                                 </style>
                                             {/literal}
-                                            
                                         {/if}
-                                        
-                                        
-                                    </div>
+                                    <!--</div>-->
 				{/if}
                                 {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
-						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-xs-12 col-md-{$cols|intval} col-sm-{$cols|intval}">
+						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-lg-12 col-xs-12 col-md-12 col-sm-12">
                                                     
                                                     {if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}
@@ -274,9 +269,22 @@
 					<div class="banner-category" >
 						<div class="ct_img">
 							<img class="category_img img-responsive ctgImg" src="{$link->getCatImageLink($category->link_rewrite, $category->id_image, 'category_default')|escape:'html':'UTF-8'}"/>
-							
 						</div>
 					</div>
+                                        <div class="row style-search">
+                                            <div id="search_block_left" class="block exclusive">
+                                                    <form method="get" action="{$link->getPageLink('search', true, null, null, false, null, true)|escape:'html':'UTF-8'}" id="searchbox">
+                                                            <p class="block_content clearfix">
+                                                                    <input type="hidden" name="orderby" value="position" />
+                                                                    <input type="hidden" name="controller" value="search" />
+                                                                    <input type="hidden" name="orderway" value="desc" />
+                                                                    <input class="search_query form-control grey" placeholder="Search by brand" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                                                    <button type="submit" id="search_button" class="btn btn-default button button-small"><span><i class="icon-search"></i></span></button>
+                                                            </p>
+                                                    </form>
+                                            </div>
+                                        </div>    
+                                        {include file="$tpl_dir./breadcrumb.tpl"}                                
 					{/if}
 					
 					<div id="slider_row" class="row">

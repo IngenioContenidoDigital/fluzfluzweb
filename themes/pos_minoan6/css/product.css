@@ -95,7 +95,7 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 #usefull_link_block li#favoriteproducts_block_extra_remove:hover, #usefull_link_block li#favoriteproducts_block_extra_add:hover, #usefull_link_block li#favoriteproducts_block_extra_removed:hover, #usefull_link_block li#favoriteproducts_block_extra_added:hover { color: #000; }
 #usefull_link_block li#favoriteproducts_block_extra_removed:before { content: "\f004"; }
 .pos-title {width:90%; margin-left: 5%; margin-top: -3%;}
-.title-related{font-size: 14px; font-family: 'Montserrat';}
+.title-related{font-size: 14px !important; letter-spacing: 1.5px; color:#4a4a4a; font-family: 'Open Sans';}
 /* pb-left-column ****************************************************************************** */
 .pb-center-column { margin-bottom: 0px; margin-top: 0px; padding-left: 0px; padding-right: 0px; border-left: 1px solid #efefef; padding-left: 30px;/* form */ }
 .pb-center-column h1 { font-family: 'Open Sans' !important; font-weight: normal; color: #58595b; text-transform: uppercase; margin-top: 25px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
@@ -176,7 +176,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 
 /* Color de Borde de titulos */
 
-.border-title{border-bottom: 3px solid #ef4136; margin-left: 0px; height: 5px; margin-bottom: 20px; width: 45px;}
+.border-title{border-bottom: 2px solid #ef4136; margin-left: 0px; height: 5px; margin-bottom: 20px; width: 45px;}
 
 @media (max-width:1024px){
        .border-title-responsive{margin-left: 380px;}
@@ -185,13 +185,13 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 
 /* Estilos Tabla Combinacion de productos */
 
-.title-table-combinations{height: 60px;background: #f4f4f4; line-height: 60px; text-transform: uppercase; font-size: 10px; font-family: 'Open Sans';}
+.title-table-combinations{height: 60px;background: #f4f4f4; line-height: 60px; text-transform: uppercase; font-size: 10px; font-family: 'Open Sans';font-weight: 700;}
 .title-table-nocombinations{height: 60px; line-height: 60px;background: #f4f4f4; text-transform: uppercase; font-size: 10px; font-family: 'Open Sans';}
 .content-table-combinations{background: #fff; height: 80px; border-bottom: 1px solid #E6E6E6;}
 .item-list-title{text-align: center; padding-left: 0px; padding-right: 0px;}
 .item-list{text-align: center; margin-top: 30px;}
 .img-list{height: 40px; padding: 0px; margin-top: 18px;}
-.btn-combinations{color: #fff;padding-left: 0px; background: #c8b79b; font-size: 10px; padding-right: 0px;padding-top: 6px;padding-bottom: 6px;border: none;cursor: pointer; margin-top: 22px;}
+.btn-combinations{color: #fff;padding-left: 0px; border: 1px solid #ad9f88; background: #c8b79b; font-size: 10px; padding-right: 0px;padding-top: 6px;padding-bottom: 6px;border: none;cursor: pointer; margin-top: 22px;}
 .btn-nocombinations{color: #fff;padding-left: 0px; font-size: 10px; background: #c8b79b; padding-right: 0px;padding-top: 10px;padding-bottom: 10px;border: none;cursor: pointer; margin-top: 22px;}
 
 /* accessories  */
@@ -386,6 +386,7 @@ Quick View Styles
     .info-row{margin-top: 0px;}
     #availability_statut, #pQuantityAvailable{margin-left: 26px;}
     .btn-combinations{font-size: 8px;}
+    .breadcrumb {margin-left: 0px;}
 }
 
 @media (min-width:1050px) and (max-width:1600px){
@@ -418,7 +419,7 @@ Quick View Styles
 @media (max-width:1024px){
     .owl-carousel .owl-wrapper-outer{margin-left: 15px;}
     .owl-carousel{width: 94%;}
-    .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px; margin-top: 26px;}
+    .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px; margin-top: 26px;letter-spacing: 2px;line-height: 50px;}
     #product p#loyalty{margin-left: 10% !important;}
     .cart-product .buttons_bottom_block{text-align: left;}
     .box-info-product p{width:100%; text-align: center;}
@@ -452,6 +453,7 @@ Quick View Styles
     .description-product{font-size: 10px;line-height: 15px;}
     .title-price-point{ padding-left: 0px; padding-bottom: 20px; background: transparent; }
     .menuAccount{font-size: 12px;}
+    .breadcrumb {margin-left: 0px;margin-left: -30px;width: 106%;}
     .price-point{ background: transparent; text-align: right; padding-bottom: 20px; padding-left: 0px; padding-right: 36px; }
     .prueba{position: absolute; top: 12px; left: 171px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
 }
@@ -459,8 +461,10 @@ Quick View Styles
 @media (min-width:1025px) and (max-width:1120px){
     .menuAccount{font-size: 12px;}
     .prueba{top: 12px; left: 175px;}
+    .breadcrumb {margin-left: 0px;margin-left: -55px;width: 111%;}
+    .border-title-responsive{margin-left: 380px;}
     .owl-carousel .owl-wrapper-outer{margin-left: 15px;}
-    .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px;}
+    .pb-center-column h1{ text-align: left;font-size: 16px;padding-bottom: 5px;letter-spacing: 2px;line-height: 50px;}
     .owl-carousel{width: 94%;}
     #product p#loyalty{margin-left: 10% !important;}
     .cart-product .buttons_bottom_block{text-align: left !important;}
@@ -523,7 +527,7 @@ Quick View Styles
    .our_price_display .price{font-size:20px;}
    .block { padding-top: 8px; padding-left: 0; text-align: center;}
    /*.breadcrumb{display: none;}*/
-   .pb-center-column h1{margin-left: 0px !important; margin-top: 10px; text-align: left; font-size: 12px;}
+   .pb-center-column h1{margin-left: 0px !important; margin-top: 10px; text-align: left; font-size: 12px;letter-spacing: 2px;line-height: 50px;}
    .cart-product .buttons_bottom_block{text-align: center; padding-right: 0px; margin-left: -2px;}
    .description-product{padding-left: 0px;padding-right: 5px;}
    .socialsharing_product{margin-left: 10%;}
@@ -548,7 +552,7 @@ Quick View Styles
    .info-row{margin-top: 0px;}
    #availability_statut, #pQuantityAvailable{margin-left: 5px;}
    .title-none{display:none;}
-   .item-list-title{font-size: 7px;}
+   .item-list-title{font-size: 6px;}
    .border-title-responsive {margin-left: 0px;}
    .more-info{width: 94%;}
    #buy_block{width: 94%;}
@@ -605,7 +609,7 @@ Quick View Styles
     .block {padding-top: 10px;padding-left: 0;text-align: center;}
     #availability_statut, #pQuantityAvailable{margin-left: 10px;}
     .title-none{display:none;}
-    .item-list-title{font-size: 6px;}
+    .item-list-title{font-size: 5px;}
     .border-title-responsive {margin-left: 0px;}
     .more-info{width: 94%;}
     #buy_block{width: 94%;}
@@ -676,7 +680,7 @@ Quick View Styles
 }
 .shop-price{padding-right: 0px;}
 .tiendaP{margin-left: 130px; color: #ef4136;}
-.description-product{text-align: justify; font-size: 13px; line-height: 18px; width: 90%; padding-top: 0%; padding-bottom: 3%;}
+.description-product{text-align: justify; font-size: 12px; font-weight: 400; letter-spacing: 2px; color: #949494; line-height: 18px; width: 90%; padding-top: 0%; padding-bottom: 3%;}
 
 @media (min-width:1200px) and (max-width:1440px){
     .owl-item{width: 230.1px !important; margin: 0px 0.5px !important;}
@@ -695,13 +699,14 @@ Quick View Styles
     .point-price{margin-right: 0px; margin-left: 5px; font-size: 16px; text-align: right !important;}
     .socialsharing_product button {width: 90px;height: 38px; font-size: 10px;}
     .price-shop{font-size: 15px; margin-left: 5px;}
-    .pb-center-column h1{padding-bottom: 7px;font-size: 18px; width: 85%;}
+    .pb-center-column h1{padding-bottom: 7px;font-size: 18px; width: 85%;letter-spacing: 2px;line-height: 50px;}
     .shop-pri{margin-left: 0px;padding-left: 3px !important;}
     p{line-height: 22px;}
     .pos-title{height: 35px;margin-top: 40px;margin-left: 0px;border: none;}
     .boxprevnext a.next{right: -5% !important;font-size: 14px; margin-top: -57px;}
     .boxprevnext a.prev {right: 16% !important; margin-top: -57px; font-size: 14px;}
     .primary_block{margin-bottom: 10px;}
+    .breadcrumb {margin-left: 0px;margin-left: -135px;width: 124%;}
     .title-price-point{padding-left: 0px;padding-bottom: 20px;background: transparent;}
     .price-point{background: transparent;text-align: right;padding-bottom: 20px; padding-left: 0px; padding-right: 66px;}
     .prueba{position: absolute; top: 12px; left: 240px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
@@ -713,7 +718,7 @@ Quick View Styles
     .tiendaP{text-align: left !important;margin-left: 0px;width: 30%;}
     .container{margin-left: 0px; margin-right: 0px; min-width: 100%;}
     .description-product{font-size: 16px;line-height: 25px;font-family: 'Open Sans'; width: 83%; padding-bottom: 4% !important;padding-top: 1% !important;margin-bottom: 0% !important;margin-left: 20px;}
-    .pb-center-column h1 {padding-bottom: 7px;font-size: 27px !important;width: 85%; padding-left: 0px;}
+    .pb-center-column h1 {letter-spacing: 2px; line-height: 50px;padding-bottom: 7px;font-size: 27px !important;width: 85%; padding-left: 0px;}
     .pb-center-column{ padding-left: 0px; padding-right: 20px;}
     p{ line-height: 18px;font-size: 14px;}
     .primary_block .pb-left-column img{width: 95%;}
