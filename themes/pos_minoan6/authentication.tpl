@@ -23,10 +23,10 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {capture name=path}
-	{if !isset($email_create)}{l s='Sign In'}{else}
-		<a href="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" rel="nofollow" title="{l s='Authentication'}">{l s='Authentication'}</a>
-		<span class="navigation-pipe">{$navigationPipe}</span>{l s='Create your account'}
-	{/if}
+    {if !isset($email_create)}{l s='Sign In'}{else}
+        <a href="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" rel="nofollow" title="{l s='Authentication'}">{l s='Authentication'}</a>
+        <span class="navigation-pipe">{$navigationPipe}</span>{l s='Create your account'}
+    {/if}
 {/capture}
 <h1 class="page-heading pag">{if !isset($email_create)}{l s='Sign In'}{else}{l s='Create an account'}{/if}</h1>
 {if isset($back) && preg_match("/^http/", $back)}{assign var='current_step' value='login'}{include file="$tpl_dir./order-steps.tpl"}{/if}
@@ -35,57 +35,90 @@
 {assign var="postCodeExist" value=false}
 {assign var="dniExist" value=false}
 {if !isset($email_create)}
-	<!--{if isset($authentification_error)}
-	<div class="alert alert-danger">
-		{if {$authentification_error|@count} == -1}
-			<p>{l s='There\'s at least one error'} :</p>
-			{else}
-			<p>{l s='There are %s errors' sprintf=[$account_error|@count]} :</p>
-		{/if}
-		<ol>
-			{foreach from=$authentification_error item=v}
-				<li>{$v}</li>
-			{/foreach}
-		</ol>
-	</div>
-	{/if}-->
+	{*if isset($authentification_error)}
+            <div class="alert alert-danger">
+                {if {$authentification_error|@count} == -1}
+                    <p>{l s='There\'s at least one error'} :</p>
+                {else}
+                    <p>{l s='There are %s errors' sprintf=[$account_error|@count]} :</p>
+                {/if}
+                <ol>
+                    {foreach from=$authentification_error item=v}
+                        <li>{$v}</li>
+                    {/foreach}
+                </ol>
+            </div>
+	{/if*}
+        <div class="row banner-container">
+            <div class="col-xs-12 col-sm-12 signup-account">
+                <img src="{$img_dir}login/banner.jpg" id="banner_login" />
+                <a href="http://reglas.fluzfluz.co/">
+                    <h2 id="learn_more">APRENDE M&Aacute;S</h2>
+                    <img src="{$img_dir}login/play.png" id="icon_play" />
+                </a>
+            </div>
+        </div>
 	<div class="row sign-account">
-                <div class="col-xs-12 col-sm-6 signup-account">
-                    <div class="info-box">
-			<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">
-				<h3 class="page-subheading borde-inf">{l s='Already registered?'}</h3>
-				<div class="form_content clearfix">
-					<div class="form-group">
-						<label for="email">{l s='Email address'}</label>
-						<input class="is_required validate account_input form-control" data-validate="isEmail" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
-					</div>
-					<div class="form-group">
-						<label for="passwd">{l s='Password'}</label>
-						<input class="is_required validate account_input form-control" type="password" data-validate="isPasswd" id="passwd" name="passwd" value="" />
-					</div>
-					<p class="lost_password form-group"><a href="{$link->getPageLink('password')|escape:'html':'UTF-8'}" title="{l s='Recover your forgotten password'}" rel="nofollow">{l s='Forgot your password?'}</a></p>
-					<p class="submit">
-						{if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
-						<button type="submit" id="SubmitLogin" name="SubmitLogin" class="button btn btn-default button-medium">
-							<span>
-								<i class="icon-lock left"></i>
-								{l s='Log In'}
-							</span>
-						</button>
-					</p>
-				</div>
-			</form>
-                    </div>
-		</div>
-		<div class="col-xs-12 col-sm-6 signup-account">
-                    <div class="info-box">
-                    <div class="box">
-                    <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
-                    <p>{l s="Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibiras un correo de confirmacion con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz."}</p>
-                    </div>
-		   </div>
-		</div>
+            <div class="col-xs-12 col-sm-6 signup-account">
+                <div class="info-box">
+                    <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">
+                        <h3 class="page-subheading borde-inf">{l s='Already registered?'}</h3>
+                        <div class="line-separator"></div>
+                        <div class="form_content clearfix">
+                            <div class="form-group">
+                                <label for="email">{l s='Email address'}</label>
+                                <input class="is_required validate account_input form-control" data-validate="isEmail" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="passwd">{l s='Password'}</label>
+                                <input class="is_required validate account_input form-control" type="password" data-validate="isPasswd" id="passwd" name="passwd" value="" />
+                            </div>
+                            <p class="lost_password form-group"><a href="{$link->getPageLink('password')|escape:'html':'UTF-8'}" title="{l s='Recover your forgotten password'}" rel="nofollow">{l s='Forgot your password?'}</a></p>
+                            <p class="submit">
+                                {if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
+                                <button type="submit" id="SubmitLogin" name="SubmitLogin" class="button btn btn-default button-medium">
+                                    <span>
+                                        <i class="icon-lock left"></i>
+                                        {l s='Log In'}
+                                    </span>
+                                </button>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 signup-account">
+                <div class="info-box">
+                    <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">
+                        <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
+                        <div class="line-separator"></div>
+                        <p>{l s="Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibiras un correo de confirmacion con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. No conoces a ningun fluzzer activo y quieres ser parte de Fluz Fluz para contruir tu red? Escribenos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarle."}</p>
+                    </form>
+                </div>
+            </div>
 	</div>
+        <div class="row container_tips">
+            <div class="col-xs-12 col-sm-4">
+                <img src="{$img_dir}login/piggy-bank.jpg" class="icon_tip" />
+                <h3>Ahorra!</h3>
+                <span>Entre m&aacute;s compras, m&aacute;s ahorras</span>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+                <img src="{$img_dir}login/email.jpg" class="icon_tip" />
+                <h3>Invita Amigos!</h3>
+                <span>Mientras m&aacute;s amigos invitas, m&aacute;s puntos recibes.</span>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+                <img src="{$img_dir}login/coins.jpg" class="icon_tip" />
+                <h3>Redime!</h3>
+                <span>Convierte tus puntos en dinero en efectivo!</span>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+                <img src="{$img_dir}login/pie-chart.jpg" class="icon_tip" />
+                <h3>Estad&iacute;sticas!</h3>
+                <span>Revisa tus estad&iacute;sticas para mejorar la obtenci&oacute;n de puntos.</span>
+            </div>
+        </div>
 	{if isset($inOrderProcess) && $inOrderProcess && $PS_GUEST_CHECKOUT_ENABLED}
 		<form action="{$link->getPageLink('authentication', true, NULL, "back=$back")|escape:'html':'UTF-8'}" method="post" id="new_account_form" class="std clearfix">
 			<div class="box">
