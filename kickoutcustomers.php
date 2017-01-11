@@ -116,8 +116,7 @@ class kickoutCustomers {
         
         // Mover usuario a grupo de clientes
         Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer['id']);
-        Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id'].",1)");
-        Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id'].",2)");
+        Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id'].",1), (".$customer['id'].",2)");
         Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET id_default_group = 2 WHERE id_customer = ".$customer['id']);
 
         $query = "INSERT INTO "._DB_PREFIX_."rewards_sponsorship_kick_out (id_sponsor, id_customer, email, lastname, firstname, date_add, date_kick_out, level)
