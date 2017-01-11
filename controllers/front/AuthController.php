@@ -552,8 +552,6 @@ class AuthControllerCore extends FrontController
                                 $cardExpirationDate = $_POST['Month'].'/'.$_POST['year'];
                             }
                             Db::getInstance()->Execute( 'INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$customer->firstname." ".$customer->lastname .'","'.$numCardCredit.'", "'.$cardExpirationDate.'")' );
-                            Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
-                            $customer->addGroups(array((int)Configuration::get('PS_CUSTOMER_GROUP')));
                             
                             $addresscreate = $customer->getAddresses(0);
 
@@ -586,6 +584,8 @@ class AuthControllerCore extends FrontController
                                         break;
                                 }
                             } else {
+                                Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
+                                Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer->id.",1), (".$customer->id.",2)");
                                 $payment_module = Module::getInstanceByName('bankwire');
                                 $payment_module->validateOrder($cart->id, 2, 0, 'Pedido Gratuito');
                                 Tools::redirect($this->context->link->getPageLink('my-account', true));
