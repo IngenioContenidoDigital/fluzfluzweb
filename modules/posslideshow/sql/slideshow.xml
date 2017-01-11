@@ -1,0 +1,77 @@
+<pos_slideshow>
+<!-- slideshow  configuration -->
+	<slideshow>
+		<id_pos_slideshow>1</id_pos_slideshow>
+		<porder>1</porder>
+		<active>1</active>
+	</slideshow>
+	<slideshow>
+		<id_pos_slideshow>2</id_pos_slideshow>
+		<porder>1</porder>
+		<active>1</active>
+	</slideshow>
+	
+<!-- language 1 -->
+	<slideshow_lang>
+		<id_pos_slideshow>1</id_pos_slideshow>
+		<id_lang>1</id_lang>
+		<title>At Finally started...</title>
+		<link>#</link>
+		<description>
+		<![CDATA[
+		<h2 class="title2">Huge sale</h2>
+		<h3 class="title3">up to 70% off Fahion collection</h3>
+		]]>
+		</description>
+	</slideshow_lang>
+	<slideshow_lang>
+		<id_pos_slideshow>2</id_pos_slideshow>
+		<id_lang>1</id_lang>
+		<title>At Finally started...</title>
+		<link>#</link>
+		<description>
+		<![CDATA[
+		<h2 class="title2">Huge sale</h2>
+		<h3 class="title3">up to 70% off Fahion collection</h3>
+		]]>
+		</description>
+	</slideshow_lang>
+	
+	
+<!--  language 2  -->
+	<slideshow_lang>
+		<id_pos_slideshow>1</id_pos_slideshow>
+		<id_lang>2</id_lang>
+		<title>At Finally started...</title>
+		<link>#</link>
+		<description>
+		<![CDATA[
+		<h2 class="title2">Huge sale</h2>
+		<h3 class="title3">up to 70% off Fahion collection</h3>
+		]]>
+		</description>
+	</slideshow_lang>
+	<slideshow_lang>
+		<id_pos_slideshow>2</id_pos_slideshow>
+		<id_lang>2</id_lang>
+		<title>At Finally started...</title>
+		<link>#</link>
+		<description>
+		<![CDATA[
+		<h2 class="title2">Huge sale</h2>
+		<h3 class="title3">up to 70% off Fahion collection</h3>
+		]]>
+		</description>
+	</slideshow_lang>
+	
+<!-- slideshop configuration -->
+	<slideshow_shop>
+		<id_pos_slideshow>1</id_pos_slideshow>
+		<id_shop>1</id_shop>
+	</slideshow_shop>
+    <slideshow_shop>
+		<id_pos_slideshow>2</id_pos_slideshow>
+		<id_shop>1</id_shop>
+	</slideshow_shop>	
+	  
+</pos_slideshow>
