@@ -159,6 +159,12 @@ class AdminCustomersControllerCore extends AdminController
                 'type' => 'datetime',
                 'search' => false,
                 'havingFilter' => true
+            ),
+            'last_purchase' => array(
+                'title' => $this->l('Ultima Compra'),
+                'type' => 'datetime',
+                'search' => false,
+                'havingFilter' => true
             )
         ));
 
@@ -185,7 +191,11 @@ class AdminCustomersControllerCore extends AdminController
             FROM '._DB_PREFIX_.'rewards_sponsorship_kick_out rsk
             WHERE rsk.id_customer = a.id_customer
             GROUP BY rsk.id_customer
-        ) as date_kick_out';
+        ) as date_kick_out, (
+            SELECT MAX(o.date_add)
+            FROM '._DB_PREFIX_.'orders o
+            WHERE o.id_customer = a.id_customer
+        ) as last_purchase';
 
         // Check if we can add a customer
         if (Shop::isFeatureActive() && (Shop::getContext() == Shop::CONTEXT_ALL || Shop::getContext() == Shop::CONTEXT_GROUP)) {
