@@ -113,6 +113,8 @@ class ProductCore extends ObjectModel
 
     /** @var string Reference */
     public $reference;
+    
+    public $product_parent;
 
     /** @var string Supplier Reference */
     public $supplier_reference;
@@ -287,6 +289,7 @@ class ProductCore extends ObjectModel
             'cache_is_pack' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'cache_has_attachments' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'is_virtual' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
+            'product_parent' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
 
             /* Shop fields */
             'id_category_default' =>        array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedId'),
@@ -569,7 +572,7 @@ class ProductCore extends ObjectModel
                 'reference' => pSQL($this->reference),
                 'ean13'     => pSQL($this->ean13),
                 'codetype' => pSQL($this->codetype),
-                'upc'        => pSQL($this->upc),
+                'upc'        => pSQL($this->upc)
             ), 'id_product = '.(int)$this->id.' AND id_product_attribute = 0');
         }
 

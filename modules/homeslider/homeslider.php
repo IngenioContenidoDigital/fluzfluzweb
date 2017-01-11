@@ -67,7 +67,8 @@ class HomeSlider extends Module
 		if (parent::install() &&
 			$this->registerHook('displayHeader') &&
 			$this->registerHook('displayTopColumn') &&
-			$this->registerHook('actionShopDataDuplication')
+			$this->registerHook('actionShopDataDuplication') || 
+                        !$this->registerHook('sliderBanner') 
 		)
 		{
 			$shops = Shop::getContextListShopID();
@@ -600,6 +601,24 @@ class HomeSlider extends Module
 		$this->smarty->assign('homeslider', $slider);
 		return $this->display(__FILE__, 'header.tpl');
 	}
+        
+        public function hooksliderBanner($params){
+                
+		$this->context->controller->addCSS($this->_path.'homeslider.css');
+		$this->context->controller->addJS($this->_path.'js/homeslider.js');
+		$this->context->controller->addJqueryPlugin(array('bxslider'));
+
+		$config = $this->getConfigFieldsValues();
+		$slider = array(
+			'width' => $config['HOMESLIDER_WIDTH'],
+			'speed' => $config['HOMESLIDER_SPEED'],
+			'pause' => $config['HOMESLIDER_PAUSE'],
+			'loop' => (bool)$config['HOMESLIDER_LOOP'],
+		);
+                $this->smarty->assign('homeslider', $slider);
+		return $this->display(__FILE__, 'cms.tpl');
+		//return $this->display(__FILE__, 'homeslider.tpl', $this->getCacheId());
+        }
 
 	public function hookdisplayTop($params)
 	{

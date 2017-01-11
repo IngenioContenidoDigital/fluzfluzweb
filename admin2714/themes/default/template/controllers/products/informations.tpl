@@ -119,10 +119,50 @@
 					<input type="radio" name="type_product" id="virtual_product" {if $is_in_pack}disabled="disabled"{/if} value="{Product::PTYPE_VIRTUAL}" {if $product_type == Product::PTYPE_VIRTUAL}checked="checked"{/if} >
 					{l s='Virtual product (services, booking, downloadable products, etc.)'}</label>
 			</div>
+                        <div class="checkbox col-lg-9" style="padding-left: 0px;">
+				<label for="product_parent">
+                                    <input type="checkbox" name="product_parent" onclick="metodoClick()" id="product_parent" value="1" {if $product_parent == true}checked="checked"{/if} >
+                                    {l s='Producto Padre'}</label> &nbsp;&nbsp;
+				<label for="product_parent">
+                                    <input type="checkbox" name="product_parent" id="product_noparent" value="0" {if $product_parent == false}checked="checked"{/if}>
+                                    {l s='Producto Simple'}</label>
+			</div>
 			<div class="row row-padding-top">
 				<div id="warn_virtual_combinations" class="alert alert-warning" style="display:none">{l s='You cannot use combinations with a virtual product.'}</div>
 				<div id="warn_pack_combinations" class="alert alert-warning" style="display:none">{l s='You cannot use combinations with a pack.'}</div>
 			</div>
+                        {literal}
+                            <script>
+                                
+                                $('[name="product_parent"]').click(function(){
+                                   var id = $(this).attr('id');
+                                   if(id=='product_parent'){
+                                       $(this).prop('checked');
+                                       $('#link-Prices').hide();
+                                       $('#link-ModuleFluzfluzcodes').hide();
+                                       $('#link-ModuleAllinone_rewards').hide();
+                                       $('#link-Quantities').hide();
+                                       $('#product_noparent').prop('checked',false);
+                                   }else{
+                                       $('#link-Prices').show();
+                                       $('#link-ModuleFluzfluzcodes').show();
+                                       $('#link-ModuleAllinone_rewards').show();
+                                       $('#link-Quantities').show();
+                                       $('#product_parent').prop('checked',false);
+                                   }
+                                });
+    
+                                $( document ).ready(function() {
+                                    if($('#product_parent').prop('checked')){
+                                        $('#link-Prices').hide();
+                                        $('#link-ModuleFluzfluzcodes').hide();
+                                        $('#link-ModuleAllinone_rewards').hide();
+                                        $('#link-Quantities').hide();
+                                    }
+                                });
+                                
+                            </script>
+                        {/literal}
 		</div>
 	</div>
 
