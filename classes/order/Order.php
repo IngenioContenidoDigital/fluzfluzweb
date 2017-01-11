@@ -2697,7 +2697,9 @@ class OrderCore extends ObjectModel
                                         <th>recompensa_pesos_compra</th>
                                         <th>recompensa_puntos_compra</th>
                                         <th>recompensa_pesos_red</th>
-                                        <th>recompensa_puntos_red</th>";
+                                        <th>recompensa_puntos_red</th>
+                                        <th>recompensa_total_pesos</th>
+                                        <th>recompensa_total_puntos</th>";
 
         for ($index = 0; $index <= 15; $index++) {
             $report .= "<th>usuario_nivel_".$index."</th>
@@ -2734,6 +2736,8 @@ class OrderCore extends ObjectModel
                             <td>".$order['recompensa_puntos_compra']."</td>
                             <td>".$order['recompensa_pesos_red']."</td>
                             <td>".$order['recompensa_puntos_red']."</td>
+                            <td>".$order['recompensa_total_pesos']."</td>
+                            <td>".$order['recompensa_total_puntos']."</td>
                             <td>".$order['usuario_nivel_0']."</td>
                             <td>".$order['recompensa_pesos_nivel_0']."</td>
                             <td>".$order['recompensa_puntos_nivel_0']."</td>
@@ -2875,7 +2879,7 @@ class OrderCore extends ObjectModel
             });
 
             $queryInsertReport = "";
-            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, estado_tarjeta, valor_utilizado, referencia_producto, precio_producto, costo_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
+            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, estado_tarjeta, valor_utilizado, referencia_producto, precio_producto, costo_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, recompensa_total_pesos, recompensa_total_puntos, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
                                   VALUES (
                                     ".$order['orden'].",
                                     '".$order['referencia']."',
@@ -2901,7 +2905,9 @@ class OrderCore extends ObjectModel
                                     ".number_format($usuariopuntospesos, 2, '.', '').",
                                     ".number_format($usuariopuntos, 2, '.', '').",
                                     ".number_format($redpuntospesos, 2, '.', '').",
-                                    ".number_format($redpuntos, 2, '.', '').",";
+                                    ".number_format($redpuntos, 2, '.', '').",
+                                    ".number_format(($usuariopuntospesos+$redpuntospesos), 2, '.', '').",
+                                    ".number_format(($usuariopuntos+$redpuntos), 2, '.', '').",";
             
             $emptys = 15;
             foreach ($sponsors_order as $sponsor_order) {
