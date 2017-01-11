@@ -83,10 +83,11 @@ margin-right: 0;
 .text-bannercat{font-size:30px; font-weight:lighter; font-family:'Open Sans'}
 
 /* Estilos css Comercios */
-.img-center{ padding-left: 0px; position: absolute; margin-top: 60px; margin-bottom: 60px; margin-left: 100px; padding-right: 0px;}
+.img-center{position: absolute;min-width: 100%;display: inline-block;margin-top:90px;}
 .img-category{width:15% !important;}
 .style-search{background:#ef4136;height: 75px;}
 .name-merchant{text-align:center;font-size: 12px;letter-spacing: 1px;margin-bottom: 5px; text-transform: uppercase; font-family:'Open Sans'}
+.img-responsive{margin-left: auto !important;margin-right: auto !important;display: table-cell;}
 
 @media (max-width:1024px){
     .owl-item{width: 225px !important;min-width: 0; margin:0px; margin-left: 18px !important;}
@@ -110,6 +111,7 @@ margin-right: 0;
     form#searchbox{position: initial !important;top: 0px !important;padding-left: 285px !important;}
     .container{ max-width: 1024px;}
     .containerFeatured{margin-bottom:0px !important; }
+    .img-center{margin-top:55px;}
 }
 
 @media (max-width:768px){
@@ -121,6 +123,7 @@ margin-right: 0;
     .btn-shop{margin-bottom: 60px !important;}
     .title-category{margin-top:120px !important; margin-bottom:0px !important;}
     .cont-category{margin-top: -21px;}
+    .img-center{margin-top:50px;}
 }
 
 @media (max-width:425px){
@@ -147,6 +150,7 @@ margin-right: 0;
     .text-bannercat {font-size: 22px;font-weight: lighter;font-family: 'Open Sans';}
     .btn-shop{width: 30% !important;margin-bottom: 40px !important;}
     .block{padding-top:0px;}
+    .img-center {margin-top: 100px;}
 }
 
 @media (max-width:375px){
@@ -161,6 +165,7 @@ margin-right: 0;
     .icon-chevron-right:before{font-size:16px;}
     form#searchbox input#search_query_block {max-width: 273px !important;}
     .btn-shop {width: 36% !important;margin-bottom: 32px !important;}
+    .img-center {margin-top: 90px;}
 }
 
 @media (max-width:320px){
@@ -178,6 +183,7 @@ margin-right: 0;
     .owl-carousel .owl-item{margin-left: 7px !important;}
     .owl-item {width: 289px !important;}
     .btn-shop>span {font-size: 9px !important;}
+    .img-center {margin-top: 65px;}
 }
 
 @media (min-width:1025px) and (max-width:1120px){

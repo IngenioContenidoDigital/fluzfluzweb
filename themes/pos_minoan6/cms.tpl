@@ -37,8 +37,10 @@
 		</div>
                         
 	{/if}
-        <div class="rte{if $content_only} content_only{/if}">
-            {$cms->content}
+        <div class="rte">
+            {*$cms->content*}
+            {hook h='bannerSlide'}
+            {*$slider*}
         </div>
         <div class="row style-search">
             <div id="search_block_left" class="block exclusive">
@@ -55,7 +57,6 @@
         </div>
         {include file="$tpl_dir./breadcrumb.tpl"}                            
         <div class="row cont-category">
-                
                 <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">
                     {$HOOK_LEFT_COLUMN}
                     <form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>
@@ -65,7 +66,7 @@
                     {hook h='newMerchants'}
                 </div>
                 <div class="col-lg-9 col-md-9 containerFeatured">
-                        {hook h='merchants'}
+                    {hook h='merchants'}
                 </div>
             {/if}
             {if $cms->id==6}
@@ -126,7 +127,7 @@
         .button.button-small{background: #c9b198;padding: 11px 26px !important;}
         .menuSticky{margin-top: 0px !important;}
         .block {margin-bottom: 18px;margin-top: 18px;}
-        .breadcrumb{border-bottom:1px solid #E9E9E9;}
+        .breadcrumb{border-bottom:1px solid #E9E9E9; padding: 10px 36px;}
         .boxprevnext2 a i{ background: #fff;}
         @media (max-width:420px){
             article.sectionBanner{margin-right: 0px !important;}   }         

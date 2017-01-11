@@ -1,17 +1,17 @@
 .oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 /* The Nivo Slider styles */
-.nivoSlider { position: relative; width: 100%; overflow: hidden; margin-top: 30px; margin-bottom: 30px; /* If an image is wrapped in a link */ }
+.nivoSlider { position: relative; width: 100%; overflow: hidden; margin-top: 0px; margin-bottom: 0px; height: 600px;/* If an image is wrapped in a link */ }
 .nivoSlider img { position: absolute; top: 0px; left: 0px; max-width: none; }
-.nivoSlider a.nivo-imageLink { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; z-index: 6; display: none; background: white; filter: alpha(opacity=0); opacity: 0; }
+.nivoSlider a.nivo-imageLink { position: absolute; top: 0px; left: 0px; width: 100%; height: auto; border: 0; padding: 0; margin: 0; z-index: 6; display: none; background: white; filter: alpha(opacity=0); opacity: 0; }
 
 .nivo-main-image { display: block !important; position: relative !important; width: 100% !important; }
 
 /* The slices and boxes in the Slider */
-.nivo-slice { display: block; position: absolute; z-index: 5; height: 100%; top: 0; }
+.nivo-slice { display: none; position: absolute; z-index: 5; height: 100%; top: 0; }
 
-.nivo-box { display: block; position: absolute; z-index: 5; overflow: hidden; }
-.nivo-box img { display: block; }
+.nivo-box { display: none; position: absolute; z-index: 5; overflow: hidden; }
+.nivo-box img { display: none; }
 
 /* Caption styles */
 .nivo-caption { display: none; }
@@ -21,19 +21,19 @@
 /* slideshow edit */
 .pos-slideshow { position: relative; }
 .pos-slideshow:hover .nivo-directionNav a { opacity: 1; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
-.pos-slideshow .nivo-directionNav a { display: block; width: 50px; height: 50px; line-height: 50px; background: #fff; color: #d8d8d8; text-align: center; font-size: 18px; position: absolute; z-index: 9; cursor: pointer; top: 50%; margin-top: -25px; opacity: 0; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
+.pos-slideshow .nivo-directionNav a { display: block; width: 50px; height: 50px; line-height: 50px; color: #ef4136; text-align: center; font-size: 60px; position: absolute; z-index: 9; cursor: pointer; top: 50%; margin-top: -25px; opacity: 0; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
 @media (max-width: 640px) { .pos-slideshow .nivo-directionNav a { display: none; } }
 .pos-slideshow .nivo-directionNav a.nivo-prevNav { left: 10px; }
 .pos-slideshow .nivo-directionNav a.nivo-nextNav { right: 10px; }
-.pos-slideshow .nivo-directionNav a:hover { background: rgba(64, 78, 83, 0.62); color: white; }
-.pos-slideshow .nivo-controlNav { position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; z-index: 9; }
+.pos-slideshow .nivo-directionNav a:hover { background: transparent; color: white; }
+.pos-slideshow .nivo-controlNav { position: absolute; bottom: 35px; left: 0; width: 100%; text-align: center; z-index: 9; }
 .pos-slideshow .nivo-controlNav a { display: inline-block; height: 15px; margin: 0 3px; font-size: 0; width: 15px; cursor: pointer; position: relative; text-align: center; z-index: 9; border-radius: 100%; border: 2px solid #fff; background: transparent; }
 .pos-slideshow .nivo-controlNav a:before { content: ""; display: block; position: absolute; top: 3px; bottom: 3px; right: 3px; left: 3px; background: #fff; border-radius: 100%; }
 .pos-slideshow .nivo-controlNav a.active { background: #ee4a42; }
 
 .pos-slideshow-caption { position: absolute; left: 0; top: 0; width: 100%; background: none; color: #fff; font-size: 16px; z-index: 9; }
 
-.pos-slideshow-content { position: absolute; top: 50%; left: 0; right: 0; text-align: center; z-index: 9; line-height: 1; margin-top: -115px; font-weight: 400; }
+.pos-slideshow-content { position: absolute; top: 45%; left: 0; right: 0; text-align: center; z-index: 9; line-height: 1; margin-top: -115px; font-weight: 400; }
 
 .pos-slideshow-title h3 { color: white; font-size: 25px; text-transform: uppercase; display: inline-block; margin: 0; }
 
@@ -41,31 +41,50 @@
 
 .pos_description h3.title3 { color: #fff; font-size: 16px; position: relative; margin: 0; letter-spacing: 5px; text-transform: uppercase; }
 
-.pos-slideshow-readmore a { background: transparent; font-size: 14px; padding: 0 25px; text-transform: uppercase; display: inline-block; color: #404e53; background: #fff; margin-top: 20px; line-height: 50px; font-weight: 700; }
+.pos-slideshow-readmore a { background: transparent; font-size: 14px; padding: 0 25px; text-transform: uppercase; display: inline-block; color: #fff; background: #c9b198; margin-top: 20px; line-height: 50px; font-weight: 700; }
 
 .pos-slideshow-readmore a:hover { background: #ee4a42; color: #fff; }
 
 .pos-slideshow-container .pos-loading { width: 16px; height: 16px; position: absolute; z-index: 99; background: url(../images/loader.gif) no-repeat; top: 50%; left: 50%; margin: -8px 0 0 -8px; }
 
 @media (max-width: 1199px) { .pos-slideshow-title h3 { font-size: 30px; }
+  .nivoSlider{height: 480px;}  
+  .pos-slideshow .nivo-controlNav{bottom: 10px;}
   .pos_description h2.title2 { font-size: 50px; }
   .pos_description h3.title3 { font-size: 16px; }
+  .pos-slideshow-readmore a{margin-top: 10px;}
   .pos-slideshow-readmore a { line-height: 40px; } }
 @media (max-width: 991px) { .pos-slideshow-title h3 { font-size: 20px; }
-  .pos_description h2.title2 { font-size: 40px; }
+  .nivoSlider{height: 380px;}  
+  .pos_description h2.title2 { font-size: 25px; }
+  #cms #center_column h3{padding: 0px;}
+  .pos-slideshow-readmore a{margin-top: 0px;}
+  .pos_description h2.title2{margin: 0px;}
   .pos_description h3.title3 { font-size: 14px; }
+  .pos-slideshow-content{top: 50%;}
   .pos-slideshow-readmore a { padding: 0 15px; } }
 @media (max-width: 767px) { .pos-slideshow-content { margin-top: -110px; }
+  .nivoSlider{height: 290px;}  
   .pos-slideshow-title h3 { font-size: 25px; }
   .pos_description h2.title2 { font-size: 40px; }
   .pos_description h3.title3 { font-size: 16px; }
   .pos-slideshow-readmore a { line-height: 30px; } }
 @media (max-width: 480px) { .pos-slideshow-content { margin-top: -70px; }
+  .nivoSlider{height: 230px;}  
+  .pos-slideshow-title{display: none;}
   .pos-slideshow-title h3 { font-size: 16px; }
-  .pos_description h2.title2 { font-size: 20px; padding: 5px 10px; margin: 5px 0; }
-  .pos_description h3.title3 { font-size: 12px; }
+  .pos_description h2.title2 { font-size: 12px; padding: 5px 10px; margin-top: 40px; margin-bottom: 10px; }
+  .pos_description h3.title3 { font-size: 12px; width: 100%; display: none;}
   .pos-slideshow-readmore a { line-height: 25px; font-size: 10px; margin-top: 5px; padding: 0 10px; } }
-@media (max-width: 320px) { .pos-slideshow-content { margin-top: -60px; } }
+@media (max-width:375px){
+  .nivoSlider{height: 210px;}  
+}
+@media (max-width: 320px) { .pos-slideshow-content { margin-top: -60px; }
+  .pos_description h2.title2{font-size: 10px; margin-bottom: 0px; padding: 0px; border: none;}    
+  .nivoSlider{height: 180px;}
+  .pos-slideshow .nivo-controlNav{ bottom: 4px;}
+  .pos-slideshow-readmore a{margin-top: 0px;}
+}
 /* slideshow*/
 @-webkit-keyframes zoomInRight { 0% { opacity: 0; -webkit-transform: scale3d(0.1, 0.1, 0.1) translate3d(1000px, 0, 0); transform: scale3d(0.1, 0.1, 0.1) translate3d(1000px, 0, 0); -webkit-animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19); animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19); }
   60% { opacity: 1; -webkit-transform: scale3d(0.475, 0.475, 0.475) translate3d(-10px, 0, 0); transform: scale3d(0.475, 0.475, 0.475) translate3d(-10px, 0, 0); -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1); animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1); } }
