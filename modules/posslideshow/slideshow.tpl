@@ -42,7 +42,7 @@
 								
 									 {if $slide.link}
 									<div class="pos-slideshow-readmore">
-										<a href="{$slide.link}">{l s='Shop now' mod= 'posslideshow'}</a>	
+										<a href="{$slide.link}">{l s='Comprar Ahora' mod= 'posslideshow'}</a>	
 									</div>
 									{/if}
 								</div>	

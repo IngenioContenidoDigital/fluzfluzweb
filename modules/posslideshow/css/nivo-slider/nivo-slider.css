@@ -457,7 +457,7 @@ animation: bounceInLeft 3000ms ease-in-out;
 	z-index:5;
 	overflow:hidden;
 }
-.nivo-box img { display:block; }
+.nivo-box img { display:none; }
 
 /* .nivo-caption {
   position:absolute;
