@@ -552,6 +552,7 @@ class AuthControllerCore extends FrontController
                                 $cardExpirationDate = $_POST['Month'].'/'.$_POST['year'];
                             }
                             Db::getInstance()->Execute( 'INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$customer->firstname." ".$customer->lastname .'","'.$numCardCredit.'", "'.$cardExpirationDate.'")' );
+                            Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
                             $customer->addGroups(array((int)Configuration::get('PS_CUSTOMER_GROUP')));
                             
                             $addresscreate = $customer->getAddresses(0);
