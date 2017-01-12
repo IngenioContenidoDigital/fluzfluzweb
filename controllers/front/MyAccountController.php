@@ -274,7 +274,7 @@ class MyAccountControllerCore extends FrontController
             $querydays = 'SELECT DATEDIFF(NOW(), date_add) AS days FROM '._DB_PREFIX_.'customer WHERE id_customer ='.$this->context->customer->id;
             $rowday = db::getInstance()->getRow($querydays);
             $days = $rowday['days'];
-            $days_total = round(($days/30)-1);
+            $days_total = round(($days/30));
             
             $orders = 'SELECT  COUNT(o.id_order) as total_orders FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)

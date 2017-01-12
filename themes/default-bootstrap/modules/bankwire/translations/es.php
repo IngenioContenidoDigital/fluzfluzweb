@@ -38,6 +38,8 @@ $_MODULE['<{bankwire}default-bootstrap>payment_execution_569fd05bdafa1712c4f6be5
 $_MODULE['<{bankwire}default-bootstrap>infos_c1be305030739396775edaca9813f77d'] = 'Este módulo permite aceptar pagos por transferencia bancaria.';
 $_MODULE['<{bankwire}default-bootstrap>infos_60742d06006fde3043c77e6549d71a99'] = 'Si el cliente elige pagar por transferencia bancaria, el pedido cambiará su estado a \"Pendiente de pago\"';
 $_MODULE['<{bankwire}default-bootstrap>infos_5fb4bbf993c23848433caf58e6b2816d'] = 'Por lo tanto, deberás confirmar el pedido en cuanto recibas la transferencia.';
+$_MODULE['<{bankwire}default-bootstrap>payment_5e1695822fc5af98f6b749ea3cbc9b4c'] = 'Pago por transferencia bancaria';
+$_MODULE['<{bankwire}default-bootstrap>payment_4e1fb9f4b46556d64db55d50629ee301'] = '(el procesamiento del pedido tomará más tiempo)';
 $_MODULE['<{bankwire}default-bootstrap>payment_return_88526efe38fd18179a127024aba8c1d7'] = 'Su pedido de %s está completo.';
 $_MODULE['<{bankwire}default-bootstrap>payment_return_1f8cdc30326f1f930b0c87b25fdac965'] = 'Por favor, háganos una transferencia por';
 $_MODULE['<{bankwire}default-bootstrap>payment_return_b2f40690858b404ed10e62bdf422c704'] = 'Importe';
@@ -51,6 +53,4 @@ $_MODULE['<{bankwire}default-bootstrap>payment_return_b9a1cae09e5754424e33764777
 $_MODULE['<{bankwire}default-bootstrap>payment_return_ca7e41a658753c87973936d7ce2429a8'] = 'Para cualquier duda o para más información, póngase en contacto con nuestro servicio';
 $_MODULE['<{bankwire}default-bootstrap>payment_return_66fcf4c223bbf4c7c886d4784e1f62e4'] = 'equipo experto de soporte al vendedor';
 $_MODULE['<{bankwire}default-bootstrap>payment_return_d15feee53d81ea16269e54d4784fa123'] = 'Hay un problema con su pedido, póngase en contacto con el servicio de atención al cliente.';
-$_MODULE['<{bankwire}default-bootstrap>payment_5e1695822fc5af98f6b749ea3cbc9b4c'] = 'Pago por transferencia bancaria';
-$_MODULE['<{bankwire}default-bootstrap>payment_4e1fb9f4b46556d64db55d50629ee301'] = '(el procesamiento del pedido tomará más tiempo)';
 $_MODULE['<{bankwire}default-bootstrap>payment_return_decce112a9e64363c997b04aa71b7cb8'] = 'de atención al cliente';

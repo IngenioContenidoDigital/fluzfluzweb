@@ -68,7 +68,7 @@ $_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_48e3d5f66961b621c78f709a
 $_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_dca37b874cf34bd5ebcf1c2fdc59a8b4'] = 'ATENCIÓN: Cuando abra este archivo .csv con Excel, elija codificación UTF-8 para evitar caracteres extraños.';
 $_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_b40866b115d74009183e06fc86b5c014'] = 'Error: Acceso de escritura limitado';
 $_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_87b0ca57db642f4e7780174a6abdc37d'] = '¡No se encontraron resultados!';
-$_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_ffb7e666a70151215b4c55c6268d7d72'] = 'Boletín';
+$_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_ffb7e666a70151215b4c55c6268d7d72'] = 'Quieres ser Fluzzer y pedir una invitación?';
 $_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_416f61a2ce16586f8289d41117a2554e'] = 'su email';
 $_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_d8335f4a5d918134bd0bdc47cc487d74'] = 'Introduzca su dirección de correo electrónico';
-$_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_64fd329ebe420a42bda5f9e0d6557803'] = 'Registrar';
+$_MODULE['<{blocknewsletter}pos_minoan6>blocknewsletter_64fd329ebe420a42bda5f9e0d6557803'] = 'Enviar';

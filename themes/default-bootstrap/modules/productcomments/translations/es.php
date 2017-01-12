@@ -58,7 +58,6 @@ $_MODULE['<{productcomments}default-bootstrap>productcomments_20089c27bf83463fe3
 $_MODULE['<{productcomments}default-bootstrap>productcomments_4d3d769b812b6faa6b76e1a8abaece2d'] = 'Activar';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_6f7351657f795bc1357a53142b1184cc'] = 'Aprobar';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_ecf74aa77715220b378ec668e75655a8'] = 'No abusivo';
-$_MODULE['<{productcomments}default-bootstrap>productcomments_reviews_e32b7983d3bf98a65e3e96c393867dfa'] = '%s Comentario(s)';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_ab51a81c76d95ddc762194d58ec5db63'] = '¿Seguro que quieres denunciar este comentario?';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_9a2ccd41653469a8bd94fbb84b271a14'] = '¡Tu comentario ha sido añadido!';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_b20968d9aecd2d075519992e9e2f1ffe'] = 'Tu comentario ha sido añadido y estará disponible una vez lo apruebe un moderador.';
@@ -80,6 +79,7 @@ $_MODULE['<{productcomments}default-bootstrap>productcomments_70397c4b252a5168c5
 $_MODULE['<{productcomments}default-bootstrap>productcomments_94966d90747b97d1f0f206c98a8b1ac3'] = 'Enviar';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_e81c4e4f2b7b93b481e13a8553c2ae1b'] = 'total';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_ea4788705e6873b424c65e91c2846b19'] = 'Cancelar';
+$_MODULE['<{productcomments}default-bootstrap>productcomments_reviews_e32b7983d3bf98a65e3e96c393867dfa'] = '%s Comentario(s)';
 $_MODULE['<{productcomments}default-bootstrap>products-comparison_8413c683b4b27cc3f4dbd4c90329d8ba'] = 'Comentarios';
 $_MODULE['<{productcomments}default-bootstrap>products-comparison_b1897515d548a960afe49ecf66a29021'] = 'regular';
 $_MODULE['<{productcomments}default-bootstrap>products-comparison_bc976f6c3405523cde61f63a7cbe224b'] = 'ver los comentarios';
@@ -96,7 +96,6 @@ $_MODULE['<{productcomments}default-bootstrap>default_ba8d7ae5dcadfba739f28a7773
 $_MODULE['<{productcomments}default-bootstrap>productcomments-extra_dda9c06f33071c9b6fc237ee164109d8'] = 'Valoración';
 $_MODULE['<{productcomments}default-bootstrap>productcomments-extra_899139b5174d8d7a6e38a0360008a695'] = 'Leer los comentarios de los usuarios';
 $_MODULE['<{productcomments}default-bootstrap>productcomments-extra_c31732fda0c6f01c446db7163b214de4'] = 'Escribe tu opinión';
-$_MODULE['<{productcomments}default-bootstrap>productcomments_reviews_d844ad9202d0de8442498775ba6ef819'] = 'Comentario(s)';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_93cba07454f06a4a960172bbd6e2a435'] = 'Sí';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_bafd7322c6e97d25b6299b5d6fe8920b'] = 'No';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_c565011debb8e2812ef12853eb6a38a9'] = '¡Escriba su opinión!';
@@ -107,5 +106,6 @@ $_MODULE['<{productcomments}default-bootstrap>productcomments_240f3031f25601fa12
 $_MODULE['<{productcomments}default-bootstrap>productcomments_a2ed44743411cf8b80e397448fce104c'] = 'Su nombre:';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_a4d3b161ce1309df1c4e25df28694b7b'] = 'Enviar';
 $_MODULE['<{productcomments}default-bootstrap>productcomments_4e3ee0f5bd8f527715fb0776741b9754'] = 'Su comentario ha sido añadido y estará disponible una vez lo apruebe un moderador.';
+$_MODULE['<{productcomments}default-bootstrap>productcomments_reviews_d844ad9202d0de8442498775ba6ef819'] = 'Comentario(s)';
 $_MODULE['<{productcomments}default-bootstrap>products-comparison_5d9acecbb0b55a71dea7403896356001'] = 'Ver comentarios';
 $_MODULE['<{productcomments}default-bootstrap>tab_34e80a799d144cfe4af46815e103f017'] = 'Reseñas';
