@@ -37,24 +37,45 @@
 		</div>
                         
 	{/if}
-        <div class="rte{if $content_only} content_only{/if}">
-        {$cms->content}
+        <div class="rte">
+            {*$cms->content*}
+            {hook h='bannerSlide'}
+            {*$slider*}
         </div>
-        <div class="row containerFeatured">
-                {hook h='customCMS'}
-        </div>
-        {if $cms->id==6}
-            <div class="row containerFeatured"> 
-                {hook h='newMerchants'}
+        <div class="row style-search">
+            <div id="search_block_left" class="block exclusive">
+                    <form method="get" action="{$link->getPageLink('search', true, null, null, false, null, true)|escape:'html':'UTF-8'}" id="searchbox">
+                            <p class="block_content clearfix">
+                                    <input type="hidden" name="orderby" value="position" />
+                                    <input type="hidden" name="controller" value="search" />
+                                    <input type="hidden" name="orderway" value="desc" />
+                                    <input class="search_query form-control grey" placeholder="Search by brand" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                    <button type="submit" id="search_button" class="btn btn-default button button-small"><span><i class="icon-search"></i></span></button>
+                            </p>
+                    </form>
             </div>
-        {/if}
-        {if $cms->id==6}
-            {capture name='blockPosition3'}{hook h='blockPosition3'}{/capture}
-            {if $smarty.capture.blockPosition3}
-                {$smarty.capture.blockPosition3}
+        </div>
+        {include file="$tpl_dir./breadcrumb.tpl"}                            
+        <div class="row cont-category">
+                <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">
+                    {$HOOK_LEFT_COLUMN}
+                    <form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>
+                </div>
+            {if $cms->id==6}
+                <div class="col-lg-9 col-md-9 containerFeatured"> 
+                    {hook h='newMerchants'}
+                </div>
+                <div class="col-lg-9 col-md-9 containerFeatured">
+                    {hook h='merchants'}
+                </div>
             {/if}
-        {/if}
-	       
+            {if $cms->id==6}
+                {capture name='blockPosition3'}{hook h='blockPosition3'}{/capture}
+                {if $smarty.capture.blockPosition3}
+                    {$smarty.capture.blockPosition3}
+                {/if}
+            {/if}
+        </div>   
 {elseif isset($cms_category)}
 	<div class="block-cms">
 		<h1><a href="{if $cms_category->id eq 1}{$base_dir}{else}{$link->getCMSCategoryLink($cms_category->id, $cms_category->link_rewrite)}{/if}">{$cms_category->name|escape:'html':'UTF-8'}</a></h1>
@@ -101,6 +122,13 @@
     <style>
         .btn-shop{width: 50%;}
         .quick .icon-search:before{display: none;}
+        form#searchbox{position: initial !important; top: 0px !important;padding-left: 490px;}
+        form#searchbox input#search_query_block{margin-bottom: 0px !important;padding: 18.5px !important; max-width: 380px; margin-right: 0px !important;}
+        .button.button-small{background: #c9b198;padding: 11px 26px !important;}
+        .menuSticky{margin-top: 0px !important;}
+        .block {margin-bottom: 18px;margin-top: 18px;}
+        .breadcrumb{border-bottom:1px solid #E9E9E9; padding: 10px 36px;}
+        .boxprevnext2 a i{ background: #fff;}
         @media (max-width:420px){
             article.sectionBanner{margin-right: 0px !important;}   }         
         @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}

@@ -8,6 +8,7 @@ config/settings.inc.php
 /img/p/*.jpg
 /img/p/*.png
 /img/tmp/*
+/img/m/*
 *.md
 *.woff
 *.ttf

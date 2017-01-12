@@ -22,7 +22,6 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-
 <!-- New Merchants -->          
         
         {*foreach from=$merchants item=merchant name=merchants}
@@ -49,7 +48,7 @@
         
         <section class="page-product-box blockproductscategory">
                 <div class="divTitleFeatured">
-                    <h1 class="titleFeatured2">{l s="COMERCIOS"}</h1>
+                    <h1 class="titleFeatured2">{l s="COMERCIOS DESTACADOS"}</h1>
                 </div>
 
                 <div class="boxprevnext2">
@@ -61,16 +60,15 @@
                         <div id="product_categoryAll2">
                                 {foreach from=$merchants item=merchant name=merchants}
                                         <li class="ajax_block_product nopadding">
-                                                <div class="title-block title-merchant">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 0px;padding-right: 0px;"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 save-product"></div>
-                                                </div>
                                                 <div>
-                                                        <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
-                                                            <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" />
-                                                        </a>
+                                                    <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                        <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
+                                                        <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                    </a>
                                                 </div>
                                                 <div>&nbsp;</div>
+                                                <div class="name-merchant"> {$merchant.name} </div>
+                                                <div class="name-merchant" style="color: #ef4136; margin-bottom: 40px;">{l s="GANA HASTA"}&nbsp;{((($merchant.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$merchant.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
                                         </li>
                                 {/foreach}
                         </div>
@@ -101,7 +99,9 @@
 		})     
     });
 </script>
-
+{literal}
 <style>
     .title-merchant { text-transform: capitalize; color: #000; }
+    .owl-item {border:1px solid #CBCBCB;}
 </style>
+{/literal}

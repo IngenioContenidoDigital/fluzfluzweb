@@ -1,3 +1,8 @@
+
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
+
 .oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 /**************************************************************
@@ -72,19 +77,25 @@ margin-right: 0;
 }
 
 #columns{
-    margin-bottom:10% !important;
+    margin-bottom:5% !important;
 }
 
+.text-bannercat{font-size:30px; font-weight:lighter; font-family:'Open Sans'}
+
+/* Estilos css Comercios */
+.img-center{position: absolute;min-width: 100%;display: inline-block;margin-top:90px;}
 .img-category{width:15% !important;}
+.style-search{background:#ef4136;height: 75px;}
+.name-merchant{text-align:center;font-size: 12px;letter-spacing: 1px;margin-bottom: 5px; text-transform: uppercase; font-family:'Open Sans'}
+.img-responsive{margin-left: auto !important;margin-right: auto !important;display: table-cell;}
 
 @media (max-width:1024px){
-    .owl-item{width: 234px !important;min-width: 0; margin:0px; margin-left: 18px !important;}
-    .title-category{margin-top:0px !important; margin-bottom:0px !important;}
+    .owl-item{width: 225px !important;min-width: 0; margin:0px; margin-left: 18px !important;}
+    .title-category{margin-top:80px !important; margin-bottom:0px !important;}
     .banner-box{background-size:100% !important;}
     .divTitleFeatured{ width: 97.3%; margin-left:9px; height: 50px;}
     .titleFeatured{height: 50px; line-height: 52px !important;font-size: 12px;}
-    .title-category{font-size:40px !important;}
-    .btn-shop{width:50% !important; height: 38px !important; padding-top: 10px !important;}
+    .btn-shop{width:20% !important; height: 38px !important; padding-top: 10px !important;}
     .btn-shop>span{font-size:13px !important;}
     .boxprevnext2 a i{line-height: 50px;}
     .titleFeatured2{height: 50px;Line-height: 52px !important;font-size: 12px;}
@@ -97,18 +108,27 @@ margin-right: 0;
     .prueba{left: 170px;}
     .menuAccount{font-size:13px;}
     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
+    form#searchbox{position: initial !important;top: 0px !important;padding-left: 285px !important;}
+    .container{ max-width: 1024px;}
+    .containerFeatured{margin-bottom:0px !important; }
+    .img-center{margin-top:55px;}
 }
 
 @media (max-width:768px){
     .owl-carousel{left: -4px;}
     .divTitleFeatured{width:98%;margin-top: 0px;}
-    .owl-item{width: 237px !important;}
+    .owl-item{width: 225px !important;}
     .boxprevnext2 a{margin-top:0px;}
+    form#searchbox{position: initial !important;top: 0px !important;padding-left: 170px !important;}
+    .btn-shop{margin-bottom: 60px !important;}
+    .title-category{margin-top:120px !important; margin-bottom:0px !important;}
+    .cont-category{margin-top: -21px;}
+    .img-center{margin-top:50px;}
 }
 
 @media (max-width:425px){
-    .owl-item{width: 413px !important;margin-left: 13px !important;}
-    .title-category{margin-top: -20px !important;font-size:25px !important;}
+    .owl-item{width: 385px !important;margin-left: 10px !important;}
+    .title-category{margin-top: 35px !important;font-size:25px !important;}
     .btn-shop{ margin-top: -30px !important;}
     .divTitleFeatured{margin-top: 10px !important; margin-left: 6px !important;margin-bottom: 10px !important; width: 97%;}
     .boxprevnext2 a{margin-top: 10px !important;}
@@ -120,29 +140,50 @@ margin-right: 0;
     .icon-chevron-left:before{font-size:16px;}
     .icon-chevron-right:before{font-size:16px;}
     .banner-box{background-size:500px !important;}
+    form#searchbox{padding-left: 20px !important;}
+    form#searchbox input#search_query_block{max-width: 318px !important;}
+    .owl-carousel .owl-wrapper{    margin-left: 8px;}
+    .section-cms{padding-left:0px !important; padding-right:0px !important;}
+    .asideCategory{padding-left:0px !important; padding-right:0px !important;}
+    #cms #center_column img{margin-bottom:0px;}
+    .banner2{margin-top: 65px !important;}
+    .text-bannercat {font-size: 22px;font-weight: lighter;font-family: 'Open Sans';}
+    .btn-shop{width: 30% !important;margin-bottom: 40px !important;}
+    .block{padding-top:0px;}
+    .img-center {margin-top: 100px;}
 }
 
 @media (max-width:375px){
     .menuSticky{ margin-bottom: 21px !important;}
-    .owl-item{ width: 365px !important;}
-    .owl-carousel .owl-item{ margin-left: 12px !important;}
-    .banner2{margin-top: -21px !important;background-size: 450px !important;}
+    .owl-item{ width: 345px !important;}
+    .owl-carousel .owl-item{ margin-left: 6px !important;}
+    .banner2{margin-top: 60px !important;background-size: 450px !important;}
     .boxprevnext2 a{width: 50px;}
     .boxprevnext2 a.prev{right: 55px; width: 50px;}
     .boxprevnext2 a.next{right: 6px;}
     .icon-chevron-left:before{font-size:16px;}
     .icon-chevron-right:before{font-size:16px;}
+    form#searchbox input#search_query_block {max-width: 273px !important;}
+    .btn-shop {width: 36% !important;margin-bottom: 32px !important;}
+    .img-center {margin-top: 90px;}
 }
 
 @media (max-width:320px){
-    .title-category{ margin-top: -33px !important; font-size: 16px !important;}
-    .btn-shop>span {font-size: 8px !important;}
+    .title-category{ margin-top: 12px !important; font-size: 16px !important;}
     .owl-item {width: 325px !important;}
     .boxprevnext2 a.prev{right: 70px;}
     .boxprevnext2 a.next{right: 21px;}
     .divTitleFeatured{width: 96%;}
     .title-block{width:95%;}
-    .pruebaImgCategory{width: 95% !important;}
+    .pruebaImgCategory{width: 100% !important;}
+    form#searchbox input#search_query_block {max-width: 216px !important;}
+    .banner2{ background-size: 380px !important;}
+    .btn-shop{margin-bottom: 26px !important; width: 40% !important;}
+    .text-bannercat {font-size: 18px;font-weight: lighter;font-family: 'Open Sans';}
+    .owl-carousel .owl-item{margin-left: 7px !important;}
+    .owl-item {width: 289px !important;}
+    .btn-shop>span {font-size: 9px !important;}
+    .img-center {margin-top: 65px;}
 }
 
 @media (min-width:1025px) and (max-width:1120px){
@@ -150,45 +191,48 @@ margin-right: 0;
     .sectionFooter{padding-left: 6px !important;}
     .section-cms {padding-left:0px !important;}
     .asideCategory{padding-right:14px !important; padding-left:8px !important;}
-    .owl-carousel .owl-wrapper{margin-left: 11px !important;}
+    .owl-carousel .owl-wrapper{margin-left: 0px !important;}
     .divTitleFeatured{ width: 97.5%; margin-left:10px; height: 50px;}
     .banner-box{background-size:100% !important;}
-    .title-category{margin-top:0px !important; margin-bottom:0px !important; font-size:42px !important;}
+    .title-category{margin-top:100px !important; margin-bottom:0px !important; font-size:42px !important;}
     .btn-shop{margin-top: -15px !important;}
     .titleFeatured{height: 50px; line-height: 52px !important;font-size: 12px;}
     .titleFeatured2{height: 50px;Line-height: 52px !important;font-size: 12px;}
     .boxprevnext2 a i{line-height: 50px;}
     .btn-shop>span{font-size:13px !important;}
     .owl-carousel .owl-wrapper{margin-bottom:0px !important;}
-    .owl-item{margin: 0px 8px !important; width: 249px !important;}
+    .owl-item{margin: 0px 8px !important; width: 240px !important;}
     .menuAccountProfile{width:40px;}
     .prueba{left: 171px;}
     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
+    form#searchbox{ padding-left: 310px !important;}
+    .container{max-width: 1080px;}
 }
 
 @media (min-width:1200px) and (max-width:1440px){
-    .sectionBanner{padding-left: 15px !important;}
+    .sectionBanner{padding-left: 0px !important; }
     .sectionFooter{padding-left: 9px !important;}
-    .section-cms {padding-left:0px !important;}
-    .asideCategory{padding-right:14px !important; padding-left:8px !important;}
-    .owl-item{margin: 0px 8px !important; width: 248px !important;}
+    .section-cms {padding-left:0px !important;padding-right: 0px;}
+    .asideCategory{padding-right:0px !important; padding-left:0px !important;}
+    .owl-item{margin: 0px 8px !important; width: 328px !important;}
     .owl-carousel .owl-wrapper{margin-left: 1px !important;}
     .divTitleFeatured{ width: 97.5%; margin-left:14px;}
     .banner-box{background-size:100% !important;}
-    .title-category{margin-top:0px !important; margin-bottom:0px !important; font-size:42px !important;}
-    .btn-shop{margin-top: -15px !important;}
+    .title-category{margin-top:100px !important; margin-bottom:0px !important; letter-spacing: 10px; font-size:42px !important;}
+    .btn-shop{width: 150px !important;margin-top: 0px !important;}
     .owl-carousel .owl-wrapper{margin-bottom:0px !important;}
     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
+    .container{max-width: 1440px;}
 }
 
 @media (min-width:1451px) and (max-width:2600px){
 
-    .owl-item{width: 289px !important; min-width: 0; margin-left: 0px !important;}
+    .owl-item{width: 342px !important; min-width: 0; margin-left: 0px !important;}
     /*.banner-box{width: 123% !important; margin-left:-131px;}*/
     .banner-box{background-size: 100% !important;}
-    .title-category{margin-top:0px !important; margin-bottom:0px !important; font-size:50px !important;}
-    .btn-shop{margin-top: -15px !important;}
-    .banner2{ width: 100% !important; margin-left: 0;}
+    .title-category{margin-top:160px !important; margin-bottom:0px !important; font-size:50px !important;}
+    .btn-shop{margin-top: 10px !important;width: 180px !important;}
+    .banner2{ width: 100% !important; margin-left: 0;    height: 450px !important;}
     .img-category{width:10% !important;}
     .divTitleFeatured{margin-left: 0 !important; width: 1191px !important;}
     .sectionBanner {padding-left: 0px !important; margin-left: 0;}
@@ -200,5 +244,8 @@ margin-right: 0;
     .menuAccount{height: 45px;}
     .menuAccountProfile{height: 45px;}
     .iWhite{ padding: 10px;}
+    .container{ max-width: 1920px;}
+    .text-bannercat {font-size: 60px;font-weight: lighter;letter-spacing: 10px;font-family: 'Open Sans';}
+    form#searchbox{position: initial !important;top: 0px !important;padding-left: 740px !important;}
 }
 
