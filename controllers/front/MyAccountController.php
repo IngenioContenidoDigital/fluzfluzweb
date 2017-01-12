@@ -286,23 +286,17 @@ class MyAccountControllerCore extends FrontController
             $roworders = db::getInstance()->getRow($orders);
             $order = $roworders['total_orders'];
             
-            /*$query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
-                LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
-                LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
-                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() 
-                AND o.id_customer='.(int)$this->context->customer->id.' 
-                AND o.payment != "Pedido gratuito"
-                AND r.id_reward_state=2 
-                AND r.plugin="loyalty"
-                AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';*/
-            
-            $query='SELECT count(o.id_order) AS compras_mes FROM '._DB_PREFIX_.'orders AS o WHERE (o.id_customer='.(int)$this->context->customer->id.' AND o.id_order IN (SELECT od.id_order FROM '._DB_PREFIX_.'order_detail AS od 
+            $query='SELECT count(o.id_order) AS compras_mes, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, 
+                    DATE_FORMAT(date_add(o.date_add, INTERVAL 2 MONTH),"%d %b %Y") AS date_cancel
+                    FROM '._DB_PREFIX_.'orders AS o WHERE (o.id_customer='.(int)$this->context->customer->id.' AND o.id_order IN (SELECT od.id_order FROM '._DB_PREFIX_.'order_detail AS od 
                     LEFT JOIN '._DB_PREFIX_.'rewards AS rw ON od.id_order=rw.id_order WHERE (rw.id_reward_state=2 AND rw.plugin="loyalty" AND od.product_reference != "MFLUZ" 
                     AND (MONTH(o.date_add)=MONTH(NOW())))))';
             
             $rowmes = db::getInstance()->getRow($query);
             $compras_mes = $rowmes['compras_mes'];
- 
+            $date = $rowmes['date'];
+            $dateCancel = $rowmes['date_cancel'];
+            
             if($days_total >= 1){
                 if($order<($days_total*2) && (($days_total*2)-$order)>1){
                     switch($compras_mes){
@@ -311,24 +305,32 @@ class MyAccountControllerCore extends FrontController
                             $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
                             $alertpurchaseorder['orden'] = $compras_mes;
                             $alertpurchaseorder['quantity_max']=(($days_total*2)-$order);
+                            $alertpurchaseorder['date'] = $date;
+                            $alertpurchaseorder['dateCancel'] = $dateCancel;
                             break;
                         case '1':
                             $alertpurchaseorder['alert'] = 3;
                             $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
                             $alertpurchaseorder['orden'] = $order;
                             $alertpurchaseorder['quantity_max']=($days_total*2);
+                            $alertpurchaseorder['date'] = $date;
+                            $alertpurchaseorder['dateCancel'] = $dateCancel;
                             break;
                         case '2':
                             $alertpurchaseorder['alert'] = 3;
                             $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
                             $alertpurchaseorder['orden'] = $order;
                             $alertpurchaseorder['quantity_max']=($days_total*2);
+                            $alertpurchaseorder['date'] = $date;
+                            $alertpurchaseorder['dateCancel'] = $dateCancel;
                             break;
                         default:
                             $alertpurchaseorder['alert'] = 3;
                             $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
                             $alertpurchaseorder['orden'] = $order;
                             $alertpurchaseorder['quantity_max']=($days_total*2);
+                            $alertpurchaseorder['date'] = $date;
+                            $alertpurchaseorder['dateCancel'] = $dateCancel;
                             break;
                     }
                 }elseif(($order<($days_total*2) && (($days_total*2)-$order)<=1)){
@@ -336,6 +338,7 @@ class MyAccountControllerCore extends FrontController
                         $alertpurchaseorder['quantity'] = 2;
                         $alertpurchaseorder['orden'] = $compras_mes;
                         $alertpurchaseorder['quantity_max']=2;
+                        $alertpurchaseorder['date'] = $date;
                         
                 }elseif(($order>=($days_total*2)) && ($compras_mes<2)){
                     switch($compras_mes){
@@ -344,12 +347,15 @@ class MyAccountControllerCore extends FrontController
                             $alertpurchaseorder['quantity'] = 2;
                             $alertpurchaseorder['orden'] = $compras_mes;
                             $alertpurchaseorder['quantity_max']=2;
+                            $alertpurchaseorder['date'] = $date;
+                            $alertpurchaseorder['dateCancel'] = $dateCancel;
                             break;
                         case '1':
                             $alertpurchaseorder['alert'] = 1;
                             $alertpurchaseorder['quantity'] = 2-$compras_mes;
                             $alertpurchaseorder['orden'] = $compras_mes;
                             $alertpurchaseorder['quantity_max']=2;
+                            $alertpurchaseorder['date'] = $date;
                             break;
                         case '2':
                             $alertpurchaseorder['alert'] = 2;
