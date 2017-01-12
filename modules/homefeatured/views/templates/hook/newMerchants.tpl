@@ -68,7 +68,7 @@
                                                 </div>
                                                 <div>&nbsp;</div>
                                                 <div class="name-merchant"> {$merchant.name} </div>
-                                                <div class="name-merchant" style="color: #ef4136; margin-bottom: 40px;">{l s="GANA HASTA"}&nbsp;{((($merchant.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$merchant.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
+                                                <div class="name-merchant" style="color: #ef4136; margin-bottom: 40px;">{l s="GANA HASTA"}&nbsp;{$merchant.value|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
                                         </li>
                                 {/foreach}
                         </div>

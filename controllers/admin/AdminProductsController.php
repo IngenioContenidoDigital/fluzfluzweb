@@ -254,6 +254,15 @@ class AdminProductsControllerCore extends AdminController
                 //'hint' => $this->l('This is the quantity available in the current shop/group.'),
             );
         }
+        
+        $this->fields_list['product_parent'] = array(
+            'title' => $this->l('Producto Padre'),
+            'active' => 'status',
+            'align' => 'text-center',
+            'type' => 'bool',
+            'class' => 'fixed-width-sm',
+            'orderby' => false
+        );
 
         $this->fields_list['active'] = array(
             'title' => $this->l('Status'),
@@ -719,6 +728,7 @@ class AdminProductsControllerCore extends AdminController
             unset($product->id_product);
             $product->indexed = 0;
             $product->active = 0;
+            $product->product_parent=0;
             if ($product->add()
             && Category::duplicateProductCategories($id_product_old, $product->id)
             && Product::duplicateSuppliers($id_product_old, $product->id)
@@ -1483,6 +1493,7 @@ class AdminProductsControllerCore extends AdminController
                         pl.name nombre_producto,
                         p.reference referencia,
                         p.price precio,
+                        p.product_parent,
                         p.price_shop precio_tienda,
                         rp.value porcentaje_red,
                         m.name fabricante,
@@ -1524,6 +1535,7 @@ class AdminProductsControllerCore extends AdminController
                                         <th>proveedor</th>
                                         <th>categorias</th>
                                         <th>imagen</th>
+                                        <th>Producto Padre</th>
                                         <th>estado</th>
                                         <th>unidades_disponibles</th>
                                         <th>unidades_vendidas</th>
@@ -1554,6 +1566,7 @@ class AdminProductsControllerCore extends AdminController
                                 <td>".$product['proveedor']."</td>
                                 <td>".substr($categories, 0, -1)."</td>
                                 <td>".$imageurl."</td>
+                                <td>".$product['product_parent']."</td>
                                 <td>".$product['estado']."</td>
                                 <td>".$product['unidades_disponibles']."</td>
                                 <td>".$product['unidades_vendidas']."</td>
@@ -1576,6 +1589,7 @@ class AdminProductsControllerCore extends AdminController
             $sql = "SELECT
                         p.id_product,
                         pl.name,
+                        p.product_parent,
                         p.reference,
                         m.name merchant,
                         IF(p.active = 1,'Activo','Inactivo') status,
@@ -1601,6 +1615,7 @@ class AdminProductsControllerCore extends AdminController
                                         <th>nombre</th> 
                                         <th>referencia</th>
                                         <th>fabricante</th>
+                                        <th>producto padre</th>
                                         <th>estado</th>
                                         <th>descripcion larga producto</th>
                                         <th>descripcion corta producto</th>
@@ -1614,6 +1629,7 @@ class AdminProductsControllerCore extends AdminController
                                 <td>".$product['name']."</td>
                                 <td>".$product['reference']."</td>
                                 <td>".$product['merchant']."</td>
+                                <td>".$product['product_parent']."</td>
                                 <td>".$product['status']."</td>
                                 <td>".$product['product_description']."</td>
                                 <td>".$product['product_description_short']."</td>

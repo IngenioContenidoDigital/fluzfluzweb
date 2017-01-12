@@ -137,7 +137,7 @@ class HomeFeatured extends Module
 			$this->smarty->assign(
 				array(
                                         's3'=> _S3_PATH_,
-					'merchants' => ManufacturerCore::getManufacturers(),
+					'merchants' => ManufacturerCore::getManufacturersCategory(),
                                         'sponsor' => $this->getSponsor()
 				)
 			);
