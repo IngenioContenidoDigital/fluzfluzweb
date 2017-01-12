@@ -70,5 +70,5 @@ $_MODULE['<{blocknewsletter}default-bootstrap>blocknewsletter_b40866b115d7400918
 $_MODULE['<{blocknewsletter}default-bootstrap>blocknewsletter_87b0ca57db642f4e7780174a6abdc37d'] = '¡No se encontraron resultados!';
 $_MODULE['<{blocknewsletter}default-bootstrap>blocknewsletter_ffb7e666a70151215b4c55c6268d7d72'] = 'Boletín';
 $_MODULE['<{blocknewsletter}default-bootstrap>blocknewsletter_416f61a2ce16586f8289d41117a2554e'] = 'su email';
-$_MODULE['<{blocknewsletter}default-bootstrap>blocknewsletter_d8335f4a5d918134bd0bdc47cc487d74'] = 'Introduzca su dirección de correo electrónico';
+$_MODULE['<{blocknewsletter}default-bootstrap>blocknewsletter_d8335f4a5d918134bd0bdc47cc487d74'] = 'Registra tu dirección de correo electrónico';
 $_MODULE['<{blocknewsletter}default-bootstrap>blocknewsletter_a60852f204ed8028c1c58808b746d115'] = 'OK';

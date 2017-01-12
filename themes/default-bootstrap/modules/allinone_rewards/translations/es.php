@@ -564,7 +564,6 @@ $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_5a1d5d1d28e16b78d36d1
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_20db0bfeecd8fe60533206a2b5e9891a'] = 'Nombre';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_8d3f5eff9c40ee315d452392bed5309b'] = 'Apellidos';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'Correo';
-$_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_080ecc5cfd336b0e51122c9f8783c27f'] = 'Importante : No se utilizarán los datos suministrados para ninguna acción fuera de la pretendida.';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_605eef3cad421619ce034ab48415190f'] = 'Acepto las condiciones en su totalidad.';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_8ecb5ede50fd50f812440f3f9972d75e'] = 'Condiciones del programa de apadrinamiento';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_9a66dc782df34f29eecea431c89c2c77'] = 'Lea las condiciones';
@@ -572,13 +571,12 @@ $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_31fde7b05ac8952dacf4a
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_4683d64d58a329b948b25a0d8e8fe175'] = 'Correo de invitación';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_bc42d61cae1ea9894719b885e3b75dc5'] = 'el correo';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_98fa9fa497c9d0377af97aa0d186a199'] = 'que será enviado a sus amigos.';
-$_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_1ffd9becb8344c897ece025755d97810'] = 'Enviar las invitaciones';
+$_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_143aff868c26bf14622189908d51a628'] = 'Recordar a mis amigos';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_59352cd5314a67c0fb10c964831920f3'] = 'Para convertirse en padrino, debe haber hecho al menos';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_12c500ed0b7879105fb46af0f246be87'] = 'pedidos';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_70a17ffa722a3985b86d30b034ad06d7'] = 'pedido';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_6e3acf29ac53819a4df407a15f95da2c'] = 'Estos amigos aún no se han inscrito en este sitio web, desde que los has patrocinados, pero puedes intentarlo de nuevo! Para ello, marque las casillas de verificación de su amigo (s) a quienes deseas recordar, a continuación, haga clic en el botón \"Recordar a mis amigos\".';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_3e717a04ff77cd5fa068d8ad9d3facc8'] = 'Último envío';
-$_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_143aff868c26bf14622189908d51a628'] = 'Recordar a mis amigos';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_8b9f390369560635a2ba5ba271d953df'] = 'Aún no ha apadrinado a ningún amigo.';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_193f3d8bbaceba40499cab1a3545e9e8'] = 'Estos son los amigos que han aceptado su invitación:';
 $_MODULE['<{allinone_rewards}default-bootstrap>sponsorship_781dc97dc62331eec3ea9ec4373a3ca8'] = 'Tipo de apadrinamiento';
@@ -622,6 +620,8 @@ $_MODULE['<{allinone_rewards}default-bootstrap>authentication_65babe101b73e06a1c
 $_MODULE['<{allinone_rewards}default-bootstrap>authentication_4b6b9bd5ea5c6950fc9a8a3f16ed25fb'] = 'Ya tenemos en cuenta su apadrinamiento';
 $_MODULE['<{allinone_rewards}default-bootstrap>customer-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
 $_MODULE['<{allinone_rewards}default-bootstrap>customer-account_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';
+$_MODULE['<{allinone_rewards}default-bootstrap>customer-account_c33e404a441c6ba9648f88af3c68a1ca'] = 'Estadísticas';
+$_MODULE['<{allinone_rewards}default-bootstrap>customer-account_1c7b3f146f6cbcbf82676bf0c759df3a'] = 'Estadísticas';
 $_MODULE['<{allinone_rewards}default-bootstrap>facebook_confirmation_ebc601e78e961b93d3ad311575c4a718'] = 'Código:';
 $_MODULE['<{allinone_rewards}default-bootstrap>my-account-sponsorship_d2c4f39ee6856aa5684bb0accb594676'] = 'Programa de apadrinamiento';
 $_MODULE['<{allinone_rewards}default-bootstrap>my-account_4994295678f9d59b30e22735f0a2cad5'] = 'Mis recompensas';

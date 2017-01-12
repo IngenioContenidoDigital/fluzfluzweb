@@ -16,9 +16,9 @@ $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_d68e7b860a7dba81
 $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_00d23a76e43b46dae9ec7aa9dcbebb32'] = 'Activado';
 $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_b9f5c797ebbf55adccdd8539a65a0241'] = 'Desactivado';
 $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_c9cc8cce247e49bae79f15173ce97354'] = 'Guardar';
-$_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_home_0af0aac2e9f6bd1d5283eed39fe265cc'] = 'No hay nuevos productos en este momento.';
 $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_9ff0635f5737513b1a6f559ac2bff745'] = 'Novedades';
 $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_43340e6cc4e88197d57f8d6d5ea50a46'] = 'Leer más';
 $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_60efcc704ef1456678f77eb9ee20847b'] = 'Todas los nuevos productos';
 $_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_18cc24fb12f89c839ab890f8188febe8'] = 'No permitir nuevos productos en este momento.';
+$_MODULE['<{blocknewproducts}default-bootstrap>blocknewproducts_home_0af0aac2e9f6bd1d5283eed39fe265cc'] = 'No hay nuevos productos en este momento.';
 $_MODULE['<{blocknewproducts}default-bootstrap>tab_a0d0ebc37673b9ea77dd7c1a02160e2d'] = 'Nuevos';
