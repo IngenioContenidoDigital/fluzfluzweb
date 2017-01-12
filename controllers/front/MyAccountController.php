@@ -274,16 +274,96 @@ class MyAccountControllerCore extends FrontController
             $querydays = 'SELECT DATEDIFF(NOW(), date_add) AS days FROM '._DB_PREFIX_.'customer WHERE id_customer ='.$this->context->customer->id;
             $rowday = db::getInstance()->getRow($querydays);
             $days = $rowday['days'];
+            $days_total = round(($days/30)-1);
             
-            $queryorders = 'SELECT DATEDIFF(NOW(), date_add) AS orders FROM '._DB_PREFIX_.'orders o
-                    LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
-                    WHERE o.id_customer ='.$this->context->customer->id.'
-                    AND od.product_reference != "MFLUZ"
-                    ORDER BY o.id_order DESC';
-            $roworders = db::getInstance()->getRow($queryorders);
-            $orders = $roworders['orders'];
+            $orders = 'SELECT  COUNT(o.id_order) as total_orders FROM '._DB_PREFIX_.'orders o
+                LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
+                LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
+                WHERE o.id_customer='.(int)$this->context->customer->id.'
+                AND o.payment != "Pedido gratuito"        
+                AND r.plugin="loyalty"
+                AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
+            $roworders = db::getInstance()->getRow($orders);
+            $order = $roworders['total_orders'];
             
-            if($days >= 30 && $orders <= 30 && $orders != ""){
+            /*$query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
+                LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
+                LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
+                WHERE o.date_add BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() 
+                AND o.id_customer='.(int)$this->context->customer->id.' 
+                AND o.payment != "Pedido gratuito"
+                AND r.id_reward_state=2 
+                AND r.plugin="loyalty"
+                AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';*/
+            
+            $query='SELECT count(o.id_order) AS compras_mes FROM '._DB_PREFIX_.'orders AS o WHERE (o.id_customer='.(int)$this->context->customer->id.' AND o.id_order IN (SELECT od.id_order FROM '._DB_PREFIX_.'order_detail AS od 
+                    LEFT JOIN '._DB_PREFIX_.'rewards AS rw ON od.id_order=rw.id_order WHERE (rw.id_reward_state=2 AND rw.plugin="loyalty" AND od.product_reference != "MFLUZ" 
+                    AND (MONTH(o.date_add)=MONTH(NOW())))))';
+            
+            $rowmes = db::getInstance()->getRow($query);
+            $compras_mes = $rowmes['compras_mes'];
+ 
+            if($days_total >= 1){
+                if($order<($days_total*2) && (($days_total*2)-$order)>1){
+                    switch($compras_mes){
+                        case '0':
+                            $alertpurchaseorder['alert'] = 3;
+                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
+                            $alertpurchaseorder['orden'] = $compras_mes;
+                            $alertpurchaseorder['quantity_max']=(($days_total*2)-$order);
+                            break;
+                        case '1':
+                            $alertpurchaseorder['alert'] = 3;
+                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
+                            $alertpurchaseorder['orden'] = $order;
+                            $alertpurchaseorder['quantity_max']=($days_total*2);
+                            break;
+                        case '2':
+                            $alertpurchaseorder['alert'] = 3;
+                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
+                            $alertpurchaseorder['orden'] = $order;
+                            $alertpurchaseorder['quantity_max']=($days_total*2);
+                            break;
+                        default:
+                            $alertpurchaseorder['alert'] = 3;
+                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
+                            $alertpurchaseorder['orden'] = $order;
+                            $alertpurchaseorder['quantity_max']=($days_total*2);
+                            break;
+                    }
+                }elseif(($order<($days_total*2) && (($days_total*2)-$order)<=1)){
+                        $alertpurchaseorder['alert'] = 1;
+                        $alertpurchaseorder['quantity'] = 2;
+                        $alertpurchaseorder['orden'] = $compras_mes;
+                        $alertpurchaseorder['quantity_max']=2;
+                        
+                }elseif(($order>=($days_total*2)) && ($compras_mes<2)){
+                    switch($compras_mes){
+                        case '0':
+                            $alertpurchaseorder['alert'] = 3;
+                            $alertpurchaseorder['quantity'] = 2;
+                            $alertpurchaseorder['orden'] = $compras_mes;
+                            $alertpurchaseorder['quantity_max']=2;
+                            break;
+                        case '1':
+                            $alertpurchaseorder['alert'] = 1;
+                            $alertpurchaseorder['quantity'] = 2-$compras_mes;
+                            $alertpurchaseorder['orden'] = $compras_mes;
+                            $alertpurchaseorder['quantity_max']=2;
+                            break;
+                        case '2':
+                            $alertpurchaseorder['alert'] = 2;
+                            break;
+                        default:
+                            $alertpurchaseorder['alert'] = 2;
+                            break;
+                    }
+                }else{
+                    $alertpurchaseorder['alert'] = 2;
+                }
+            }
+            //$alertpurchaseorder['quantity_max'] = (($days_total*2)-$order);
+            /*if($days >= 30 && $orders <= 30 && $orders != ""){
                 $query = 'SELECT COUNT(o.id_order) AS num_order, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
@@ -321,8 +401,8 @@ class MyAccountControllerCore extends FrontController
                 }
             }
             
-            else if(($days >= 60 && $days <= 90)){
-
+            else if(($days >= 60 && $orders <= 90)){
+                
                 $query = 'SELECT COUNT(o.id_order) AS num_order, o.id_order, r.id_reward_state FROM '._DB_PREFIX_.'orders o
                 LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
                 LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
@@ -344,8 +424,8 @@ class MyAccountControllerCore extends FrontController
                 AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
 
                 $order2=Db::getInstance()->getRow($query2);
-                
                 $orders_aftermonth = $order2['num_order'];
+                
                 $orderdateExpired = $order2['dateCancel'];
                 $orderdatelimit2 = $order2['date'];
                 
@@ -366,7 +446,7 @@ class MyAccountControllerCore extends FrontController
                 
                 if( ($orders_lastmonth == 0)){
                     
-                    $queryCustomer = 'SELECT DATE_FORMAT(date_add(date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, DATE_FORMAT(date_add(date_add, INTERVAL 2 MONTH),"%d %b %Y") AS dateCancel FROM ps_customer WHERE id_customer ='.(int)$this->context->customer->id;
+                    $queryCustomer = 'SELECT DATE_FORMAT(date_add(date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, DATE_FORMAT(date_add(date_add, INTERVAL 2 MONTH),"%d %b %Y") AS dateCancel FROM orders WHERE id_customer ='.(int)$this->context->customer->id;
                     $rowCustomer = Db::getInstance()->getRow($queryCustomer);
                     $dateCustomer = $rowCustomer['date'];
                     $dateCustomerExpiration = $rowCustomer['dateCancel'];
@@ -406,7 +486,7 @@ class MyAccountControllerCore extends FrontController
                     $alertpurchaseorder['quantity_max'] = 4;
                     
                 }
-            }
+            }*/
             return $alertpurchaseorder;
         }
     
