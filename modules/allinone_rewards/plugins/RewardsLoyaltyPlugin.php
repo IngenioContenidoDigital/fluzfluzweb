@@ -769,7 +769,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
                             $reward->credits = round(($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_desc);
                         }
                         
-                        $qrorder="UPDATE "._DB_PREFIX_."rewards SET id_order=".$reward->id_order." WHERE id_customer=".$reward->id_customer." AND id_order=0 AND id_cart=".$this->context->cart->id;
+                        $qrorder="UPDATE "._DB_PREFIX_."rewards r SET r.id_order=".$reward->id_order." WHERE r.id_customer=".$reward->id_customer." AND r.id_order=0 AND r.id_cart=".$this->context->cart->id.' ORDER BY r.date_add DESC LIMIT 1';
                         Db::getInstance()->execute($qrorder);
                         
 			$reward->plugin = $this->name;
