@@ -271,6 +271,21 @@ class ProductControllerCore extends FrontController
             if ($this->product->customizable) {
                 $customization_datas = $this->context->cart->getProductCustomization($this->product->id, null, true);
             }
+            
+            $urlbanner1 = _S3_PATH_."p-banners/".Tools::getValue('id_product')."_0.jpg";
+            $existsbanner1 = file_get_contents( $urlbanner1 );
+            if( !$existsbanner1 ) {
+                $urlbanner1 = "";
+            }
+
+            $urlbanner2 = _S3_PATH_."p-banners/".Tools::getValue('id_product')."_1.jpg";
+            $existsbanner2 = file_get_contents( $urlbanner2 );
+            if( !$existsbanner2 ) {
+                $urlbanner2 = "";
+            }
+            
+            $this->context->smarty->assign('imgbanner1', $urlbanner1 );
+            $this->context->smarty->assign('imgbanner2', $urlbanner2 );
 
             $this->context->smarty->assign(array(
                 'stock_management' => Configuration::get('PS_STOCK_MANAGEMENT'),

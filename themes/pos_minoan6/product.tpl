@@ -865,6 +865,18 @@
 		
 			<!-- pb-right-column-->
 		</div>
+                <div class="containerbanners row">
+                    <div class="bannerprod col-lg-6 col-md-6 col-sm-6 col-xs-12" id="bannerprod1">
+                        {if $imgbanner1 != ""}
+                            <img src="{$imgbanner1}">
+                        {/if}
+                    </div>
+                    <div class="bannerprod col-lg-6 col-md-6 col-sm-6 col-xs-12" id="bannerprod2">
+                        {if $imgbanner2 != ""}
+                            <img src="{$imgbanner2}">
+                        {/if}
+                    </div>
+                </div>
                 <!-- IMAGEN COLUMNA DERECHA -->                        
 		<div class=" col-sm-3 col-md-3 col-xs-12">
                     {if !$content_only} 
