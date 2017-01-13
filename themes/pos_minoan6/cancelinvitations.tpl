@@ -21,7 +21,7 @@
 <div class="form-cancel">
     <div><img style="margin-left: -10px;" src="{$img_dir}checked.png" /></div>
     <p class="title-cancel">&Eacute;xito!</p>
-    <div class="border-red"></div>
+    <div><div class="border-red"></div></div>
     <p class="texto-cancel">Ha cancelado con exito la Invitaci&oacute;n de Usuario seleccionada.</p>
     <a class="btn btn-default button button-small" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}"><span><i class="icon-chevron-left"></i> {l s='regresar a mi cuenta' mod='allinone_rewards'}</span></a>
 </div>

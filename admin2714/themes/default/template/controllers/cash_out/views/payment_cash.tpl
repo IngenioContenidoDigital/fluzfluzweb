@@ -45,7 +45,7 @@
                     <div class="datos-back col-lg-6">{$cashout.banco}</div>
                 </div>
                 <div class='style-label row'>
-                    <label class="datos-back col-lg-6">{l s="Puntos Utilizados:"}</label>
+                    <label class="datos-back col-lg-6">{l s="Fluz Utilizados:"}</label>
                     <div class="datos-back col-lg-6">{$cashout.points}</div>
                 </div>
                 <div class='style-label row'>
