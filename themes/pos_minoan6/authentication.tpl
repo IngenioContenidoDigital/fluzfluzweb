@@ -106,17 +106,17 @@
             <div class="col-xs-12 col-sm-3">
                 <img src="{$img_dir}login/email.jpg" class="icon_tip" />
                 <h3>Invita Amigos!</h3>
-                <span>Mientras m&aacute;s amigos invitas, m&aacute;s puntos recibes.</span>
+                <span>Mientras m&aacute;s amigos invitas, m&aacute;s Fluz recibes.</span>
             </div>
             <div class="col-xs-12 col-sm-3">
                 <img src="{$img_dir}login/coins.jpg" class="icon_tip" />
                 <h3>Redime!</h3>
-                <span>Convierte tus puntos en dinero en efectivo!</span>
+                <span>Convierte tus Fluz en dinero en efectivo!</span>
             </div>
             <div class="col-xs-12 col-sm-3">
                 <img src="{$img_dir}login/pie-chart.jpg" class="icon_tip" />
                 <h3>Estad&iacute;sticas!</h3>
-                <span>Revisa tus estad&iacute;sticas para mejorar la obtenci&oacute;n de puntos.</span>
+                <span>Revisa tus estad&iacute;sticas para mejorar la obtenci&oacute;n de Fluz.</span>
             </div>
         </div>
 	{if isset($inOrderProcess) && $inOrderProcess && $PS_GUEST_CHECKOUT_ENABLED}

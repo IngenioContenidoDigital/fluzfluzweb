@@ -21,12 +21,13 @@
 <div class="form-cancel">
     <div><img style="margin-left: -10px;" src="{$img_dir}alert_icon.png" /></div>
     <p class="title-cancel">Este enlace ya no est&aacute; disponible</p>
-    <div class="border-red"></div>
+    <div><div class="border-red"></div></div>
     <p class="texto-cancel">Lo sentimos, pero tu invitaci&oacute;n ha expirado o ha sido cancelada. Nos encantar&iacute;a que te unieras a nuestra red, sin embargo, necesitaras ser invitado de nuevo para unirte.</p>
 </div>
 
 {literal}
     <style>
         #left_column{display: none;}
+        .col-sm-3{display:none;}
     </style>
 {/literal}
