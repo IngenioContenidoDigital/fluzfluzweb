@@ -608,3 +608,10 @@
     });
     </script>
 {/literal}    
+{literal}
+    <script>
+        $('.mail').click(function(){
+            
+        });
+    </script>
+{/literal}

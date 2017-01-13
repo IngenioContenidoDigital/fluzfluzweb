@@ -76,7 +76,7 @@
                         <input type="radio" id="all-option" name="selector" value="0" required>
                         <span style="margin-left:20px;">{l s="Seleccion Monto"}</span>
                     </div>
-                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-12 avail-full" id="cash-pointselected"> {$totalAvailable}&nbsp;&nbsp;{l s="Puntos."}</span>
+                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-12 avail-full" id="cash-pointselected"> {$totalAvailable}&nbsp;&nbsp;{l s="Fluz."}</span>
                     <span class="col-lg-6 col-md-6 col-sm-6 col-xs-12 avail-price"> {displayPrice price=$pago currency=$payment_currency}</span>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-10 col-xs-12 full-amount" id="partial-point">
@@ -162,7 +162,7 @@
         <div class="row" style="margin-top:40px;">
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Fluz Disponibles despues de Redencion: "}</span>
-                <span class="cashoutPoint col-lg-6 col-md-6 col-sm-6 col-xs-6"><span id="ptos_result"></span>&nbsp;{l s ="Puntos"}</span>
+                <span class="cashoutPoint col-lg-6 col-md-6 col-sm-6 col-xs-6"><span id="ptos_result"></span>&nbsp;{l s ="Fluz"}</span>
             </div>
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Redencion en efectivo Disponible: "}</span>
