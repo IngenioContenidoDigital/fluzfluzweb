@@ -129,6 +129,7 @@
         .block {margin-bottom: 18px;margin-top: 18px;}
         .breadcrumb{border-bottom:1px solid #E9E9E9; padding: 10px 36px;}
         .boxprevnext2 a i{ background: #fff;}
+        #search_query_top{left: 0px; margin-top: 65px; z-index: 1;}
         @media (max-width:420px){
             article.sectionBanner{margin-right: 0px !important;}   }         
         @media (max-width:425px){article.sectionBanner{margin-right: 0px !important; padding-left: 0px !important;}
