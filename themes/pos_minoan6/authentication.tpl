@@ -98,7 +98,7 @@
             </div>
 	</div>
         <div class="row container_tips">
-            <div class="col-xs-12 col-sm-4">
+            <div class="col-xs-12 col-sm-3">
                 <img src="{$img_dir}login/piggy-bank.jpg" class="icon_tip" />
                 <h3>Ahorra!</h3>
                 <span>Entre m&aacute;s compras, m&aacute;s ahorras</span>
