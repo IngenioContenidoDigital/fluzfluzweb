@@ -81,12 +81,14 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 		$id_template = (int)MyConf::getIdTemplate('sponsorship', $this->context->customer->id);
 		$popup = Tools::getValue('popup');
                 
-                $groupCustomer = 'SELECT id_default_group as afiliado FROM '._DB_PREFIX_.'customer WHERE id_customer = '.$this->context->customer->id;
+                $groupCustomer = 'SELECT id_default_group as afiliado, username as name FROM '._DB_PREFIX_.'customer WHERE id_customer = '.$this->context->customer->id;
                 $rowcustomer = Db::getInstance()->getRow($groupCustomer);
                 $grupo = $rowcustomer['afiliado'];
+                $name = $rowcustomer['name'];
 
                 $this->context->smarty->assign('grupo',$grupo);
-
+                $this->context->smarty->assign('sponsor', $name);
+                
 		if (Tools::getValue('checksponsor')) {
 			$sponsorship = trim(Tools::getValue('sponsorship'));
 			$customer_email = trim(Tools::getValue('customer_email'));
