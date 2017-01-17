@@ -313,28 +313,28 @@ ul li .check::before {
 .cardview-ins { margin-left: 25px; }
 .title-card div { display: inline-block; vertical-align: middle; }
 .CardInstru h4::after { display: none!important; }
-#columns { height: 35vw; }
-#text-fabri { width: 65% }
+#columns { width: 130%; height: 35vw; }
+#text-fabri { width: 60% }
 #header, #footer, #launcher, .breadcrumb { display: none!important; }
 #categories_block_left, #left_column { display: none; }
 .terms-card, .pViewcard { overflow-y: auto; height: 150px; }
 
 
 @media (max-width:1024px){
-    .container-barcode { margin-right: 0!important; margin-left: 30%!important; float: none!important; }
+    .container-barcode { margin-right: 0!important; margin-left: 35%!important; float: none!important; }
     .codigoCard2 { text-align: left; line-height: 17px; }
 }
 
 @media (max-width:768px){
     .menuSticky{background: #fff; border-bottom: none; display: none;}
-    #bar-code{margin-bottom: 0px;margin-top: 10px;margin-left: 140px;}
+    #bar-code{margin-bottom: 0px;margin-top: 10px;margin-left: 220px;}
     .codigoCard{margin-top: 4px;}
     .instrucciones-pop{padding-left: 0px; padding-right: 0px;}
     .c{padding-top: 0px; margin-top: 20px; max-height: 255px;}
     .update-card{margin-top: 20px;}
-    .card-view { margin-left: 7%!important; }
-    .cardview-ins { margin-left: 4%; }
-    .popText { margin-left: 165px!important; }
+    .card-view { margin-left: 0!important; }
+    .cardview-ins { margin-left: 0%; width: 76% }
+    .popText { margin-left: 270px!important; }
     .container-barcode { float: right!important; }
     .fancybox-skin { height: 400px!important; margin: 0 auto !important; max-width: 500px; }
     .codigoCard2 { line-height: 37px; }
@@ -356,6 +356,7 @@ ul li .check::before {
     .codigoCard2 { line-height: 19px; }
     #text-fabri { width: 50%!important; }
     #bar-code { margin-left: 23%!important; margin-bottom: 0px; margin-top: 15px; }
+    #columns { width: 99%; }
 }
 
 @media (max-width:375px){
@@ -364,6 +365,7 @@ ul li .check::before {
     #nameViewCard{font-size: 9px;}
     .card-view { margin-left: 0!important; width: 80%!important; }
     .cardview-ins {margin-left: 15px; margin-bottom: 10px; width: 81%;}
+    #columns { width: 99%; }
 }
 
 @media (max-width:320px){
@@ -381,17 +383,20 @@ ul li .check::before {
     #img-prod { width: 100%!important; }
     #img-prod { width: 100%!important; }
     #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 67px !important; margin-top: 15px !important; }
+    #columns { width: 99%; }
 }
 
 @media (max-width:277px){
     .card-view { width: 80%!important; margin-left: 0!important; }
     .cardview-ins { width: 80%!important; }
     #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 60px !important; margin-top: 15px !important; }
+    #columns { width: 99%; }
 }
 
 @media (max-width:230px){
     .card-view { width: 65%!important; margin-left: 0!important; }
-    #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 46px !important; margin-top: 15px !important; }
     .popText { margin-left: 27%!important; }
     .cardview-ins { width: 65%!important; }
+    #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 46px !important; margin-top: 15px !important; }
+    #columns { width: 99%; }
 }
