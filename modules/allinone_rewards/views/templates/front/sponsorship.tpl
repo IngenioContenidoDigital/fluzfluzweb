@@ -313,6 +313,172 @@
 			</div>
 		{/if}
 		</div>
+                 <div id="mail-invitation" style="display:none;">
+                    {literal}
+                        <style> 
+                            .fancybox-inner{height: auto !important;}
+                            
+                            @media (max-width:425px){
+                             .btn-invitation{width: 100% !important;}
+                             .terminos{font-size: 9px;line-height: 1;}
+                            }
+                            
+                            @media (max-width:375px){
+                             .p-benef{padding-left: 0px; text-align: left;}
+                             .p-title{padding-left: 30px !important; font-size: 16px !important; padding-bottom: 0px !important;}
+                            }
+                        </style>
+                    {/literal}
+                    <div id="emailcontent" class="infomail">
+                        <div>
+                            <div style="width:100%; background:#c6ae93; padding:7px 0;">
+                                <img class="logo" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/7d5e7fc3-1279-4cbd-90e6-fcd68d88925c.png" alt="fluz fluz" style="margin:10px 0 5px 15px;"/>
+                            </div>
+                            <div>
+                                <td>
+                                    <img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/519cd2a8-870f-46e8-8fdb-6942bf2dd5d9.gif" style="margin-top:-3px; width:100%;">
+                                </td>
+                             </div>
+                        </div>
+                        
+                        <!--Welcome Text-->
+                        <div>
+                            <div align="center" class="titleblock" style="padding:10% 0 0 0">
+                                <span class="title" style="font-weight:400;font-size:28px; line-height:40px; color:#ea4136; ">Hola <span id="invited">  </span>,</span><br/><br/>
+                                    <span class="subtitle" style="font-weight:400;font-size:16px; line-height:25px; padding-top:0px;">Felicitaciones, has sido invitado <br> por {$sponsor} a unirte a Fluz Fluz! {$Expiration}</span>
+                            </div>
+                        </div>
+                        <!--Login Info-->
+                            <div>
+                                <div class="table" style="width:100%">
+                                    <div>
+                                        <div style="padding:5% 0 5%; margin:auto; text-align:center;">
+                                            <div>
+                                                <div class="btn-invitation" style="width:50%; background:#ea4136; color:#fff; padding: 13px 50px; letter-spacing:2px; margin:15px auto 0 auto; text-decoration: none;">ACEPTAR INVITACI&Oacute;N</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!--Why Sign-Up-->
+                        <div style="margin-bottom: 20px;">
+                            <div>
+                                <div style="text-align: center;">
+                                    <a href="https://youtu.be/bVmfZ-Iu-UY" target="_blank"><img src="http://fluzfluz.co/img/video.png" width="80%"/></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <p style="font-size:18px; text-align:left; padding-top:25px; padding-bottom:5px;padding-left: 75px;">
+                                Beneficios de Fluz Fluz:
+                                </p>
+                            </div>
+                        </div>
+                        <table style="background:#f9f9f9; padding:5% 5%; width:85%; margin:auto;">
+                            <tr >
+                            <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/f9c9369a-3ef5-4832-a306-639926d56c71.png"></td>
+                            <td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Compra!</h2><p style="padding-left:10%; margin-top: 0px;">Encuentra los bonos de tus marcas favoritas en Fluz Fluz</p></td>
+                            </tr>
+
+                            <tr>
+                            <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/d0067167-2fe3-41cf-890b-74fe8f5b4e4c.png"></td>
+                            <td>
+                                <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Ahorra!</h2><p style="padding-left:10%; margin-top: 0px;">Entre m&aacute;s compras, m&aacute;s ahorras</p></td>
+                            </tr>
+
+
+                            <tr>
+                            <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/4fa08124-f1c3-42f7-829b-c0f066b42121.png"></td>
+                            <td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Invita Amigos!</h2><p style="padding-left:10%; margin-top: 0px;">Mientras m&aacute;s amigos invitas, m&aacute;s Fluz recibes por sus compras.</p></td>
+                            </tr>
+
+                            <tr>
+                            <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/1f6bd74f-cdef-4c2c-92a1-d949a4162a98.png"></td>
+                            <td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Redime!</h2><p style="padding-left:10%; margin-top: 0px;">Convierte tus Fluz acumulados en nuevos bonos o dinero en efectivo!</p></td>
+                            </tr>
+
+                            <tr>
+                            <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/31d775c2-e322-463b-8de9-0350cc386158.png"></td>
+                            <td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Sin riesgo!</h2><p style="padding-left:10%; margin-top: 0px;">Carga tu cover consumible inicial y mantente activo con m&iacute;nimo 2 compras mensuales de cualquier marca y valor!</p></td>
+                            </tr>
+                            </table>
+                        <div>
+                            <div class="table" style="width:100%">
+                                <div>
+                                    <div style="padding:5% 0 5%; margin:auto; text-align:center;">
+                                        <div>
+                                            <a style="background:#ea4136; color:#fff; padding: 13px 50px; letter-spacing:2px; margin:15px auto 0 auto; text-decoration: none;" href="https://fluzfluz.co/es/content/6-categorias">
+                                            COMPRA AHORA</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/fcf1fce7-d477-4637-93b8-e7a52c04ed72.gif" style="margin-bottom:-7px; width:100%;">
+                            </div>
+                        </div>
+                        <table style="width:100%; background:#c6ae93;">
+                            <tr class="terminos">
+                                <td style="width:25%; text-align:center; padding-top:15px; ">
+                                <a href="https://fluzfluz.co/es/content/6-categorias" style="color:#fff; text-decoration: none;">
+                                Comprar</a>
+                                </td>
+                                <td style="width:25%; text-align:center; padding-top:15px;">
+                                <a href="https://fluzfluz.co/es/content/3-terminos-y-condiciones-de-uso" style="color:#fff; text-decoration: none;">
+                                    Pol&iacute;tica de privacidad</a>
+                                </td>
+                                <td style="width:25%; text-align:center; padding-top:15px;">
+                                <a href="https://fluzfluz.co/es/contactanos" style="color:#fff; text-decoration: none;">
+                                Ayuda</a>
+                                </td>
+                                <td style="width:25%; text-align:center; padding-top:15px;">
+                                <a href="https://fluzfluz.co" style="color:#fff; text-decoration: none;">
+                                    Cancelar suscripci&oacute;n</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--Social Footer-->
+
+                        <table style="width:100%; background:#c6ae93;">
+                            <tr>
+                            <td class="space_footer" style="padding:10px!important">&nbsp;</td>
+                            </tr>
+
+
+                            <tr>
+                            <td style="text-align:center; width:35%">
+                            </td>
+
+                            <td style="text-align:center;">
+                            <a href="https://fluzfluz.co"><img width="75%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/730a0207-ec61-41ea-a870-efe876b67e98.png"></a>
+                            </td>
+                            <td style="text-align:center;">
+                            <a href="https://fluzfluz.co"><img width="75%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/62c49072-2d47-4943-be64-178cb0531fe2.png"></a>
+                            </td>
+                            <td style="text-align:center;">
+                            <a href="https://fluzfluz.co"><img width="75%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/22aec251-65b7-491a-a6cc-2d03d5ee8181.png"></a>
+                            </td>
+                            <td style="text-align:center;">
+                            <a href="https://fluzfluz.co"><img width="75%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/24400c0c-6958-4bb2-a218-b287271b66f5.png"></a>
+                            </td>
+
+                            <td style="text-align:center; width:35%">
+                            </td>
+                            </tr>
+
+                            <tr>
+                            <td class="space_footer" style="padding:0px!important">&nbsp;</td>
+                            </tr>
+                        </table>
+                        </div>
+                    </div>
+                 </div>             
 
 		{if !isset($popup)}
 		<!--<div id="idTab2" class="sponsorshipBlock">
