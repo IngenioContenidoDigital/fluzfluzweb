@@ -316,7 +316,8 @@ ul li .check::before {
 #columns { height: 35vw; }
 #text-fabri { width: 65% }
 #header, #footer, #launcher, .breadcrumb { display: none!important; }
-
+#categories_block_left, #left_column { display: none; }
+.terms-card, .pViewcard { overflow-y: auto; height: 150px; }
 
 
 @media (max-width:1024px){
