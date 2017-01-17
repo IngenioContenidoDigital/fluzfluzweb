@@ -323,6 +323,11 @@
                              .btn-invitation{width: 100% !important;}
                              .terminos{font-size: 9px;line-height: 1;}
                             }
+                            
+                            @media (max-width:375px){
+                             .p-benef{padding-left: 0px; text-align: left;}
+                             .p-title{padding-left: 30px !important; font-size: 16px !important; padding-bottom: 0px !important;}
+                            }
                         </style>
                     {/literal}
                     <div id="emailcontent" class="infomail">
