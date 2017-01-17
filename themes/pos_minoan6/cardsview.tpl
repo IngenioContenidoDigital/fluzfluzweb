@@ -68,7 +68,7 @@
             {/if}
     </div>
     
-    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-10 card-view">
+    <div class="col-lg-5 col-md-6 col-sm-4 col-xs-10 card-view">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <p class="pValuePrice">{l s="Valor Original: "}<span class="price_value_content"></span></p>
@@ -87,7 +87,7 @@
                 <div class="pPrice col-lg-4 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="price-cardview col-lg-8 col-md-6 col-sm-6 col-xs-6"></div>
                 <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used2" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 container-barcode">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 container-barcode">
             <img id="bar-code" class="img-responsive" src=""/>
             <span class="micode popText" id="code-img"></span>
         </div>
