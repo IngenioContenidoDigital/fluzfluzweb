@@ -103,7 +103,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Fluz"}</div>
-                    <div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
+                    {*<div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>*}
+                    <div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</div>
                 </div>
                 <br><br>
@@ -178,3 +179,22 @@
         }
     </script>
 {/literal}
+
+<script>
+    $(document).ready(function(){
+        $(".btn_history").fancybox({
+            'width' : '85%'
+        });
+    });
+</script>
+<style>
+    @media (max-width:1024px){
+        .fancybox-inner { height: 50vw!important; }
+    }
+    @media (max-width:768px){
+        .fancybox-inner { height: 80vw!important; }
+    }
+    @media (max-width:425px){
+        .fancybox-inner { height: 120vw!important; }
+    }
+</style>

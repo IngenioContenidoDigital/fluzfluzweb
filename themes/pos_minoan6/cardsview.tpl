@@ -6,8 +6,8 @@
         {foreach from=$cards item=card}
             <div class="cardView-div">
                 <a class="myfanc" href="#myspecialcontent">
-                    <div class="card col-lg-6 col-md-6 col-sm-6">
-                        <img class="col-lg-4 col-md-6 col-sm-6 col-xs-6 back-cardView" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
+                    <div class="card col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                        <img class="col-lg-4 col-md-6 col-sm-6 col-xs-4 back-cardView" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
                         <div class="col-lg-7 col-md-6 col-sm-5 col-xs-6 codigoCard2">
                             <span style="color: #000;">{l s='Tarjeta: '}</span>
                             <span class="codeImg">{$card.card_code}</span></div>
@@ -64,22 +64,6 @@
                                                     {/if}
                                     </ul>
                             {/if}
-                            {*if $cards|@count > 10}
-                                <form action="{$pagination_link|escape:'html':'UTF-8'}" method="get" class="pagination">
-                                    <p>
-                                        <input type="submit" class="button_mini" value="{l s='OK'  mod='allinone_rewards'}" />
-                                        <label for="nb_item">{l s='items:' mod='allinone_rewards'}</label>
-                                        <select name="n" id="nb_item">
-                                        {foreach from=$nArray item=nValue}
-                                                {if $nValue <= $cards|@count}
-                                                <option value="{$nValue|escape:'htmlall':'UTF-8'}" {if $nbpagination == $nValue}selected="selected"{/if}>{$nValue|escape:'htmlall':'UTF-8'}</option>
-                                                {/if}
-                                        {/foreach}
-                                        </select>
-                                        <input type="hidden" name="p" value="1" />
-                                    </p>
-                                </form>
-                            {/if*}
                     </div>
             {/if}
     </div>
@@ -94,19 +78,21 @@
             </div>
         </div>
         <div class="title-card">
-            <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
+            <div id="img-fabri"><img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/></div>
+            <div id="text-fabri"><span id="nameViewCard"></span></div>
+            <br/>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
                 <div class="pPrice col-lg-4 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="price-cardview col-lg-8 col-md-6 col-sm-6 col-xs-6"></div>
                 <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used2" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 container-barcode">
             <img id="bar-code" class="img-responsive" src=""/>
             <span class="micode popText" id="code-img"></span>
         </div>
     </div>
-    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-11 cardview-ins">
+    <div class="col-lg-6 col-md-5 col-sm-4 col-xs-11 cardview-ins">
         <div class="CardInstru" data-toggle="collapse" data-target="#demo">
             <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
             <div class="pViewcard collapse" id="demo"></div>
@@ -117,57 +103,6 @@
             <div class="terms-card collapse" id="terms"></div>
         </div>
     </div>
-    <!--<div class="containerCard">
-        <ul>
-            <li>
-                <input type="radio" id="f-option" name="selector" value="1">
-              <div class="check" id="used"></div>
-              <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
-            </li>
-
-            <li>
-                <input type="radio" id="s-option" name="selector" value="0">
-              <div id="not-used" class="check"></div>
-              <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
-            </li>
-        </ul>
-    </div>
-    <div style="display: none;">
-            <div id="myspecialcontent" class="infoPopUp">
-                <div class="cardDesign">
-                    <div class="tCardView">
-                        <img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/><span id="nameViewCard"></span><br/>
-                    </div>
-                    <div class="pointPrice">
-                            <p class="col-lg-7 col-xs-8 col-md-8 pCode">{l s="Your Gift Card ID is: "}<br><span class="micode" style="font-size:20px;"> </span></p>
-                            <p class="col-lg-5 col-xs-4 col-md-4 pPrice">{l s="Value: "}<br><span id="priceCard" style="font-size:20px;"></span></p>
-                    </div>
-                    <div>
-                        <img id="bar-code" src=""/><br/>
-                        <span class="micode popText" id="code-img"></span>
-                    </div>
-                </div>
-                <div class="containerCard">
-                    <ul>
-                        <li>
-                            <input type="radio" id="f-option" name="selector" value="1">
-                          <div class="check" id="used"></div>
-                          <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
-                        </li>
-                       
-                        <li>
-                            <input type="radio" id="s-option" name="selector" value="0">
-                          <div id="not-used" class="check"></div>
-                          <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
-                        </li>
-                    </ul>
-                </div>        
-                <div class="CardInstru">
-                    <h4 class="insTitle">{l s='Gift Card Instructions'}</h4>
-                    <div class="pViewcard"></div>
-                </div> 
-            </div>
-    </div>!-->
 {/if}
 {literal}
     <script>
@@ -268,11 +203,7 @@
             $('#labelCard').removeClass('labelcard');
             $('#used').removeClass('checkConfirm');
         });
-        
-    </script>
-{/literal}
-{literal}
-    <script>
+
         $('.containerCard').on("click",'input:radio[name=selector]',function()
         {
             var val = $('input:radio[name=selector]:checked').val();
@@ -285,79 +216,4 @@
               });
         });
     </script>
-    
-    <style>
-        .popText { margin-left: 35px; }
-        .title-card { padding: 2px 26px; }
-        .card-view { margin: 20px 0 0 30px; }
-        .CardInstru { width: 90%; }
-        
-        @media (max-width:1440px){
-            #nameViewCard {
-                margin-left: 60px;
-            }
-        }
-        
-        @media (max-width:1080px){
-            .c {
-                margin-left: 10px;
-                margin-right: 10px;
-            }
-            #nameViewCard {
-                margin-left: 20px;
-            }
-        }
-        
-        @media (max-width:768px){
-            .c {margin-left: 10px;margin-right: 10px; margin-top: 40px;}
-            .container {padding-left: 20px;padding-right: 0px;margin-bottom: 50px;}
-            .cardview-ins {margin-left: 20px;width: 350px;}
-            .popText {margin-left: 155px !important;}
-            .micode {margin-bottom: 0px;}
-            .price-cardview {font-size: 14px !important;}
-            #priceCard_used2 {font-size: 14px;}
-            #nameViewCard{margin-left: 0px;}
-        }
-        
-        @media (max-width:425px){
-            .card-view {width: 96%; margin-top: 0px;}
-            .c{margin-right: 16px; margin-left: 0px;}
-            .cardview-ins {margin-left: 0px;width: 432px;}
-            #bar-code{margin-top:0px;}
-            
-        }
-        
-        @media (max-width:375px){
-            .cardview-ins {
-                margin-left: 0px;
-                width: 380px;
-            }
-            .card-view {
-                margin-left: 0px !important;
-            }
-        }
-        
-        @media (max-width:320px){
-            .c {
-                margin-right: 15px;
-                margin-left: 15px;
-                margin-bottom: 0px;
-            }
-            .card-view {
-                margin-left: 7px !important;
-                margin-top: 0px;
-            }
-            #bar-code {
-                margin-left: 100px !important;
-                margin-top: 10px !important;
-            }
-            .popText {
-                margin-left: 120px !important;
-            }
-            .cardview-ins {
-                margin-left: 6px;
-                width: 342px;
-            }
-        
-    </style>    
 {/literal}
