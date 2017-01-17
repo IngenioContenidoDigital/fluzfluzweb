@@ -188,9 +188,7 @@
     });
 </script>
 <style>
-    @media (max-width:1281px){
-        .fancybox-inner { height: 30vw!important; }
-    }
+    .fancybox-inner { height: 30vw!important; }
     @media (max-width:1024px){
         .fancybox-inner { height: 50vw!important; }
     }
