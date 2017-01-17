@@ -178,3 +178,22 @@
         }
     </script>
 {/literal}
+
+<script>
+    $(document).ready(function(){
+        $(".btn_history").fancybox({
+            'width' : '85%'
+        });
+    });
+</script>
+<style>
+    @media (max-width:1024px){
+        .fancybox-inner { height: 50vw!important; }
+    }
+    @media (max-width:768px){
+        .fancybox-inner { height: 80vw!important; }
+    }
+    @media (max-width:425px){
+        .fancybox-inner { height: 120vw!important; }
+    }
+</style>
