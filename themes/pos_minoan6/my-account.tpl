@@ -319,12 +319,12 @@
                     <ul>
                         <li>
                           <input type="radio" id="f-option" name="selector" value="1">
-                          <div class="check" id="used" for="f-option"></div>
+                          <div class="check" id="used"></div>
                           <label id="labelCard" for="f-option">{l s='MARK AS USED'}</label>
                         </li>
                         <li>
                           <input type="radio" id="s-option" name="selector" value="2">
-                          <div id="not-used" class="check" for="s-option"></div>
+                          <div class="check" id="not-used"></div>
                           <label id="labelCard2" for="s-option">{l s='MARK AS FINISHED'}</label>
                         </li>
                     </ul>
@@ -339,6 +339,15 @@
     <style>
         .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; font-size: 16px; line-height: 20px;}
         p.info-account{margin: 16px 0 24px 0;}
+        .fancybox-inner{height: 700px !important;}
+        
+        @media (max-width:1024px){
+            .fancybox-inner{height: 666px !important;}
+        }
+        
+        @media (max-width:768px){
+            .fancybox-inner{height: 990px !important;}
+        }
         
         @media (max-width:420px){
             .imgSponsor2 {width: 33% !important; margin-bottom: 5%;}
@@ -530,6 +539,8 @@
         });
         
         $('#used').click(function(){
+            $( "#f-option" ).click();
+            $( "#f-option" ).click();
             var code = $('.micode').html();
             $('.codeImg').each(function(){
                 var compare = $(this).html();
@@ -558,6 +569,8 @@
         });
         
         $('#not-used').click(function(){
+            $( "#s-option" ).click();
+            $( "#s-option" ).click();
             var code = $('.micode').html();
             $('.update-card').fadeOut(600);
             $('.codeImg').each(function(){
