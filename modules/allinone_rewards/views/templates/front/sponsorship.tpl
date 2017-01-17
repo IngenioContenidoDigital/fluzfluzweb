@@ -324,6 +324,11 @@
                              .btn-invitation{width: 100% !important;}
                              .terminos{font-size: 9px;line-height: 1;}
                             }
+                            
+                            @media (max-width:375px){
+                             .p-benef{padding-left: 0px; text-align: left;}
+                             .p-title{padding-left: 30px !important; font-size: 16px !important; padding-bottom: 0px !important;}
+                            }
                         </style>
                     {/literal}
                     <div id="emailcontent" class="infomail">
@@ -367,7 +372,7 @@
                         </div>
                         <div>
                             <div>
-                                <p style="font-size:18px; text-align:left; padding-top:25px; padding-bottom:5px;padding-left: 75px;">
+                                <p class="p-title" style="font-size:18px; text-align:left; padding-top:25px; padding-bottom:5px;padding-left: 75px;">
                                 Beneficios de Fluz Fluz:
                                 </p>
                             </div>
@@ -376,32 +381,32 @@
                             <tr >
                             <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/f9c9369a-3ef5-4832-a306-639926d56c71.png"></td>
                             <td>
-                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Compra!</h2><p style="padding-left:10%; margin-top: 0px;">Encuentra los bonos de tus marcas favoritas en Fluz Fluz</p></td>
+                                <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Compra!</h2><p class="p-benef" style="padding-left:10%; margin-top: 0px;">Encuentra los bonos de tus marcas favoritas en Fluz Fluz</p></td>
                             </tr>
 
                             <tr>
                             <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/d0067167-2fe3-41cf-890b-74fe8f5b4e4c.png"></td>
                             <td>
-                                <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Ahorra!</h2><p style="padding-left:10%; margin-top: 0px;">Entre m&aacute;s compras, m&aacute;s ahorras</p></td>
+                                <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Ahorra!</h2><p class="p-benef" style="padding-left:10%; margin-top: 0px;">Entre m&aacute;s compras, m&aacute;s ahorras</p></td>
                             </tr>
 
 
                             <tr>
                             <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/4fa08124-f1c3-42f7-829b-c0f066b42121.png"></td>
                             <td>
-                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Invita Amigos!</h2><p style="padding-left:10%; margin-top: 0px;">Mientras m&aacute;s amigos invitas, m&aacute;s Fluz recibes por sus compras.</p></td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Invita Amigos!</h2><p class="p-benef" style="padding-left:10%; margin-top: 0px;">Mientras m&aacute;s amigos invitas, m&aacute;s Fluz recibes por sus compras.</p></td>
                             </tr>
 
                             <tr>
                             <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/1f6bd74f-cdef-4c2c-92a1-d949a4162a98.png"></td>
                             <td>
-                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Redime!</h2><p style="padding-left:10%; margin-top: 0px;">Convierte tus Fluz acumulados en nuevos bonos o dinero en efectivo!</p></td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Redime!</h2><p class="p-benef" style="padding-left:10%; margin-top: 0px;">Convierte tus Fluz acumulados en nuevos bonos o dinero en efectivo!</p></td>
                             </tr>
 
                             <tr>
                             <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/31d775c2-e322-463b-8de9-0350cc386158.png"></td>
                             <td>
-                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Sin riesgo!</h2><p style="padding-left:10%; margin-top: 0px;">Carga tu cover consumible inicial y mantente activo con m&iacute;nimo 2 compras mensuales de cualquier marca y valor!</p></td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Sin riesgo!</h2><p class="p-benef" style="padding-left:10%; margin-top: 0px;">Carga tu cover consumible inicial y mantente activo con m&iacute;nimo 2 compras mensuales de cualquier marca y valor!</p></td>
                             </tr>
                             </table>
                         <div>
