@@ -288,12 +288,12 @@ class MyAccountControllerCore extends FrontController
                     FROM '._DB_PREFIX_.'orders AS o WHERE (o.id_customer='.(int)$this->context->customer->id.' AND o.id_order IN (SELECT od.id_order FROM '._DB_PREFIX_.'order_detail AS od 
                     LEFT JOIN '._DB_PREFIX_.'rewards AS rw ON od.id_order=rw.id_order WHERE (rw.id_reward_state=2 AND rw.plugin="loyalty" AND od.product_reference != "MFLUZ" 
                     AND (MONTH(o.date_add)=MONTH(NOW())))))';
-            
+        
         $rowmes = db::getInstance()->getRow($query);
         $date = $rowmes['date'];
         $dateCancel = $rowmes['date_cancel'];
         
-        if($order > 2 && $days <= 30){
+        if($order >= 2 && $days <= 30){
             $alertpurchaseorder['alert'] = 2;
         }
         
@@ -305,13 +305,23 @@ class MyAccountControllerCore extends FrontController
             $alertpurchaseorder['quantity'] = 2 - $order;
         }
         else {
-            if($days <= 30 && $order<2){
+            
+            $ordervoid = 'SELECT  DATE_FORMAT(DATE_ADD(c.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, 
+                        DATE_FORMAT(DATE_ADD(c.date_add, INTERVAL 2 MONTH), "%d %b %Y") AS date_cancel 
+                        FROM '._DB_PREFIX_.'customer c WHERE c.id_customer='.(int)$this->context->customer->id;
+            $rowvoid = db::getInstance()->getRow($ordervoid);
+            $datevoid = $rowvoid['date'];
+            $dateCancelvoid = $rowvoid['date_cancel'];
+            
+            if(($days <= 30 && $order<2)){
                 $alertpurchaseorder['alert'] = 3;
                 $alertpurchaseorder['quantity'] = 2 - $order;
                 $alertpurchaseorder['orden'] = $order;
                 $alertpurchaseorder['quantity_max']=2;
-                $alertpurchaseorder['date'] = $date;
-                $alertpurchaseorder['dateCancel'] = $dateCancel;
+                if($date==""){$fecha=$datevoid;}else{$fecha=$date;}
+                if($dateCancel==""){$fechaC=$dateCancelvoid;}else{$fechaC=$dateCancel;}
+                $alertpurchaseorder['date'] = $fecha;
+                $alertpurchaseorder['dateCancel'] = $fechaC;
             }
             else if ($days > 30){
             $querylastMonth = 'SELECT  COUNT(od.id_order) as orders, o.date_add as date FROM  ps_orders  o
@@ -323,7 +333,7 @@ class MyAccountControllerCore extends FrontController
             $rowlastorders = db::getInstance()->getRow($querylastMonth);
             $lastorder = $rowlastorders['orders'];
             $countOrders = $order + $lastorder;
-            
+           
             if ($countOrders >= 4){
              $alertpurchaseorder['alert'] = 2;
             }
@@ -339,8 +349,10 @@ class MyAccountControllerCore extends FrontController
               $alertpurchaseorder['quantity'] = 4 - $countOrders;
               $alertpurchaseorder['orden'] = $countOrders;
               $alertpurchaseorder['quantity_max']=4;
-              $alertpurchaseorder['date'] = $date;
-              $alertpurchaseorder['dateCancel'] = $dateCancel;
+              if($date==""){$fecha=$datevoid;}else{$fecha=$date;}
+              if($dateCancel==""){$fechaC=$dateCancelvoid;}else{$fechaC=$dateCancel;}
+              $alertpurchaseorder['date'] = $fecha;
+              $alertpurchaseorder['dateCancel'] = $fechaC;
             }
             }
         }
