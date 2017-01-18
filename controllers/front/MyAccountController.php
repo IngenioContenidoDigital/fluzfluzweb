@@ -268,108 +268,87 @@ class MyAccountControllerCore extends FrontController
     }
     
     public function orderQuantity(){
-            
-            $alertpurchaseorder = array();
-            $alertpurchaseorder['alert'] = 0;
-            $querydays = 'SELECT DATEDIFF(NOW(), date_add) AS days FROM '._DB_PREFIX_.'customer WHERE id_customer ='.$this->context->customer->id;
-            $rowday = db::getInstance()->getRow($querydays);
-            $days = $rowday['days'];
-            $days_total = round(($days/30));
-            
-            $orders = 'SELECT  COUNT(o.id_order) as total_orders FROM '._DB_PREFIX_.'orders o
-                LEFT JOIN '._DB_PREFIX_.'rewards r ON (r.id_order = o.id_order)
-                LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = r.id_order) 
-                WHERE o.id_customer='.(int)$this->context->customer->id.'
-                AND o.payment != "Pedido gratuito"        
-                AND r.plugin="loyalty"
-                AND r.id_reward_state=2 AND s.product_reference != "MFLUZ" ORDER BY o.id_order DESC';
-            $roworders = db::getInstance()->getRow($orders);
-            $order = $roworders['total_orders'];
-            
-            $query='SELECT count(o.id_order) AS compras_mes, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, 
+   
+        $orderMonthcurrent = 'SELECT  COUNT(od.id_order) as orders, o.date_add as date FROM  ps_orders  o
+                                LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
+                                LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
+                                WHERE  MONTH(o.date_add) = MONTH(NOW()) AND o.id_customer = '.$this->context->customer->id.' 
+                                AND o.payment != "Pedido gratuito" AND r.id_reward_state=2  
+                                ORDER BY o.date_add DESC';
+        
+        $roworders = db::getInstance()->getRow($orderMonthcurrent);
+        $order = $roworders['orders'];
+        
+        $querydays = 'SELECT DATEDIFF(NOW(), date_add) AS days FROM '._DB_PREFIX_.'customer WHERE id_customer ='.$this->context->customer->id;
+        $rowday = db::getInstance()->getRow($querydays);
+        $days = $rowday['days'];
+        
+        $query='SELECT count(o.id_order) AS compras_mes, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, 
                     DATE_FORMAT(date_add(o.date_add, INTERVAL 2 MONTH),"%d %b %Y") AS date_cancel
                     FROM '._DB_PREFIX_.'orders AS o WHERE (o.id_customer='.(int)$this->context->customer->id.' AND o.id_order IN (SELECT od.id_order FROM '._DB_PREFIX_.'order_detail AS od 
                     LEFT JOIN '._DB_PREFIX_.'rewards AS rw ON od.id_order=rw.id_order WHERE (rw.id_reward_state=2 AND rw.plugin="loyalty" AND od.product_reference != "MFLUZ" 
                     AND (MONTH(o.date_add)=MONTH(NOW())))))';
             
-            $rowmes = db::getInstance()->getRow($query);
-            $compras_mes = $rowmes['compras_mes'];
-            $date = $rowmes['date'];
-            $dateCancel = $rowmes['date_cancel'];
-            
-            if($days_total >= 1){
-                if($order<($days_total*2) && (($days_total*2)-$order)>1){
-                    switch($compras_mes){
-                        case '0':
-                            $alertpurchaseorder['alert'] = 3;
-                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
-                            $alertpurchaseorder['orden'] = $compras_mes;
-                            $alertpurchaseorder['quantity_max']=(($days_total*2)-$order);
-                            $alertpurchaseorder['date'] = $date;
-                            $alertpurchaseorder['dateCancel'] = $dateCancel;
-                            break;
-                        case '1':
-                            $alertpurchaseorder['alert'] = 3;
-                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
-                            $alertpurchaseorder['orden'] = $order;
-                            $alertpurchaseorder['quantity_max']=($days_total*2);
-                            $alertpurchaseorder['date'] = $date;
-                            $alertpurchaseorder['dateCancel'] = $dateCancel;
-                            break;
-                        case '2':
-                            $alertpurchaseorder['alert'] = 3;
-                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
-                            $alertpurchaseorder['orden'] = $order;
-                            $alertpurchaseorder['quantity_max']=($days_total*2);
-                            $alertpurchaseorder['date'] = $date;
-                            $alertpurchaseorder['dateCancel'] = $dateCancel;
-                            break;
-                        default:
-                            $alertpurchaseorder['alert'] = 3;
-                            $alertpurchaseorder['quantity'] = ($days_total*2)-$order;
-                            $alertpurchaseorder['orden'] = $order;
-                            $alertpurchaseorder['quantity_max']=($days_total*2);
-                            $alertpurchaseorder['date'] = $date;
-                            $alertpurchaseorder['dateCancel'] = $dateCancel;
-                            break;
-                    }
-                }elseif(($order<($days_total*2) && (($days_total*2)-$order)<=1)){
-                        $alertpurchaseorder['alert'] = 1;
-                        $alertpurchaseorder['quantity'] = 2;
-                        $alertpurchaseorder['orden'] = $compras_mes;
-                        $alertpurchaseorder['quantity_max']=2;
-                        $alertpurchaseorder['date'] = $date;
-                        
-                }elseif(($order>=($days_total*2)) && ($compras_mes<2)){
-                    switch($compras_mes){
-                        case '0':
-                            $alertpurchaseorder['alert'] = 3;
-                            $alertpurchaseorder['quantity'] = 2;
-                            $alertpurchaseorder['orden'] = $compras_mes;
-                            $alertpurchaseorder['quantity_max']=2;
-                            $alertpurchaseorder['date'] = $date;
-                            $alertpurchaseorder['dateCancel'] = $dateCancel;
-                            break;
-                        case '1':
-                            $alertpurchaseorder['alert'] = 1;
-                            $alertpurchaseorder['quantity'] = 2-$compras_mes;
-                            $alertpurchaseorder['orden'] = $compras_mes;
-                            $alertpurchaseorder['quantity_max']=2;
-                            $alertpurchaseorder['date'] = $date;
-                            break;
-                        case '2':
-                            $alertpurchaseorder['alert'] = 2;
-                            break;
-                        default:
-                            $alertpurchaseorder['alert'] = 2;
-                            break;
-                    }
-                }else{
-                    $alertpurchaseorder['alert'] = 2;
-                }
-            }
-            return $alertpurchaseorder;
+        $rowmes = db::getInstance()->getRow($query);
+        $date = $rowmes['date'];
+        $dateCancel = $rowmes['date_cancel'];
+        
+        $order = 1;
+        $days = 40;
+        
+        if($order > 2 && $days <= 30){
+            $alertpurchaseorder['alert'] = 2;
         }
+        
+        else if(($order >=1 && $order < 2) && ($days <= 30)){
+            $alertpurchaseorder['date'] = $date;
+            $alertpurchaseorder['alert'] = 1;
+            $alertpurchaseorder['total'] = 2;
+            $alertpurchaseorder['orden'] = $order;
+            $alertpurchaseorder['quantity'] = 2 - $order;
+        }
+        else {
+            if($days <= 30 && $order<2){
+                $alertpurchaseorder['alert'] = 3;
+                $alertpurchaseorder['quantity'] = 2 - $order;
+                $alertpurchaseorder['orden'] = $order;
+                $alertpurchaseorder['quantity_max']=2;
+                $alertpurchaseorder['date'] = $date;
+                $alertpurchaseorder['dateCancel'] = $dateCancel;
+            }
+            else if ($days > 30){
+            $querylastMonth = 'SELECT  COUNT(od.id_order) as orders, o.date_add as date FROM  ps_orders  o
+                                LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
+                                LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
+                                WHERE  MONTH(o.date_add) = (MONTH(NOW()) - 1) AND o.id_customer = '.$this->context->customer->id.'
+                                AND o.payment != "Pedido gratuito" AND r.id_reward_state=2  
+                                ORDER BY o.date_add DESC';
+            $rowlastorders = db::getInstance()->getRow($querylastMonth);
+            $lastorder = $rowlastorders['orders'];
+            $countOrders = $order + $lastorder;
+            
+            if ($countOrders >= 4){
+             $alertpurchaseorder['alert'] = 2;
+            }
+            elseif($countOrders == 3){
+             $alertpurchaseorder['date'] = $date;
+             $alertpurchaseorder['alert'] = 1;
+             $alertpurchaseorder['total'] = 4;
+             $alertpurchaseorder['orden'] = $countOrders;
+             $alertpurchaseorder['quantity'] = 4 - $countOrders;
+            }
+            else{
+              $alertpurchaseorder['alert'] = 3;
+              $alertpurchaseorder['quantity'] = 4 - $countOrders;
+              $alertpurchaseorder['orden'] = $countOrders;
+              $alertpurchaseorder['quantity_max']=4;
+              $alertpurchaseorder['date'] = $date;
+              $alertpurchaseorder['dateCancel'] = $dateCancel;
+            }
+            }
+        }
+        return $alertpurchaseorder;
+    }
     
     public function getPointsLastDays(){
      
