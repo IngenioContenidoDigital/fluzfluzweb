@@ -1,4 +1,3 @@
-
 .card{
     height: 47px;
     background-color: #fff;
@@ -251,7 +250,7 @@ ul li .check::before {
 }
 
 #bar-code{
-    margin-bottom: 20px;
+    margin-bottom: 0;
     padding: 2% 4%;
     background: #fff;
     width: auto;
@@ -307,58 +306,67 @@ ul li .check::before {
     border:solid red 1px;
 }
 
-@media (max-width:2500px){
-    #bar-code{margin-bottom: 0px;margin-top: 20px;}
-}
+.popText { margin-left: 6%; }
+.title-card { padding: 2px 26px; }
+.card-view { margin: 20px 0 0 30px; }
+.c { margin-top: 0px!important; }
+.cardview-ins { margin-left: 25px; }
+.title-card div { display: inline-block; vertical-align: middle; }
+.CardInstru h4::after { display: none!important; }
+#columns { width: 130%; height: 35vw; }
+#text-fabri { width: 60% }
+/* Revisar Pop up historial de pedidos porque esta linea oculta el header */
+/*#header, #footer, #launcher, .breadcrumb { display: none!important; }*/
+#categories_block_left, #left_column { display: none; }
+.terms-card, .pViewcard { overflow-y: auto; height: 150px!important; }
 
-@media (max-width:1080px){
-    .card-view{ margin-left: 20px !important;}
-    .c{margin-left: 0px; margin-right: 40px;}
-    .cardview-ins{margin-left: 16px;}
-    #bar-code{margin-bottom: 0px;margin-top: 20px;}
-    .popText{margin-left: 30px !important;}
-    .price-cardview{ font-size: 11px !important;}
-    #priceCard_used2{font-size: 11px;}
-    .codigoCard2{ line-height: 17px;}
+
+@media (max-width:1024px){
+    .container-barcode { margin-right: 0!important; margin-left: 35%!important; float: none!important; }
+    .codigoCard2 { text-align: left; line-height: 17px; }
 }
 
 @media (max-width:768px){
     .menuSticky{background: #fff; border-bottom: none; display: none;}
-    #bar-code{margin-bottom: 0px;margin-top: 10px;margin-left: 140px;}
-    .popText{margin-left: 5px !important;}
+    #bar-code{margin-bottom: 0px;margin-top: 10px;margin-left: 220px;}
     .codigoCard{margin-top: 4px;}
-    .card-view{ margin-left: 0px !important;}
     .instrucciones-pop{padding-left: 0px; padding-right: 0px;}
-    .fancybox-skin {margin: 0 auto !important;max-width: 500px;}
     .c{padding-top: 0px; margin-top: 20px; max-height: 255px;}
     .update-card{margin-top: 20px;}
+    .card-view { margin-left: 0!important; }
+    .cardview-ins { margin-left: 0%; width: 76% }
+    .popText { margin-left: 270px!important; }
+    .container-barcode { float: right!important; }
+    .fancybox-skin { height: 400px!important; margin: 0 auto !important; max-width: 500px; }
+    .codigoCard2 { line-height: 37px; }
 }
 
 @media (max-width:425px){
-    .cardview-ins {margin-left: 41px;margin-bottom: 10px;}
     .c{ max-height: 252px;}
     #priceCard{font-size: 16px !important;}
     #nameViewCard{font-size: 12px;}
-    #bar-code{margin-bottom: 0px;margin-top: 90px;}
-    .popText{margin-left: 5px !important;}
     .update-card{margin-left: 17px;}
-    .pValuePrice {
-    font-size: 10px;}
-    .price_value_content {
-    color: #ef4136;
-    font-size: 12px;}
-    .pDate {
-    font-size: 10px;}
+    .pValuePrice {font-size: 10px;}
+    .price_value_content {color: #ef4136; font-size: 12px;}
+    .pDate {font-size: 10px;}
     .pCode{margin-top: 10px;}
     .micode{margin-bottom: 10px;}
+    .card-view { margin-left: 0!important; width: 94%!important; }
+    .cardview-ins { margin-left: 0!important; width: 94%!important; margin-bottom: 10px; }
+    .popText { margin-left: 33%!important; }
+    .codigoCard2 { line-height: 19px; }
+    #text-fabri { width: 50%!important; }
+    #bar-code { margin-left: 23%!important; margin-bottom: 0px; margin-top: 15px; }
+    #columns { width: 99%; }
 }
 
 @media (max-width:375px){
     .c {margin-left: 15px;margin-right: 15px;}
-    .card-view{width: 92%;margin-left: 15px !important;}
-    .cardview-ins {margin-left: 15px;margin-bottom: 10px;width: 102%;}
     #priceCard{font-size: 16px !important;}
     #nameViewCard{font-size: 9px;}
+    .card-view { margin-left: 0!important; width: 80%!important; }
+    .cardview-ins {margin-left: 15px; margin-bottom: 10px; width: 81%;}
+    #columns { width: 99%; }
 }
 
 @media (max-width:320px){
@@ -368,9 +376,28 @@ ul li .check::before {
     .title-card>img{width: 50%;}
     .back-cardView{padding-right: 0px;padding-left: 0px;}
     .pCode{margin-bottom: 0px;}
-    #bar-code{width: 50% !important;margin-right: 0px !important;margin-left: 50px !important;margin-top: 90px !important;}
-    .popText{margin-left: 5px !important;}
-    .card-view {width: 95%;margin-left: 8px !important;}
-    .cardview-ins {margin-left: 8px;margin-bottom: 10px;width: 340px;}
     .c {margin-left: 0px;margin-right: 8px;}
+    .card-view { width: 94%!important; margin-left: 0!important; }
+    .cardview-ins {margin-left: 8px; margin-bottom: 10px; width: 67%;}
+    .popText { margin-left: 33%!important; }
+    #img-fabri { width: 45%!important; }
+    #img-prod { width: 100%!important; }
+    #img-prod { width: 100%!important; }
+    #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 67px !important; margin-top: 15px !important; }
+    #columns { width: 99%; }
+}
+
+@media (max-width:277px){
+    .card-view { width: 80%!important; margin-left: 0!important; }
+    .cardview-ins { width: 80%!important; }
+    #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 60px !important; margin-top: 15px !important; }
+    #columns { width: 99%; }
+}
+
+@media (max-width:230px){
+    .card-view { width: 65%!important; margin-left: 0!important; }
+    .popText { margin-left: 27%!important; }
+    .cardview-ins { width: 65%!important; }
+    #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 46px !important; margin-top: 15px !important; }
+    #columns { width: 99%; }
 }
