@@ -315,7 +315,8 @@ ul li .check::before {
 .CardInstru h4::after { display: none!important; }
 #columns { width: 130%; height: 35vw; }
 #text-fabri { width: 60% }
-#header, #footer, #launcher, .breadcrumb { display: none!important; }
+/* Revisar Pop up historial de pedidos porque esta linea oculta el header */
+/*#header, #footer, #launcher, .breadcrumb { display: none!important; }*/
 #categories_block_left, #left_column { display: none; }
 .terms-card, .pViewcard { overflow-y: auto; height: 150px!important; }
 
