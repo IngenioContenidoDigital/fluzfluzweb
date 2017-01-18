@@ -217,3 +217,6 @@
         });
     </script>
 {/literal}
+<style>
+    #header, #footer, #launcher, .breadcrumb { display: none!important; }
+</style>
