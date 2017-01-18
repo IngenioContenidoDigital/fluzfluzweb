@@ -589,6 +589,7 @@ class AuthControllerCore extends FrontController
                                 Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET id_default_group = 4 WHERE id_customer = ".$customer->id);
                                 $payment_module = Module::getInstanceByName('bankwire');
                                 $payment_module->validateOrder($cart->id, 2, 0, 'Pedido Gratuito');
+                                $this->sendNotificationSponsor($customer->id);
                                 Tools::redirect($this->context->link->getPageLink('my-account', true));
                             }
                             
@@ -892,6 +893,42 @@ class AuthControllerCore extends FrontController
                 '{passwd}' => Tools::getValue('passwd')),
             $customer->email,
             $customer->firstname.' '.$customer->lastname
+        );
+    }
+    
+    protected function sendNotificationSponsor( $id_customer )
+    {
+        $query = "SELECT c.id_customer, c.username, c.email
+                    FROM "._DB_PREFIX_."rewards_sponsorship rs
+                    LEFT JOIN "._DB_PREFIX_."customer c ON ( rs.id_sponsor = c.id_customer )
+                    WHERE rs.id_customer = ".$id_customer;
+        $sponsor = Db::getInstance()->getRow($query);
+        
+        $query = "SELECT SUM(credits) points
+                    FROM "._DB_PREFIX_."rewards
+                    WHERE id_reward_state = 2";
+        $points_count = Db::getInstance()->getValue($query);
+        
+        $query = "SELECT COUNT(*) contributor_count
+                    FROM "._DB_PREFIX_."customer";
+        $contributor_count = Db::getInstance()->getValue($query);
+        
+        $vars = array(
+            '{username}' => $sponsor['username'],
+            '{contributor_count}' => $contributor_count,
+            '{points_count}' => round($points_count),
+            '{img_url}' => _PS_IMG_DIR_,
+            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id)
+        );
+
+        Mail::Send(
+            Context::getContext()->language->id,
+            'notificationusersponsor',
+            'Tu invitado se ha unido al Network',
+            $vars,
+            $sponsor['email'],
+            $sponsor['username']
         );
     }
 }
