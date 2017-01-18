@@ -332,6 +332,7 @@ display:inline-block;
     .container1{margin-left: 5px; margin-right: 5px !important;}
     .containerinfor{padding-left: 0px !important; padding-right: 0px !important;}
     .networkfeed > .container1 > .row > .containerinfor > .row > .containerpurchase{font-size: 8px;}
+    .p-advertencia{font-size: 11px;}
 }
 
 @media (max-width:768px){
@@ -342,6 +343,12 @@ display:inline-block;
     .btn-more2{width: 100%;}
     .containerinfor{padding-left: 0px;padding-right: 0px}
     .container1{margin-left: 0px; margin-right: 0px !important;}
+    .banner-advertencia{height: 56px;}
+    .p-advertencia{line-height: 23px;}
+    .banner-advertencia-awesome{height: 35px;}
+    .banner-advertencia-awesome p {line-height: 31px;}
+    .banner-advertencia-month{height: 35px;}
+    .banner-advertencia-month p {line-height: 31px;}
 }
 
 @media (max-width:425px){
@@ -350,6 +357,15 @@ display:inline-block;
     .block-red{margin-left: 15px; padding-right: 15px;}
     .container1{margin-left: 0px; margin-right: 5px !important;}
     .networkfeed{    margin-top: 20px !important;padding-left: 0px;padding-right: 0px;}
+    .banner-advertencia{height: 65px;}
+    .p-advertencia{line-height: 18px;}
+    .banner-advertencia-month{height: 48px;}
+    .banner-advertencia-month p {line-height: 21px;}
+}
+
+@media (max-width:375px){
+    .banner-advertencia-awesome{height: 50px;}
+    .banner-advertencia-awesome p {line-height: 22px;}
 }
 
 @media (max-width:320px){
@@ -362,4 +378,7 @@ display:inline-block;
     .tablenetwork, .tablemessages{width: 100%;}
     .btn-moreload{width: 100%;}
     .nameProfile{padding-right: 0px !important;}
+    .banner-advertencia{height: 78px;}
+    .banner-advertencia-month{height: 56px;}
+    .banner-advertencia-month p {line-height: 16px;}
 }
