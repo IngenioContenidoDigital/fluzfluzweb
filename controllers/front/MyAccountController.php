@@ -293,9 +293,6 @@ class MyAccountControllerCore extends FrontController
         $date = $rowmes['date'];
         $dateCancel = $rowmes['date_cancel'];
         
-        $days = 40;
-        $order = 0;
-        
         if($order >= 2 && $days <= 30){
             $alertpurchaseorder['alert'] = 2;
         }
