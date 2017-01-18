@@ -263,7 +263,7 @@
 					
 					{if ($product->show_price && !isset($restricted_country_mode)) || isset($groups) || $product->reference || (isset($HOOK_PRODUCT_ACTIONS) && $HOOK_PRODUCT_ACTIONS)}
 						<!-- add to cart form-->
-						<form id="buy_block"{if $PS_CATALOG_MODE && !isset($groups) && $product->quantity > 0} class="hidden"{/if} action="{$link->getPageLink('cart')|escape:'html':'UTF-8'}">
+						<form id="buy_block"{*if $PS_CATALOG_MODE && !isset($groups) && $product->quantity > 0} class="hidden"{/if*} action="{$link->getPageLink('cart')|escape:'html':'UTF-8'}">
                                                         <!-- hidden datas -->
                                                         <!-- hook allinone Rewards -->
                                                         {*if isset($HOOK_EXTRA_RIGHT) && $HOOK_EXTRA_RIGHT}{$HOOK_EXTRA_RIGHT}{/if*}
@@ -279,7 +279,7 @@
 						
 								<div class="box-cart-bottom">
 									<!-- quantity wanted -->
-									{if !$PS_CATALOG_MODE}
+									{*if !$PS_CATALOG_MODE*}
                                                                             <!--<p id="product_reference"{if empty($product->reference) || !$product->reference} class="col-xs-12" style="display: none;"{/if}>
                                                                                 <label class="p-reference referenceinfo" style="display: none;">{l s='Reference:'} </label>
                                                                                 <label class="editable referenceinfo" style="display: none;" itemprop="sku"{if !empty($product->reference) && $product->reference} content="{$product->reference}"{/if}>{if !isset($groups)}{$product->reference|escape:'html':'UTF-8'}{/if}</label>
@@ -303,12 +303,20 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">${$list.price_shop|number_format:0}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" style="color:#ef4136;">{$save_price}%</div>
+                                                                                {if $logged}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
+                                                                                {else}
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/16)|string_format:"%d"}</div>
+                                                                                {/if}    
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">${$list.price|number_format:0}</div>
+                                                                                {if $logged}
                                                                                 <button type="submit" name="Submit" class="btn-combinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" comb="{$list.id_product_attribute}" id="{$list.id_attribute}">
                                                                                     <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
                                                                                 </button> 
+                                                                                {else}
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>    
+                                                                                {/if}    
                                                                             </div>
                                                                         {/foreach}
                                                                         
@@ -328,12 +336,20 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$product->id_manufacturer}.jpg" style="margin-right: 0px; padding-left: 10px;" alt="{$product->name|lower|escape:'htmlall':'UTF-8'}" title="{$product->name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">${$product->price_shop|number_format:0}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" style="color:#ef4136;">{$save_price}%</div>
+                                                                                {if $logged}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{$productP|string_format:"%d"}</div>
+                                                                                {else}
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{$resultProduct|string_format:"%d"}</div>
+                                                                                {/if}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">${$productPrice|number_format:0}</div>
+                                                                                {if $logged}
                                                                                 <button type="submit" name="Submit" class="btn-nocombinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list">
                                                                                     <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
                                                                                 </button>
+                                                                                {else}
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
+                                                                                {/if}
                                                                             </div>
                                                                             
                                                                         {/if}    
@@ -352,7 +368,7 @@
                                                                                     <span class="clearfix"></span>
                                                                             </p>
                                                                         </div>-->
-									{/if}
+									{*/if*}
                                                                         {*if $logged}
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 title-price-point">{l s="Precio en Fluz: "}</div>
                                                                             <div  class="col-xs-6 col-lg-6 col-md-6 col-sm-4 price-point">{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}&nbsp;{l s="Fluz."}</div>
@@ -995,7 +1011,7 @@
         .pos-title span{font-size: 12px;}
         .pos-title h2 {width: 100%;text-align: left; background: #fff;line-height: 30px;}
         .breadcrumb{margin-top: 9px;background: #f4f4f4;padding-left: 34px;letter-spacing: 1.5px;font-size: 12px;}
-        
+        .pull-right{display: none;}
         @media (max-width:1080px){
            .hook-product{padding-left: 0px;display: none;}
         }
