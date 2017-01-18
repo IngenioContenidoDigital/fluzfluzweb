@@ -88,6 +88,7 @@ margin-right: 0;
 .style-search{background:#ef4136;height: 75px;}
 .name-merchant{text-align:center;font-size: 12px;letter-spacing: 1px;margin-bottom: 5px; text-transform: uppercase; font-family:'Open Sans'}
 .img-responsive{margin-left: auto !important;margin-right: auto !important;display: table-cell;}
+.img-newmerchant{width: 200px;}
 
 @media (max-width:1024px){
     .owl-item{width: 225px !important;min-width: 0; margin:0px; margin-left: 18px !important;}
