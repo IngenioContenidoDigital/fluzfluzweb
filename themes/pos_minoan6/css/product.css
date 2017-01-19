@@ -717,7 +717,7 @@ Quick View Styles
     .owl-carousel{width: 92%;}
     .tiendaP{text-align: left !important;margin-left: 0px;width: 30%;}
     .container{margin-left: 0px; margin-right: 0px; min-width: 100%;}
-    .description-product{font-size: 16px;line-height: 25px;font-family: 'Open Sans'; width: 83%; padding-bottom: 4% !important;padding-top: 1% !important;margin-bottom: 0% !important;margin-left: 20px;}
+    .description-product{font-size: 14px;line-height: 25px;font-family: 'Open Sans'; width: 83%; padding-bottom: 4% !important;padding-top: 1% !important;margin-bottom: 0% !important;margin-left: 20px;}
     .pb-center-column h1 {letter-spacing: 2px; line-height: 50px;padding-bottom: 7px;font-size: 27px !important;width: 85%; padding-left: 0px;}
     .pb-center-column{ padding-left: 0px; padding-right: 20px;}
     p{ line-height: 18px;font-size: 14px;}

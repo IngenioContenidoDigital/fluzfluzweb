@@ -142,12 +142,16 @@
                                        $('#link-ModuleFluzfluzcodes').hide();
                                        $('#link-ModuleAllinone_rewards').hide();
                                        $('#link-Quantities').hide();
+                                       $('#code-ean').hide();
+                                       $('#code-upc').hide();
                                        $('#product_noparent').prop('checked',false);
                                    }else{
                                        $('#link-Prices').show();
                                        $('#link-ModuleFluzfluzcodes').show();
                                        $('#link-ModuleAllinone_rewards').show();
                                        $('#link-Quantities').show();
+                                       $('#code-ean').show();
+                                       $('#code-upc').show();
                                        $('#product_parent').prop('checked',false);
                                    }
                                 });
@@ -158,6 +162,8 @@
                                         $('#link-ModuleFluzfluzcodes').hide();
                                         $('#link-ModuleAllinone_rewards').hide();
                                         $('#link-Quantities').hide();
+                                        $('#code-ean').hide();
+                                        $('#code-upc').hide();
                                     }
                                 });
                                 
@@ -200,7 +206,7 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+        <div class="form-group" id="code-ean">
 		<label class="control-label col-lg-3" for="ean13">
 			<span class="label-tooltip" data-toggle="tooltip"
 				title="{l s='This type of product code is specific to Europe and Japan, but is widely used internationally. It is a superset of the UPC code: all products marked with an EAN will be accepted in North America.'}">
@@ -212,7 +218,7 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group" id="code-upc">
 		<label class="control-label col-lg-3" for="upc">
 			<span class="label-tooltip" data-toggle="tooltip"
 				title="{l s='This type of product code is widely used in the United States, Canada, the United Kingdom, Australia, New Zealand and in other countries.'}">
