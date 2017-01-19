@@ -49,7 +49,7 @@
                                     <input type="hidden" name="orderby" value="position" />
                                     <input type="hidden" name="controller" value="search" />
                                     <input type="hidden" name="orderway" value="desc" />
-                                    <input class="search_query form-control grey" placeholder="Search by brand" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                    <input class="search_query form-control grey" placeholder="Buscar" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
                                     <button type="submit" id="search_button" class="btn btn-default button button-small"><span><i class="icon-search"></i></span></button>
                             </p>
                     </form>
@@ -136,4 +136,35 @@
             .sectionFooter{text-align: center; padding-left: 0; margin-right: 0; }
         }
     </style>
-    {/literal}
+{/literal}
+{literal}
+    <script>
+        $('#someid').click(function(e){
+
+            var sw    = $(this).find(".switch"),
+                on    = parseInt(sw.css("left")) ? 1 : 0,
+                sds   = ['.lside', '.rside'],
+                mts   = ['-=18', '+=18'],
+                s_on  = sds[on],
+                s_off = sds[1-on],
+                mt    = mts[on];
+
+            $(this).find(s_off).css("opacity", 1);
+            
+            sw.stop().animate({left: mt}, 50, function(){
+              $(this).find(s_on).css("opacity", 0);
+             
+              if(s_on=='.lside'){
+                  $('.menuSticky').hide("slow");
+                  $('.containerFeatured').addClass("containerwidth");
+                   $('.containerFeatured').removeClass("containerwidth-column");
+              }
+              else{
+                $('.menuSticky').show("slow");
+                $('.containerFeatured').addClass("containerwidth-column");
+                $('.containerFeatured').removeClass("containerwidth");
+              }
+             });
+          });
+    </script>
+{/literal}
