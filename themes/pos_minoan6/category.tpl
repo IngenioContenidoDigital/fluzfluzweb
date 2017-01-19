@@ -118,13 +118,14 @@
                         {include file="./pagination.tpl" paginationId='bottom'}
 			</div>
 			</div>
-                </div>         
-		{/if}
+                </div> 
+                {/if}
 	{elseif $category->id}
 		<p class="alert alert-warning">{l s='This category is currently unavailable.'}</p>
 	{/if}
            
         {if $category->id AND $category->active}
+             
             {literal}
                 <style>
                     .divTitleFeatured{display: none;}

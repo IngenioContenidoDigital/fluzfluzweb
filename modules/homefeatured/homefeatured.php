@@ -130,37 +130,43 @@ class HomeFeatured extends Module
 	 }
          
         public function hooknewMerchants($params)
-	 {
+        {
 	 
-	  if (!$this->isCached('merchants.tpl', $this->getCacheId()))
-		{
-			$this->smarty->assign(
-				array(
-                                        's3'=> _S3_PATH_,
-					'merchants' => ManufacturerCore::getManufacturersCategory(),
-                                        'sponsor' => $this->getSponsor()
-				)
-			);
-		}
+            $carousel =   ManufacturerCore::getManufacturersCategory();
+            $array_multi = array_chunk($carousel, ceil(count($carousel)/2));
+          
+	    /*if (!$this->isCached('merchants.tpl', $this->getCacheId()))
+            {*/
+                $this->smarty->assign(
+                    array(
+                        's3'=> _S3_PATH_,
+                        'merchants' => $array_multi[0],
+                        'merchants2' => $array_multi[1],
+                        'sponsor' => $this->getSponsor()
+                    )
+                );
+            //}
 
-		return $this->display(__FILE__, 'merchants.tpl', $this->getCacheId());
+            return $this->display(__FILE__, 'merchants.tpl');
 	 }
          
          public function hookmerchants($params)
 	 {
-	 
-	  if (!$this->isCached('newMerchants.tpl', $this->getCacheId()))
-		{
+            $carousel =   ManufacturerCore::getNewManufacturers();
+            $array_multi = array_chunk($carousel, ceil(count($carousel)/2)); 
+	  /*if (!$this->isCached('newMerchants.tpl', $this->getCacheId()))
+		{*/
 			$this->smarty->assign(
 				array(
                                         's3'=> _S3_PATH_,
-					'merchants' => ManufacturerCore::getNewManufacturers(),
+					'merchants' => $array_multi[0],
+                                        'merchants2' => $array_multi[1],
                                         'sponsor' => $this->getSponsor()
 				)
 			);
-		}
+		//}
 
-		return $this->display(__FILE__, 'newMerchants.tpl', $this->getCacheId());
+		return $this->display(__FILE__, 'newMerchants.tpl');
 	 }
          
         public function getSponsor(){
