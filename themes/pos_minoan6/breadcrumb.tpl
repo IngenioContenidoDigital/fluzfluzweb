@@ -26,7 +26,8 @@
 <!-- Breadcrumb -->
 {if isset($smarty.capture.path)}{assign var='path' value=$smarty.capture.path}{/if}
 <div class="breadcrumb clearfix">
-	<a class="home" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Return to Home'}">{l s="INICIO"}</a>
+    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
+        <a class="home" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Return to Home'}">{l s="INICIO"}</a>
 	{if isset($path) AND $path}
 		<!--<span class="navigation-pipe"{if isset($category) && isset($category->id_category) && $category->id_category == (int)Configuration::get('PS_ROOT_CATEGORY')} style="display:none;"{/if}>{$navigationPipe|escape:'html':'UTF-8'}</span>-->
 		<span class="navigation-pipe"{if isset($category) && isset($category->id_category) && $category->id_category == (int)Configuration::get('PS_ROOT_CATEGORY')} style="display:none;"{/if} style="color:#ef4136;">/</span>
@@ -36,6 +37,23 @@
 			{$path}
 		{/if}
 	{/if}
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-right:0px;">
+            <div class="iOS" id="someid">
+                <div class="switch">
+                  <span class="outter lside">
+                    <span class="otxt"></span>
+                  </span>
+                  <span class="outter rside">
+                    <span class="otxt"></span>
+                  </span>
+                  <span class="circle"></span>
+                </div>
+            </div>
+        </div>    
+        <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
+    </div>    
 </div>
 {if isset($smarty.get.search_query) && isset($smarty.get.results) && $smarty.get.results > 1 && isset($smarty.server.HTTP_REFERER)}
 <div class="pull-right">

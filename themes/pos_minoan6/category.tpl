@@ -118,13 +118,14 @@
                         {include file="./pagination.tpl" paginationId='bottom'}
 			</div>
 			</div>
-                </div>         
-		{/if}
+                </div> 
+                {/if}
 	{elseif $category->id}
 		<p class="alert alert-warning">{l s='This category is currently unavailable.'}</p>
 	{/if}
            
         {if $category->id AND $category->active}
+             
             {literal}
                 <style>
                     .divTitleFeatured{display: none;}
@@ -138,7 +139,7 @@
                     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
                     .style-search{background:#ef4136;height: 75px;}
                     form#searchbox input#search_query_block{margin-bottom: 0px !important;padding: 18.5px !important; max-width: 380px; margin-right: 0px !important;}
-                    
+                    #search_query_top{left: 0px; margin-top: 65px; z-index: 1;}
                     @media (max-width: 1440px) and (min-width: 1200px){
                         .owl-item{width: 225px;}
                     }

@@ -57,8 +57,23 @@
                 </div>
 
                 <ul{if isset($id) && $id} id="{$id}"{/if} class="product_list grid row{if isset($class) && $class} {$class}{/if}">
-                        <div id="product_categoryAll2">
+                        <div class="product_categoryAll2" style="margin-bottom:20px;">
                                 {foreach from=$merchants item=merchant name=merchants}
+                                        <li class="ajax_block_product nopadding">
+                                                <div>
+                                                    <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                        <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                        <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                    </a>
+                                                </div>
+                                                <div>&nbsp;</div>
+                                                <div class="name-merchant"> {$merchant.name} </div>
+                                                <div class="name-merchant" style="color: #ef4136; margin-bottom: 40px;">{l s="GANA HASTA"}&nbsp;{$merchant.value|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
+                                        </li>
+                                {/foreach}
+                        </div>
+                        <div class="product_categoryAll2">
+                                {foreach from=$merchants2 item=merchant name=merchants}
                                         <li class="ajax_block_product nopadding">
                                                 <div>
                                                     <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
@@ -79,14 +94,14 @@
 
 <script type="text/javascript"> 
     $(document).ready(function() {
-		var owl = $("#product_categoryAll2");
+		var owl = $(".product_categoryAll2");
 		owl.owlCarousel({
 		items : 4,
 		 pagination :false,
 		slideSpeed: 1000,
 		itemsDesktop : [1199,3],
-		itemsDesktopSmall : [911,2], 
-		itemsTablet: [767,2], 
+		itemsDesktopSmall : [911,3], 
+		itemsTablet: [767,3], 
 		itemsMobile : [480,1],
 		});
 		 
