@@ -106,6 +106,14 @@
   width: 75%;  
 }
 
+.text-filter {
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: #949494;
+    text-transform: uppercase;
+}
+
 @media (max-width: 2500px){
     .container{ max-width: 1920px;}
     form#searchbox{position: initial !important;top: 0px !important;padding-left: 740px !important;}

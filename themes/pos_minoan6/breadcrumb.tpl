@@ -38,6 +38,7 @@
 		{/if}
 	{/if}
     </div>
+    {if $cms->id==6 || $page_name =='category'}
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-right:0px;">
             <div class="iOS" id="someid">
@@ -54,6 +55,39 @@
         </div>    
         <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
     </div>    
+    {/if}
+{literal}
+    <script>
+        $('#someid').click(function(e){
+
+            var sw    = $(this).find(".switch"),
+                on    = parseInt(sw.css("left")) ? 1 : 0,
+                sds   = ['.lside', '.rside'],
+                mts   = ['-=18', '+=18'],
+                s_on  = sds[on],
+                s_off = sds[1-on],
+                mt    = mts[on];
+
+            $(this).find(s_off).css("opacity", 1);
+            
+            sw.stop().animate({left: mt}, 50, function(){
+              $(this).find(s_on).css("opacity", 0);
+             
+              if(s_on=='.lside'){
+                $('.menuSticky').hide("slow");
+                $('.containerFeatured').addClass("containerwidth");
+                $('.containerFeatured').removeClass("containerwidth-column");
+                $('.owl-wrapper-outer').addClass('widthColumn');
+              }
+              else{
+                $('.menuSticky').show("slow");
+                $('.containerFeatured').addClass("containerwidth-column");
+                $('.containerFeatured').removeClass("containerwidth");
+              }
+             });
+          });
+    </script>
+{/literal}
 </div>
 {if isset($smarty.get.search_query) && isset($smarty.get.results) && $smarty.get.results > 1 && isset($smarty.server.HTTP_REFERER)}
 <div class="pull-right">

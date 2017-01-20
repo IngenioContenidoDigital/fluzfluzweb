@@ -303,6 +303,7 @@ margin-right: 0;
     .owl-carousel .owl-wrapper{margin-bottom:0px !important;}
     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
     .container{max-width: 1440px;}
+    .widthColumn{width: 93% !important;margin-left: 30px !important;}
 }
 
 @media (min-width:1451px) and (max-width:2600px){
@@ -328,5 +329,6 @@ margin-right: 0;
     .text-bannercat {font-size: 60px;font-weight: lighter;letter-spacing: 10px;font-family: 'Open Sans';}
     form#searchbox{position: initial !important;top: 0px !important;padding-left: 740px !important;}
     .img-center{position: absolute;min-width: 100%;display: inline-block;margin-top:55px;}
+    .widthColumn{width: 92% !important;margin-left: 45px !important;}
 }
 

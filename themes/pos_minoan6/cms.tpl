@@ -137,34 +137,3 @@
         }
     </style>
 {/literal}
-{literal}
-    <script>
-        $('#someid').click(function(e){
-
-            var sw    = $(this).find(".switch"),
-                on    = parseInt(sw.css("left")) ? 1 : 0,
-                sds   = ['.lside', '.rside'],
-                mts   = ['-=18', '+=18'],
-                s_on  = sds[on],
-                s_off = sds[1-on],
-                mt    = mts[on];
-
-            $(this).find(s_off).css("opacity", 1);
-            
-            sw.stop().animate({left: mt}, 50, function(){
-              $(this).find(s_on).css("opacity", 0);
-             
-              if(s_on=='.lside'){
-                  $('.menuSticky').hide("slow");
-                  $('.containerFeatured').addClass("containerwidth");
-                   $('.containerFeatured').removeClass("containerwidth-column");
-              }
-              else{
-                $('.menuSticky').show("slow");
-                $('.containerFeatured').addClass("containerwidth-column");
-                $('.containerFeatured').removeClass("containerwidth");
-              }
-             });
-          });
-    </script>
-{/literal}
