@@ -237,16 +237,29 @@ class ManufacturerCore extends ObjectModel
     
     public static function getManufacturersCategory()
     {
-        $query = 'SELECT m.id_manufacturer, 
-	m.name, 
-	m.date_add, 
-	m.date_upd, 
-        m.category,
-	m.active,
-	(SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos FROM ps_rewards_product AS rp 
-        INNER JOIN ps_product AS p ON p.id_product=rp.id_product WHERE p.id_manufacturer=m.id_manufacturer ORDER BY max_puntos DESC LIMIT 1) AS value
-        FROM ps_manufacturer AS m WHERE m.active=1
-        ORDER BY RAND() LIMIT 20';
+        if ( isset($_COOKIE['citymanufacturerfilter']) && !empty($_COOKIE['citymanufacturerfilter']) && $_COOKIE['citymanufacturerfilter'] != "" ) {
+            $cityfilter = " AND a.city = '".$_COOKIE['citymanufacturerfilter']."' ";
+        }
+        
+        $query = 'SELECT
+                    m.id_manufacturer, 
+                    m.name, 
+                    m.date_add, 
+                    m.date_upd, 
+                    m.category,
+                    m.active,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos DESC
+                    LIMIT 1) AS value
+                FROM '._DB_PREFIX_.'manufacturer AS m
+                LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
+                WHERE m.active = 1
+                '.$cityfilter.'
+                ORDER BY RAND()
+                LIMIT 20';
         
         $manufacturers = Db::getInstance()->executeS($query); 
         
@@ -255,16 +268,29 @@ class ManufacturerCore extends ObjectModel
     
     public static function getNewManufacturers()
     {
-        $query = 'SELECT m.id_manufacturer, 
-	m.name, 
-	m.date_add, 
-	m.date_upd, 
-        m.category,
-	m.active,
-	(SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos FROM ps_rewards_product AS rp 
-        INNER JOIN ps_product AS p ON p.id_product=rp.id_product WHERE p.id_manufacturer=m.id_manufacturer ORDER BY max_puntos DESC LIMIT 1) AS value
-        FROM ps_manufacturer AS m WHERE m.active=1
-        ORDER BY m.date_add DESC LIMIT 20';
+        if ( isset($_COOKIE['citymanufacturerfilter']) && !empty($_COOKIE['citymanufacturerfilter']) && $_COOKIE['citymanufacturerfilter'] != "" ) {
+            $cityfilter = " AND a.city = '".$_COOKIE['citymanufacturerfilter']."' ";
+        }
+
+        $query = 'SELECT
+                    m.id_manufacturer, 
+                    m.name, 
+                    m.date_add, 
+                    m.date_upd, 
+                    m.category,
+                    m.active,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos DESC
+                    LIMIT 1) AS value
+                FROM '._DB_PREFIX_.'manufacturer AS m
+                LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
+                WHERE m.active = 1
+                '.$cityfilter.'
+                ORDER BY m.date_add DESC
+                LIMIT 20';
         
         $manufacturers = Db::getInstance()->executeS($query);  
         
@@ -525,5 +551,14 @@ class ManufacturerCore extends ObjectModel
         }
 
         return ($result1 && $result2);
+    }
+    
+    public static function citiesManufacturerFilter()
+    {
+        return Db::getInstance()->executeS("SELECT DISTINCT(a.city)
+                                            FROM "._DB_PREFIX_."address a
+                                            INNER JOIN "._DB_PREFIX_."product p ON ( a.id_manufacturer = p.id_manufacturer )
+                                            WHERE a.id_manufacturer <> 0
+                                            ORDER BY a.city");
     }
 }
