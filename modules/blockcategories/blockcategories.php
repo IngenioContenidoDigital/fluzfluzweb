@@ -266,6 +266,8 @@ class BlockCategories extends Module
 				$this->smarty->assign('branche_tpl_path', _PS_MODULE_DIR_.'blockcategories/category-tree-branch.tpl');
 		}
                 
+                $this->smarty->assign('cities_manufacturer_filter', Manufacturer::citiesManufacturerFilter());
+                
 		return $this->display(__FILE__, 'blockcategories.tpl', $cacheId);
 	}
 

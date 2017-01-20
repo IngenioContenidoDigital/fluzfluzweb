@@ -56,6 +56,11 @@
             <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
         </div>    
     {/if}
+    {if $cms->id == 6 || $page_name =='category'}
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 container_city_filter">  
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-filter" id="city_filter"></div>
+        </div>    
+    {/if}
 {literal}
     <script>
         $('.ocultar').click(function(e){
@@ -89,6 +94,19 @@
               }
              });
           });
+          
+        $(function() {
+            var cityselected = getCookie("citymanufacturerfilter");
+            if ( cityselected != null && cityselected != "" ) {
+                $("#city_filter").html("Comercios en: "+cityselected);
+            }
+        });
+        
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
     </script>
 {/literal}
 </div>
@@ -103,3 +121,8 @@
 </div>
 {/if}
 <!-- /Breadcrumb -->
+<style>
+    @media (max-width: 425px) {
+        .container_city_filter { margin-top: 70px; text-align: center; }
+    }
+</style>
