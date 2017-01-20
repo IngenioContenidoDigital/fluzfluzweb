@@ -114,13 +114,19 @@
     text-transform: uppercase;
 }
 
+@media (min-width:920px) and (max-width:2500px){
+    .widthtotal{width: 100%;}
+}
+
 @media (max-width: 2500px){
     .container{ max-width: 1920px;}
     form#searchbox{position: initial !important;top: 0px !important;padding-left: 740px !important;}
+    .leftwidth{left: 55px;}
 }
 
 @media (max-width: 1440px){
     form#searchbox{position: initial !important; top: 0px !important;padding-left: 490px !important;}
+    .leftwidth{left: 75px;}
 }
 
 @media (min-width:1025px) and (max-width:1080px){
@@ -131,6 +137,7 @@
     .owl-item { width: 216px !important; min-width: 0; margin-left: 18px !important;}
     .owl-wrapper{margin-left: 1px !important; transition:none !important; transform: none !important;}
     .prueba {left: 180px;}
+    .leftwidth{left: 15px;}
     form#searchbox{position: initial !important;top: 0px !important;padding-left: 285px !important;}
 }
                     
@@ -142,6 +149,7 @@
     form#searchbox{position: initial !important;top: 0px !important;padding-left: 170px !important;}
     .breadcrumb {margin-left: 0px;padding-left: 0px !IMPORTANT; margin-bottom: 20px;}
     .containerwidth-column{width: 100%;}
+    .leftwidth{left: 5px;}
 }
 
 @media (max-width:425px){
