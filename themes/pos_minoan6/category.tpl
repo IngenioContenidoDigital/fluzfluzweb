@@ -100,7 +100,7 @@
                     {$HOOK_LEFT_COLUMN}
                 </div>
 		{if $products}
-                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding-left: 0px;">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 widthCategory" style="padding-left: 0px;">
                         <h1 class="page-heading{if (isset($subcategories) && !$products) || (isset($subcategories) && $products) || !isset($subcategories) && $products} product-listing{/if}"><span class="cat-name">{$category->name|escape:'html':'UTF-8'}{if isset($categoryNameComplement)}&nbsp;{$categoryNameComplement|escape:'html':'UTF-8'}{/if}</span>{include file="$tpl_dir./category-count.tpl"}</h1>
    
 			<div class="content_sortPagiBar clearfix">
@@ -140,9 +140,6 @@
                     .style-search{background:#ef4136;height: 75px;}
                     form#searchbox input#search_query_block{margin-bottom: 0px !important;padding: 18.5px !important; max-width: 380px; margin-right: 0px !important;}
                     #search_query_top{left: 0px; margin-top: 65px; z-index: 1;}
-                    @media (max-width: 1440px) and (min-width: 1200px){
-                        .owl-item{width: 225px;}
-                    }
                     
                     @media (min-width:1025px) and (max-width:1120px){
                         .prueba{left: 186px;}

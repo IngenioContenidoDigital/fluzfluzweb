@@ -39,27 +39,26 @@
 	{/if}
     </div>
     {if $cms->id==6 || $page_name =='category'}
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-right:0px;">
-            <div class="iOS" id="someid">
-                <div class="switch">
-                  <span class="outter lside">
-                    <span class="otxt"></span>
-                  </span>
-                  <span class="outter rside">
-                    <span class="otxt"></span>
-                  </span>
-                  <span class="circle"></span>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-right:0px;">
+                <div class="iOS ocultar" id="someid">
+                    <div class="switch">
+                      <span class="outter lside">
+                        <span class="otxt"></span>
+                      </span>
+                      <span class="outter rside">
+                        <span class="otxt"></span>
+                      </span>
+                      <span class="circle"></span>
+                    </div>
                 </div>
-            </div>
+            </div>    
+            <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
         </div>    
-        <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
-    </div>    
     {/if}
 {literal}
     <script>
-        $('#someid').click(function(e){
-
+        $('.ocultar').click(function(e){
             var sw    = $(this).find(".switch"),
                 on    = parseInt(sw.css("left")) ? 1 : 0,
                 sds   = ['.lside', '.rside'],
@@ -78,6 +77,8 @@
                 $('.containerFeatured').addClass("containerwidth");
                 $('.containerFeatured').removeClass("containerwidth-column");
                 $('.owl-wrapper-outer').addClass('widthColumn');
+                $('.widthCategory').addClass('widthtotal');
+                $('.owl-carousel').addClass('leftwidth');
               }
               else{
                 $('.menuSticky').show("slow");
