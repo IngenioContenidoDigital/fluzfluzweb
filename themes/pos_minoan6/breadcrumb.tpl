@@ -84,6 +84,8 @@
                 $('.menuSticky').show("slow");
                 $('.containerFeatured').addClass("containerwidth-column");
                 $('.containerFeatured').removeClass("containerwidth");
+                $('.widthCategory').removeClass('widthtotal');
+                $('.owl-carousel').removeClass('leftwidth');
               }
              });
           });
