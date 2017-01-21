@@ -295,6 +295,7 @@ class ProductControllerCore extends FrontController
                 'return_link' => $return_link,
                 'product' => $this->product,
                 'product_manufacturer' => new Manufacturer((int)$this->product->id_manufacturer, $this->context->language->id),
+                'address_manufacturer' => $this->addressManufacturers(),
                 'token' => Tools::getToken(false),
                 'features' => $this->product->getFrontFeatures($this->context->language->id),
                 'attachments' => (($this->product->cache_has_attachments) ? $this->product->getAttachments($this->context->language->id) : array()),
@@ -323,6 +324,14 @@ class ProductControllerCore extends FrontController
             ));
         }
         $this->setTemplate(_PS_THEME_DIR_.'product.tpl');
+    }
+    
+    public function  addressManufacturers(){
+        
+        $query = 'SELECT address1 FROM ps_address where id_manufacturer = '.$this->product->id_manufacturer;
+        $address = Db::getInstance()->executeS($query);
+        
+        return $address;
     }
 
     /**
@@ -581,7 +590,8 @@ class ProductControllerCore extends FrontController
             
             foreach ($combinations as $prueba) {
                 
-                $query = 'SELECT p.price_shop, p.price, p.id_product, p.id_manufacturer, pl.link_rewrite, 
+                $query = 'SELECT p.price_shop, p.price, p.id_product, p.online_only as online, 
+                          p.single_use, p.expiration, p.id_manufacturer, pl.link_rewrite, 
                           pl.name, pa.id_product_attribute, ac.id_attribute,
                           (rp.value/100) as value FROM '._DB_PREFIX_.'product p
                           LEFT JOIN '._DB_PREFIX_.'product_lang pl ON (p.id_product = pl.id_product)

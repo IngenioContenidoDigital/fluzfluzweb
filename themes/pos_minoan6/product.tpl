@@ -309,7 +309,10 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/16)|string_format:"%d"}</div>
                                                                                 {/if}    
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">${$list.price|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
+                                                                                    <span>${$list.price|number_format:0}</span><br>
+                                                                                    <span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
+                                                                                </div>
                                                                                 {if $logged}
                                                                                 <button type="submit" name="Submit" class="btn-combinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" comb="{$list.id_product_attribute}" id="{$list.id_attribute}">
                                                                                     <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
@@ -317,6 +320,25 @@
                                                                                 {else}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>    
                                                                                 {/if}    
+                                                                            </div>
+                                                                            <div class="detail-product" id="detail_product_{$list.id_product}" style="display:none">
+                                                                                <div class="title-detail">{l s="Detalles de Tarjeta de Regalo"}</div>
+                                                                                {if $list.online==1}
+                                                                                    <div class="text-detail">{l s="- Solamente Online"}</div>
+                                                                                {else}
+                                                                                    <span>{l s=""}</span>
+                                                                                {/if}
+                                                                                {if $list.single_use==1}
+                                                                                    <div class="text-detail">{l s="- Uso Unico"}</div>
+                                                                                {else}
+                                                                                    <span>{l s=""}</span>
+                                                                                {/if}
+                                                                                <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
+                                                                                {if $list.expiration=='0000-00-00'}
+                                                                                    <div class="expiration-detail"></div>
+                                                                                {else}
+                                                                                    <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$list.expiration}</span></div>
+                                                                                {/if}
                                                                             </div>
                                                                         {/foreach}
                                                                         
@@ -342,7 +364,11 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{$resultProduct|string_format:"%d"}</div>
                                                                                 {/if}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">${$productPrice|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
+                                                                                    <span>${$productPrice|number_format:0}</span><br>
+                                                                                    <span class="detail-more" id="detail_{$product->id}" onclick="accordion_more({$product->id})">{l s="Detalles"}</span>
+                                                                                </div>
+                                                                                
                                                                                 {if $logged}
                                                                                 <button type="submit" name="Submit" class="btn-nocombinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list">
                                                                                     <span>{if $content_only && (isset($product->customization_required) && $product->customization_required)}{l s='Customize'}{else}{l s='ADD TO CART'}{/if}</span>
@@ -351,8 +377,42 @@
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
                                                                                 {/if}
                                                                             </div>
+                                                                            <div class="detail-product" id="detail_product_{$product->id}" style="display:none">
+                                                                                <div class="title-detail">{l s="Detalles de Tarjeta de Regalo"}</div>
+                                                                                {if $product->online==1}
+                                                                                    <div class="text-detail">{l s="- Solamente Online"}</div>
+                                                                                {else}
+                                                                                    <span>{l s=""}</span>
+                                                                                {/if}
+                                                                                {if $product->single_use==1}
+                                                                                    <div class="text-detail">{l s="- Uso Unico"}</div>
+                                                                                {else}
+                                                                                    <span>{l s=""}</span>
+                                                                                {/if}
+                                                                                <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
+                                                                                <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$product->expiration}</span></div>
+                                                                            </div>
                                                                             
-                                                                        {/if}    
+                                                                        {/if} 
+                                                                        {literal}
+                                                                            <script>
+                                                                                  function accordion_more(id) {
+
+                                                                                        var esVisible = $('#detail_product_'+id).is(":visible");
+                                                                                        if(esVisible){
+                                                                                            $('#detail_product_'+id).toggle("slow");
+                                                                                            $('.detail-more').addClass('more-sign');
+                                                                                            $('.detail-more').removeClass('minus-sign');
+                                                                                        }
+                                                                                        else {
+                                                                                            $('.detail-product').css('display','none');
+                                                                                            $('#detail_product_'+id).toggle("slow");
+                                                                                            $('.detail-more').addClass('minus-sign');
+                                                                                            $('.detail-more').removeClass('more-sign');
+                                                                                        }
+                                                                                    }
+                                                                            </script>
+                                                                        {/literal}
                                                                         </div>
                                                                         
                                                                         <!--<div class="col-lg-12">
@@ -529,7 +589,8 @@
                                 {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
                                 {if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
-				{*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
+				{if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab22"><span>{l s='Direcciones'}</span></a></li>{/if}
+                                {*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
 				{*if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if*}
 				{$HOOK_PRODUCT_TAB}
 			</ul>
@@ -615,18 +676,30 @@
 				<section id="idTab1" class="page-product-box">
 			
 					<!-- full description -->
-					<div  class="rte">{$product->description}</div>
+                                        <div  class="rte"><span class="text-info-merchant">{$product->description}</span></div>
 				</section>
 				<!--end  More info -->
 			{/if}
 			{if isset($product) && $product->description_short}
                                 <section id="idTab20" class="page-product-box">
-                                        <div class="rte">{$product->description_short}</div>
+                                    <div class="rte"><span class="text-info-merchant">{$product->description_short}</span></div>
                                 </section>
 			{/if}
 			{if isset($product_manufacturer) && $product_manufacturer->description}
                                 <section id="idTab21" class="page-product-box">
-                                        <div class="rte">{$product_manufacturer->description}</div>
+                                    <div class="rte"><span class="text-info-merchant">{$product_manufacturer->description}</span></div>
+                                </section>
+			{/if}
+                        {if isset($product_manufacturer)}
+                                <section id="idTab22" class="page-product-box">
+                                    <div class="rte">
+                                        <div class="title-locations">{l s="Direcciones"}</div>
+                                        {foreach from=$address_manufacturer item='address'}
+                                            <span class="text-info-merchant address-style">
+                                                  {$address.address1}
+                                            </span><br/>
+                                        {/foreach}
+                                    </div>
                                 </section>
 			{/if}
 			{if isset($packItems) && $packItems|@count > 0}

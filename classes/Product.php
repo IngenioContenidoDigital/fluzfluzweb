@@ -115,6 +115,10 @@ class ProductCore extends ObjectModel
     public $reference;
     
     public $product_parent;
+    
+    public $single_use = false;
+    
+    public $expiration = '0000-00-00';
 
     /** @var string Supplier Reference */
     public $supplier_reference;
@@ -290,12 +294,13 @@ class ProductCore extends ObjectModel
             'cache_has_attachments' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'is_virtual' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'product_parent' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-
+            'expiration'=>                  array('type' => self::TYPE_DATE, 'validate' => 'isDateFormat'),
             /* Shop fields */
             'id_category_default' =>        array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedId'),
             'id_tax_rules_group' =>        array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedId'),
             'on_sale' =>                    array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'online_only' =>                array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
+            'single_use' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'ecotax' =>                    array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice'),
             'minimal_quantity' =>            array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedInt'),
             'price' =>                        array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice', 'required' => true),
