@@ -391,9 +391,9 @@
                                                                                 {/if}
                                                                                 <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
                                                                                 {if $product->expiration=='0000-00-00'}
-                                                                                <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$product->expiration}</span></div>
+                                                                                    <div class="expiration-detail"></div>
                                                                                 {else}
-                                                                                <div class="expiration-detail"></div>
+                                                                                <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$product->expiration}</span></div>
                                                                                 {/if}
                                                                             </div>
                                                                             
