@@ -3046,6 +3046,7 @@ class AdminProductsControllerCore extends AdminController
 
         $this->tpl_form_vars['product_type'] = (int)Tools::getValue('type_product', $product->getType());
         $this->tpl_form_vars['product_parent'] = $product->product_parent;
+        $this->tpl_form_vars['single_use'] = $product->single_use;
         
         $this->getLanguages();
 
@@ -4235,6 +4236,7 @@ class AdminProductsControllerCore extends AdminController
         $data->assign('product_type', (int)Tools::getValue('type_product', $product->getType()));
         $data->assign('is_in_pack', (int)Pack::isPacked($product->id));
         $data->assign('product_parent', (int)Tools::getValue('product_parent'));
+        $data->assign('single_use', (int)Tools::getValue('single_use'));
 
         $check_product_association_ajax = false;
         if (Shop::isFeatureActive() && Shop::getContext() != Shop::CONTEXT_ALL) {
