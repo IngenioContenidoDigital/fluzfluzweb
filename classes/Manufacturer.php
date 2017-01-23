@@ -258,6 +258,7 @@ class ManufacturerCore extends ObjectModel
                 LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
                 WHERE m.active = 1
                 '.$cityfilter.'
+                GROUP BY m.id_manufacturer
                 ORDER BY RAND()
                 LIMIT 20';
         
@@ -289,6 +290,7 @@ class ManufacturerCore extends ObjectModel
                 LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
                 WHERE m.active = 1
                 '.$cityfilter.'
+                GROUP BY m.id_manufacturer
                 ORDER BY m.date_add DESC
                 LIMIT 20';
         
