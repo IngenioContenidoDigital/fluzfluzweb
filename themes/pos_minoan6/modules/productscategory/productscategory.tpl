@@ -40,7 +40,7 @@
 
 	<div id="productscategory_list" class="clearfix">
 		<div class="row pos-content">
-			<div id="product_category">
+			<div class="product_category">
 			{foreach from=$categoryProducts item='categoryProduct' name=categoryProduct}
 				<div class="item-product">
                                         <div>
@@ -165,6 +165,29 @@
 				</div>
 			{/foreach}
 			</div>
+                        <div class="product_category">
+			{foreach from=$categoryProducts2 item='categoryProduct' name=categoryProduct}
+				<div class="item-product">
+                                        <div>
+                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                </a>
+                                        </div>
+                                        <div class="points-block">
+                                        {assign var="idprodshop" value=$product.reference}
+                                        {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                <div style="width: 55%; font-size:14px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
+                                                </div>
+                                                <div>
+                                                    <span style="color:#ef4136; font-size: 14px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                </div>
+                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                        </div>
+				</div>
+			{/foreach}
+			</div>
 			<div class="boxprevnext">
 				<a class="prev prev-product"><i class="icon-chevron-left"></i></a>
 				<a class="next next-product"><i class="icon-chevron-right"></i></a>
@@ -175,7 +198,7 @@
 {/if}
 <script type="text/javascript"> 
     $(document).ready(function() {
-		var owl = $("#product_category");
+		var owl = $(".product_category");
 		owl.owlCarousel({
 		items : 1,
 		 pagination :false,

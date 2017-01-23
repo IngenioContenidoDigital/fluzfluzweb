@@ -159,7 +159,7 @@ margin-right: 0;
 }
 
 .menuSticky{
-  height: 1700px;  
+  height: auto;  
 }
 
 .text-filter{margin-top: 10px; font-size: 12px;letter-spacing: 1.5px;color: #949494; text-transform: uppercase;}

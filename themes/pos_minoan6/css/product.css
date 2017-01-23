@@ -186,7 +186,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 .detail-product{margin: 20px;}
 .title-detail{color: #000; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
 .expiration-detail{color: #ef4136; margin-top: 10px; text-transform: uppercase;}
-.detail-more{color: #58595b;}
+.detail-more{color: #58595b; cursor: pointer;}
 .minus-sign::before{
     content: '-';
     padding: 1px;
@@ -195,6 +195,21 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 .more-sign::before{
     content: '+';
     padding: 1px;
+}
+
+.address-div{display: none;}
+.more-address{color:#ef4136; text-transform: uppercase; font-weight: bold;}
+#loadMoreAddress{margin-top: 10px;}
+.img-center {
+    position: absolute;
+    min-width: 100%;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.img-newmerchant {
+    width: 180px !important;
+    margin: 0 auto;
 }
 
 @media (max-width:1024px){
@@ -634,6 +649,10 @@ Quick View Styles
     #buy_block{width: 94%;}
    .item-list{padding: 0px;font-size: 10px; margin-top: 15px;}
    .content-table-combinations{height: 50px;}
+   .title-detail{font-size: 9px;}
+   .text-detail{font-size: 9px;}
+   .expiration-detail{font-size: 9px;}
+   .expiration-detail span{font-size: 9px;}
 }
 
 @media (max-width:359px){
@@ -692,6 +711,11 @@ Quick View Styles
    .item-list{padding: 0px;font-size: 10px; margin-top: 15px;}
    .content-table-combinations{height: 50px;}
    .title-table-combinations{height: 50px; line-height: 50px;}
+   .pb-center-column {padding-left: 13px;}
+   .title-detail{font-size: 9px;}
+   .text-detail{font-size: 9px;}
+   .expiration-detail{font-size: 9px;}
+   .expiration-detail span{font-size: 9px;}
 }
 
 .box-info-product .exclusive{
@@ -766,6 +790,17 @@ Quick View Styles
     .price-point{background: transparent;text-align: right;padding-bottom: 20px;padding-left: 48px; padding-right: 96px;}
     .prueba {position: absolute;top: 12px;left: 330px;width: 20px;height: 20px;font-size: 10px;border-radius: 100%;font-weight: 700;background: #ffc21c;font-family: 'Open Sans';line-height: 20px;text-align: center;color: white;}
     .more-info { padding-left: 20px;}
+    .img-center {
+        position: absolute;
+        min-width: 100%;
+        display: inline-block;
+        margin-top:20px;
+    }
+
+    .img-newmerchant {
+        width: 280px !important;
+        margin: 0 auto;
+    }
 }
 
 .containerbanners { margin-top: 30px; }
