@@ -570,12 +570,24 @@ class AdminManufacturersControllerCore extends AdminController
             'col' => 2,
             'required' => in_array('postcode', $required_fields)
         );
-        $form['input'][] = array(
+        /*$form['input'][] = array(
             'type' => 'text',
             'label' => $this->l('City'),
             'name' => 'city',
             'col' => 4,
             'required' => true,
+        );*/
+        $form['input'][] = array(
+            'type' => 'select',
+            'label' => $this->l('City'),
+            'name' => 'city',
+            'required' => false,
+            'col' => 4,
+            'options' => array(
+                'query' => City::getCities(),
+                'id' => 'ciudad',
+                'name' => 'ciudad',
+            )
         );
         $form['input'][] = array(
             'type' => 'select',
