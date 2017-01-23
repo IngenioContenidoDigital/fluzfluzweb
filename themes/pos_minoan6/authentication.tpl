@@ -596,7 +596,12 @@
                                     </div>
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
-                                        <input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />
+                                        {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}
+                                        <select name="city" id="city" class="form-control">
+                                            {foreach from=$cities item=city}
+                                                <option value="{$city.ciudad}">{$city.ciudad}</option>
+                                            {/foreach}
+                                        </select>
                                     </div>
                                     <div class="required select form-group">
                                         <label class="required" for="id_country">{l s='Country'}</label>
