@@ -192,8 +192,7 @@
 				required=true
 			}
 		</div>
-	</div>
-
+	</div>      
 	<div class="form-group">
 		<label class="control-label col-lg-3" for="reference">
 			<span class="label-tooltip" data-toggle="tooltip"
@@ -330,6 +329,7 @@
 							{include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="available_for_order" type="default"}
 							{include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="show_price" type="show_price"}
 							{include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="online_only" type="default"}
+                                                        {include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="single_use" type="default"}
 						{/if}
 					</span>
 				</div>
@@ -352,6 +352,18 @@
 							<input type="checkbox" name="online_only" id="online_only" value="1" {if $product->online_only}checked="checked"{/if} >
 							{l s='Online only (not sold in your retail store)'}</label>
 					</div>
+                                        <div class="checkbox">
+                                                <input type="hidden" name="single_use" id="single_use" value="1" {if $product->single_use}checked="checked"{/if}>
+						<label for="single_use2" style="cursor:pointer;">
+                                                    <input type="checkbox" name="single_use2" id="single_use2" value="1" {if $product->single_use}checked="checked"{/if}>
+                                                    {l s='Solo un uso'}
+                                                </label>
+					</div>
+                                        <div class="input-group" style="width:50%; margin-top: 30px;">
+                                            <span class="input-group-addon">{l s='Fecha de Vencimiento'}</span>
+                                            <input type="text" class="datepicker" name="expiration" value="{$product->expiration}" />
+                                            <span class="input-group-addon"><i class="icon-calendar-empty"></i></span>
+                                        </div>        
 				</div>
 			</div>
 			<div class="form-group">
@@ -534,3 +546,19 @@
 	hideOtherLanguage({$default_form_language});
 	var missing_product_name = '{l s='Please fill product name input field' js=1}';
 </script>
+
+{literal}
+    <script>
+        $('[name="single_use2"]').click(function(){
+           var check = $(this).attr('checked'); 
+           if(check=='checked'){
+               $('#single_use').val("1");
+               $('#single_use').attr("checked",'checked');
+           }
+           else{
+               $('#single_use').val("0");
+               $('#single_use').attr("checked",'checked');
+           }
+        });
+    </script>
+{/literal}
