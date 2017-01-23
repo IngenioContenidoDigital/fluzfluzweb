@@ -139,7 +139,9 @@ class AuthControllerCore extends FrontController
             $_POST['customer_firstname'] = $_COOKIE["datamailfirstname"];
             $_POST['customer_lastname'] = $_COOKIE["datamaillastname"];
         }
-        
+
+        $this->context->smarty->assign('cities', City::getCities());
+
         $this->context->smarty->assign('PS_BUY_MEMBERSHIP', Configuration::get('PS_BUY_MEMBERSHIP'));
 
         // Just set $this->template value here in case it's used by Ajax
