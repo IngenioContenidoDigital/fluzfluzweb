@@ -48,8 +48,8 @@
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
             <div class="detail-support">
-                <a href="http://reglas.fluzfluz.co"><p>{l s='Learn how to redeem digital cards.'}</p></a>
-                <a href="http://reglas.fluzfluz.co"><p>{l s='Learn how to transact with merchants.'}</p></a>
+                <a href="http://reglas.fluzfluz.co"><p>Aprende c&oacute;mo redimir tus bonos digitales</p></a>
+                <a href="http://reglas.fluzfluz.co"><p><strong style="font-size: 15px;">VER LAS REGLAS DE FLUZ FLUZ</strong></p></a>
             </div>
         </div>
     </div>
