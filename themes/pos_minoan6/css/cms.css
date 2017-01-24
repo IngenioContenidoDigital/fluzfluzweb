@@ -203,6 +203,7 @@ margin-right: 0;
     .breadcrumb {margin-left: 0px;padding-left: 0px !IMPORTANT; margin-bottom: 20px;}
     .containerwidth-column{width: 100%;}
     .menuSticky{height: auto !important;}
+    .containerFeatured{float: none !important;}
 }
 
 @media (max-width:425px){

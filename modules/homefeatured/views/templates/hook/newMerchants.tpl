@@ -61,10 +61,22 @@
                                 {foreach from=$merchants item=merchant name=merchants}
                                         <li class="ajax_block_product nopadding">
                                                 <div>
-                                                    <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
-                                                        <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
-                                                        <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
-                                                    </a>
+                                                    {if $merchant.count==1}
+                                                        <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getProductLink($merchant.id_product, $merchant.link_rewrite)|escape:'htmlall':'UTF-8'}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                            <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                            <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                        </a>
+                                                    {else if $merchant.count==0}
+                                                        <a class="product_img_link" href="#" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                            <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                            <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                        </a>
+                                                    {else}
+                                                        <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                            <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                            <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                        </a>    
+                                                    {/if}
                                                 </div>
                                                 <div>&nbsp;</div>
                                                 <div class="name-merchant"> {$merchant.name} </div>
@@ -72,14 +84,26 @@
                                         </li>
                                 {/foreach}
                         </div>
-                        <div class="product_categoryAll3" style="margin-bottom:80px;">
+                        <div class="product_categoryAll3">
                                 {foreach from=$merchants2 item=merchant name=merchants}
                                         <li class="ajax_block_product nopadding">
                                                 <div>
-                                                    <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
-                                                        <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
-                                                        <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
-                                                    </a>
+                                                    {if $merchant.count==1}
+                                                        <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getProductLink($merchant.id_product, $merchant.link_rewrite)|escape:'htmlall':'UTF-8'}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                            <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                            <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                        </a>
+                                                    {else if $merchant.count==0}
+                                                        <a class="product_img_link" href="#" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                            <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                            <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                        </a>
+                                                    {else}
+                                                        <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
+                                                            <div class="img-center"><img src="{$s3}m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                            <img class="img-responsive pruebaImgCategory" src="{$s3}m/m/{$merchant.id_manufacturer}.jpg" alt="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="image" style="padding:10px;"/>
+                                                        </a>    
+                                                    {/if}
                                                 </div>
                                                 <div>&nbsp;</div>
                                                 <div class="name-merchant"> {$merchant.name} </div>
@@ -117,6 +141,6 @@
 {literal}
 <style>
     .title-merchant { text-transform: capitalize; color: #000; }
-    .owl-item {border:1px solid #CBCBCB;}
+    .owl-item {border:1px solid #CBCBCB; margin-bottom: 0px;}
 </style>
 {/literal}
