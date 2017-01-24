@@ -59,7 +59,7 @@
         <div class="row cont-category">
                 <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">
                     {$HOOK_LEFT_COLUMN}
-                    <form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>
+                    <!--<form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>-->
                 </div>
             {if $cms->id==6}
                 <div class="col-lg-9 col-md-9 containerFeatured"> 
@@ -68,12 +68,6 @@
                 <div class="col-lg-9 col-md-9 containerFeatured" style="float: right;">
                     {hook h='merchants'}
                 </div>
-            {/if}
-            {if $cms->id==6}
-                {capture name='blockPosition3'}{hook h='blockPosition3'}{/capture}
-                {if $smarty.capture.blockPosition3}
-                    {$smarty.capture.blockPosition3}
-                {/if}
             {/if}
         </div>   
 {elseif isset($cms_category)}
