@@ -33,14 +33,31 @@
                                 {include file="$branche_tpl_path" node=$child}
 			{/foreach}
 		</ul>
+                {* INICIO FILTRO CIUDAD *}
+                <ul class="tree {if $isDhtml}dhtml{/if}">
+			<li>
+                                <a id="categoryfather-ubicacion" class="categoryfather" onclick="downcategory('ubicacion');">
+                                    Ubicaci&oacute;n
+                                </a>
+
+                                <ul style="display: none;" id="categorychildren-ubicacion" class="categorychildren">
+                                        <li>
+                                                <a class="city_manufacturer_filter" id="" href="" style="font-weight: bold; font-style: italic;">
+                                                        {l s='Todas'}
+                                                </a>
+                                        </li>
+                                        {foreach from=$cities_manufacturer_filter item=city_manufacturer_filter}
+                                                <li>
+                                                        <a class="city_manufacturer_filter" id="{$city_manufacturer_filter.city|lower|replace:" ":""|replace:"(":""|replace:")":""|replace:".":""|replace:",":""|replace:"á":"a"|replace:"é":"e"|replace:"í":"i"|replace:"ó":"o"|replace:"ú":"u"|replace:"Á":"a"|replace:"É":"e"|replace:"Í":"i"|replace:"Ó":"o"|replace:"Ú":"u"}" href="">
+                                                                {$city_manufacturer_filter.city|lower}
+                                                        </a>
+                                                </li>
+                                        {/foreach}
+                                </ul>
+                        </li>
+		</ul>
+                {* FINAL FILTRO CIUDAD *}
 	</div>
-    <label style="margin-top: 10px;">Ubicaci&oacute;n:</label>
-    <select class="form-control" name="city_manufacturer_filter" id="city_manufacturer_filter">
-        <option id="option_" value="">- Ciudad -</option>
-        {foreach from=$cities_manufacturer_filter item=city_manufacturer_filter}
-            <option id="option_{$city_manufacturer_filter.city|lower|replace:" ":""|replace:"(":""|replace:")":""|replace:".":""|replace:",":""|replace:"á":"a"|replace:"é":"e"|replace:"í":"i"|replace:"ó":"o"|replace:"ú":"u"|replace:"Á":"a"|replace:"É":"e"|replace:"Í":"i"|replace:"Ó":"o"|replace:"Ú":"u"}" value="{$city_manufacturer_filter.city}">{$city_manufacturer_filter.city}</option>
-        {/foreach}
-    </select>
 </div>
 <!-- /Block categories module -->
 <script>
@@ -78,15 +95,8 @@
             }
         }
         
-        var cityselected = getCookie("citymanufacturerfilter");
-        if ( cityselected != null && cityselected != "" ) {
-            cityselected = cityselected.toLowerCase();
-            cityselected = cityselected.replace(" ", "").replace("(", "").replace(")", "").replace(".", "").replace(",", "").replace("á", "a").replace("é", "e").replace("´i", "i").replace("ó", "o").replace("ú", "u");
-            $("#option_"+cityselected).attr("selected","selected");
-        }
-
-        $("#city_manufacturer_filter").change(function() {
-            var city = $("#city_manufacturer_filter").val();
+        $(".city_manufacturer_filter").click(function() {
+            var city = $(this).attr("id");
             var days = 15;
 
             date = new Date();
@@ -95,11 +105,5 @@
             document.cookie = "citymanufacturerfilter="+city+"; expires="+date.toGMTString()+"; path=/";
             location.reload();
         });
-        
-        function getCookie(name) {
-            var value = "; " + document.cookie;
-            var parts = value.split("; " + name + "=");
-            if (parts.length == 2) return parts.pop().split(";").shift();
-        }
     </script>
 {/literal}
