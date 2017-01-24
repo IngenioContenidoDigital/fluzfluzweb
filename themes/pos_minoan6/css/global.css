@@ -3750,7 +3750,7 @@ nav #social_block ul li.instagram a:before { content: "\f16d"; }
 nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-height: 25px; text-transform: none; padding: 0 10px 0 0; }
 @media (max-width: 768px) { nav #social_block h4 { display: none; text-align: center; } }
 
-@media (max-width: 1199px) { .more-info ul li a, .pos-title h2, .block .title_block, .block h4, .tabs li { font-size: 16px !important; }
+@media (max-width: 1199px) { .more-info ul li a, .pos-title h2, .block .title_block, .block h4, .tabs li { font-size: 16px ; }
   #layered_block_left { font-size: 13px; } }
 @media (max-width: 991px) { #search_block_top { float: none; position: static !important; margin-top: 30px; }
   #header .block-cart { float: none !important; display: inline-block !important; }
