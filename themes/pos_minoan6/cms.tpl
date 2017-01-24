@@ -65,7 +65,7 @@
                 <div class="col-lg-9 col-md-9 containerFeatured"> 
                     {hook h='newMerchants'}
                 </div>
-                <div class="col-lg-9 col-md-9 containerFeatured">
+                <div class="col-lg-9 col-md-9 containerFeatured" style="float: right;">
                     {hook h='merchants'}
                 </div>
             {/if}

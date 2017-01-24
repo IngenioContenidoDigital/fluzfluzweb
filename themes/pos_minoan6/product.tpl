@@ -311,7 +311,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
                                                                                     <span>${$list.price|number_format:0}</span><br>
-                                                                                    <span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
+                                                                                    <span class="sign-more">+</span><span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
                                                                                 </div>
                                                                                 {if $logged}
                                                                                 <button type="submit" name="Submit" class="btn-combinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" comb="{$list.id_product_attribute}" id="{$list.id_attribute}">
@@ -366,7 +366,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
                                                                                     <span>${$productPrice|number_format:0}</span><br>
-                                                                                    <span class="detail-more" id="detail_{$product->id}" onclick="accordion_more({$product->id})">{l s="Detalles"}</span>
+                                                                                    <span class="sign-more">+</span><span class="detail-more" id="detail_{$product->id}" onclick="accordion_more({$product->id})">{l s="Detalles"}</span>
                                                                                 </div>
                                                                                 
                                                                                 {if $logged}
@@ -401,7 +401,7 @@
                                                                         {literal}
                                                                             <script>
                                                                                   function accordion_more(id) {
-
+                                                                                        $('.sign-more').hide();
                                                                                         var esVisible = $('#detail_product_'+id).is(":visible");
                                                                                         if(esVisible){
                                                                                             $('#detail_product_'+id).toggle("slow");
@@ -699,12 +699,32 @@
                                     <div class="rte">
                                         <div class="title-locations">{l s="Direcciones"}</div>
                                         {foreach from=$address_manufacturer item='address'}
-                                            <span class="text-info-merchant address-style">
-                                                  {$address.address1}
-                                            </span><br/>
+                                                <div class=address-div>
+                                                    <span class="text-info-merchant address-style">
+                                                          {$address.address1}
+                                                    </span><br/>
+                                                </div>
                                         {/foreach}
+                                        <div id="loadMoreAddress"><span class="more-address">{l s="Mostrar mas"}</span></div>
                                     </div>
                                 </section>
+                                {literal}
+                                    <script>
+                                        $(function(){
+                                            $(".address-div").slice(0, 2).show(); // select the first ten
+                                            if($(".address-div").length <= 3){
+                                                $("#loadMoreAddress").css('display','none');
+                                            }
+                                            else
+                                                $("#loadMoreAddress").click(function(){
+                                                    $(".address-div:hidden").slice(0, 6).toggle('slow');
+                                                    if($(".address-div:hidden").length == 0){ // check if any hidden divs still exist
+                                                        $("#loadMoreAddress").css('display','none'); // alert if there are none left
+                                                    }
+                                            });
+                                        });
+                                    </script>
+                                {/literal}    
 			{/if}
 			{if isset($packItems) && $packItems|@count > 0}
 			<section id="blockpack">

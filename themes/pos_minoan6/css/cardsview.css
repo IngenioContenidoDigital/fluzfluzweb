@@ -335,7 +335,7 @@ ul li .check::before {
     .cardview-ins { margin-left: 0%; width: 76% }
     .popText { margin-left: 270px!important; }
     .container-barcode { float: right!important; }
-    .fancybox-skin { height: 400px!important; margin: 0 auto !important; max-width: 500px; }
+    .fancybox-skin { height: auto!important; margin: 0 auto !important; max-width: 500px; }
     .codigoCard2 { line-height: 37px; }
 }
 
@@ -349,13 +349,14 @@ ul li .check::before {
     .pDate {font-size: 10px;}
     .pCode{margin-top: 10px;}
     .micode{margin-bottom: 10px;}
-    .card-view { margin-left: 0!important; width: 94%!important; }
+    .card-view { margin-left: 0!important; width: 100%!important; }
     .cardview-ins { margin-left: 0!important; width: 94%!important; margin-bottom: 10px; }
     .popText { margin-left: 33%!important; }
     .codigoCard2 { line-height: 19px; }
     #text-fabri { width: 50%!important; }
     #bar-code { margin-left: 23%!important; margin-bottom: 0px; margin-top: 15px; }
     #columns { width: 99%; }
+    .fancybox-skin { height: auto!important;}
 }
 
 @media (max-width:375px){
@@ -383,6 +384,7 @@ ul li .check::before {
     #img-prod { width: 100%!important; }
     #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 67px !important; margin-top: 15px !important; }
     #columns { width: 99%; }
+    .fancybox-skin { height: auto!important;}
 }
 
 @media (max-width:277px){
