@@ -240,6 +240,10 @@ class ManufacturerCore extends ObjectModel
         if ( isset($_COOKIE['citymanufacturerfilter']) && !empty($_COOKIE['citymanufacturerfilter']) && $_COOKIE['citymanufacturerfilter'] != "" ) {
             $cityfilter = " AND a.city = '".$_COOKIE['citymanufacturerfilter']."' ";
         }
+
+        if ( isset($_COOKIE['manufacturerfilter']) && !empty($_COOKIE['manufacturerfilter']) && $_COOKIE['manufacturerfilter'] != "" ) {
+            $cityfilter = " AND m.id_manufacturer = '".$_COOKIE['manufacturerfilter']."' ";
+        }
         
         $query = 'SELECT
                     m.id_manufacturer, 
@@ -262,8 +266,7 @@ class ManufacturerCore extends ObjectModel
                 ORDER BY RAND()
                 LIMIT 20';
         
-        $manufacturers = Db::getInstance()->executeS($query); 
-        
+        $manufacturers = Db::getInstance()->executeS($query);
         return $manufacturers;
     }
     
@@ -271,6 +274,10 @@ class ManufacturerCore extends ObjectModel
     {
         if ( isset($_COOKIE['citymanufacturerfilter']) && !empty($_COOKIE['citymanufacturerfilter']) && $_COOKIE['citymanufacturerfilter'] != "" ) {
             $cityfilter = " AND a.city = '".$_COOKIE['citymanufacturerfilter']."' ";
+        }
+
+        if ( isset($_COOKIE['manufacturerfilter']) && !empty($_COOKIE['manufacturerfilter']) && $_COOKIE['manufacturerfilter'] != "" ) {
+            $cityfilter = " AND m.id_manufacturer = '".$_COOKIE['manufacturerfilter']."' ";
         }
 
         $query = 'SELECT
@@ -553,6 +560,15 @@ class ManufacturerCore extends ObjectModel
         }
 
         return ($result1 && $result2);
+    }
+    
+    public static function ManufacturersFilter()
+    {
+        return Db::getInstance()->executeS("SELECT CONCAT('m',m.id_manufacturer) id, m.name
+                                            FROM "._DB_PREFIX_."manufacturer m
+                                            INNER JOIN "._DB_PREFIX_."product p ON ( m.id_manufacturer = p.id_manufacturer )
+                                            WHERE m.active = 1
+                                            GROUP BY m.id_manufacturer");
     }
     
     public static function citiesManufacturerFilter()

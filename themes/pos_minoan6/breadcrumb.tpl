@@ -61,11 +61,6 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-filter" id="city_filter"></div>
         </div>    
     {/if}
-    {if $cms->id == 6 || $page_name =='category'}
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 container_city_filter">  
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-filter" id="city_filter"></div>
-        </div>    
-    {/if}
 {literal}
     <script>
         $('.ocultar').click(function(e){
