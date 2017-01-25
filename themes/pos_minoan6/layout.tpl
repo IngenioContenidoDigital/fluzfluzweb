@@ -28,5 +28,11 @@
 {if isset($HOOK_RIGHT_COLUMN) && $HOOK_RIGHT_COLUMN|trim && !$hide_right_column}{$right_column_size=3}{/if}
 {if !empty($display_header)}{include file="$tpl_dir./header.tpl" HOOK_HEADER=$HOOK_HEADER}{/if}
 {if !empty($template)}{$template}{/if}
+{if $cms->id==6}
+    {capture name='blockPosition3'}{hook h='blockPosition3'}{/capture}
+    {if $smarty.capture.blockPosition3}
+        {$smarty.capture.blockPosition3}
+    {/if}
+{/if}
 {if !empty($display_footer)}{include file="$tpl_dir./footer.tpl"}{/if}
 {if !empty($live_edit)}{$live_edit}{/if}
