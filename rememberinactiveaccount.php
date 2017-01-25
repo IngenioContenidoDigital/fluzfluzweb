@@ -16,7 +16,12 @@ $query = "SELECT
                     LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o2.id_order = od.id_order )
                     WHERE o2.id_customer = c.id_customer
                     AND o2.date_add BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL -2 MONTH) 
-		) products
+		) products,
+                ( SELECT SUM(r.credits)
+                    FROM ps_rewards r
+                    WHERE r.id_customer = c.id_customer
+                    AND r.id_reward_state = 2
+                ) points
             FROM "._DB_PREFIX_."customer c
             INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer )
             LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
@@ -74,8 +79,8 @@ foreach ( $customers as $key => &$customer ) {
             break;
     }
     
-    if ( $subject != ""  ) {
-        if ( $customer['days_inactive'] != "NULL" ) { 
+    if ( $subject != "" && $template != "cancellation_account"  ) {
+        if ( $customer['days_inactive'] != "NULL" ) {
             $existNotificationInactive = Db::getInstance()->getValue("SELECT COUNT(*) FROM "._DB_PREFIX_."notification_inactive WHERE id_customer = ".$customer['id_customer']);
             if ( $existNotificationInactive == 0 ) {
                 Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_inactive (id_customer, date_alert_".$customer['days_inactive'].") VALUES (".$customer['id_customer'].", NOW())");
@@ -84,28 +89,11 @@ foreach ( $customers as $key => &$customer ) {
             }
         }
 
-        $contributor_count = 0;
-        $listsponsorships = "";
-        $sponsorships = RewardsSponsorshipModel::_getTree($customer['id_customer']);
-        foreach ( $sponsorships as $sponsorship ) {
-            if ( $sponsorship['id'] != $customer['id_customer'] ) {
-                $contributor_count++;
-                $listsponsorships .= $sponsorship['id'].',';
-            }
-        }
-
-        $points_count = Db::getInstance()->getValue("SELECT SUM(credits)
-                                                    FROM "._DB_PREFIX_."rewards
-                                                    WHERE id_reward_state = 2
-                                                    AND plugin = 'sponsorship'
-                                                    AND id_customer IN ( ".substr($listsponsorships, 0, -1)." )");
-
         $vars = array(
             '{username}' => $customer['username'],
             '{days_inactive}' => $customer['days_inactive'],
             '{message}' => $message_alert,
-            '{contributor_count}' => $contributor_count,
-            '{points_count}' => $points_count == "" ? 0 : round($points_count),
+            '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
