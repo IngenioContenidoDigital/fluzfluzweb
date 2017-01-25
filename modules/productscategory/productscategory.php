@@ -131,7 +131,15 @@ class ProductsCategory extends Module
 			$nb_category_products = (int)count($category_products);
 			$middle_position = 0;
                         
-                        $products_recomend = array_chunk($category_products, ceil(count($category_products)/2));
+                        $keys = array_keys($category_products); 
+                        shuffle($keys); 
+                        $random = array(); 
+                        foreach ($keys as $key) { 
+                            $random[$key] = $category_products[$key];
+                        }
+                        
+                        $array_recomend = array_slice($random, 0, 4);
+                        $products_recomend = array_chunk($array_recomend, ceil(count($array_recomend)/4));
                         
 			// Remove current product from the list
 			if (is_array($category_products) && count($category_products))
@@ -199,6 +207,8 @@ class ProductsCategory extends Module
                                         's3'=>_S3_PATH_,
 					'categoryProducts' => $products_recomend[0],
                                         'categoryProducts2' => $products_recomend[1],
+                                        'categoryProducts3' => $products_recomend[2],
+                                        'categoryProducts4' => $products_recomend[3],
 					'middlePosition' => (int)$middle_position,
 					'ProdDisplayPrice' => Configuration::get('PRODUCTSCATEGORY_DISPLAY_PRICE')
 				)

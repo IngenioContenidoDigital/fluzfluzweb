@@ -14,7 +14,7 @@
 #categories_block_top .sf-menu > li .main-level-submenus { position: relative; display: block !important; visibility: visible !important; top: 0; background: none; box-shadow: none; padding: 0; left: 0; }
 #categories_block_top .sf-menu .category_thumb { display: none; }
 
-#categories_block_left h2.title_block {font-family: 'Montserrat' !important; letter-spacing: 2px; padding-left: 20px; margin-bottom: 5px; font-size: 12px; color: #6c6c6c; border-bottom: 1px dotted #D2D1D1; }
+#categories_block_left h2.title_block {font-family: 'Montserrat' !important; letter-spacing: 1px; padding-left: 20px; margin-bottom: 5px; font-size: 10px; color: #6c6c6c; border-bottom: 1px dotted #D2D1D1; }
 #categories_block_left li { position: relative; }
 #categories_block_left li a {font-family: 'Open Sans' !important; letter-spacing: 0px !important; font-weight: normal; color: #6c6c6c; display: block; font-size: 12px; line-height: 44px; text-transform: uppercase; padding: 0 19px 0 20px; }
 #categories_block_left li a:hover { color: #ee4a42; }
@@ -28,4 +28,4 @@
 .categoryfather { cursor: pointer; }
 .line-bottom { border: 1px solid #EF4136; width: 50px; margin-left: 20px; }
 .blockCat { margin: 0!important; }
-.title_block::after { content: attr(after-content); float: right; font-size: 25px; color: #8A8989; }
+.title_block::after { content: attr(after-content); float: right; font-size: 16px; color: #8A8989; }
