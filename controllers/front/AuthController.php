@@ -900,26 +900,17 @@ class AuthControllerCore extends FrontController
     
     protected function sendNotificationSponsor( $id_customer )
     {
-        $query = "SELECT c.id_customer, c.username, c.email
+        $query = "SELECT c.id_customer, c.username, c.email, SUM(r.credits) points
                     FROM "._DB_PREFIX_."rewards_sponsorship rs
                     LEFT JOIN "._DB_PREFIX_."customer c ON ( rs.id_sponsor = c.id_customer )
+                    LEFT JOIN "._DB_PREFIX_."rewards r ON (rs.id_sponsor = r.id_customer AND r.id_reward_state = 2)
                     WHERE rs.id_customer = ".$id_customer;
         $sponsor = Db::getInstance()->getRow($query);
         
-        $query = "SELECT SUM(credits) points
-                    FROM "._DB_PREFIX_."rewards
-                    WHERE id_reward_state = 2";
-        $points_count = Db::getInstance()->getValue($query);
-        
-        $query = "SELECT COUNT(*) contributor_count
-                    FROM "._DB_PREFIX_."customer";
-        $contributor_count = Db::getInstance()->getValue($query);
-        
         $vars = array(
             '{username}' => $sponsor['username'],
-            '{contributor_count}' => $contributor_count,
-            '{points_count}' => round($points_count),
             '{img_url}' => _PS_IMG_DIR_,
+            '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id)
         );
