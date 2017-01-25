@@ -148,6 +148,7 @@ hr { margin-top: 18px; margin-bottom: 18px; border: 0; border-top: 1px solid #ee
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
 
+.bread-style{font-family: 'Open Sans' !important; padding-left: 0px !Important;}
 
 .lead { margin-bottom: 18px; font-size: 14.95px; font-weight: 200; line-height: 1.4; }
 @media (min-width: 768px) { .lead { font-size: 19.5px; } }

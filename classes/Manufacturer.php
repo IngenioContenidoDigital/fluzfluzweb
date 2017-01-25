@@ -270,9 +270,9 @@ class ManufacturerCore extends ObjectModel
                 WHERE m.active = 1
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
-                HAVING count >= 1
+                
                 ORDER BY RAND()
-                LIMIT 20';
+                LIMIT 6';
         
         $manufacturers = Db::getInstance()->executeS($query);
         return $manufacturers;
@@ -313,9 +313,9 @@ class ManufacturerCore extends ObjectModel
                 WHERE m.active = 1
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
-                HAVING count >= 1
+                
                 ORDER BY m.date_add DESC
-                LIMIT 20';
+                LIMIT 6';
         
         $manufacturers = Db::getInstance()->executeS($query);  
         
