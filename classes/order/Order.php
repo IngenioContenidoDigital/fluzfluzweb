@@ -2889,32 +2889,32 @@ class OrderCore extends ObjectModel
                                     ".$nivel.",
                                     '".$order['estado']."',
                                     '".$order['pago']."',
-                                    ".number_format($order['total'], 2, '.', '').",
-                                    ".number_format(($order['total'] - $order['pago_puntos']), 2, '.', '').",
-                                    ".number_format($order['pago_puntos'], 2, '.', '').",
-                                    ".number_format(($order['pago_puntos'] / Configuration::get('REWARDS_VIRTUAL_VALUE_1') ), 2, '.', '').",
+                                    ".number_format($order['total'], 6, '.', '').",
+                                    ".number_format(($order['total'] - $order['pago_puntos']), 6, '.', '').",
+                                    ".number_format($order['pago_puntos'], 6, '.', '').",
+                                    ".number_format(($order['pago_puntos'] / Configuration::get('REWARDS_VIRTUAL_VALUE_1') ), 6, '.', '').",
                                     '".$order['nombre_producto']."',
                                     '".$codes_order[0]['estado_tarjeta']."', 
-                                    ".number_format($codes_order[0]['valor_utilizado'], 2, '.', '').",
+                                    ".number_format($codes_order[0]['valor_utilizado'], 6, '.', '').",
                                     '".$order['referencia_producto']."',
-                                    ".number_format($order['precio_producto'], 2, '.', '').",
-                                    ".number_format($order['costo_producto'], 2, '.', '').",
-                                    ".number_format($order['cantidad'], 2, '.', '').",
+                                    ".number_format($order['precio_producto'], 6, '.', '').",
+                                    ".number_format($order['costo_producto'], 6, '.', '').",
+                                    ".number_format($order['cantidad'], 6, '.', '').",
                                     '".$codes_order[0]['codigos_producto']."'   ,
-                                    ".number_format($order['porcentaje_producto'], 4, '.', '').",
-                                    ".number_format($usuariopuntospesos, 2, '.', '').",
-                                    ".number_format($usuariopuntos, 2, '.', '').",
-                                    ".number_format($redpuntospesos, 2, '.', '').",
-                                    ".number_format($redpuntos, 2, '.', '').",
-                                    ".number_format(($usuariopuntospesos+$redpuntospesos), 2, '.', '').",
-                                    ".number_format(($usuariopuntos+$redpuntos), 2, '.', '').",";
+                                    ".number_format($order['porcentaje_producto'], 6, '.', '').",
+                                    ".number_format($usuariopuntospesos, 6, '.', '').",
+                                    ".number_format($usuariopuntos, 6, '.', '').",
+                                    ".number_format($redpuntospesos, 6, '.', '').",
+                                    ".number_format($redpuntos, 6, '.', '').",
+                                    ".number_format(($usuariopuntospesos+$redpuntospesos), 6, '.', '').",
+                                    ".number_format(($usuariopuntos+$redpuntos), 6, '.', '').",";
             
             $emptys = 15;
             foreach ($sponsors_order as $sponsor_order) {
                 if ( $order['id_customer'] != $sponsor_order['id_customer'] ) {
                     $queryInsertReport .= "'".$sponsor_order['username']."',
-                                          ".number_format($usuariopuntospesos, 2, '.', '').",
-                                          ".number_format($usuariopuntos, 2, '.', '').",";
+                                          ".number_format($usuariopuntospesos, 6, '.', '').",
+                                          ".number_format($usuariopuntos, 6, '.', '').",";
                     $emptys--;
                 }
             }
