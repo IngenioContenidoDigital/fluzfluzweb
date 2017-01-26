@@ -42,7 +42,8 @@
                         <li class="logout signUp"><a style="border-bottom: none;" href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccountheader'}">{l s='Sign out' mod='blockmyaccountheader'}</a></li>
                 </ul>
         {else}
-           <a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="" class="block_content2"></a>
+            <button class="block_content2" id="block_content2" type="button" onclick="window.location.href = '{$link->getPageLink('my-account', true)|escape:'html'}';">MI CUENTA &nbsp;&nbsp;<i class="icon icon-chevron-down"></i></button>
+            <button class="block_content2" id="block_content3" type="button" onclick="window.location.href = '{$link->getPageLink('my-account', true)|escape:'html'}';"></button>
         {/if}
 </div>
 <!-- /Block myaccount module -->
