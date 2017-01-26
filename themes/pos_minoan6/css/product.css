@@ -352,7 +352,7 @@ Quick View Styles
     #product.content_only div.primary_block div.pb-left-column span.view_scroll_spacer { width: 28px; } 
     .title-table-combinations{height: 52px;line-height: 50px;}      
     .detail-more{font-size: 10px;}
-    .btn-combinations span{font-size: 8px;}
+    .btn-combinations span{font-size: 8px !important;}
 }
 #product.content_only div.primary_block div.pb-left-column #thumbs_list { width: 392px; }
 #product.content_only div.primary_block div.pb-center-column { padding: 20px 20px 60px 0px; width: 27.5%; margin-bottom: 0; min-height: 623px; height: 100%; }
