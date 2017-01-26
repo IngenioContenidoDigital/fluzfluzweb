@@ -617,7 +617,7 @@ Quick View Styles
    .content-table-combinations{height: 50px;}
    .title-table-combinations{height: 52px;line-height: 50px;}      
    .detail-more{font-size: 10px;}
-   .btn-combinations span{font-size: 8px;}
+   .btn-combinations span{font-size: 8px ;}
 }
 
 @media (min-width:360px) and (max-width:411px){
