@@ -588,7 +588,8 @@ class ManufacturerCore extends ObjectModel
                                             FROM "._DB_PREFIX_."manufacturer m
                                             INNER JOIN "._DB_PREFIX_."product p ON ( m.id_manufacturer = p.id_manufacturer )
                                             WHERE m.active = 1
-                                            GROUP BY m.id_manufacturer");
+                                            GROUP BY m.id_manufacturer
+                                            ORDER BY m.name");
     }
     
     public static function citiesManufacturerFilter()

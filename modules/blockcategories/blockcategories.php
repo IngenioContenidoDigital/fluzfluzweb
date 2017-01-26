@@ -265,9 +265,12 @@ class BlockCategories extends Module
 			else
 				$this->smarty->assign('branche_tpl_path', _PS_MODULE_DIR_.'blockcategories/category-tree-branch.tpl');
 		}
-                
-                $this->smarty->assign('manufacturers_filter', Manufacturer::ManufacturersFilter());
-                $this->smarty->assign('cities_manufacturer_filter', Manufacturer::citiesManufacturerFilter());
+
+                $manufacturersFilter = $this->orderForLetter( Manufacturer::ManufacturersFilter() , 'name' );
+                $this->smarty->assign('manufacturers_filter', $manufacturersFilter);
+
+                $citiesManufacturerFilter = $this->orderForLetter( Manufacturer::citiesManufacturerFilter() , 'city' );
+                $this->smarty->assign('cities_manufacturer_filter', $citiesManufacturerFilter);
                 
 		return $this->display(__FILE__, 'blockcategories.tpl', $cacheId);
 	}
@@ -533,4 +536,25 @@ class BlockCategories extends Module
 			'BLOCK_CATEG_ROOT_CATEGORY' => Tools::getValue('BLOCK_CATEG_ROOT_CATEGORY', Configuration::get('BLOCK_CATEG_ROOT_CATEGORY'))
 		);
 	}
+        
+    public function orderForLetter($list, $dataOrder) {
+        $orderedList = [];
+        foreach ( $list as $option ) {
+            $firstLetter = strtolower(substr($option[$dataOrder], 0, 1));
+            if ( $firstLetter == "a" || $firstLetter == "b" || $firstLetter == "c" || $firstLetter == "d" || $firstLetter == "e" || $firstLetter == "f" || $firstLetter == "g" ) {
+                $orderedList['A-G'][] = $option;
+            }
+            if ( $firstLetter == "h" || $firstLetter == "i" || $firstLetter == "j" || $firstLetter == "k" || $firstLetter == "l" || $firstLetter == "m" || $firstLetter == "n" ) {
+                $orderedList["H-N"][] = $option;
+            }
+            if ( $firstLetter == "o" || $firstLetter == "p" || $firstLetter == "q" || $firstLetter == "r" || $firstLetter == "s" || $firstLetter == "t" ) {
+                $orderedList["O-T"][] = $option;
+            }
+            if ( $firstLetter == "u" || $firstLetter == "v" || $firstLetter == "w" || $firstLetter == "x" || $firstLetter == "y" || $firstLetter == "z" ) {
+                $orderedList["U-Z"][] = $option;
+            }
+        }
+        
+        return $orderedList;
+    }
 }

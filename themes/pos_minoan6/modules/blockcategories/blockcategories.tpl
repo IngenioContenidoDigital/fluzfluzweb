@@ -47,11 +47,20 @@
                     {l s='Todos'}
                 </a>
             </li>
-            {foreach from=$manufacturers_filter item=manufacturer_filter}
+            {foreach from=$manufacturers_filter key="key" item="manufacturer_filter"} 
                 <li>
-                    <a class="manufacturer_filter" id="{$manufacturer_filter.id}" href="">
-                        {$manufacturer_filter.name|lower}
+                    <a id="categoryfather-{$key}" class="categoryfather" onclick="downcategory('{$key}');">
+                            {$key}
                     </a>
+                    <ul style="display: none;" id="categorychildren-{$key}" class="categorychildren">
+                        {foreach from=$manufacturer_filter item="manufacturer"}
+                            <li>
+                                <a id="{$manufacturer.id|lower}" class="manufacturer_filter" href="">
+                                    {$manufacturer.name|lower}
+                                </a>
+                            </li>
+                        {/foreach}
+                    </ul>
                 </li>
             {/foreach}
         </ul>
@@ -67,14 +76,23 @@
         <ul class="tree {if $isDhtml}dhtml{/if}">
             <li>
                 <a class="city_manufacturer_filter" id="" href="" style="font-weight: bold; font-style: italic;">
-                    {l s='Todas'}
+                    {l s='Todos'}
                 </a>
             </li>
-            {foreach from=$cities_manufacturer_filter item=city_manufacturer_filter}
+            {foreach from=$cities_manufacturer_filter key="key" item="city_manufacturer_filter"} 
                 <li>
-                    <a class="city_manufacturer_filter" id="{$city_manufacturer_filter.city|lower|replace:" ":""|replace:"(":""|replace:")":""|replace:".":""|replace:",":""|replace:"á":"a"|replace:"é":"e"|replace:"í":"i"|replace:"ó":"o"|replace:"ú":"u"|replace:"Á":"a"|replace:"É":"e"|replace:"Í":"i"|replace:"Ó":"o"|replace:"Ú":"u"}" href="">
-                        {$city_manufacturer_filter.city|lower}
+                    <a id="categoryfather-c{$key}" class="categoryfather" onclick="downcategory('c{$key}');">
+                            {$key}
                     </a>
+                    <ul style="display: none;" id="categorychildren-c{$key}" class="categorychildren">
+                        {foreach from=$city_manufacturer_filter item="city_manufacturer"}
+                            <li>
+                                <a id="{$city_manufacturer.city|lower|replace:" ":""|replace:"(":""|replace:")":""|replace:".":""|replace:",":""|replace:"á":"a"|replace:"é":"e"|replace:"í":"i"|replace:"ó":"o"|replace:"ú":"u"|replace:"Á":"a"|replace:"É":"e"|replace:"Í":"i"|replace:"Ó":"o"|replace:"Ú":"u"}" class="city_manufacturer_filter" href="">
+                                    {$city_manufacturer.city|lower}
+                                </a>
+                            </li>
+                        {/foreach}
+                    </ul>
                 </li>
             {/foreach}
         </ul>

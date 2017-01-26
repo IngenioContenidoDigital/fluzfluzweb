@@ -16,7 +16,7 @@ and open the template in the editor.
 .accountHeader{
     background: transparent;
     height: 68px;
-    width: 85px;
+    width: 150px;
     float: right;
     margin-right: 16%;
     border-left: 1px solid #d3d3d3;
@@ -25,27 +25,40 @@ and open the template in the editor.
     }
 
 .block_content2{
-    font-size:30px;
+    font-size: 11px;
+    font-weight: bold;
     background: transparent;
     border: none;
-}
-
-.block_content2{
-    background: url('avatar.png') no-repeat center;
     height: 86px;
     width: auto;
-    -webkit-transition: all 1.4s ease;
 }
 
 .block_content2:hover{
-    background: url('avatar2.png') no-repeat center;
-    height: 86px;
-    width: auto;
-    -webkit-transition: .6s ease-out;
+    color: #C9B197;
 }
 
-.signUp>a{
-    color: #ef4136 !important;
+.dropdown-menu {
+    background-color: #2D2D2D;
+    padding: 0!important;
+}
+.dropdown-menu > li > a {
+    color: #CCCCCC;
+    letter-spacing: 0px;
+    border: none!important;
+    font-family: 'Open Sans' !important;
+    padding: 13px 0 13px 2em!important;
+}
+.dropdown-menu > li > a:hover {
+    background-color: #444444!important;
+}
+.menu-account {
+    width: 16em!important;
+}
+.signUp > a {
+    color: #CCCCCC!important;
+}
+#block_content3 {
+    display: none;
 }
 
 button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: inline-block; font-size: 20px; color: #808285; text-align: center; width: 75px; height: 86px; line-height: 120px; vertical-align: top; border-right: 0px solid #d3d3d3; border-top:none; border-bottom: none;text-align: center;}
@@ -63,11 +76,15 @@ button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: i
 @media (max-width:1024px){
     .dropdown-menu > li > a{padding: 10px 10px;border-bottom: 1px solid #818181;}
     .menu-account{width: 265px;}
+    .accountHeader{ width: 90px; }
+    #block_content2 { display: none; }
+    #block_content3 { display: block!important; background: url('avatar.png') no-repeat center; }
+    #block_content3:hover{ background: url('avatar2.png') no-repeat center; }
 }
 
 @media (max-width:768px){
      .menu-account{
-         width: 775px;
+         width: 775px!important;
          margin-left: -568px;}
 }
 
@@ -75,6 +92,7 @@ button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: i
     .menu-account{
         width: 427px;
         margin-left: -263px;}
+    .accountHeader { padding: 0; }
 }
 
 @media (max-width:375px){
