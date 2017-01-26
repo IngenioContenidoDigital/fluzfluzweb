@@ -270,7 +270,7 @@ class ManufacturerCore extends ObjectModel
                 WHERE m.active = 1
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
-                
+                HAVING count >= 1
                 ORDER BY RAND()
                 LIMIT 6';
         
@@ -313,7 +313,7 @@ class ManufacturerCore extends ObjectModel
                 WHERE m.active = 1
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
-                
+                HAVING count >= 1
                 ORDER BY m.date_add DESC
                 LIMIT 6';
         
