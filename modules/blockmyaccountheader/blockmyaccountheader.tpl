@@ -26,7 +26,8 @@
 <!-- Block myaccountheader module -->
 <div class="accountHeader col-lg-3 col-md-6 col-sm-12 col-xs-12">
         {if $logged}
-        <button class="block_content2" type="button" data-toggle="dropdown"></button>
+        <button class="block_content2" id="block_content2" type="button" data-toggle="dropdown">MI CUENTA &nbsp;&nbsp;<i class="icon icon-chevron-down"></i></button>
+        <button class="block_content2" id="block_content3" type="button" data-toggle="dropdown"></button>
 		
                 <ul class="bullet dropdown-menu menu-account">
 			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccountheader'}</a></li>
