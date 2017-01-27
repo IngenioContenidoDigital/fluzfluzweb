@@ -42,18 +42,18 @@
 		<div class="row pos-content">
 			<div class="product_category">
 			{foreach from=$categoryProducts item='categoryProduct' name=categoryProduct}
-				<div class="item-product">
-                                        <div>
+				<div class="item-product row">
+                                        <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
                                         </div>
-                                        <div class="points-block">
+                                        <div class="points-block col-lg-6">
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
-                                                <div style="width: 55%; font-size:14px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 <div>
-                                                    <span style="color:#ef4136; font-size: 14px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
                                                 </div>
                                                 <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                         </div>
@@ -168,20 +168,20 @@
                         <div class="product_category">
 			{foreach from=$categoryProducts2 item='categoryProduct' name=categoryProduct}
 				<div class="item-product">
-                                        <div>
+                                        <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
                                                     <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
                                                     <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
                                                 </a>
                                         </div>
-                                        <div class="points-block">
+                                        <div class="points-block col-lg-6">
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
-                                                <div style="width: 55%; font-size:14px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 <div>
-                                                    <span style="color:#ef4136; font-size: 14px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
                                                 </div>
                                                 <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                         </div>
@@ -191,20 +191,20 @@
                         <div class="product_category">
 			{foreach from=$categoryProducts3 item='categoryProduct' name=categoryProduct}
 				<div class="item-product">
-                                        <div>
+                                        <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
                                                     <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
                                                     <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
                                                 </a>
                                         </div>
-                                        <div class="points-block">
+                                        <div class="points-block col-lg-6">
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
-                                                <div style="width: 55%; font-size:14px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 <div>
-                                                    <span style="color:#ef4136; font-size: 14px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
                                                 </div>
                                                 <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                         </div>
@@ -214,20 +214,20 @@
                         <div class="product_category">
 			{foreach from=$categoryProducts4 item='categoryProduct' name=categoryProduct}
 				<div class="item-product">
-                                        <div>
+                                        <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
                                                     <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
                                                     <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
                                                 </a>
                                         </div>
-                                        <div class="points-block">
+                                        <div class="points-block col-lg-6">
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
-                                                <div style="width: 55%; font-size:14px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 <div>
-                                                    <span style="color:#ef4136; font-size: 14px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
                                                 </div>
                                                 <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                         </div>

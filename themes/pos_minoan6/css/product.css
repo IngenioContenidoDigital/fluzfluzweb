@@ -101,7 +101,10 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .pb-center-column h1 { font-family:  'Open Sans' !important; font-weight: 600; font-style: normal; color: #3f3c3b; text-transform: uppercase; margin-top: 25px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
 @media (max-width: 991px) { .pb-center-column h1 { font-size: 18px; text-align: center;} }
 .pb-center-column label { color: #888889; font-weight: normal; font-style: san-serif; }
-.pb-center-column p { margin-bottom: 10px; font-size: 12px; text-align: center;}
+.pb-center-column p { margin-bottom: 10px; text-align: left;    font-family: 'Open Sans';
+    font-weight: 400;
+    font-size: 12px;
+    color: #3f3c3b;}
 .pb-center-column #product_reference { margin-bottom: 6px; text-align: left; margin-left: 14px;}
 .pb-center-column #short_description_block { color: #666666; }
 .pb-center-column #short_description_block .buttons_bottom_block { display: none; }
@@ -176,7 +179,10 @@ table.table-product-discounts tr th { background: #fbfbfb; color: #252525; font-
 table.table-product-discounts tr td, table.table-product-discounts tr th { border-left: 1px solid #e5e5e5; width: 33%; padding: 10px 20px 11px; border-top: 1px solid #e5e5e5; border-right: none; text-shadow: none; text-transform: none; font-weight: 13px; line-height: 18px; border-bottom: none; }
 
 /* Color de Borde de titulos */
-.text-info-merchant{color:#58595b; text-align: left;font-size: 12px;}
+.text-info-merchant span{text-align: left; font-family: 'Open Sans';
+    font-weight: 400;
+    font-size: 12px;
+    color: #3f3c3b;}
 .more-info ul{padding-left: 0px;}
 .more-info ul li a {font-family: 'Open Sans' !important; font-weight: 700; font-size: 11px !important; color: #727272 !important;}
 .title-locations{font-family: 'Open Sans', sans-serif; margin-bottom: 10px; font-size: 12px; color: #3f3c3b; font-weight: 700; text-transform: uppercase;letter-spacing: 1px;}
@@ -213,11 +219,11 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
     position: absolute;
     min-width: 100%;
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 .img-newmerchant {
-    width: 180px !important;
+    width: 96px !important;
     margin: 0 auto;
 }
 
@@ -401,6 +407,8 @@ Quick View Styles
 .menuAccountProfile{background:#c8b79b; height: 45px; width: 15%; float: left; margin-left: 0; text-align: center}
 .iWhite{color: #fff; padding: 20%; font-size: 20px; margin: 3px 0px;}
 .prueba{position: absolute; top: 30px; left: 300px; width: 20px; height: 20px; font-size: 10px; border-radius: 100%; font-weight: 700; background: #ffc21c; font-family: 'Open Sans'; line-height: 20px; text-align: center; color: white;}
+.padding-img{padding-left: 0px; padding-right: 0px;}
+.points-block{padding-left: 18px;}
 
 @media (min-width:761px) and (max-width:1023px){
     .primary_block .pb-left-column img{width: 70% !important;}
@@ -619,10 +627,15 @@ Quick View Styles
    .item-list{padding: 0px;font-size: 10px; margin-top: 15px; width: 20%;}
    .content-table-combinations{height: 50px;}
    .title-table-combinations{height: 52px;line-height: 50px;}      
+   .title-table-nocombinations{height: 52px;line-height: 50px;}      
    .detail-more{font-size: 10px;}
    .btn-combinations span{font-size: 8px;}
    .primary_block .pb-left-column img {width: 93%;}
-   .breadcrumb{padding-left: 59px !important; margin-top: 1px !important;}
+   .breadcrumb{line-height: 17px;padding-left: 59px !important; width: 108%;font-size: 10px;}
+   .navigation_page span{font-size: 10px;}
+   span{font-size: 10px !important;}
+   .description-product {
+    font-size: 10px !important;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -683,10 +696,11 @@ Quick View Styles
    .text-detail{font-size: 9px;}
    .expiration-detail{font-size: 9px;}
    .expiration-detail span{font-size: 9px;}
-   .title-table-combinations{height: 52px;line-height: 50px;}      
+   .title-table-combinations{height: 52px;line-height: 50px;}   
+    .title-table-nocombinations{height: 52px;line-height: 50px;}   
    .detail-more{font-size: 10px;}
    .btn-combinations span{font-size: 8px;}
-   .breadcrumb{margin-top: 0px !important; line-height: 10px;padding-left: 50px !important;}
+   .breadcrumb{line-height: 17px;padding-left: 50px !important; width: 108%;font-size: 10px;}
    .breadcrumb a.home{font-size: 10px;}
    .navigation_page{
     color: #353535;
@@ -696,8 +710,10 @@ Quick View Styles
    .primary_block .pb-left-column img {
     width: 95%;
     height: auto;
-    margin-top: 10px !important;}
-   
+    margin-top: 10px !important;}   
+   span{font-size: 10px !important;}
+   .description-product {
+    font-size: 10px !important;}
 }
 
 @media (max-width:359px){
@@ -714,7 +730,7 @@ Quick View Styles
     .btn-pinterest{width:96% !important; height:40px !important;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
-    span{font-size:8px;}
+    span{font-size:10px !important;}
     .btn-combinations span{font-size: 9px;}
     p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0; margin-left: 10% !important;}
@@ -757,6 +773,7 @@ Quick View Styles
    .item-list{padding: 0px;font-size: 10px; margin-top: 15px;}
    .content-table-combinations{height: 50px;}
    .title-table-combinations{height: 52px; line-height: 50px;}
+   .title-table-nocombinations{height: 52px;line-height: 50px;}
    .pb-center-column {padding-left: 13px;}
    .title-detail{font-size: 9px;}
    .text-detail{font-size: 9px;}
@@ -764,7 +781,7 @@ Quick View Styles
    .expiration-detail span{font-size: 9px;}
    .detail-more { font-size: 8px;}
    .description-product{ font-size: 10px !important;}
-   .breadcrumb{margin-top: 0px !important; line-height: 10px;padding-left: 50px !important;}
+   .breadcrumb{line-height: 10px;padding-left: 50px !important;}
    .breadcrumb a.home{font-size: 8px;}
    .navigation_page{
     color: #353535;
@@ -775,6 +792,7 @@ Quick View Styles
     width: 95%;
     height: auto;
     margin-top: 10px !important;}
+   .pb-center-column p span{font-size: 10px;}
 }
 
 .box-info-product .exclusive{
@@ -808,7 +826,7 @@ padding-bottom: 8px;
     .point-price{margin-right: 0px; margin-left: 5px; font-size: 16px; text-align: right !important;}
     .socialsharing_product button {width: 90px;height: 38px; font-size: 10px;}
     .price-shop{font-size: 15px; margin-left: 5px;}
-    .pb-center-column h1{padding-bottom: 7px;font-size: 18px; width: 85%;letter-spacing: 1px;line-height: 50px;}
+    .pb-center-column h1{padding-bottom: 7px;font-size: 18px; width: 100%;letter-spacing: 1px;line-height: 50px;}
     .shop-pri{margin-left: 0px;padding-left: 3px !important;}
     p{line-height: 22px;}
     .pos-title{height: 35px;margin-top: 40px;margin-left: 0px;border: none;}
@@ -864,9 +882,16 @@ padding-bottom: 8px;
     }
 
     .img-newmerchant {
-        width: 280px !important;
+        width: 140px !important;
         margin: 0 auto;
     }
+    
+    .points-block {padding-left: 28px;
+    margin-top: 20px;}
+    
+    .primary_block .pb-left-column img{margin-top: 0px;}
+    
+    
 }
 
 .containerbanners { margin-top: 30px; }
