@@ -93,6 +93,8 @@ button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: i
         width: 427px;
         margin-left: -263px;}
     .accountHeader { padding: 0; }
+    #search_block_top { height: 80px!important; }
+    #block_content3 { margin-top: 13px; }
 }
 
 @media (max-width:375px){
