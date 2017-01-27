@@ -150,6 +150,8 @@ hr { margin-top: 18px; margin-bottom: 18px; border: 0; border-top: 1px solid #ee
 
 .bread-style{font-family: 'Open Sans' !important; padding-left: 0px !Important;}
 
+.toggle-footer{display: block !important;}
+
 .lead { margin-bottom: 18px; font-size: 14.95px; font-weight: 200; line-height: 1.4; }
 @media (min-width: 768px) { .lead { font-size: 19.5px; } }
 
