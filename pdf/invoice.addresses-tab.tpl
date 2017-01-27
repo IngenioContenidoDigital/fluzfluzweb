@@ -46,7 +46,8 @@
             &nbsp;Tel&eacute;fono del cliente: {$addresses.invoice->phone}<br>
             &nbsp;Identificaci&oacute;n del cliente: {$addresses.invoice->dni}<br>
             &nbsp;Email del cliente: {$customer->email}<br>
-            &nbsp;Direcci&oacute;n del cliente: {$addresses.invoice->address1} | {$addresses.invoice->address2}
+            &nbsp;Direcci&oacute;n del cliente: {$addresses.invoice->address1} | {$addresses.invoice->address2}<br>
+            &nbsp;Ciudad: {$addresses.invoice->city|lower|capitalize}
         </td>
     </tr>
 </table>
