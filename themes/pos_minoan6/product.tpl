@@ -309,7 +309,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/16)|string_format:"%d"}</div>
                                                                                 {/if}    
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list detail-style" >
                                                                                     <span>${$list.price|number_format:0}</span><br>
                                                                                     <span class="sign-more">+</span><span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
                                                                                 </div>
