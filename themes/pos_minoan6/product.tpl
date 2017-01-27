@@ -23,7 +23,6 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {include file="$tpl_dir./errors.tpl"}
-{include file="$tpl_dir./breadcrumb.tpl"}
 {if $errors|@count == 0}
 	{if !isset($priceDisplayPrecision)}
 		{assign var='priceDisplayPrecision' value=2}
@@ -1107,7 +1106,8 @@
         .pb-left-column{padding-left: 5px;}
         .pos-title span{font-size: 12px;}
         .pos-title h2 {width: 100%;text-align: left; background: #fff;line-height: 30px;}
-        .breadcrumb{margin-top: 9px;background: #f4f4f4;padding-left: 34px;letter-spacing: 1.5px;font-size: 12px;}
+        .breadcrumb{margin-top: 68px;background: #f4f4f4;padding-left: 34px;letter-spacing: 1.5px;font-size: 12px;}
+        .bread-product{width: 100%;}
         .pull-right{display: none;}
         .bread-style{width: 100%;}
         @media (max-width:1080px){
