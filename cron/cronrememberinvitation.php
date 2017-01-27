@@ -1,2 +1,2 @@
-<?php set_time_limit ( 3602 );
+<?php
 $page = file_get_contents('https://fluzfluz.co/rememberinvitation.php');
