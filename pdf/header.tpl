@@ -62,7 +62,7 @@
             <span>Fluz Fluz Colombia SAS, NIT.900.961.325-6<br>
                 IVA R&eacute;gimen Com&uacute;n<br>
                 Actividad Econ&oacute;mica CIIU 4791 4 Tarifa 11.04 X 1000<br>
-                Ley 1429 de 2010, No efectuar retenci&oacute;n en la fuente
+                &nbsp;
             </span>
         </td>
         <td style="line-height: 1.6pt;">
