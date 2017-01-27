@@ -26,22 +26,23 @@
 <!-- Breadcrumb -->
 {if isset($smarty.capture.path)}{assign var='path' value=$smarty.capture.path}{/if}
 <div class="breadcrumb clearfix">
-    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 bread-style">
-        <a class="home" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Return to Home'}">{l s="INICIO"}</a>
-	{if isset($path) AND $path}
+    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-6 bread-style">
+        <div class="col-lg-6" style="padding-right:0px;padding-left:0px;">
+            <a class="home" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Return to Home'}">{l s="INICIO"}</a>
+                {if isset($path) AND $path}
 		<!--<span class="navigation-pipe"{if isset($category) && isset($category->id_category) && $category->id_category == (int)Configuration::get('PS_ROOT_CATEGORY')} style="display:none;"{/if}>{$navigationPipe|escape:'html':'UTF-8'}</span>-->
-		<span class="navigation-pipe"{if isset($category) && isset($category->id_category) && $category->id_category == (int)Configuration::get('PS_ROOT_CATEGORY')} style="display:none;"{/if} style="color:#ef4136;">/</span>
-                {if $path|strpos:'span' !== false}
-			<span class="navigation_page">{$path|@replace:'<a ': '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" '|@replace:'data-gg="">': '><span itemprop="title">'|@replace:'</a>': '</span></a></span>'}</span>
-		{else}
-			{$path}
-		{/if}
-	{/if}
-    </div>
-    {if $cms->id==6 || $page_name =='category'}
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-right:0px;">
-                <div class="iOS ocultar" id="someid">
+                    <span class="navigation-pipe"{if isset($category) && isset($category->id_category) && $category->id_category == (int)Configuration::get('PS_ROOT_CATEGORY')} style="display:none;"{/if} style="color:#ef4136;">/</span>
+                    {if $path|strpos:'span' !== false}
+                            <span class="navigation_page">{$path|@replace:'<a ': '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" '|@replace:'data-gg="">': '><span itemprop="title">'|@replace:'</a>': '</span></a></span>'}</span>
+                    {else}
+                            {$path}
+                    {/if}
+                {/if}
+        </div>
+        {if $cms->id==6 || $page_name =='category'}
+        <div class="col-lg-6 col-md-2 col-sm-2 col-xs-2 filter-padding">
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-right:0px;padding-left:0px;">
+                <div class="col-lg-6 iOS ocultar" id="someid">
                     <div class="switch">
                       <span class="outter lside">
                         <span class="otxt"></span>
@@ -52,10 +53,12 @@
                       <span class="circle"></span>
                     </div>
                 </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
             </div>    
-            <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
         </div>    
-    {/if}
+        {/if}
+    </div>
+    
     {if $cms->id == 6 || $page_name =='category'}
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 container_city_filter">  
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-filter" id="city_filter"></div>
@@ -76,22 +79,28 @@
             
             sw.stop().animate({left: mt}, 50, function(){
               $(this).find(s_on).css("opacity", 0);
-             
+              console.log(mt);
               if(s_on=='.lside'){
                 $('.menuSticky').hide("slow");
-                $('.containerFeatured').addClass("containerwidth");
-                $('.containerFeatured').removeClass("containerwidth-column");
                 $('.owl-wrapper-outer').addClass('widthColumn');
                 $('.widthCategory').addClass('widthtotal');
                 $('.owl-carousel').addClass('leftwidth');
                 $('.titleFeatured2').addClass('merchant-left');
+                $('.owl-item').addClass('width-item');
+                $('.ocultar').attr('disabled', 'disabled');
+                $('.containerFeatured').animate({left: 0}, 600, function(){
+                    $('.container-cms').addClass("containerwidth");
+                    $('.ocultar').removeAttr('disabled');
+                });
               }
               else{
                 $('.menuSticky').show("slow");
-                $('.containerFeatured').addClass("containerwidth-column");
-                $('.containerFeatured').removeClass("containerwidth");
+                $('.container-cms').removeClass("containerwidth");
                 $('.widthCategory').removeClass('widthtotal');
                 $('.owl-carousel').removeClass('leftwidth');
+                $('.filter-padding').addClass('left-hide');
+                $('.owl-item').removeClass('width-item');
+                $('.ocultar').removeAttr('disabled');
               }
              });
           });

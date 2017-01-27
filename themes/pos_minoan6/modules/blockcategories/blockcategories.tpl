@@ -179,7 +179,7 @@
 {/literal}
 {literal}
 <style>
-    .tree {padding-left: 15px;}
+    .categorychildren{padding-left: 15px;}
     @media (max-width: 1024px) {
         .title_block { font-size: 11px!important; }
         .title_block::after { font-size: 20px!important; }
