@@ -98,7 +98,7 @@ span.view_scroll_spacer { float: left; width: 39px; padding-left: 12px; }
 .title-related{font-size: 14px !important; letter-spacing: 1.5px; color:#4a4a4a; font-family: 'Open Sans';}
 /* pb-left-column ****************************************************************************** */
 .pb-center-column { margin-bottom: 0px; margin-top: 0px; padding-left: 0px; padding-right: 0px; border-left: 1px solid #efefef; padding-left: 30px;/* form */ }
-.pb-center-column h1 { font-family:  'Open Sans' !important; font-weight: normal; color: #000; text-transform: uppercase; margin-top: 25px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
+.pb-center-column h1 { font-family:  'Open Sans' !important; font-weight: 600; font-style: normal; color: #3f3c3b; text-transform: uppercase; margin-top: 25px; margin-bottom: 0px; font-size: 28px; padding-bottom: 15px; margin-left: 0px; letter-spacing: 0px; line-height:30px; }
 @media (max-width: 991px) { .pb-center-column h1 { font-size: 18px; text-align: center;} }
 .pb-center-column label { color: #888889; font-weight: normal; font-style: san-serif; }
 .pb-center-column p { margin-bottom: 10px; font-size: 12px; text-align: center;}
@@ -178,10 +178,10 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 /* Color de Borde de titulos */
 .text-info-merchant{color:#58595b; text-align: left;font-size: 12px;}
 .more-info ul{padding-left: 0px;}
-.more-info ul li a {font-family: 'Open Sans' !important;}
-.title-locations{font-family: 'Montserrat', sans-serif; margin-bottom: 10px; font-size: 12px; color: #000; text-transform: uppercase;letter-spacing: 1px;}
+.more-info ul li a {font-family: 'Open Sans' !important; font-weight: 700; font-size: 11px !important; color: #727272 !important;}
+.title-locations{font-family: 'Open Sans', sans-serif; margin-bottom: 10px; font-size: 12px; color: #3f3c3b; font-weight: 700; text-transform: uppercase;letter-spacing: 1px;}
 .border-title{border-bottom: 2px solid #ef4136; margin-left: 0px; height: 5px; margin-bottom: 20px; width: 45px;}
-.address-style{line-height: 20px;font-family: Open Sans;font-size: 12px;color: #000;}
+.address-style{line-height: 20px;font-family: 'Open Sans';font-size: 12px;color: #3f3c3b;font-weight: 400;}
 
 /* Detalles producto */
 
@@ -238,15 +238,18 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 .title-table-nocombinations{height: 60px; line-height: 60px;background: #f4f4f4; text-transform: uppercase; font-size: 10px; font-family: 'Open Sans';border-top: 1px solid #e2e2e2;border-bottom: 1px solid #e2e2e2;
 }
 .content-table-combinations{background: #fff; height: 80px; border-bottom: 1px solid #E6E6E6;}
-.item-list-title{text-align: center; padding-left: 0px; padding-right: 0px;font-weight: 700;letter-spacing: 1px;}
-.item-list{text-align: center; margin-top: 30px;}
+.item-list-title{text-align: center; padding-left: 0px; padding-right: 0px;
+                 font-weight: 700;letter-spacing: 1px;letter-spacing: 1px;
+                 font-size: 11px;color: #7c7c7c;
+                 font-family: 'Open Sans';}
+.item-list{text-align: center; margin-top: 30px; color:#121212; font-size: 12px; font-family: 'Open Sans';}
 .img-list{height: 40px; padding: 0px; margin-top: 18px;}
 .btn-combinations{color: #fff;padding-left: 0px; border: 1px solid #a5957b; background: #c8b79b; font-size: 10px; padding-right: 0px;padding-top: 6px;padding-bottom: 6px;border: none;cursor: pointer; margin-top: 22px;}
+.btn-combinations span{color: #fff; font-size: 11px;font-family: 'Open Sans';}
 .btn-nocombinations{color: #fff;padding-left: 0px; font-size: 10px; background: #c8b79b; padding-right: 0px;padding-top: 10px;padding-bottom: 10px;border: none;cursor: pointer; margin-top: 22px;}
 .btn-nocombinations:hover {background: #a5957b;}
-.breadcrumb a.home {font-family: 'open sans';font-size:11px;}
-.breadcrumb {font-size:11px;}
 .text-detail ul li{list-style: disc;font-size:12px;}
+.detail-style{color:#121212; font-weight: 700; font-size: 12px;font-family: 'Open Sans';}
 
 /* accessories  */
 .accessories-block .block_description { display: none; }
@@ -440,9 +443,9 @@ Quick View Styles
     .shop-pri{text-align: right; padding-right: 50px !important;}
     .info-row{margin-top: 0px;}
     #availability_statut, #pQuantityAvailable{margin-left: 26px;}
-    .btn-combinations{font-size: 8px;}
     .breadcrumb {margin-left: 0px;}
-    .item-list-title{letter-spacing: 0px;}
+    .item-list-title{letter-spacing: 0px; font-size: 10px;}
+    .btn-combinations span{font-size: 9px;}
 }
 
 @media (min-width:1050px) and (max-width:1600px){
@@ -609,15 +612,17 @@ Quick View Styles
    .info-row{margin-top: 0px;}
    #availability_statut, #pQuantityAvailable{margin-left: 5px;}
    .title-none{display:none;}
-   .item-list-title{font-size: 7px; letter-spacing: 0px !important;}
+   .item-list-title{font-size: 7px; letter-spacing: 0px !important;width: 20%;}
    .border-title-responsive {margin-left: 0px;}
    .more-info{width: 94%;}
    #buy_block{width: 94%;}
-   .item-list{padding: 0px;font-size: 10px; margin-top: 15px;}
+   .item-list{padding: 0px;font-size: 10px; margin-top: 15px; width: 20%;}
    .content-table-combinations{height: 50px;}
    .title-table-combinations{height: 52px;line-height: 50px;}      
    .detail-more{font-size: 10px;}
-   .btn-combinations span{font-size: 8px ;}
+   .btn-combinations span{font-size: 8px;}
+   .primary_block .pb-left-column img {width: 93%;}
+   .breadcrumb{padding-left: 59px !important; margin-top: 1px !important;}
 }
 
 @media (min-width:360px) and (max-width:411px){
@@ -636,7 +641,6 @@ Quick View Styles
     .btn-pinterest{width:92% !important; height:40px !important;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
-    span{font-size:8px;}
     p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0;}
     .primary_block{margin-bottom: 20px;}
@@ -679,6 +683,21 @@ Quick View Styles
    .text-detail{font-size: 9px;}
    .expiration-detail{font-size: 9px;}
    .expiration-detail span{font-size: 9px;}
+   .title-table-combinations{height: 52px;line-height: 50px;}      
+   .detail-more{font-size: 10px;}
+   .btn-combinations span{font-size: 8px;}
+   .breadcrumb{margin-top: 0px !important; line-height: 10px;padding-left: 50px !important;}
+   .breadcrumb a.home{font-size: 10px;}
+   .navigation_page{
+    color: #353535;
+    font-family: 'Open Sans';
+    font-weight: 400;
+    text-transform: uppercase;}
+   .primary_block .pb-left-column img {
+    width: 95%;
+    height: auto;
+    margin-top: 10px !important;}
+   
 }
 
 @media (max-width:359px){
@@ -695,7 +714,8 @@ Quick View Styles
     .btn-pinterest{width:96% !important; height:40px !important;}
     .pb-left-column #image-block{width:100%;}
     .our_price_display .price{font-size:14px;}
-    span{font-size:7px;}
+    span{font-size:8px;}
+    .btn-combinations span{font-size: 9px;}
     p{font-size:12px; text-align:justify;}
     .box-info-product p{padding:0; margin-left: 10% !important;}
     #product p#loyalty{margin-left: 10% !important;}
@@ -704,7 +724,7 @@ Quick View Styles
    .tiendaP{margin-left: 15% !important;}
    .pb-center-column #product_reference{padding-left: 0px;}
    .pb-left-column{    margin-left: 0px !important; padding-right: 10px;}
-    .pb-center-column h1{    margin-left: 0px !important;width: 95%; font-size: 12px; line-height: 22px;}
+    .pb-center-column h1{ margin-left: 0px !important;width: 95%; font-size: 10px; line-height: 22px;}
     .description-product{width: 90% !important;}
     #product p#loyalty{margin-left: 0px !important; width: 96% !important; line-height: 19px !important;}
     .box-info-product p{margin-left: 0 !important;}
@@ -743,6 +763,18 @@ Quick View Styles
    .expiration-detail{font-size: 9px;}
    .expiration-detail span{font-size: 9px;}
    .detail-more { font-size: 8px;}
+   .description-product{ font-size: 10px !important;}
+   .breadcrumb{margin-top: 0px !important; line-height: 10px;padding-left: 50px !important;}
+   .breadcrumb a.home{font-size: 8px;}
+   .navigation_page{
+    color: #353535;
+    font-family: 'Open Sans';
+    font-weight: 400;
+    text-transform: uppercase;}
+   .primary_block .pb-left-column img {
+    width: 95%;
+    height: auto;
+    margin-top: 10px !important;}
 }
 
 .box-info-product .exclusive{
@@ -750,7 +782,7 @@ Quick View Styles
 }
 .shop-price{padding-right: 0px;}
 .tiendaP{margin-left: 130px; color: #ef4136;}
-.description-product{text-align: justify; font-size: 12px; font-weight: 400; letter-spacing: 0px; color: #58595b; font-weight: bold; line-height: 18px; width: 90%; padding-left: 20px; padding-top: 0%; padding-bottom: 3%;}
+.description-product{text-align: left; font-size: 12px; font-weight: 400; font-family: 'Open Sans'; letter-spacing: 0px; color: #3f3c3b; font-weight: bold; line-height: 18px; width: 90%; padding-left: 20px; padding-top: 0%; padding-bottom: 3%;}
 .description-product li {
 list-style: disc;
 font-weight: 400;

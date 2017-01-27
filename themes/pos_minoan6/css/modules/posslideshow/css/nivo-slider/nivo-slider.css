@@ -33,7 +33,7 @@
 
 .pos-slideshow-caption { position: absolute; left: 0; top: 0; width: 100%; background: none; color: #fff; font-size: 16px; z-index: 9; }
 
-.pos-slideshow-content { position: absolute; top: 45%; left: 0; right: 0; text-align: center; z-index: 9; line-height: 1; margin-top: -115px; font-weight: 400; }
+.pos-slideshow-content { position: absolute; top: 60%; left: 0; right: 0; text-align: center; z-index: 9; line-height: 1; margin-top: -115px; font-weight: 400; }
 
 .pos-slideshow-title h3 { color: white; font-size: 25px; text-transform: uppercase; display: inline-block; margin: 0; }
 
@@ -96,8 +96,36 @@
 
 .pos-slideshow-title h3 { -webkit-animation: zoomInRight 1000ms ease-in-out; -moz-animation: zoomInRight 1000ms ease-in-out; -ms-animation: zoomInRight 1000ms ease-in-out; animation: zoomInRight 1000ms ease-in-out; }
 
-.pos_description h2.title2 { -webkit-animation: zoomInRight 2000ms ease-in-out; -moz-animation: zoomInRight 2000ms ease-in-out; -ms-animation: zoomInRight 2000ms ease-in-out; animation: zoomInRight 2000ms ease-in-out; }
+/*.pos_description h2.title2 { -webkit-animation: zoomInRight 2000ms ease-in-out; -moz-animation: zoomInRight 2000ms ease-in-out; -ms-animation: zoomInRight 2000ms ease-in-out; animation: zoomInRight 2000ms ease-in-out; }
+*/
+.pos_description h2.title2 {-webkit-animation: fadeInFromNone 0.5s ease-out;
+                            -moz-animation: fadeInFromNone 0.5s ease-out;
+                            -o-animation: fadeInFromNone 0.5s ease-out;
+                            animation: fadeInFromNone 0.5s ease-out;}
+
+ .pos-slideshow-readmore a{-webkit-animation: fadeInFromNone 0.5s ease-out;
+                            -moz-animation: fadeInFromNone 0.5s ease-out;
+                            -o-animation: fadeInFromNone 0.5s ease-out;
+                            animation: fadeInFromNone 0.5s ease-out;}
 
 .pos_description h3.title3 { -webkit-animation: zoomInRight 3000ms ease-in-out; -moz-animation: zoomInRight 3000ms ease-in-out; -ms-animation: zoomInRight 3000ms ease-in-out; animation: zoomInRight 3000ms ease-in-out; }
 
-.pos-slideshow-readmore a { -webkit-animation: zoomInRight 4000ms ease-in-out; -moz-animation: zoomInRight 4000ms ease-in-out; -ms-animation: zoomInRight 4000ms ease-in-out; animation: zoomInRight 4000ms ease-in-out; }
+/*.pos-slideshow-readmore a { -webkit-animation: zoomInRight 4000ms ease-in-out; -moz-animation: zoomInRight 4000ms ease-in-out; -ms-animation: zoomInRight 4000ms ease-in-out; animation: zoomInRight 4000ms ease-in-out; }
+*/
+
+@-webkit-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}

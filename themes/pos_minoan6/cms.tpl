@@ -62,14 +62,17 @@
                     <!--<form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>-->
                 </div>
             {if $cms->id==6}
-                <div class="col-lg-9 col-md-9 containerFeatured"> 
-                    {hook h='newMerchants'}
-                </div>
-                <div class="col-lg-9 col-md-9 containerFeatured" style="float: right;">
-                    {hook h='merchants'}
+                <div class="container-cms col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 containerFeatured"> 
+                        {hook h='newMerchants'}
+                    </div>
+                    <div class="col-lg-12 col-md-12 containerFeatured">
+                        {hook h='merchants'}
+                    </div>
                 </div>
             {/if}
         </div>   
+        
 {elseif isset($cms_category)}
 	<div class="block-cms">
 		<h1><a href="{if $cms_category->id eq 1}{$base_dir}{else}{$link->getCMSCategoryLink($cms_category->id, $cms_category->link_rewrite)}{/if}">{$cms_category->name|escape:'html':'UTF-8'}</a></h1>
@@ -130,4 +133,17 @@
             .sectionFooter{text-align: center; padding-left: 0; margin-right: 0; }
         }
     </style>
+{/literal}
+{literal}
+
+    <script>
+        if (($(window).width()) >= 1024)
+        {
+            $(document).ready(function() {
+                var altura = $('.container-cms').height();
+                $('.menuSticky').css('min-height', altura + 'px')
+            });
+        }
+    </script>
+
 {/literal}
