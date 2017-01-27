@@ -98,7 +98,7 @@
                 $('.container-cms').removeClass("containerwidth");
                 $('.widthCategory').removeClass('widthtotal');
                 $('.owl-carousel').removeClass('leftwidth');
-                $('.filter-padding').addClass('left-hide');
+                $('.filter-padding').removeClass('left-hide');
                 $('.owl-item').removeClass('width-item');
                 $('.titleFeatured2').removeClass('merchant-left');
                 $('.ocultar').removeAttr('disabled');
