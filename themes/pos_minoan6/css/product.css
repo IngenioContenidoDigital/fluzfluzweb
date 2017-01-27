@@ -853,7 +853,7 @@ padding-bottom: 8px;
     .pb-center-column #product_reference{ margin-bottom: 20px; text-align: left; margin-left: 0; width: 83%; border-bottom: 1px solid #ddd;}
     #quantity_wanted_p input{height: 50px; width: 52%;text-align: right;padding: 0 6px;float: left;border: 1px solid #e5e5e5;line-height: 35px;}
     .btn.button-plus span, .btn.button-minus span{width: 47px;height: 47px; padding: 17%;}
-    .pb-center-column p{font-size: 18px;}
+    .pb-center-column p{font-size: 12px;}
     .socialsharing_product button{width: 20%;height: 47px;}
     .cart-product .buttons_bottom_block{text-align: left;}
     .box-info-product .exclusive{height: 65px; width: 85%;}
