@@ -144,6 +144,7 @@
                                        $('#link-Quantities').hide();
                                        $('#code-ean').hide();
                                        $('#code-upc').hide();
+                                       $('#link-ModuleProductsbanners').show();
                                        $('#product_noparent').prop('checked',false);
                                    }else{
                                        $('#link-Prices').show();
@@ -152,6 +153,7 @@
                                        $('#link-Quantities').show();
                                        $('#code-ean').show();
                                        $('#code-upc').show();
+                                       $('#link-ModuleProductsbanners').hide();
                                        $('#product_parent').prop('checked',false);
                                    }
                                 });
