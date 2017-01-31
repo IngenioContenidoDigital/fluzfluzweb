@@ -359,7 +359,7 @@ class SearchCore
 					AND pl.`id_lang` = '.(int)$id_lang.Shop::addSqlRestrictionOnLang('pl').'
 				)
 				LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON m.`id_manufacturer` = p.`id_manufacturer`
-				WHERE p.`id_product` '.$product_pool;
+				WHERE p.`id_product` '.$product_pool.' AND p.product_parent = 1';
         $total = $db->getValue($sql, false);
 
         if (!$result) {

@@ -707,7 +707,7 @@ class CategoryCore extends ObjectModel
 					FROM `'._DB_PREFIX_.'product` p
 					'.Shop::addSqlAssociation('product', 'p').'
 					LEFT JOIN `'._DB_PREFIX_.'category_product` cp ON p.`id_product` = cp.`id_product`
-					WHERE cp.`id_category` = '.(int)$this->id.
+					WHERE cp.`id_category` = '.(int)$this->id.' AND p.product_parent = 1'.
                 ($front ? ' AND product_shop.`visibility` IN ("both", "catalog")' : '').
                 ($active ? ' AND product_shop.`active` = 1' : '').
                 ($id_supplier ? 'AND p.id_supplier = '.(int)$id_supplier : '');
