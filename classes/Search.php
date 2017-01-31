@@ -312,7 +312,7 @@ class SearchCore
             $alias = 'p.';
         }
         $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) as quantity,
-				pl.`description_short`, pl.`available_now`, pl.`available_later`, pl.`link_rewrite`, pl.`name`,
+				pl.`description_short`, pl.`available_now`, pl.`available_later`, pl.`link_rewrite`, pl.`name`, (SELECT ((p.price*(rp.`value`)/100)/25)) AS max_puntos,
 			 image_shop.`id_image` id_image, il.`legend`, m.`name` manufacturer_name '.$score.',
 				DATEDIFF(
 					p.`date_add`,
@@ -331,10 +331,12 @@ class SearchCore
 				ON (p.`id_product` = product_attribute_shop.`id_product` AND product_attribute_shop.`default_on` = 1 AND product_attribute_shop.id_shop='.(int)$context->shop->id.')':'').'
 				'.Product::sqlStock('p', 0).'
 				LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON m.`id_manufacturer` = p.`id_manufacturer`
-				LEFT JOIN `'._DB_PREFIX_.'image_shop` image_shop
+				LEFT JOIN `ps_rewards_product` AS rp
+					ON (rp.id_product = p.`id_product`)
+                                LEFT JOIN `'._DB_PREFIX_.'image_shop` image_shop
 					ON (image_shop.`id_product` = p.`id_product` AND image_shop.cover=1 AND image_shop.id_shop='.(int)$context->shop->id.')
 				LEFT JOIN `'._DB_PREFIX_.'image_lang` il ON (image_shop.`id_image` = il.`id_image` AND il.`id_lang` = '.(int)$id_lang.')
-				WHERE p.`id_product` '.$product_pool.'
+				WHERE p.`id_product` '.$product_pool.' AND p.product_parent = 1
 				GROUP BY product_shop.id_product
 				'.($order_by ? 'ORDER BY  '.$alias.$order_by : '').($order_way ? ' '.$order_way : '').'
 				LIMIT '.(int)(($page_number - 1) * $page_size).','.(int)$page_size;

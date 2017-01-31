@@ -255,7 +255,7 @@
                                                                             {/if}
                                 <div id="columns" class="container">
 					
-                                        {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6}
+                                        {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6 && $page_name != 'category'}
 						{include file="$tpl_dir./breadcrumb.tpl"}
 					{/if}
                                         {if $category->id_image == ''}
