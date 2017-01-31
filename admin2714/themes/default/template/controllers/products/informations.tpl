@@ -121,9 +121,9 @@
 			</div>
                         <div class="checkbox col-lg-9" style="padding-left: 0px;">
 				<label for="product_parent">
-                                    <input type="checkbox" name="product_parent" onclick="metodoClick()" id="product_parent" value="1" {if $product_parent == true}checked="checked"{/if} >
+                                    <input type="checkbox" name="product_parent" id="product_parent" value="1" {if $product_parent == true}checked="checked"{/if} >
                                     {l s='Producto Padre'}</label> &nbsp;&nbsp;
-				<label for="product_parent">
+				<label for="product_noparent">
                                     <input type="checkbox" name="product_parent" id="product_noparent" value="0" {if $product_parent == false}checked="checked"{/if}>
                                     {l s='Producto Simple'}</label>
 			</div>
@@ -147,6 +147,7 @@
                                        $('#link-ModuleProductsbanners').show();
                                        $('#product_noparent').prop('checked',false);
                                    }else{
+                                      
                                        $('#link-Prices').show();
                                        $('#link-ModuleFluzfluzcodes').show();
                                        $('#link-ModuleAllinone_rewards').show();
@@ -166,6 +167,10 @@
                                         $('#link-Quantities').hide();
                                         $('#code-ean').hide();
                                         $('#code-upc').hide();
+                                    }
+                                    
+                                    if($('#product_noparent').prop('checked')){
+                                       $('#link-ModuleProductsbanners').hide();
                                     }
                                 });
                                 
