@@ -161,12 +161,6 @@
                                         $('.account-m').click(function(){
                                            $('.menu-account').show("slow");
                                         });
-                                        
-                                        $(document).ready(function(){
-                                            if (($(window).width()) <= 800){
-                                               $('.block_content2').css('visibility','hidden');
-                                             }
-                                        });
                                     </script>
                                 {/literal}   
                                 {if $page_name=='my-account'}
