@@ -60,9 +60,6 @@
 {literal}
     <script>
         $(document).ready(function() {
-            if (($(window).width()) >= 1024){
-               $('.back-account').css('display','none');
-            }
             $('.back-account').click(function(){
                $('.menu-account').hide('slow'); 
             });
