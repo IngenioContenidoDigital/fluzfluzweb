@@ -267,7 +267,7 @@ class ManufacturerCore extends ObjectModel
                 LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
                 LEFT JOIN '._DB_PREFIX_.'product p ON ( m.id_manufacturer = p.id_manufacturer )
                 LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )
-                WHERE m.active = 1
+                WHERE m.active = 1 AND p.product_parent = 1
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
                 HAVING count >= 1
@@ -310,7 +310,7 @@ class ManufacturerCore extends ObjectModel
                 LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
                 LEFT JOIN '._DB_PREFIX_.'product p ON ( m.id_manufacturer = p.id_manufacturer )
                 LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )    
-                WHERE m.active = 1
+                WHERE m.active = 1 AND p.product_parent = 1
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
                 HAVING count >= 1
