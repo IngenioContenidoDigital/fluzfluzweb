@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
 .oneline { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 /* The Nivo Slider styles */
@@ -107,7 +109,10 @@
  .pos-slideshow-readmore a{-webkit-animation: fadeInFromNone 0.5s ease-out;
                             -moz-animation: fadeInFromNone 0.5s ease-out;
                             -o-animation: fadeInFromNone 0.5s ease-out;
-                            animation: fadeInFromNone 0.5s ease-out;}
+                            animation: fadeInFromNone 0.5s ease-out;
+                            font-family: 'Open Sans';
+                            letter-spacing: 1.5px;
+                          }
 
 .pos_description h3.title3 { -webkit-animation: zoomInRight 3000ms ease-in-out; -moz-animation: zoomInRight 3000ms ease-in-out; -ms-animation: zoomInRight 3000ms ease-in-out; animation: zoomInRight 3000ms ease-in-out; }
 

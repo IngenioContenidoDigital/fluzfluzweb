@@ -140,8 +140,19 @@
         if (($(window).width()) >= 1024)
         {
             $(document).ready(function() {
+                //var ventana = $(window).width();
                 var altura = $('.container-cms').height();
-                $('.menuSticky').css('min-height', altura + 'px')
+                var ancho = ($('.product_list').width());
+                $('.menuSticky').css('min-height', altura + 'px');
+                $('.owl-item').css('width', Math.round((ancho/3)) + 'px');
+                $('.owl-wrapper-outer').css('width', (ancho-80) + 'px')
+                //$('.owl-wrapper-outer').css('margin-left', '40px')
+                //var total;
+                /*$('.owl-item').each(function(){
+                    alert($(this).width((ancho/4)));
+                    //$(this).css('max-width',(ancho/4)+'px');
+                })*/
+                
             });
         }
     </script>

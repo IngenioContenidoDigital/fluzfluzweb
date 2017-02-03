@@ -30,6 +30,7 @@
         <button class="block_content2" id="block_content3" type="button" data-toggle="dropdown"></button>
 		
                 <ul class="bullet dropdown-menu menu-account">
+                        <li><a class="back-account">{l s='Regresar' mod='blockmyaccountheader'}</a></li>
 			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccountheader'}</a></li>
 			{*if $returnAllowed}<li><a href="{$link->getPageLink('order-follow', true)|escape:'html'}" title="{l s='My merchandise returns' mod='blockmyaccountheader'}">{l s='My merchandise returns' mod='blockmyaccountheader'}</a></li>{/if*}
 			{*<li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='My Cards' mod='blockmyaccountheader'}">{l s='My Cards' mod='blockmyaccountheader'}</a></li>*}
@@ -42,8 +43,35 @@
                         <li class="logout signUp"><a style="border-bottom: none;" href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccountheader'}">{l s='Sign out' mod='blockmyaccountheader'}</a></li>
                 </ul>
         {else}
-            <button class="block_content2" id="block_content2" type="button" onclick="window.location.href = '{$link->getPageLink('my-account', true)|escape:'html'}';">MI CUENTA &nbsp;&nbsp;<i class="icon icon-chevron-down"></i></button>
-            <button class="block_content2" id="block_content3" type="button" onclick="window.location.href = '{$link->getPageLink('my-account', true)|escape:'html'}';"></button>
+            <button class="block_content2" id="block_content2" type="button" data-toggle="dropdown">MI CUENTA &nbsp;&nbsp;<i class="icon icon-chevron-down"></i></button>
+            <button class="block_content2" id="block_content3" type="button" data-toggle="dropdown"></button>
+	
+            <ul class="bullet dropdown-menu menu-account">
+                        <li><a class="back-account">{l s='Regresar' mod='blockmyaccountheader'}</a></li>
+			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccountheader'}</a></li>
+			<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}">{l s='My Network' mod='blockmyaccountheader'}</a></li>
+			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Sponsor a friend' mod='blockmyaccountheader'}">{l s='Sponsor a friend' mod='blockmyaccountheader'}</a></li>
+                        <li><a href="{$link->getPageLink('cashout', true)|escape:'html'}" title="{l s='Cash Out' mod='blockmyaccountheader'}">{l s='Cash Out' mod='blockmyaccountheader'}</a></li>
+                        <li class="logout signUp"><a style="border-bottom: none;" href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccountheader'}">{l s='Sign out' mod='blockmyaccountheader'}</a></li>
+            </ul>
         {/if}
 </div>
 <!-- /Block myaccount module -->
+{literal}
+    <script>
+        $(document).ready(function() {
+            if (($(window).width()) >= 1024){
+               $('.back-account').css('display','none');
+            }
+            $('.back-account').click(function(){
+               $('.menu-account').hide('slow'); 
+            });
+            $('.x-close').click(function(){
+                $('.menu-down').fadeOut('slow');
+                $('.menu-account').fadeOut('slow');
+                $('.block_content3').show();
+                $(".x-close").hide();
+            })
+        });
+    </script>
+{/literal}

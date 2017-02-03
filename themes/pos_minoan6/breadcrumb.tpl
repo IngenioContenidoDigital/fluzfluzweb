@@ -85,7 +85,6 @@
                 $('.owl-wrapper-outer').addClass('widthColumn');
                 $('.widthCategory').addClass('widthtotal');
                 $('.owl-carousel').addClass('leftwidth');
-                $('.titleFeatured2').addClass('merchant-left');
                 $('.owl-item').addClass('width-item');
                 $('.ocultar').attr('disabled', 'disabled');
                 $('.containerFeatured').animate({left: 0}, 600, function(){
