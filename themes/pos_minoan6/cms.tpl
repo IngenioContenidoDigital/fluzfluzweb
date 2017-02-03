@@ -142,10 +142,10 @@
             $(document).ready(function() {
                 //var ventana = $(window).width();
                 var altura = $('.container-cms').height();
-                var ancho = ($('.product_list').width());
+                //var ancho = ($('.product_list').width());
                 $('.menuSticky').css('min-height', altura + 'px');
-                $('.owl-item').css('width', Math.round((ancho/3)) + 'px');
-                $('.owl-wrapper-outer').css('width', (ancho-80) + 'px')
+                //$('.owl-item').css('width', Math.round((ancho/3)) + 'px');
+                //$('.owl-wrapper-outer').css('width', (ancho-80) + 'px')
                 //$('.owl-wrapper-outer').css('margin-left', '40px')
                 //var total;
                 /*$('.owl-item').each(function(){
