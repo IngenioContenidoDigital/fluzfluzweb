@@ -209,6 +209,7 @@ class ProductsCategory extends Module
                                         'categoryProducts2' => $products_recomend[1],
                                         'categoryProducts3' => $products_recomend[2],
                                         'categoryProducts4' => $products_recomend[3],
+                                        'categoryMovil' => $array_recomend,
 					'middlePosition' => (int)$middle_position,
 					'ProdDisplayPrice' => Configuration::get('PRODUCTSCATEGORY_DISPLAY_PRICE')
 				)

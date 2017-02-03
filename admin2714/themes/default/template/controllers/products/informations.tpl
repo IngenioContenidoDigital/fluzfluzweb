@@ -144,6 +144,10 @@
                                        $('#link-Quantities').hide();
                                        $('#code-ean').hide();
                                        $('#code-upc').hide();
+                                       $('#link-Features').hide();
+                                       $('#link-Suppliers').hide();
+                                       $('#online').hide();
+                                       $('#single_use').hide();
                                        $('#link-ModuleProductsbanners').show();
                                        $('#product_noparent').prop('checked',false);
                                    }else{
@@ -154,7 +158,13 @@
                                        $('#link-Quantities').show();
                                        $('#code-ean').show();
                                        $('#code-upc').show();
+                                       $('#link-Suppliers').show();
+                                       $('#online').show();
+                                       $('#single_use').show();
+                                       $('#link-Features').hide();
                                        $('#link-ModuleProductsbanners').hide();
+                                       $('#link-Seo').hide();
+                                       $('#link-Combinations').hide();
                                        $('#product_parent').prop('checked',false);
                                    }
                                 });
@@ -166,11 +176,18 @@
                                         $('#link-ModuleAllinone_rewards').hide();
                                         $('#link-Quantities').hide();
                                         $('#code-ean').hide();
+                                        $('#link-Features').hide();
                                         $('#code-upc').hide();
+                                        $('#link-Suppliers').hide();
+                                        $('#online').hide();
+                                        $('#single_use').hide();
                                     }
                                     
                                     if($('#product_noparent').prop('checked')){
+                                       $('#link-Features').hide();
                                        $('#link-ModuleProductsbanners').hide();
+                                       $('#link-Combinations').hide();
+                                       $('#link-Seo').hide();
                                     }
                                 });
                                 
@@ -354,12 +371,12 @@
 							<input type="checkbox" name="show_price" id="show_price" value="1" {if $product->show_price}checked="checked"{/if} {if $product->available_for_order}disabled="disabled"{/if} >
 							{l s='Show price'}</label>
 					</div>
-					<div class="checkbox">
+					<div class="checkbox" id="online">
 						<label for="online_only">
 							<input type="checkbox" name="online_only" id="online_only" value="1" {if $product->online_only}checked="checked"{/if} >
 							{l s='Online only (not sold in your retail store)'}</label>
 					</div>
-                                        <div class="checkbox">
+                                        <div class="checkbox" id="single_use">
                                                 <input type="hidden" name="single_use" id="single_use" value="1" {if $product->single_use}checked="checked"{/if}>
 						<label for="single_use2" style="cursor:pointer;">
                                                     <input type="checkbox" name="single_use2" id="single_use2" value="1" {if $product->single_use}checked="checked"{/if}>
