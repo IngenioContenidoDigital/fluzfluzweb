@@ -308,7 +308,7 @@ ul li .check::before {
 
 .popText { margin-left: 6%; }
 .title-card { padding: 2px 26px; }
-.card-view { margin: 20px 0 0 30px; }
+.card-view { margin: 0px 0 0 30px; }
 .c { margin-top: 0px!important; }
 .cardview-ins { margin-left: 25px; }
 .title-card div { display: inline-block; vertical-align: middle; }
