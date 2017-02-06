@@ -120,7 +120,7 @@
         .btn-shop{width: 50%;}
         .quick .icon-search:before{display: none;}
         form#searchbox{position: initial !important; top: 0px !important;padding-left: 490px;}
-        form#searchbox input#search_query_block{margin-bottom: 0px !important;padding: 18.5px !important; max-width: 380px; margin-right: 0px !important;}
+        form#searchbox input#search_query_block{margin-bottom: 0px !important;height: 39px; max-width: 380px; margin-right: 0px !important;}
         .button.button-small{background: #c9b198;padding: 11px 26px !important;}
         .menuSticky{margin-top: 0px !important;}
         .block {margin-bottom: 18px;margin-top: 18px;}
@@ -140,8 +140,19 @@
         if (($(window).width()) >= 1024)
         {
             $(document).ready(function() {
+                //var ventana = $(window).width();
                 var altura = $('.container-cms').height();
-                $('.menuSticky').css('min-height', altura + 'px')
+                //var ancho = ($('.product_list').width());
+                $('.menuSticky').css('min-height', altura + 'px');
+                //$('.owl-item').css('width', Math.round((ancho/3)) + 'px');
+                //$('.owl-wrapper-outer').css('width', (ancho-80) + 'px')
+                //$('.owl-wrapper-outer').css('margin-left', '40px')
+                //var total;
+                /*$('.owl-item').each(function(){
+                    alert($(this).width((ancho/4)));
+                    //$(this).css('max-width',(ancho/4)+'px');
+                })*/
+                
             });
         }
     </script>

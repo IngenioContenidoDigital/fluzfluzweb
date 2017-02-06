@@ -26,8 +26,8 @@
 <!-- Breadcrumb -->
 {if isset($smarty.capture.path)}{assign var='path' value=$smarty.capture.path}{/if}
 <div class="breadcrumb clearfix">
-    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-6 bread-style">
-        <div class="col-lg-6 bread-product" style="padding-right:0px;padding-left:0px;">
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 bread-style">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7 bread-product" style="padding-right:0px;padding-left:0px;">
             <a class="home" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Return to Home'}">{l s="INICIO"}</a>
                 {if isset($path) AND $path}
 		<!--<span class="navigation-pipe"{if isset($category) && isset($category->id_category) && $category->id_category == (int)Configuration::get('PS_ROOT_CATEGORY')} style="display:none;"{/if}>{$navigationPipe|escape:'html':'UTF-8'}</span>-->
@@ -40,9 +40,9 @@
                 {/if}
         </div>
         {if $cms->id==6 || $page_name =='category'}
-        <div class="col-lg-6 col-md-2 col-sm-2 col-xs-2 filter-padding">
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-right:0px;padding-left:0px;">
-                <div class="col-lg-6 iOS ocultar" id="someid">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-5 filter-padding">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="padding-right:0px;padding-left:0px;">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 iOS ocultar" id="someid">
                     <div class="switch">
                       <span class="outter lside">
                         <span class="otxt"></span>
@@ -53,7 +53,7 @@
                       <span class="circle"></span>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 text-filter">{l s="Filtrar"}</div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-filter">{l s="Filtrar"}</div>
             </div>    
         </div>    
         {/if}
@@ -85,7 +85,6 @@
                 $('.owl-wrapper-outer').addClass('widthColumn');
                 $('.widthCategory').addClass('widthtotal');
                 $('.owl-carousel').addClass('leftwidth');
-                $('.titleFeatured2').addClass('merchant-left');
                 $('.owl-item').addClass('width-item');
                 $('.ocultar').attr('disabled', 'disabled');
                 $('.containerFeatured').animate({left: 0}, 600, function(){
@@ -98,8 +97,9 @@
                 $('.container-cms').removeClass("containerwidth");
                 $('.widthCategory').removeClass('widthtotal');
                 $('.owl-carousel').removeClass('leftwidth');
-                $('.filter-padding').addClass('left-hide');
+                $('.filter-padding').removeClass('left-hide');
                 $('.owl-item').removeClass('width-item');
+                $('.titleFeatured2').removeClass('merchant-left');
                 $('.ocultar').removeAttr('disabled');
               }
              });

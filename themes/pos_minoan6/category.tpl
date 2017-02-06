@@ -100,25 +100,27 @@
                     {$HOOK_LEFT_COLUMN}
                 </div>
 		{if $products}
-                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 widthCategory" style="padding-left: 0px;">
-                        <h1 class="page-heading{if (isset($subcategories) && !$products) || (isset($subcategories) && $products) || !isset($subcategories) && $products} product-listing{/if}"><span class="cat-name">{$category->name|escape:'html':'UTF-8'}{if isset($categoryNameComplement)}&nbsp;{$categoryNameComplement|escape:'html':'UTF-8'}{/if}</span>{include file="$tpl_dir./category-count.tpl"}</h1>
-   
-			<div class="content_sortPagiBar clearfix">
-                            <div class="sortPagiBar clearfix">
-                                {include file="./product-compare.tpl"}
-                                {include file="./product-sort.tpl"}
-                                {include file="./nbr-product-page.tpl"}
-                            </div>
+                <div class="container-cms col-lg-9 col-md-9 col-sm-12 col-xs-12">    
+                    <div class="col-lg-12 col-md-12 containerFeatured widthCategory" style="padding-left: 0px;">
+                            <h1 class="page-heading{if (isset($subcategories) && !$products) || (isset($subcategories) && $products) || !isset($subcategories) && $products} product-listing{/if}"><span class="cat-name">{$category->name|escape:'html':'UTF-8'}{if isset($categoryNameComplement)}&nbsp;{$categoryNameComplement|escape:'html':'UTF-8'}{/if}</span>{include file="$tpl_dir./category-count.tpl"}</h1>
 
-			</div>
-                        {include file="./product-list.tpl" products=$products}
-			<div class="content_sortPagiBar">
-			<div class="bottom-pagination-content clearfix">
-			{include file="./product-compare.tpl" paginationId='bottom'}
-                        {include file="./pagination.tpl" paginationId='bottom'}
-			</div>
-			</div>
-                </div> 
+                            <div class="content_sortPagiBar clearfix">
+                                <div class="sortPagiBar clearfix">
+                                    {include file="./product-compare.tpl"}
+                                    {include file="./product-sort.tpl"}
+                                    {include file="./nbr-product-page.tpl"}
+                                </div>
+
+                            </div>
+                            {include file="./product-list.tpl" products=$products}
+                            <div class="content_sortPagiBar">
+                            <div class="bottom-pagination-content clearfix">
+                            {include file="./product-compare.tpl" paginationId='bottom'}
+                            {include file="./pagination.tpl" paginationId='bottom'}
+                            </div>
+                            </div>
+                    </div> 
+                </div>        
                 {/if}
 	{elseif $category->id}
 		<p class="alert alert-warning">{l s='This category is currently unavailable.'}</p>
@@ -130,17 +132,19 @@
                 <style>
                     .divTitleFeatured{display: none;}
                     .boxprevnext2 a i{display: none;}
-                    .page-heading.product-listing{margin: 0 auto; width: 90%;}
-                    .content_sortPagiBar .sortPagiBar{margin-left: 5%;}
+                    .page-heading.product-listing{margin: 0 auto; width: 100%;}
+                    .content_sortPagiBar .sortPagiBar{margin-left: 7px;}
                     .boxprevnext2 a{display: none;}
-                    .owl-wrapper{width: 100% !important; margin-left: 50px; transition:none !important; transform: none !important;}
+                    .owl-wrapper{width: 100% !important; transition:none !important; transform: none !important;}
                     .content_sortPagiBar .display li{display: none;}
                     .bottom-pagination-content ul.pagination{margin-top: 0 !important;}
                     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
                     .style-search{background:#ef4136;height: 75px;}
-                    form#searchbox input#search_query_block{margin-bottom: 0px !important;padding: 18.5px !important; max-width: 380px; margin-right: 0px !important;}
+                    form#searchbox input#search_query_block{margin-bottom: 0px !important;height: 39px; max-width: 380px; margin-right: 0px !important;}
                     #search_query_top{left: 0px; margin-top: 65px; z-index: 1;}
-                    
+                    .bread-style{width: 100%;}
+                    .content_sortPagiBar .sortPagiBar .nbrItemPage{padding-left: 10px;}
+                    .page-heading.product-listing{padding-left: 15px;}
                     @media (min-width:1025px) and (max-width:1120px){
                         .prueba{left: 186px;}
                         .owl-item {width: 235px;}
@@ -154,6 +158,19 @@
                         .ct_img > img{display: block;width: 100% !important;max-width: 100% !important;height: auto;margin-left: 0 !important;}
                     }    
                 </style>
+            {/literal}
+            {literal}
+
+                <script>
+                    if (($(window).width()) >= 1024)
+                    {
+                        $(document).ready(function() {
+                            var altura = $('.container-cms').height();
+                            $('.menuSticky').css('min-height', altura + 'px')
+                        });
+                    }
+                </script>
+
             {/literal}
         {/if}    
 {/if}

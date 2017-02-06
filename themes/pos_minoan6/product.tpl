@@ -153,7 +153,7 @@
 						</p>
 					{/if}
                                         
-                                        <div class="hook-product col-lg-12">{if isset($HOOK_PRODUCT_FOOTER) && $HOOK_PRODUCT_FOOTER}{$HOOK_PRODUCT_FOOTER}{/if}</div>
+                                        <div class="hook-product col-lg-12 recomend-normal">{if isset($HOOK_PRODUCT_FOOTER) && $HOOK_PRODUCT_FOOTER}{$HOOK_PRODUCT_FOOTER}{/if}</div>
 				</div> <!-- end pb-left-column -->
 				<!-- end left infos-->
 				<!-- center infos -->
@@ -310,6 +310,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list detail-style" >
                                                                                     <span>${$list.price|number_format:0}</span><br>
+                                                                                    <span class='save-query' style='display:none;color:#ef4136;'>{l s="Ahorra "}{$save_price}%</span>
                                                                                     <span class="sign-more">+</span><span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
                                                                                 </div>
                                                                                 {if $logged}
@@ -365,6 +366,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
                                                                                     <span>${$productPrice|number_format:0}</span><br>
+                                                                                    <span class='save-query' style='display:none;color:#ef4136;'>{l s="Ahorra "}{$save_price}%</span>
                                                                                     <span class="sign-more">+</span><span class="detail-more" id="detail_{$product->id}" onclick="accordion_more({$product->id})">{l s="Detalles"}</span>
                                                                                 </div>
                                                                                 
@@ -403,13 +405,13 @@
                                                                                         $('.sign-more').hide();
                                                                                         var esVisible = $('#detail_product_'+id).is(":visible");
                                                                                         if(esVisible){
-                                                                                            $('#detail_product_'+id).toggle("slow");
+                                                                                            $('#detail_product_'+id).slideToggle();
                                                                                             $('.detail-more').addClass('more-sign');
                                                                                             $('.detail-more').removeClass('minus-sign');
                                                                                         }
                                                                                         else {
                                                                                             $('.detail-product').css('display','none');
-                                                                                            $('#detail_product_'+id).toggle("slow");
+                                                                                            $('#detail_product_'+id).slideToggle();
                                                                                             $('.detail-more').addClass('minus-sign');
                                                                                             $('.detail-more').removeClass('more-sign');
                                                                                         }
@@ -705,6 +707,7 @@
                                                 </div>
                                         {/foreach}
                                         <div id="loadMoreAddress"><span class="more-address">{l s="Mostrar mas"}</span></div>
+                                        <div id="loadMenosAddress" style='display:none;'><span class="more-address">{l s="Mostrar menos"}</span></div>
                                     </div>
                                 </section>
                                 {literal}
@@ -716,11 +719,17 @@
                                             }
                                             else
                                                 $("#loadMoreAddress").click(function(){
-                                                    $(".address-div:hidden").slice(0, 6).toggle('slow');
+                                                    $(".address-div:hidden").slice(0, 100).toggle('slow');
                                                     if($(".address-div:hidden").length == 0){ // check if any hidden divs still exist
                                                         $("#loadMoreAddress").css('display','none'); // alert if there are none left
-                                                    }
+                                                        $("#loadMenosAddress").css('display','block'); // alert if there are none left
+                                                }
                                             });
+                                        });
+                                        $("#loadMenosAddress").click(function(){
+                                                $(".address-div:visible").slice(4, 100).slideUp('slow');
+                                                $("#loadMoreAddress").css('display','block'); // alert if there are none left
+                                                $("#loadMenosAddress").css('display','none'); // alert if there are none left
                                         });
                                     </script>
                                 {/literal}    
@@ -850,7 +859,9 @@
 				{/if}
 			{/if}
 		</div>
-		{if isset($accessories) && $accessories}
+                <div class="hook-product col-lg-12 recomend-movil">{if isset($HOOK_PRODUCT_FOOTER) && $HOOK_PRODUCT_FOOTER}{$HOOK_PRODUCT_FOOTER}{/if}</div>
+		
+                {if isset($accessories) && $accessories}
 			<!--Accessories -->
 			<section class="page-product-box blockaccessories">
 			
@@ -1105,14 +1116,11 @@
         /*.actions{display: none !important;}*/
         .pb-left-column{padding-left: 5px;}
         .pos-title span{font-size: 12px;}
-        .pos-title h2 {width: 100%;text-align: left; background: #fff;line-height: 30px;}
+        .pos-title h2 {width: 100%;text-align: left; background: #fff;line-height: 30px; border-right: none;}
         .breadcrumb{margin-top: 68px;background: #f4f4f4;padding-left: 34px;letter-spacing: 1.5px;font-size: 12px;}
         .bread-product{width: 100%;}
         .pull-right{display: none;}
         .bread-style{width: 100%;}
-        @media (max-width:1080px){
-           .hook-product{padding-left: 0px;display: none;}
-        }
     </style>
 {/literal}
 {literal}

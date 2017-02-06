@@ -234,6 +234,29 @@
 				</div>
 			{/foreach}
 			</div>
+                        <div class="product_movil">
+                            {foreach from=$categoryMovil item='categoryProduct' name=categoryProduct}
+                                    <div class="item-product">
+                                            <div class="col-lg-6 padding-img">
+                                                    <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                        <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                        <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                    </a>
+                                            </div>
+                                            <div class="points-block col-lg-6">
+                                            {assign var="idprodshop" value=$product.reference}
+                                            {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                    <div style="font-size:12px; margin-left: 0px;">
+                                                            {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                    </div>
+                                                    <div>
+                                                        <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                    </div>
+                                                    <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                            </div>
+                                    </div>
+                            {/foreach}
+			</div>
 			<div class="boxprevnext">
 				<a class="prev prev-product"><i class="icon-chevron-left"></i></a>
 				<a class="next next-product"><i class="icon-chevron-right"></i></a>
@@ -283,4 +306,28 @@
         .points-block div:first-child{margin-left: 10px; margin-top: 10px;}
         .more-info ul li a{font-size: 10px;}
     </style>    
+{/literal}
+{literal}
+    <script type="text/javascript"> 
+    $(document).ready(function() {
+		var owl = $(".product_movil");
+		owl.owlCarousel({
+		items : 4,
+		 pagination :false,
+		slideSpeed: 1000,
+		itemsDesktop : [1199,4],
+		itemsDesktopSmall : [911,3], 
+		itemsTablet: [767,3], 
+		itemsMobile : [480,1],
+		});
+		 
+		// Custom Navigation Events
+		$(".next-product").click(function(){
+		owl.trigger('owl.next');
+		})
+		$(".prev-product").click(function(){
+		owl.trigger('owl.prev');
+		})     
+    });
+</script>
 {/literal}
