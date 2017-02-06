@@ -68,7 +68,7 @@
     </tr>
     <tr><td></td></tr>
     <tr>
-        <td style="font-size: 7.5pt;">No somos grandes contribuyentes, somos intermediarios, Acogidos a la Ley 1429 de 2010<br>Esta factura presta m&eacute;rito ejecutivo de acuerdo a la ley 1231 de 2008.</td>
+        <td style="font-size: 7.5pt;">No somos grandes contribuyentes, somos intermediarios<br>Esta factura presta m&eacute;rito ejecutivo de acuerdo a la ley 1231 de 2008.</td>
     </tr>
     <tr><td></td></tr>
     <tr>
