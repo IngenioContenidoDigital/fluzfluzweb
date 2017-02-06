@@ -907,10 +907,20 @@ class AuthControllerCore extends FrontController
                     WHERE rs.id_customer = ".$id_customer;
         $sponsor = Db::getInstance()->getRow($query);
         
+        $contributor_count = Db::getInstance()->getValue("SELECT COUNT(*) contributor_count
+                                                            FROM "._DB_PREFIX_."customer
+                                                            WHERE active = 1");
+        
+        $points_count = Db::getInstance()->getValue("SELECT SUM(credits) points_count
+                                                        FROM "._DB_PREFIX_."rewards
+                                                        WHERE id_reward_state = 2");
+        
         $vars = array(
             '{username}' => $sponsor['username'],
             '{img_url}' => _PS_IMG_DIR_,
             '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
+            '{contributor_count}' => $contributor_count,
+            '{points_count}' => round($points_count),
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id)
         );
