@@ -97,7 +97,10 @@ button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: i
     #block_content2 { display: none; }
     #block_content3 { display: block!important; background: url('avatar.png') no-repeat center; }
     #block_content3:hover{ background: url('avatar2.png') no-repeat center; }
-    .back-account{display: none;}
+}
+
+@media (min-width:1024px){
+    .back-account{display: none !Important;}
 }
 
 @media (max-width:768px){

@@ -3460,8 +3460,8 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     .contProfile{margin-left:150px;}
     .barTop{line-height:24px !important;}
 }
-@media (min-width:1026px) and (max-width:3000px){
-    .block_content3{display:none;}
+@media (min-width:1024px) and (max-width:3000px){
+    .block_content3{display:none !important;}
 }
 @media (min-width:120px) and (max-width:780px){
     .dropdown-menu{top:67px !important; font-family:'Open Sans' !important; min-width: 100%;}
@@ -3474,7 +3474,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
     #header .pos_logo{width:60% !important; margin-top:7px !important;}
     .block_content3{margin-right:5px; width:15% !important; margin-right:8px !important; margin-top:2px !important;}
     .accountHeader{top:-153.5px; left:290px !important; padding-right:0px !important; border:none !important;}
-    .shopping_cart > a:first-child:before{position:absolute!important; top: -57px!important; left: 111px !important;}
+    .shopping_cart > a:first-child:before{position:absolute!important; top: -65px!important; left: 111px !important;}
     .infoCard{margin-top:-12px;}
     .priceCard{margin-top:-7px !important;}
 }

@@ -248,7 +248,7 @@ class SearchCore
 		INNER JOIN `'._DB_PREFIX_.'category` c ON cp.`id_category` = c.`id_category`
 		INNER JOIN `'._DB_PREFIX_.'product` p ON cp.`id_product` = p.`id_product`
 		'.Shop::addSqlAssociation('product', 'p', false).'
-		WHERE c.`active` = 1
+		WHERE c.`active` = 1 AND p.product_parent = 1
 		AND product_shop.`active` = 1
 		AND product_shop.`visibility` IN ("both", "search")
 		AND product_shop.indexed = 1
