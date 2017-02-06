@@ -539,8 +539,9 @@
         });
         
         $('#used').click(function(){
-            $( "#f-option" ).click();
-            $( "#f-option" ).click();
+            $('#f-option').attr('checked', 'checked');
+                if($('#f-option').is(':checked')) 
+                    { $( "#f-option" ).click(); }
             var code = $('.micode').html();
             $('.codeImg').each(function(){
                 var compare = $(this).html();
@@ -569,8 +570,9 @@
         });
         
         $('#not-used').click(function(){
-            $( "#s-option" ).click();
-            $( "#s-option" ).click();
+            $('#s-option').attr('checked', 'checked');
+                if($('#s-option').is(':checked')) 
+                    { $( "#s-option" ).click(); }
             var code = $('.micode').html();
             $('.update-card').fadeOut(600);
             $('.codeImg').each(function(){
