@@ -89,11 +89,21 @@ foreach ( $customers as $key => &$customer ) {
             }
         }
 
+        $contributor_count = Db::getInstance()->getValue("SELECT COUNT(*) contributor_count
+                                                            FROM "._DB_PREFIX_."customer
+                                                            WHERE active = 1");
+        
+        $points_count = Db::getInstance()->getValue("SELECT SUM(credits) points_count
+                                                        FROM "._DB_PREFIX_."rewards
+                                                        WHERE id_reward_state = 2");
+
         $vars = array(
             '{username}' => $customer['username'],
             '{days_inactive}' => $customer['days_inactive'],
             '{message}' => $message_alert,
             '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
+            '{contributor_count}' => $contributor_count,
+            '{points_count}' => round($points_count),
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
