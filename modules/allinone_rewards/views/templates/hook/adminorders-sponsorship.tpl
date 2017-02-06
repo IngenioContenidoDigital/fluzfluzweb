@@ -26,14 +26,14 @@
 					<tr style="font-weight: bold">
 						<td>{l s='Level' mod='allinone_rewards'}</td>
 						<td>{l s='Name' mod='allinone_rewards'}</td>
-						<td>{l s='Reward' mod='allinone_rewards'}</td>
+						<td style="text-align: center;">{l s='Reward' mod='allinone_rewards'}</td>
 						<td>{l s='Status' mod='allinone_rewards'}</td>
 					</tr>
 	{foreach from=$rewards item=reward}
 					<tr>
 						<td>{$reward['level_sponsorship']|intval}</td>
 						<td><a href="?tab=AdminCustomers&id_customer={$reward['id_customer']|intval}&viewcustomer&token={getAdminToken tab='AdminCustomers'}">{$reward['firstname']|escape:'htmlall':'UTF-8'} {$reward['lastname']|escape:'htmlall':'UTF-8'}</a></td>
-						<td>{displayPrice price=$reward['credits']}</td>
+                                                <td style="text-align: center;">{$reward['credits']|string_format:"%d" }&nbsp;&nbsp;{l s="Fluz."}</td>
 						<td>{$reward['state']|escape:'htmlall':'UTF-8'}</td>
 					</tr>
 	{/foreach}
