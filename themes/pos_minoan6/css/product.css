@@ -213,7 +213,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 }
 
 .address-div{display: none;}
-.more-address{color:#ef4136; text-transform: uppercase; font-weight: bold;}
+.more-address{color:#ef4136; text-transform: uppercase; font-weight: bold;cursor: pointer;}
 #loadMoreAddress{margin-top: 10px;}
 #loadMenosAddress{margin-top: 10px;}
 .img-center {
