@@ -44,35 +44,45 @@ foreach ( $customers as $key => &$customer ) {
 
     $subject = "";
     $template = 'remember_inactive_account';
-    $message_alert = "Si tu cuenta Fluz Fluz permanece inactiva por un total de 60 dias,";
+    $message_1 = "";
+    $message_2 = "";
+    $message_3 = "";
     switch ( $customer['days_inactive'] ) {
         case 0:
             $customer['days_inactive'] = "NULL";
             break;
         case 30:
             $subject = "Tus 2 compras minimas del mes!";
-            $message_alert .= " se cancelara.";
+            $message_1 = "Fluz Fluz desea recordarte que no has realizado tus 2 compras m&iacute;nimas mensuales para permanecer activo.";
+            $message_3 = "Para m&aacute;s informaci&oacute;n puedes ingresar a";
             break;
         case 45:
             $subject = "Para gozar de los beneficios Fluz Fuz, recuerda realizar tus 2 compras minimas!";
-            $message_alert .= " (15 dias mas) se cancelara.";
+            $message_1 = "Fluz Fluz desea recordarte que no has realizado tus 2 compras m&iacute;nimas mensuales para permanecer activo.";
+            $message_3 = "Para m&aacute;s informaci&oacute;n puedes ingresar a";
             break;
         case 52:
             $subject = "Olvidaste hacer tus 2 compras minimas en Fluz Fluz.";
-            $message_alert .= " (8 dias mas) se cancelara.";
+            $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
+            $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
+            $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
         case 59:
             $subject = "Alerta de Cancelacion de cuenta en Fluz Fluz.";
-            $message_alert .= " (1 dias mas) se cancelara.";
+            $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
+            $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
+            $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
         case 60:
             $subject = "Tu cuenta sera Cancelada.";
-            $message_alert .= " se cancelara. Este es el ultimo dia para que renueves la actividad, antes de que tu cuenta se cancele.";
+            $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
+            $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
+            $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
         case 90:
             $subject = "Tu cuenta fue Cancelada.";
             $template = 'cancellation_account';
-            $message_alert = "";
+            $message_1 = "";
             $execute_kickout = true;
             Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."message_sponsor (id_message_sponsor, id_customer_send, id_customer_receive, message, date_send) VALUES ('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$customer['id_customer'].", 'Tu cuenta ha estado inactiva por mas de 60 dias. Debido a esto, por desgracia, su cuenta ha sido cancelada.', NOW())");
             Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET kick_out = 1 WHERE id_customer = ".$customer['id_customer']);
@@ -81,6 +91,12 @@ foreach ( $customers as $key => &$customer ) {
     
     if ( $subject != "" && $template != "cancellation_account"  ) {
         if ( $customer['days_inactive'] != "NULL" ) {
+            
+            $today = date_create( date("Y-m-d") );
+            $missing_days = (61 - $customer['days_inactive']).' days';
+            date_add( $today , date_interval_create_from_date_string($missing_days));
+            $expiration_date = date_format($today, 'Y-m-d');
+            
             $existNotificationInactive = Db::getInstance()->getValue("SELECT COUNT(*) FROM "._DB_PREFIX_."notification_inactive WHERE id_customer = ".$customer['id_customer']);
             if ( $existNotificationInactive == 0 ) {
                 Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_inactive (id_customer, date_alert_".$customer['days_inactive'].") VALUES (".$customer['id_customer'].", NOW())");
@@ -100,7 +116,10 @@ foreach ( $customers as $key => &$customer ) {
         $vars = array(
             '{username}' => $customer['username'],
             '{days_inactive}' => $customer['days_inactive'],
-            '{message}' => $message_alert,
+            '{message}' => $message_1,
+            '{message2}' => $message_2,
+            '{message3}' => $message_3,
+            '{expiration_date}' => $expiration_date,
             '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
             '{contributor_count}' => $contributor_count,
             '{points_count}' => round($points_count),
@@ -121,7 +140,7 @@ foreach ( $customers as $key => &$customer ) {
         }
 
         Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history (id_customer, type_message, message, date_send)
-                                    VALUES (".$customer['id_customer'].",'Recordatorio cuenta inactiva', '".$message_alert."', NOW())");
+                                    VALUES (".$customer['id_customer'].",'Recordatorio cuenta inactiva', '".$message_1."', NOW())");
     }
 }
 
