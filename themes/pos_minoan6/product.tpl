@@ -300,8 +300,12 @@
                                                                             <div class="content-table-combinations row"> 
                                                                                 <input type="hidden" value="{$list.id_attribute}" id="{$list.id_product}"/>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">${$list.price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;{$list.price_shop|number_format:0}</div>
+                                                                                {if $list.type_currency == 'COP'}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
+                                                                                {else}
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$list.save_dolar}%</div>
+                                                                                {/if}    
                                                                                 {if $logged}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
                                                                                 {else}
