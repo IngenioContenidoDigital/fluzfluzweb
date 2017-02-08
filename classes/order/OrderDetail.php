@@ -178,7 +178,7 @@ class OrderDetailCore extends ObjectModel
             'product_attribute_id' =>        array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId'),
             'product_name' =>                array('type' => self::TYPE_STRING, 'validate' => 'isGenericName', 'required' => true),
             'porcentaje' =>    array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),
-            'points' =>    array('type' => self::TYPE_INT, 'validate' => 'isFloat'),
+            'points' =>    array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),
             'discount_quantity_applied' =>    array('type' => self::TYPE_INT, 'validate' => 'isInt'),
             'product_quantity' =>            array('type' => self::TYPE_INT, 'validate' => 'isInt', 'required' => true),
             'product_quantity_in_stock' =>    array('type' => self::TYPE_INT, 'validate' => 'isInt'),
@@ -640,7 +640,7 @@ class OrderDetailCore extends ObjectModel
         
         $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants((int)$order->id_customer);
         $sponsorships2=array_slice($sponsorships, 1, 15);
-        $points_detail=  (round((RewardsModel::getRewardReadyForDisplay((int)$product['price'], $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_detail)*(int)$product['cart_quantity']); 
+        $points_detail = ( ((RewardsModel::getRewardReadyForDisplay((int)$product['price'], $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_detail)*(int)$product['cart_quantity'] );
                        
         $this->points = $points_detail;
         
