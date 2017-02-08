@@ -360,8 +360,12 @@
                                                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
                                                                             <div class="content-table-combinations row"> 
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$product->id_manufacturer}.jpg" style="margin-right: 0px; padding-left: 10px;" alt="{$product->name|lower|escape:'htmlall':'UTF-8'}" title="{$product->name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">${$product->price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$product->type_currency}&nbsp;{$product->price_shop|number_format:0}</div>
+                                                                                {if $product->type_currency == 'COP'}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
+                                                                                {else}
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$product->save_dolar}%</div>
+                                                                                {/if}
                                                                                 {if $logged}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{$productP|string_format:"%d"}</div>
                                                                                 {else}
