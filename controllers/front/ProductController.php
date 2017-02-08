@@ -590,8 +590,8 @@ class ProductControllerCore extends FrontController
             
             foreach ($combinations as $prueba) {
                 
-                $query = 'SELECT p.price_shop, p.price, p.id_product, p.online_only as online, 
-                          p.single_use, p.expiration, p.id_manufacturer, pl.link_rewrite, 
+                $query = 'SELECT p.price_shop, p.price, p.save_dolar, p.id_product, p.online_only as online, 
+                          p.single_use, p.type_currency, p.expiration, p.id_manufacturer, pl.link_rewrite, 
                           pl.name, pa.id_product_attribute, ac.id_attribute,
                           (rp.value/100) as value FROM '._DB_PREFIX_.'product p
                           LEFT JOIN '._DB_PREFIX_.'product_lang pl ON (p.id_product = pl.id_product)

@@ -165,11 +165,11 @@
                     var esVisible = $('#container_'+id).is(":visible");
                     if(esVisible){
                         //$('#container_'+id).css('display','none');
-                        $('#container_'+id).toggle("slow");
+                        $('#container_'+id).slideToggle("slow");
                     }
                     else {
                         $('.container_order').css('display','none');
-                        $('#container_'+id).toggle("slow");
+                        $('#container_'+id).slideToggle("slow");
                     }
                 }
         }
