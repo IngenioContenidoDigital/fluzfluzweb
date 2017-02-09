@@ -1492,9 +1492,10 @@ class AdminProductsControllerCore extends AdminController
                         p.id_product id,
                         pl.name nombre_producto,
                         p.reference referencia,
-                        p.price precio,
                         p.product_parent,
+                        p.price precio,
                         p.price_shop precio_tienda,
+                        ps.product_supplier_price_te costo,
                         rp.value porcentaje_red,
                         m.name fabricante,
                         s.name proveedor,
@@ -1529,6 +1530,7 @@ class AdminProductsControllerCore extends AdminController
                                         <th>referencia</th>
                                         <th>precio</th>
                                         <th>precio_tienda</th>
+                                        <th>costo</th>
                                         <th>precio_red</th>
                                         <th>porcentaje_red</th>
                                         <th>fabricante</th>
@@ -1560,6 +1562,7 @@ class AdminProductsControllerCore extends AdminController
                                 <td>".$product['referencia']."</td>
                                 <td>".$product['precio']."</td>
                                 <td>".$product['precio_tienda']."</td>
+                                <td>".$product['costo']."</td>
                                 <td>".( $product['precio'] * $product['porcentaje_red'] / 100 )."</td>
                                 <td>".$product['porcentaje_red']."</td>
                                 <td>".$product['fabricante']."</td>
