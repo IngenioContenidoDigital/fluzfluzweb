@@ -288,7 +288,8 @@
                                                                         {if $combinations} 
                                                                             <div class="title-table-combinations row"> 
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-s" style="display:none;">{l s='Valor'}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title title-none">{l s='% Ahorro'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a recibir'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
@@ -313,9 +314,13 @@
                                                                                 {/if}    
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list detail-style" >
-                                                                                    <span>${$list.price|number_format:0}</span><br>
-                                                                                    <span class='save-query' style='display:none;color:#ef4136;'>{l s="Ahorra "}{$save_price}%</span>
-                                                                                    <span class="sign-more">+</span><span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
+                                                                                <span>${$list.price|number_format:0}</span><br>
+                                                                                    {if $list.type_currency == 'COP'}
+                                                                                        <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$save_price}%</div>
+                                                                                    {else}
+                                                                                        <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$list.save_dolar}%</div>
+                                                                                    {/if} 
+                                                                                <span class="sign-more">+</span><span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
                                                                                 </div>
                                                                                 {if $logged}
                                                                                 <button type="submit" name="Submit" class="btn-combinations col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list" comb="{$list.id_product_attribute}" id="{$list.id_attribute}">
@@ -350,7 +355,8 @@
                                                                             
                                                                             <div class="title-table-nocombinations row"> 
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-s" style="display:none;">{l s='Valor'}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title title-none">{l s='% Ahorro'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a recibir'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
@@ -374,7 +380,11 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
                                                                                     <span>${$productPrice|number_format:0}</span><br>
-                                                                                    <span class='save-query' style='display:none;color:#ef4136;'>{l s="Ahorra "}{$save_price}%</span>
+                                                                                    {if $list.type_currency == 'COP'}
+                                                                                        <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$save_price}%</div>
+                                                                                    {else}
+                                                                                        <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$product->save_dolar}%</div>
+                                                                                    {/if}
                                                                                     <span class="sign-more">+</span><span class="detail-more" id="detail_{$product->id}" onclick="accordion_more({$product->id})">{l s="Detalles"}</span>
                                                                                 </div>
                                                                                 

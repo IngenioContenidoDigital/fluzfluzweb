@@ -266,8 +266,10 @@ class ManufacturerCore extends ObjectModel
                 FROM '._DB_PREFIX_.'manufacturer AS m
                 LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
                 LEFT JOIN '._DB_PREFIX_.'product p ON ( m.id_manufacturer = p.id_manufacturer )
+                INNER JOIN '._DB_PREFIX_.'category_product cp ON (p.id_product = cp.id_product)
+		INNER JOIN '._DB_PREFIX_.'category_lang cl ON (cp.id_category = cl.id_category)
                 LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )
-                WHERE m.active = 1 AND p.product_parent = 1
+                WHERE m.active = 1 AND p.product_parent = 1 AND cl.`name` = "Destacados"
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
                 HAVING count >= 1
@@ -314,7 +316,7 @@ class ManufacturerCore extends ObjectModel
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
                 HAVING count >= 1
-                ORDER BY m.date_add DESC';
+                ORDER BY m.date_add DESC LIMIT 6';
         
         $manufacturers = Db::getInstance()->executeS($query);  
         
