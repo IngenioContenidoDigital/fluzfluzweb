@@ -918,7 +918,7 @@ class AuthControllerCore extends FrontController
         $vars = array(
             '{username}' => $sponsor['username'],
             '{img_url}' => _PS_IMG_DIR_,
-            '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
+            '{points}' => $sponsor['points'] == "" ? 0 : round($sponsor['points']),
             '{contributor_count}' => $contributor_count,
             '{points_count}' => round($points_count),
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
