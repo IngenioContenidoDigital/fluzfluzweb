@@ -148,6 +148,7 @@
                                        $('#link-Suppliers').hide();
                                        $('#online').hide();
                                        $('#link-Seo').show();
+                                       $('#link-Combinations').show();
                                        $('#single_use').hide();
                                        $('#link-ModuleProductsbanners').show();
                                        $('#product_noparent').prop('checked',false);
@@ -182,7 +183,8 @@
                                         $('#link-Suppliers').hide();
                                         $('#online').hide();
                                         $('#single_use').hide();
-                                        //$('#link-Seo').show();
+                                        $('#link-Combinations').show();
+                                        $('#link-Seo').show();
                                     }
                                     
                                     if($('#product_noparent').prop('checked')){
