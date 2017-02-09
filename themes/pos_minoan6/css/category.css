@@ -39,6 +39,19 @@
 .menuSticky{margin-top: 0px;}
 .bread-product{padding-left: 30px !important;}
 
+.img-logo{background-size:100% 100% !important; margin:10px;}
+.img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
+.img-center img{max-width: 70% !important; margin: 0px auto !important;}
+.logo-manufacturer{display: table-cell;
+     vertical-align: middle;
+     position: relative;}
+.border-products {
+    padding-left: 0px;
+    padding-right: 0px;
+    border: 1px solid #CBCBCB;
+    margin-bottom: 15px;
+}
+
 .iOS{
   width: 42px;
   padding: 0px;
@@ -116,7 +129,6 @@
     text-transform: uppercase;
 }
 
-.img-center {position: absolute;min-width: 100%;display: inline-block;margin-top: 48px;}
 
 .img-newmerchant {
     width: 210px;
@@ -148,7 +160,6 @@
     .leftwidth{left: 55px;}
     .owl-wrapper-outer{left: 80px !important;}
     .page-heading span.heading-counter{margin-right: 50px;}
-    .img-center{margin-top: 32px;}
 }
 
 @media (max-width: 1440px){
@@ -157,8 +168,12 @@
     .owl-wrapper-outer{left: 0px !important;}
     .page-heading span.heading-counter{margin-right: 5px;}
     .content_sortPagiBar .sortPagiBar #productsSortForm{margin-right: 5px !important;}
-    .img-center{margin-top: 48px;}
 
+}
+
+@media (min-width:1440px){
+    .big-img{height:300px !important;}
+    .breadcrumb{height: 42px !important;}
 }
 
 @media (min-width:1025px) and (max-width:1080px){
@@ -171,17 +186,16 @@
     .prueba {left: 180px;}
     .leftwidth{left: 15px;}
     form#searchbox{position: initial !important;top: 0px !important;padding-left: 285px !important;}
-    
+    .img-center {height: 150px;}
     .img-newmerchant {
         width: 145px;
         margin: 0 auto !important;
     }
-    .img-center {
-        margin-top: 30px;
-    }
     .breadcrumb{padding-bottom: 0px;}
     .ctgImg {margin-top: 0px;margin-top: 67px !important;}
 }
+
+@media(max-width:920px){.menuSticky {min-height: auto !important;}}
                     
 @media (max-width:768px){
     .banner-category{margin-top: 0px !important;}
@@ -192,7 +206,6 @@
     .breadcrumb {margin-left: 0px;padding-left: 0px !IMPORTANT; margin-bottom: 0px;}
     .containerwidth-column{width: 100%;}
     .leftwidth{left: 5px;}
-    .menuSticky {min-height: auto !important;}
     .page-heading span.heading-counter {margin-left: 10px;margin-right: 0px;}
     .bread-product{width: 65%;}
     .filter-padding{width: 30%;}

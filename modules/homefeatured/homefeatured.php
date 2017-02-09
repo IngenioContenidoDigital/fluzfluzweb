@@ -132,45 +132,38 @@ class HomeFeatured extends Module
         public function hooknewMerchants($params)
         {
 	 
-            $carousel[0] = ManufacturerCore::getManufacturersCategory();
-            if ( count($carousel[0]) > 5 ) {
-                $carousel = array_chunk($carousel[0], ceil(count($carousel[0])/2));
-            }
-          
+            $carousel= ManufacturerCore::getManufacturersCategory();
+            
 	    /*if (!$this->isCached('merchants.tpl', $this->getCacheId()))
             {*/
                 $this->smarty->assign(
                     array(
                         's3'=> _S3_PATH_,
-                        'merchants' => $carousel[0],
-                        'merchants2' => $carousel[1],
+                        'merchants' => $carousel,
                         'sponsor' => $this->getSponsor()
                     )
                 );
             //}
 
-            return $this->display(__FILE__, 'merchants.tpl');
+            return $this->display(__FILE__, 'newMerchants.tpl');
 	 }
          
          public function hookmerchants($params)
 	 {
-            $carousel[0] = ManufacturerCore::getNewManufacturers();
-            if ( count($carousel[0]) > 5 ) {
-                $carousel = array_chunk($carousel[0], ceil(count($carousel[0])/2)); 
-            }
+            $carousel = ManufacturerCore::getNewManufacturers();
+            
 	  /*if (!$this->isCached('newMerchants.tpl', $this->getCacheId()))
 		{*/
 			$this->smarty->assign(
 				array(
                                         's3'=> _S3_PATH_,
-					'merchants' => $carousel[0],
-                                        'merchants2' => $carousel[1],
+					'merchants' => $carousel,
                                         'sponsor' => $this->getSponsor()
 				)
 			);
 		//}
 
-		return $this->display(__FILE__, 'newMerchants.tpl');
+		return $this->display(__FILE__, 'merchants.tpl');
 	 }
          
         public function getSponsor(){
