@@ -44,7 +44,10 @@
 			{foreach from=$categoryProducts item='categoryProduct' name=categoryProduct}
 				<div class="item-product row">
                                         <div class="col-lg-6 padding-img">
-                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
+                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                </a>
                                         </div>
                                         <div class="points-block col-lg-6">
                                         {assign var="idprodshop" value=$product.reference}
@@ -57,111 +60,6 @@
                                                 </div>
                                                 <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                         </div>
-                                        <!--<div class="price-block">
-                                                <div style="font-size: 13px;">
-                                                    <span>{if $logged}{l s="Recibes"}&nbsp;{$categoryProduct.points}{else $logged}{l s="Recibes"}&nbsp;{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s="Fluz !"}</span>
-                                                </div>
-                                                {if (!$PS_CATALOG_MODE AND ((isset($categoryProduct.show_price) && $categoryProduct.show_price) || (isset($categoryProduct.available_for_order) && $categoryProduct.available_for_order)))}
-                                                        {if isset($categoryProduct.show_price) && $categoryProduct.show_price && !isset($restricted_country_mode)}
-                                                                <div>
-                                                                        <span style="text-align: left; margin-right: 1px;">{l s='Valor: '}</span>
-                                                                        <span class="product-price" style="text-align: left;">
-                                                                                {convertPrice price=$categoryProduct.price_shop|floatval}
-                                                                        </span>
-                                                                </div>
-                                                                <div>
-                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio: '}</span>
-                                                                        <span class="product-price" style="color:#ef4136; text-align: left; font-weight: bold;">
-                                                                                {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
-                                                                        </span>
-                                                                </div>
-                                                                <div>
-                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio en Fluz: '}</span>
-                                                                        <span class="product-price" style="color:#ef4136; text-align: left;">
-                                                                                {(($categoryProduct.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}
-                                                                        </span>
-                                                                </div>
-                                                        {/if}
-                                                {/if}
-                                        </div>-->
-					{*<div class="products-inner">
-						<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
-				
-						{if isset($categoryProduct.new) && $categoryProduct.new == 1}
-							<a class="new-box" href="{$categoryProduct.link|escape:'html':'UTF-8'}">
-								<span class="new-label">{l s='New' mod='productscategory'}</span>
-							</a>
-						{/if}
-						{if isset($categoryProduct.on_sale) && $categoryProduct.on_sale && isset($categoryProduct.show_price) && $categoryProduct.show_price && !$PS_CATALOG_MODE}
-							<a class="sale-box" href="{$categoryProduct.link|escape:'html':'UTF-8'}">
-								<span class="sale-label">{l s='Sale!' mod='productscategory'}</span>
-							</a>
-						{/if}
-					</div>
-					<div class="product-contents">
-						<h5 itemprop="name" class="product_img_link">
-							<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)|escape:'html':'UTF-8'}" title="{$categoryProduct.name|htmlspecialchars}">{$categoryProduct.name|truncate:35:'...'|escape:'html':'UTF-8'}</a>
-						</h5>
-						<div class="ratings-box">
-							<div class="ratings">{hook h='displayProductListReviews' product=$categoryProduct}</div>
-						</div>
-						<div class="price-box">
-						{if $ProdDisplayPrice && $categoryProduct.show_price == 1 && !isset($restricted_country_mode) && !$PS_CATALOG_MODE}
-							<p class="price_display">
-							{if isset($categoryProduct.specific_prices) && $categoryProduct.specific_prices
-							&& ($categoryProduct.displayed_price|number_format:2 !== $categoryProduct.price_without_reduction|number_format:2)}
-
-								<span class="price special-price">{convertPrice price=$categoryProduct.displayed_price}</span>
-								
-								<span class="old-price">{displayWtPrice p=$categoryProduct.price_without_reduction}</span>
-								{if $categoryProduct.specific_prices.reduction && $categoryProduct.specific_prices.reduction_type == 'percentage'}
-									<span class="price-percent-reduction small">-{$categoryProduct.specific_prices.reduction * 100}%</span>
-								{/if}
-
-							{else}
-								<span class="price">{convertPrice price=$categoryProduct.displayed_price}</span>
-							{/if}
-							</p>
-						{else}
-						<br />
-						{/if}
-						</div>
-						<div class="actions">
-							<div class="actions-inner">
-								<ul class="add-to-links">
-									{if !$PS_CATALOG_MODE && ($categoryProduct.allow_oosp || $categoryProduct.quantity > 0)}
-										<li class="cart">
-											<a class="exclusive button ajax_add_to_cart_button" href="{$link->getPageLink('cart', true, NULL, 'qty=1&amp;id_product={$categoryProduct.id_product|intval}&amp;token={$static_token}&amp;add')|escape:'html':'UTF-8'}" data-id-product="{$categoryProduct.id_product|intval}" title="{l s='Add to cart' mod='productscategory'}">
-												<span>{l s='Add to cart' mod='productscategory'}</span>
-											</a>
-										</li>
-									{/if}
-									<li>
-										<a class="addToWishlist wishlistProd_{$categoryProduct.id_product|intval}"  data-toggle="tooltip" data-placement="top" data-original-title="{l s=' Wishlist' mod='productscategory'}" href="#" data-wishlist="{$categoryProduct.id_product|intval}" onclick="WishlistCart('wishlist_block_list', 'add', '{$categoryProduct.id_product|intval}', false, 1); return false;">
-											<span>{l s="Wishlist" mod='productscategory'}</span>
-											
-										</a>
-									</li>
-									<li>
-										
-										{if isset($comparator_max_item) && $comparator_max_item}
-										  <a class="add_to_compare" data-toggle="tooltip" data-placement="top" data-original-title="{l s='Compare' mod='productscategory'}"  href="{$categoryProduct.link|escape:'html':'UTF-8'}" data-id-product="{$categoryProduct.id_product}">{l s='Compare' mod='productscategory'}
-										
-										  </a>
-										 {/if}
-					
-									</li>
-									<li>
-									{if isset($quick_view) && $quick_view}
-										<a class="quick-view" title="{l s='Quick view' mod='productscategory'}"  href="{$categoryProduct.link|escape:'html':'UTF-8'}">
-											<span>{l s='Quick view' mod='productscategory'}</span>
-										</a>
-									{/if}
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>*}
 				</div>
 			{/foreach}
 			</div>

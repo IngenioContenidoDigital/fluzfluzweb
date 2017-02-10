@@ -87,7 +87,6 @@
                 $('.containerFeatured').animate({left: 0}, 600, function(){
                     $('.container-cms').addClass("containerwidth");
                     $('.ocultar').removeAttr('disabled');
-                    $('.img-center').addClass('big-img');
                 });
               }
               else{
@@ -95,7 +94,6 @@
                 $('.container-cms').removeClass("containerwidth");
                 $('.widthCategory').removeClass('widthtotal');
                 $('.filter-padding').removeClass('left-hide');
-                $('.img-center').removeClass('big-img');
                 $('.titleFeatured2').removeClass('merchant-left');
                 $('.ocultar').removeAttr('disabled');
               }

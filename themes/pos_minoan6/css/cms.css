@@ -157,7 +157,7 @@ margin-right: 0;
 }
 
 .containerwidth{
-  width: 100%;
+  margin-left: 10%;
 }
 
 .containerwidth-column{
@@ -385,6 +385,9 @@ margin-right: 0;
     }
 }
 
+@media (max-width:1023px){
+    .containerwidth{margin-left: 0% !important;}
+}
 
 @media (max-width:768px){
     .owl-carousel{left: -4px;}
@@ -649,6 +652,7 @@ margin-right: 0;
     .merchant-left{margin-left: 66px;}
     .width-item{width: 419px !important;}
     .leftwidth{left: 66px;}
+    .img-center{height: 300px;}
     
     /* TEXTOS BANNER CATEGORY BOTTOM */
 .text_encima {

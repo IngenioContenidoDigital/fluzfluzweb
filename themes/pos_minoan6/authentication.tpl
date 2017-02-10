@@ -98,7 +98,10 @@
                         <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
                         <div class="line-separator"></div>
                         <p>{l s="Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibiras un correo de confirmacion con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. No conoces a ningun fluzzer activo y quieres ser parte de Fluz Fluz para contruir tu red? Escribenos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarle."}</p>
-                        <p>Para m&aacute;s informaci&oacute;n consulta <a href="http://info.fluzfluz.co/miembros/" style="cursor:pointer; color: #EF4136;">Aqu&iacute;.</a></p>
+                        <p>
+                            <a href="http://info.fluzfluz.co/miembros/" class="learn-buy">{l s="Aprende como comprar bonos"}</a>
+                            <i class="icon icon-chevron-right" style="color:#EF4136;"></i>
+                        </p>
                     </form>
                 </div>
             </div>
