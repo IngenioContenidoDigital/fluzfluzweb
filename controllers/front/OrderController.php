@@ -172,6 +172,7 @@ class OrderControllerCore extends ParentOrderController
         }
         
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'productsPoints' => $productsPoints,
             'productsID' => $productsID,
             'shop' => $shop,

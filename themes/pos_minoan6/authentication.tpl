@@ -664,7 +664,7 @@
                                                     {/if}
                                             </div>
                                     {/if}
-                                    {if isset($optin) && $optin}
+                                    {*if isset($optin) && $optin}
                                             <div class="col-lg-12 col-md-12 checkbox">
                                                     <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) AND $smarty.post.optin == 1} checked="checked"{/if} />
                                                     <label for="optin">{l s='Receive special offers from our partners!'}</label>
@@ -672,7 +672,7 @@
                                                             <sup> *</sup>
                                                     {/if}
                                             </div>
-                                    {/if}
+                                    {/if*}
                                     
                                     {if $b2b_enable}
                                         <div class="account_creation">

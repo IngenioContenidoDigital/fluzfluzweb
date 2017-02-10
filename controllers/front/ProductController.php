@@ -435,6 +435,7 @@ class ProductControllerCore extends FrontController
         }
         $size = Image::getSize(ImageType::getFormatedName('large'));
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'have_image' => (isset($cover['id_image']) && (int)$cover['id_image'])? array((int)$cover['id_image']) : Product::getCover((int)Tools::getValue('id_product')),
             'cover' => $cover,
             'imgWidth' => (int)$size['width'],
