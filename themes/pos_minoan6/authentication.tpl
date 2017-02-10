@@ -98,7 +98,10 @@
                         <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
                         <div class="line-separator"></div>
                         <p>{l s="Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibiras un correo de confirmacion con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. No conoces a ningun fluzzer activo y quieres ser parte de Fluz Fluz para contruir tu red? Escribenos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarle."}</p>
-                        <p>Para m&aacute;s informaci&oacute;n consulta <a href="http://info.fluzfluz.co/miembros/" style="cursor:pointer; color: #EF4136;">Aqu&iacute;.</a></p>
+                        <p>
+                            <a href="http://info.fluzfluz.co/miembros/" class="learn-buy">{l s="Aprende como comprar bonos"}</a>
+                            <i class="icon icon-chevron-right" style="color:#EF4136;"></i>
+                        </p>
                     </form>
                 </div>
             </div>
@@ -661,7 +664,7 @@
                                                     {/if}
                                             </div>
                                     {/if}
-                                    {if isset($optin) && $optin}
+                                    {*if isset($optin) && $optin}
                                             <div class="col-lg-12 col-md-12 checkbox">
                                                     <input type="checkbox" name="optin" id="optin" value="1" {if isset($smarty.post.optin) AND $smarty.post.optin == 1} checked="checked"{/if} />
                                                     <label for="optin">{l s='Receive special offers from our partners!'}</label>
@@ -669,7 +672,7 @@
                                                             <sup> *</sup>
                                                     {/if}
                                             </div>
-                                    {/if}
+                                    {/if*}
                                     
                                     {if $b2b_enable}
                                         <div class="account_creation">

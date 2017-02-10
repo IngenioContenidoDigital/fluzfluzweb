@@ -184,7 +184,8 @@
                     </div>
                     <div class="form-group required" id="ctNt">
                         <label for="numerot" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Número De Tarjeta De Crédito</label>
-                        <div class="col-xs-12 col-sm-6"><input type="text" name="numerot" id="numerot" class="form-control"/></div>
+                        <div class="col-xs-10 col-sm-5"><input type="password" name="numerot" id="numerot" class="form-control"/></div>
+                        <div class="col-xs-2 col-sm-1"><i id="viewcreditcard" class="icon icon-eye-close"></i></div>
                     </div> 
                     <div class="form-group">
                         <label for="datepicker" class="control-label col-xs-12 col-sm-6 text-left" style="text-align: left;">Fecha De Vencimiento</label>
@@ -241,3 +242,18 @@
     .radio-inline { margin-left: 15px!important; }
     .radio { padding-top: 3px!important; }
 </style>
+
+<script>
+    $("#viewcreditcard").click(function(){
+        var typeinput = $('#numerot').attr('type');
+        if ( typeinput == "password" ) {
+            $("#numerot").prop("type","text");
+            $("#viewcreditcard").removeClass("icon-eye-close");
+            $("#viewcreditcard").addClass("icon-eye-open");
+        } else {
+            $("#numerot").prop("type","password");
+            $("#viewcreditcard").removeClass("icon-eye-open");
+            $("#viewcreditcard").addClass("icon-eye-close");
+        }
+    });
+</script>

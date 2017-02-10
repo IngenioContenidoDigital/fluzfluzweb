@@ -50,10 +50,10 @@
 				<div id="admin-action" class="container">
 					<p class="alert alert-info">{l s='This product is not visible to your customers.'}
 						<input type="hidden" id="admin-action-product-id" value="{$product->id}" />
-						<a id="publish_button" class="btn btn-default button button-small" href="#">
+						<a id="publish_button" class="btn btn-default button button-small a-ref" href="#">
 							<span>{l s='Publish'}</span>
 						</a>
-						<a id="lnk_view" class="btn btn-default button button-small" href="#">
+						<a id="lnk_view" class="btn btn-default button button-small a-ref" href="#">
 							<span>{l s='Back'}</span>
 						</a>
 					</p>
@@ -84,11 +84,11 @@
 						{if $have_image}
 							<span id="view_full_size">
 								{if $jqZoomEnabled && $have_image && !$content_only}
-									<a class="jqzoom" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" rel="gal1" href="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}">
+									<a class="jqzoom a-ref" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" rel="gal1" href="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}">
 										<img itemprop="image" src="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'large_default')|escape:'html':'UTF-8'}" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}"/>
 									</a>
 								{else}
-									<img id="bigpic" itemprop="image" src="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" width="{$largeSize.width}" height="{$largeSize.height}"/>
+									<img id="bigpic" itemprop="image" src="{$s3}m/m/{$product->id_manufacturer}.jpg" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" width="{$largeSize.width}" height="{$largeSize.height}"/>
 									{if !$content_only}
 										<!--<span class="span_link no-print">{l s='View larger'}</span>-->
 									{/if}
@@ -110,7 +110,7 @@
 						<div id="views_block" class="clearfix {if isset($images) && count($images) < 2}hidden{/if}">
 							{if isset($images) && count($images) > 2}
 								<span class="view_scroll_spacer">
-									<a id="view_scroll_left" class="" title="{l s='Other views'}" href="javascript:{ldelim}{rdelim}">
+									<a id="view_scroll_left" class="a-ref" title="{l s='Other views'}" href="javascript:{ldelim}{rdelim}">
 										{l s='Previous'}
 									</a>
 								</span>
@@ -301,7 +301,7 @@
                                                                             <div class="content-table-combinations row"> 
                                                                                 <input type="hidden" value="{$list.id_attribute}" id="{$list.id_product}"/>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;{$list.price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;${$list.price_shop|number_format:0}</div>
                                                                                 {if $list.type_currency == 'COP'}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
                                                                                 {else}
@@ -343,9 +343,12 @@
                                                                                     <span>{l s=""}</span>
                                                                                 {/if}
                                                                                 <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
-                                                                                {if $list.expiration=='0000-00-00'}
-                                                                                    <div class="expiration-detail"></div>
+                                                                                {if $list.type_currency == 'COP'}
+                                                                                    <div class="text-detail">{l s=""}</div>
                                                                                 {else}
+                                                                                    <div class="text-detail">{l s="- El valor del bono esta expresado segun la tasa de cambio en USD. Como este valor se muestra en pesos colombianos, el precio puede variar segun la fluctuacion de la TRM y la acumulacion de Fluz. Fluz Fluz siempre busca ofrecer un atractivo negocio para el Fluzzer."}</div>
+                                                                                {/if}
+                                                                                {if $list.expiration!='0000-00-00'}
                                                                                     <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$list.expiration}</span></div>
                                                                                 {/if}
                                                                             </div>
@@ -366,7 +369,7 @@
                                                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
                                                                             <div class="content-table-combinations row"> 
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$product->id_manufacturer}.jpg" style="margin-right: 0px; padding-left: 10px;" alt="{$product->name|lower|escape:'htmlall':'UTF-8'}" title="{$product->name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$product->type_currency}&nbsp;{$product->price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$product->type_currency}&nbsp;${$product->price_shop|number_format:0}</div>
                                                                                 {if $product->type_currency == 'COP'}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
                                                                                 {else}
@@ -990,10 +993,6 @@
 								{/if}
 							{/foreach}
 						</div>
-						<div class="boxprevnext">
-							<a class="prev prev-accessory"><i class="icon-chevron-left"></i></a>
-							<a class="next next-accessory"><i class="icon-chevron-right"></i></a>
-						</div>	
 					</div>
 				</div>
 			</section>
@@ -1139,6 +1138,7 @@
         .bread-product{width: 100%;}
         .pull-right{display: none;}
         .bread-style{width: 100%;}
+        #availability_value{display: none;}
     </style>
 {/literal}
 {literal}

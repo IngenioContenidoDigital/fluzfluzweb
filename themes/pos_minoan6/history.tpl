@@ -69,9 +69,13 @@
                             <div class="row">
                                 <div>{l s='Unit Price'}</div>
                                 <div>
-                                    <p>{l s="Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
-                                    <p>{l s="You Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</p>
-                                    <p>{l s="Unit Price: "}{displayPrice price=$product.precio no_utf8=false convert=false}</p>
+                                    <p>{l s="Value: "}{$product.type_currency}&nbsp;${$product.price_shop|string_format:"%d"}</p>
+                                    {if $product.type_currency == 'COP'}
+                                        <p>{l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%</p>
+                                    {else}
+                                        <p>{l s="You Save: "}{$product.save_dolar}%</p>    
+                                    {/if}    
+                                    <p>{l s="Unit Price: "}{$product.type_currency}&nbsp;${$product.precio|string_format:"%d"}</p>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +100,7 @@
                                 <div>{l s='Total'}</div>
                                 <div>
                                     <p class="price">{l s="Price: "}{displayPrice price=$product.total no_utf8=false convert=false}</p>
-                                    <p class="block-price">{l s="Card Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
+                                    <p class="block-price">{l s="Card Value: "}{$product.type_currency}&nbsp;${$product.price_shop|string_format:"%d"}</p>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +109,13 @@
                     <div class="col-xs-3 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Fluz"}</div>
                     {*<div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>*}
                     <div class="col-xs-5 col-sm-4 col-md-8 col-lg-8 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
-                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</div>
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">
+                        {if $product.type_currency == 'COP'}
+                            <p>{l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%</p>
+                        {else}
+                            <p>{l s="You Save: "}{$product.save_dolar}%</p>    
+                        {/if} 
+                    </div>
                 </div>
                 <br><br>
             </div>
