@@ -157,7 +157,7 @@ class OrderControllerCore extends ParentOrderController
         
         foreach ($this->context->cart->getProducts() as $product) {
             
-            $queryprueba = "SELECT p.id_product as id, p.price_shop, p.reference FROM "._DB_PREFIX_."product p
+            $queryprueba = "SELECT p.id_product as id, p.type_currency , p.save_dolar, p.price_shop, p.reference FROM "._DB_PREFIX_."product p
                             LEFT JOIN "._DB_PREFIX_."product_attribute pa ON (pa.reference = p.reference)
                             LEFT JOIN "._DB_PREFIX_."product_lang pl ON (p.id_product = pl.id_product)
                             WHERE p.reference = '".$product['reference']."' AND pl.`id_lang` = ".(int)$this->context->language->id;
@@ -167,13 +167,17 @@ class OrderControllerCore extends ParentOrderController
             $productsPoints[$x[0]['reference']] = $productP;
             $shop[$x[0]['reference']] = $x[0]['price_shop'];
             $productsID[$x[0]['reference']] = $x[0]['id'];
+            $type_currency[$x[0]['reference']] = $x[0]['type_currency'];
+            $save_dolar[$x[0]['reference']] = $x[0]['save_dolar'];
         }
         
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'productsPoints' => $productsPoints,
             'productsID' => $productsID,
-            'shop' => $shop
-        ));
+            'shop' => $shop,
+            'type_currency' => $type_currency,
+            'save_dolar' => $save_dolar        ));
         
         if (Tools::isSubmit('ajax') && Tools::getValue('method') == 'updateExtraCarrier') {
             // Change virtualy the currents delivery options

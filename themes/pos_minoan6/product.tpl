@@ -50,10 +50,10 @@
 				<div id="admin-action" class="container">
 					<p class="alert alert-info">{l s='This product is not visible to your customers.'}
 						<input type="hidden" id="admin-action-product-id" value="{$product->id}" />
-						<a id="publish_button" class="btn btn-default button button-small" href="#">
+						<a id="publish_button" class="btn btn-default button button-small a-ref" href="#">
 							<span>{l s='Publish'}</span>
 						</a>
-						<a id="lnk_view" class="btn btn-default button button-small" href="#">
+						<a id="lnk_view" class="btn btn-default button button-small a-ref" href="#">
 							<span>{l s='Back'}</span>
 						</a>
 					</p>
@@ -84,11 +84,11 @@
 						{if $have_image}
 							<span id="view_full_size">
 								{if $jqZoomEnabled && $have_image && !$content_only}
-									<a class="jqzoom" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" rel="gal1" href="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}">
+									<a class="jqzoom a-ref" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" rel="gal1" href="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}">
 										<img itemprop="image" src="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'large_default')|escape:'html':'UTF-8'}" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}"/>
 									</a>
 								{else}
-									<img id="bigpic" itemprop="image" src="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" width="{$largeSize.width}" height="{$largeSize.height}"/>
+									<img id="bigpic" itemprop="image" src="{$s3}m/m/{$product->id_manufacturer}.jpg" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" width="{$largeSize.width}" height="{$largeSize.height}"/>
 									{if !$content_only}
 										<!--<span class="span_link no-print">{l s='View larger'}</span>-->
 									{/if}
@@ -110,7 +110,7 @@
 						<div id="views_block" class="clearfix {if isset($images) && count($images) < 2}hidden{/if}">
 							{if isset($images) && count($images) > 2}
 								<span class="view_scroll_spacer">
-									<a id="view_scroll_left" class="" title="{l s='Other views'}" href="javascript:{ldelim}{rdelim}">
+									<a id="view_scroll_left" class="a-ref" title="{l s='Other views'}" href="javascript:{ldelim}{rdelim}">
 										{l s='Previous'}
 									</a>
 								</span>
@@ -993,10 +993,6 @@
 								{/if}
 							{/foreach}
 						</div>
-						<div class="boxprevnext">
-							<a class="prev prev-accessory"><i class="icon-chevron-left"></i></a>
-							<a class="next next-accessory"><i class="icon-chevron-right"></i></a>
-						</div>	
 					</div>
 				</div>
 			</section>
