@@ -86,10 +86,14 @@
 				{/if}
                                     {assign var="idprodshop" value=$product.reference}
                                     {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$shop.$idprodshop r=$product.price}}
-                                    {if $logged AND !$save_price <= 0}
+                                    {if ($logged && !$save_price <= 0) && $type_currency.$idprod == 'COP'}
                                         <div style="color:#ef4136;">{l s="Ahorra: "} {$save_price}%</div>
-                                    {else if !$logged AND !$save_price <= 0}
+                                    {else if ($logged && !$save_price <= 0) && $type_currency.$idprod == 'USD'} 
+                                        <div style="color:#ef4136;">{l s="Ahorra: "} {$save_dolar.$idprod}%</div>
+                                    {else if !$logged AND !$save_price <= 0 AND $type_currency.$idprod == 'COP'}
                                         <div style="color:#ef4136;">{l s="Ahorra: "} {$save_price}%</div>
+                                    {else if !$logged AND !$save_price <= 0 AND $type_currency.$idprod == 'USD'}
+                                        <div style="color:#ef4136;">{l s="Ahorra: "} {$save_dolar.$idprod}%</div>    
                                     {else if $logged AND $save_price <= 0}
                                         <div style="color:#ef4136;"></div>
                                     {else if !$logged AND $save_price <= 0}
@@ -158,26 +162,3 @@
 	</td>
 
 </tr>
-{*literal}
-    <script>
-        $(function() {
-        compensante = scrollCompensate();
-	if (($(window).width()+scrollCompensate()) <= 768)
-	{
-            //alert('Menor a 768');
-            $(".table-bordered tr:not(.accordion)").hide();
-            $(".table-bordered tr:first-child").show();
-            
-            if($("tr").length>1){
-                $("tr").click(function(){
-                    $(this).nextAll("tr").fadeIn(500);
-                }).eq(0).trigger('click');
-            }
-	}
-	else if (($(window).width()+scrollCompensate()) >= 769)
-	{       
-            $('.accordion').hide();
-	}
-    });
-    </script>
-{/literal*}
