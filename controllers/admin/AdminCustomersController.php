@@ -1001,6 +1001,7 @@ class AdminCustomersControllerCore extends AdminController
                 $customer = new Customer();
                 if (Validate::isEmail($customer_email)) {
                     $customer->getByEmail($customer_email);
+                    $customer->updateEmailSponsorship($this->object->id, $customer_email);
                 }
                 if (($customer->id) && ($customer->id != (int)$this->object->id)) {
                     $this->errors[] = Tools::displayError('An account already exists for this email address:').' '.$customer_email;
