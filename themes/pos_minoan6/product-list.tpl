@@ -46,7 +46,7 @@
         </div>
         
 	<ul{if isset($id) && $id} id="{$id}"{/if} class="product_list grid row{if isset($class) && $class} {$class}{/if}">
-            <div id="product_categoryAll">
+            <div id="row">
                 {foreach from=$products item=product name=products}
                         {math equation="(total%perLine)" total=$smarty.foreach.products.total perLine=$nbItemsPerLine assign=totModulo}
                         {math equation="(total%perLineT)" total=$smarty.foreach.products.total perLineT=$nbItemsPerLineTablet assign=totModuloTablet}
@@ -55,11 +55,17 @@
                         {if $totModuloTablet == 0}{assign var='totModuloTablet' value=$nbItemsPerLineTablet}{/if}
                         {if $totModuloMobile == 0}{assign var='totModuloMobile' value=$nbItemsPerLineMobile}{/if}
                         {assign var='save_price' value={math equation='round(((p - r) / p)*100)' r=$product.price p=$product.price_shop}}
-                        <li class="ajax_block_product nopadding">
-                                <div>
-                                        <a class="product_img_link" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url">
-                                                <div class="img-center"><img src="{$s3}m/{$product.id_manufacturer}.jpg" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>    
-                                                <img class="img-responsive pruebaImgCategory" src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" title="{if !empty($product.legend)}{$product.legend|escape:'html':'UTF-8'}{else}{$product.name|escape:'html':'UTF-8'}{/if}" {if isset($homeSize)} width="{$homeSize.width}" height="{$homeSize.height}"{/if} itemprop="image" style="padding:10px;"/>
+                       
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 div-productscms">
+                                    <div class="col-lg-12 border-products">
+                                         <a class="product_img_link" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url">
+                                            <div style="background: url('{$s3}m/m/{$product.id_manufacturer}.jpg') no-repeat;" class="img-logo" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}">
+                                                <div class="img-center">
+                                                    <div class="logo-manufacturer">
+                                                        <img src="{$s3}m/{$product.id_manufacturer}.jpg" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/>
+                                                    </div>    
+                                                </div>
+                                            </div>    
                                         </a>
                                         {if isset($quick_view) && $quick_view}
                                                 <a class="quick-view" title="Quick view" href="{$product.link|escape:'html':'UTF-8'}" style="position: absolute;" >
@@ -76,8 +82,6 @@
                                                         <span class="sale-label">{l s='Sale!'}</span>
                                                 </a>
                                         {/if}
-                                </div>
-                                <div class="points-block">
                                         <div class="name-merchant">
                                                 {if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
                                                 {*<a class="product-name" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url" style="padding-left:0px;">*}
@@ -88,15 +92,11 @@
                                             <span>{l s="GANA HASTA"}&nbsp;{$product.max_puntos|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                             {*if $logged}{l s="You earn"}&nbsp;{$product.points}{else $logged}{l s="You earn"}&nbsp;{$product.pointsNl}{/if*}
                                         </div>
+                                    </div>    
                                 </div>
-                        </li>
                 {/foreach}
             </div>
 	</ul>
-        <div class="boxprevnext2">
-            <a class="prev prev-product"><i class="icon-chevron-left"></i></a>
-            <a class="next next-product"><i class="icon-chevron-right"></i></a>
-        </div>
         </section>   
                 
 {addJsDefL name=min_item}{l s='Please select at least one product' js=1}{/addJsDefL}
@@ -105,33 +105,8 @@
 {addJsDef comparedProductsIds=$compared_products}
 {/if}
 {literal}
-    <script type="text/javascript"> 
-        $(document).ready(function() {
-                    var owl = $("#product_categoryAll");
-                    owl.owlCarousel({
-                    items : 4,
-                    pagination :false,
-                    slideSpeed: 1000,
-                    responsiveClass:true,
-                    itemsDesktop : [1199,4],
-                    itemsDesktopSmall : [1080,3], 
-                    itemsTablet: [768,3], 
-                    itemsMobile : [480,1],
-                    });
-
-                    // Custom Navigation Events
-                    $(".next-product").click(function(){
-                    owl.trigger('owl.next');
-                    })
-                    $(".prev-product").click(function(){
-                    owl.trigger('owl.prev');
-                    })     
-        });
-    </script>
-{/literal}
-{literal}
     <style>
-        .product-count{display: none;}
+        .bottom-pagination-content{padding-left: 15px;}
         .quick-view{display: none;}
     </style>
 {/literal}
