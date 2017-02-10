@@ -15,7 +15,7 @@ $customers = Db::getInstance()->executeS($query);
 foreach ( $customers as $key => $customer ) {
     $vars = array(
         '{username}' => $customer['username'],
-        '{invitation_count}' => $customer['invitation_count'],
+        '{invitation_count}' => (2 - $customer['invitation_count']),
         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id)
     );
