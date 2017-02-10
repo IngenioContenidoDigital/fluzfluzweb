@@ -301,7 +301,7 @@
                                                                             <div class="content-table-combinations row"> 
                                                                                 <input type="hidden" value="{$list.id_attribute}" id="{$list.id_product}"/>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;{$list.price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;${$list.price_shop|number_format:0}</div>
                                                                                 {if $list.type_currency == 'COP'}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
                                                                                 {else}
@@ -343,9 +343,12 @@
                                                                                     <span>{l s=""}</span>
                                                                                 {/if}
                                                                                 <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
-                                                                                {if $list.expiration=='0000-00-00'}
-                                                                                    <div class="expiration-detail"></div>
+                                                                                {if $list.type_currency == 'COP'}
+                                                                                    <div class="text-detail">{l s=""}</div>
                                                                                 {else}
+                                                                                    <div class="text-detail">{l s="- El valor del bono esta expresado segun la tasa de cambio en USD. Como este valor se muestra en pesos colombianos, el precio puede variar segun la fluctuacion de la TRM y la acumulacion de Fluz. Fluz Fluz siempre busca ofrecer un atractivo negocio para el Fluzzer."}</div>
+                                                                                {/if}
+                                                                                {if $list.expiration!='0000-00-00'}
                                                                                     <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$list.expiration}</span></div>
                                                                                 {/if}
                                                                             </div>
@@ -366,7 +369,7 @@
                                                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
                                                                             <div class="content-table-combinations row"> 
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$product->id_manufacturer}.jpg" style="margin-right: 0px; padding-left: 10px;" alt="{$product->name|lower|escape:'htmlall':'UTF-8'}" title="{$product->name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$product->type_currency}&nbsp;{$product->price_shop|number_format:0}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$product->type_currency}&nbsp;${$product->price_shop|number_format:0}</div>
                                                                                 {if $product->type_currency == 'COP'}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
                                                                                 {else}
@@ -1139,6 +1142,7 @@
         .bread-product{width: 100%;}
         .pull-right{display: none;}
         .bread-style{width: 100%;}
+        #availability_value{display: none;}
     </style>
 {/literal}
 {literal}
