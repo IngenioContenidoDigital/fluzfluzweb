@@ -119,17 +119,21 @@
                                                             {if $smarty.capture.megamenu}
                                                                 {$smarty.capture.megamenu}
                                                             {/if}
-                                                            <button class="block_content3 aprueba" type="button" data-toggle="dropdown"></button>
-                                                            <ul class="bullet dropdown-menu">
-                                                                    <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Comercios'}</a></li>
-                                                                    <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
-                                                                    <li class="textbox">
-                                                                        <form id="searchbox2" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
-                                                                            <i class="icon-search icon-block-searchtoogle"></i></span><input type="text" id="search_query_top2" class="search_query2 form-control" name="search_query" placeholder="{l s='Buscar'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
-                                                                        </form>    
-                                                                    </li>
-                                                            </ul>
+                                                            <div>
+                                                                <button class="block_content3 aprueba" type="button"></button>
+                                                                <button class="x-close" type="button" style="display:none;"></button>
+                                                                <ul class="bullet dropdown-menu menu-down">
+                                                                        <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
+                                                                        <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Comercios'}</a></li>
+                                                                        <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
+                                                                        <li><a class="account-m">{l s="MI CUENTA"}&nbsp;&nbsp;<i class="icon icon-chevron-down"></i></a></li>
+                                                                        <li class="textbox">
+                                                                            <form id="searchbox2" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
+                                                                                <i class="icon-search icon-block-searchtoogle"></i></span><input type="text" id="search_query_top2" class="search_query2 form-control" name="search_query" placeholder="{l s='Buscar'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                                                            </form>    
+                                                                        </li>
+                                                                </ul>
+                                                            </div>                
                                                     </div>
                                                     <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 hookLeft">
                                                             {if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
@@ -139,7 +143,26 @@
                                         </div>
                                 </header>
                         </div>
-                    </div>
+                    </div>               
+                                {literal}
+                                    <script>
+                                        $(".aprueba").click(function(){
+                                            $(".menu-down").slideToggle('slow');
+                                            $('.block_content3').hide();
+                                            $(".x-close").show();
+                                        });
+                                        
+                                        $('.x-close').click(function(){
+                                            $('.menu-down').fadeOut('slow');
+                                            $('.block_content3').show();
+                                            $(".x-close").hide();
+                                        })
+                                        
+                                        $('.account-m').click(function(){
+                                           $('.menu-account').show("slow");
+                                        });
+                                    </script>
+                                {/literal}   
                                 {if $page_name=='my-account'}
                                     {if $order_lastmonth['alert'] == 3}
                                         <div class="col-lg-12 banner-advertencia">
@@ -255,7 +278,7 @@
                                                                             {/if}
                                 <div id="columns" class="container">
 					
-                                        {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6}
+                                        {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6 && $page_name != 'category'}
 						{include file="$tpl_dir./breadcrumb.tpl"}
 					{/if}
                                         {if $category->id_image == ''}
@@ -278,7 +301,7 @@
                                                                     <input type="hidden" name="orderby" value="position" />
                                                                     <input type="hidden" name="controller" value="search" />
                                                                     <input type="hidden" name="orderway" value="desc" />
-                                                                    <input class="search_query form-control grey" placeholder="Search by brand" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                                                    <input class="search_query form-control grey" placeholder="Buscar" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
                                                                     <button type="submit" id="search_button" class="btn btn-default button button-small"><span><i class="icon-search"></i></span></button>
                                                             </p>
                                                     </form>

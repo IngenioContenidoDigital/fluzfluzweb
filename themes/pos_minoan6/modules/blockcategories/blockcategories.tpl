@@ -24,18 +24,84 @@
 *}
 <!-- Block categories module -->
 <div id="categories_block_left" class="block blockCat">
-	<h2 class="title_block">
-            {l s='Categorias'}
-	</h2>
-	<div class="block_content">
-		<ul class="tree {if $isDhtml}dhtml{/if}">
-			{foreach from=$blockTreeCategories item=child name=blockTreeCategories}
-                                {include file="$branche_tpl_path" node=$child}
-			{/foreach}
-		</ul>
-	</div>
+    <h2 class="title_block" after-content="+">{l s='Categorias'}</h2>
+    <div class="block_content">
+        <div class="line-bottom"></div>
+        <ul class="tree {if $isDhtml}dhtml{/if}">
+            {foreach from=$blockTreeCategories item=child name=blockTreeCategories}
+                {include file="$branche_tpl_path" node=$child}
+            {/foreach}
+        </ul>
+    </div>
 </div>
 <!-- /Block categories module -->
+
+<!-- Block filter brands -->
+<div id="categories_block_left" class="block blockCat">
+    <h2 class="title_block" after-content="+">{l s='Comercios'}</h2>
+    <div class="block_content">
+        <div class="line-bottom"></div>
+        <ul class="tree {if $isDhtml}dhtml{/if}">
+            <li>
+                <a class="manufacturer_filter" id="" href="" style="font-weight: bold; font-style: italic;">
+                    {l s='Todos'}
+                </a>
+            </li>
+            {foreach from=$manufacturers_filter key="key" item="manufacturer_filter"} 
+                <li>
+                    <a id="categoryfather-{$key}" class="categoryfather" onclick="downcategory('{$key}');">
+                            {$key}
+                    </a>
+                    <ul style="display: none;" id="categorychildren-{$key}" class="categorychildren">
+                        {foreach from=$manufacturer_filter item="manufacturer"}
+                            <li>
+                                <a id="{$manufacturer.id|lower}" class="manufacturer_filter" href="">
+                                    {$manufacturer.name|lower}
+                                </a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+<!-- /Block filter brands -->
+
+<!-- Block filter cities -->
+<div id="categories_block_left" class="block blockCat">
+    <h2 class="title_block" after-content="+">{l s='Ciudades'}</h2>
+    <div class="block_content">
+        <div class="line-bottom"></div>
+        <ul class="tree {if $isDhtml}dhtml{/if}">
+            <li>
+                <a class="city_manufacturer_filter" id="" href="" style="font-weight: bold; font-style: italic;">
+                    {l s='Todos'}
+                </a>
+            </li>
+            {foreach from=$cities_manufacturer_filter key="key" item="city_manufacturer_filter"} 
+                <li>
+                    <a id="categoryfather-c{$key}" class="categoryfather" onclick="downcategory('c{$key}');">
+                            {$key}
+                    </a>
+                    <ul style="display: none;" id="categorychildren-c{$key}" class="categorychildren">
+                        {foreach from=$city_manufacturer_filter item="city_manufacturer"}
+                            <li>
+                                <a id="{$city_manufacturer.city|lower|replace:" ":""|replace:"(":""|replace:")":""|replace:".":""|replace:",":""|replace:"á":"a"|replace:"é":"e"|replace:"í":"i"|replace:"ó":"o"|replace:"ú":"u"|replace:"Á":"a"|replace:"É":"e"|replace:"Í":"i"|replace:"Ó":"o"|replace:"Ú":"u"}" class="city_manufacturer_filter" href="">
+                                    {$city_manufacturer.city|lower}
+                                </a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+<!-- /Block filter cities -->
+
+
+
 <script>
     {if $currentCategory->id != "" && $currentCategory->id_parent != "" }
         var id_current = {$currentCategory->id};
@@ -70,5 +136,57 @@
                 }
             }
         }
+        
+        $(".manufacturer_filter").click(function(e) {
+            var manufacturer = $(this).attr("id");
+            manufacturer = manufacturer.replace("m", "");
+            var days = 15;
+
+            date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+
+            document.cookie = "citymanufacturerfilter=; expires="+date.toGMTString()+"; path=/";
+            document.cookie = "manufacturerfilter="+manufacturer+"; expires="+date.toGMTString()+"; path=/";
+            var categorypage = window.location.protocol+"//"+window.location.hostname+"/es/content/6-categorias";
+            e.preventDefault();
+            window.location.href = categorypage;
+        });
+        
+        $(".city_manufacturer_filter").click(function(e) {
+            var city = $(this).attr("id");
+            var days = 15;
+
+            date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            
+            document.cookie = "manufacturerfilter=; expires="+date.toGMTString()+"; path=/";
+            document.cookie = "citymanufacturerfilter="+city+"; expires="+date.toGMTString()+"; path=/";
+            var categorypage = window.location.protocol+"//"+window.location.hostname+"/es/content/6-categorias";
+            e.preventDefault();
+            window.location.href = categorypage;
+        });
+
+        $(".title_block").click(function() {
+            if ( $(this).hasClass('active') ) {
+                $(this).css("border-bottom","1px dotted #D2D1D1");
+                $(this).attr('after-content','+');
+            } else {
+                $(this).css("border-bottom","none");
+                $(this).attr('after-content','-');
+            }
+        });
     </script>
+{/literal}
+{literal}
+<style>
+    .categorychildren{padding-left: 15px;}
+    @media (max-width: 1024px) {
+        .title_block { font-size: 11px!important; }
+        .title_block::after { font-size: 20px!important; }
+    }
+    @media (max-width: 1000px) {
+        .title_block { font-size: 11px!important; }
+        .title_block::after { font-size: 12px!important; }
+    }
+</style>
 {/literal}

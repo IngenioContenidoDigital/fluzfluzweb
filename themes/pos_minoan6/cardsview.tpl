@@ -6,8 +6,10 @@
         {foreach from=$cards item=card}
             <div class="cardView-div">
                 <a class="myfanc" href="#myspecialcontent">
-                    <div class="card col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                        <img class="col-lg-4 col-md-6 col-sm-6 col-xs-4 back-cardView" src="{$img_manu_dir}{$card.id_manufacturer}.jpg" width="40px" height="40px"/>
+                    <div class="card col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 img-center-card">
+                            <img class="back-cardView" src="{$img_manu_dir}{$card.id_manufacturer}.jpg"/>
+                        </div>
                         <div class="col-lg-7 col-md-6 col-sm-5 col-xs-6 codigoCard2">
                             <span style="color: #000;">{l s='Tarjeta: '}</span>
                             <span class="codeImg">{$card.card_code}</span></div>
@@ -68,42 +70,57 @@
             {/if}
     </div>
     
-    <div class="col-lg-5 col-md-6 col-sm-4 col-xs-10 card-view">
+    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 card-view">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <p class="pValuePrice">{l s="Valor Original: "}<span class="price_value_content"></span></p>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 fecha-buy">
                 <p class="pDate">{l s="Compra: "}<span class="date_purchased"></span></p>
             </div>
         </div>
-        <div class="title-card">
-            <div id="img-fabri"><img id="img-prod" src="" height="" width="" alt="" class="imgCardView"/></div>
-            <div id="text-fabri"><span id="nameViewCard"></span></div>
-            <br/>
+        <div class="title-card row">
+            <div id="img-fabri" class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><img id="img-prod" src="" alt="" class="imgCardView"/></div>
+            <div id="text-fabri" class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><span id="nameViewCard"></span></div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
-                <div class="pPrice col-lg-4 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="price-cardview col-lg-8 col-md-6 col-sm-6 col-xs-6"></div>
-                <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used2" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 container-barcode">
-            <img id="bar-code" class="img-responsive" src=""/>
-            <span class="micode popText" id="code-img"></span>
-        </div>
+        <div class="row">    
+            <div class="col-xs-6 col-sm-7 col-md-6 col-lg-6 div-info">
+                    <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
+                    <div class="pPrice col-lg-4 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="price-cardview col-lg-8 col-md-6 col-sm-6 col-xs-6"></div>
+                    <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used2" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+            </div>
+            <div class="col-xs-6 col-sm-5 col-md-4 col-lg-4 container-barcode">
+                <img id="bar-code" class="img-responsive" src=""/>
+                <span class="micode popText" id="code-img"></span>
+            </div>
+        </div>    
     </div>
-    <div class="col-lg-6 col-md-5 col-sm-4 col-xs-11 cardview-ins">
-        <div class="CardInstru" data-toggle="collapse" data-target="#demo">
+    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 cardview-ins">
+        <div class="CardInstru" id="c-demo">
             <div><h4 class="insTitle">{l s='Gift Card Instructions'}</h4></div>
             <div class="pViewcard collapse" id="demo"></div>
         </div>
         <br>
-        <div class="CardInstru" data-toggle="collapse" data-target="#terms">
+        <div class="CardInstru" id="c-terms">
             <div><h4 class="insTitle">{l s='Terms'}</h4></div>
             <div class="terms-card collapse" id="terms"></div>
         </div>
     </div>
 {/if}
+{literal}
+    <script>
+        $('#c-demo').click(function(){
+            $('#demo').slideToggle();
+            $('#terms').hide();
+        });
+    </script>
+    <script>
+        $('#c-terms').click(function(){
+            $('#terms').slideToggle();
+            $('#demo').hide();
+        });
+    </script>
+{/literal}
 {literal}
     <script>
         $(function() {
@@ -217,6 +234,55 @@
         });
     </script>
 {/literal}
-<style>
-    #header, #footer, #launcher, .breadcrumb { display: none!important; }
-</style>
+{literal}
+    <style>
+        #header, #footer, #launcher, .breadcrumb { display: none!important; }
+        .card-view{margin-left: 10px !important;}
+        .cardview-ins{margin-top: 0px;}
+        .card{height: 65px;}
+        .back-cardView{width: 112px;text-align: center;background: transparent;}
+        .codigoCard2{margin-top: 10px;}
+        
+        @media (max-width:1024px){
+            #img-prod{width: 70%;margin-bottom: 7px;}
+            #text-fabri{margin-top: 18px;}
+        }
+        
+        @media (max-width:768px){
+            #bar-code {
+                margin-bottom: 0px;
+                margin-top: 10px;
+                margin-left: 60px !important;
+                text-align: center;}
+            .popText {margin-left: 68px!important;}
+            .card-view {margin-left: 0px !important; margin-bottom: 20px;}
+            .cardview-ins {margin-left: 0%;width: 100%;}
+            .pDate{text-align: center;}
+            .fecha-buy{padding-left: 0px;}
+            .pValuePrice{text-align: center;}
+            #text-fabri{text-align: center;}
+            #img-prod{width: 50%;}
+            .title-card div{text-align: center;}
+        }
+        
+        @media (max-width:425px){
+            .codigoCard2 {line-height: 13px;}
+            #text-fabri{margin-top: 12px;}
+            #bar-code{width: 60% !important;margin-left: 23px !important;}
+            .popText {margin-left: 11px!important;}
+            #priceCard{font-size: 10px !important;}
+            .cardview-ins{width: 100%!important;}
+        }
+        
+        @media (max-width: 320px){
+            #text-fabri{padding-left: 0px; padding-right: 0px; margin-top: 4px;}
+            .div-info{padding-left: 0px; padding-right: 0px;}
+            .popText{display: none;}
+            .barcode{margin-top: 10px;}
+            #bar-code {
+                width: 85% !important;
+                margin-left: 12px !important;}
+        }
+        
+    </style>
+{/literal}

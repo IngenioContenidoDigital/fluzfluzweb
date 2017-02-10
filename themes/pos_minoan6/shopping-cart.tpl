@@ -545,7 +545,10 @@
 			{/if}
 		</div>
 	{/if}
-        
+        <div class="cart_navigation_extra">
+		<div id="HOOK_SHOPPING_CART_EXTRA">{if isset($HOOK_SHOPPING_CART_EXTRA)}{$HOOK_SHOPPING_CART_EXTRA}{/if}</div>
+	</div>
+        <br>
 	<p class="cart_navigation clearfix">
 		{if !$opc}
                     <a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" id="nextStep" title="{l s='Next Step'}">
@@ -568,10 +571,6 @@
 		</a>-->
 	</p>
 	<div class="clear"></div>
-	<div class="cart_navigation_extra">
-		<div id="HOOK_SHOPPING_CART_EXTRA">{if isset($HOOK_SHOPPING_CART_EXTRA)}{$HOOK_SHOPPING_CART_EXTRA}{/if}</div>
-	</div>
-                
                 
 {strip}
 {addJsDef deliveryAddress=$cart->id_address_delivery|intval}

@@ -49,7 +49,7 @@
                                     <input type="hidden" name="orderby" value="position" />
                                     <input type="hidden" name="controller" value="search" />
                                     <input type="hidden" name="orderway" value="desc" />
-                                    <input class="search_query form-control grey" placeholder="Search by brand" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                    <input class="search_query form-control grey" placeholder="Buscar" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
                                     <button type="submit" id="search_button" class="btn btn-default button button-small"><span><i class="icon-search"></i></span></button>
                             </p>
                     </form>
@@ -59,23 +59,20 @@
         <div class="row cont-category">
                 <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">
                     {$HOOK_LEFT_COLUMN}
-                    <form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>
+                    <!--<form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>-->
                 </div>
             {if $cms->id==6}
-                <div class="col-lg-9 col-md-9 containerFeatured"> 
-                    {hook h='newMerchants'}
+                <div class="container-cms col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 containerFeatured"> 
+                        {hook h='newMerchants'}
+                    </div>
+                    <div class="col-lg-12 col-md-12 containerFeatured">
+                        {hook h='merchants'}
+                    </div>
                 </div>
-                <div class="col-lg-9 col-md-9 containerFeatured">
-                    {hook h='merchants'}
-                </div>
-            {/if}
-            {if $cms->id==6}
-                {capture name='blockPosition3'}{hook h='blockPosition3'}{/capture}
-                {if $smarty.capture.blockPosition3}
-                    {$smarty.capture.blockPosition3}
-                {/if}
             {/if}
         </div>   
+        
 {elseif isset($cms_category)}
 	<div class="block-cms">
 		<h1><a href="{if $cms_category->id eq 1}{$base_dir}{else}{$link->getCMSCategoryLink($cms_category->id, $cms_category->link_rewrite)}{/if}">{$cms_category->name|escape:'html':'UTF-8'}</a></h1>
@@ -123,7 +120,7 @@
         .btn-shop{width: 50%;}
         .quick .icon-search:before{display: none;}
         form#searchbox{position: initial !important; top: 0px !important;padding-left: 490px;}
-        form#searchbox input#search_query_block{margin-bottom: 0px !important;padding: 18.5px !important; max-width: 380px; margin-right: 0px !important;}
+        form#searchbox input#search_query_block{margin-bottom: 0px !important;height: 39px; max-width: 380px; margin-right: 0px !important;}
         .button.button-small{background: #c9b198;padding: 11px 26px !important;}
         .menuSticky{margin-top: 0px !important;}
         .block {margin-bottom: 18px;margin-top: 18px;}
@@ -136,4 +133,28 @@
             .sectionFooter{text-align: center; padding-left: 0; margin-right: 0; }
         }
     </style>
-    {/literal}
+{/literal}
+{literal}
+
+    <script>
+        if (($(window).width()) >= 1024)
+        {
+            $(document).ready(function() {
+                //var ventana = $(window).width();
+                var altura = $('.container-cms').height();
+                //var ancho = ($('.product_list').width());
+                $('.menuSticky').css('min-height', altura + 'px');
+                //$('.owl-item').css('width', Math.round((ancho/3)) + 'px');
+                //$('.owl-wrapper-outer').css('width', (ancho-80) + 'px')
+                //$('.owl-wrapper-outer').css('margin-left', '40px')
+                //var total;
+                /*$('.owl-item').each(function(){
+                    alert($(this).width((ancho/4)));
+                    //$(this).css('max-width',(ancho/4)+'px');
+                })*/
+                
+            });
+        }
+    </script>
+
+{/literal}

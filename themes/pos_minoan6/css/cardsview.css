@@ -308,39 +308,43 @@ ul li .check::before {
 
 .popText { margin-left: 6%; }
 .title-card { padding: 2px 26px; }
-.card-view { margin: 20px 0 0 30px; }
+.card-view { margin: 0px 0 0 30px; }
 .c { margin-top: 0px!important; }
 .cardview-ins { margin-left: 25px; }
 .title-card div { display: inline-block; vertical-align: middle; }
 .CardInstru h4::after { display: none!important; }
-#columns { width: 130%; height: 35vw; }
-#text-fabri { width: 60% }
+#columns { width: 100%; height: 35vw; }
 #categories_block_left, #left_column { display: none; }
 .terms-card, .pViewcard { overflow-y: auto; height: 150px!important; }
 
 
 @media (max-width:1024px){
-    .container-barcode { margin-right: 0!important; margin-left: 35%!important; float: none!important; }
-    .codigoCard2 { text-align: left; line-height: 17px; }
+    .c{margin-left: 0px;}
+    .container-barcode { margin-right: 0!important;}
+    .codigoCard2 { text-align: left; line-height: 14px; margin-top: 0px!Important;}
+    .back-cardView {width: 80px !important;margin-top: -6px !important;}
+    .card {height: 40px !important;}
 }
 
 @media (max-width:768px){
+    .c{margin-left: 0px;}
     .menuSticky{background: #fff; border-bottom: none; display: none;}
-    #bar-code{margin-bottom: 0px;margin-top: 10px;margin-left: 220px;}
+    #bar-code{margin-bottom: 0px;margin-top: 10px;margin-left: 139px !important;}
     .codigoCard{margin-top: 4px;}
     .instrucciones-pop{padding-left: 0px; padding-right: 0px;}
     .c{padding-top: 0px; margin-top: 20px; max-height: 255px;}
     .update-card{margin-top: 20px;}
     .card-view { margin-left: 0!important; }
     .cardview-ins { margin-left: 0%; width: 76% }
-    .popText { margin-left: 270px!important; }
+    .popText { margin-left: -8px!important; background: transparent;}
     .container-barcode { float: right!important; }
-    .fancybox-skin { height: 400px!important; margin: 0 auto !important; max-width: 500px; }
-    .codigoCard2 { line-height: 37px; }
+    .fancybox-skin { height: auto!important; margin: 0 auto !important; max-width: 500px; }
+    .codigoCard2 { line-height: 27px; }
+    .img-center-card{text-align: center !important;}
 }
 
 @media (max-width:425px){
-    .c{ max-height: 252px;}
+    .c{ max-height: 252px;margin-left: 0px;}
     #priceCard{font-size: 16px !important;}
     #nameViewCard{font-size: 12px;}
     .update-card{margin-left: 17px;}
@@ -349,22 +353,21 @@ ul li .check::before {
     .pDate {font-size: 10px;}
     .pCode{margin-top: 10px;}
     .micode{margin-bottom: 10px;}
-    .card-view { margin-left: 0!important; width: 94%!important; }
+    .card-view { margin-left: 0!important; width: 100%!important; }
     .cardview-ins { margin-left: 0!important; width: 94%!important; margin-bottom: 10px; }
-    .popText { margin-left: 33%!important; }
+    .popText { margin-left: 0!important; }
     .codigoCard2 { line-height: 19px; }
     #text-fabri { width: 50%!important; }
-    #bar-code { margin-left: 23%!important; margin-bottom: 0px; margin-top: 15px; }
-    #columns { width: 99%; }
+    #bar-code { margin-left: 28%!important; margin-bottom: 0px; margin-top: 15px; }
+    .fancybox-skin { height: auto!important;}
 }
 
 @media (max-width:375px){
-    .c {margin-left: 15px;margin-right: 15px;}
+    .c {margin-left: 0px;margin-right: 0px;}
     #priceCard{font-size: 16px !important;}
     #nameViewCard{font-size: 9px;}
-    .card-view { margin-left: 0!important; width: 80%!important; }
+    .card-view { margin-left: 0!important; width: 100%!important; }
     .cardview-ins {margin-left: 15px; margin-bottom: 10px; width: 81%;}
-    #columns { width: 99%; }
 }
 
 @media (max-width:320px){
@@ -375,21 +378,20 @@ ul li .check::before {
     .back-cardView{padding-right: 0px;padding-left: 0px;}
     .pCode{margin-bottom: 0px;}
     .c {margin-left: 0px;margin-right: 8px;}
-    .card-view { width: 94%!important; margin-left: 0!important; }
+    .card-view { width: 100%!important; margin-left: 0!important; }
     .cardview-ins {margin-left: 8px; margin-bottom: 10px; width: 67%;}
-    .popText { margin-left: 33%!important; }
+    .popText { margin-left: 0!important; }
     #img-fabri { width: 45%!important; }
     #img-prod { width: 100%!important; }
     #img-prod { width: 100%!important; }
-    #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 67px !important; margin-top: 15px !important; }
-    #columns { width: 99%; }
+    #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 54px !important; margin-top: 15px !important; }
+    .fancybox-skin { height: auto!important;}
 }
 
 @media (max-width:277px){
     .card-view { width: 80%!important; margin-left: 0!important; }
     .cardview-ins { width: 80%!important; }
     #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 60px !important; margin-top: 15px !important; }
-    #columns { width: 99%; }
 }
 
 @media (max-width:230px){
@@ -397,5 +399,4 @@ ul li .check::before {
     .popText { margin-left: 27%!important; }
     .cardview-ins { width: 65%!important; }
     #bar-code { width: 50% !important; margin-right: 0px !important; margin-left: 46px !important; margin-top: 15px !important; }
-    #columns { width: 99%; }
 }

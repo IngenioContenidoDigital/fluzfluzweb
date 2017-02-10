@@ -86,6 +86,8 @@ class ProductCore extends ObjectModel
     public $price_shop=0;
 
     public $specificPrice = 0;
+    
+    public $save_dolar=0;
 
     /** @var float Additional shipping cost */
     public $additional_shipping_cost = 0;
@@ -115,6 +117,10 @@ class ProductCore extends ObjectModel
     public $reference;
     
     public $product_parent;
+    
+    public $single_use = false;
+    
+    public $expiration = '0000-00-00';
 
     /** @var string Supplier Reference */
     public $supplier_reference;
@@ -193,6 +199,9 @@ class ProductCore extends ObjectModel
 
     /** @var string ENUM('both', 'catalog', 'search', 'none') front office visibility */
     public $visibility;
+    
+    /** @var string ENUM('peso', 'dolar') front office type currency */
+    public $type_currency;
 
     /** @var string Object creation date */
     public $date_add;
@@ -290,12 +299,13 @@ class ProductCore extends ObjectModel
             'cache_has_attachments' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'is_virtual' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'product_parent' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-
+            'expiration'=>                  array('type' => self::TYPE_DATE, 'validate' => 'isDateFormat'),
             /* Shop fields */
             'id_category_default' =>        array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedId'),
             'id_tax_rules_group' =>        array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedId'),
             'on_sale' =>                    array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'online_only' =>                array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
+            'single_use' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'ecotax' =>                    array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice'),
             'minimal_quantity' =>            array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedInt'),
             'price' =>                        array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice', 'required' => true),
@@ -316,6 +326,8 @@ class ProductCore extends ObjectModel
             'show_price' =>                array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'indexed' =>                    array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'visibility' =>                array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isProductVisibility', 'values' => array('both', 'catalog', 'search', 'none'), 'default' => 'both'),
+            'type_currency' =>             array('type' => self::TYPE_STRING, 'validate' => 'isReference', 'size' => 20),
+            'save_dolar' =>             array('type' => self::TYPE_INT, 'validate' => 'isInt'),
             'cache_default_attribute' =>    array('type' => self::TYPE_INT, 'shop' => true),
             'advanced_stock_management' =>    array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'date_add' =>                    array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),

@@ -1,6 +1,6 @@
 {foreach $list as $product}
 <tr>
-	<td style="border:1px solid #D6D4D4;">
+	<!--td style="border:1px solid #D6D4D4;">
 		<table class="table">
 			<tr>
 				<td width="10">&nbsp;</td>
@@ -12,7 +12,7 @@
 				<td width="10">&nbsp;</td>
 			</tr>
 		</table>
-	</td>
+	</td-->
 	<td style="border:1px solid #D6D4D4;">
 		<table class="table">
 			<tr>

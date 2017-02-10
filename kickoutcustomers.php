@@ -125,6 +125,41 @@ class kickoutCustomers {
     }
 
     public function deleteCustomerNetwork($customer) {
+        
+        $query = "SELECT c.id_customer, c.username, c.email, SUM(r.credits) points
+                    FROM "._DB_PREFIX_."customer c
+                    LEFT JOIN "._DB_PREFIX_."rewards r ON ( c.id_customer = r.id_customer AND r.id_reward_state = 2 )
+                    WHERE c.id_customer = ".$customer['id'];
+        $customerdata = Db::getInstance()->getRow($query);
+        
+        $contributor_count = Db::getInstance()->getValue("SELECT COUNT(*) contributor_count
+                                                            FROM "._DB_PREFIX_."customer
+                                                            WHERE active = 1");
+        
+        $points_count = Db::getInstance()->getValue("SELECT SUM(credits) points_count
+                                                        FROM "._DB_PREFIX_."rewards
+                                                        WHERE id_reward_state = 2");
+        
+        $vars = array(
+            '{username}' => $customerdata['username'],
+            '{days_inactive}' => 60,
+            '{contributor_count}' => $contributor_count,
+            '{points}' => $customerdata['points'] == "" ? 0 : round($customerdata['points']),
+            '{points_count}' => round($points_count),
+            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+            '{learn_more_url}' => "http://reglas.fluzfluz.co"
+        );
+
+        Mail::Send(
+            Context::getContext()->language->id,
+            "cancellation_account",
+            "Tu cuenta fue Cancelada.",
+            $vars,
+            $customerdata['email'],
+            $customerdata['username']
+        );        
+        
         return Db::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship
                                             WHERE id_customer = ".$customer['id']);
     }
@@ -147,23 +182,11 @@ class kickoutCustomers {
                     LEFT JOIN ps_rewards r ON (c.id_customer = r.id_customer AND r.id_reward_state = 2)
                     WHERE c.id_customer = ".$id_sponsor;
         $sponsorinformation = Db::getInstance()->executeS($query);
-        
-        $query = "SELECT SUM(credits) points
-                    FROM ps_rewards
-                    WHERE id_reward_state = 2";
-        $points_count = Db::getInstance()->getValue($query);
-        
-        $query = "SELECT COUNT(*) contributor_count
-                    FROM ps_customer";
-        $contributor_count = Db::getInstance()->getValue($query);
-        
 
         $vars = array(
             '{username}' => $sponsorinformation[0]['username'],
             '{customer_promoted}' => $usernamepromoted,
             '{points}' => $sponsorinformation[0]['points'] == "" ? 0 : round($sponsorinformation[0]['points']),
-            '{contributor_count}' => $contributor_count,
-            '{points_count}' => round($points_count),
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id)
         );

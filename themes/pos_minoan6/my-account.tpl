@@ -33,12 +33,12 @@
         {foreach from=$manufacturers item=manufacturer}
                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 Cards algo myfancybox" href="#myspecialcontent">
                     <div class="col-lg-6 col-md-5 col-sm-12 col-xs-6 infoCard">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name}</span></div>
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name|truncate:20:"...":true}</span></div>
                     </div>
                     <div class="col-lg-6 col-md-7 col-sm-12 col-xs-6 priceCard">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span></div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
+                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span></div>
+                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
                     </div>
                     <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
                 </div>
@@ -48,8 +48,8 @@
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
             <div class="detail-support">
-                <a href="http://reglas.fluzfluz.co"><p>{l s='Learn how to redeem digital cards.'}</p></a>
-                <a href="http://reglas.fluzfluz.co"><p>{l s='Learn how to transact with merchants.'}</p></a>
+                <a href="http://reglas.fluzfluz.co"><p>Aprende c&oacute;mo redimir tus bonos digitales</p></a>
+                <a href="http://reglas.fluzfluz.co"><p><strong style="font-size: 15px;">VER LAS REGLAS DE FLUZ FLUZ</strong></p></a>
             </div>
         </div>
     </div>
@@ -539,8 +539,9 @@
         });
         
         $('#used').click(function(){
-            $( "#f-option" ).click();
-            $( "#f-option" ).click();
+            $('#f-option').attr('checked', 'checked');
+                if($('#f-option').is(':checked')) 
+                    { $( "#f-option" ).click(); }
             var code = $('.micode').html();
             $('.codeImg').each(function(){
                 var compare = $(this).html();
@@ -569,8 +570,9 @@
         });
         
         $('#not-used').click(function(){
-            $( "#s-option" ).click();
-            $( "#s-option" ).click();
+            $('#s-option').attr('checked', 'checked');
+                if($('#s-option').is(':checked')) 
+                    { $( "#s-option" ).click(); }
             var code = $('.micode').html();
             $('.update-card').fadeOut(600);
             $('.codeImg').each(function(){

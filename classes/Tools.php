@@ -1307,10 +1307,12 @@ class ToolsCore
                     (($n < $n_categories || $link_on_the_item) ? '<a href="'.Tools::safeOutput($context->link->getCategoryLink((int)$category['id_category'], $category['link_rewrite'])).'" title="'.htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8').'" data-gg="">' : '').
                     htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8').
                     (($n < $n_categories || $link_on_the_item) ? '</a>' : '').
-                    (($n++ != $n_categories || !empty($path)) ? '<span class="navigation-pipe">'.$pipe.'</span>' : '');
+                    (($n++ != $n_categories || !empty($path)) ? '<span class="navigation-pipe" style="color:#ef4136;">'.$pipe.'</span>' : '');
                 }
-
-                return $full_path.$path;
+                
+                $path = substr($path, 0, 25);
+                
+                return $full_path.$path.'...';
             }
         } elseif ($category_type === 'CMS') {
             $category = new CMSCategory($id_category, $context->language->id);

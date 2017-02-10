@@ -52,12 +52,17 @@
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">
                 <img src="{$img_dir}login/banner.jpg" id="banner_login" />
-                <a href="http://reglas.fluzfluz.co/">
+                <a href="#video-signup" class="myfancybox">
                     <h2 id="learn_more">APRENDE M&Aacute;S</h2>
                     <img src="{$img_dir}login/play.png" id="icon_play" />
                 </a>
             </div>
         </div>
+        <div class="video-fancy" style="display:none;">
+            <div id="video-signup" class="videoWrapper">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Z18ynCosZFs" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>        
 	<div class="row sign-account">
             <div class="col-xs-12 col-sm-6 signup-account">
                 <div class="info-box">
@@ -93,6 +98,7 @@
                         <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
                         <div class="line-separator"></div>
                         <p>{l s="Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibiras un correo de confirmacion con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. No conoces a ningun fluzzer activo y quieres ser parte de Fluz Fluz para contruir tu red? Escribenos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarle."}</p>
+                        <p>Para m&aacute;s informaci&oacute;n consulta <a href="http://info.fluzfluz.co/miembros/" style="cursor:pointer; color: #EF4136;">Aqu&iacute;.</a></p>
                     </form>
                 </div>
             </div>
@@ -629,7 +635,12 @@
                                     </div>
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
-                                        <input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />
+                                        {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}
+                                        <select name="city" id="city" class="form-control">
+                                            {foreach from=$cities item=city}
+                                                <option value="{$city.ciudad}">{$city.ciudad}</option>
+                                            {/foreach}
+                                        </select>
                                     </div>
                                     <div class="required select form-group">
                                         <label class="required" for="id_country">{l s='Country'}</label>

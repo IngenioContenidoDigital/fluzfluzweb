@@ -1492,9 +1492,10 @@ class AdminProductsControllerCore extends AdminController
                         p.id_product id,
                         pl.name nombre_producto,
                         p.reference referencia,
-                        p.price precio,
                         p.product_parent,
+                        p.price precio,
                         p.price_shop precio_tienda,
+                        ps.product_supplier_price_te costo,
                         rp.value porcentaje_red,
                         m.name fabricante,
                         s.name proveedor,
@@ -1529,6 +1530,7 @@ class AdminProductsControllerCore extends AdminController
                                         <th>referencia</th>
                                         <th>precio</th>
                                         <th>precio_tienda</th>
+                                        <th>costo</th>
                                         <th>precio_red</th>
                                         <th>porcentaje_red</th>
                                         <th>fabricante</th>
@@ -1560,6 +1562,7 @@ class AdminProductsControllerCore extends AdminController
                                 <td>".$product['referencia']."</td>
                                 <td>".$product['precio']."</td>
                                 <td>".$product['precio_tienda']."</td>
+                                <td>".$product['costo']."</td>
                                 <td>".( $product['precio'] * $product['porcentaje_red'] / 100 )."</td>
                                 <td>".$product['porcentaje_red']."</td>
                                 <td>".$product['fabricante']."</td>
@@ -3046,6 +3049,7 @@ class AdminProductsControllerCore extends AdminController
 
         $this->tpl_form_vars['product_type'] = (int)Tools::getValue('type_product', $product->getType());
         $this->tpl_form_vars['product_parent'] = $product->product_parent;
+        $this->tpl_form_vars['single_use'] = $product->single_use;
         
         $this->getLanguages();
 
@@ -4235,6 +4239,7 @@ class AdminProductsControllerCore extends AdminController
         $data->assign('product_type', (int)Tools::getValue('type_product', $product->getType()));
         $data->assign('is_in_pack', (int)Pack::isPacked($product->id));
         $data->assign('product_parent', (int)Tools::getValue('product_parent'));
+        $data->assign('single_use', (int)Tools::getValue('single_use'));
 
         $check_product_association_ajax = false;
         if (Shop::isFeatureActive() && Shop::getContext() != Shop::CONTEXT_ALL) {

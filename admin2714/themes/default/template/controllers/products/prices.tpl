@@ -205,12 +205,42 @@ $(document).ready(function () {
         
         <div class="form-group">
 		<label class="control-label col-lg-3" for="priceTI">{l s='Valor en Tienda'}</label>
-		<div class="input-group col-lg-2">
-			<span class="input-group-addon">{$currency->prefix}{$currency->suffix}</span>
-                        <input name="price_shop" type="text" id="price_shop" value="{{toolsConvertPrice price=$product->price_shop}|string_format:'%.2f'}"/></div>
-		{if isset($pack) && $pack->isPack($product->id)}<p class="col-lg-9 col-lg-offset-3 help-block">{l s='The sum of prices of the products in the pack is %s%s%s' sprintf=[$currency->prefix,{toolsConvertPrice price=$pack->noPackPrice($product->id)|string_format:$priceDisplayPrecisionFormat},$currency->suffix]}</p>{/if}
-	</div>
-        
+		<div class="input-group col-lg-6">
+			<!--<span class="input-group-addon">{$currency->prefix}{$currency->suffix}</span>-->
+                    <div class="col-lg-3" style="padding-left: 0px;">
+                        <input name="price_shop" type="text" id="price_shop" value="{{toolsConvertPrice price=$product->price_shop}|string_format:'%d'}"/>
+                    </div>    
+                    <div class="col-lg-3">
+                        <select name="type_currency" id="type_currency">
+				<option value="COP" {if $product->type_currency == 'COP'}selected="selected"{/if} >{l s='COP'}</option>
+				<option value="USD" {if $product->type_currency == 'USD'}selected="selected"{/if} >{l s='USD'}</option>
+			</select>
+                    </div>    
+                </div>
+        </div>
+        <div class="form-group save_dolar" style="display:none;">
+            <label class="control-label col-lg-3" for="priceTI">{l s='Ahorro del Producto'}</label>
+            <div class="input-group col-lg-1">
+                <input  name="save_dolar" type="text" id="save_dolar" value="{{$product->save_dolar}|string_format:'%d'}"/>
+            </div>
+        </div>
+        {literal}
+            <script>
+                $(document).ready(function(){
+                    if($('select[id=type_currency]').val() == 'USD'){
+                       $('.save_dolar').show();
+                    }
+                    $("#type_currency").change(function(){
+                        if($('select[id=type_currency]').val() == 'USD'){
+                            $('.save_dolar').css('display','block');
+                        }
+                        else{
+                            $('.save_dolar').css('display','none');
+                        }
+                    });
+                });
+            </script>
+        {/literal}                
         <div class="form-group">
 		<label class="control-label col-lg-3" for="codetype">{l s='Seleccione Tipo de Codigo'}</label>
 		<div class="input-group col-lg-2">
@@ -282,9 +312,40 @@ $(document).ready(function () {
 	</div>
 	<div class="panel-footer">
 		<a href="{$link->getAdminLink('AdminProducts')|escape:'html':'UTF-8'}{if isset($smarty.request.page) && $smarty.request.page > 1}&amp;submitFilterproduct={$smarty.request.page|intval}{/if}" class="btn btn-default"><i class="process-icon-cancel"></i> {l s='Cancel'}</a>
-		<button type="submit" name="submitAddproduct" class="btn btn-default pull-right" disabled="disabled"><i class="process-icon-loading"></i> {l s='Save'}</button>
-		<button type="submit" name="submitAddproductAndStay" class="btn btn-default pull-right" disabled="disabled"><i class="process-icon-loading"></i> {l s='Save and stay'}</button>
+                <button type="submit" id="btn-Addproduct" name="submitAddproduct" class="btn btn-default pull-right" disabled="disabled"><i class="process-icon-loading"></i> {l s='Save'}</button>
+                <button type="submit" id="btn-AddproductAndStay" name="submitAddproductAndStay" class="btn btn-default pull-right" disabled="disabled"><i class="process-icon-loading"></i> {l s='Save and stay'}</button>
 	</div>
+        {literal}
+            <script>
+                $('#btn-Addproduct').click(function(event){
+                    
+                    if($('select[id=type_currency]').val() == 'COP'){
+                    
+                        var precio = parseInt($('#priceTE').val());
+                        var precio_tienda = $('#price_shop').val();
+                        
+                        if(precio >= precio_tienda){
+                            alert('El valor en tienda debe ser mayor al precio de venta sin Iva.');
+                            $('#price_shop').focus();
+                            event.preventDefault();
+                        }
+                    }
+                });
+                
+                $('#btn-AddproductAndStay').click(function(event){
+                    if($('select[id=type_currency]').val() == 'COP'){
+                        var precio = parseInt($('#priceTE').val());
+                        var precio_tienda = $('#price_shop').val();
+                        
+                        if(precio >= precio_tienda){
+                            alert('El valor en tienda debe ser mayor al precio de venta sin Iva.');
+                            $('#price_shop').focus();
+                            event.preventDefault();
+                        }
+                    }
+                });
+            </script>
+        {/literal}
 </div>
 {if isset($specificPriceModificationForm)}
 <div class="panel">
