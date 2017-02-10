@@ -974,4 +974,10 @@ class CustomerCore extends ObjectModel
         }
         
     }
+    
+    public static function updateEmailSponsorship($id_customer, $email) {
+        return Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards_sponsorship
+                                            SET email = "'.$email.'"
+                                            WHERE id_customer = '.(int)$id_customer);
+    }
 }
