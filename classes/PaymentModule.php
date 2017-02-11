@@ -379,10 +379,6 @@ abstract class PaymentModuleCore extends Module
                 $total_paid += $product['price'];
             }
             
-            echo '<pre>';
-            print_r($total_value);
-            die();
-            
             $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
             $sponsorships2=array_slice($sponsorships, 1, 15);
             $reward = round(RewardsModel::getRewardReadyForDisplay($total_paid, $this->context->currency->id)/(count($sponsorships2)+1));
