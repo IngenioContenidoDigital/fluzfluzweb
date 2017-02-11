@@ -756,7 +756,6 @@ abstract class PaymentModuleCore extends Module
                         '{products_txt}' => $product_list_txt,
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
-                        '{type_currency}' => $type_currency,    
                         '{total_value}' => $total_value,   
                         '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
                         '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
