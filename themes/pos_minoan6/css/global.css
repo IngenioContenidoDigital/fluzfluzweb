@@ -4273,6 +4273,11 @@ h2.title_blockSale {
     display:none;
 }
 
+#typeOculto{
+    display:none;
+}
+
+
 #nameViewCard{
     color:#fff;
     font-family: 'Open Sans' !important;
