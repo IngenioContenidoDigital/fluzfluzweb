@@ -373,10 +373,14 @@ abstract class PaymentModuleCore extends Module
             $product_list = $order->getProducts();
             
             $total_value = "";
+            $type_currency = "";
+            
             foreach ($product_list as $product) {
                 $total_value .= "<label>".round($product['price_shop'])."</label><br>";
+                $type_currency .= "<label>".$product['type_currency']."</label><br>";
                 $total_paid += $product['price'];
             }
+            
             $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
             $sponsorships2=array_slice($sponsorships, 1, 15);
             $reward = round(RewardsModel::getRewardReadyForDisplay($total_paid, $this->context->currency->id)/(count($sponsorships2)+1));
@@ -754,6 +758,7 @@ abstract class PaymentModuleCore extends Module
                         '{products_txt}' => $product_list_txt,
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
+                        '{type_currency}' => $type_currency,    
                         '{total_value}' => $total_value,   
                         '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
                         '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
