@@ -373,13 +373,15 @@ abstract class PaymentModuleCore extends Module
             $product_list = $order->getProducts();
             
             $total_value = "";
-            $type_currency = "";
-            
+           
             foreach ($product_list as $product) {
-                $total_value .= "<label>".round($product['price_shop'])."</label><br>";
-                $type_currency .= "<label>".$product['type_currency']."</label><br>";
+                $total_value .= "<label><span>".$product['type_currency']."</span>&nbsp;$".round($product['price_shop'])."</label><br>";
                 $total_paid += $product['price'];
             }
+            
+            echo '<pre>';
+            print_r($total_value);
+            die();
             
             $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
             $sponsorships2=array_slice($sponsorships, 1, 15);
