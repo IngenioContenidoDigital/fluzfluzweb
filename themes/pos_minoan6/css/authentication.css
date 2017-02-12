@@ -16,7 +16,7 @@
 #login_form .form-group.lost_password a:hover { text-decoration: underline; cursor:pointer; }
 
 #login_form .form-control, #create-account_form .form-control { max-width: 271px; }
-
+.learn-buy{color: #f14e38;letter-spacing: 1px;font-weight: 500;text-decoration: none;font-size: 14.5px;}
 #uniform-id_country { width: 38%; }
 .gender:first-of-type { margin-left: 0!important; }
 .gender { display: inline-block; vertical-align: middle; margin-left: 15px; }
@@ -60,12 +60,44 @@ p + .required { font-weight: bold; }
     background: none;
 }
 
-.borde-inf{
-    border-bottom-color: #ddd !important;
-    border-bottom-style: solid !important;
-    border-bottom-width: 1px !important;
+@media (max-width:767px){
+    .videoWrapper iframe {
+            width: 100%;
+            height: 100%;
+    }
 }
 
 @media (max-width:320px){
     .signup-account{padding-left: 0px;}
+}
+
+#banner_login { width: 100%; }
+.banner-container { position: absolute; margin: 0 -15%; }
+.sign-account { padding-top: 45%; }
+.info-box { background-color: #fff; padding: 15px; max-height: initial; border: none; }
+.info-box {
+    -webkit-box-shadow: 7px 7px 15px -3PX #D3D3D3;
+    -moz-box-shadow: 7px 7px 15px -3PX #D3D3D3;
+    box-shadow: 7px 7px 15px -3PX #D3D3D3;
+}
+.info-box form { background-color: #efefef; margin: 0; }
+#login_form { min-height: 335px; }
+.line-separator { border: 1px solid #EF4136; width: 60px; }
+.borde-inf { padding-bottom: 3px; }
+.container_tips { margin: 35px 0; }
+.container_tips div { text-align: center; background-color: white; margin-bottom: 40px; }
+.container_tips div h3 { letter-spacing: 0; margin: 0; font-size: 18px; }
+.icon_tip { width: 75px; }
+#learn_more { position: absolute; top: 30%; right: 41%; color: white; font-size: 35px!important; }
+#icon_play { position: absolute; top: 44%; right: 48%; width: 4vw; }
+@media (min-width: 768px) {
+    .container_tips .col-sm-3 { width: 25%!important; }
+}
+@media (max-width: 425px){
+    #learn_more { position: absolute; top: 20%; right: 36%; color: white; font-size: 5vw!important; }
+    #icon_play { position: absolute; top: 50%; right: 48%; width: 10vw; }
+}
+@media screen and (max-width: 768px) and (min-width: 426px) {
+    #learn_more { position: absolute; top: 30%; right: 36%; color: white; font-size: 35px!important; }
+    #icon_play { position: absolute; top: 50%; right: 48%; width: 6vw; }
 }

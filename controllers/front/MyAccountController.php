@@ -64,6 +64,7 @@ class MyAccountControllerCore extends FrontController
         $membersCount = $this->numberMembers();
         $this->context->smarty->assign('membersCount', $membersCount);
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
             'has_customer_an_address' => empty($has_address),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),

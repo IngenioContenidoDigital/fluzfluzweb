@@ -144,7 +144,7 @@ class CategoryControllerCore extends FrontController
         $this->assignScenes();
         $this->assignSubcategories();
         $this->assignProductList();
-
+        
         $this->context->smarty->assign(array(
             's3'=>_S3_PATH_,
             'category'             => $this->category,
@@ -169,6 +169,7 @@ class CategoryControllerCore extends FrontController
     /**
      * Assigns scenes template variables
      */
+    
     protected function assignScenes()
     {
         // Scenes (could be externalised to another controller if you need them)

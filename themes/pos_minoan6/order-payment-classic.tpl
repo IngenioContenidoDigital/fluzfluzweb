@@ -409,9 +409,11 @@
                   });  
            });
     </script>
-    
+{/literal}
+{literal}
     <script>
          $('#submitLabel').click(function(){
+              
                $(this).attr("disabled","disabled");
                var totalCart=$('.tprice').attr("data-selenium-total-price");
                var credits=$('#cavail').val();
@@ -429,7 +431,7 @@
               });  
             });
            
-    </script> 
+    </script>
 {/literal}
 {literal}
     <script>       

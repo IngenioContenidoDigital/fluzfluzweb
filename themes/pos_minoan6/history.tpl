@@ -65,23 +65,27 @@
                             <div><p>{$product.time}</p></div>
                         </div>
                     </div>
-                         <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-right">
+                        <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 block-right">
                             <div class="row">
                                 <div>{l s='Unit Price'}</div>
                                 <div>
-                                    <p>{l s="Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
-                                    <p>{l s="You Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</p>
-                                    <p>{l s="Unit Price: "}{displayPrice price=$product.precio no_utf8=false convert=false}</p>
+                                    <p>{l s="Value: "}{$product.type_currency}&nbsp;${$product.price_shop|string_format:"%d"}</p>
+                                    {if $product.type_currency == 'COP'}
+                                        <p>{l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%</p>
+                                    {else}
+                                        <p>{l s="You Save: "}{$product.save_dolar}%</p>    
+                                    {/if}    
+                                    <p>{l s="Unit Price: "}{$product.type_currency}&nbsp;${$product.precio|string_format:"%d"}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 block-center">
+                        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 block-center block-none">
                             <div class="row">
                                 <div>{l s='Qty'}</div>
                                 <div class="block-qty"><p>{$product.cantidad}</p></div>
                             </div>
                         </div>
-                        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 block-center">
+                        <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 block-center block-none">
                             <div class="row">
                                 <div>{l s='Factura'}</div>
                                 <div>
@@ -91,21 +95,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-right">
+                        <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 block-right">
                             <div class="row">
                                 <div>{l s='Total'}</div>
                                 <div>
                                     <p class="price">{l s="Price: "}{displayPrice price=$product.total no_utf8=false convert=false}</p>
-                                    <p class="block-price">{l s="Card Value: "}{displayPrice price=$product.price_shop no_utf8=false convert=false}</p>
+                                    <p class="block-price">{l s="Card Value: "}{$product.type_currency}&nbsp;${$product.price_shop|string_format:"%d"}</p>
                                 </div>
                             </div>
                         </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Fluz"}</div>
+                    <div class="col-xs-3 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Fluz"}</div>
                     {*<div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>*}
-                    <div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
-                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">{l s="Save: "}%{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}</div>
+                    <div class="col-xs-5 col-sm-4 col-md-8 col-lg-8 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">
+                        {if $product.type_currency == 'COP'}
+                            <p>{l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%</p>
+                        {else}
+                            <p>{l s="You Save: "}{$product.save_dolar}%</p>    
+                        {/if} 
+                    </div>
                 </div>
                 <br><br>
             </div>
@@ -115,16 +125,16 @@
         <p class="alert alert-warning">{l s='You have not placed any orders.'}</p>
     {/if}
 </div>
-<ul class="footer_links clearfix">
-    <li>
+<ul class="row row-btns clearfix">
+    <li class="col-xs-12 col-lg-6 col-md-6 col-sm-6 div-btnAccount">
         <a class="btn btn-history" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">
             <span>
                 <i class="icon-chevron-left"></i> {l s='Back to Your Account'}
             </span>
         </a>
     </li>
-    <li>
-        <a class="btn btn-history-shop" href="{$base_dir}">
+    <li class="col-xs-12 col-lg-6 col-md-6 col-sm-6 div-btnShop">
+        <a class="btn btn-history-shop" href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">
             <span>{l s='Shop Now '}<i class="icon-chevron-right"></i> </span>
         </a>
     </li>
@@ -165,11 +175,13 @@
                     var esVisible = $('#container_'+id).is(":visible");
                     if(esVisible){
                         //$('#container_'+id).css('display','none');
-                        $('#container_'+id).toggle("slow");
+                        $('#container_'+id).slideToggle("slow");
+                        $('#button_'+id).toggleClass('clicked');
                     }
                     else {
                         $('.container_order').css('display','none');
-                        $('#container_'+id).toggle("slow");
+                        $('#container_'+id).slideToggle("slow");
+                        $('#button_'+id).toggleClass('clicked');
                     }
                 }
         }
@@ -182,11 +194,18 @@
 
 <script>
     $(document).ready(function(){
-        $(".btn_history").fancybox({
-            'width' : '85%'
-        });
+        if (($(window).width()) >= 520){
+            $(".btn_history").fancybox({
+                'width' : '85%'
+            });
+        }
+        else{
+            $(".btn_history").fancybox({
+                'width' : '100%'
+            });}
     });
 </script>
+{literal}
 <style>
     .fancybox-inner { height: 35vw!important; }
     @media (max-width:1024px){
@@ -194,8 +213,15 @@
     }
     @media (max-width:768px){
         .fancybox-inner { height: 80vw!important; }
+        .block-cards{text-align: center !important;}
     }
     @media (max-width:425px){
         .fancybox-inner { height: 120vw!important; }
+        .footer_links{width: 97% !important;}
+        .block-none{display: none;}
+        .row-btns{text-align: center;}
+        .div-btnShop{text-align: center;}
+        .div-btnAccount{margin-bottom: 5px;}
     }
 </style>
+{/literal}

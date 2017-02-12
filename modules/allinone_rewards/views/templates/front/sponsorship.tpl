@@ -314,7 +314,8 @@
 			</div>
 		{/if}
 		</div>
-                 <div id="mail-invitation" style="display:none;">
+                
+                <div id="mail-invitation" style="display:none;">
                     {literal}
                         <style> 
                             .fancybox-inner{height: auto !important;}
@@ -477,9 +478,8 @@
                             <td class="space_footer" style="padding:0px!important">&nbsp;</td>
                             </tr>
                         </table>
-                        </div>
                     </div>
-                 </div>             
+                </div>
 
 		{if !isset($popup)}
 		<!--<div id="idTab2" class="sponsorshipBlock">
@@ -746,7 +746,7 @@
         .btnCash{display: none;}
     </style>
 {/literal}
-
+ <div id="direction" style="display:none;">{$base_dir_ssl}</div>
 {literal}
     <script>
         function focusFunction() {

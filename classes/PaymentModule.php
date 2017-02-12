@@ -371,9 +371,25 @@ abstract class PaymentModuleCore extends Module
                         }
                         }    
             $product_list = $order->getProducts();
+            
             $total_value = "";
+           
             foreach ($product_list as $product) {
-                $total_value .= "<label>".round($product['price_shop'])."</label><br>";
+                $total_value .= "<label><span>".$product['type_currency']."</span>&nbsp;$".round($product['price_shop'])."</label><br>";
+                $total_paid += $product['price'];
+            }
+            
+            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+            $sponsorships2=array_slice($sponsorships, 1, 15);
+            $reward = round(RewardsModel::getRewardReadyForDisplay($total_paid, $this->context->currency->id)/(count($sponsorships2)+1));
+            
+            $query_reward = 'SELECT r.credits AS credits, r.id_customer, r.id_cart FROM '._DB_PREFIX_.'rewards r WHERE r.id_customer='.$this->context->customer->id.' AND r.id_cart='.$id_cart.' ORDER BY r.date_add DESC';
+            $rowreward = Db::getInstance()->getRow($query_reward);
+            $reward_max = $rowreward['credits'];
+            
+            if ((-1*$reward_max) > ($reward)){
+                $updatepoints="UPDATE "._DB_PREFIX_."rewards r SET r.credits=".-1*$reward." WHERE r.id_customer=".$this->context->customer->id." AND r.id_order=0 AND r.id_cart=".$id_cart.' ORDER BY r.date_add DESC LIMIT 1';
+                Db::getInstance()->execute($updatepoints);
             }
             
             // The country can only change if the address used for the calculation is the delivery address, and if multi-shipping is activated
@@ -678,10 +694,10 @@ abstract class PaymentModuleCore extends Module
                     $new_history->addWithemail(true, $extra_vars);
                     // Switch to back order if needed
                     if (Configuration::get('PS_STOCK_MANAGEMENT') && ($order_detail->getStockState() || $order_detail->product_quantity_in_stock <= 0)) {
-                        $history = new OrderHistory();
+                        /*$history = new OrderHistory();
                         $history->id_order = (int)$order->id;
                         $history->changeIdOrderState(Configuration::get($order->valid ? 'PS_OS_OUTOFSTOCK_PAID' : 'PS_OS_OUTOFSTOCK_UNPAID'), $order, true);
-                        $history->addWithemail();
+                        $history->addWithemail();*/
                     }
                     unset($order_detail);
                     // Order is reloaded because the status just changed
@@ -740,7 +756,7 @@ abstract class PaymentModuleCore extends Module
                         '{products_txt}' => $product_list_txt,
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
-                        '{total_value}' => Tools::displayPrice($total_value, $this->context->currency, false),    
+                        '{total_value}' => $total_value,   
                         '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
                         '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
                         '{total_discounts}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),

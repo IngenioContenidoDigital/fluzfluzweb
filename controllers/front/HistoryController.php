@@ -78,6 +78,8 @@ class HistoryControllerCore extends FrontController
         $query = 'SELECT
                         a.id_order,
                         p.price_shop as price_shop,
+                        p.type_currency,
+                        p.save_dolar,
                         a.product_id AS idProduct,
                         d.link_rewrite as link_rewrite,
                         b.id_image AS image,

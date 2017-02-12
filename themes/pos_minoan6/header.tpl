@@ -119,17 +119,21 @@
                                                             {if $smarty.capture.megamenu}
                                                                 {$smarty.capture.megamenu}
                                                             {/if}
-                                                            <button class="block_content3 aprueba" type="button" data-toggle="dropdown"></button>
-                                                            <ul class="bullet dropdown-menu">
-                                                                    <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
-                                                                    <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Comercios'}</a></li>
-                                                                    <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
-                                                                    <li class="textbox">
-                                                                        <form id="searchbox2" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
-                                                                            <i class="icon-search icon-block-searchtoogle"></i></span><input type="text" id="search_query_top2" class="search_query2 form-control" name="search_query" placeholder="{l s='Buscar'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
-                                                                        </form>    
-                                                                    </li>
-                                                            </ul>
+                                                            <div>
+                                                                <button class="block_content3 aprueba" type="button"></button>
+                                                                <button class="x-close" type="button" style="display:none;"></button>
+                                                                <ul class="bullet dropdown-menu menu-down">
+                                                                        <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
+                                                                        <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Comercios'}</a></li>
+                                                                        <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
+                                                                        <li><a class="account-m">{l s="MI CUENTA"}&nbsp;&nbsp;<i class="icon icon-chevron-down"></i></a></li>
+                                                                        <li class="textbox">
+                                                                            <form id="searchbox2" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
+                                                                                <i class="icon-search icon-block-searchtoogle"></i></span><input type="text" id="search_query_top2" class="search_query2 form-control" name="search_query" placeholder="{l s='Buscar'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                                                            </form>    
+                                                                        </li>
+                                                                </ul>
+                                                            </div>                
                                                     </div>
                                                     <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 hookLeft">
                                                             {if isset($HOOK_TOP)}{$HOOK_TOP}{/if}
@@ -139,7 +143,26 @@
                                         </div>
                                 </header>
                         </div>
-                    </div>
+                    </div>               
+                                {literal}
+                                    <script>
+                                        $(".aprueba").click(function(){
+                                            $(".menu-down").slideToggle('slow');
+                                            $('.block_content3').hide();
+                                            $(".x-close").show();
+                                        });
+                                        
+                                        $('.x-close').click(function(){
+                                            $('.menu-down').fadeOut('slow');
+                                            $('.block_content3').show();
+                                            $(".x-close").hide();
+                                        })
+                                        
+                                        $('.account-m').click(function(){
+                                           $('.menu-account').show("slow");
+                                        });
+                                    </script>
+                                {/literal}   
                                 {if $page_name=='my-account'}
                                     {if $order_lastmonth['alert'] == 3}
                                         <div class="col-lg-12 banner-advertencia">
@@ -221,35 +244,30 @@
                                 {/if}    
                                 
                                 {if isset($left_column_size) && !empty($left_column_size)}
-                                    <div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">{$HOOK_LEFT_COLUMN}
-                                                
-                                            <form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>
-                                            <!--<div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
-                                                <div data-role="rangeslider">
-                                                    <input name="range-1a" id="range-1a" min="0" max="100" value="20" type="range" style="width:100%;"/>
-                                                    <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />
-                                                </div>
-                                            </div>-->
-                                           
+                                    <!--<div id="left_column" class="menuSticky column col-lg-3 col-md-3 col-xs-12 col-sm-12">-->
+                                        {*$HOOK_LEFT_COLUMN*}
+                                        <!--<form class="block"><input class="title_blockSale" type="button" value="Regresar" onclick="history.go(-1)" style="color: #ef4136;font-size: 16px;padding-left: 18px;border: none;background: transparent;"></form>-->
+                                        <!--<div class="block"><h2 class="title_blockSale">{l s="Price"}</h2>
+                                            <div data-role="rangeslider">
+                                                <input name="range-1a" id="range-1a" min="0" max="100" value="20" type="range" style="width:100%;"/>
+                                                <!--<input name="range-1b" id="range-1b" min="0" max="100" value="100" type="range" />
+                                            </div>
+                                        </div>-->
                                         {if $cms->id==8 || $cms->id==9}
-                                        
                                             {literal}
                                                 <style>
                                                     #left_column{display: none !important;}
                                                     .breadcrumb{display: none !important;}
-                                                    #center_column{min-width: 100% !important; margin: 0px;}
+                                                    /*#center_column{min-width: 100% !important; margin: 0px;}*/
                                                     #columns{margin-bottom: 0px !important; min-width: 100%;}
                                                     .banner-home{margin: 0px;}
                                                 </style>
                                             {/literal}
-                                            
                                         {/if}
-                                        
-                                        
-                                    </div>
+                                    <!--</div>-->
 				{/if}
                                 {if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
-						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-xs-12 col-md-{$cols|intval} col-sm-{$cols|intval}">
+						<div  style="background:#fff; padding-left: 0%; padding-right: 0%;" id="center_column" class="center_column col-lg-12 col-xs-12 col-md-12 col-sm-12">
                                                     
                                                     {if $page_name =="index"}
 					{capture name='blockPosition1'}{hook h='blockPosition1'}{/capture}
@@ -260,7 +278,7 @@
                                                                             {/if}
                                 <div id="columns" class="container">
 					
-                                        {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6}
+                                        {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6 && $page_name != 'category'}
 						{include file="$tpl_dir./breadcrumb.tpl"}
 					{/if}
                                         {if $category->id_image == ''}
@@ -274,9 +292,22 @@
 					<div class="banner-category" >
 						<div class="ct_img">
 							<img class="category_img img-responsive ctgImg" src="{$link->getCatImageLink($category->link_rewrite, $category->id_image, 'category_default')|escape:'html':'UTF-8'}"/>
-							
 						</div>
 					</div>
+                                        <div class="row style-search">
+                                            <div id="search_block_left" class="block exclusive">
+                                                    <form method="get" action="{$link->getPageLink('search', true, null, null, false, null, true)|escape:'html':'UTF-8'}" id="searchbox">
+                                                            <p class="block_content clearfix">
+                                                                    <input type="hidden" name="orderby" value="position" />
+                                                                    <input type="hidden" name="controller" value="search" />
+                                                                    <input type="hidden" name="orderway" value="desc" />
+                                                                    <input class="search_query form-control grey" placeholder="Buscar" type="text" id="search_query_block" name="search_query" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
+                                                                    <button type="submit" id="search_button" class="btn btn-default button button-small"><span><i class="icon-search"></i></span></button>
+                                                            </p>
+                                                    </form>
+                                            </div>
+                                        </div>    
+                                        {include file="$tpl_dir./breadcrumb.tpl"}                                
 					{/if}
 					
 					<div id="slider_row" class="row">

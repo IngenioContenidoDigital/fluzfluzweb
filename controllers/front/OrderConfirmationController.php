@@ -129,8 +129,17 @@ class OrderConfirmationControllerCore extends FrontController
         $order = new Order($this->id_order);
         $order_products = $order->getProducts();
         foreach ( $order_products as &$order_product ) {
+            
+            $queryprueba = "SELECT p.id_product AS id, p.type_currency, rp.value as value FROM "._DB_PREFIX_."product p
+                            LEFT JOIN "._DB_PREFIX_."product_attribute pa ON (pa.reference = p.reference)
+                            LEFT JOIN "._DB_PREFIX_."product_lang pl ON (p.id_product = pl.id_product)
+                            LEFT JOIN "._DB_PREFIX_."rewards_product rp ON (rp.id_product = p.id_product)
+                            WHERE p.reference = '".$order_product['reference']."' AND pl.`id_lang` = ".(int)$this->context->language->id;
+            $x = Db::getInstance()->executeS($queryprueba);
+            $porcentaje_detail = $x[0]['value']/100;
+            
             $sponsorships = array_slice(RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id), 1, 15);
-            $order_product['fluzpoints'] = round( RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / (count($sponsorships)+1) );
+            $order_product['fluzpoints'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / (count($sponsorships)+1))*$porcentaje_detail);
         }
 
         $this->context->smarty->assign(array(

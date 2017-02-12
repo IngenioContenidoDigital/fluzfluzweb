@@ -85,10 +85,10 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                 $rowcustomer = Db::getInstance()->getRow($groupCustomer);
                 $grupo = $rowcustomer['afiliado'];
                 $name = $rowcustomer['name'];
-                
-                $this->context->smarty->assign('sponsor', $name);
-                $this->context->smarty->assign('grupo',$grupo);
 
+                $this->context->smarty->assign('grupo',$grupo);
+                $this->context->smarty->assign('sponsor', $name);
+                
 		if (Tools::getValue('checksponsor')) {
 			$sponsorship = trim(Tools::getValue('sponsorship'));
 			$customer_email = trim(Tools::getValue('customer_email'));

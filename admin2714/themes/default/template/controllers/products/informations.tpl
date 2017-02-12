@@ -119,10 +119,84 @@
 					<input type="radio" name="type_product" id="virtual_product" {if $is_in_pack}disabled="disabled"{/if} value="{Product::PTYPE_VIRTUAL}" {if $product_type == Product::PTYPE_VIRTUAL}checked="checked"{/if} >
 					{l s='Virtual product (services, booking, downloadable products, etc.)'}</label>
 			</div>
+                        <div class="checkbox col-lg-9" style="padding-left: 0px;">
+				<label for="product_parent">
+                                    <input type="checkbox" name="product_parent" id="product_parent" value="1" {if $product_parent == true}checked="checked"{/if} >
+                                    {l s='Producto Padre'}</label> &nbsp;&nbsp;
+				<label for="product_noparent">
+                                    <input type="checkbox" name="product_parent" id="product_noparent" value="0" {if $product_parent == false}checked="checked"{/if}>
+                                    {l s='Producto Simple'}</label>
+			</div>
 			<div class="row row-padding-top">
 				<div id="warn_virtual_combinations" class="alert alert-warning" style="display:none">{l s='You cannot use combinations with a virtual product.'}</div>
 				<div id="warn_pack_combinations" class="alert alert-warning" style="display:none">{l s='You cannot use combinations with a pack.'}</div>
 			</div>
+                        {literal}
+                            <script>
+                                
+                                $('[name="product_parent"]').click(function(){
+                                   var id = $(this).attr('id');
+                                   if(id=='product_parent'){
+                                       $(this).prop('checked');
+                                       $('#link-Prices').hide();
+                                       $('#link-ModuleFluzfluzcodes').hide();
+                                       $('#link-ModuleAllinone_rewards').hide();
+                                       $('#link-Quantities').hide();
+                                       $('#code-ean').hide();
+                                       $('#code-upc').hide();
+                                       $('#link-Features').hide();
+                                       $('#link-Suppliers').hide();
+                                       $('#online').hide();
+                                       $('#link-Seo').show();
+                                       $('#link-Combinations').show();
+                                       $('#single_use').hide();
+                                       $('#link-ModuleProductsbanners').show();
+                                       $('#product_noparent').prop('checked',false);
+                                   }else{
+                                      
+                                       $('#link-Prices').show();
+                                       $('#link-ModuleFluzfluzcodes').show();
+                                       $('#link-ModuleAllinone_rewards').show();
+                                       $('#link-Quantities').show();
+                                       $('#code-ean').show();
+                                       $('#code-upc').show();
+                                       $('#link-Suppliers').show();
+                                       $('#online').show();
+                                       $('#single_use').show();
+                                       $('#link-Features').hide();
+                                       $('#link-ModuleProductsbanners').hide();
+                                       $('#link-Seo').hide();
+                                       $('#link-Combinations').hide();
+                                       $('#product_parent').prop('checked',false);
+                                   }
+                                });
+    
+                                $( document ).ready(function() {
+                                    if($('#product_parent').prop('checked')){
+                                        $('#link-Prices').hide();
+                                        $('#link-ModuleFluzfluzcodes').hide();
+                                        $('#link-ModuleAllinone_rewards').hide();
+                                        $('#link-Quantities').hide();
+                                        $('#code-ean').hide();
+                                        $('#link-Features').hide();
+                                        $('#code-upc').hide();
+                                        $('#link-Suppliers').hide();
+                                        $('#online').hide();
+                                        $('#single_use').hide();
+                                        $('#link-Combinations').show();
+                                        $('#link-Seo').show();
+                                    }
+                                    
+                                    if($('#product_noparent').prop('checked')){
+                                       $('#link-Features').hide();
+                                       $('#link-ModuleProductsbanners').hide();
+                                       $('#link-Combinations').hide();
+                                       $('#link-Seo').hide();
+                                    }
+                                });
+                                
+                            </script>
+                        {/literal}
 		</div>
 	</div>
 
@@ -146,8 +220,7 @@
 				required=true
 			}
 		</div>
-	</div>
-
+	</div>      
 	<div class="form-group">
 		<label class="control-label col-lg-3" for="reference">
 			<span class="label-tooltip" data-toggle="tooltip"
@@ -160,7 +233,7 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+        <div class="form-group" id="code-ean">
 		<label class="control-label col-lg-3" for="ean13">
 			<span class="label-tooltip" data-toggle="tooltip"
 				title="{l s='This type of product code is specific to Europe and Japan, but is widely used internationally. It is a superset of the UPC code: all products marked with an EAN will be accepted in North America.'}">
@@ -172,7 +245,7 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group" id="code-upc">
 		<label class="control-label col-lg-3" for="upc">
 			<span class="label-tooltip" data-toggle="tooltip"
 				title="{l s='This type of product code is widely used in the United States, Canada, the United Kingdom, Australia, New Zealand and in other countries.'}">
@@ -284,6 +357,7 @@
 							{include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="available_for_order" type="default"}
 							{include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="show_price" type="show_price"}
 							{include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="online_only" type="default"}
+                                                        {include file="controllers/products/multishop/checkbox.tpl" only_checkbox="true" field="single_use" type="default"}
 						{/if}
 					</span>
 				</div>
@@ -301,11 +375,23 @@
 							<input type="checkbox" name="show_price" id="show_price" value="1" {if $product->show_price}checked="checked"{/if} {if $product->available_for_order}disabled="disabled"{/if} >
 							{l s='Show price'}</label>
 					</div>
-					<div class="checkbox">
+					<div class="checkbox" id="online">
 						<label for="online_only">
 							<input type="checkbox" name="online_only" id="online_only" value="1" {if $product->online_only}checked="checked"{/if} >
 							{l s='Online only (not sold in your retail store)'}</label>
 					</div>
+                                        <div class="checkbox" id="single_use">
+                                                <input type="hidden" name="single_use" id="single_use" value="1" {if $product->single_use}checked="checked"{/if}>
+						<label for="single_use2" style="cursor:pointer;">
+                                                    <input type="checkbox" name="single_use2" id="single_use2" value="1" {if $product->single_use}checked="checked"{/if}>
+                                                    {l s='Solo un uso'}
+                                                </label>
+					</div>
+                                        <div class="input-group" style="width:50%; margin-top: 30px;">
+                                            <span class="input-group-addon">{l s='Fecha de Vencimiento'}</span>
+                                            <input type="text" class="datepicker" name="expiration" value="{$product->expiration}" />
+                                            <span class="input-group-addon"><i class="icon-calendar-empty"></i></span>
+                                        </div>        
 				</div>
 			</div>
 			<div class="form-group">
@@ -488,3 +574,19 @@
 	hideOtherLanguage({$default_form_language});
 	var missing_product_name = '{l s='Please fill product name input field' js=1}';
 </script>
+
+{literal}
+    <script>
+        $('[name="single_use2"]').click(function(){
+           var check = $(this).attr('checked'); 
+           if(check=='checked'){
+               $('#single_use').val("1");
+               $('#single_use').attr("checked",'checked');
+           }
+           else{
+               $('#single_use').val("0");
+               $('#single_use').attr("checked",'checked');
+           }
+        });
+    </script>
+{/literal}
