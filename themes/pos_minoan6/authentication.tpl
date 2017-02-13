@@ -115,7 +115,7 @@
             <div class="col-xs-12 col-sm-3">
                 <img src="{$img_dir}login/email.jpg" class="icon_tip" />
                 <h3>Invita Amigos!</h3>
-                <span>Mientras m&aacute;s amigos invitas m&aacute;s Fluz recibes por las compras de ellos.</span>
+                <span>Mientras m&aacute;s amigos invitas, m&aacute;s Fluz recibes por las compras de ellos.</span>
             </div>
             <div class="col-xs-12 col-sm-3">
                 <img src="{$img_dir}login/coins.jpg" class="icon_tip" />
