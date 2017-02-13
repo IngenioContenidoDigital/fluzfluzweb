@@ -42,7 +42,7 @@
         <section class="page-product-box blockproductscategory">
             
         <div class="divTitleFeatured">
-            <h1 class="titleFeatured pos-title">{l s="FEATURED"}</h1>
+            <h1 class="titleFeatured pos-title">{l s="Resultados de Busqueda"}</h1>
         </div>
         
 	<ul{if isset($id) && $id} id="{$id}"{/if} class="product_list grid row{if isset($class) && $class} {$class}{/if}">
@@ -108,5 +108,27 @@
     <style>
         .bottom-pagination-content{padding-left: 15px;}
         .quick-view{display: none;}
+        .img-logo{background-size:100% 100% !important; margin:10px;}
+        .img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
+        .img-center img{max-width: 70% !important; margin: 0px auto !important;}
+        .logo-manufacturer{display: table-cell;
+             vertical-align: middle;
+             position: relative;}
+        .border-products {
+            padding-left: 0px;
+            padding-right: 0px;
+            border: 1px solid #CBCBCB;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width:920px){
+            .img-center {height: 150px !important;}
+        }
+        
+        @media (max-width:600px){
+            .titleFeatured{width: 99%;}
+            .img-center {height: 200px !important;}
+        }
+        
     </style>
 {/literal}

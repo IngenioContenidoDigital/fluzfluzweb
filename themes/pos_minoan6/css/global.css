@@ -3999,7 +3999,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .rangePrice{color:#414042;margin-top:5%;}
 
 .divTitleFeatured { margin-top:40px;position: relative; border: none; margin-bottom: 30px; display: inline-block; width: 100%; height: 45px; background: #fff;}
-.titleFeatured { background:#E1382C; border:none; width:45%; max-width:171px; color:#fff; text-align:center;font-size: 14px; padding: 0; margin-top:0; line-height: 45px !important; letter-spacing: 0px; }
+.titleFeatured { background:#E1382C; border:none; width:100%; color:#fff; text-align:center;font-size: 14px; padding: 0; margin-top:0; line-height: 45px !important; letter-spacing: 0px; }
 .titleFeatured2 { background:#fff; width:100%; color:#6c6c6c; text-align:left; border:none; font-family: 'Montserrat'; font-size: 14px;padding: 0; margin-top:0; Line-height: 45px !important; letter-spacing: 1px; }
 .boxprevnext2 a {margin-top: 40px; width: 75px; height: 50px; position: absolute; top: 0; cursor: pointer; /*border-left: 1px solid #e5e5e5;*/ color: #d2d1d1; background: #fff; font-size: 25px; text-align: center; opacity: 1; z-index: 1; -webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; }
 .boxprevnext2 a i { display: block; line-height: 45px; background: #f8f8f8;}
