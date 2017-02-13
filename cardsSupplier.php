@@ -42,7 +42,7 @@ class cardsSupplier {
 	 INNER JOIN ps_product PP ON PC.id_product = PP.id_product
 	 LEFT JOIN ps_image AS PPI ON PP.id_product = PPI.id_product
 	 INNER JOIN ps_product_lang PL ON PP.id_product = PL.id_product
-        WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer =".(int)$id_customer.") AND (PP.id_manufacturer =".(int)$id_manufacturer.") AND (PPI.cover=1) AND (PL.id_lang=1"./*$this->context->language->id.*/"))
+        WHERE ((PO.current_state = 2 OR PO.current_state = 5) AND (PO.id_customer =".(int)$id_customer.") AND (PP.id_manufacturer =".(int)$id_manufacturer.") AND (PL.id_lang=1"./*$this->context->language->id.*/"))
         GROUP BY PC.`code`, PL.`name`, PL.link_rewrite
         ORDER BY product_name ASC";
           
