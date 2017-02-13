@@ -546,7 +546,9 @@
 		</div>
 	{/if}
         <div class="cart_navigation_extra">
-		<div id="HOOK_SHOPPING_CART_EXTRA">{if isset($HOOK_SHOPPING_CART_EXTRA)}{$HOOK_SHOPPING_CART_EXTRA}{/if}</div>
+		<div id="HOOK_SHOPPING_CART_EXTRA">
+			<div id="HOOK_SHOPPING_CART_EXTRA">{if isset($HOOK_SHOPPING_CART_EXTRA)}{$HOOK_SHOPPING_CART_EXTRA}{/if}</div>
+		</div>
 	</div>
         <br>
 	<p class="cart_navigation clearfix">

@@ -30,6 +30,7 @@ class cardsSupplier {
 	PC.id_product,
         PC.used AS used,
         PP.id_manufacturer, 
+        PP.type_currency,
 	PP.id_supplier, 
         PP.price_shop AS price,
         PP.price AS price_value,

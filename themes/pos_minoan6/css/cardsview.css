@@ -241,7 +241,11 @@ ul li .check::before {
     margin-top: 10px;
 }
 .micode { font-family: 'Open Sans' !important; text-align: center; width: 100%; font-size: 18px; color: #ef4136; margin-bottom: 20px;}
-#priceCard{color: #ef4136; font-size: 18px; text-align: center; margin-top: 10px;}
+#priceCard{padding: 0; background: transparent;color: #ef4136; font-size: 18px; text-align: center; margin-top: 10px;}
+#typecurrency{padding: 0; background: transparent;color: #ef4136; font-size: 18px; text-align: center; margin-top: 10px;}
+#priceCard:before{
+    content: '$';
+}
 .pPrice {
     color: #777 !important;
     font-family: 'Open Sans' !important;

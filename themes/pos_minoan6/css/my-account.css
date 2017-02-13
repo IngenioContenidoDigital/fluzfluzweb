@@ -36,6 +36,11 @@
 .message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
 .colname { width: 285px; }
 .colpoints { width: 180px; }
+.img-center{padding: 10px; min-width: 100%;display: table; height: 100px; text-align: center;}
+.logo-manufacturer{display: table-cell;
+     vertical-align: middle;
+     position: relative;}
+
 
 /* popup */
 #myspecialcontent2 > div { margin-bottom: 15px; }
