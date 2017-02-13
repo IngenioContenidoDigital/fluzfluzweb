@@ -1,21 +1,24 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
 .oneline, .pt_custommenu .pt_menu .popup .block1 .column .itemMenuName { display: block; word-wrap: break-word; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 .block-megamenu { /*display: inline-block; width: 100%;*/ /*margin-top: 10px;*/ padding: 0px;}
 
-.pt_custommenu { margin: 0 auto; text-align: right;}
+.pt_custommenu { margin: 0 auto; text-align: right; margin-top: 14px;}
 .pt_custommenu .pt_menu_no_child .parentMenu a span:before, .pt_custommenu .pt_menu_cms .parentMenu a span:before, .pt_custommenu #pt_menu_home .parentMenu a span:before { display: none; }
-.pt_custommenu .pt_menu { display: inline-block;padding:15px; cursor: pointer;}
-.pt_custommenu .pt_menu:hover{
+.pt_custommenu .pt_menu { display: inline-block;padding:10px; cursor: pointer;}
+/*.pt_custommenu .pt_menu:hover{
     border-bottom: solid 3px #c9b197;
-}
+}*/
 .pt_custommenu .pt_menu .parentMenu a { display: block; padding: 0px; color: #000; text-transform: uppercase; /*-webkit-transition: all 300ms ease-in; -moz-transition: all 300ms ease-in; -ms-transition: all 300ms ease-in; -o-transition: all 300ms ease-in; transition: all 300ms ease-in; */font-size: 14px; font-weight: 400; }
 
 
 /*.pt_custommenu .pt_menu .parentMenu a:before { content: ""; position: absolute; left: -2px; top: 20px; width: 2px; height: 25px; background: #484848; }*/
-.pt_custommenu .pt_menu .parentMenu a span { display: inline-block; padding: 0; line-height: 25px; font-size: 12px; letter-spacing: 1px; color: #3A3A3A; /*-webkit-transition: all .5s ease;*/}
-.pt_custommenu .pt_menu:last-child .parentMenu a span{ padding:3% 15%; font-size: 12px; letter-spacing: 1px; color: #3A3A3A; border: 2px solid #3A3A3A;}
-/*.pt_custommenu .pt_menu:last-child .parentMenu a span:hover{border: 2px solid #c9b197; color: #c9b197;}*/
-
+.pt_custommenu .pt_menu .parentMenu a span { display: inline-block; padding: 0; font-family: Montserrat; font-weight: 700; font-size: 11px; line-height: 25px; letter-spacing: 1px; color: #3A3A3A; /*-webkit-transition: all .5s ease;*/}
+.pt_custommenu .pt_menu:last-child .parentMenu a span{ padding:2% 17%; font-size: 11px; font-family: Montserrat; font-weight: lighter; letter-spacing: 1px; color: #fff; border: none; background:#ef4136;}
+.pt_custommenu .pt_menu:last-child .parentMenu a span:hover{border: none; color: #fff; opacity: 0.85;}
+.pt_custommenu .pt_menu .parentMenu a span:hover{color: #c9b197;}
 /*.parentMenu > a:before {
   content: "";
   position: absolute;

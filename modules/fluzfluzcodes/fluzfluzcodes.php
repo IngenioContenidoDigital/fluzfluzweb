@@ -213,12 +213,16 @@ class fluzfluzCodes extends Module{
         //$qr0 = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=0";
         //$qr = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product)";
         $qr="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product) WHERE p.reference <>'MFLUZ'";
+        $qr0 ="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product_attribute as pa ON st.id_product_attribute = pa.id_product_attribute INNER JOIN "._DB_PREFIX_."product AS p ON pa.reference = p.reference SET st.quantity=(SELECT COUNT(pc.code) FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order=0 AND pc.id_product=p.id_product)";
         //Db::getInstance()->execute($qr0);
         Db::getInstance()->execute($qr);
+        Db::getInstance()->execute($qr0);
     }
     
     public function updateQuantityProduct($id_product){
         $qr="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product) WHERE p.id_product='".(int)$id_product."'";
+        $qr0 ="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product_attribute as pa ON st.id_product_attribute = pa.id_product_attribute INNER JOIN "._DB_PREFIX_."product AS p ON pa.reference = p.reference SET st.quantity=(SELECT COUNT(pc.code) FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order=0 AND pc.id_product='".(int)$id_product."')";
         Db::getInstance()->execute($qr);
+        Db::getInstance()->execute($qr0);
     }
 }

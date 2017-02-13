@@ -7,7 +7,9 @@ and open the template in the editor.
     Created on : 10-jun-2016, 12:26:53
     Author     : Ingenio
 */
-
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
 .btnAccountHeader{
     background: red;
     border: none;
@@ -16,7 +18,7 @@ and open the template in the editor.
 .accountHeader{
     background: transparent;
     height: 68px;
-    width: 85px;
+    width: 150px;
     float: right;
     margin-right: 16%;
     border-left: 1px solid #d3d3d3;
@@ -25,34 +27,62 @@ and open the template in the editor.
     }
 
 .block_content2{
-    font-size:30px;
+    font-size: 11px;
+    font-weight: bold;
     background: transparent;
     border: none;
-}
-
-.block_content2{
-    background: url('avatar.png') no-repeat center;
     height: 86px;
     width: auto;
-    -webkit-transition: all 1.4s ease;
 }
 
 .block_content2:hover{
-    background: url('avatar2.png') no-repeat center;
-    height: 86px;
-    width: auto;
-    -webkit-transition: .6s ease-out;
+    color: #C9B197;
 }
 
-.signUp>a{
-    color: #ef4136 !important;
+.dropdown-menu {
+    background-color: #2D2D2D;
+    padding: 0!important;
+}
+
+.dropdown-menu > li > a:hover {
+    background-color: #444444!important;
+}
+.menu-account {
+    width: 16em!important;
+}
+.signUp > a {
+    color: #CCCCCC!important;
+}
+#block_content3 {
+    display: none;
 }
 
 button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: inline-block; font-size: 20px; color: #808285; text-align: center; width: 75px; height: 86px; line-height: 120px; vertical-align: top; border-right: 0px solid #d3d3d3; border-top:none; border-bottom: none;text-align: center;}
 
+.x-close {
+    background: url("cancel.png") no-repeat center;
+    height: 68px;
+    margin-top: 1px;
+    float: right;
+    border: none;
+    width: 10%;
+    width: auto;
+    -webkit-transition: all 1.4s ease;
+}
+
 @media (max-width:2500px){
     .dropdown-menu > li > a{padding: 10px 10px;border-bottom: 1px solid #818181;}
     .menu-account{width: 295px;}
+    .dropdown-menu > li > a {
+        color: #CCCCCC;
+        letter-spacing: 1px;
+        font-size: 12px!important;
+        line-height: 12px!important;
+        border: none!important;
+        font-family: 'Montserrat' !important;
+        padding: 15px 0 15px 2em!important;
+        opacity: 0.7;
+    }
 }
 
 @media (max-width:1440px){
@@ -63,30 +93,65 @@ button.btnUser { content:url("shop.png"); font-family: "FontAwesome"; display: i
 @media (max-width:1024px){
     .dropdown-menu > li > a{padding: 10px 10px;border-bottom: 1px solid #818181;}
     .menu-account{width: 265px;}
+    .accountHeader{ width: 90px; }
+    #block_content2 { display: none; }
+    #block_content3 { display: block!important; background: url('avatar.png') no-repeat center; }
+    #block_content3:hover{ background: url('avatar2.png') no-repeat center; }
+}
+
+@media (min-width:1024px){
+    .back-account{display: none !Important;}
 }
 
 @media (max-width:768px){
      .menu-account{
-         width: 775px;
+         width: 775px!important;
          margin-left: -568px;}
+     .dropdown-menu{padding: 47px !important; height: 800px;padding-top: 100px !important;}
+     .dropdown-menu > li > a {
+        color: #CCCCCC;
+        letter-spacing: 2px;
+        font-size: 21.6px!important;
+        line-height: 36px!important;
+        border: none!important;
+        font-family: 'Montserrat' !important;
+        padding: 13px 0 13px 0!important;
+        opacity: 0.7;
+    }
+    .x-close {
+        width: 80px !important;
+        margin-right: 6px;
+        height: 15px;
+        margin-top: 28px;
+    }
+    .icon-block-searchtoogle{padding-left: 0px;}
+    .block_content2{visibility: hidden;}
 }
 
 @media (max-width:425px){
-    .menu-account{
-        width: 427px;
-        margin-left: -263px;}
+    .accountHeader { padding: 0; }
+    #search_block_top { height: 80px!important; }
+    #block_content3 { margin-top: 13px; }
+    .x-close {
+    width: 60px !important;
+    margin-right: 0px;}
+    .menu-account {
+    width: 775px!important;
+    margin-left: -680px;
+    margin-top: 20px;}
+    .dropdown-menu > li > a {font-size: 16.8px!important;line-height: 28px!important;}
 }
 
 @media (max-width:375px){
     .menu-account{
-        width: 380px;
-        margin-left: -220px;}
+            width: 380px !important;
+            margin-left: -215px;}
     .dropdown-menu > li > a{padding: 12px 12px;border-bottom: 1px solid #818181;text-transform: uppercase;}
 }
 
 @media (max-width:320px){
     .menu-account{
-        width: 325px;
-        margin-left: -177px;}
+        width: 325px !important;
+        margin-left: -172px;}
     .dropdown-menu > li > a{padding: 12px 12px;border-bottom: 1px solid #818181; text-transform: uppercase;}
 }

@@ -174,9 +174,11 @@ class ManufacturerCore extends ObjectModel
         }
 
         $manufacturers = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
-		SELECT m.*, ml.`description`, ml.`short_description`
+		SELECT m.*, ml.`description`, ml.`short_description`, p.price, (rp.`value`/100) as value
 		FROM `'._DB_PREFIX_.'manufacturer` m
 		'.Shop::addSqlAssociation('manufacturer', 'm').'
+                LEFT JOIN `'._DB_PREFIX_.'product` as p ON (m.`id_manufacturer`= p.`id_manufacturer`)    
+                LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (p.id_product = rp.id_product)    
 		INNER JOIN `'._DB_PREFIX_.'manufacturer_lang` ml ON (m.`id_manufacturer` = ml.`id_manufacturer` AND ml.`id_lang` = '.(int)$id_lang.')
 		'.($active ? 'WHERE m.`active` = 1' : '')
         .($group_by ? ' GROUP BY m.`id_manufacturer`' : '').'
@@ -194,7 +196,7 @@ class ManufacturerCore extends ObjectModel
             }
 
             $results = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
-					SELECT  p.`id_manufacturer`, COUNT(DISTINCT p.`id_product`) as nb_products
+					SELECT  p.`id_manufacturer`, p.price as p, COUNT(DISTINCT p.`id_product`) as nb_products
 					FROM `'._DB_PREFIX_.'product` p USE INDEX (product_manufacturer)
 					'.Shop::addSqlAssociation('product', 'p').'
 					LEFT JOIN `'._DB_PREFIX_.'manufacturer` as m ON (m.`id_manufacturer`= p.`id_manufacturer`)
@@ -232,7 +234,94 @@ class ManufacturerCore extends ObjectModel
         }
         return $manufacturers;
     }
+    
+    public static function getManufacturersCategory()
+    {
+        if ( isset($_COOKIE['citymanufacturerfilter']) && !empty($_COOKIE['citymanufacturerfilter']) && $_COOKIE['citymanufacturerfilter'] != "" ) {
+            $cityfilter = " AND a.city = '".$_COOKIE['citymanufacturerfilter']."' ";
+        }
 
+        if ( isset($_COOKIE['manufacturerfilter']) && !empty($_COOKIE['manufacturerfilter']) && $_COOKIE['manufacturerfilter'] != "" ) {
+            $cityfilter = " AND m.id_manufacturer = '".$_COOKIE['manufacturerfilter']."' ";
+        }
+        
+        $query = 'SELECT
+                    m.id_manufacturer, 
+                    m.name, 
+                    m.date_add, 
+                    m.date_upd, 
+                    p.id_product,
+                    pl.link_rewrite,
+                    m.category,
+                    (SELECT (COUNT(p.id_product)) AS contador
+                    FROM ps_product AS p
+                    WHERE p.id_manufacturer = m.id_manufacturer AND p.product_parent = 1) AS count,
+                    m.active,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos DESC
+                    LIMIT 1) AS value
+                FROM '._DB_PREFIX_.'manufacturer AS m
+                LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
+                LEFT JOIN '._DB_PREFIX_.'product p ON ( m.id_manufacturer = p.id_manufacturer )
+                INNER JOIN '._DB_PREFIX_.'category_product cp ON (p.id_product = cp.id_product)
+		INNER JOIN '._DB_PREFIX_.'category_lang cl ON (cp.id_category = cl.id_category)
+                LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )
+                WHERE m.active = 1 AND p.product_parent = 1 AND cl.`name` = "Destacados"
+                '.$cityfilter.'
+                GROUP BY m.id_manufacturer
+                HAVING count >= 1
+                ORDER BY RAND()
+                ';
+        
+        $manufacturers = Db::getInstance()->executeS($query);
+        return $manufacturers;
+    }
+    
+    public static function getNewManufacturers()
+    {
+        if ( isset($_COOKIE['citymanufacturerfilter']) && !empty($_COOKIE['citymanufacturerfilter']) && $_COOKIE['citymanufacturerfilter'] != "" ) {
+            $cityfilter = " AND a.city = '".$_COOKIE['citymanufacturerfilter']."' ";
+        }
+
+        if ( isset($_COOKIE['manufacturerfilter']) && !empty($_COOKIE['manufacturerfilter']) && $_COOKIE['manufacturerfilter'] != "" ) {
+            $cityfilter = " AND m.id_manufacturer = '".$_COOKIE['manufacturerfilter']."' ";
+        }
+
+        $query = 'SELECT
+                    m.id_manufacturer, 
+                    m.name, 
+                    m.date_add, 
+                    m.date_upd, 
+                    p.id_product,
+                    pl.link_rewrite,
+                    m.category,
+                    (SELECT (COUNT(p.id_product)) AS contador
+                    FROM ps_product AS p
+                    WHERE p.id_manufacturer = m.id_manufacturer AND p.product_parent = 1) AS count,
+                    m.active,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos DESC
+                    LIMIT 1) AS value
+                FROM '._DB_PREFIX_.'manufacturer AS m
+                LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
+                LEFT JOIN '._DB_PREFIX_.'product p ON ( m.id_manufacturer = p.id_manufacturer )
+                LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )    
+                WHERE m.active = 1 AND p.product_parent = 1
+                '.$cityfilter.'
+                GROUP BY m.id_manufacturer
+                HAVING count >= 1
+                ORDER BY m.date_add DESC LIMIT 6';
+        
+        $manufacturers = Db::getInstance()->executeS($query);  
+        
+        return $manufacturers;
+    }
     /**
      * Return name from id
      *
@@ -488,5 +577,24 @@ class ManufacturerCore extends ObjectModel
         }
 
         return ($result1 && $result2);
+    }
+    
+    public static function ManufacturersFilter()
+    {
+        return Db::getInstance()->executeS("SELECT CONCAT('m',m.id_manufacturer) id, m.name
+                                            FROM "._DB_PREFIX_."manufacturer m
+                                            INNER JOIN "._DB_PREFIX_."product p ON ( m.id_manufacturer = p.id_manufacturer )
+                                            WHERE m.active = 1
+                                            GROUP BY m.id_manufacturer
+                                            ORDER BY m.name");
+    }
+    
+    public static function citiesManufacturerFilter()
+    {
+        return Db::getInstance()->executeS("SELECT DISTINCT(a.city)
+                                            FROM "._DB_PREFIX_."address a
+                                            INNER JOIN "._DB_PREFIX_."product p ON ( a.id_manufacturer = p.id_manufacturer )
+                                            WHERE a.id_manufacturer <> 0
+                                            ORDER BY a.city");
     }
 }

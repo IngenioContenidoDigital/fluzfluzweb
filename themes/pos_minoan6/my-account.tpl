@@ -33,12 +33,12 @@
         {foreach from=$manufacturers item=manufacturer}
                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 Cards algo myfancybox" href="#myspecialcontent">
                     <div class="col-lg-6 col-md-5 col-sm-12 col-xs-6 infoCard">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name}</span></div>
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name|truncate:20:"...":true}</span></div>
                     </div>
                     <div class="col-lg-6 col-md-7 col-sm-12 col-xs-6 priceCard">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span></div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
+                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span></div>
+                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
                     </div>
                     <div class="id_manufacturer" id="manufacturer" name="manufacturer">{$manufacturer.id_manufacturer}</div>
                 </div>
@@ -116,10 +116,13 @@
                     {assign var="id_customer_sponsor" value=$last_shopping_product.id_customer}
                     {assign var="id_image" value=$last_shopping_product.id_image}
                     <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 containerimgprod">
-                        <a class="product_img_link" href="{$link->getProductLink($id_product, $link_rewrite)|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" itemprop="url">
-                            <img itemprop="image" src="{$link->getImageLink($link_rewrite, $id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" alt="{$name_product|escape:'html':'UTF-8'}" width="100%" height="100%"/>
-                            <!--<img itemprop="image" src="{$img_manu_dir}{$last_shopping_product.id_manufacturer}.jpg" alt="{$last_shopping_product.name_product|escape:'htmlall':'UTF-8'}"/>-->
-                        </a>
+                        <div class="img-center">
+                            <div class="logo-manufacturer">
+                                <a class="product_img_link" href="{$link->getProductLink($id_product, $link_rewrite)|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" itemprop="url">
+                                    <img src="{$s3}m/{$last_shopping_product.id_manufacturer}.jpg" alt="{$last_shopping_product.name_product|lower|escape:'htmlall':'UTF-8'}" title="{$last_shopping_product.name_product|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8 containerinfor">
                         <div class="row">
@@ -289,7 +292,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
-                            <div class="pPrice col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:0px; padding-right:0px;">{l s="Valor Original: "}</div><div id="priceCard" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                            <div class="pPrice col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:0px; padding-right:0px;">{l s="Valor Original: "}</div><span class="col-lg-3 col-md-3 col-sm-3" id="typecurrency">{l s=" $"}</span><div id="priceCard" class="col-lg-3 col-md-3 col-sm-3 col-xs-6"></div>
                             <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:0px;">{l s="Utilizado: "}</div><div id="priceCard_used" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -359,12 +362,13 @@
     <script>
         
         
-        function renderCard(codeImg21, price1,priceValue1, dateP1, name1, description1,terms1,idproduct1,ruta1){           
+        function renderCard(codeImg21, price1,priceValue1, dateP1, name1, type_currency1, description1,terms1,idproduct1,ruta1){           
             var codeImg2 = codeImg21;
             var price = price1;
             var priceValue = priceValue1;
             var dateP = dateP1;
             var name = name1;
+            var type_currency = type_currency1;
             var description = description1;
             var terms = terms1;
             var idproduct = idproduct1;
@@ -430,6 +434,7 @@
                         
                         $('.micode').html(codeImg2);
                         $('#priceCard').html(price);
+                        $('#typecurrency').html(type_currency);
                         $('#nameViewCard').html(name);
                         $('.pViewcard').html(description);
                         $('.terms-card').html(terms);
@@ -500,6 +505,7 @@
                     '<div id="price_value">'+Math.round(x[i].price_value)+'</div>'+
                     '<div id="date">'+x[i].date+'</div>'+
                     '<div id="nameOculto">'+x[i].product_name+'</div>'+
+                    '<div id="typeOculto">'+x[i].type_currency+'</div>'+
                     '</a>';
                     }
                     $('.c').html(content)
@@ -520,7 +526,7 @@
                         }
                     });
                     $('.avail').html(avail);
-                    renderCard(x[0].card_code, Math.round(x[0].price), Math.round(x[0].price_value), x[0].date,x[0].product_name,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
+                    renderCard(x[0].card_code, Math.round(x[0].price), Math.round(x[0].price_value), x[0].date,x[0].product_name,x[0].type_currency,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
                     $('#myspecialcontent').parent().show();
               }});
         });
@@ -531,16 +537,18 @@
             var priceValue = document.getElementById("price_value").innerHTML;
             var dateP = $(this).find("#date").html();
             var name = document.getElementById("nameOculto").innerHTML;
+            var type_currency = document.getElementById("typeOculto").innerHTML;
             var description = document.getElementById("desc_oculto").innerHTML;
             var terms = document.getElementById("terms_oculto").innerHTML;
             var idproduct = document.getElementById("prodid_oculto").innerHTML;
             var ruta = $(this).before().find(".oculto").html();
-            renderCard(codeImg2,price,priceValue, dateP, name,description, terms, idproduct, ruta);
+            renderCard(codeImg2,price,priceValue, dateP, name,type_currency,description, terms, idproduct, ruta);
         });
         
         $('#used').click(function(){
-            $( "#f-option" ).click();
-            $( "#f-option" ).click();
+            $('#f-option').attr('checked', 'checked');
+                if($('#f-option').is(':checked')) 
+                    { $( "#f-option" ).click(); }
             var code = $('.micode').html();
             $('.codeImg').each(function(){
                 var compare = $(this).html();
@@ -569,8 +577,9 @@
         });
         
         $('#not-used').click(function(){
-            $( "#s-option" ).click();
-            $( "#s-option" ).click();
+            $('#s-option').attr('checked', 'checked');
+                if($('#s-option').is(':checked')) 
+                    { $( "#s-option" ).click(); }
             var code = $('.micode').html();
             $('.update-card').fadeOut(600);
             $('.codeImg').each(function(){

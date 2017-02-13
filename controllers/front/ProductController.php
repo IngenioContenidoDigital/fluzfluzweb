@@ -181,6 +181,8 @@ class ProductControllerCore extends FrontController
             $this->product->description = $this->transformDescriptionWithImg($this->product->description);
             $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
             $sponsorships2=array_slice($sponsorships, 1, 15);
+            $sponsor = count($sponsorships2)+1;
+            $this->context->smarty->assign('sponsor', $sponsor);
             //$price = (int)$this->product->price - RewardsProductModel::getCostDifference($this->product->id);
             $price = RewardsProductModel::getProductReward($this->product->id,(int)$this->product->price,1, $this->context->currency->id);
             $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
@@ -269,6 +271,21 @@ class ProductControllerCore extends FrontController
             if ($this->product->customizable) {
                 $customization_datas = $this->context->cart->getProductCustomization($this->product->id, null, true);
             }
+            
+            $urlbanner1 = _S3_PATH_."p-banners/".Tools::getValue('id_product')."_0.jpg";
+            $existsbanner1 = file_get_contents( $urlbanner1 );
+            if( !$existsbanner1 ) {
+                $urlbanner1 = "";
+            }
+
+            $urlbanner2 = _S3_PATH_."p-banners/".Tools::getValue('id_product')."_1.jpg";
+            $existsbanner2 = file_get_contents( $urlbanner2 );
+            if( !$existsbanner2 ) {
+                $urlbanner2 = "";
+            }
+            
+            $this->context->smarty->assign('imgbanner1', $urlbanner1 );
+            $this->context->smarty->assign('imgbanner2', $urlbanner2 );
 
             $this->context->smarty->assign(array(
                 'stock_management' => Configuration::get('PS_STOCK_MANAGEMENT'),
@@ -278,6 +295,7 @@ class ProductControllerCore extends FrontController
                 'return_link' => $return_link,
                 'product' => $this->product,
                 'product_manufacturer' => new Manufacturer((int)$this->product->id_manufacturer, $this->context->language->id),
+                'address_manufacturer' => $this->addressManufacturers(),
                 'token' => Tools::getToken(false),
                 'features' => $this->product->getFrontFeatures($this->context->language->id),
                 'attachments' => (($this->product->cache_has_attachments) ? $this->product->getAttachments($this->context->language->id) : array()),
@@ -306,6 +324,14 @@ class ProductControllerCore extends FrontController
             ));
         }
         $this->setTemplate(_PS_THEME_DIR_.'product.tpl');
+    }
+    
+    public function  addressManufacturers(){
+        
+        $query = 'SELECT address1 FROM ps_address where id_manufacturer = '.$this->product->id_manufacturer;
+        $address = Db::getInstance()->executeS($query);
+        
+        return $address;
     }
 
     /**
@@ -409,6 +435,7 @@ class ProductControllerCore extends FrontController
         }
         $size = Image::getSize(ImageType::getFormatedName('large'));
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'have_image' => (isset($cover['id_image']) && (int)$cover['id_image'])? array((int)$cover['id_image']) : Product::getCover((int)Tools::getValue('id_product')),
             'cover' => $cover,
             'imgWidth' => (int)$size['width'],
@@ -449,11 +476,12 @@ class ProductControllerCore extends FrontController
                     $groups[$row['id_attribute_group']] = array(
                         'group_name' => $row['group_name'],
                         'name' => $row['public_group_name'],
+                        'id_product' => $row['id_product_attribute'],
                         'group_type' => $row['group_type'],
                         'default' => -1,
                     );
                 }
-
+                
                 $groups[$row['id_attribute_group']]['attributes'][$row['id_attribute']] = $row['attribute_name'];
                 if ($row['default_on'] && $groups[$row['id_attribute_group']]['default'] == -1) {
                     $groups[$row['id_attribute_group']]['default'] = (int)$row['id_attribute'];
@@ -479,6 +507,7 @@ class ProductControllerCore extends FrontController
                 $combinations[$row['id_product_attribute']]['reference'] = $row['reference'];
                 $combinations[$row['id_product_attribute']]['unit_impact'] = Tools::convertPriceFull($row['unit_price_impact'], null, Context::getContext()->currency);
                 $combinations[$row['id_product_attribute']]['minimal_quantity'] = $row['minimal_quantity'];
+                
                 if ($row['available_date'] != '0000-00-00' && Validate::isDate($row['available_date'])) {
                     $combinations[$row['id_product_attribute']]['available_date'] = $row['available_date'];
                     $combinations[$row['id_product_attribute']]['date_formatted'] = Tools::displayDate($row['available_date']);
@@ -548,6 +577,7 @@ class ProductControllerCore extends FrontController
                     }
                 }
             }
+            
             foreach ($combinations as $id_product_attribute => $comb) {
                 $attribute_list = '';
                 foreach ($comb['attributes'] as $id_attribute) {
@@ -556,13 +586,33 @@ class ProductControllerCore extends FrontController
                 $attribute_list = rtrim($attribute_list, ',');
                 $combinations[$id_product_attribute]['list'] = $attribute_list;
             }
-
+            
+            $listproducts = array();
+            
+            foreach ($combinations as $prueba) {
+                
+                $query = 'SELECT p.price_shop, p.price, p.save_dolar, p.id_product, p.online_only as online, 
+                          p.single_use, p.type_currency, p.expiration, p.id_manufacturer, pl.link_rewrite, 
+                          pl.name, pa.id_product_attribute, ac.id_attribute,
+                          (rp.value/100) as value FROM '._DB_PREFIX_.'product p
+                          LEFT JOIN '._DB_PREFIX_.'product_lang pl ON (p.id_product = pl.id_product)
+                          LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (p.id_product = rp.id_product)
+                          LEFT JOIN '._DB_PREFIX_.'product_attribute pa ON (p.reference = pa.reference)        
+                          LEFT JOIN '._DB_PREFIX_.'product_attribute_combination ac ON (pa.id_product_attribute=ac.id_product_attribute)        
+                          WHERE p.reference = "'.$prueba['reference'].'" AND pl.id_lang = '.$this->context->language->id;
+                
+                $for = Db::getInstance()->executeS($query);
+                array_push($listproducts, $for[0]);
+            }
+            
             $this->context->smarty->assign(array(
                 'groups' => $groups,
                 'colors' => (count($colors)) ? $colors : false,
                 'combinations' => $combinations,
+                'combinationsList' => $listproducts,
                 'combinationImages' => $combination_images
             ));
+            
         }
     }
 

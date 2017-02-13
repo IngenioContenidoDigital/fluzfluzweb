@@ -9,7 +9,7 @@ form#searchbox .button.button-small i { margin-right: 0; }
 
 #search_query_top{
     position: fixed;
-    margin-top: 35px;
+    margin-top: 31px;
     height: 7vw;
     color:#000;
     font-size: 1.4vw;
@@ -68,3 +68,17 @@ form#searchbox .button.button-small i { margin-right: 0; }
 .ac_results li { padding: 0 10px; font-weight: normal; color: #686666; font-size: 13px; line-height: 22px; }
 .ac_results li.ac_odd { background: white; }
 .ac_results li:hover, .ac_results li.ac_over { background: #fbfbfb; }
+
+@media (max-width: 1024px){
+    #search_query_top{
+      margin-top: 8px;
+    }   
+    .cerrar{top: 8vw;}
+}
+
+@media (min-width:1780px){
+    #search_query_top{
+      margin-top: 13px;
+    }   
+    .cerrar{top: 6vw;}
+}

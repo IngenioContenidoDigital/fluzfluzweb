@@ -60,7 +60,8 @@ class HomeFeatured extends Module
 			|| !$this->registerHook('categoryUpdate')
 			|| !$this->registerHook('displayHomeTab')
                         || !$this->registerHook('customCMS')
-                        || !$this->registerHook('newMerchants')        
+                        || !$this->registerHook('newMerchants')
+                        || !$this->registerHook('merchants')        
 			|| !$this->registerHook('displayHomeTabContent')
 		)
 			return false;
@@ -128,21 +129,50 @@ class HomeFeatured extends Module
 	     return $this->hookDisplayHome($params);
 	 }
          
-         public function hooknewMerchants($params)
-	 {
+        public function hooknewMerchants($params)
+        {
 	 
-	  if (!$this->isCached('merchants.tpl', $this->getCacheId()))
-		{
+            $carousel= ManufacturerCore::getManufacturersCategory();
+            
+	    /*if (!$this->isCached('merchants.tpl', $this->getCacheId()))
+            {*/
+                $this->smarty->assign(
+                    array(
+                        's3'=> _S3_PATH_,
+                        'merchants' => $carousel,
+                        'sponsor' => $this->getSponsor()
+                    )
+                );
+            //}
+
+            return $this->display(__FILE__, 'newMerchants.tpl');
+	 }
+         
+         public function hookmerchants($params)
+	 {
+            $carousel = ManufacturerCore::getNewManufacturers();
+            
+	  /*if (!$this->isCached('newMerchants.tpl', $this->getCacheId()))
+		{*/
 			$this->smarty->assign(
 				array(
                                         's3'=> _S3_PATH_,
-					'merchants' => ManufacturerCore::getManufacturers(),
+					'merchants' => $carousel,
+                                        'sponsor' => $this->getSponsor()
 				)
 			);
-		}
+		//}
 
-		return $this->display(__FILE__, 'merchants.tpl', $this->getCacheId());
+		return $this->display(__FILE__, 'merchants.tpl');
 	 }
+         
+        public function getSponsor(){
+            
+            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+            $sponsorships2=array_slice($sponsorships, 1, 15);
+            $sponsor = count($sponsorships2)+1;
+                return $sponsor;
+        } 
 
 	public function hookDisplayHeader($params)
 	{

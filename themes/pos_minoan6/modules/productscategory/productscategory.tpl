@@ -36,128 +36,124 @@
                         </span>
 		</h2>
 	</div>	
+        <div class="border-title"></div>                
 
 	<div id="productscategory_list" class="clearfix">
 		<div class="row pos-content">
-			<div id="product_category">
+			<div class="product_category">
 			{foreach from=$categoryProducts item='categoryProduct' name=categoryProduct}
-				<div class="item-product">
-                                        <div>
-                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
+				<div class="item-product row">
+                                        <div class="col-lg-6 padding-img">
+                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                </a>
                                         </div>
-                                        <div class="points-block">
-                                                <div style="width: 55%;">
-                                                        {$categoryProduct.manufacturer_name|truncate:25:'...'|escape:'html':'UTF-8'}
+                                        <div class="points-block col-lg-6">
+                                        {assign var="idprodshop" value=$product.reference}
+                                        {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
-                                        </div>
-                                        <div class="price-block">
-                                                <div style="font-size: 13px;">
-                                                    <span>{if $logged}{l s="Recibes"}&nbsp;{$categoryProduct.points}{else $logged}{l s="Recibes"}&nbsp;{$categoryProduct.pointsNl}{/if}</span><span style="font-size: 11px;"> {l s="Fluz !"}</span>
+                                                <div>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
                                                 </div>
-                                                {if (!$PS_CATALOG_MODE AND ((isset($categoryProduct.show_price) && $categoryProduct.show_price) || (isset($categoryProduct.available_for_order) && $categoryProduct.available_for_order)))}
-                                                        {if isset($categoryProduct.show_price) && $categoryProduct.show_price && !isset($restricted_country_mode)}
-                                                                <div>
-                                                                        <span style="text-align: left; margin-right: 1px;">{l s='Valor: '}</span>
-                                                                        <span class="product-price" style="text-align: left;">
-                                                                                {convertPrice price=$categoryProduct.price_shop|floatval}
-                                                                        </span>
-                                                                </div>
-                                                                <div>
-                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio: '}</span>
-                                                                        <span class="product-price" style="color:#ef4136; text-align: left; font-weight: bold;">
-                                                                                {if !$priceDisplay}{convertPrice price=$categoryProduct.price}{else}{convertPrice price=$categoryProduct.price_tax_exc}{/if}
-                                                                        </span>
-                                                                </div>
-                                                                <div>
-                                                                        <span style="text-align: left; margin-right: 1px; color:#ef4136;">{l s='Precio en Puntos: '}</span>
-                                                                        <span class="product-price" style="color:#ef4136; text-align: left;">
-                                                                                {(($categoryProduct.price)/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8')}
-                                                                        </span>
-                                                                </div>
-                                                        {/if}
-                                                {/if}
+                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                         </div>
-					{*<div class="products-inner">
-						<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}"><img class="img-responsive"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" /></a>
-				
-						{if isset($categoryProduct.new) && $categoryProduct.new == 1}
-							<a class="new-box" href="{$categoryProduct.link|escape:'html':'UTF-8'}">
-								<span class="new-label">{l s='New' mod='productscategory'}</span>
-							</a>
-						{/if}
-						{if isset($categoryProduct.on_sale) && $categoryProduct.on_sale && isset($categoryProduct.show_price) && $categoryProduct.show_price && !$PS_CATALOG_MODE}
-							<a class="sale-box" href="{$categoryProduct.link|escape:'html':'UTF-8'}">
-								<span class="sale-label">{l s='Sale!' mod='productscategory'}</span>
-							</a>
-						{/if}
-					</div>
-					<div class="product-contents">
-						<h5 itemprop="name" class="product_img_link">
-							<a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)|escape:'html':'UTF-8'}" title="{$categoryProduct.name|htmlspecialchars}">{$categoryProduct.name|truncate:35:'...'|escape:'html':'UTF-8'}</a>
-						</h5>
-						<div class="ratings-box">
-							<div class="ratings">{hook h='displayProductListReviews' product=$categoryProduct}</div>
-						</div>
-						<div class="price-box">
-						{if $ProdDisplayPrice && $categoryProduct.show_price == 1 && !isset($restricted_country_mode) && !$PS_CATALOG_MODE}
-							<p class="price_display">
-							{if isset($categoryProduct.specific_prices) && $categoryProduct.specific_prices
-							&& ($categoryProduct.displayed_price|number_format:2 !== $categoryProduct.price_without_reduction|number_format:2)}
-
-								<span class="price special-price">{convertPrice price=$categoryProduct.displayed_price}</span>
-								
-								<span class="old-price">{displayWtPrice p=$categoryProduct.price_without_reduction}</span>
-								{if $categoryProduct.specific_prices.reduction && $categoryProduct.specific_prices.reduction_type == 'percentage'}
-									<span class="price-percent-reduction small">-{$categoryProduct.specific_prices.reduction * 100}%</span>
-								{/if}
-
-							{else}
-								<span class="price">{convertPrice price=$categoryProduct.displayed_price}</span>
-							{/if}
-							</p>
-						{else}
-						<br />
-						{/if}
-						</div>
-						<div class="actions">
-							<div class="actions-inner">
-								<ul class="add-to-links">
-									{if !$PS_CATALOG_MODE && ($categoryProduct.allow_oosp || $categoryProduct.quantity > 0)}
-										<li class="cart">
-											<a class="exclusive button ajax_add_to_cart_button" href="{$link->getPageLink('cart', true, NULL, 'qty=1&amp;id_product={$categoryProduct.id_product|intval}&amp;token={$static_token}&amp;add')|escape:'html':'UTF-8'}" data-id-product="{$categoryProduct.id_product|intval}" title="{l s='Add to cart' mod='productscategory'}">
-												<span>{l s='Add to cart' mod='productscategory'}</span>
-											</a>
-										</li>
-									{/if}
-									<li>
-										<a class="addToWishlist wishlistProd_{$categoryProduct.id_product|intval}"  data-toggle="tooltip" data-placement="top" data-original-title="{l s=' Wishlist' mod='productscategory'}" href="#" data-wishlist="{$categoryProduct.id_product|intval}" onclick="WishlistCart('wishlist_block_list', 'add', '{$categoryProduct.id_product|intval}', false, 1); return false;">
-											<span>{l s="Wishlist" mod='productscategory'}</span>
-											
-										</a>
-									</li>
-									<li>
-										
-										{if isset($comparator_max_item) && $comparator_max_item}
-										  <a class="add_to_compare" data-toggle="tooltip" data-placement="top" data-original-title="{l s='Compare' mod='productscategory'}"  href="{$categoryProduct.link|escape:'html':'UTF-8'}" data-id-product="{$categoryProduct.id_product}">{l s='Compare' mod='productscategory'}
-										
-										  </a>
-										 {/if}
-					
-									</li>
-									<li>
-									{if isset($quick_view) && $quick_view}
-										<a class="quick-view" title="{l s='Quick view' mod='productscategory'}"  href="{$categoryProduct.link|escape:'html':'UTF-8'}">
-											<span>{l s='Quick view' mod='productscategory'}</span>
-										</a>
-									{/if}
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>*}
 				</div>
 			{/foreach}
+			</div>
+                        <div class="product_category">
+			{foreach from=$categoryProducts2 item='categoryProduct' name=categoryProduct}
+				<div class="item-product">
+                                        <div class="col-lg-6 padding-img">
+                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                </a>
+                                        </div>
+                                        <div class="points-block col-lg-6">
+                                        {assign var="idprodshop" value=$product.reference}
+                                        {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                </div>
+                                                <div>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                </div>
+                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                        </div>
+				</div>
+			{/foreach}
+			</div>
+                        <div class="product_category">
+			{foreach from=$categoryProducts3 item='categoryProduct' name=categoryProduct}
+				<div class="item-product">
+                                        <div class="col-lg-6 padding-img">
+                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                </a>
+                                        </div>
+                                        <div class="points-block col-lg-6">
+                                        {assign var="idprodshop" value=$product.reference}
+                                        {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                </div>
+                                                <div>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                </div>
+                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                        </div>
+				</div>
+			{/foreach}
+			</div>
+                        <div class="product_category">
+			{foreach from=$categoryProducts4 item='categoryProduct' name=categoryProduct}
+				<div class="item-product">
+                                        <div class="col-lg-6 padding-img">
+                                                <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                </a>
+                                        </div>
+                                        <div class="points-block col-lg-6">
+                                        {assign var="idprodshop" value=$product.reference}
+                                        {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                <div style="font-size:12px; margin-left: 0px;">
+                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                </div>
+                                                <div>
+                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                </div>
+                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                        </div>
+				</div>
+			{/foreach}
+			</div>
+                        <div class="product_movil">
+                            {foreach from=$categoryMovil item='categoryProduct' name=categoryProduct}
+                                    <div class="item-product">
+                                            <div class="col-lg-6 padding-img">
+                                                    <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
+                                                        <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
+                                                        <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                    </a>
+                                            </div>
+                                            <div class="points-block col-lg-6">
+                                            {assign var="idprodshop" value=$product.reference}
+                                            {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
+                                                    <div style="font-size:12px; margin-left: 0px;">
+                                                            {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                    </div>
+                                                    <div>
+                                                        <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
+                                                    </div>
+                                                    <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                            </div>
+                                    </div>
+                            {/foreach}
 			</div>
 			<div class="boxprevnext">
 				<a class="prev prev-product"><i class="icon-chevron-left"></i></a>
@@ -169,12 +165,12 @@
 {/if}
 <script type="text/javascript"> 
     $(document).ready(function() {
-		var owl = $("#product_category");
+		var owl = $(".product_category");
 		owl.owlCarousel({
-		items : 4,
+		items : 1,
 		 pagination :false,
 		slideSpeed: 1000,
-		itemsDesktop : [1199,3],
+		itemsDesktop : [1199,2],
 		itemsDesktopSmall : [911,2], 
 		itemsTablet: [767,2], 
 		itemsMobile : [480,1],
@@ -191,17 +187,45 @@
 </script>
 {literal}
     <style>
+        .pos-title{margin-bottom: 0px;}
         .pos-title span { color: #838383; font-size: 17px; }
         .pos-title h2 { width: 40%; text-align: center }
         .pos-title h2:before { display: none; }
-        .boxprevnext a i { display: block; line-height: 50px; background: #f4f4f4; }
-        .boxprevnext a { font-size: 25px; border: 0; }
+        .boxprevnext a i { display: block; line-height: 32px; background: #f4f4f4; }
+        .boxprevnext a { font-size: 25px; border: 0; height: 32px;}
         .boxprevnext a.prev { right: 10.5%; }
         .item-product { color: #777777; width: 100%; margin: 0; }
         .redfl { color: #ef4136!important; font-weight: bold!important; }
         .valuefl { font-size: 13px; }
+        /*.owl-carousel .owl-wrapper{width: 260px !important;}*/
         .imgMini { width: 35px!important; }
         .imgmanu { width: auto!important; }
         .price-block { padding: 15px 0%; }
+        .points-block div:first-child{margin-left: 10px; margin-top: 10px;}
+        .more-info ul li a{font-size: 10px;}
     </style>    
+{/literal}
+{literal}
+    <script type="text/javascript"> 
+    $(document).ready(function() {
+		var owl = $(".product_movil");
+		owl.owlCarousel({
+		items : 4,
+		 pagination :false,
+		slideSpeed: 1000,
+		itemsDesktop : [1199,4],
+		itemsDesktopSmall : [911,3], 
+		itemsTablet: [767,3], 
+		itemsMobile : [480,1],
+		});
+		 
+		// Custom Navigation Events
+		$(".next-product").click(function(){
+		owl.trigger('owl.next');
+		})
+		$(".prev-product").click(function(){
+		owl.trigger('owl.prev');
+		})     
+    });
+</script>
 {/literal}

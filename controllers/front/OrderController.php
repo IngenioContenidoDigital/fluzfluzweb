@@ -125,24 +125,59 @@ class OrderControllerCore extends ParentOrderController
         $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
         $sponsorships2=array_slice($sponsorships, 1, 15);
         
-        foreach ($this->context->cart->getProducts() as $product) {
-            $price = RewardsProductModel::getProductReward($product['id_product'],$product['price'],1, $this->context->currency->id);
-            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
-            $productsPoints[$product['id_product']] = $productP;
+        if(!$this->context->cart){
+            $carro = $this->context->cart;
+            $cart_products = $carro->getProducts();
+            foreach ($cart_products as $cart_product) {
+                //if ($cart_product['id_product_attribute'] != 0) {        
+                  $sql="SELECT "._DB_PREFIX_."product.id_product, 
+            "._DB_PREFIX_."product_attribute.id_product_attribute, "._DB_PREFIX_."product_attribute.id_product AS id_p_attribute FROM "._DB_PREFIX_."product_attribute INNER JOIN "._DB_PREFIX_."product ON "._DB_PREFIX_."product_attribute.reference = "._DB_PREFIX_."product.reference WHERE id_product_attribute=".$cart_product['id_product_attribute'];
+                  $product = Db::getInstance()->getRow($sql);
+                  $carro->deleteProduct($product['id_p_attribute'], $product['id_product_attribute']);
+                  $carro->updateQty(0,$product['id_p_attribute'], $product['id_product_attribute']);
+                  $carro->updateQty(1,$product['id_product']);
+                //}
+            }
+        }else{
+            //$carro = new Cart($this->context->cart->id);
+            //$carro = $this->context->cart;
+            
+            $cart_products = $this->context->cart->getProducts();
+            foreach ($cart_products as $cart_product) {
+                if ($cart_product['id_product_attribute'] > 0) {        
+                  $sql="SELECT "._DB_PREFIX_."product.id_product, 
+            "._DB_PREFIX_."product_attribute.id_product_attribute, "._DB_PREFIX_."product_attribute.id_product AS id_p_attribute FROM "._DB_PREFIX_."product_attribute INNER JOIN "._DB_PREFIX_."product ON "._DB_PREFIX_."product_attribute.reference = "._DB_PREFIX_."product.reference WHERE id_product_attribute=".$cart_product['id_product_attribute'];
+                  $product = Db::getInstance()->getRow($sql);
+                  $this->context->cart->deleteProduct($product['id_p_attribute'], $product['id_product_attribute']);
+                  //$this->context->cart->updateQty(0,$product['id_p_attribute'], $product['id_product_attribute']);
+                  $this->context->cart->updateQty(1,$product['id_product']);
+                }
+            }
         }
         
         foreach ($this->context->cart->getProducts() as $product) {
-            $qprice_shop = 'SELECT price_shop FROM '._DB_PREFIX_.'product WHERE id_product = '.$product['id_product'];
-            $shop_value = DB::getInstance()->getRow($qprice_shop);
-            $p = $shop_value['price_shop'];
-            $shop[$product['id_product']] = $p;
-             
+            
+            $queryprueba = "SELECT p.id_product as id, p.type_currency , p.save_dolar, p.price_shop, p.reference FROM "._DB_PREFIX_."product p
+                            LEFT JOIN "._DB_PREFIX_."product_attribute pa ON (pa.reference = p.reference)
+                            LEFT JOIN "._DB_PREFIX_."product_lang pl ON (p.id_product = pl.id_product)
+                            WHERE p.reference = '".$product['reference']."' AND pl.`id_lang` = ".(int)$this->context->language->id;
+            $x = Db::getInstance()->executeS($queryprueba);
+            $price = RewardsProductModel::getProductReward($x[0]['id'],$product['price'],1, $this->context->currency->id);
+            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+            $productsPoints[$x[0]['reference']] = $productP;
+            $shop[$x[0]['reference']] = $x[0]['price_shop'];
+            $productsID[$x[0]['reference']] = $x[0]['id'];
+            $type_currency[$x[0]['reference']] = $x[0]['type_currency'];
+            $save_dolar[$x[0]['reference']] = $x[0]['save_dolar'];
         }
         
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'productsPoints' => $productsPoints,
-            'shop' => $shop
-        ));
+            'productsID' => $productsID,
+            'shop' => $shop,
+            'type_currency' => $type_currency,
+            'save_dolar' => $save_dolar        ));
         
         if (Tools::isSubmit('ajax') && Tools::getValue('method') == 'updateExtraCarrier') {
             // Change virtualy the currents delivery options

@@ -28,11 +28,12 @@
 .history_price>div>p{text-align: right !important; line-height: 15px; padding-right: 2% !important; font-family:'Open Sans' !important; font-size: 13px !important;}
 .history_point{color:#ef4136 !important; font-size: 20px !important; padding: 1% !important; font-family:'Open Sans' !important; margin: 0 auto; display: flex;    margin-left: 10%; border: none !important; margin-top: 5%;}
 .btn_history{ color:#fff !important; padding: 2% 6% !important; Letter-spacing: 1px !important; background: #ea3624; border: none; font-family:'Open Sans' !important;}
-.btn-history{background: #c9b197; color: #fff; padding: 8%; font-size: 14px;     width: 200px;}
-.btn-history-shop{background: #c9b197; color: #fff; padding: 8%; font-size: 14px; width: 200px; }
+.btn-history{background: #c9b197; color: #fff; padding: 10px; font-size: 14px;     width: 200px;}
+.btn-history-shop{background: #c9b197; color: #fff; padding: 10px; font-size: 14px; width: 200px; }
 .table tbody > tr > td{padding: 9px 8px 8px 9px !important;}
 #block-history { overflow-x: auto; }
-
+.btn_history:hover{background: #c9b198;}
+.div-btnShop{text-align: right;padding-right: 0px;}
 
 .history_list > .row > div { padding: 0; }
 .history_list > .row > div { border: 1px solid #d6d4d4; text-align: left; }
@@ -56,12 +57,18 @@
     color: #000;
     text-shadow: 1px 1px white;
 }
+.row-btns{margin-top: 20px;}
+
+.div-btnAccount{padding-left: 0px;}
+.clicked{background: #ef4136; color: #fff;text-shadow: none;font-weight: bold;}
 
 @media (max-width:768px){
     .image-resp{    
         width: 82% !important;
         margin-left: 22px !important;
         margin-right: 0px !important;}
+    .div-btnAccount{padding-left: 15px;}
+    .div-btnShop{padding-right: 15px;}
 }
 
 @media (max-width:425px){
@@ -73,8 +80,16 @@
     p {
         font-size: 10px;
     }
+    .btn-history{font-size: 11px;}
+    .btn-history-shop{font-size: 11px;}
 }
 
 @media (max-width:375px){
-    .btn_history {padding: 8px 2px !important;}
+    .btn_history {padding: 8px 15px !important;}
+    .block-points{font-size: 14px;}
+}
+
+@media (max-width:320px){
+    .btn_history {padding: 8px 7px !important;}
+    .block-points{font-size: 14px;}
 }

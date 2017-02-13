@@ -23,8 +23,9 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
+if($_SERVER['HTTP_HOST']!='fluzfluz.co'){
 
-/*if (!empty($_POST)){
+if (!empty($_POST)){
     $pass=$_POST['hwsp_motech'];
     if (($pass=="Bowerytech2.")){
         setcookie('validar',1,time()+43200);
@@ -133,7 +134,11 @@ padding-bottom:13px;
         </form>
     </div>
 </body></html>';
-}else{*/
+	}else{
+	    require(dirname(__FILE__).'/config/config.inc.php');	
+	    Dispatcher::getInstance()->dispatch();
+	}
+}else{
     require(dirname(__FILE__).'/config/config.inc.php');
     Dispatcher::getInstance()->dispatch();
-//}
+}

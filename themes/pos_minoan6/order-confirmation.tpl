@@ -87,7 +87,7 @@
                     <span class="number_product">{l s='Product'} #:</span><br>
                     <span class="number_product">{$product.product_reference}</span>
                 </td>
-                <td>{convertPrice price=$product.price_shop}</td>
+                <td>{$product.type_currency}&nbsp;${$product.price_shop}</td>
                 <td>{$product.fluzpoints}</td>
                 <td>{convertPrice price=$product.total_price_tax_incl}</td>
             </tr>

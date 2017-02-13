@@ -25,9 +25,12 @@
 <!--<tr class="accordion">
     <td colspan="8">Orden</td>
 </tr>-->
+{assign var="idprod" value=$product.reference}
+{$product.id_product = $productsID.$idprod}
 <tr id="product_{$product.id_product}_{$product.id_product_attribute}_{if $quantityDisplayed > 0}nocustom{else}0{/if}_{$product.id_address_delivery|intval}{if !empty($product.gift)}_gift{/if}" class="cart_item{if isset($productLast) && $productLast && (!isset($ignoreProductLast) || !$ignoreProductLast)} last_item{/if}{if isset($productFirst) && $productFirst} first_item{/if}{if isset($customizedDatas.$productId.$productAttributeId) AND $quantityDisplayed == 0} alternate_item{/if} address_{$product.id_address_delivery|intval} {if $odd}odd{else}even{/if}">
-	<td class="cart_product">
-		<a href="{$link->getProductLink($product.id_product, $product.link_rewrite, $product.category, null, null, $product.id_shop, $product.id_product_attribute, false, false, true)|escape:'html':'UTF-8'}"><img src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.name|escape:'html':'UTF-8'}" {if isset($smallSize)}width="{$smallSize.width}" height="{$smallSize.height}" {/if} /></a>
+        <td class="cart_product">
+		<a href="{$link->getProductLink($product.id_product, $product.link_rewrite, $product.category, null, null, $product.id_shop, $product.id_product_attribute, false, false, true)|escape:'html':'UTF-8'}">
+                <img src="{$s3}m/m/{$product.id_manufacturer}.jpg" alt="{$product.name|escape:'html':'UTF-8'}" {if isset($smallSize)}width="{$smallSize.width}" height="{$smallSize.height}" {/if} /></a>
 	</td>
 	<td class="cart_description" data-title="{l s='Descripcion'}">
 		{capture name=sep} : {/capture}
@@ -39,7 +42,7 @@
 	{if $PS_STOCK_MANAGEMENT}
 		<td class="cart_avail"><span class="label{if $product.quantity_available <= 0 && isset($product.allow_oosp) && !$product.allow_oosp} label-danger{elseif $product.quantity_available <= 0} label-warning{else} label-success{/if}">{if $product.quantity_available <= 0}{if isset($product.allow_oosp) && $product.allow_oosp}{if isset($product.available_later) && $product.available_later}{$product.available_later}{else}{l s='In Stock'}{/if}{else}{l s='Out of stock'}{/if}{else}{if isset($product.available_now) && $product.available_now}{$product.available_now}{else}{l s='In Stock'}{/if}{/if}</span>{if !$product.is_virtual}{hook h="displayProductDeliveryTime" product=$product}{/if}</td>
 	{/if}
-        {assign var="idprod" value=$product.id_product}
+        
         <td colspan="1" style="text-align:right;" class="td-pto" data-title="{l s='Fluz A Obtener'}">
             <p class="ptoCart">{$productsPoints.$idprod}&nbsp;{l s="Fluz."}</p>
         </td>
@@ -81,12 +84,16 @@
 					</li>
 					<li class="old-price">{convertPrice price=$product.price_without_specific_price}</li>
 				{/if}
-                                    {assign var="idprod" value=$product.id_product}
-                                    {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$shop.$idprod r=$product.price}}
-                                    {if $logged AND !$save_price <= 0}
+                                    {assign var="idprodshop" value=$product.reference}
+                                    {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$shop.$idprodshop r=$product.price}}
+                                    {if ($logged && !$save_price <= 0) && $type_currency.$idprod == 'COP'}
                                         <div style="color:#ef4136;">{l s="Ahorra: "} {$save_price}%</div>
-                                    {else if !$logged AND !$save_price <= 0}
+                                    {else if ($logged && !$save_price <= 0) && $type_currency.$idprod == 'USD'} 
+                                        <div style="color:#ef4136;">{l s="Ahorra: "} {$save_dolar.$idprod}%</div>
+                                    {else if !$logged AND !$save_price <= 0 AND $type_currency.$idprod == 'COP'}
                                         <div style="color:#ef4136;">{l s="Ahorra: "} {$save_price}%</div>
+                                    {else if !$logged AND !$save_price <= 0 AND $type_currency.$idprod == 'USD'}
+                                        <div style="color:#ef4136;">{l s="Ahorra: "} {$save_dolar.$idprod}%</div>    
                                     {else if $logged AND $save_price <= 0}
                                         <div style="color:#ef4136;"></div>
                                     {else if !$logged AND $save_price <= 0}
@@ -155,26 +162,3 @@
 	</td>
 
 </tr>
-{*literal}
-    <script>
-        $(function() {
-        compensante = scrollCompensate();
-	if (($(window).width()+scrollCompensate()) <= 768)
-	{
-            //alert('Menor a 768');
-            $(".table-bordered tr:not(.accordion)").hide();
-            $(".table-bordered tr:first-child").show();
-            
-            if($("tr").length>1){
-                $("tr").click(function(){
-                    $(this).nextAll("tr").fadeIn(500);
-                }).eq(0).trigger('click');
-            }
-	}
-	else if (($(window).width()+scrollCompensate()) >= 769)
-	{       
-            $('.accordion').hide();
-	}
-    });
-    </script>
-{/literal*}
