@@ -394,7 +394,7 @@
                             <tr>
                             <td align="center" ><img style="margin:auto;" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/4fa08124-f1c3-42f7-829b-c0f066b42121.png"></td>
                             <td>
-                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Invita Amigos!</h2><p style="padding-left:10%; margin-top: 0px;">Mientras m&aacute;s amigos invitas, m&aacute;s Fluz recibes por sus compras.</p></td>
+                            <h2 style="font-weight:400; padding-left:10%; font-size: 1.5em; margin-bottom: 0px;">Invita Amigos!</h2><p style="padding-left:10%; margin-top: 0px;">Mientras m&aacute;s amigos invitas m&aacute;s Fluz recibes por las compras de ellos.</p></td>
                             </tr>
 
                             <tr>
