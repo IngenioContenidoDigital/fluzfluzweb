@@ -868,6 +868,7 @@ class CategoryCore extends ObjectModel
             $query = 'SELECT c.`id_category`, cl.`name`, cl.`link_rewrite`, category_shop.`id_shop`
 			FROM `'._DB_PREFIX_.'category` c
 			LEFT JOIN `'._DB_PREFIX_.'category_lang` cl ON (c.`id_category` = cl.`id_category`'.Shop::addSqlRestrictionOnLang('cl').')
+                        INNER JOIN `'._DB_PREFIX_.'category_product` cp ON (c.`id_category` = cp.`id_category`)
 			'.Shop::addSqlAssociation('category', 'c').'
 			WHERE `id_lang` = '.(int)$id_lang.'
 			AND c.`id_parent` = '.(int)$id_parent.'
