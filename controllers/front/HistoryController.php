@@ -63,6 +63,7 @@ class HistoryControllerCore extends FrontController
         }
         
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'orders' => $orders,
             'invoiceAllowed' => (int)Configuration::get('PS_INVOICE'),
             'reorderingAllowed' => !(bool)Configuration::get('PS_DISALLOW_HISTORY_REORDERING'),
@@ -80,6 +81,7 @@ class HistoryControllerCore extends FrontController
                         p.price_shop as price_shop,
                         p.type_currency,
                         p.save_dolar,
+                        p.id_manufacturer,
                         a.product_id AS idProduct,
                         d.link_rewrite as link_rewrite,
                         b.id_image AS image,

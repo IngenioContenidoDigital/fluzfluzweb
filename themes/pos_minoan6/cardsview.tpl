@@ -7,10 +7,14 @@
             <div class="cardView-div">
                 <a class="myfanc" href="#myspecialcontent">
                     <div class="card col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 img-center-card">
-                            <img class="back-cardView" src="{$img_manu_dir}{$card.id_manufacturer}.jpg"/>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-4">
+                            <div class="img-center">
+                                <div class="logo-manufacturer">
+                                    <img src="{$s3}m/{$card.id_manufacturer}.jpg" alt="{$card.name|lower|escape:'htmlall':'UTF-8'}" title="{$card.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/>
+                                </div>    
+                            </div>
                         </div>
-                        <div class="col-lg-7 col-md-6 col-sm-5 col-xs-6 codigoCard2">
+                        <div class="col-lg-7 col-md-6 col-sm-5 col-xs-8 codigoCard2">
                             <span style="color: #000;">{l s='Tarjeta: '}</span>
                             <span class="codeImg">{$card.card_code}</span></div>
                         <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
@@ -239,13 +243,17 @@
         #header, #footer, #launcher, .breadcrumb { display: none!important; }
         .card-view{margin-left: 10px !important;}
         .cardview-ins{margin-top: 0px;}
-        .card{height: 65px;}
+        .card{height: auto; padding-bottom: 0px;}
         .back-cardView{width: 112px;text-align: center;background: transparent;}
-        .codigoCard2{margin-top: 10px;}
-        
+        .codigoCard2{margin-top: 5px;}
+        .imgCardView{width: 100%;}
         @media (max-width:1024px){
             #img-prod{width: 70%;margin-bottom: 7px;}
-            #text-fabri{margin-top: 18px;}
+            #text-fabri{margin-top: 5px;}
+            #img-fabri{margin-top: 3px;}
+           .img-center{height: 30px;}
+           .img-center img {max-width: 25% !important;}
+           .codigoCard2{margin-top: 8px;}
         }
         
         @media (max-width:768px){
@@ -254,6 +262,7 @@
                 margin-top: 10px;
                 margin-left: 60px !important;
                 text-align: center;}
+            .card {height: 41px !important;}
             .popText {margin-left: 68px!important;}
             .card-view {margin-left: 0px !important; margin-bottom: 20px;}
             .cardview-ins {margin-left: 0%;width: 100%;}
@@ -263,25 +272,28 @@
             #text-fabri{text-align: center;}
             #img-prod{width: 50%;}
             .title-card div{text-align: center;}
+            .img-center img {max-width: 20% !important;}
         }
         
         @media (max-width:425px){
-            .codigoCard2 {line-height: 13px;}
-            #text-fabri{margin-top: 12px;}
+            .codigoCard2 {line-height: 13px; margin-top: 8px !important;}
             #bar-code{width: 60% !important;margin-left: 23px !important;}
             .popText {margin-left: 11px!important;}
             #priceCard{font-size: 10px !important;}
             .cardview-ins{width: 100%!important;}
+            .img-center img {max-width: 62% !important;}
+            #text-fabri{margin-top: 0px;}
         }
         
         @media (max-width: 320px){
-            #text-fabri{padding-left: 0px; padding-right: 0px; margin-top: 4px;}
+            #text-fabri{padding-left: 0px; padding-right: 0px; margin-top: 4px;line-height: 12px;}
             .div-info{padding-left: 0px; padding-right: 0px;}
             .popText{display: none;}
             .barcode{margin-top: 10px;}
             #bar-code {
                 width: 85% !important;
                 margin-left: 12px !important;}
+            #img-fabri{width: 50%!important;}
         }
         
     </style>
