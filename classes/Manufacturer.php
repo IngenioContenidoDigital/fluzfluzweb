@@ -583,7 +583,7 @@ class ManufacturerCore extends ObjectModel
     {
         return Db::getInstance()->executeS("SELECT CONCAT('m',m.id_manufacturer) id, m.name
                                             FROM "._DB_PREFIX_."manufacturer m
-                                            INNER JOIN "._DB_PREFIX_."product p ON ( m.id_manufacturer = p.id_manufacturer )
+                                            INNER JOIN "._DB_PREFIX_."product p ON ( m.id_manufacturer = p.id_manufacturer AND p.active = 1 )
                                             WHERE m.active = 1
                                             GROUP BY m.id_manufacturer
                                             ORDER BY m.name");
@@ -593,7 +593,7 @@ class ManufacturerCore extends ObjectModel
     {
         return Db::getInstance()->executeS("SELECT DISTINCT(a.city)
                                             FROM "._DB_PREFIX_."address a
-                                            INNER JOIN "._DB_PREFIX_."product p ON ( a.id_manufacturer = p.id_manufacturer )
+                                            INNER JOIN "._DB_PREFIX_."product p ON ( a.id_manufacturer = p.id_manufacturer AND p.active = 1 )
                                             WHERE a.id_manufacturer <> 0
                                             ORDER BY a.city");
     }
