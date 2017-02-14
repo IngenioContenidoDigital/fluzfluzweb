@@ -50,13 +50,25 @@
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
                         <div class="row">
                             <div>{l s='Product'}</div>
-                            <div><img id="bigpic" class="img-responsive image-resp" src="{$link->getImageLink($product.link_rewrite, $product.image, 'thickbox_default')}"/></div>
+                                <a class="product_img_link" href="{$product.link_rewrite|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url">
+                                    <div style="background: url('{$s3}m/m/{$product.id_manufacturer}.jpg') no-repeat;" class="img-logo" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}">
+                                        <div class="img-center">
+                                            <div class="logo-manufacturer">
+                                                <img src="{$s3}m/{$product.id_manufacturer}.jpg" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/>
+                                            </div>    
+                                        </div>
+                                    </div>    
+                                </a>
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
                         <div class="row">
                             <div>{l s='Description'}</div>
-                            <div><p class="block-product-name">{$product.manufacturer}<p><br>{l s="Product #: "} {$product.referencia}</div>
+                            <div>
+                                <p class="block-product-name">
+                                    {$product.manufacturer}
+                                <p>
+                                <br>{l s="Product #: "} {$product.id_order}</div>
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
@@ -65,7 +77,7 @@
                             <div><p>{$product.time}</p></div>
                         </div>
                     </div>
-                        <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 block-right">
+                        <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 text-right-history">
                             <div class="row">
                                 <div>{l s='Unit Price'}</div>
                                 <div>
@@ -105,15 +117,14 @@
                             </div>
                         </div>
                 </div>
-                <div class="row">
+                <div class="row border_bottom">
                     <div class="col-xs-3 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Fluz"}</div>
-                    {*<div class="col-xs-4 col-sm-4 col-md-8 col-lg-8 block-cards"><a class="btn_history" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>*}
-                    <div class="col-xs-5 col-sm-4 col-md-8 col-lg-8 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
+                     <div class="col-xs-5 col-sm-4 col-md-8 col-lg-8 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Card View >"}</a></div>
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">
                         {if $product.type_currency == 'COP'}
-                            <p>{l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%</p>
+                            {l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%
                         {else}
-                            <p>{l s="You Save: "}{$product.save_dolar}%</p>    
+                            {l s="You Save: "}{$product.save_dolar}%  
                         {/if} 
                     </div>
                 </div>

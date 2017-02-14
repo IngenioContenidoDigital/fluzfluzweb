@@ -89,7 +89,7 @@
                                                 {*</a>*}
                                         </div>
                                         <div class="name-merchant" style="color:#EF4136;">
-                                            <span>{l s="GANA HASTA"}&nbsp;{$product.max_puntos|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                            <span>{l s="GANA HASTA"}&nbsp;{$product.value|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                             {*if $logged}{l s="You earn"}&nbsp;{$product.points}{else $logged}{l s="You earn"}&nbsp;{$product.pointsNl}{/if*}
                                         </div>
                                     </div>    
