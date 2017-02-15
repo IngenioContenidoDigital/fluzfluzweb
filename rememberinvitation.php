@@ -5,6 +5,7 @@ include_once('./modules/allinone_rewards/allinone_rewards.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
 
 $query = "SELECT
+            rs.id_sponsorship,
             rs.email,
             rs.lastname,
             rs.firstname,
@@ -22,6 +23,8 @@ $query = "SELECT
         HAVING ( days IN (1,5,6,7) OR days > 7 )";
 
 $invitations = Db::getInstance()->executeS($query);
+
+//echo '<pre>'; print_r($invitations); die();
 
 foreach ($invitations as $key => &$invitation) {
     $send = "";
@@ -45,7 +48,7 @@ foreach ($invitations as $key => &$invitation) {
             $idTemporary .= (string) ord($friendEmail[$i]);
         }
 
-        $sponsorship = new RewardsSponsorshipModel();
+        $sponsorship = new RewardsSponsorshipModel($invitation['id_sponsorship']);
         $sponsorship->id_sponsor = $invitation['sponsorid'];
         $sponsorship->id_customer = substr($idTemporary, 0, 10);
         $sponsorship->firstname = $friendFirstName;
@@ -82,7 +85,7 @@ foreach ($invitations as $key => &$invitation) {
             $idTemporary .= (string) ord($friendEmail[$i]);
         }
 
-        $sponsorship = new RewardsSponsorshipModel();
+        $sponsorship = new RewardsSponsorshipModel($invitation['id_sponsorship']);
         $sponsorship->id_sponsor = $invitation['sponsorid'];
         $sponsorship->id_customer = substr($idTemporary, 0, 10);
         $sponsorship->firstname = $friendFirstName;
@@ -111,27 +114,6 @@ foreach ($invitations as $key => &$invitation) {
         $friendLastName = $invitation['lastname'];
         $friendFirstName = $invitation['firstname'];
 
-        $sponsorship = new RewardsSponsorshipModel();
-        $sponsorship->id_sponsor = $invitation['sponsorid'];
-        $sponsorship->id_customer = substr($idTemporary, 0, 10);
-        $sponsorship->firstname = $friendFirstName;
-        $sponsorship->lastname = $friendLastName;
-        $sponsorship->channel = 1;
-        $sponsorship->email = $friendEmail;
-
-        $vars = array(
-                    '{message}' => "PRUEBA",
-                    '{firstname_invited}'=> $friendFirstName,
-                    '{email}' => $invitation['sponsoremail'],
-                    '{username}' => $invitation['sponsorusername'],
-                    '{lastname}' => $invitation['sponsorlastname'],
-                    '{firstname}' => $invitation['sponsorfirstname'],
-                    '{email_friend}' => $friendEmail,
-                    '{link}' => $sponsorship->getSponsorshipMailLink()
-                );
-
-        $allinone_rewards = new allinone_rewards();
-        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
         $template = 'sponsorship-invitation-novoucher';
         //$template = 'sponsorship-invitation';
 
@@ -140,7 +122,7 @@ foreach ($invitations as $key => &$invitation) {
             $idTemporary .= (string) ord($friendEmail[$i]);
         }
 
-        $sponsorship = new RewardsSponsorshipModel();
+        $sponsorship = new RewardsSponsorshipModel($invitation['id_sponsorship']);
         $sponsorship->id_sponsor = $invitation['sponsorid'];
         $sponsorship->id_customer = substr($idTemporary, 0, 10);
         $sponsorship->firstname = $friendFirstName;
@@ -177,7 +159,7 @@ foreach ($invitations as $key => &$invitation) {
             $idTemporary .= (string) ord($friendEmail[$i]);
         }
 
-        $sponsorship = new RewardsSponsorshipModel();
+        $sponsorship = new RewardsSponsorshipModel($invitation['id_sponsorship']);
         $sponsorship->id_sponsor = $invitation['sponsorid'];
         $sponsorship->id_customer = substr($idTemporary, 0, 10);
         $sponsorship->firstname = $friendFirstName;
@@ -211,7 +193,7 @@ foreach ($invitations as $key => &$invitation) {
             $idTemporary .= (string) ord($friendEmail[$i]);
         }
 
-        $sponsorship = new RewardsSponsorshipModel();
+        $sponsorship = new RewardsSponsorshipModel($invitation['id_sponsorship']);
         $sponsorship->id_sponsor = $invitation['sponsorid'];
         $sponsorship->id_customer = substr($idTemporary, 0, 10);
         $sponsorship->firstname = $friendFirstName;
