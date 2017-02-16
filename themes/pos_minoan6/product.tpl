@@ -88,7 +88,7 @@
 										<img itemprop="image" src="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}"/>
 									</a>
 								{else}
-									<img itemprop="image" src="{$s3}m/m/{$product->id_manufacturer}.jpg" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" width="{$largeSize.width}" height="{$largeSize.height}"/>
+									<img itemprop="image" src="{$link->getImageLink($product->link_rewrite, $cover.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" title="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" alt="{if !empty($cover.legend)}{$cover.legend|escape:'html':'UTF-8'}{else}{$product->name|escape:'html':'UTF-8'}{/if}" width="{$largeSize.width}" height="{$largeSize.height}"/>
 									{if !$content_only}
 										<!--<span class="span_link no-print">{l s='View larger'}</span>-->
 									{/if}
@@ -302,10 +302,12 @@
                                                                                 <input type="hidden" value="{$list.id_attribute}" id="{$list.id_product}"/>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;${$list.price_shop|number_format:0}</div>
-                                                                                {if $list.type_currency == 'COP'}
+                                                                                {if $list.type_currency == 'COP' && $save_price > 0}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
-                                                                                {else}
+                                                                                {elseif $list.type_currency == 'USD' && $list.save_dolar > 0}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$list.save_dolar}%</div>
+                                                                                {else}
+                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;"></div>
                                                                                 {/if}    
                                                                                 {if $logged}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
@@ -315,9 +317,9 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list detail-style" >
                                                                                 <span>${$list.price|number_format:0}</span><br>
-                                                                                    {if $list.type_currency == 'COP'}
+                                                                                    {if $list.type_currency == 'COP' && $save_price > 0}
                                                                                         <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$save_price}%</div>
-                                                                                    {else}
+                                                                                    {elseif $list.type_currency == 'USD' && $list.save_dolar > 0}
                                                                                         <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$list.save_dolar}%</div>
                                                                                     {/if} 
                                                                                 <span class="sign-more">+</span><span class="detail-more" id="detail_{$list.id_product}" onclick="accordion_more({$list.id_product})">{l s="Detalles"}</span>
@@ -615,7 +617,7 @@
                                 {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
 				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
                                 {if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
-				{if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab22"><span>{l s='Direcciones'}</span></a></li>{/if}
+				{if $product->description_short && $count_address > 0}<li><a id="more_info_tab_instructions" href="#idTab22"><span>{l s='Direcciones'}</span></a></li>{/if}
                                 {*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
 				{*if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if*}
 				{$HOOK_PRODUCT_TAB}
@@ -717,20 +719,22 @@
                                 </section>
 			{/if}
                         {if isset($product_manufacturer)}
-                                <section id="idTab22" class="page-product-box">
-                                    <div class="rte">
-                                        <div class="title-locations">{l s="Direcciones"}</div>
-                                        {foreach from=$address_manufacturer item='address'}
-                                                <div class=address-div>
-                                                    <span class="text-info-merchant address-style">
-                                                          {$address.address1}
-                                                    </span><br/>
-                                                </div>
-                                        {/foreach}
-                                        <div id="loadMoreAddress"><span class="more-address">{l s="Mostrar mas"}</span></div>
-                                        <div id="loadMenosAddress" style='display:none;'><span class="more-address">{l s="Mostrar menos"}</span></div>
-                                    </div>
-                                </section>
+                                {if $count_address > 0}
+                                    <section id="idTab22" class="page-product-box">
+                                        <div class="rte">
+                                            <div class="title-locations">{l s="Direcciones"}</div>
+                                            {foreach from=$address_manufacturer item='address'}
+                                                    <div class=address-div>
+                                                        <span class="text-info-merchant address-style">
+                                                            {$address.city}: &nbsp;{$address.address1}
+                                                        </span><br/>
+                                                    </div>
+                                            {/foreach}
+                                            <div id="loadMoreAddress"><span class="more-address">{l s="Mostrar mas"}</span></div>
+                                            <div id="loadMenosAddress" style='display:none;'><span class="more-address">{l s="Mostrar menos"}</span></div>
+                                        </div>
+                                    </section>
+                                {/if}    
                                 {literal}
                                     <script>
                                         $(function(){

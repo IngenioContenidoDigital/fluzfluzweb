@@ -226,6 +226,7 @@ class MyAccountControllerCore extends FrontController
                 PM.id_manufacturer AS id_manufacturer,
                 PM.`name` AS manufacturer_name,
                 Count(OD.product_id) AS products,
+                Count(wp.id_webservice_external_product) as count_m,
                 Sum(PP.price) AS total
                 FROM
                 ps_orders AS PO
@@ -234,6 +235,7 @@ class MyAccountControllerCore extends FrontController
                 INNER JOIN ps_product AS PP ON OD.product_id = PP.id_product
                 INNER JOIN ps_supplier AS PS ON PS.id_supplier = PP.id_supplier
                 INNER JOIN ps_manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
+                LEFT JOIN ps_webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
                 WHERE
                 ((OSL.id_order_state = 2 OR
                 OSL.id_order_state = 5) AND

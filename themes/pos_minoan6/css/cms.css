@@ -83,8 +83,10 @@ margin-right: 0;
 .text-bannercat{font-size:30px; font-weight:lighter; font-family:'Open Sans'}
 
 /* Estilos css Comercios */
+.img-back-merchant{position: absolute;padding: 10px;}
+.img-back-merchant img{margin-top: 0!important;}
 .img-logo{background-size:100% 100% !important; margin:10px;}
-.img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
+.img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 10px; min-height: 232px; text-align: center;}
 .img-center img{max-width: 70% !important; margin: 0px auto !important;}
 .img-category{width:15% !important;}
 .style-search{background:#ef4136;height: 75px;}
@@ -319,7 +321,7 @@ margin-right: 0;
     .merchant-left{margin-left: 0px;}
     .container-cms{padding-left: 0px;}
     .filter-padding{padding-left: 12px;}
-    .img-center{height: 150px;}
+    .img-center{min-height: 155px;}
     
     /* TEXTOS BANNER CATEGORY BOTTOM */
 .text_encima {
@@ -405,7 +407,6 @@ margin-right: 0;
     #categories_block_left h2.title_block{ margin-top: -3px;}
     .bread-product{padding-left: 35px !important;}
     .filter-padding{padding-left: 0px;}
-    
     /* TEXTOS BANNER CATEGORY BOTTOM */
     .text_encima {
     position: absolute;
@@ -499,7 +500,7 @@ margin-right: 0;
     .filter-padding{padding-left: 10px;}
     .owl-carousel {left: 3px;}
     .breadcrumb{padding-right: 0px !important; height: 50px;}
-    .img-center{height: 250px;}
+    .img-center{min-height: 265px;}
     
     /* TEXTOS BANNER CATEGORY BOTTOM */
     .text_encima {
@@ -573,7 +574,7 @@ margin-right: 0;
     .breadcrumb{font-size: 10px;height: 45px;}
     .bread-style{padding-left: 10px !important;}
     .filter-padding{padding: 0px;}
-    .img-center{height: 200px;}
+    .img-center{min-height: 200px;}
     .text_encima{
         top: 105px;
         text-align: center;
@@ -625,7 +626,44 @@ margin-right: 0;
         letter-spacing: 3px;
         width: 160px;
     }
-    
+
+}
+
+@media(max-width:990px){
+    .menuSticky{min-height: auto !important;}
+}
+
+@media (min-width:426px) and (max-width:570px){
+    .img-center {min-height: 280px;}
+}
+
+@media (min-width:571px) and (max-width:690px){
+    .img-center {min-height: 350px;}
+}
+
+@media (min-width:690px) and (max-width:767px){
+    .img-center {min-height: 420px;}
+}
+
+
+@media (min-width:861px) and (max-width:990px){
+    .img-center {min-height: 165px;}
+}
+
+@media (min-width:1025px) and (max-width:1225px){
+    .img-center {min-height: 145px;}
+}
+
+@media (min-width:1226px) and (max-width:1330px){
+    .img-center {min-height: 175px;}
+}
+
+@media (min-width:1331px) and (max-width:1439px){
+    .img-center {min-height: 200px;}
+}
+
+@media (min-width:1701px) and (max-width:1919px){
+    .img-center {min-height: 260px;}
 }
 
 @media (min-width:1920px) and (max-width:2600px){
@@ -652,7 +690,7 @@ margin-right: 0;
     .merchant-left{margin-left: 66px;}
     .width-item{width: 419px !important;}
     .leftwidth{left: 66px;}
-    .img-center{height: 300px;}
+    .img-center{min-height: 315px;}
     
     /* TEXTOS BANNER CATEGORY BOTTOM */
 .text_encima {

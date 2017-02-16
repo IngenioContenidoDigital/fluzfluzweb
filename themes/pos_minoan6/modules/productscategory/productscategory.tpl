@@ -55,10 +55,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach}    
                                         </div>
 				</div>
 			{/foreach}
@@ -78,10 +83,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach} 
                                         </div>
 				</div>
 			{/foreach}
@@ -101,10 +111,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach} 
                                         </div>
 				</div>
 			{/foreach}
@@ -124,10 +139,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach}
                                         </div>
 				</div>
 			{/foreach}
@@ -147,9 +167,15 @@
                                                     <div style="font-size:12px; margin-left: 0px;">
                                                             {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                     </div>
-                                                    <div>
-                                                        <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                    </div>
+                                                    {foreach from=$points_subcategories item=p}
+                                                        {if $categoryProduct.id_product==$p.id_padre}
+                                                            {if $logged}
+                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            {else}                       
+                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            {/if}
+                                                        {/if}
+                                                    {/foreach}
                                                     <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                             </div>
                                     </div>
@@ -197,12 +223,17 @@
         .item-product { color: #777777; width: 100%; margin: 0; }
         .redfl { color: #ef4136!important; font-weight: bold!important; }
         .valuefl { font-size: 13px; }
-        /*.owl-carousel .owl-wrapper{width: 260px !important;}*/
         .imgMini { width: 35px!important; }
         .imgmanu { width: auto!important; }
         .price-block { padding: 15px 0%; }
         .points-block div:first-child{margin-left: 10px; margin-top: 10px;}
         .more-info ul li a{font-size: 10px;}
+        .Earn-product{color: #ef4136;font-size: 9px;}
+        
+        @media (max-width:1024px){
+            .Earn-product{color: #ef4136;font-size: 11px !important;}
+        }
+        
     </style>    
 {/literal}
 {literal}
