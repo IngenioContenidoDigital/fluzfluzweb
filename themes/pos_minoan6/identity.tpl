@@ -141,6 +141,44 @@
                             </label>
                             <input class="is_required validate form-control inputform enabled" disabled data-validate="isPhoneNumber" type="text" name="phone" id="phone" value="{$customerPhone}" />
                         </div>
+                        <div class="required form-group telconumbers">
+                            <label for="phone" class="required">
+                                Numero(s) M&oacute;vil(es)
+                            </label>
+                            <br>
+                            {foreach from=$telconumbers item=telconumber}
+                                <input class="is_required validate form-control inputform enabled telconnumbers" disabled data-validate="isPhoneTelcoNumber" type="number" name="telconumber_{$telconumber.phone_mobile}" id="telconumber_{$telconumber.phone_mobile}" value="{$telconumber.phone_mobile}" />
+                                <br id="separator-telco-icons" style="display: none;">
+                                {if $telconumber.default_number == 1}
+                                    <span class="defaultTelco" number="{$telconumber.phone_mobile}" style="margin-right: 89px;"><i class="icon icon-ok-circle default-icon"></i> {l s='predeterminado'}</span>
+                                {else}
+                                    <span class="defaultTelco" number="{$telconumber.phone_mobile}"><i class="icon icon-bullseye"></i> {l s='establecer predeterminado'}</span>
+                                {/if}
+                                <span class="deleteTelco" number="{$telconumber.phone_mobile}"><i class="icon icon-remove"></i> {l s='borrar'}</span>
+                                <br><br>
+                            {/foreach}
+                        </div>
+                        <div class="required form-group newtelconumber">
+                            <img class="actionaddtelco" src="/modules/fluzfluzapi/images/button-add.png" width="18px"/>
+                            (&nbsp;<input class="is_required form-control inputform enabled" disabled data-validate="isPhoneTelcoNumberPart" type="text" maxlength="3" name="pre1" id="pre1"/>&nbsp;)&nbsp;
+                            &nbsp;<input class="is_required form-control inputform enabled" disabled data-validate="isPhoneTelcoNumberPart" type="text" maxlength="3" name="pre2" id="pre2"/>&nbsp;
+                            -&nbsp;<input class="is_required form-control inputform enabled" disabled data-validate="isPhoneTelcoNumberPart" type="text" maxlength="4" name="pre3" id="pre3"/>
+                        </div>
+                        <div class="required form-group">
+                            <label for="phone" class="required">
+                                {l s='Address'}:
+                            </label><br>
+                            <input class="is_required form-control inputform enabled" disabled type="text" name="address1" id="address1" value="{$address.address1}" /><br>
+                            <input class="is_required form-control inputform enabled" disabled type="text" name="address2" id="address2" value="{$address.address2}" /><br>
+                            <div class="dateBirthText">{$address.city}</div>
+                            <div class="dateBirthInput">
+                                <select id="city" name="city" class="form-control inputform enabled" disabled>
+                                    {foreach from=$cities item=city}
+                                        <option value="{$city.ciudad}" {if ($city.ciudad == $address.city)}selected="selected"{/if}>{$city.ciudad}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
                         <div class="required form-group">
                             <label for="old_passwd" class="required">
                                 {l s='Current Password'}:
@@ -205,6 +243,7 @@
                         {if isset($HOOK_CUSTOMER_IDENTITY_FORM)}
                             {$HOOK_CUSTOMER_IDENTITY_FORM}
                         {/if}
+                        <input type="hidden" name="id" id="id" value="{$customer->id}" />
                         <div class="formInfo form-group">
                             <button type="submit" name="submitIdentity" class="btnInfo">
                                 <span>{l s='Save'}<i class="icon-briefcase right"></i></span>
@@ -309,6 +348,7 @@
             $(".inputform").is(":disabled") ? $(".requiredinfo").css('display', "block") : $(".requiredinfo").css('display', "none");
             $(".inputform").is(":disabled") ? $("#government").prop("type", "text") : $("#government").prop("type", "password");
             $(".inputform").is(":disabled") ? $(".newPassword").css('display', "block") : $(".newPassword").css('display', "none");
+            $(".inputform").is(":disabled") ? $(".newtelconumber").css('display', "block") : $(".newtelconumber").css('display', "none");
             $(".inputform").is(":disabled") ? $(".block-profileimg").css('display', "block") : $(".block-profileimg").css('display', "none");
             $(".inputform").is(":disabled") ? $(".dateBirthText").css('display', "none") : $(".dateBirthText").css('display', "block");
             $(".inputform").is(":disabled") ? $(".dateBirthInput").css('display', "block") : $(".dateBirthInput").css('display', "none");
@@ -330,6 +370,68 @@
             $(".inputformcard").is(":disabled") ? $("#numbercard").css("width", "271px") : $("#numbercard").css("width", "100px");
             $(".inputformcard").is(":disabled") ? $(".inputformcard").removeAttr('disabled') : $(".inputformcard").attr('disabled', 'disabled');
             $('.stdcard')[0].reset();
+        });
+        
+        
+        $(".defaultTelco").click(function(){
+            var id = $("#id").val();
+            var number = $(this).attr("number");
+            $.ajax({
+                method:"POST",
+                data: {'action':'default', 'id':id, 'number':number},
+                url: '/telcoNumbers.php', 
+                success: function(response){
+                    location.reload();
+                }
+            });
+        });
+        
+        $(".deleteTelco").click(function(){
+            var id = $("#id").val();
+            var number = $(this).attr("number");
+            $.ajax({
+                method:"POST",
+                data: {'action':'delete', 'id':id, 'number':number},
+                url: '/telcoNumbers.php', 
+                success: function(response){
+                    location.reload();
+                }
+            });
+        });
+
+        $(".actionaddtelco").click(function(){
+            var id = $("#id").val();
+            var pre1 = $("#pre1").val();
+            var pre2 = $("#pre2").val();
+            var pre3 = $("#pre3").val();
+            if ( pre1 != "" && pre2 != "" && pre3 != "" ) {
+                var number = pre1 + pre2 + pre3;
+                var reg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+                if ( reg.test(number) ) {
+                    $.ajax({
+                        method:"POST",
+                        data: {'action':'add', 'id':id, 'number':number},
+                        url: '/telcoNumbers.php', 
+                        success: function(response){
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        });
+
+        $(".std").submit(function(event) {
+            $(".telconnumbers").each(function( index ) {
+                var id = $("#id").val();
+                var newnumber = $(this).val();
+                var number = $(this).attr("id").split("_");
+                $.ajax({
+                    method:"POST",
+                    data: {'action':'update', 'id':id, 'number':number[1], 'newnumber':newnumber},
+                    url: '/telcoNumbers.php', 
+                    success: function(response){}
+                });
+            });          
         });
     </script>
 {/literal}
