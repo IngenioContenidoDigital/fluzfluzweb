@@ -140,6 +140,25 @@ class ProductsCategory extends Module
                         
                         $array_recomend = array_slice($random, 0, 4);
                         $products_recomend = array_chunk($array_recomend, ceil(count($array_recomend)/4));
+                        $list_products = array_map('current', $products_recomend);
+                        
+                        $array_subcat = array();
+                        foreach ($list_products as $p){
+                            $query_p = 'SELECT 
+                                        p.id_product,
+                                        pa.id_product as id_padre,
+                                        p.price,
+                                        (rp.value/100) as value,
+                                        p.reference
+                                        FROM
+                                        '._DB_PREFIX_.'product_attribute AS pa
+                                        RIGHT JOIN '._DB_PREFIX_.'product AS p ON pa.reference = p.reference
+                                        LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (rp.id_product = p.id_product)
+                                        WHERE pa.id_product='.$p['id_product'].' ORDER BY p.price DESC';
+
+                            $subcategories_p = Db::getInstance()->executeS($query_p);
+                            array_push($array_subcat, $subcategories_p[0]);
+                        }
                         
 			// Remove current product from the list
 			if (is_array($category_products) && count($category_products))
@@ -209,6 +228,7 @@ class ProductsCategory extends Module
                                         'categoryProducts2' => $products_recomend[1],
                                         'categoryProducts3' => $products_recomend[2],
                                         'categoryProducts4' => $products_recomend[3],
+                                        'points_subcategories' => $array_subcat,
                                         'categoryMovil' => $array_recomend,
 					'middlePosition' => (int)$middle_position,
 					'ProdDisplayPrice' => Configuration::get('PRODUCTSCATEGORY_DISPLAY_PRICE')

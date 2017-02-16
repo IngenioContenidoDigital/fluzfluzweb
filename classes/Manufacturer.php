@@ -262,6 +262,12 @@ class ManufacturerCore extends ObjectModel
                     INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
                     WHERE p.id_manufacturer = m.id_manufacturer
                     ORDER BY max_puntos DESC
+                    LIMIT 1) AS value_no_logged,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos DESC
                     LIMIT 1) AS value
                 FROM '._DB_PREFIX_.'manufacturer AS m
                 LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
@@ -310,6 +316,12 @@ class ManufacturerCore extends ObjectModel
                     FROM '._DB_PREFIX_.'rewards_product AS rp 
                     INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
                     WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos ASC
+                    LIMIT 1) AS value_no_logged,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
                     ORDER BY max_puntos DESC
                     LIMIT 1) AS value
                 FROM '._DB_PREFIX_.'manufacturer AS m
@@ -323,6 +335,9 @@ class ManufacturerCore extends ObjectModel
                 ORDER BY m.date_add DESC LIMIT 6';
         
         $manufacturers = Db::getInstance()->executeS($query);  
+        echo '<pre>';
+        print_r($manufacturers);
+        die();
         
         return $manufacturers;
     }

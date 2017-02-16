@@ -4384,7 +4384,8 @@ class ProductCore extends ObjectModel
                 isset($row['cache_is_pack']) ? $row['cache_is_pack'] : null
             );
         }
-
+        
+        $row['id_image_parent'] = $row['id_image'];
         $row['id_image'] = Product::defineProductImage($row, $id_lang);
         $row['features'] = Product::getFrontFeaturesStatic((int)$id_lang, $row['id_product']);
 
