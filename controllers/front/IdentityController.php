@@ -146,6 +146,11 @@ class IdentityControllerCore extends FrontController
                 }
 
                 if ( $this->customer->update() && $address->update() ) {
+                    
+                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."address
+                                                SET address1 = '".Tools::getValue('address1')."', address2 = '".Tools::getValue('address2')."', city = '".Tools::getValue('city')."', dni = '".Tools::getValue('government')."'
+                                                WHERE id_customer = ".$this->customer->id);
+                    
                     $this->context->cookie->customer_lastname = $this->customer->lastname;
                     $this->context->cookie->customer_firstname = $this->customer->firstname;
                     $this->context->smarty->assign('confirmation', 1);
@@ -243,6 +248,21 @@ class IdentityControllerCore extends FrontController
         }
         $year_select .= '</select>';
         $this->context->smarty->assign('year_select',$year_select);
+        
+        $telconumbers = DB::getInstance()->executeS( "SELECT phone_mobile, default_number
+                                                        FROM "._DB_PREFIX_."address
+                                                        WHERE id_customer = ".$this->customer->id );
+        $this->context->smarty->assign('telconumbers', $telconumbers);
+        
+        $address = DB::getInstance()->executeS( "SELECT address1, address2, city
+                                                    FROM "._DB_PREFIX_."address
+                                                    WHERE id_customer = ".$this->customer->id."
+                                                    LIMIT 1" );
+        $this->context->smarty->assign('address', $address[0]);
+
+        $cities = DB::getInstance()->executeS( "SELECT ciudad
+                                                FROM "._DB_PREFIX_."cities" );
+        $this->context->smarty->assign('cities', $cities);
         
         $imgprofile = "";
         if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ) {
