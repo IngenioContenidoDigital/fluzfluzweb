@@ -40,8 +40,8 @@
 .bread-product{padding-left: 30px !important;}
 
 .img-logo{background-size:100% 100% !important; margin:10px;}
-.img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
-.img-center img{max-width: 70% !important; margin: 0px auto !important;}
+.img-center{padding: 10px; width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
+.img-center img{max-width: 100% !important; margin: 0px auto !important;}
 .logo-manufacturer{display: table-cell;
      vertical-align: middle;
      position: relative;}
@@ -113,8 +113,8 @@
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 1px 1px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 1px #b6babe, 0 7px rgba(255, 255, 255, 0);
 }
 
-.containerwidth{
-  width: 100%;
+.containerwidth {
+    margin-left: 10%;
 }
 
 .containerwidth-column{
@@ -166,8 +166,8 @@
     form#searchbox{position: initial !important; top: 0px !important;padding-left: 490px !important;}
     .leftwidth{left: 75px;}
     .owl-wrapper-outer{left: 0px !important;}
-    .page-heading span.heading-counter{margin-right: 5px;}
-    .content_sortPagiBar .sortPagiBar #productsSortForm{margin-right: 5px !important;}
+    .page-heading span.heading-counter{margin-right: 15px;}
+    .content_sortPagiBar .sortPagiBar #productsSortForm{margin-right: 15px !important;}
 
 }
 
@@ -195,7 +195,7 @@
     .ctgImg {margin-top: 0px;margin-top: 67px !important;}
 }
 
-@media(max-width:920px){.menuSticky {min-height: auto !important;}}
+@media(max-width:990px){.menuSticky {min-height: auto !important;}.page-heading.product-listing{border-top: none;}}
                     
 @media (max-width:768px){
     .banner-category{margin-top: 0px !important;}

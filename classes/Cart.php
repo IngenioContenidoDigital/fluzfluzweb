@@ -629,19 +629,6 @@ class CartCore extends ObjectModel
                 $row = array_merge($row, self::$_attributesLists[$row['id_product_attribute'].'-'.$this->id_lang]);
             }
             
-            /*$queryprueba = "SELECT p.id_product AS id, p.id_manufacturer AS id_manufacturer, pl.name AS name, pl.link_rewrite, im.id_image, p.price as price FROM "._DB_PREFIX_."product p
-                            LEFT JOIN "._DB_PREFIX_."product_attribute pa ON (pa.reference = p.reference)
-                            LEFT JOIN "._DB_PREFIX_."product_lang pl ON (p.id_product = pl.id_product)
-                            LEFT JOIN "._DB_PREFIX_."image im ON (p.id_product = im.id_product)   
-                            WHERE p.reference = '".$row['reference']."' AND pl.`id_lang` = ".(int)$this->id_lang;
-            $x = Db::getInstance()->executeS($queryprueba);
-            
-            $row['name'] = $x[0]['name'];
-            $row['id_manufacturer'] = $x[0]['id_manufacturer'];
-            $row['link_rewrite'] = $x[0]['link_rewrite'];
-            $row['id_image'] = $x[0]['id_image'];
-            //$row['id_product'] = $x[0]['id'];*/
-            
             $row = Product::getTaxesInformations($row, $cart_shop_context);
             $this->_products[] = $row;
         }
