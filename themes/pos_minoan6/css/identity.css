@@ -35,6 +35,19 @@ div.selector.disabled span, div.selector.disabled.active span { color: #585858; 
 .btnCard:hover { background: #fff; color: #c9b197; border: 1px solid #c9b197; }
 .block-profileimg { display: none; }
 
+.telconumbers span { font-weight: lighter; color: #585858; margin-right: 20px; cursor: pointer; }
+.telconumbers span:hover { color: #252525;}
+.telconumbers span i { color: #EF4136; }
+.telconumbers span .default-icon { color: #39B54A; }
+#pre1 { width: 70px; }
+#pre2, #pre3 { width: 120px; }
+#pre1, #pre2, #pre3 { border: none; border-bottom: 1px solid #d6d4d4; background-color: #F9F9F9; text-align: right; }
+#pre1:focus, #pre2:focus, #pre3:focus { border-bottom: 1px solid #F15E54; box-shadow: none; }
+.newtelconumber { display: none; }
+.actionaddtelco { margin-right: 10px; }
+#address1, #address2 { margin-bottom: 5px; }
+#city {width: auto}
+
 @media (max-width: 550px) { 
     .dateBirth, .dateExpiration { display: inline-block; }
     .deactivate { float: none; }
@@ -50,6 +63,9 @@ div.selector.disabled span, div.selector.disabled.active span { color: #585858; 
     .form-group > input {font-size: 12px; width: 215px;}
     .title{font-size: 14px!important;}
     .edit{font-size: 14px!important;}
+    #separator-telco-icons {display: block!important;}
+    #pre1 { width: 15vw; }
+    #pre2, #pre3 { width: 18vw; }
 }
 
 @media (max-width:320px){
