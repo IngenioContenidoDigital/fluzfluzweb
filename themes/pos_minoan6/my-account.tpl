@@ -291,7 +291,19 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                            <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
+                            {foreach from=$manufacturers item=manufacturer}
+                                {if $manufacturer.count_m >= 1 }
+                                    <div class="title-cod-class" id="title-cod-{$manufacturer.id_manufacturer}" style="display:none;">
+                                        <div class="pCode">{l s="Numero de Telefono: "}</div>
+                                        <div class="micode"></div>
+                                    </div>
+                                {else}
+                                    <div class="title-cod-class" id="title-cod-{$manufacturer.id_manufacturer}" style="display:none;">
+                                        <div class="pCode">{l s="Your Gift Card ID is: "}</div>
+                                        <div class="micode"></div>
+                                    </div>
+                                {/if}
+                            {/foreach}
                             <div class="pPrice col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:0px; padding-right:0px;">{l s="Valor Original: "}</div><span class="col-lg-3 col-md-3 col-sm-3" id="typecurrency">{l s=" $"}</span><div id="priceCard" class="col-lg-3 col-md-3 col-sm-3 col-xs-6"></div>
                             <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:0px;">{l s="Utilizado: "}</div><div id="priceCard_used" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
                         </div>
@@ -480,7 +492,10 @@
         $('.algo').click(function() {
             var id_manu = $(this).find(".id_manufacturer").html();
             var id_cust = {/literal}{$profile}{literal};
-
+            
+            $(".title-cod-class").css("display","none");
+            $("#title-cod-"+id_manu).css("display","block");
+            
             $.ajax({
                     method:"POST",
                     data: {'action': 'getCardsbySupplier','id_manu': id_manu, 'profile':id_cust},

@@ -313,13 +313,7 @@ class SearchCore
         }
         $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) as quantity,
 				pl.`description_short`, pl.`available_now`, pl.`available_later`, pl.`link_rewrite`, pl.`name`, 
-                                (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
-                            FROM '._DB_PREFIX_.'rewards_product AS rp 
-                            INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
-                            WHERE p.id_manufacturer = m.id_manufacturer
-                            ORDER BY max_puntos DESC
-                            LIMIT 1) AS value,
-			 image_shop.`id_image` id_image, il.`legend`, m.`name` manufacturer_name '.$score.',
+                                image_shop.`id_image` id_image, il.`legend`, m.`name` manufacturer_name '.$score.',
 				DATEDIFF(
 					p.`date_add`,
 					DATE_SUB(
