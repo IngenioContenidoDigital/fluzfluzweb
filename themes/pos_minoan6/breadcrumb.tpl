@@ -103,9 +103,30 @@
         $(function() {
             var cityselected = getCookie("citymanufacturerfilter");
             if ( cityselected != null && cityselected != "" ) {
-                $("#city_filter").html("Comercios en: "+cityselected);
+                $("#city_filter").html("Comercios en: "+cityselected+"&nbsp;<i class='icon icon-remove' onclick='removefilters();' style='color: #EF4136; cursor: pointer;'></i>");
+            }
+
+            var manufacturer = getCookie("manufacturerfilter");
+            if ( manufacturer != null && manufacturer != "" ) {
+                $.ajax({
+                    method:"POST",
+                    data: {'action':'getManufacturer', 'manufacturer':manufacturer},
+                    url: '/filterShop.php', 
+                    success: function(response){
+                        $("#city_filter").html("Comercio: "+response+"&nbsp;<i class='icon icon-remove' onclick='removefilters();' style='color: #EF4136; cursor: pointer;'></i>");
+                    }
+                });
             }
         });
+        
+        function removefilters() {
+            var days = 15;
+            date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            document.cookie = "citymanufacturerfilter=; expires="+date.toGMTString()+"; path=/";
+            document.cookie = "manufacturerfilter=; expires="+date.toGMTString()+"; path=/";
+            location.reload();
+        }
         
         function getCookie(name) {
             var value = "; " + document.cookie;
