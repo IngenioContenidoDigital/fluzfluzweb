@@ -749,7 +749,13 @@ class CategoryCore extends ObjectModel
         $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) AS quantity'.(Combination::isFeatureActive() ? ', IFNULL(product_attribute_shop.id_product_attribute, 0) AS id_product_attribute,
 					product_attribute_shop.minimal_quantity AS product_attribute_minimal_quantity' : '').', pl.`description`, pl.`description_short`, pl.`available_now`,
 					pl.`available_later`, pl.`link_rewrite`, pl.`meta_description`, pl.`meta_keywords`, pl.`meta_title`, pl.`name`, image_shop.`id_image` id_image,
-					il.`legend` as legend, m.`name` AS manufacturer_name, cl.`name` AS category_default, (SELECT ((p.price*(rp.`value`)/100)/25)) AS max_puntos,
+					il.`legend` as legend, m.`name` AS manufacturer_name, cl.`name` AS category_default,
+                                        (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                                            FROM '._DB_PREFIX_.'rewards_product AS rp 
+                                            INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                                            WHERE p.id_manufacturer = m.id_manufacturer
+                                            ORDER BY max_puntos DESC
+                                            LIMIT 1) AS value,
 					DATEDIFF(product_shop.`date_add`, DATE_SUB("'.date('Y-m-d').' 00:00:00",
 					INTERVAL '.(int)$nb_days_new_product.' DAY)) > 0 AS new, product_shop.price AS orderprice   
 				FROM `'._DB_PREFIX_.'category_product` cp
@@ -868,6 +874,7 @@ class CategoryCore extends ObjectModel
             $query = 'SELECT c.`id_category`, cl.`name`, cl.`link_rewrite`, category_shop.`id_shop`
 			FROM `'._DB_PREFIX_.'category` c
 			LEFT JOIN `'._DB_PREFIX_.'category_lang` cl ON (c.`id_category` = cl.`id_category`'.Shop::addSqlRestrictionOnLang('cl').')
+                        INNER JOIN `'._DB_PREFIX_.'category_product` cp ON (c.`id_category` = cp.`id_category`)
 			'.Shop::addSqlAssociation('category', 'c').'
 			WHERE `id_lang` = '.(int)$id_lang.'
 			AND c.`id_parent` = '.(int)$id_parent.'

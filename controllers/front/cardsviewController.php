@@ -22,6 +22,7 @@ class cardsviewControllerCore extends FrontController {
         $card = $this->getCardsbySupplier($this->context->customer->id, $product->id_manufacturer, Tools::getValue("id_order"));
         //echo "<pre>"; print_r($card); die();
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'cards'=> $card,
             'page' => ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1),
             'nbpagination' => ((int)(Tools::getValue('n') > 0) ? (int)(Tools::getValue('n')) : 10),
@@ -52,7 +53,6 @@ class cardsviewControllerCore extends FrontController {
                     (PO.current_state = 2 OR PO.current_state = 5)
                     AND (PO.id_customer =".(int)$id_customer.")
                     AND (PP.id_manufacturer =".(int)$id_manufacturer.")
-                    AND (PPI.cover=1)
                     AND (PL.id_lang=".$this->context->language->id.")
                 )
                 AND PO.id_order = ".$id_order."

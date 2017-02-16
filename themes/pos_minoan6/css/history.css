@@ -36,19 +36,19 @@
 .div-btnShop{text-align: right;padding-right: 0px;}
 
 .history_list > .row > div { padding: 0; }
-.history_list > .row > div { border: 1px solid #d6d4d4; text-align: left; }
+.history_list > .row > div { border: 1px solid #d6d4d4; text-align: left;border-right: none; border-bottom: none;}
 .history_list > .row > div > .row > div:first-child { border-bottom: 1px solid #d6d4d4; color: #414042; font-weight: bold; font-family: 'Open Sans'; background: #f7f7fb; padding: 9px 8px 8px 9px; }
-.history_list > .row > div > .row > div:last-child { padding: 9px 8px 8px 9px; height: 150px; display: table-cell; vertical-align: middle; }
+.history_list > .row > div > .row > div:last-child { padding: 9px 8px 8px 9px; height: 155px; display: table-cell; vertical-align: middle; }
 .block-center { text-align: center!important; }
-.block-right { text-align: right!important; }
+.block-right { text-align: right!important; border-right: 1px solid #d6d4d4 !IMPORTANT;}
 .block-points { color: #ef4136; font-size: 20px; padding: 25px 10px!important; }
 .block-cards { text-align: right!important; padding: 25px 10px!important; }
-.block-save { text-align: right!important; color: #ef4136; font-size: 13px; padding: 25px 10px!important; }
+.block-save { text-align: right!important; color: #ef4136; font-size: 13px; padding: 25px 10px!important; border-right: 1px solid #d6d4d4 !important;}
 .block-product-name { color: #231f20; font-size: 18px; font-weight: bold; line-height: 25px; }
 .block-qty { font-size: 22px; padding-left: 45px!important; }
 .block-price { color: #231f20; font-weight: bold; }
 .block-data-history_list { height: 190px; }
-
+.text-right-history{text-align: right !important;}
 .buttonAccordion{
     padding: 10px;
     border: 1px solid #cacaca;
@@ -61,6 +61,13 @@
 
 .div-btnAccount{padding-left: 0px;}
 .clicked{background: #ef4136; color: #fff;text-shadow: none;font-weight: bold;}
+.border_bottom{border-bottom: 1px solid #d6d4d4;}
+.img-logo{background-size:100% 100% !important; margin:10px;}
+.img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; height: 135px; text-align: center;}
+.img-center img{max-width: 70% !important; margin: 0px auto !important;}
+.logo-manufacturer{display: table-cell;
+     vertical-align: middle;
+     position: relative;}
 
 @media (max-width:768px){
     .image-resp{    

@@ -250,6 +250,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
                  font-family: 'Open Sans';}
 .item-list{text-align: center; margin-top: 30px; color:#121212; font-size: 12px; font-family: 'Open Sans';}
 .img-list{height: 40px; padding: 0px; margin-top: 18px;}
+.img-list img{max-width:80px; margin-left:auto; margin-right:auto !important;}
 .btn-combinations{color: #fff;padding-left: 0px; border: 1px solid #a5957b; background: #c8b79b; font-size: 10px; padding-right: 0px;padding-top: 6px;padding-bottom: 6px;border: none;cursor: pointer; margin-top: 22px;}
 .btn-combinations span{color: #fff; font-size: 11px;font-family: 'Open Sans';}
 .btn-nocombinations{color: #fff;padding-left: 0px; font-size: 10px; background: #c8b79b; padding-right: 0px;padding-top: 10px;padding-bottom: 10px;border: none;cursor: pointer; margin-top: 22px;}
