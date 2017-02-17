@@ -148,13 +148,13 @@ class ProductsCategory extends Module
                                         p.id_product,
                                         pa.id_product as id_padre,
                                         p.price,
-                                        (rp.value/100) as value,
+                                        (ROUND((p.price*(rp.value/100))/25)) as value,
                                         p.reference
                                         FROM
                                         '._DB_PREFIX_.'product_attribute AS pa
                                         RIGHT JOIN '._DB_PREFIX_.'product AS p ON pa.reference = p.reference
                                         LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (rp.id_product = p.id_product)
-                                        WHERE pa.id_product='.$p['id_product'].' ORDER BY p.price DESC';
+                                        WHERE pa.id_product='.$p['id_product'].' ORDER BY value DESC';
 
                             $subcategories_p = Db::getInstance()->executeS($query_p);
                             array_push($array_subcat, $subcategories_p[0]);

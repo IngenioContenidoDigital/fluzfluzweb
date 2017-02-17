@@ -124,7 +124,7 @@
                                                                 <button class="x-close" type="button" style="display:none;"></button>
                                                                 <ul class="bullet dropdown-menu menu-down">
                                                                         <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
-                                                                        <li><a href="{$link->getCMSLink('8','merchants')|escape:'html'}">{l s='Comercios'}</a></li>
+                                                                        <li><a href="http://info.fluzfluz.co/comercios/">{l s='Para Comercios'}</a></li>
                                                                         <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
                                                                         <li><a class="account-m">{l s="MI CUENTA"}&nbsp;&nbsp;<i class="icon icon-chevron-down"></i></a></li>
                                                                         <li class="textbox">
@@ -281,10 +281,11 @@
                                         {if $page_name !='index' && $page_name !='pagenotfound' && $cms->id != 6 && $page_name != 'category'}
 						{include file="$tpl_dir./breadcrumb.tpl"}
 					{/if}
-                                        {if $category->id_image == ''}
+                                        {if $category->id_image == '' && $page_name =='category'}
                                             {literal}
                                                 <style>
                                                     .ctgImg{display:none !important;}
+                                                    .style-search{margin-top: 70px;}
                                                 </style>
                                             {/literal}
                                         {/if}    
@@ -295,7 +296,8 @@
 						</div>
 					</div>
                                         <div class="row style-search">
-                                            <div id="search_block_left" class="block exclusive">
+                                            <div id="search_block_left" class="block exclusive search-test">
+                                                <div class="div-form">
                                                     <form method="get" action="{$link->getPageLink('search', true, null, null, false, null, true)|escape:'html':'UTF-8'}" id="searchbox">
                                                             <p class="block_content clearfix">
                                                                     <input type="hidden" name="orderby" value="position" />
@@ -305,6 +307,7 @@
                                                                     <button type="submit" id="search_button" class="btn btn-default button button-small"><span><i class="icon-search"></i></span></button>
                                                             </p>
                                                     </form>
+                                                </div>                    
                                             </div>
                                         </div>    
                                         {include file="$tpl_dir./breadcrumb.tpl"}                                

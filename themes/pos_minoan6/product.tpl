@@ -286,6 +286,7 @@
                                                                         <div class="row">
                                                                             
                                                                         {if $combinations} 
+                                                                            {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
                                                                             <div class="title-table-combinations row"> 
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Valor en tienda'}</div>
@@ -374,7 +375,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$product->type_currency}&nbsp;${$product->price_shop|number_format:0}</div>
                                                                                 {if $product->type_currency == 'COP'}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
-                                                                                {else}
+                                                                                {elseif $product->type_currency == 'USD' && $product->save_dolar > 0}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$product->save_dolar}%</div>
                                                                                 {/if}
                                                                                 {if $logged}
@@ -385,7 +386,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$productPrice/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#000; font-weight: bold;">
                                                                                     <span>${$productPrice|number_format:0}</span><br>
-                                                                                    {if $list.type_currency == 'COP'}
+                                                                                    {if $list.type_currency == 'COP' && $save_price > 0}
                                                                                         <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$save_price}%</div>
                                                                                     {else}
                                                                                         <div class="save-query" style="color:#ef4136;display:none">{l s="Ahorra "}{$product->save_dolar}%</div>
