@@ -139,12 +139,12 @@
                     .content_sortPagiBar .display li{display: none;}
                     .bottom-pagination-content ul.pagination{margin-top: 0 !important;}
                     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
-                    .style-search{background:#ef4136;height: 75px;}
+                    .style-search{background:#ef4136;height: 65px;}
                     form#searchbox input#search_query_block{margin-bottom: 0px !important;height: 39px; max-width: 380px; margin-right: 0px !important;}
                     #search_query_top{left: 0px; margin-top: 65px; z-index: 1;}
-                    .bread-style{width: 100%;}
                     .content_sortPagiBar .sortPagiBar .nbrItemPage{padding-left: 10px;}
                     .page-heading.product-listing{padding-left: 15px;}
+                    .filter-padding{padding-left: 35px;}
                     @media (min-width:1025px) and (max-width:1120px){
                         .prueba{left: 186px;}
                         .owl-item {width: 235px;}

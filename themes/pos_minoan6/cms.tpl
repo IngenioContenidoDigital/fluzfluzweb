@@ -38,9 +38,7 @@
                         
 	{/if}
         <div class="rte">
-            {*$cms->content*}
             {hook h='bannerSlide'}
-            {*$slider*}
         </div>
         <div class="row style-search">
             <div id="search_block_left" class="block exclusive">
