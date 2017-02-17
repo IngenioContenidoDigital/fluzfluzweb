@@ -87,7 +87,7 @@
                     <ul style="display: none;" id="categorychildren-c{$key}" class="categorychildren">
                         {foreach from=$city_manufacturer_filter item="city_manufacturer"}
                             <li>
-                                <a id="{$city_manufacturer.city|lower|replace:" ":""|replace:"(":""|replace:")":""|replace:".":""|replace:",":""|replace:"á":"a"|replace:"é":"e"|replace:"í":"i"|replace:"ó":"o"|replace:"ú":"u"|replace:"Á":"a"|replace:"É":"e"|replace:"Í":"i"|replace:"Ó":"o"|replace:"Ú":"u"}" class="city_manufacturer_filter" href="">
+                                <a id="{$city_manufacturer.city}" class="city_manufacturer_filter" href="">
                                     {$city_manufacturer.city|lower}
                                 </a>
                             </li>
