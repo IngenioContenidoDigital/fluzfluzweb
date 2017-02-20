@@ -24,6 +24,13 @@
 */
 $(document).ready(function(){
 	resizeCatimg();
+        if ( $(window).width() > 991 ) {
+            $(".title_block_category").click();
+            $(".title_block_category").click();
+            $(".title_block_category").addClass("active");
+            $(".title_block_category").css("border-bottom",'none');
+            $(".title_block_category").attr("after-content",'-');
+        }
 });
 
 $(window).resize(function(){

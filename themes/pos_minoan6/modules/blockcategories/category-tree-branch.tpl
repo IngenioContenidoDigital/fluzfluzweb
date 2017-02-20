@@ -25,7 +25,8 @@
 
 <li>
         {if $node.father == "true"}
-                <a id="categoryfather-{$node.id_category}" class="categoryfather" onclick="downcategory({$node.id_category});">
+                {*<a id="categoryfather-{$node.id_category}" class="categoryfather catfatherlink" onclick="downcategory({$node.id_category});">*}
+                <a id="categoryfather-{$node.id_category}" class="categoryfather catfatherlink">
                         {$node.name|escape:'html':'UTF-8'}
                 </a>
         {else}
@@ -37,7 +38,7 @@
 	{if $node.children|@count > 0}
 		<ul style="display: none;" id="categorychildren-{$node.id_category}" class="categorychildren">
                         <li>
-                                <a id="category-opt-{$node.id_category}" href="{$node.link|escape:'html':'UTF-8'}" style="font-weight: bold; font-style: italic;">
+                                <a id="category-opt-{$node.id_category}" href="{$node.link|escape:'html':'UTF-8'}" style="font-weight: bold; font-style: italic; display: none;">
                                         {l s='Todas'}
                                 </a>
                         </li>
