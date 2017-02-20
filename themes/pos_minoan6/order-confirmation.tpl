@@ -80,8 +80,15 @@
             <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Total'}</th>
         </tr>
         {foreach $order_products as $product}
+            {debug}
             <tr>
-                <td><img class="img_product" src="{$link->getImageLink($product.id_product, $product.image->id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.product_name|escape:'html':'UTF-8'}" title="{$product.product_name|escape:'html':'UTF-8'}" /></td>
+                <td>
+                    {if $product.image->id_image == ''}
+                        <img src="{$s3}m/m/{$product.id_manufacturer}.jpg" alt="{$product.name|escape:'html':'UTF-8'}" {if isset($mediumSize)}width="" height="{$mediumSize.height}" {/if} /></a>
+                    {else}
+                        <img class="img_product" src="{$link->getImageLink($product.id_product, $product.image->id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.product_name|escape:'html':'UTF-8'}" title="{$product.product_name|escape:'html':'UTF-8'}" />
+                    {/if}
+                </td>
                 <td>
                     <span class="name_product">{$product.product_name}</span><br>
                     <span class="number_product">{l s='Product'} #:</span><br>
