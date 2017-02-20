@@ -331,7 +331,7 @@ class ProductControllerCore extends FrontController
     
     public function  addressManufacturers(){
         
-        $query = 'SELECT address1, city FROM ps_address where id_manufacturer = '.$this->product->id_manufacturer;
+        $query = 'SELECT address1, city FROM ps_address where id_manufacturer = '.$this->product->id_manufacturer.' AND deleted = 0';
         $address = Db::getInstance()->executeS($query);
         
         return $address;
