@@ -130,12 +130,13 @@ class OrderConfirmationControllerCore extends FrontController
         $order_products = $order->getProducts();
         foreach ( $order_products as &$order_product ) {
             
-            $queryprueba = "SELECT p.id_product AS id, p.type_currency, rp.value as value FROM "._DB_PREFIX_."product p
+            $queryprueba = "SELECT p.id_product AS id, p.id_manufacturer, p.type_currency, rp.value as value FROM "._DB_PREFIX_."product p
                             LEFT JOIN "._DB_PREFIX_."product_attribute pa ON (pa.reference = p.reference)
                             LEFT JOIN "._DB_PREFIX_."product_lang pl ON (p.id_product = pl.id_product)
                             LEFT JOIN "._DB_PREFIX_."rewards_product rp ON (rp.id_product = p.id_product)
                             WHERE p.reference = '".$order_product['reference']."' AND pl.`id_lang` = ".(int)$this->context->language->id;
             $x = Db::getInstance()->executeS($queryprueba);
+            
             $porcentaje_detail = $x[0]['value']/100;
             
             $sponsorships = array_slice(RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id), 1, 15);
@@ -143,7 +144,9 @@ class OrderConfirmationControllerCore extends FrontController
         }
 
         $this->context->smarty->assign(array(
+            's3'=> _S3_PATH_,
             'order' => $order,
+            'mediumSize' => Image::getSize(ImageType::getFormatedName('medium')),
             'order_products' => $order_products,
             'state_payment' => $state_payment[0]
         ));
