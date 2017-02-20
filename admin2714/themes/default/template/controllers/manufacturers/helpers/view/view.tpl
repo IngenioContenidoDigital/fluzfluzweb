@@ -38,7 +38,12 @@
 				<div class="pull-right">
 					<a class="btn btn-default" href="{$link->getAdminLink('AdminManufacturers')|escape:'html':'UTF-8'}&amp;id_address={$addresse.id_address}&amp;editaddresses=1">
 						<i class="icon-edit"></i>
-						{l s='Edit'}</a>
+						{l s='Edit'}
+                                        </a>
+                                        <a href="{$link->getAdminLink('AdminManufacturers')|escape:'html':'UTF-8'}&amp;id_address={$addresse.id_address}&amp;deleteaddress" class="btn btn-default btn-sm" onclick="return confirm('{l s='Delete item #'}{$addresse.id_address} ?');">
+                                                <i class="icon-trash"></i>
+                                                {l s='Delete'}
+                                        </a>
 				</div>
 			</div>
 
