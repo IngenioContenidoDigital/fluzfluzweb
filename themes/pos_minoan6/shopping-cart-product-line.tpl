@@ -33,7 +33,7 @@
                 {if $product.id_image == 'es-default'}
                     <img src="{$s3}m/{$product.id_manufacturer}.jpg" alt="{$product.name|escape:'html':'UTF-8'}" {if isset($smallSize)}width="{$smallSize.width}" height="{$smallSize.height}" {/if} /></a>
                 {else}
-                    <img src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.name|escape:'html':'UTF-8'}" {if isset($smallSize)}width="{$smallSize.width}" height="{$smallSize.height}" {/if} /></a>
+                    <img src="{$link->getImageLink($product.link_rewrite, $product.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.name|escape:'html':'UTF-8'}" {if isset($smallSize)} width="{$smallSize.width}" height="{$smallSize.height}" {/if} /></a>
                 {/if}    
         </td>
 	<td class="cart_description" data-title="{l s='Descripcion'}">
