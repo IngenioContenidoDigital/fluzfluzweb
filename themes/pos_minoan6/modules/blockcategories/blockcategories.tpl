@@ -24,8 +24,8 @@
 *}
 <!-- Block categories module -->
 <div id="categories_block_left" class="block blockCat">
-    <h2 class="title_block" after-content="+">{l s='Categorias'}</h2>
-    <div class="block_content">
+    <h2 class="title_block title_block_category" after-content="+">{l s='Categorias'}</h2>
+    <div class="block_content block_content_category">
         <div class="line-bottom"></div>
         <ul class="tree {if $isDhtml}dhtml{/if}">
             {foreach from=$blockTreeCategories item=child name=blockTreeCategories}
@@ -174,6 +174,11 @@
                 $(this).css("border-bottom","none");
                 $(this).attr('after-content','-');
             }
+        });
+
+        $(".catfatherlink").click(function() {
+            var idcat = $(this).attr("id").split("-");
+            window.location.href = $("#category-opt-"+idcat[1]).attr("href");
         });
     </script>
 {/literal}
