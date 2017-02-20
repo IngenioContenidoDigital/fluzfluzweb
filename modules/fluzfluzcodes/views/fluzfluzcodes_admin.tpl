@@ -33,7 +33,7 @@
                                 <td style="text-align: center;">{$code.date_add}</td>
                                 <td style="text-align: center;" class="action">
                                     {if $code.order == ""}
-                                        <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.code}');">
+                                        <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.codecomplete}');">
                                     {/if}
                                 </td>
                             </tr>
@@ -52,7 +52,7 @@
     function sendAction(action, product, code) {
         var msgError = "Se ha generado un error ejecutando la accion porfavor intente de nuevo.";
         if ( action == "deletecode" && product != "" && code != "" ) {
-            conf = confirm( 'Confirma que desea eliminar el codigo '+code );
+            conf = confirm( 'Confirma que desea eliminar el codigo **********'+code.substr(-4,code.lenght) );
             if ( conf == true ) {
                 $.ajax({
                     method: "POST",
