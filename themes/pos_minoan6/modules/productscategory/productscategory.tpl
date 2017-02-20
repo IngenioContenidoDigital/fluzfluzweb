@@ -58,9 +58,9 @@
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
                                                         {if $logged}
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {else}                       
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {/if}
                                                     {/if}
                                                 {/foreach}    
@@ -86,9 +86,9 @@
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
                                                         {if $logged}
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {else}                       
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {/if}
                                                     {/if}
                                                 {/foreach} 
@@ -114,9 +114,9 @@
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
                                                         {if $logged}
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {else}                       
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {/if}
                                                     {/if}
                                                 {/foreach} 
@@ -142,9 +142,9 @@
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
                                                         {if $logged}
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {else}                       
-                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                         {/if}
                                                     {/if}
                                                 {/foreach}
@@ -170,9 +170,9 @@
                                                     {foreach from=$points_subcategories item=p}
                                                         {if $categoryProduct.id_product==$p.id_padre}
                                                             {if $logged}
-                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                             {else}                       
-                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                             {/if}
                                                         {/if}
                                                     {/foreach}

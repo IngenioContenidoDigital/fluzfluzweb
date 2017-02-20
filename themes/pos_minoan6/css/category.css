@@ -33,12 +33,15 @@
 .img-responsive{max-width: 100%;}
 .ctgImg{width: 1440px;}
 .container{max-width: 1440px;}
-.block{    margin-top: 18px;}
+.block{margin: 0px auto;}
 .banner-category {margin-bottom: 0px!important;margin-top: 42px;}
 .button.button-small {background: #c9b198 !important;padding: 11px 26px !important;}
 .menuSticky{margin-top: 0px;}
 .bread-product{padding-left: 30px !important;}
-
+.search-test{width: 90%; margin: 0 auto;}
+form#searchbox .button.button-small{height: 39px !important;}
+.div-form{width: 80%;margin: 0 auto;}
+.div-form form#searchbox{width: 45%;margin: 0 auto;}
 .img-logo{background-size:100% 100% !important; margin:10px;}
 .img-center{padding: 10px; width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
 .img-center img{max-width: 100% !important; margin: 0px auto !important;}
@@ -156,80 +159,85 @@
 
 @media (max-width: 2500px){
     .container{ max-width: 1920px;}
-    form#searchbox{position: initial !important;top: 0px !important;padding-left: 740px !important;}
+    form#searchbox{position: initial !important;top: 0px !important;}
     .leftwidth{left: 55px;}
     .owl-wrapper-outer{left: 80px !important;}
     .page-heading span.heading-counter{margin-right: 50px;}
+    .div-form form#searchbox {width: 35%;margin: 0 auto;}
 }
 
 @media (max-width: 1440px){
-    form#searchbox{position: initial !important; top: 0px !important;padding-left: 490px !important;}
+    form#searchbox{position: initial !important; top: 0px !important;}
     .leftwidth{left: 75px;}
     .owl-wrapper-outer{left: 0px !important;}
     .page-heading span.heading-counter{margin-right: 15px;}
     .content_sortPagiBar .sortPagiBar #productsSortForm{margin-right: 15px !important;}
-
+    .div-form form#searchbox{width: 50%;margin: 0 auto;}
 }
 
 @media (min-width:1440px){
     .big-img{height:300px !important;}
-    .breadcrumb{height: 42px !important;}
 }
 
-@media (min-width:1025px) and (max-width:1080px){
-    form#searchbox{padding-left: 350px !important;}
+@media (min-width:1441px) and (max-width:1762px){
+    .div-form form#searchbox{width: 45%;margin: 0 auto;}
 }
 
 @media (max-width: 1024px){
     .owl-item { width: 218px !important; min-width: 0; margin-left: 11px !important;}
     .owl-wrapper{margin-left: 1px !important; transition:none !important; transform: none !important;}
     .prueba {left: 180px;}
+    .breadcrumb a.home{font-size: 10px; height: 20px;}
     .leftwidth{left: 15px;}
-    form#searchbox{position: initial !important;top: 0px !important;padding-left: 285px !important;}
+    form#searchbox{position: initial !important;top: 0px !important;}
     .img-center {height: 150px;}
+    span{font-size: 10px;line-height: 14px;}
     .img-newmerchant {
         width: 145px;
         margin: 0 auto !important;
     }
-    .breadcrumb{padding-bottom: 0px;}
     .ctgImg {margin-top: 0px;margin-top: 67px !important;}
+    .div-form form#searchbox{width: 65%;margin: 0 auto;}
 }
 
 @media(max-width:990px){.menuSticky {min-height: auto !important;}.page-heading.product-listing{border-top: none;}}
                     
 @media (max-width:768px){
     .banner-category{margin-top: 0px !important;}
+    .containerwidth{margin-left: 0px;}
     .ctgImg {margin-top: 0px;}
+    .breadcrumb a.home{font-size: 10px;}
+    .breadcrumb .navigation-pipe{padding-left: 0px;}
     .page-heading.product-listing{width: 93%;margin-left: 25px;margin-right: 30px;}
     .owl-carousel .owl-wrapper{margin-left: 0px;}
-    form#searchbox{position: initial !important;top: 0px !important;padding-left: 170px !important;}
-    .breadcrumb {margin-left: 0px;padding-left: 0px !IMPORTANT; margin-bottom: 0px;}
+    form#searchbox{position: initial !important;top: 0px !important;}
+    .breadcrumb {margin-left: 0px;font-size: 10px;padding-left: 0px !IMPORTANT; margin-bottom: 0px;}
     .containerwidth-column{width: 100%;}
     .leftwidth{left: 5px;}
     .page-heading span.heading-counter {margin-left: 10px;margin-right: 0px;}
-    .bread-product{width: 65%;}
-    .filter-padding{width: 30%;}
+    #categories_block_left h2.title_block{margin-top: 0px;}
+    .div-form form#searchbox{width: 85%;margin: 0 auto;}
 }
 
 @media (max-width:425px){
     .content_sortPagiBar .sortPagiBar{float:left;}
     .owl-item {width: 378px !important;min-width: 0;margin-left: 0px !important;}
-    form#searchbox{padding-left: 20px !important;}
     form#searchbox input#search_query_block{max-width: 318px !important;}
     .banner-category{margin-top: 18px !important;}
     .owl-wrapper-outer {left: 1px !important;}
     .page-heading span.heading-counter {margin-left: 0px;margin-right: 0px;}
     .content_sortPagiBar .sortPagiBar #productsSortForm {float: left; margin-left: 9px;}
-    span{font-size: 10px;}
-    .filter-padding {
-        margin-top: 20px;
-        width: 30%;
-        margin-left: 15px;
-    }
-    .bread-product {
-        width: 100%;
-    }
-    
+    span{font-size: 10px;line-height: 12px;}
+    .bread-style{width: 100%;}
+    .breadcrumb{font-size: 10px;}
+    .filter-padding {padding-left: 25px !important;padding-right: 0px;}
+    .breadcrumb a.home{font-size: 10px; height: 20px;}
+    .container_city_filter{display: none;}
+    .div-form{width: 100%;margin: 0 auto;}
+    .div-form form#searchbox{width: 100%;margin: 0 auto;}
+    .style-search{width: 100%;}
+    .style-search{height: 60px !important;}
+
 }
 
 @media (max-width:375px){
@@ -237,12 +245,16 @@
     form#searchbox input#search_query_block {max-width: 273px !important;}
     .banner-category{margin-top: 18px !important;}
     .breadcrumb{font-size: 10px;}
-    .filter-padding {width: 100%; }
+    .filter-padding {padding-left: 25px !important; padding-right: 0px;}
+    .breadcrumb .navigation-pipe{padding-left: 0;}
 }
 
 @media (max-width:320px){
     .img-responsive{width: 100% !important;}
     .owl-item{width: 274px !important;}
+    .bread-style{width: 100%;}
+    span{font-size: 9px;}
+    .breadcrumb a.home{font-size: 9px;}
     .banner-category{margin-top: 18px !important;}
-    form#searchbox input#search_query_block {max-width: 216px !important;}
+    form#searchbox input#search_query_block {max-width: 223px !important;}
 }

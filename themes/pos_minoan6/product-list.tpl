@@ -92,9 +92,9 @@
                                             {foreach from=$points_subcategories item=p}
                                                 {if $product.id_product==$p.id_padre}
                                                     {if $logged}
-                                                        <span>{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        <span>{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                     {else}                       
-                                                        <span>{l s="GANA HASTA"}&nbsp;{((($p.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        <span>{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
                                                     {/if}
                                                 {/if}
                                             {/foreach}    
