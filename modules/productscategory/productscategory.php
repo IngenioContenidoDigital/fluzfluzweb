@@ -139,17 +139,15 @@ class ProductsCategory extends Module
                         }
                         
                         foreach ($random as &$r){
-                            $url_image = _S3_PATH_.'p/'.$r['id_image_parent'].'.jpg';
-                            $exist_img = file_get_contents($url_image);
                             
-                            if(strlen($exist_img)){
+                           if($r['id_image_parent']!=''){
                                $url_image = _S3_PATH_.'p/'.$r['id_image_parent'].'.jpg';
-                            }
-                            else{
-                               $url_image = _S3_PATH_.'m/m/'.$r['id_manufacturer'].'.jpg'; 
-                            }
+                           }
+                           else{
+                               $url_image = _S3_PATH_.'m/m/'.$r['id_manufacturer'].'.jpg';
+                           }
                             
-                            $r['url_exists'] = $url_image;
+                           $r['url_exists'] = $url_image;
                         }
                         
                         $array_recomend = array_slice($random, 0, 4);
