@@ -484,6 +484,17 @@ class AuthControllerCore extends FrontController
                 // New Guest customer
                 $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                 $customer->active = 1;
+                
+                // Validate exist username
+                if ( Customer::usernameExists( Tools::getValue("username") ) ) {
+                    $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
+                }
+                
+                // Validate dni
+                if ( Customer::dniExists( Tools::getValue("gover") ) ) {
+                    $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
+                }
+                
                 if (!count($this->errors)) {
 
                     $customerLoaded = false;
