@@ -246,7 +246,7 @@
         .Earn-product{color: #ef4136;font-size: 9px;}
         .img-logo{background-size:100% 100% !important; margin:0px;}
         .img-center{padding: 5px; min-width: 100%;display: table; margin-bottom: 10px; min-height: 80px; text-align: center;}
-        .img-center img{max-width: 70% !important; margin: 0px auto !important;}
+        .img-center img{max-width: 100% !important; margin: 0px auto !important;}
         .img-responsive{margin-left: auto !important;margin-right: auto !important;}
         .logo-manufacturer{display: table-cell;vertical-align: middle;position: relative;}
        
