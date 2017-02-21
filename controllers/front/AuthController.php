@@ -487,7 +487,7 @@ class AuthControllerCore extends FrontController
                 
                 // Validate exist username
                 if ( Customer::usernameExists( Tools::getValue("username") ) ) {
-                    $this->errors[] = Tools::displayError('El nombre de usuario ya esta en uso.');
+                    $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
                 }
                 
                 // Validate dni
