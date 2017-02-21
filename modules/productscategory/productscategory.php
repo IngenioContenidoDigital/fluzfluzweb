@@ -138,14 +138,30 @@ class ProductsCategory extends Module
                             $random[$key] = $category_products[$key];
                         }
                         
+                        foreach ($random as &$r){
+                            $url_image = _S3_PATH_.'p/'.$r['id_image_parent'].'.jpg';
+                            $exist_img = file_get_contents($url_image);
+                            
+                            if(strlen($exist_img)){
+                               $url_image = _S3_PATH_.'p/'.$r['id_image_parent'].'.jpg';
+                            }
+                            else{
+                               $url_image = _S3_PATH_.'m/m/'.$r['id_manufacturer'].'.jpg'; 
+                            }
+                            
+                            $r['url_exists'] = $url_image;
+                        }
+                        
                         $array_recomend = array_slice($random, 0, 4);
                         $products_recomend = array_chunk($array_recomend, ceil(count($array_recomend)/4));
                         $list_products = array_map('current', $products_recomend);
                         
                         $array_subcat = array();
-                        foreach ($list_products as $p){
+                        
+                        foreach ($list_products as &$p){
                             $query_p = 'SELECT 
                                         p.id_product,
+                                        p.id_manufacturer,
                                         pa.id_product as id_padre,
                                         p.price,
                                         (ROUND((p.price*(rp.value/100))/25)) as value,
@@ -155,7 +171,7 @@ class ProductsCategory extends Module
                                         RIGHT JOIN '._DB_PREFIX_.'product AS p ON pa.reference = p.reference
                                         LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (rp.id_product = p.id_product)
                                         WHERE pa.id_product='.$p['id_product'].' ORDER BY value DESC';
-
+                            
                             $subcategories_p = Db::getInstance()->executeS($query_p);
                             array_push($array_subcat, $subcategories_p[0]);
                         }
