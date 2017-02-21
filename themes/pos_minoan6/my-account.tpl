@@ -119,7 +119,7 @@
                         <div class="img-center">
                             <div class="logo-manufacturer">
                                 <a class="product_img_link" href="{$link->getProductLink($id_product, $link_rewrite)|escape:'html':'UTF-8'}" title="{$name_product|escape:'html':'UTF-8'}" itemprop="url">
-                                    <img src="{$s3}m/{$last_shopping_product.id_manufacturer}.jpg" alt="{$last_shopping_product.name_product|lower|escape:'htmlall':'UTF-8'}" title="{$last_shopping_product.name_product|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/>
+                                    <img src="{$s3}m/{$last_shopping_product.id_manufacturer}.jpg" alt="{$last_shopping_product.name_product|lower|escape:'htmlall':'UTF-8'}" title="{$last_shopping_product.name_product|lower|escape:'htmlall':'UTF-8'}" class="img-responsive" style="max-width:100% !important;"/>
                                 </a>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                 {/if}
                             </div>
                             <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                                <span style="font-size:11px;">{l s='Fluz Recibidos:'}: </span><span class="pointsmnf">{$credits}</span>
+                                <span style="font-size:11px;">{l s='Fluz Recibidos: '}</span><span class="pointsmnf">&nbsp;{$credits|number_format:0:".":","}</span>
                             </div>
                         </div>
                         <div class="row" style="padding: 5px;">
@@ -194,7 +194,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><span class="information">{l s='Fluz Otorgados:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
+                                            <td colspan="2"><span class="information">{l s='Fluz Otorgados:'} </span><span class="data">{if $member.points != ""}{$member.points|number_format:0:".":","}{else}0{/if}</span></td>
                                             <td>&nbsp;</td>
                                             <td></td>
                                         </tr>
