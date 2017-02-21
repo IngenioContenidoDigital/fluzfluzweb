@@ -980,4 +980,28 @@ class CustomerCore extends ObjectModel
                                             SET email = "'.$email.'"
                                             WHERE id_customer = '.(int)$id_customer);
     }
+    
+    public static function usernameExists($username) {
+        $users = Db::getInstance()->getValue("SELECT COUNT(*)
+                                                FROM "._DB_PREFIX_."customer
+                                                WHERE username = '".$username."'
+                                                AND active = 1");  
+        if ( $users > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function dniExists($dni) {
+        $users = Db::getInstance()->getValue("SELECT COUNT(*)
+                                                FROM "._DB_PREFIX_."customer
+                                                WHERE dni = ".$dni."
+                                                AND active = 1");  
+        if ( $users > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
