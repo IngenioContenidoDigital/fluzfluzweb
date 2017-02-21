@@ -80,7 +80,6 @@
             <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Total'}</th>
         </tr>
         {foreach $order_products as $product}
-            {debug}
             <tr>
                 <td>
                     {if $product.image->id_image == ''}
