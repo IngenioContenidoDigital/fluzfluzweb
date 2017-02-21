@@ -222,6 +222,8 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
     margin-top: 0px;
 }
 
+.img-logo-merchant{width: 100% !important;}
+
 .img-newmerchant {
     width: 96px !important;
     margin: 0 auto;
@@ -850,7 +852,7 @@ padding-bottom: 8px;
 
 @media (min-width:1200px) and (max-width:1440px){
     .owl-item{width: 230.1px !important; margin: 0px 0.5px !important;}
-    .owl-carousel .owl-wrapper-outer{margin-left: -5px;}
+    .owl-carousel .owl-wrapper-outer{margin-left: -5px; margin-bottom: 15px !important;}
     .owl-carousel{width: 100%;}
     .tiendaP{margin-left: -12px !important;}
     .primary_block .pb-left-column img{width: 98%;}
@@ -883,7 +885,7 @@ padding-bottom: 8px;
 @media (min-width:1451px) and (max-width:2600px){
     .recomend-movil{display: none;}
     .product_movil{display: none !important;}
-    .owl-carousel .owl-wrapper-outer{margin-left: 0px;}
+    .owl-carousel .owl-wrapper-outer{margin-left: 0px;margin-bottom: 20px;height: 120px;}
     .owl-carousel{width: 92%;}
     .tiendaP{text-align: left !important;margin-left: 0px;width: 30%;}
     .container{margin-left: 0px; margin-right: 0px; min-width: 100%;}
@@ -929,11 +931,11 @@ padding-bottom: 8px;
         margin: 0 auto;
     }
     
-    .points-block {padding-left: 28px;
+    .points-block {padding-left: 10px;
     margin-top: 20px;}
     
     .primary_block .pb-left-column img{margin-top: 0px;}
-    
+    .img-center{min-height: 120px !important;}
     
 }
 
