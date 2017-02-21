@@ -185,6 +185,7 @@
 {literal}
 <style>
     .categorychildren{padding-left: 15px;}
+    .block_content_category{height: auto!important;}
     @media (max-width: 1024px) {
         .title_block { font-size: 11px!important; }
         .title_block::after { font-size: 20px!important; }
