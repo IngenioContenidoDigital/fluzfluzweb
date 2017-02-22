@@ -470,6 +470,14 @@ class AdminCustomersControllerCore extends AdminController
                 ),
                 array(
                     'type' => 'text',
+                    'label' => $this->l('Identificacion'),
+                    'name' => 'dni',
+                    'required' => true,
+                    'col' => '4',
+                    'hint' => $this->l('DNI / NIF / NIE')
+                ),
+                array(
+                    'type' => 'text',
                     'prefix' => '<i class="icon-envelope-o"></i>',
                     'label' => $this->l('Email address'),
                     'name' => 'email',
@@ -1020,6 +1028,16 @@ class AdminCustomersControllerCore extends AdminController
         // Check that default group is selected
         if (!is_array(Tools::getValue('groupBox')) || !in_array(Tools::getValue('id_default_group'), Tools::getValue('groupBox'))) {
             $this->errors[] = Tools::displayError('A default customer group must be selected in group box.');
+        }
+        
+        // Validate exist username
+        if ( Customer::usernameExists( Tools::getValue("username") ) ) {
+            $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
+        }
+
+        // Validate dni
+        if ( Customer::dniExists( Tools::getValue("dni") ) ) {
+            $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
         }
 
         // Check the requires fields which are settings in the BO
