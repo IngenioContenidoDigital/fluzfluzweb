@@ -388,7 +388,7 @@ abstract class PaymentModuleCore extends Module
             $reward_max = $rowreward['credits'];
             
             if ((-1*$reward_max) > ($reward)){
-                $updatepoints="UPDATE "._DB_PREFIX_."rewards r SET r.credits=".-1*$reward." WHERE r.id_customer=".$this->context->customer->id." AND r.id_order=0 AND r.id_cart=".$id_cart.' ORDER BY r.date_add DESC LIMIT 1';
+                $updatepoints="UPDATE "._DB_PREFIX_."rewards r SET r.credits=".$reward_max." WHERE r.id_customer=".$this->context->customer->id." AND r.id_order=0 AND r.id_cart=".$id_cart.' ORDER BY r.date_add DESC LIMIT 1';
                 Db::getInstance()->execute($updatepoints);
             }
             
