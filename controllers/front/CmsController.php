@@ -107,7 +107,7 @@ class CmsControllerCore extends FrontController
         $this->context->smarty->assign('id_current_lang', $this->context->language->id);
         $this->context->smarty->assign('home_title', $parent_cat->name);
         $this->context->smarty->assign('cgv_id', Configuration::get('PS_CONDITIONS_CMS_ID'));
-
+        
         if ($this->assignCase == 1) {
             if (isset($this->cms->id_cms_category) && $this->cms->id_cms_category) {
                 $path = Tools::getFullPath($this->cms->id_cms_category, $this->cms->meta_title, 'CMS');
