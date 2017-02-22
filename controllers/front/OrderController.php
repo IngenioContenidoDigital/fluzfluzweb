@@ -157,8 +157,9 @@ class OrderControllerCore extends ParentOrderController
         
         foreach ($this->context->cart->getProducts() as $product) {
             
-            $queryprueba = "SELECT p.id_product as id, p.type_currency , p.save_dolar, p.price_shop, p.reference FROM "._DB_PREFIX_."product p
+            $queryprueba = "SELECT p.id_product as id, p.type_currency , i.id_image as image_parent, p.save_dolar, p.price_shop, p.reference FROM "._DB_PREFIX_."product p
                             LEFT JOIN "._DB_PREFIX_."product_attribute pa ON (pa.reference = p.reference)
+                            LEFT JOIN "._DB_PREFIX_."image as i ON (i.id_product = pa.id_product)
                             LEFT JOIN "._DB_PREFIX_."product_lang pl ON (p.id_product = pl.id_product)
                             WHERE p.reference = '".$product['reference']."' AND pl.`id_lang` = ".(int)$this->context->language->id;
             $x = Db::getInstance()->executeS($queryprueba);
@@ -169,12 +170,14 @@ class OrderControllerCore extends ParentOrderController
             $productsID[$x[0]['reference']] = $x[0]['id'];
             $type_currency[$x[0]['reference']] = $x[0]['type_currency'];
             $save_dolar[$x[0]['reference']] = $x[0]['save_dolar'];
+            $img_parent[$x[0]['reference']] = $x[0]['image_parent'];
         }
         
         $this->context->smarty->assign(array(
             's3'=> _S3_PATH_,
             'productsPoints' => $productsPoints,
             'productsID' => $productsID,
+            'img_parent' => $img_parent,
             'shop' => $shop,
             'type_currency' => $type_currency,
             'save_dolar' => $save_dolar        ));

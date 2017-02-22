@@ -90,6 +90,10 @@ class AuthControllerCore extends FrontController
         $newsletter = Configuration::get('PS_CUSTOMER_NWSL') || (Module::isInstalled('blocknewsletter') && Module::getInstanceByName('blocknewsletter')->active);
         $this->context->smarty->assign('newsletter', $newsletter);
         $this->context->smarty->assign('optin', (bool)Configuration::get('PS_CUSTOMER_OPTIN'));
+        
+        $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]".'/es/inicio-sesion?back=my-account';
+        $this->context->smarty->assign('url',$url);
+        
         $back = Tools::getValue('back');
         $key = Tools::safeOutput(Tools::getValue('key'));
         if (!empty($key)) {

@@ -912,6 +912,20 @@
 	{addJsDef email_create=false}
 {/if}
 {/strip}
+    {if !$logged}
+        <script>
+            
+            $( ".parentMenu span:last-child" ).click(function(e){
+                var btn = $(this).html();
+                if(btn == 'Comprar'){
+                    var url = '{$url}';
+                    e.preventDefault();
+                    window.location.replace(url);
+                }
+            });
+            
+        </script>
+    {/if}
 {literal}
     <script>
             $('#numCard').on('keyup',function(){

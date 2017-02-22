@@ -125,7 +125,11 @@
                                                                 <ul class="bullet dropdown-menu menu-down">
                                                                         <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Fluzzers' mod='blockmyaccountheader'}</a></li>
                                                                         <li><a href="http://info.fluzfluz.co/comercios/">{l s='Para Comercios'}</a></li>
+                                                                        {if $logged}
                                                                         <li><a href="{$link->getCMSLink('6','categorias')|escape:'html':'UTF-8'}">{l s='Shop Now'}</a></li>
+                                                                        {else}
+                                                                        <li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='Shop Now'}</a></li>
+                                                                        {/if}
                                                                         <li><a class="account-m">{l s="MI CUENTA"}&nbsp;&nbsp;<i class="icon icon-chevron-down"></i></a></li>
                                                                         <li class="textbox">
                                                                             <form id="searchbox2" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >

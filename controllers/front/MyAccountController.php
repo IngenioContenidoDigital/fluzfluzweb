@@ -276,7 +276,7 @@ class MyAccountControllerCore extends FrontController
                                 LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
                                 LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
                                 WHERE  MONTH(o.date_add) = MONTH(NOW()) AND o.id_customer = '.$this->context->customer->id.' 
-                                AND o.payment != "Pedido gratuito" AND r.id_reward_state=2  
+                                AND r.id_reward_state=2  
                                 ORDER BY o.date_add DESC';
         
         $roworders = db::getInstance()->getRow($orderMonthcurrent);
@@ -331,7 +331,7 @@ class MyAccountControllerCore extends FrontController
                                 LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
                                 LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
                                 WHERE  MONTH(o.date_add) = (MONTH(NOW()) - 1) AND o.id_customer = '.$this->context->customer->id.'
-                                AND o.payment != "Pedido gratuito" AND r.id_reward_state=2  
+                                AND r.id_reward_state=2  
                                 ORDER BY o.date_add DESC';
             $rowlastorders = db::getInstance()->getRow($querylastMonth);
             $lastorder = $rowlastorders['orders'];
