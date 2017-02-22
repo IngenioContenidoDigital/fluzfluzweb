@@ -47,6 +47,7 @@ ul.step li.step_todo span:after{display: none;}
 
 .input-background{
     background: #fff;
+    height: 40px;
 }
 
 .proceso{
