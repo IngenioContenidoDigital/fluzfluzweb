@@ -137,6 +137,7 @@ class AdminAddressesControllerCore extends AdminController
                     'label' => $this->l('Address alias'),
                     'name' => 'alias',
                     'required' => true,
+                    'default_value' => "Mi Direccion",
                     'col' => '4',
                     'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}'
                 ),
@@ -278,11 +279,16 @@ class AdminAddressesControllerCore extends AdminController
                 );
             } elseif ($addr_field_item == 'city') {
                 $temp_fields[] = array(
-                    'type' => 'text',
+                    'type' => 'select',
                     'label' => $this->l('City'),
                     'name' => 'city',
-                    'col' => '4',
                     'required' => true,
+                    'col' => '4',
+                    'options' => array(
+                        'query' => City::getCities(),
+                        'id' => 'ciudad',
+                        'name' => 'ciudad'
+                    )
                 );
             } elseif ($addr_field_item == 'country' || $addr_field_item == 'Country:name') {
                 $temp_fields[] = array(
