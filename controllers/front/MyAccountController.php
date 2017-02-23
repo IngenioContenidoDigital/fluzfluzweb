@@ -123,6 +123,10 @@ class MyAccountControllerCore extends FrontController
                                                                     )
                                                                     GROUP BY id_customer");
                             $members[$sponsor['id']]['points'] = $points[0]['points'];
+                            $pendingsinvitation = Db::getInstance()->getValue("SELECT (2 - COUNT(*)) pendingsinvitation
+                                                                        FROM "._DB_PREFIX_."rewards_sponsorship
+                                                                        WHERE id_sponsor = ".$sponsor['id']);
+                            $members[$sponsor['id']]['pendingsinvitation'] = $pendingsinvitation;
                         }
                     } else {
                         $members[$sponsor['id']]['name'] = $name;
@@ -147,6 +151,10 @@ class MyAccountControllerCore extends FrontController
                                                                 )
                                                                 GROUP BY id_customer");
                         $members[$sponsor['id']]['points'] = $points[0]['points'];
+                        $pendingsinvitation = Db::getInstance()->getValue("SELECT (2 - COUNT(*)) pendingsinvitation
+                                                                        FROM "._DB_PREFIX_."rewards_sponsorship
+                                                                        WHERE id_sponsor = ".$sponsor['id']);
+                        $members[$sponsor['id']]['pendingsinvitation'] = $pendingsinvitation;
                     }
                 }
             }
