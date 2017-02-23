@@ -195,7 +195,12 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2"><span class="information">{l s='Fluz Otorgados:'} </span><span class="data">{if $member.points != ""}{$member.points|number_format:0:".":","}{else}0{/if}</span></td>
-                                            <td>&nbsp;</td>
+                                            <td>
+                                                {if $member.pendingsinvitation != 0}
+                                                    <span class="data pendingsinvitation">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>
+                                                {/if}
+                                                &nbsp;
+                                            </td>
                                             <td></td>
                                         </tr>
                                     </table>
