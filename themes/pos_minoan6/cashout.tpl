@@ -255,7 +255,7 @@
             </div>
     <div class="row" id="card-oculto" style='display:none;'>
         <div onClick="$('#card_form').toggle()" class="cheque-cashout col-lg-12">{l s='Transferencia Electronica'}</div>
-        <form id="card_form" class="std form-cheque" method="post" action="{$pagination_link|escape:'htmlall':'UTF-8'}" enctype="multipart/form-data" style="display: {if isset($smarty.post.payment_details)}block{else}none{/if}">
+        <form id="card_form" class="std form-cheque" method="post" action="{$pagination_link|escape:'htmlall':'UTF-8'}" enctype="multipart/form-data">
             <fieldset class="cheque-style">
                 <div id="alert2" class="alert-validation2" style="display:none;">{l s="Ingrese sus Datos Completos"}</div>
                 <div class="row cheque-row" style="margin-top:40px;">
@@ -285,7 +285,7 @@
                         <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
                         <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
                         <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
                         <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
                     </div>

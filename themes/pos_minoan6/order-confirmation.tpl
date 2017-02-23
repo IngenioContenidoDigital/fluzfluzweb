@@ -126,5 +126,6 @@
     <style>
         .fancybox-lock {overflow: auto !important;width: auto;}
         .fancybox-overlay-fixed{display: none !important;}
+        .fancybox-skin{display:none;}
     </style>
 {/literal}
