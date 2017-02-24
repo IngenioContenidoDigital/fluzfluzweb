@@ -55,10 +55,6 @@
                     <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{l s='Status'}</th>
                     <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{$status|utf8_encode}</th>
                 </tr>
-                <tr class="table-warning">
-                    <td>{l s='Reference'}</th>
-                    <td>{$state_payment.orderIdPayu}</th>
-                </tr>
                 <tr>
                     <td>{l s='Value'}</th>
                     <td>{convertPrice price=$state_payment.valor}</th>
@@ -70,6 +66,8 @@
             </tbody>
         </table>
     </div>
+    <br>
+    <div class="information">Los bonos ser&aacute;n enviados a tu correo electr&oacute;nico.</div>
     <br>
     <table class="products table row">
         <tr class="head">
