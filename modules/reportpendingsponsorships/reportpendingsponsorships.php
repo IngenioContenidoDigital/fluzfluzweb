@@ -65,6 +65,8 @@ class reportpendingsponsorships extends ModuleGrid
                             (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
                         FROM "._DB_PREFIX_."customer c
                         LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                        WHERE c.active = 1
+                        AND c.kick_out = 0
                         GROUP BY c.id_customer
                         HAVING pendingsinvitation > 0";
 
