@@ -28,3 +28,4 @@ and open the template in the editor.
 .card_value { color: #404041; font-size: 14.5px; }
 .save { color: #E1382C; font-size: 15.4px; }
 .not_view { border-left: 0px hidden #E5E5E5 !important; border-bottom: 0px hidden #E5E5E5 !important; }
+.information { text-align: center; color: #EF4136; }
