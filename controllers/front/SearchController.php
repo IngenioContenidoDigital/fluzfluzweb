@@ -58,6 +58,7 @@ class SearchControllerCore extends FrontController
         $query = Tools::replaceAccentedChars(urldecode($original_query));
         if ($this->ajax_search) {
             $searchResults = Search::find((int)(Tools::getValue('id_lang')), $query, 1, 10, 'position', 'desc', true);
+            
             if (is_array($searchResults)) {
                 foreach ($searchResults as &$product) {
                     $product['product_link'] = $this->context->link->getProductLink($product['id_product'], $product['prewrite'], $product['crewrite']);
@@ -70,6 +71,11 @@ class SearchControllerCore extends FrontController
         //Only controller content initialization when the user use the normal search
         parent::initContent();
         
+        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+        $sponsorships2=array_slice($sponsorships, 1, 15);
+        $sponsor = count($sponsorships2)+1;
+        
+        $this->context->smarty->assign('sponsor', $sponsor);
         $product_per_page = isset($this->context->cookie->nb_item_per_page) ? (int)$this->context->cookie->nb_item_per_page : Configuration::get('PS_PRODUCTS_PER_PAGE');
 
         if ($this->instant_search && !is_array($query)) {
@@ -82,7 +88,7 @@ class SearchControllerCore extends FrontController
             $this->pagination($nbProducts);
 
             $this->addColorsToProductList($search['result']);
-
+            
             $this->context->smarty->assign(array(
                 's3'=> _S3_PATH_,
                 'products' => $search['result'], // DEPRECATED (since to 1.4), not use this: conflict with block_cart module
@@ -103,7 +109,7 @@ class SearchControllerCore extends FrontController
                     $product['link'] .= (strpos($product['link'], '?') === false ? '?' : '&').'search_query='.urlencode($query).'&results='.(int)$search['total'];
                 }
             }
-
+            
             Hook::exec('actionSearch', array('expr' => $query, 'total' => $search['total']));
             $nbProducts = $search['total'];
             $this->pagination($nbProducts);
@@ -115,6 +121,7 @@ class SearchControllerCore extends FrontController
                 'products' => $search['result'], // DEPRECATED (since to 1.4), not use this: conflict with block_cart module
                 'search_products' => $search['result'],
                 'nbProducts' => $search['total'],
+                'points_subcategories' => $this->pointSubcategories(),
                 'search_query' => $original_query,
                 'homeSize' => Image::getSize(ImageType::getFormatedName('home'))));
         } elseif (($tag = urldecode(Tools::getValue('tag'))) && !is_array($tag)) {
@@ -143,6 +150,33 @@ class SearchControllerCore extends FrontController
         $this->context->smarty->assign(array('add_prod_display' => Configuration::get('PS_ATTRIBUTE_CATEGORY_DISPLAY'), 'comparator_max_item' => Configuration::get('PS_COMPARATOR_MAX_ITEM')));
 
         $this->setTemplate(_PS_THEME_DIR_.'search.tpl');
+    }
+    
+    public function pointSubcategories(){
+        $query = Tools::getValue('search_query', Tools::getValue('ref'));
+        $query = Tools::replaceAccentedChars(urldecode($query));
+        $list_products = Search::find($this->context->language->id, $query, $this->p, $this->n, $this->orderBy, $this->orderWay);
+        $list_products_search = $list_products['result'];
+       
+        $array_subcat = array();
+        foreach ($list_products_search as $p){
+            $query_p = 'SELECT 
+                        p.id_product,
+                        pa.id_product as id_padre,
+                        p.price,
+                        (ROUND((p.price*(rp.value/100))/25)) as value,
+                        p.reference
+                        FROM
+                        '._DB_PREFIX_.'product_attribute AS pa
+                        RIGHT JOIN '._DB_PREFIX_.'product AS p ON pa.reference = p.reference
+                        LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (rp.id_product = p.id_product)
+                        WHERE pa.id_product='.$p['id_product'].' ORDER BY value DESC';
+            
+            $subcategories_p = Db::getInstance()->executeS($query_p);
+            array_push($array_subcat, $subcategories_p[0]);
+        }
+        
+        return $array_subcat;
     }
 
     public function displayHeader($display = true)

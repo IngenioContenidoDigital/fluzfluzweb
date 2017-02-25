@@ -286,7 +286,9 @@ class ProductControllerCore extends FrontController
             
             $this->context->smarty->assign('imgbanner1', $urlbanner1 );
             $this->context->smarty->assign('imgbanner2', $urlbanner2 );
-
+            
+            $count_address = count($this->addressManufacturers());
+            
             $this->context->smarty->assign(array(
                 'stock_management' => Configuration::get('PS_STOCK_MANAGEMENT'),
                 'customizationFields' => $customization_fields,
@@ -296,6 +298,7 @@ class ProductControllerCore extends FrontController
                 'product' => $this->product,
                 'product_manufacturer' => new Manufacturer((int)$this->product->id_manufacturer, $this->context->language->id),
                 'address_manufacturer' => $this->addressManufacturers(),
+                'count_address' => $count_address,
                 'token' => Tools::getToken(false),
                 'features' => $this->product->getFrontFeatures($this->context->language->id),
                 'attachments' => (($this->product->cache_has_attachments) ? $this->product->getAttachments($this->context->language->id) : array()),
@@ -328,7 +331,7 @@ class ProductControllerCore extends FrontController
     
     public function  addressManufacturers(){
         
-        $query = 'SELECT address1 FROM ps_address where id_manufacturer = '.$this->product->id_manufacturer;
+        $query = 'SELECT address1, city FROM ps_address where id_manufacturer = '.$this->product->id_manufacturer.' AND deleted = 0';
         $address = Db::getInstance()->executeS($query);
         
         return $address;
@@ -597,13 +600,23 @@ class ProductControllerCore extends FrontController
                           (rp.value/100) as value FROM '._DB_PREFIX_.'product p
                           LEFT JOIN '._DB_PREFIX_.'product_lang pl ON (p.id_product = pl.id_product)
                           LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (p.id_product = rp.id_product)
+                          LEFT JOIN '._DB_PREFIX_.'product_shop ps ON (ps.id_product = p.id_product)        
                           LEFT JOIN '._DB_PREFIX_.'product_attribute pa ON (p.reference = pa.reference)        
                           LEFT JOIN '._DB_PREFIX_.'product_attribute_combination ac ON (pa.id_product_attribute=ac.id_product_attribute)        
-                          WHERE p.reference = "'.$prueba['reference'].'" AND pl.id_lang = '.$this->context->language->id;
+                          WHERE p.reference = "'.$prueba['reference'].'" 
+                          AND ps.active = 1    
+                          AND pl.id_lang = '.$this->context->language->id;
                 
                 $for = Db::getInstance()->executeS($query);
-                array_push($listproducts, $for[0]);
+                
+                if(!empty($for)){
+                    array_push($listproducts, $for[0]);
+                }
             }
+            
+            usort($listproducts, function($a, $b) {
+                return $a['price'] - $b['price'];
+            });
             
             $this->context->smarty->assign(array(
                 'groups' => $groups,

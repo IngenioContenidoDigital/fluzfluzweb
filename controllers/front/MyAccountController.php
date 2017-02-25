@@ -123,6 +123,10 @@ class MyAccountControllerCore extends FrontController
                                                                     )
                                                                     GROUP BY id_customer");
                             $members[$sponsor['id']]['points'] = $points[0]['points'];
+                            $pendingsinvitation = Db::getInstance()->getValue("SELECT (2 - COUNT(*)) pendingsinvitation
+                                                                        FROM "._DB_PREFIX_."rewards_sponsorship
+                                                                        WHERE id_sponsor = ".$sponsor['id']);
+                            $members[$sponsor['id']]['pendingsinvitation'] = $pendingsinvitation;
                         }
                     } else {
                         $members[$sponsor['id']]['name'] = $name;
@@ -147,6 +151,10 @@ class MyAccountControllerCore extends FrontController
                                                                 )
                                                                 GROUP BY id_customer");
                         $members[$sponsor['id']]['points'] = $points[0]['points'];
+                        $pendingsinvitation = Db::getInstance()->getValue("SELECT (2 - COUNT(*)) pendingsinvitation
+                                                                        FROM "._DB_PREFIX_."rewards_sponsorship
+                                                                        WHERE id_sponsor = ".$sponsor['id']);
+                        $members[$sponsor['id']]['pendingsinvitation'] = $pendingsinvitation;
                     }
                 }
             }
@@ -226,6 +234,7 @@ class MyAccountControllerCore extends FrontController
                 PM.id_manufacturer AS id_manufacturer,
                 PM.`name` AS manufacturer_name,
                 Count(OD.product_id) AS products,
+                Count(wp.id_webservice_external_product) as count_m,
                 Sum(PP.price) AS total
                 FROM
                 ps_orders AS PO
@@ -234,6 +243,7 @@ class MyAccountControllerCore extends FrontController
                 INNER JOIN ps_product AS PP ON OD.product_id = PP.id_product
                 INNER JOIN ps_supplier AS PS ON PS.id_supplier = PP.id_supplier
                 INNER JOIN ps_manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
+                LEFT JOIN ps_webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
                 WHERE
                 ((OSL.id_order_state = 2 OR
                 OSL.id_order_state = 5) AND
@@ -274,7 +284,7 @@ class MyAccountControllerCore extends FrontController
                                 LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
                                 LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
                                 WHERE  MONTH(o.date_add) = MONTH(NOW()) AND o.id_customer = '.$this->context->customer->id.' 
-                                AND o.payment != "Pedido gratuito" AND r.id_reward_state=2  
+                                AND r.id_reward_state=2  
                                 ORDER BY o.date_add DESC';
         
         $roworders = db::getInstance()->getRow($orderMonthcurrent);
@@ -329,7 +339,7 @@ class MyAccountControllerCore extends FrontController
                                 LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
                                 LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
                                 WHERE  MONTH(o.date_add) = (MONTH(NOW()) - 1) AND o.id_customer = '.$this->context->customer->id.'
-                                AND o.payment != "Pedido gratuito" AND r.id_reward_state=2  
+                                AND r.id_reward_state=2  
                                 ORDER BY o.date_add DESC';
             $rowlastorders = db::getInstance()->getRow($querylastMonth);
             $lastorder = $rowlastorders['orders'];

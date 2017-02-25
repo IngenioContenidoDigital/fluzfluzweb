@@ -539,6 +539,17 @@ class ValidateCore
     {
         return preg_match('/^[+0-9. ()-]*$/', $number);
     }
+    
+    /**
+     * Check for phone telco number validity
+     *
+     * @param string $number Phone number to validate
+     * @return bool Validity is ok or not
+     */
+    public static function isPhoneTelcoNumber($number)
+    {
+        return preg_match('/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/', $number);
+    }
 
     /**
      * Check for barcode validity (EAN-13)

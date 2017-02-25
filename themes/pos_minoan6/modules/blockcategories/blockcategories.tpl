@@ -24,8 +24,8 @@
 *}
 <!-- Block categories module -->
 <div id="categories_block_left" class="block blockCat">
-    <h2 class="title_block" after-content="+">{l s='Categorias'}</h2>
-    <div class="block_content">
+    <h2 class="title_block title_block_category" after-content="+">{l s='Categorias'}</h2>
+    <div class="block_content block_content_category">
         <div class="line-bottom"></div>
         <ul class="tree {if $isDhtml}dhtml{/if}">
             {foreach from=$blockTreeCategories item=child name=blockTreeCategories}
@@ -87,7 +87,7 @@
                     <ul style="display: none;" id="categorychildren-c{$key}" class="categorychildren">
                         {foreach from=$city_manufacturer_filter item="city_manufacturer"}
                             <li>
-                                <a id="{$city_manufacturer.city|lower|replace:" ":""|replace:"(":""|replace:")":""|replace:".":""|replace:",":""|replace:"á":"a"|replace:"é":"e"|replace:"í":"i"|replace:"ó":"o"|replace:"ú":"u"|replace:"Á":"a"|replace:"É":"e"|replace:"Í":"i"|replace:"Ó":"o"|replace:"Ú":"u"}" class="city_manufacturer_filter" href="">
+                                <a id="{$city_manufacturer.city}" class="city_manufacturer_filter" href="">
                                     {$city_manufacturer.city|lower}
                                 </a>
                             </li>
@@ -175,11 +175,17 @@
                 $(this).attr('after-content','-');
             }
         });
+
+        $(".catfatherlink").click(function() {
+            var idcat = $(this).attr("id").split("-");
+            window.location.href = $("#category-opt-"+idcat[1]).attr("href");
+        });
     </script>
 {/literal}
 {literal}
 <style>
     .categorychildren{padding-left: 15px;}
+    .block_content_category{height: auto!important;}
     @media (max-width: 1024px) {
         .title_block { font-size: 11px!important; }
         .title_block::after { font-size: 20px!important; }

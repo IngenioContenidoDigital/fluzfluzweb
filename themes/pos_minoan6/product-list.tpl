@@ -59,7 +59,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 div-productscms">
                                     <div class="col-lg-12 border-products">
                                          <a class="product_img_link" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url">
-                                            <div style="background: url('{$s3}m/m/{$product.id_manufacturer}.jpg') no-repeat;" class="img-logo" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}">
+                                            <div style="background: url('{$s3}p/{$product.id_image_parent}.jpg') no-repeat;" class="img-logo" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}">
                                                 <div class="img-center">
                                                     <div class="logo-manufacturer">
                                                         <img src="{$s3}m/{$product.id_manufacturer}.jpg" alt="{$product.name|lower|escape:'htmlall':'UTF-8'}" title="{$product.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/>
@@ -89,8 +89,15 @@
                                                 {*</a>*}
                                         </div>
                                         <div class="name-merchant" style="color:#EF4136;">
-                                            <span>{l s="GANA HASTA"}&nbsp;{$product.value|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
-                                            {*if $logged}{l s="You earn"}&nbsp;{$product.points}{else $logged}{l s="You earn"}&nbsp;{$product.pointsNl}{/if*}
+                                            {foreach from=$points_subcategories item=p}
+                                                {if $product.id_product==$p.id_padre}
+                                                    {if $logged}
+                                                        <span>{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                    {else}                       
+                                                        <span>{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                    {/if}
+                                                {/if}
+                                            {/foreach}    
                                         </div>
                                     </div>    
                                 </div>
@@ -109,8 +116,8 @@
         .bottom-pagination-content{padding-left: 15px;}
         .quick-view{display: none;}
         .img-logo{background-size:100% 100% !important; margin:10px;}
-        .img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
-        .img-center img{max-width: 70% !important; margin: 0px auto !important;}
+        .img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; min-height: 200px; text-align: center;}
+        .img-center img{max-width: 100% !important; margin: 0px auto !important;}
         .logo-manufacturer{display: table-cell;
              vertical-align: middle;
              position: relative;}
@@ -122,13 +129,46 @@
         }
         
         @media (max-width:920px){
-            .img-center {height: 150px !important;}
+            .img-center {min-height: 150px;}
         }
         
-        @media (max-width:600px){
-            .titleFeatured{width: 99%;}
-            .img-center {height: 200px !important;}
+         @media (min-width:426px) and (max-width:570px){
+            .img-center {min-height: 280px;}
         }
-        
+
+        @media (min-width:571px) and (max-width:690px){
+            .img-center {min-height: 350px;}
+        }
+
+        @media (min-width:690px) and (max-width:767px){
+            .img-center {min-height: 420px;}
+        }
+
+
+        @media (min-width:800px) and (max-width:990px){
+            .img-center {min-height: 165px;}
+        }
+
+        @media (min-width:991px) and (max-width:1024px){
+            .img-center {min-height: 145px;}
+            .name-merchant {font-size: 10px !important;}
+    
+        }
+
+        @media (min-width:1025px) and (max-width:1225px){
+            .img-center {min-height: 145px;}
+        }
+
+        @media (min-width:1226px) and (max-width:1330px){
+            .img-center {min-height: 175px;}
+        }
+
+        @media (min-width:1331px) and (max-width:1439px){
+            .img-center {min-height: 200px;}
+        }
+
+        @media (min-width:1701px) and (max-width:1919px){
+            .img-center {min-height: 260px;}
+        }
     </style>
 {/literal}

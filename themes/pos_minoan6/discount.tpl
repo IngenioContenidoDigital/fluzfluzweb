@@ -52,12 +52,18 @@
                                         </td>
                                         <td colspan="2" class="line colname"><span class="name">{$member.username}</span></td>
                                         <td class="message line"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
+                                        <td>
+                                            {if $member.pendingsinvitation != 0}
+                                                <span class="data pendingsinvitation">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>
+                                            {/if}
+                                            &nbsp;
+                                        </td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td class="colpoints"><span class="information">{l s='Points Contributed:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
                                         <td><span class="information">{l s='Network Level:'} </span><span class="data">{$member.level}</span></td>
-                                        <td><span class="information">{l s='Date Added:'} </span><span class="data">{$member.dateadd}</span></td>
+                                        <td colspan="2"><span class="information">{l s='Date Added:'} </span><span class="data">{$member.dateadd}</span></td>
                                         <td></td>
                                     </tr>
                                 </table>

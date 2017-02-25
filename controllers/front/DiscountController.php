@@ -49,6 +49,7 @@ class DiscountControllerCore extends FrontController
                 $customer = new Customer($sponsor['id']);
                 $name = strtolower($customer->username);
                 if ( $customer->firstname != "" ) {
+
                     if ( $searchnetwork != "" ) {
                         $coincidence = strpos($name, $searchnetwork);
                         if ( $coincidence !== false ) {
@@ -74,6 +75,11 @@ class DiscountControllerCore extends FrontController
                                                                     )
                                                                     GROUP BY id_customer");
                             $members[$sponsor['id']]['points'] = $points[0]['points'];
+                            
+                            $pendingsinvitation = Db::getInstance()->getValue("SELECT (2 - COUNT(*)) pendingsinvitation
+                                                                        FROM "._DB_PREFIX_."rewards_sponsorship
+                                                                        WHERE id_sponsor = ".$sponsor['id']);
+                            $members[$sponsor['id']]['pendingsinvitation'] = $pendingsinvitation;
                         }
                     } else {
                         $members[$sponsor['id']]['name'] = $name;
@@ -98,6 +104,10 @@ class DiscountControllerCore extends FrontController
                                                                 )
                                                                 GROUP BY id_customer");
                         $members[$sponsor['id']]['points'] = $points[0]['points'];
+                        $pendingsinvitation = Db::getInstance()->getValue("SELECT (2 - COUNT(*)) pendingsinvitation
+                                                                        FROM "._DB_PREFIX_."rewards_sponsorship
+                                                                        WHERE id_sponsor = ".$sponsor['id']);
+                        $members[$sponsor['id']]['pendingsinvitation'] = $pendingsinvitation;
                     }
                 }
             }

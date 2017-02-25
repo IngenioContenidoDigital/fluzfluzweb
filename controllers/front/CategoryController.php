@@ -145,6 +145,12 @@ class CategoryControllerCore extends FrontController
         $this->assignSubcategories();
         $this->assignProductList();
         
+        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+        $sponsorships2=array_slice($sponsorships, 1, 15);
+        $sponsor = count($sponsorships2)+1;
+        
+        $this->context->smarty->assign('sponsor', $sponsor);
+        
         $this->context->smarty->assign(array(
             's3'=>_S3_PATH_,
             'category'             => $this->category,
@@ -152,6 +158,7 @@ class CategoryControllerCore extends FrontController
             'products'             => (isset($this->cat_products) && $this->cat_products) ? $this->cat_products : null,
             'id_category'          => (int)$this->category->id,
             'id_category_parent'   => (int)$this->category->id_parent,
+            'points_subcategories' => $this->pointSubcategories(),
             'return_category_name' => Tools::safeOutput($this->category->name),
             'path'                 => Tools::getPath($this->category->id),
             'add_prod_display'     => Configuration::get('PS_ATTRIBUTE_CATEGORY_DISPLAY'),
@@ -205,6 +212,29 @@ class CategoryControllerCore extends FrontController
                 'subcategories_nb_half'  => ceil(count($sub_categories) / 2)
             ));
         }
+    }
+    
+    public function pointSubcategories(){
+        $list_products = $this->cat_products;
+        $array_subcat = array();
+        foreach ($list_products as $p){
+            $query_p = 'SELECT 
+                        p.id_product,
+                        pa.id_product as id_padre,
+                        p.price,
+                        (ROUND((p.price*(rp.value/100))/25)) as value,
+                        p.reference
+                        FROM
+                        '._DB_PREFIX_.'product_attribute AS pa
+                        RIGHT JOIN '._DB_PREFIX_.'product AS p ON pa.reference = p.reference
+                        LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (rp.id_product = p.id_product)
+                        WHERE pa.id_product='.$p['id_product'].' ORDER BY value DESC';
+            
+            $subcategories_p = Db::getInstance()->executeS($query_p);
+            array_push($array_subcat, $subcategories_p[0]);
+        }
+        
+        return $array_subcat;
     }
 
     /**

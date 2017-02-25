@@ -45,8 +45,11 @@
 				<div class="item-product row">
                                         <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
-                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
-                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                        <div style="background: url('{$categoryProduct.url_exists}') no-repeat;" class="img-logo img-center">
+                                                                <div class="logo-manufacturer">
+                                                                    <img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-logo-merchant"/>
+                                                                </div>
+                                                        </div>
                                                 </a>
                                         </div>
                                         <div class="points-block col-lg-6">
@@ -55,10 +58,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach}    
                                         </div>
 				</div>
 			{/foreach}
@@ -68,8 +76,11 @@
 				<div class="item-product">
                                         <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
-                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
-                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                    <div style="background: url('{$categoryProduct.url_exists}') no-repeat;" class="img-logo img-center">
+                                                            <div class="logo-manufacturer">
+                                                                <img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-logo-merchant"/>
+                                                            </div>
+                                                    </div>
                                                 </a>
                                         </div>
                                         <div class="points-block col-lg-6">
@@ -78,10 +89,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach} 
                                         </div>
 				</div>
 			{/foreach}
@@ -91,8 +107,11 @@
 				<div class="item-product">
                                         <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
-                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
-                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                    <div style="background: url('{$categoryProduct.url_exists}') no-repeat;" class="img-logo img-center">
+                                                            <div class="logo-manufacturer">
+                                                                <img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-logo-merchant"/>
+                                                            </div>
+                                                    </div>
                                                 </a>
                                         </div>
                                         <div class="points-block col-lg-6">
@@ -101,10 +120,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach} 
                                         </div>
 				</div>
 			{/foreach}
@@ -114,8 +138,11 @@
 				<div class="item-product">
                                         <div class="col-lg-6 padding-img">
                                                 <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
-                                                    <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
-                                                    <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                    <div style="background: url('{$categoryProduct.url_exists}') no-repeat;" class="img-logo img-center">
+                                                            <div class="logo-manufacturer">
+                                                                <img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-logo-merchant"/>
+                                                            </div>
+                                                    </div>
                                                 </a>
                                         </div>
                                         <div class="points-block col-lg-6">
@@ -124,10 +151,15 @@
                                                 <div style="font-size:12px; margin-left: 0px;">
                                                         {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                 </div>
-                                                <div>
-                                                    <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                </div>
-                                                <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
+                                                {foreach from=$points_subcategories item=p}
+                                                    {if $categoryProduct.id_product==$p.id_padre}
+                                                        {if $logged}
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {else}                       
+                                                            <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                        {/if}
+                                                    {/if}
+                                                {/foreach}
                                         </div>
 				</div>
 			{/foreach}
@@ -137,8 +169,11 @@
                                     <div class="item-product">
                                             <div class="col-lg-6 padding-img">
                                                     <a href="{$link->getProductLink($categoryProduct.id_product, $categoryProduct.link_rewrite, $categoryProduct.category, $categoryProduct.ean13)}" class="lnk_img product-image" title="{$categoryProduct.name|htmlspecialchars}">
-                                                        <div class="img-center"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-newmerchant"/></div>
-                                                        <img class="img-responsive pruebaImgCategory"  src="{$link->getImageLink($categoryProduct.link_rewrite, $categoryProduct.id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$categoryProduct.name|htmlspecialchars}" />
+                                                        <div style="background: url('{$categoryProduct.url_exists}') no-repeat;" class="img-logo img-center">
+                                                                <div class="logo-manufacturer">
+                                                                    <img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive img-logo-merchant"/>
+                                                                </div>
+                                                        </div>
                                                     </a>
                                             </div>
                                             <div class="points-block col-lg-6">
@@ -147,9 +182,15 @@
                                                     <div style="font-size:12px; margin-left: 0px;">
                                                             {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
                                                     </div>
-                                                    <div>
-                                                        <span style="color:#ef4136; font-size: 12px;">{l s="Ahorra Hasta: "} {$save_price}%</span>
-                                                    </div>
+                                                    {foreach from=$points_subcategories item=p}
+                                                        {if $categoryProduct.id_product==$p.id_padre}
+                                                            {if $logged}
+                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            {else}                       
+                                                                <span class="Earn-product">{l s="GANA HASTA"}&nbsp;{(($p.value)/16)|string_format:"%d"}&nbsp;{l s="FLUZ"}</span>
+                                                            {/if}
+                                                        {/if}
+                                                    {/foreach}
                                                     <!--<div class="imgmanu" style="float: left;"><img src="{$s3}m/{$categoryProduct.id_manufacturer}.jpg" alt="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" title="{$categoryProduct.manufacturer_name|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>-->
                                             </div>
                                     </div>
@@ -197,12 +238,35 @@
         .item-product { color: #777777; width: 100%; margin: 0; }
         .redfl { color: #ef4136!important; font-weight: bold!important; }
         .valuefl { font-size: 13px; }
-        /*.owl-carousel .owl-wrapper{width: 260px !important;}*/
         .imgMini { width: 35px!important; }
         .imgmanu { width: auto!important; }
         .price-block { padding: 15px 0%; }
         .points-block div:first-child{margin-left: 10px; margin-top: 10px;}
         .more-info ul li a{font-size: 10px;}
+        .Earn-product{color: #ef4136;font-size: 9px;}
+        .img-logo{background-size:100% 100% !important; margin:0px;}
+        .img-center{padding: 5px; min-width: 100%;display: table; margin-bottom: 10px; min-height: 80px; text-align: center;}
+        .img-center img{max-width: 100% !important; margin: 0px auto !important;}
+        .img-responsive{margin-left: auto !important;margin-right: auto !important;}
+        .logo-manufacturer{display: table-cell;vertical-align: middle;position: relative;}
+       
+        @media (max-width:1024px){
+            .Earn-product{color: #ef4136;font-size: 11px !important;}
+            .owl-wrapper{height: 200px;}
+            .points-block{margin-top: 135px;}
+            .img-center{height: 140px;}
+        }
+        
+        @media (max-width:425px){
+            .owl-wrapper{height: 285px; margin-bottom: 0px !important;}
+            .points-block{margin-top: 225px;}
+            .img-center{height: 235px;}
+        }
+        
+        @media (max-width:320px){
+            .points-block{margin-top: 175px;}
+        }
+        
     </style>    
 {/literal}
 {literal}

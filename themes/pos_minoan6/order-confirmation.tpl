@@ -55,10 +55,6 @@
                     <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{l s='Status'}</th>
                     <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{$status|utf8_encode}</th>
                 </tr>
-                <tr class="table-warning">
-                    <td>{l s='Reference'}</th>
-                    <td>{$state_payment.orderIdPayu}</th>
-                </tr>
                 <tr>
                     <td>{l s='Value'}</th>
                     <td>{convertPrice price=$state_payment.valor}</th>
@@ -71,6 +67,8 @@
         </table>
     </div>
     <br>
+    <div class="information">Los bonos ser&aacute;n enviados a tu correo electr&oacute;nico.</div>
+    <br>
     <table class="products table row">
         <tr class="head">
             <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Product'}</th>
@@ -81,13 +79,19 @@
         </tr>
         {foreach $order_products as $product}
             <tr>
-                <td><img class="img_product" src="{$link->getImageLink($product.id_product, $product.image->id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.product_name|escape:'html':'UTF-8'}" title="{$product.product_name|escape:'html':'UTF-8'}" /></td>
+                <td>
+                    {if $product.image->id_image == ''}
+                        <img src="{$s3}m/m/{$product.id_manufacturer}.jpg" alt="{$product.name|escape:'html':'UTF-8'}" {if isset($mediumSize)}width="" height="{$mediumSize.height}" {/if} /></a>
+                    {else}
+                        <img class="img_product" src="{$link->getImageLink($product.id_product, $product.image->id_image, 'thickbox_default')|escape:'html':'UTF-8'}" alt="{$product.product_name|escape:'html':'UTF-8'}" title="{$product.product_name|escape:'html':'UTF-8'}" />
+                    {/if}
+                </td>
                 <td>
                     <span class="name_product">{$product.product_name}</span><br>
                     <span class="number_product">{l s='Product'} #:</span><br>
                     <span class="number_product">{$product.product_reference}</span>
                 </td>
-                <td>{$product.type_currency}&nbsp;${$product.price_shop}</td>
+                <td>{$product.type_currency}&nbsp;${$product.price_shop|number_format:0:".":","}</td>
                 <td>{$product.fluzpoints}</td>
                 <td>{convertPrice price=$product.total_price_tax_incl}</td>
             </tr>
@@ -120,5 +124,6 @@
     <style>
         .fancybox-lock {overflow: auto !important;width: auto;}
         .fancybox-overlay-fixed{display: none !important;}
+        .fancybox-skin{display:none;}
     </style>
 {/literal}

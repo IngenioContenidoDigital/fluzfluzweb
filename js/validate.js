@@ -158,6 +158,18 @@ function validate_isPhoneNumber(s)
 	return reg.test(s);
 }
 
+function validate_isPhoneTelcoNumber(s)
+{
+	var reg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+	return reg.test(s);
+}
+
+function validate_isPhoneTelcoNumberPart(s)
+{
+	var reg = /^[0-9]{3,4}$/;
+	return reg.test(s);
+}
+
 function validate_isDniLite(s)
 {
 	var reg = /^[0-9]{1,16}$/i;
