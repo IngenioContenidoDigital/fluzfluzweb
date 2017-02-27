@@ -611,7 +611,7 @@
                                         
                                         {if !$content_only}
 		<div class="more-info">
-                        <h1>{l s='INSTRUCCIONES TARJETA DE REGALO'|escape:'html':'UTF-8'}</h1>
+                        <h1>{l s='INSTRUCCIONES BONO'|escape:'html':'UTF-8'}</h1>
                         <div class="border-title"></div>
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
 				{if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
