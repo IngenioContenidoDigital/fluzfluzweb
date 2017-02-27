@@ -2710,6 +2710,15 @@ class OrderCore extends ObjectModel
         $report .= "</tr>";
         
         foreach ( $orders as $order ) {
+            // CODIGOS PRODUCTO
+            $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(pc.code,-4)) ) codigos_producto, pc.state AS estado_tarjeta, pc.price_card_used AS valor_utilizado
+                    FROM '._DB_PREFIX_.'product_code pc
+                    INNER JOIN '._DB_PREFIX_.'product p ON ( pc.id_product = p.id_product )
+                    WHERE pc.id_order = '.$order['orden'].'
+                    AND p.reference = "'.$order['referencia_producto'].'"';
+            $codes_order = Db::getInstance()->executeS($sql);
+            
+            
             $report .= "<tr>
                             <td>".$order['orden']."</td>
                             <td>".$order['referencia']."</td>
@@ -2724,13 +2733,13 @@ class OrderCore extends ObjectModel
                             <td>".$order['pago_puntos']."</td>
                             <td>".$order['puntos_utilizados']."</td>
                             <td>".$order['nombre_producto']."</td>
-                            <td>".$order['estado_tarjeta']."</td>
-                            <td>".$order['valor_utilizado']."</td>
+                            <td>".$codes_order[0]['estado_tarjeta']."</td>
+                            <td>".number_format($codes_order[0]['valor_utilizado'], 6, '.', '')."</td>
                             <td>".$order['referencia_producto']."</td>
                             <td>".$order['precio_producto']."</td>
                             <td>".$order['costo_producto']."</td>
                             <td>".$order['cantidad']."</td>
-                            <td>".$order['codigos_producto']."</td>
+                            <td>".$codes_order[0]['codigos_producto']."</td>
                             <td>".$order['recompensa_porcentaje_producto']."</td>
                             <td>".$order['recompensa_pesos_compra']."</td>
                             <td>".$order['recompensa_puntos_compra']."</td>
