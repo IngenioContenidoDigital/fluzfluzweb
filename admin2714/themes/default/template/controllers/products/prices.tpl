@@ -325,9 +325,9 @@ $(document).ready(function () {
                         var precio_tienda = $('#price_shop').val();
                         
                         if(precio >= precio_tienda){
-                            alert('El valor en tienda debe ser mayor al precio de venta sin Iva.');
-                            $('#price_shop').focus();
-                            event.preventDefault();
+                            //alert('El valor en tienda debe ser mayor al precio de venta sin Iva.');
+                            //$('#price_shop').focus();
+                            //event.preventDefault();
                         }
                     }
                 });
@@ -338,9 +338,9 @@ $(document).ready(function () {
                         var precio_tienda = $('#price_shop').val();
                         
                         if(precio >= precio_tienda){
-                            alert('El valor en tienda debe ser mayor al precio de venta sin Iva.');
-                            $('#price_shop').focus();
-                            event.preventDefault();
+                            //alert('El valor en tienda debe ser mayor al precio de venta sin Iva.');
+                            //$('#price_shop').focus();
+                            //event.preventDefault();
                         }
                     }
                 });
