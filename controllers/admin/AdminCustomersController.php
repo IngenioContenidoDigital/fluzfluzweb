@@ -1030,14 +1030,16 @@ class AdminCustomersControllerCore extends AdminController
             $this->errors[] = Tools::displayError('A default customer group must be selected in group box.');
         }
         
-        // Validate exist username
-        if ( Customer::usernameExists( Tools::getValue("username") ) ) {
-            $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
-        }
+        if ( empty(Tools::getValue('id_customer')) || Tools::getValue('id_customer') == "" || Tools::getValue('id_customer') == 0 ) {
+            // Validate exist username
+            if ( Customer::usernameExists( Tools::getValue("username") ) ) {
+                $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
+            }
 
-        // Validate dni
-        if ( Customer::dniExists( Tools::getValue("dni") ) ) {
-            $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
+            // Validate dni
+            if ( Customer::dniExists( Tools::getValue("dni") ) ) {
+                $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
+            }
         }
 
         // Check the requires fields which are settings in the BO
