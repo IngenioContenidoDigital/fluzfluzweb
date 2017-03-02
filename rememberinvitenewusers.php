@@ -5,6 +5,8 @@ include_once('./config/config.inc.php');
 $query = "SELECT c.id_customer, c.username, c.email, COUNT(rs.id_sponsor) invitation_count
             FROM "._DB_PREFIX_."customer c
             LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+            WHERE c.active = 1
+            AND c.kick_out = 0
             GROUP BY c.id_customer
             HAVING invitation_count < 2";
 
