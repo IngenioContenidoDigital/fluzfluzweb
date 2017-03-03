@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -71,7 +71,7 @@ class AdminCustomersControllerCore extends AdminController
             $titles_array[$gender->id_gender] = $gender->name;
         }
 
-        $this->_join = ' LEFT JOIN '._DB_PREFIX_.'gender_lang gl ON (a.id_gender = gl.id_gender AND gl.id_lang = '.(int)$this->context->language->id.')';
+        $this->_join = 'LEFT JOIN '._DB_PREFIX_.'gender_lang gl ON (a.id_gender = gl.id_gender AND gl.id_lang = '.(int)$this->context->language->id.')';
         $this->_use_found_rows = false;
         $this->fields_list = array(
             'id_customer' => array(
@@ -87,9 +87,6 @@ class AdminCustomersControllerCore extends AdminController
                 'filter_type' => 'int',
                 'order_key' => 'gl!name'
             ),
-            'username' => array(
-                'title' => $this->l('username')
-            ),
             'firstname' => array(
                 'title' => $this->l('First name')
             ),
@@ -98,9 +95,6 @@ class AdminCustomersControllerCore extends AdminController
             ),
             'email' => array(
                 'title' => $this->l('Email address')
-            ),
-            'days_inactive' => array(
-                'title' => $this->l('Dias Inactividad')
             ),
         );
 
@@ -121,14 +115,14 @@ class AdminCustomersControllerCore extends AdminController
                 'align' => 'text-right',
                 'badge_success' => true
             ),
-            /*'active' => array(
+            'active' => array(
                 'title' => $this->l('Enabled'),
                 'align' => 'text-center',
                 'active' => 'status',
                 'type' => 'bool',
                 'orderby' => false,
                 'filter_key' => 'a!active'
-            ),*/
+            ),
             'newsletter' => array(
                 'title' => $this->l('Newsletter'),
                 'align' => 'text-center',
@@ -136,32 +130,20 @@ class AdminCustomersControllerCore extends AdminController
                 'callback' => 'printNewsIcon',
                 'orderby' => false
             ),
-            /*'optin' => array(
+            'optin' => array(
                 'title' => $this->l('Opt-in'),
                 'align' => 'text-center',
                 'type' => 'bool',
                 'callback' => 'printOptinIcon',
                 'orderby' => false
-            ),*/
+            ),
             'date_add' => array(
                 'title' => $this->l('Registration'),
                 'type' => 'date',
                 'align' => 'text-right'
             ),
-            'date_kick_out' => array(
-                'title' => $this->l('Fecha Expulsion'),
-                'type' => 'datetime',
-                'search' => false,
-                'havingFilter' => true
-            ),
             'connect' => array(
                 'title' => $this->l('Last visit'),
-                'type' => 'datetime',
-                'search' => false,
-                'havingFilter' => true
-            ),
-            'last_purchase' => array(
-                'title' => $this->l('Ultima Compra'),
                 'type' => 'datetime',
                 'search' => false,
                 'havingFilter' => true
@@ -186,16 +168,7 @@ class AdminCustomersControllerCore extends AdminController
             WHERE g.id_customer = a.id_customer
             ORDER BY c.date_add DESC
             LIMIT 1
-        ) as connect, (
-            SELECT rsk.date_kick_out
-            FROM '._DB_PREFIX_.'rewards_sponsorship_kick_out rsk
-            WHERE rsk.id_customer = a.id_customer
-            GROUP BY rsk.id_customer
-        ) as date_kick_out, (
-            SELECT MAX(o.date_add)
-            FROM '._DB_PREFIX_.'orders o
-            WHERE o.id_customer = a.id_customer
-        ) as last_purchase';
+        ) as connect';
 
         // Check if we can add a customer
         if (Shop::isFeatureActive() && (Shop::getContext() == Shop::CONTEXT_ALL || Shop::getContext() == Shop::CONTEXT_GROUP)) {
@@ -376,58 +349,6 @@ class AdminCustomersControllerCore extends AdminController
         $years = Tools::dateYears();
         $months = Tools::dateMonths();
         $days = Tools::dateDays();
-        
-        $field_active = array(
-                            'type' => 'switch',
-                            'label' => $this->l('Enabled'),
-                            'name' => 'active',
-                            'required' => false,
-                            'class' => 't',
-                            'is_bool' => true,
-                            'values' => array(
-                                array(
-                                    'id' => 'active_on',
-                                    'value' => 1,
-                                    'label' => $this->l('Enabled')
-                                ),
-                                array(
-                                    'id' => 'active_off',
-                                    'value' => 0,
-                                    'label' => $this->l('Disabled')
-                                )
-                            ),
-                            'hint' => $this->l('Enable or disable customer login.')
-                        );
-
-        $field_kick_out = array(
-                            'type' => 'switch',
-                            'label' => $this->l('Expulsar'),
-                            'name' => 'kick_out',
-                            'required' => false,
-                            'class' => 't',
-                            'is_bool' => true,
-                            'values' => array(
-                                array(
-                                    'id' => 'active_on',
-                                    'value' => 1,
-                                    'label' => $this->l('Enabled')
-                                ),
-                                array(
-                                    'id' => 'active_off',
-                                    'value' => 0,
-                                    'label' => $this->l('Disabled')
-                                )
-                            ),
-                            'hint' => $this->l('Expulsar al cliente de la red.')
-                        );
-        if ( $this->context->employee->id_profile != 1 ) {
-            if ( $obj->active == 0 ) {
-                $field_active = array();
-            }
-            if ( $obj->kick_out == 1 ) {
-                $field_kick_out = array();
-            }
-        }
 
         $groups = Group::getGroups($this->default_form_language, true);
         $this->fields_form = array(
@@ -446,14 +367,6 @@ class AdminCustomersControllerCore extends AdminController
                 ),
                 array(
                     'type' => 'text',
-                    'label' => $this->l('username'),
-                    'name' => 'username',
-                    'required' => true,
-                    'col' => '4',
-                    'hint' => $this->l('Invalid characters:').' 0-9!&lt;&gt;,;?=+()@#"°{}_$%:'
-                ),
-                array(
-                    'type' => 'text',
                     'label' => $this->l('First name'),
                     'name' => 'firstname',
                     'required' => true,
@@ -467,14 +380,6 @@ class AdminCustomersControllerCore extends AdminController
                     'required' => true,
                     'col' => '4',
                     'hint' => $this->l('Invalid characters:').' 0-9!&lt;&gt;,;?=+()@#"°{}_$%:'
-                ),
-                array(
-                    'type' => 'text',
-                    'label' => $this->l('Identificacion'),
-                    'name' => 'dni',
-                    'required' => true,
-                    'col' => '4',
-                    'hint' => $this->l('DNI / NIF / NIE')
                 ),
                 array(
                     'type' => 'text',
@@ -504,7 +409,27 @@ class AdminCustomersControllerCore extends AdminController
                         'years' => $years
                     )
                 ),
-                $field_active,
+                array(
+                    'type' => 'switch',
+                    'label' => $this->l('Enabled'),
+                    'name' => 'active',
+                    'required' => false,
+                    'class' => 't',
+                    'is_bool' => true,
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => 1,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => 0,
+                            'label' => $this->l('Disabled')
+                        )
+                    ),
+                    'hint' => $this->l('Enable or disable customer login.')
+                ),
                 array(
                     'type' => 'switch',
                     'label' => $this->l('Newsletter'),
@@ -549,7 +474,6 @@ class AdminCustomersControllerCore extends AdminController
                     'disabled' =>  (bool)!Configuration::get('PS_CUSTOMER_OPTIN'),
                     'hint' => $this->l('This customer will receive your ads via email.')
                 ),
-                $field_kick_out,
             )
         );
 
@@ -826,7 +750,7 @@ class AdminCustomersControllerCore extends AdminController
 
             if ($order['valid']) {
                 $orders_ok[] = $order;
-                $total_ok += $order['total_paid_real_not_formated'];
+                $total_ok += $order['total_paid_real_not_formated']/$order['conversion_rate'];
             } else {
                 $orders_ko[] = $order;
             }
@@ -1009,7 +933,6 @@ class AdminCustomersControllerCore extends AdminController
                 $customer = new Customer();
                 if (Validate::isEmail($customer_email)) {
                     $customer->getByEmail($customer_email);
-                    $customer->updateEmailSponsorship($this->object->id, $customer_email);
                 }
                 if (($customer->id) && ($customer->id != (int)$this->object->id)) {
                     $this->errors[] = Tools::displayError('An account already exists for this email address:').' '.$customer_email;
@@ -1029,28 +952,12 @@ class AdminCustomersControllerCore extends AdminController
         if (!is_array(Tools::getValue('groupBox')) || !in_array(Tools::getValue('id_default_group'), Tools::getValue('groupBox'))) {
             $this->errors[] = Tools::displayError('A default customer group must be selected in group box.');
         }
-        
-        if ( empty(Tools::getValue('id_customer')) || Tools::getValue('id_customer') == "" || Tools::getValue('id_customer') == 0 ) {
-            // Validate exist username
-            if ( Customer::usernameExists( Tools::getValue("username") ) ) {
-                $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
-            }
-
-            // Validate dni
-            if ( Customer::dniExists( Tools::getValue("dni") ) ) {
-                $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
-            }
-        }
 
         // Check the requires fields which are settings in the BO
         $customer = new Customer();
         $this->errors = array_merge($this->errors, $customer->validateFieldsRequiredDatabase());
 
-        $save = parent::processSave();
-
-        require_once(_PS_ROOT_DIR_.'/kickoutcustomers.php');
-
-        return $save;
+        return parent::processSave();
     }
 
     protected function afterDelete($object, $old_id)

@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,11 +18,10 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{*
 <table class="product" width="100%" cellpadding="4" cellspacing="0">
 
 	<thead>
@@ -170,27 +169,4 @@
 
 	</tbody>
 
-</table>
-*}
-
-<table style="width: 100%; color: #949496; font-size: 10pt;" cellpadding="4" cellspacing="4" border="0">
-    <tr><td style="font-weight: bold;">INGRESOS RECIBIDOS PARA TERCEROS</td></tr>
-    <thead>
-	<tr style="text-align: center; font-weight: bold;">
-            <th style="width: 51%; text-align: left;">DESCRIPCI&Oacute;N</th>
-            <th style="width: 13%;">CANTIDAD</th>
-            <th style="width: 15%;">REF</th>
-            <th style="width: 18%;">VR PESOS</th>
-	</tr>
-    </thead>
-    <tbody>
-	{foreach $order_details as $order_detail}
-            <tr>
-                <td style="background-color: #EFEFEF;">{$order_detail.product_name}</td>
-                <td style="background-color: #EFEFEF; text-align: center;">{$order_detail.product_quantity}</td>
-                <td style="background-color: #EFEFEF; text-align: center;">{$order_detail.product_reference}</td>
-                <td style="background-color: #EFEFEF; text-align: center;">{displayPrice currency=$order->id_currency price=$order_detail.total_price_tax_excl_including_ecotax}</td>
-            </tr>
-	{/foreach}
-    </tbody>
 </table>

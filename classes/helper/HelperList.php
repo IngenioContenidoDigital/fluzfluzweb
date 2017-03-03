@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -593,7 +593,11 @@ class HelperListCore extends Helper
                 $params['type'] = 'text';
             }
 
-            $value_key = $prefix.$this->list_id.'Filter_'.(array_key_exists('filter_key', $params) && $key != 'active' ? $params['filter_key'] : $key);
+            $value_key = $prefix.$this->list_id.'Filter_'.(array_key_exists('filter_key', $params) ? $params['filter_key'] : $key);
+            if ($key == 'active' && strpos($key, '!') !== false) {
+                $keys = explode('!', $params['filter_key']);
+                $value_key = $keys[1];
+            }
             $value = Context::getContext()->cookie->{$value_key};
             if (!$value && Tools::getIsset($value_key)) {
                 $value = Tools::getValue($value_key);

@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -89,7 +89,7 @@ class AdminProductsControllerCore extends AdminController
         $this->available_tabs_lang = array(
             'Informations' => $this->l('Information'),
             'Pack' => $this->l('Pack'),
-            //'VirtualProduct' => $this->l('Virtual Product'),
+            'VirtualProduct' => $this->l('Virtual Product'),
             'Prices' => $this->l('Prices'),
             'Seo' => $this->l('SEO'),
             'Images' => $this->l('Images'),
@@ -97,8 +97,8 @@ class AdminProductsControllerCore extends AdminController
             'Shipping' => $this->l('Shipping'),
             'Combinations' => $this->l('Combinations'),
             'Features' => $this->l('Features'),
-            //'Customization' => $this->l('Customization'),
-            //'Attachments' => $this->l('Attachments'),
+            'Customization' => $this->l('Customization'),
+            'Attachments' => $this->l('Attachments'),
             'Quantities' => $this->l('Quantities'),
             'Suppliers' => $this->l('Suppliers'),
             'Warehouses' => $this->l('Warehouses'),
@@ -109,7 +109,7 @@ class AdminProductsControllerCore extends AdminController
             $this->available_tabs = array_merge($this->available_tabs, array(
                 'Informations' => 0,
                 'Pack' => 7,
-                //'VirtualProduct' => 8,
+                'VirtualProduct' => 8,
                 'Prices' => 1,
                 'Seo' => 2,
                 'Associations' => 3,
@@ -117,8 +117,8 @@ class AdminProductsControllerCore extends AdminController
                 'Shipping' => 4,
                 'Combinations' => 5,
                 'Features' => 10,
-                //'Customization' => 11,
-                //'Attachments' => 12,
+                'Customization' => 11,
+                'Attachments' => 12,
                 'Suppliers' => 13,
             ));
         }
@@ -181,7 +181,7 @@ class AdminProductsControllerCore extends AdminController
 				LEFT JOIN `'._DB_PREFIX_.'shop` shop ON (shop.id_shop = '.$id_shop.')
 				LEFT JOIN `'._DB_PREFIX_.'image_shop` image_shop ON (image_shop.`id_product` = a.`id_product` AND image_shop.`cover` = 1 AND image_shop.id_shop = '.$id_shop.')
 				LEFT JOIN `'._DB_PREFIX_.'image` i ON (i.`id_image` = image_shop.`id_image`)
-				LEFT JOIN `'._DB_PREFIX_.'product_download` pd ON (pd.`id_product` = a.`id_product`)';
+				LEFT JOIN `'._DB_PREFIX_.'product_download` pd ON (pd.`id_product` = a.`id_product` AND pd.`active` = 1)';
 
         $this->_select .= 'shop.`name` AS `shopname`, a.`id_shop_default`, ';
         $this->_select .= $alias_image.'.`id_image` AS `id_image`, cl.`name` AS `name_category`, '.$alias.'.`price`, 0 AS `price_final`, a.`is_virtual`, pd.`nb_downloadable`, sav.`quantity` AS `sav_quantity`, '.$alias.'.`active`, IF(sav.`quantity`<=0, 1, 0) AS `badge_danger`';
@@ -254,15 +254,6 @@ class AdminProductsControllerCore extends AdminController
                 //'hint' => $this->l('This is the quantity available in the current shop/group.'),
             );
         }
-        
-        $this->fields_list['product_parent'] = array(
-            'title' => $this->l('Producto Padre'),
-            'active' => 'status',
-            'align' => 'text-center',
-            'type' => 'bool',
-            'class' => 'fixed-width-sm',
-            'orderby' => false
-        );
 
         $this->fields_list['active'] = array(
             'title' => $this->l('Status'),
@@ -728,7 +719,6 @@ class AdminProductsControllerCore extends AdminController
             unset($product->id_product);
             $product->indexed = 0;
             $product->active = 0;
-            $product->product_parent=0;
             if ($product->add()
             && Category::duplicateProductCategories($id_product_old, $product->id)
             && Product::duplicateSuppliers($id_product_old, $product->id)
@@ -1485,212 +1475,6 @@ class AdminProductsControllerCore extends AdminController
             $this->addCSS(array(
                 _PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css'
             ));
-        }
-        
-        if ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport" ) {
-            $sql = "SELECT
-                        p.id_product id,
-                        pl.name nombre_producto,
-                        p.reference referencia,
-                        p.product_parent,
-                        p.price precio,
-                        p.price_shop precio_tienda,
-                        ps.product_supplier_price_te costo,
-                        rp.value porcentaje_red,
-                        m.name fabricante,
-                        s.name proveedor,
-                        IF(p.active=1,'Activo','Inactivo') estado,
-                        (SELECT COUNT(pc1.id_product)
-                        FROM "._DB_PREFIX_."product_code pc1
-                        WHERE pc1.id_product = p.id_product
-                        AND pc1.id_order = 0) unidades_disponibles,
-                        (SELECT COUNT(pc2.id_product)
-                        FROM "._DB_PREFIX_."product_code pc2
-                        WHERE pc2.id_product = p.id_product
-                        AND pc2.id_order <> 0) unidades_vendidas
-                    FROM "._DB_PREFIX_."product p
-                    LEFT JOIN "._DB_PREFIX_."product_lang pl ON ( p.id_product = pl.id_product AND pl.id_lang = ".$this->context->language->id.")
-                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
-                    LEFT JOIN "._DB_PREFIX_."product_supplier ps ON ( p.id_product = ps.id_product )
-                    LEFT JOIN "._DB_PREFIX_."supplier s ON ( ps.id_supplier = s.id_supplier )
-                    LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( p.id_product = rp.id_product )
-                    GROUP BY p.id_product";
-
-            $products = Db::getInstance()->executeS($sql);
-            
-            $report = "<html>
-                        <head>
-                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
-                        </head>
-                            <body>
-                                <table>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>nombre_producto</th> 
-                                        <th>referencia</th>
-                                        <th>precio</th>
-                                        <th>precio_tienda</th>
-                                        <th>costo</th>
-                                        <th>precio_red</th>
-                                        <th>porcentaje_red</th>
-                                        <th>fabricante</th>
-                                        <th>proveedor</th>
-                                        <th>categorias</th>
-                                        <th>imagen</th>
-                                        <th>Producto Padre</th>
-                                        <th>estado</th>
-                                        <th>unidades_disponibles</th>
-                                        <th>unidades_vendidas</th>
-                                    </tr>";
-
-            foreach ( $products as $product ) {
-                $productCategories = Product::getProductCategoriesFull($product['id']);                
-                $categories = "";
-                foreach ( $productCategories as $productCategory ) {
-                    $categories .= $productCategory['name'].",";
-                }
-
-                $imageurl = "";
-                $image = Image::getCover($product['id']);
-                $productdetail = new Product($product['id'], false, Context::getContext()->language->id);
-                $link = new Link;
-                $imageurl = $link->getImageLink($productdetail->link_rewrite, $image['id_image'], 'home_default');
-
-                $report .= "<tr>
-                                <td>".$product['id']."</td>
-                                <td>".$product['nombre_producto']."</td> 
-                                <td>".$product['referencia']."</td>
-                                <td>".$product['precio']."</td>
-                                <td>".$product['precio_tienda']."</td>
-                                <td>".$product['costo']."</td>
-                                <td>".( $product['precio'] * $product['porcentaje_red'] / 100 )."</td>
-                                <td>".$product['porcentaje_red']."</td>
-                                <td>".$product['fabricante']."</td>
-                                <td>".$product['proveedor']."</td>
-                                <td>".substr($categories, 0, -1)."</td>
-                                <td>".$imageurl."</td>
-                                <td>".$product['product_parent']."</td>
-                                <td>".$product['estado']."</td>
-                                <td>".$product['unidades_disponibles']."</td>
-                                <td>".$product['unidades_vendidas']."</td>
-                            </tr>";
-            }
-
-            $report .= "         </table>
-                            </body>
-                        </html>";
-
-            header("Content-Type: application/vnd.ms-excel");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("content-disposition: attachment;filename=report_products.xls");
-
-            die($report);
-        }
-        
-        if ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreportdescriptions" ) {
-            $sql = "SELECT
-                        p.id_product,
-                        pl.name,
-                        p.product_parent,
-                        p.reference,
-                        m.name merchant,
-                        IF(p.active = 1,'Activo','Inactivo') status,
-                        pl.description product_description,
-                        pl.description_short product_description_short,
-                        ml.description merchant_description,
-                        ml.short_description merchant_description_short
-                    FROM "._DB_PREFIX_."product p
-                    LEFT JOIN "._DB_PREFIX_."product_lang pl ON ( p.id_product = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
-                    LEFT JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
-                    LEFT JOIN "._DB_PREFIX_."manufacturer_lang ml ON ( p.id_manufacturer = ml.id_manufacturer AND ml.id_lang = ".$this->context->language->id." )";
-
-            $products = Db::getInstance()->executeS($sql);
-            
-            $report = "<html>
-                        <head>
-                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
-                        </head>
-                            <body>
-                                <table>
-                                    <tr>
-                                        <th>producto</th>
-                                        <th>nombre</th> 
-                                        <th>referencia</th>
-                                        <th>fabricante</th>
-                                        <th>producto padre</th>
-                                        <th>estado</th>
-                                        <th>descripcion larga producto</th>
-                                        <th>descripcion corta producto</th>
-                                        <th>descripcion larga fabricante</th>
-                                        <th>descripcion corta fabricante</th>
-                                    </tr>";
-
-            foreach ( $products as $product ) {
-                $report .= "<tr>
-                                <td>".$product['id_product']."</td>
-                                <td>".$product['name']."</td>
-                                <td>".$product['reference']."</td>
-                                <td>".$product['merchant']."</td>
-                                <td>".$product['product_parent']."</td>
-                                <td>".$product['status']."</td>
-                                <td>".$product['product_description']."</td>
-                                <td>".$product['product_description_short']."</td>
-                                <td>".$product['merchant_description']."</td>
-                                <td>".$product['merchant_description_short']."</td>
-                            </tr>";
-            }
-
-            $report .= "         </table>
-                            </body>
-                        </html>";
-
-            header("Content-Type: application/vnd.ms-excel");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("content-disposition: attachment;filename=report_products_descriptions.xls");
-
-            die($report);
-        }
-
-        if ( Tools::isSubmit('deleteImgBannerProduct_0') ) {
-            unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_0.jpg");
-            $this->confirmations[] = "Banner borrado correctamente.";
-        }
-        
-        if ( Tools::isSubmit('deleteImgBannerProduct_1') ) {
-            unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_1.jpg");
-            $this->confirmations[] = "Banner borrado correctamente.";
-        }
-
-        if ( Tools::isSubmit('submitImgBannerProduct') ) {
-            if ( isset($_FILES['img_0']) && $_FILES['img_0']['size'] != 0 ) {
-                $target_path = _PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_0.jpg";
-                if ( move_uploaded_file($_FILES['img_0']['tmp_name'], $target_path) ) {
-                    // Sube las imágenes al AWS S3
-                    $awsObj = new Aws();
-                    if (!($awsObj->setObjectImage($target_path,basename( Tools::getValue('id_product')."_0.jpg"),'p-banners/'))) {
-                         $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
-                    } else {
-                        unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_0.jpg");
-                    }
-                }
-            }
-
-            if ( isset($_FILES['img_1']) && $_FILES['img_1']['size'] != 0 ) {
-                $target_path = _PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_1.jpg";
-                if ( move_uploaded_file($_FILES['img_1']['tmp_name'], $target_path) ) {
-                    // Sube las imágenes al AWS S3
-                    $awsObj = new Aws();
-                    if (!($awsObj->setObjectImage($target_path,basename( Tools::getValue('id_product')."_1.jpg"),'p-banners/'))) {
-                         $this->errors[] = Tools::displayError('No fue posible cargar el banner.');
-                    } else {
-                        unlink(_PS_IMG_DIR_."p-banners/".Tools::getValue('id_product')."_1.jpg");
-                    }
-                }
-            }
-
-            $this->confirmations[] = "Banners cargados correctamente.";
         }
     }
 
@@ -2741,7 +2525,7 @@ class AdminProductsControllerCore extends AdminController
             $helper = new HelperKpi();
             $helper->id = 'box-products-stock';
             $helper->icon = 'icon-archive';
-            $helper->color = 'color3';
+            $helper->color = 'color1';
             $helper->title = $this->l('Out of stock items', null, null, false);
             if (ConfigurationKPI::get('PERCENT_PRODUCT_OUT_OF_STOCK') !== false) {
                 $helper->value = ConfigurationKPI::get('PERCENT_PRODUCT_OUT_OF_STOCK');
@@ -2753,7 +2537,7 @@ class AdminProductsControllerCore extends AdminController
             $kpis[] = $helper->generate();
         }
 
-        /*$helper = new HelperKpi();
+        $helper = new HelperKpi();
         $helper->id = 'box-avg-gross-margin';
         $helper->icon = 'icon-tags';
         $helper->color = 'color2';
@@ -2781,7 +2565,7 @@ class AdminProductsControllerCore extends AdminController
         if (Module::isInstalled('statsbestproducts')) {
             $helper->href = Context::getContext()->link->getAdminLink('AdminStats').'&module=statsbestproducts&datepickerFrom='.date('Y-m-d', strtotime('-30 days')).'&datepickerTo='.date('Y-m-d');
         }
-        $kpis[] = $helper->generate();*/
+        $kpis[] = $helper->generate();
 
         $helper = new HelperKpi();
         $helper->id = 'box-disabled-products';
@@ -2796,24 +2580,6 @@ class AdminProductsControllerCore extends AdminController
         $helper->refresh = (bool)(ConfigurationKPI::get('DISABLED_PRODUCTS_EXPIRE') < $time);
         $helper->tooltip = $this->l('X% of your products are disabled and not visible to your customers', null, null, false);
         $helper->href = Context::getContext()->link->getAdminLink('AdminProducts').'&productFilter_active=0&submitFilterproduct=1';
-        $kpis[] = $helper->generate();
-        
-        $helper = new HelperKpi();
-        $helper->id = 'box-report_products';
-        $helper->icon = 'icon-download';
-        $helper->color = 'color1';
-        $helper->title = $this->l('Reporte Productos', null, null, false);
-        $helper->subtitle = $this->l('Descargar', null, null, false);
-        $helper->href = $this->context->link->getAdminLink('AdminProducts').'&action=exportreport';
-        $kpis[] = $helper->generate();
-        
-        $helper = new HelperKpi();
-        $helper->id = 'box-report_products_descriptions';
-        $helper->icon = 'icon-download';
-        $helper->color = 'color2';
-        $helper->title = $this->l('Reporte Descripciones Productos', null, null, false);
-        $helper->subtitle = $this->l('Descargar', null, null, false);
-        $helper->href = $this->context->link->getAdminLink('AdminProducts').'&action=exportreportdescriptions';
         $kpis[] = $helper->generate();
 
         $helper = new HelperKpiRow();
@@ -3048,9 +2814,7 @@ class AdminProductsControllerCore extends AdminController
         $this->tpl_form_vars['tabs_preloaded'] = $this->available_tabs;
 
         $this->tpl_form_vars['product_type'] = (int)Tools::getValue('type_product', $product->getType());
-        $this->tpl_form_vars['product_parent'] = $product->product_parent;
-        $this->tpl_form_vars['single_use'] = $product->single_use;
-        
+
         $this->getLanguages();
 
         $this->tpl_form_vars['id_lang_default'] = Configuration::get('PS_LANG_DEFAULT');
@@ -4238,8 +4002,6 @@ class AdminProductsControllerCore extends AdminController
 
         $data->assign('product_type', (int)Tools::getValue('type_product', $product->getType()));
         $data->assign('is_in_pack', (int)Pack::isPacked($product->id));
-        $data->assign('product_parent', (int)Tools::getValue('product_parent'));
-        $data->assign('single_use', (int)Tools::getValue('single_use'));
 
         $check_product_association_ajax = false;
         if (Shop::isFeatureActive() && Shop::getContext() != Shop::CONTEXT_ALL) {

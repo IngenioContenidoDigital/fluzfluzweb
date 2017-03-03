@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -39,7 +39,7 @@ class BlockWishList extends Module
 	{
 		$this->name = 'blockwishlist';
 		$this->tab = 'front_office_features';
-		$this->version = '1.3.1';
+		$this->version = '1.3.2';
 		$this->author = 'PrestaShop';
 		$this->need_instance = 0;
 
@@ -51,7 +51,7 @@ class BlockWishList extends Module
 		$this->displayName = $this->l('Wishlist block');
 		$this->description = $this->l('Adds a block containing the customer\'s wishlists.');
 		$this->default_wishlist_name = $this->l('My wishlist');
-		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.6.99.99');
 		$this->html = '';
 	}
 
@@ -375,12 +375,11 @@ class BlockWishList extends Module
 
 	public function renderForm()
 	{
-		$_customers = WishList::getCustomers();
-
-        	foreach ($_customers as $c)
+		$customers = array();
+        	foreach (WishList::getCustomers() as $c)
         	{
-            		$_customers[$c['id_customer']]['id_customer'] = $c['id_customer'];
-            		$_customers[$c['id_customer']]['name'] = $c['firstname'].' '.$c['lastname'];
+            		$customers[$c['id_customer']]['id_customer'] = $c['id_customer'];
+            		$customers[$c['id_customer']]['name'] = $c['firstname'].' '.$c['lastname'];
         	}
 
 		$fields_form = array(
@@ -396,7 +395,7 @@ class BlockWishList extends Module
 						'name' => 'id_customer',
 						'options' => array(
 							'default' => array('value' => 0, 'label' => $this->l('Choose customer')),
-							'query' => $_customers,
+							'query' => $customers,
 							'id' => 'id_customer',
 							'name' => 'name'
 						),

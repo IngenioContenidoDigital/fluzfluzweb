@@ -2,6 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
+
 $_MODULE['<{sekeywords}prestashop>sekeywords_65b0b42febc8ea16db4652eab6f420a4'] = 'Palabras clave en el motor de búsqueda';
 $_MODULE['<{sekeywords}prestashop>sekeywords_8effa630c1740a748801b881acb90fa6'] = 'Mostrar qué palabras claves han llevado visitantes a su tienda.';
 $_MODULE['<{sekeywords}prestashop>sekeywords_6602bbeb2956c035fb4cb5e844a4861b'] = 'Guía';
@@ -23,3 +24,6 @@ $_MODULE['<{sekeywords}prestashop>sekeywords_998e4c5c80f27dec552e99dfed34889a'] 
 $_MODULE['<{sekeywords}prestashop>sekeywords_7b48f6cc4a1dde7fca9597e717c2465f'] = 'No hay palabras clave';
 $_MODULE['<{sekeywords}prestashop>sekeywords_e15832aa200f342e8f4ab580b43a72a8'] = '10 primeras palabras clave';
 $_MODULE['<{sekeywords}prestashop>sekeywords_52ef9633d88a7480b3a938ff9eaa2a25'] = 'Otros';
+
+
+return $_MODULE;

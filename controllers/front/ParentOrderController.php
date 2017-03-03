@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -99,20 +99,18 @@ class ParentOrderControllerCore extends FrontController
 
         if ($this->nbProducts) {
             if (CartRule::isFeatureActive()) {
-                //if (Tools::isSubmit('submitAddDiscount')) {
-                    
-                    
-                    
+                if (Tools::isSubmit('submitAddDiscount')) {
                     if (!($code = trim(Tools::getValue('discount_name')))) {
-                        //$this->errors[] = Tools::displayError('You must enter a voucher code.');
+                        $this->errors[] = Tools::displayError('You must enter a voucher code.');
                     } elseif (!Validate::isCleanHtml($code)) {
-                        //$this->errors[] = Tools::displayError('The voucher code is invalid.');
+                        $this->errors[] = Tools::displayError('The voucher code is invalid.');
                     } else {
                         if (($cartRule = new CartRule(CartRule::getIdByCode($code))) && Validate::isLoadedObject($cartRule)) {
                             if ($error = $cartRule->checkValidity($this->context, false, true)) {
                                 $this->errors[] = $error;
                             } else {
                                 $this->context->cart->addCartRule($cartRule->id);
+                                CartRule::autoAddToCart($this->context);
                                 if (Configuration::get('PS_ORDER_PROCESS_TYPE') == 1) {
                                     Tools::redirect('index.php?controller=order-opc&addingCartRule=1');
                                 }
@@ -126,13 +124,12 @@ class ParentOrderControllerCore extends FrontController
                         'errors' => $this->errors,
                         'discount_name' => Tools::safeOutput($code)
                     ));
-                } 
-                if (($id_cart_rule = (int)Tools::getValue('deleteDiscount')) && Validate::isUnsignedId($id_cart_rule)) {
+                } elseif (($id_cart_rule = (int)Tools::getValue('deleteDiscount')) && Validate::isUnsignedId($id_cart_rule)) {
                     $this->context->cart->removeCartRule($id_cart_rule);
                     CartRule::autoAddToCart($this->context);
                     Tools::redirect('index.php?controller=order-opc');
                 }
-            //}
+            }
             /* Is there only virtual product in cart */
             if ($isVirtualCart = $this->context->cart->isVirtualCart()) {
                 $this->setNoCarrier();

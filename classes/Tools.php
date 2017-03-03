@@ -1,6 +1,6 @@
 <?php
 /**
- * 2007-2015 PrestaShop
+ * 2007-2016 PrestaShop
  *
  * NOTICE OF LICENSE
  *
@@ -19,7 +19,7 @@
  * needs please refer to http://www.prestashop.com for more information.
  *
  *  @author  PrestaShop SA <contact@prestashop.com>
- *  @copyright  2007-2015 PrestaShop SA
+ *  @copyright  2007-2016 PrestaShop SA
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
@@ -576,7 +576,9 @@ class ToolsCore
     public static function getCountry($address = null)
     {
         $id_country = (int)Tools::getValue('id_country');
-        if (!$id_country && isset($address) && isset($address->id_country) && $address->id_country) {
+        if ($id_country && Validate::isInt($id_country)) {
+            return (int)$id_country;
+        } elseif (!$id_country && isset($address) && isset($address->id_country) && $address->id_country) {
             $id_country = (int)$address->id_country;
         } elseif (Configuration::get('PS_DETECT_COUNTRY') && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             preg_match('#(?<=-)\w\w|\w\w(?!-)#', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $array);
@@ -813,7 +815,7 @@ class ToolsCore
      * @param Currency $currency_from if null we used the default currency
      * @param Currency $currency_to if null we used the default currency
      */
-    public static function convertPriceFull($amount, Currency $currency_from = null, Currency $currency_to = null)
+    public static function convertPriceFull($amount, Currency $currency_from = null, Currency $currency_to = null, $round = true)
     {
         if ($currency_from == $currency_to) {
             return $amount;
@@ -836,7 +838,10 @@ class ToolsCore
             // Convert to new currency
             $amount *= $currency_to->conversion_rate;
         }
-        return Tools::ps_round($amount, _PS_PRICE_COMPUTE_PRECISION_);
+        if ($round) {
+        	$amount = Tools::ps_round($amount, _PS_PRICE_COMPUTE_PRECISION_);
+        }
+        return $amount;
     }
 
     /**
@@ -1302,16 +1307,14 @@ class ToolsCore
 
                 $n = 1;
                 $n_categories = count($categories);
-               
                 foreach ($categories as $category) {
                     $full_path .=
                     (($n < $n_categories || $link_on_the_item) ? '<a href="'.Tools::safeOutput($context->link->getCategoryLink((int)$category['id_category'], $category['link_rewrite'])).'" title="'.htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8').'" data-gg="">' : '').
-                    htmlentities(substr($category['name'], 0, 20), ENT_NOQUOTES, 'UTF-8').'...'.
+                    htmlentities($category['name'], ENT_NOQUOTES, 'UTF-8').
                     (($n < $n_categories || $link_on_the_item) ? '</a>' : '').
-                    (($n++ != $n_categories || !empty($path)) ? '<span class="navigation-pipe" style="color:#ef4136;">'.$pipe.'</span>' : '');
-                
+                    (($n++ != $n_categories || !empty($path)) ? '<span class="navigation-pipe">'.$pipe.'</span>' : '');
                 }
-                
+
                 return $full_path.$path;
             }
         } elseif ($category_type === 'CMS') {
@@ -1697,15 +1700,6 @@ class ToolsCore
     {
         $tab = array();
         for ($i = date('Y'); $i >= 1900; $i--) {
-            $tab[] = $i;
-        }
-        return $tab;
-    }
-    
-    public static function dateYearsExpiration()
-    {
-        $tab = array();
-        for ($i = 2050; $i >= 2016; $i--) {
             $tab[] = $i;
         }
         return $tab;

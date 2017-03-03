@@ -835,7 +835,7 @@ product_tabs['Associations'] = new function(){
 
 		/* delete product from select + add product line to the div, input_name, input_ids elements */
 		$divAccessories.html($divAccessories.html() + '<div class="form-control-static"><button type="button" class="delAccessory btn btn-default" name="' + productId + '"><i class="icon-remove text-danger"></i></button>&nbsp;'+ productName +'</div>');
-		$nameAccessories.val($nameAccessories.val() + productName + 'Â¤');
+		$nameAccessories.val($nameAccessories.val() + productName + '¤');
 		$inputAccessories.val($inputAccessories.val() + productId + '-');
 		$('#product_autocomplete_input').val('');
 		$('#product_autocomplete_input').setOptions({
@@ -851,7 +851,7 @@ product_tabs['Associations'] = new function(){
 
 		// Cut hidden fields in array
 		var inputCut = input.value.split('-');
-		var nameCut = name.value.split('Â¤');
+		var nameCut = name.value.split('¤');
 
 		if (inputCut.length != nameCut.length)
 			return jAlert('Bad size');
@@ -870,7 +870,7 @@ product_tabs['Associations'] = new function(){
 			if (inputCut[i] != id)
 			{
 				input.value += inputCut[i] + '-';
-				name.value += nameCut[i] + 'Â¤';
+				name.value += nameCut[i] + '¤';
 				div.innerHTML += '<div class="form-control-static"><button type="button" class="delAccessory btn btn-default" name="' + inputCut[i] +'"><i class="icon-remove text-danger"></i></button>&nbsp;' + nameCut[i] + '</div>';
 			}
 			else
@@ -1301,13 +1301,13 @@ product_tabs['Pack'] = new function() {
 
 				// QTYxID-QTYxID
 				// @todo : it should be better to create input for each items and each qty
-				// instead of only one separated by x, - and Â¤
+				// instead of only one separated by x, - and ¤
 				var line = selectedProduct.qty + 'x' + selectedProduct.id + 'x' + selectedProduct.id_product_attribute;
 				var lineDisplay = selectedProduct.qty + 'x ' + selectedProduct.name;
 
 				$('#divPackItems').html(divContent);
 				$('#inputPackItems').val($('#inputPackItems').val() + line  + '-');
-				$('#namePackItems').val($('#namePackItems').val() + lineDisplay + 'Â¤');
+				$('#namePackItems').val($('#namePackItems').val() + lineDisplay + '¤');
 
 				$('.delPackItem').on('click', function(e){
 					e.preventDefault();
@@ -1332,7 +1332,7 @@ product_tabs['Pack'] = new function() {
 			var name = $('#namePackItems');
 
 			var inputCut = input.val().split(reg);
-			var nameCut = name.val().split(new RegExp('Â¤', 'g'));
+			var nameCut = name.val().split(new RegExp('¤', 'g'));
 
 			input.val(null);
 			name.val(null);
@@ -1341,7 +1341,7 @@ product_tabs['Pack'] = new function() {
 					var inputQty = inputCut[i].split(regx);
 					if (inputQty[1] != id || inputQty[2] != id_attribute) {
 						input.val( input.val() + inputCut[i] + '-' );
-						name.val( name.val() + nameCut[i] + 'Â¤');
+						name.val( name.val() + nameCut[i] + '¤');
 					}
 				}
 

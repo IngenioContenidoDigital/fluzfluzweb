@@ -13,7 +13,7 @@ $_MODULE['<{blocknewproducts}prestashop>blocknewproducts_26986c3388870d4148b1b53
 $_MODULE['<{blocknewproducts}prestashop>blocknewproducts_3ea7689283770958661c27c37275b89c'] = 'Anzahl der Artikel festlegen, die in diesem Block angezeigt werden sollen';
 $_MODULE['<{blocknewproducts}prestashop>blocknewproducts_85dd6b2059e1ff8fbefcc9cf6e240933'] = 'Anzahl der Tage, in denen der Artikel als "NEU" angesehen wird';
 $_MODULE['<{blocknewproducts}prestashop>blocknewproducts_24ff4e4d39bb7811f6bdf0c189462272'] = 'Block immer anzeigen';
-$_MODULE['<{blocknewproducts}prestashop>blocknewproducts_d68e7b860a7dba819fa1c75225c284b5'] = 'Block anzeigen, auch wenn kein Produkt verfügbar ist';
+$_MODULE['<{blocknewproducts}prestashop>blocknewproducts_d68e7b860a7dba819fa1c75225c284b5'] = 'Block anzeigen, auch wenn kein Artikel verfügbar ist';
 $_MODULE['<{blocknewproducts}prestashop>blocknewproducts_00d23a76e43b46dae9ec7aa9dcbebb32'] = 'Aktiviert';
 $_MODULE['<{blocknewproducts}prestashop>blocknewproducts_b9f5c797ebbf55adccdd8539a65a0241'] = 'Deaktiviert';
 $_MODULE['<{blocknewproducts}prestashop>blocknewproducts_c9cc8cce247e49bae79f15173ce97354'] = 'Speichern';

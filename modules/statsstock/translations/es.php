@@ -2,6 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
+
 $_MODULE['<{statsstock}prestashop>statsstock_96ca47f429c269b85e31be9fb17df6d4'] = 'Cantidades disponibles';
 $_MODULE['<{statsstock}prestashop>statsstock_7782fb19c81ec8a47e39f9c073b7da59'] = 'Añade una pestaña que muestra la cantidad de productos disponibles para la venta en el Panel de Estadísticas.';
 $_MODULE['<{statsstock}prestashop>statsstock_c49b42f642c62f20a3640f20ca132840'] = 'Cantidades disponibles para la valoración de la venta';
@@ -18,3 +19,6 @@ $_MODULE['<{statsstock}prestashop>statsstock_347cbf03d737b02a70a96ff204c22fbc'] 
 $_MODULE['<{statsstock}prestashop>statsstock_844c29394eea07066bb2efefc35784ec'] = 'Precio medio';
 $_MODULE['<{statsstock}prestashop>statsstock_62668f75fc6977f3d09df632d1585d07'] = 'Valor total';
 $_MODULE['<{statsstock}prestashop>statsstock_a9873f90f06f9e2cfa3d048298ecca8c'] = 'Corresponde al precio de venta al por mayor defecto de acuerdo con el proveedor por defecto para el producto. Un precio medio se utiliza cuando el producto tiene atributos.';
+
+
+return $_MODULE;
