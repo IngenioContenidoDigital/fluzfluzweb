@@ -1,6 +1,6 @@
 <?php
 /**
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,13 +19,14 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
 date_default_timezone_set("America/Bogota");
 @ini_set('max_input_vars', 5000);
+
 /* Debug only */
 if (!defined('_PS_MODE_DEV_')) {
 define('_PS_MODE_DEV_', false);
@@ -34,7 +35,7 @@ define('_PS_MODE_DEV_', false);
 define('_PS_DISPLAY_COMPATIBILITY_WARNING_', false);
 if (_PS_MODE_DEV_ === true) {
     @ini_set('display_errors', 'on');
-    @error_reporting(E_ERROR);
+    @error_reporting(E_ALL | E_STRICT);
     define('_PS_DEBUG_SQL_', true);
 } else {
     @ini_set('display_errors', 'off');

@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -137,7 +137,6 @@ class AdminAddressesControllerCore extends AdminController
                     'label' => $this->l('Address alias'),
                     'name' => 'alias',
                     'required' => true,
-                    'default_value' => "Mi Direccion",
                     'col' => '4',
                     'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}'
                 ),
@@ -279,16 +278,11 @@ class AdminAddressesControllerCore extends AdminController
                 );
             } elseif ($addr_field_item == 'city') {
                 $temp_fields[] = array(
-                    'type' => 'select',
+                    'type' => 'text',
                     'label' => $this->l('City'),
                     'name' => 'city',
-                    'required' => true,
                     'col' => '4',
-                    'options' => array(
-                        'query' => City::getCities(),
-                        'id' => 'ciudad',
-                        'name' => 'ciudad'
-                    )
+                    'required' => true,
                 );
             } elseif ($addr_field_item == 'country' || $addr_field_item == 'Country:name') {
                 $temp_fields[] = array(

@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -107,7 +107,7 @@ class CmsControllerCore extends FrontController
         $this->context->smarty->assign('id_current_lang', $this->context->language->id);
         $this->context->smarty->assign('home_title', $parent_cat->name);
         $this->context->smarty->assign('cgv_id', Configuration::get('PS_CONDITIONS_CMS_ID'));
-        
+
         if ($this->assignCase == 1) {
             if (isset($this->cms->id_cms_category) && $this->cms->id_cms_category) {
                 $path = Tools::getFullPath($this->cms->id_cms_category, $this->cms->meta_title, 'CMS');

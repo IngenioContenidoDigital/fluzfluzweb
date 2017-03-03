@@ -2,6 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
+
 $_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_fc02586aa99596947b184a01f43fb4ae'] = 'Bloque de información de contacto';
 $_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_86458ae1631be34a6fcbf1a4584f5abe'] = 'Este módulo permite mostrar la información de contacto de su tienda en un bloque personalizable.';
 $_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_20015706a8cbd457cbb6ea3e7d5dc9b3'] = 'Configuración actualizada';
@@ -14,3 +15,8 @@ $_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_c9cc8cce247e49bae79f1
 $_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_02d4482d332e1aef3437cd61c9bcc624'] = 'Contacte con nosotros';
 $_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_2e006b735fbd916d8ab26978ae6714d4'] = 'Tel.:';
 $_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_6a1e265f92087bb6dd18194833fe946b'] = 'Email:';
+$_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_80a11d2a54a677f6fadd9c041c0d6b98'] = 'Información sobre la tienda';
+$_MODULE['<{blockcontactinfos}prestashop>blockcontactinfos_320abee94a07e976991e4df0d4afb319'] = 'Llámenos ahora:';
+
+
+return $_MODULE;

@@ -1,5 +1,5 @@
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,7 +18,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -26,7 +26,6 @@
 var responsiveflag = false;
 
 $(document).ready(function(){
-        $('.myfancybox').fancybox();
 	highdpiInit();
 	responsiveResize();
 	$(window).resize(responsiveResize);
@@ -54,7 +53,7 @@ $(document).ready(function(){
 				url += requestSortProducts ;
 				if (typeof splitData[0] !== 'undefined' && splitData[0])
 				{
-					url += ( requestSortProducts.indexOf('?') < 0 ? '?' : '&') + 'orderby=' + splitData[0] + (splitData[1] ? '&orderway=' + splitData[1] : '');
+					url += ( requestSortProducts.indexOf('?') < 0 ? '?' : '&') + 'orderby=' + splitData[0];
 					if (typeof splitData[1] !== 'undefined' && splitData[1])
 						url += '&orderway=' + splitData[1];
 				}

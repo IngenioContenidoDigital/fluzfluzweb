@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,7 +18,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
@@ -118,6 +118,8 @@
 							var rte_mail_config = {};
 							rte_mail_config['editor_selector'] = 'rte-mail-' + rte_mail_selector;
 							rte_mail_config['height'] = '500px';
+							// We want the default plugins + 'fullpage' plugin for HTML emails
+							rte_mail_config['plugins'] = "colorpicker link image paste pagebreak table contextmenu filemanager table code media autoresize textcolor anchor fullpage";
 							// move controls to active panel
 							$('#translation_mails-control-actions').appendTo($(this).find('.panel-collapse.in'));
 							// when user first open email
@@ -127,7 +129,6 @@
 								$.ajax({
 									url:'ajax.php',
 									type: 'POST',
-									async: false,
 									dataType: 'html',
 									data: {
 										getEmailHTML : true,
@@ -139,11 +140,11 @@
 										doc.open();
 										doc.write(result);
 										doc.close();
+										tinySetup(rte_mail_config);
+										// init tinyMCE with special config
 									}
 								});
 
-								// init tinyMCE with special config
-								tinySetup(rte_mail_config);
 							}
 						});
 					})

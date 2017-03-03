@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -287,10 +287,6 @@ class AdminOrdersControllerCore extends AdminController
 
             $this->toolbar_title[] = sprintf($this->l('Order %1$s from %2$s %3$s'), $order->reference, $customer->firstname, $customer->lastname);
             $this->addMetaTitle($this->toolbar_title[count($this->toolbar_title) - 1]);
-            
-            $this->context->smarty->assign(array(
-                'codesAssign' => $order->codesAssign()
-            ));
 
             if ($order->hasBeenShipped()) {
                 $type = $this->l('Return products');
@@ -340,7 +336,7 @@ class AdminOrdersControllerCore extends AdminController
 
         $this->addJqueryUI('ui.datepicker');
         $this->addJS(_PS_JS_DIR_.'vendor/d3.v3.min.js');
-        $this->addJS('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false');
+        $this->addJS('https://maps.googleapis.com/maps/api/js?v=3.exp');
 
         if ($this->tabAccess['edit'] == 1 && $this->display == 'view') {
             $this->addJS(_PS_JS_DIR_.'admin/orders.js');
@@ -490,7 +486,6 @@ class AdminOrdersControllerCore extends AdminController
                         }
                         $templateVars = array(
                             '{followup}' => str_replace('@', $order->shipping_number, $carrier->url),
-                            '{username}' => $customer->username,
                             '{firstname}' => $customer->firstname,
                             '{lastname}' => $customer->lastname,
                             '{id_order}' => $order->id,
@@ -513,10 +508,6 @@ class AdminOrdersControllerCore extends AdminController
                 $this->errors[] = Tools::displayError('You do not have permission to edit this.');
             }
         }
-        
-        elseif ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport" ) {
-            Order::exportOrders();
-        }
 
         /* Change order status, add a new entry in order history and send an e-mail to the customer if needed */
         elseif (Tools::isSubmit('submitState') && isset($order)) {
@@ -538,26 +529,13 @@ class AdminOrdersControllerCore extends AdminController
                             $use_existings_payment = true;
                         }
                         $history->changeIdOrderState((int)$order_state->id, $order, $use_existings_payment);
+
                         $carrier = new Carrier($order->id_carrier, $order->id_lang);
                         $templateVars = array();
-                        
                         if ($history->id_order_state == Configuration::get('PS_OS_SHIPPING') && $order->shipping_number) {
                             $templateVars = array('{followup}' => str_replace('@', $order->shipping_number, $carrier->url));
                         }
-                        
-                        $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$order->id;
-                        $row = Db::getInstance()->getRow($queryValidation);
-                        $orderValidation = $row['total'];
-                        
-                        $quantityProducts = 'SELECT COUNT(product_id) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$order->id;
-                        
-                        $row2 = Db::getInstance()->getRow($quantityProducts);
-                        $productos = $row2['productos'];
-                        
-                        if(($order_state->id == 2 ) && (($orderValidation < $productos))){
-                            Order::updateCodes($order, $order_state);
-                        }
-                        
+
                         // Save all changes
                         if ($history->addWithemail(true, $templateVars)) {
                             // synchronizes quantities if needed..
@@ -572,17 +550,13 @@ class AdminOrdersControllerCore extends AdminController
                             Tools::redirectAdmin(self::$currentIndex.'&id_order='.(int)$order->id.'&vieworder&token='.$this->token);
                         }
                         $this->errors[] = Tools::displayError('An error occurred while changing order status, or we were unable to send an email to the customer.');
-                    } 
-                    
-                    else {
+                    } else {
                         $this->errors[] = Tools::displayError('The order has already been assigned this status.');
                     }
                 }
-                
             } else {
                 $this->errors[] = Tools::displayError('You do not have permission to edit this.');
             }
-            
         }
 
         /* Add a new message for the current order and send an e-mail to the customer if needed */
@@ -651,7 +625,6 @@ class AdminOrdersControllerCore extends AdminController
                             }
 
                             $varsTpl = array(
-                                '{username}' => $customer->username,
                                 '{lastname}' => $customer->lastname,
                                 '{firstname}' => $customer->firstname,
                                 '{id_order}' => $order->id,
@@ -753,7 +726,6 @@ class AdminOrdersControllerCore extends AdminController
                         } else {
                             Hook::exec('actionOrderSlipAdd', array('order' => $order, 'productList' => $order_detail_list, 'qtyList' => $full_quantity_list), null, false, true, false, $order->id_shop);
                             $customer = new Customer((int)($order->id_customer));
-                            $params['{username}'] = $customer->username;
                             $params['{lastname}'] = $customer->lastname;
                             $params['{firstname}'] = $customer->firstname;
                             $params['{id_order}'] = $order->id;
@@ -806,7 +778,7 @@ class AdminOrdersControllerCore extends AdminController
                             $cart_rule->active = 1;
 
                             $cart_rule->reduction_amount = $amount;
-                            $cart_rule->reduction_tax = true;
+                            $cart_rule->reduction_tax = $order->getTaxCalculationMethod() != PS_TAX_EXC;
                             $cart_rule->minimum_amount_currency = $order->id_currency;
                             $cart_rule->reduction_currency = $order->id_currency;
 
@@ -824,7 +796,6 @@ class AdminOrdersControllerCore extends AdminController
                                 } else {
                                     $currency = $this->context->currency;
                                     $customer = new Customer((int)($order->id_customer));
-                                    $params['{username}'] = $customer->username;
                                     $params['{lastname}'] = $customer->lastname;
                                     $params['{firstname}'] = $customer->firstname;
                                     $params['{id_order}'] = $order->id;
@@ -977,7 +948,6 @@ class AdminOrdersControllerCore extends AdminController
                         // E-mail params
                         if ((Tools::isSubmit('generateCreditSlip') || Tools::isSubmit('generateDiscount')) && !count($this->errors)) {
                             $customer = new Customer((int)($order->id_customer));
-                            $params['{username}'] = $customer->username;
                             $params['{lastname}'] = $customer->lastname;
                             $params['{firstname}'] = $customer->firstname;
                             $params['{id_order}'] = $order->id;
@@ -1554,7 +1524,7 @@ class AdminOrdersControllerCore extends AdminController
 
         parent::postProcess();
     }
-    
+
     public function renderKpis()
     {
         $time = time();
@@ -1617,15 +1587,6 @@ class AdminOrdersControllerCore extends AdminController
         }
         $helper->source = $this->context->link->getAdminLink('AdminStats').'&ajax=1&action=getKpi&kpi=netprofit_visit';
         $helper->refresh = (bool)(ConfigurationKPI::get('NETPROFIT_VISIT_EXPIRE') < $time);
-        $kpis[] = $helper->generate();
-        
-        $helper = new HelperKpi();
-        $helper->id = 'box-report_orders';
-        $helper->icon = 'icon-download';
-        $helper->color = 'color1';
-        $helper->title = $this->l('Reporte Ordenes', null, null, false);
-        $helper->subtitle = $this->l('Descargar todas', null, null, false);
-        $helper->href = $this->context->link->getAdminLink('AdminOrders').'&action=exportreport';
         $kpis[] = $helper->generate();
 
         $helper = new HelperKpiRow();
@@ -1759,16 +1720,6 @@ class AdminOrdersControllerCore extends AdminController
         foreach ($history as &$order_state) {
             $order_state['text-color'] = Tools::getBrightness($order_state['color']) < 128 ? 'white' : 'black';
         }
-
-        /*foreach ( $products as $product ) {
-            $codes = Db::getInstance()->ExecuteS('SELECT code
-                                                    FROM ps_product_code
-                                                    WHERE id_order = '.$order->id.'
-                                                    AND id_product = '.$product['product_id']);
-            foreach ( $codes as $code ) {
-                $product['codes'][] = $code['code'];
-            }
-        }*/
 
         // Smarty assign
         $this->tpl_view_vars = array(
@@ -1927,8 +1878,7 @@ class AdminOrdersControllerCore extends AdminController
                     $mailVars = array(
                         '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart->id_lang, 'step=3&recover_cart='.(int)$cart->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart->id)),
                         '{firstname}' => $customer->firstname,
-                        '{lastname}' => $customer->lastname,
-                        '{username}' => $customer->username
+                        '{lastname}' => $customer->lastname
                     );
                     if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Process the payment of your order', (int)$cart->id_lang), $mailVars, $customer->email,
                             $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {

@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -35,7 +35,7 @@ class HomeFeatured extends Module
 	{
 		$this->name = 'homefeatured';
 		$this->tab = 'front_office_features';
-		$this->version = '1.8.0';
+		$this->version = '1.8.1';
 		$this->author = 'PrestaShop';
 		$this->need_instance = 0;
 
@@ -44,6 +44,7 @@ class HomeFeatured extends Module
 
 		$this->displayName = $this->l('Featured products on the homepage');
 		$this->description = $this->l('Displays featured products in the central column of your homepage.');
+		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.6.99.99');
 	}
 
 	public function install()
@@ -51,6 +52,7 @@ class HomeFeatured extends Module
 		$this->_clearCache('*');
 		Configuration::updateValue('HOME_FEATURED_NBR', 8);
 		Configuration::updateValue('HOME_FEATURED_CAT', (int)Context::getContext()->shop->getCategory());
+		Configuration::updateValue('HOME_FEATURED_RANDOMIZE', false);
 
 		if (!parent::install()
 			|| !$this->registerHook('header')
@@ -59,9 +61,6 @@ class HomeFeatured extends Module
 			|| !$this->registerHook('deleteproduct')
 			|| !$this->registerHook('categoryUpdate')
 			|| !$this->registerHook('displayHomeTab')
-                        || !$this->registerHook('customCMS')
-                        || !$this->registerHook('newMerchants')
-                        || !$this->registerHook('merchants')        
 			|| !$this->registerHook('displayHomeTabContent')
 		)
 			return false;
@@ -87,19 +86,8 @@ class HomeFeatured extends Module
 			$errors[] = $this->l('The number of products is invalid. Please enter a positive number.');
 
 			$cat = Tools::getValue('HOME_FEATURED_CAT');
-			if (!Validate::isInt($cat) || $cat < 0)
+			if (!Validate::isInt($cat) || $cat <= 0)
 				$errors[] = $this->l('The category ID is invalid. Please choose an existing category ID.');
-                        
-                        $listcategories = "";
-                        foreach ( $_POST as $var => $dat ) {
-                            if ( $dat == 'on' ) {
-                                $idcategory = str_replace("HOME_FEATURED_CAT_LIST_", "", $var);
-                                $listcategories .= $idcategory.",";
-                            }
-                        }
-                        $listcategories = substr($listcategories, 0, -1);
-                        if (!$listcategories)
-                            $listcategories = "0";
 
 			$rand = Tools::getValue('HOME_FEATURED_RANDOMIZE');
 			if (!Validate::isBool($rand))
@@ -111,7 +99,6 @@ class HomeFeatured extends Module
 				Configuration::updateValue('HOME_FEATURED_NBR', (int)$nbr);
 				Configuration::updateValue('HOME_FEATURED_CAT', (int)$cat);
 				Configuration::updateValue('HOME_FEATURED_RANDOMIZE', (bool)$rand);
-				Configuration::updateValue('HOME_FEATURED_CAT_LIST', $listcategories);
 				Tools::clearCache(Context::getContext()->smarty, $this->getTemplatePath('homefeatured.tpl'));
 				$output = $this->displayConfirmation($this->l('Your settings have been updated.'));
 			}
@@ -119,60 +106,6 @@ class HomeFeatured extends Module
 
 		return $output.$this->renderForm();
 	}
-        
-        public function hookcustomCMS($params)
-	 {
-	 
-	  if (Tools::getValue('id_cms') != 6)
-	   return;
-	 
-	     return $this->hookDisplayHome($params);
-	 }
-         
-        public function hooknewMerchants($params)
-        {
-	 
-            $carousel= ManufacturerCore::getManufacturersCategory();
-            
-	    /*if (!$this->isCached('merchants.tpl', $this->getCacheId()))
-            {*/
-                $this->smarty->assign(
-                    array(
-                        's3'=> _S3_PATH_,
-                        'merchants' => $carousel,
-                        'sponsor' => $this->getSponsor()
-                    )
-                );
-            //}
-
-            return $this->display(__FILE__, 'newMerchants.tpl');
-	 }
-         
-         public function hookmerchants($params)
-	 {
-            $carousel = ManufacturerCore::getNewManufacturers();
-            
-	  /*if (!$this->isCached('newMerchants.tpl', $this->getCacheId()))
-		{*/
-			$this->smarty->assign(
-				array(
-                                        's3'=> _S3_PATH_,
-					'merchants' => $carousel,
-                                        'sponsor' => $this->getSponsor()
-				)
-			);
-		//}
-
-		return $this->display(__FILE__, 'merchants.tpl');
-	 }
-         
-        public function getSponsor(){
-            
-            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
-            $sponsorships2=array_slice($sponsorships, 1, 15);
-            $sponsor = count($sponsorships2)+1;
-                return $sponsor;
-        } 
 
 	public function hookDisplayHeader($params)
 	{
@@ -190,34 +123,12 @@ class HomeFeatured extends Module
 	{
 		if (!isset(HomeFeatured::$cache_products))
 		{
-                    $listProductFeatured = [];
-                    if ( (int)Configuration::get('HOME_FEATURED_CAT_LIST') == 0 ) {
-                        $categories = Category::getSimpleCategories((int)Context::getContext()->language->id);
-                        foreach ( $categories as $cat ) {
-                            $category = new Category((int)$cat['id_category'], (int)Context::getContext()->language->id);
-                            $nb = (int)Configuration::get('HOME_FEATURED_NBR');
-                            if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
-                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), null, null, false, true, true, ($nb ? $nb : 8));
-                            } else {
-                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), 'position');
-                            }
-                            $listProductFeatured = array_merge($listProductFeatured,$listProducts);
-                        }
-                        HomeFeatured::$cache_products = array_unique($listProductFeatured, SORT_REGULAR);
-                    } else {
-                        $categories = explode(",",Configuration::get('HOME_FEATURED_CAT_LIST'));
-                        foreach ( $categories as $cat ) {
-                            $category = new Category((int)$cat, (int)Context::getContext()->language->id);
-                            $nb = (int)Configuration::get('HOME_FEATURED_NBR');
-                            if (Configuration::get('HOME_FEATURED_RANDOMIZE')) {
-                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), null, null, false, true, true, ($nb ? $nb : 8));
-                            } else {
-                                    $listProducts = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), 'position');
-                            }
-                            $listProductFeatured = array_merge($listProductFeatured,$listProducts);
-                        }
-                        HomeFeatured::$cache_products = array_unique($listProductFeatured, SORT_REGULAR);
-                    }
+			$category = new Category((int)Configuration::get('HOME_FEATURED_CAT'), (int)Context::getContext()->language->id);
+			$nb = (int)Configuration::get('HOME_FEATURED_NBR');
+			if (Configuration::get('HOME_FEATURED_RANDOMIZE'))
+				HomeFeatured::$cache_products = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), null, null, false, true, true, ($nb ? $nb : 8));
+			else
+				HomeFeatured::$cache_products = $category->getProducts((int)Context::getContext()->language->id, 1, ($nb ? $nb : 8), 'position');
 		}
 
 		if (HomeFeatured::$cache_products === false || empty(HomeFeatured::$cache_products))
@@ -239,7 +150,6 @@ class HomeFeatured extends Module
 			$this->_cacheProducts();
 			$this->smarty->assign(
 				array(
-                                        's3'=> _S3_PATH_,
 					'products' => HomeFeatured::$cache_products,
 					'add_prod_display' => Configuration::get('PS_ATTRIBUTE_CATEGORY_DISPLAY'),
 					'homeSize' => Image::getSize(ImageType::getFormatedName('home')),
@@ -283,7 +193,6 @@ class HomeFeatured extends Module
 
 	public function renderForm()
 	{
-            $categories = Category::getAllCategoriesName();
 		$fields_form = array(
 			'form' => array(
 				'legend' => array(
@@ -299,24 +208,13 @@ class HomeFeatured extends Module
 						'class' => 'fixed-width-xs',
 						'desc' => $this->l('Set the number of products that you would like to display on homepage (default: 8).'),
 					),
-					/*array(
+					array(
 						'type' => 'text',
 						'label' => $this->l('Category from which to pick products to be displayed'),
 						'name' => 'HOME_FEATURED_CAT',
 						'class' => 'fixed-width-xs',
-						'desc' => $this->l('Choose the category ID of the products that you would like to display on homepage (default: 2 for "Home").')." Ingrese 0 para seleccionar todas las categorias",
-					),*/
-                                        array(
-                                                'type' => 'checkbox',
-                                                'label' => $this->l('Category from which to pick products to be displayed'),
-                                                'desc' => $this->l('Elija las categorías de los productos que desea mostrar en la página de inicio. Si no selecciona ninguna, se mostraran los productos de todas las categorias.'),
-                                                'name' => 'HOME_FEATURED_CAT_LIST',
-                                                'values' => array(
-                                                    'query' => $categories,
-                                                    'id' => 'id_category',
-                                                    'name' => 'name'
-                                                ),
-                                        ),
+						'desc' => $this->l('Choose the category ID of the products that you would like to display on homepage (default: 2 for "Home").'),
+					),
 					array(
 						'type' => 'switch',
 						'label' => $this->l('Randomly display featured products'),
@@ -366,17 +264,10 @@ class HomeFeatured extends Module
 
 	public function getConfigFieldsValues()
 	{
-		$fieldsValues = array(
+		return array(
 			'HOME_FEATURED_NBR' => Tools::getValue('HOME_FEATURED_NBR', (int)Configuration::get('HOME_FEATURED_NBR')),
 			'HOME_FEATURED_CAT' => Tools::getValue('HOME_FEATURED_CAT', (int)Configuration::get('HOME_FEATURED_CAT')),
 			'HOME_FEATURED_RANDOMIZE' => Tools::getValue('HOME_FEATURED_RANDOMIZE', (bool)Configuration::get('HOME_FEATURED_RANDOMIZE')),
 		);
-                
-                $listCategories = explode(",",Configuration::get('HOME_FEATURED_CAT_LIST'));
-                foreach ( $listCategories as $idcategory ) {
-                    $fieldsValues["HOME_FEATURED_CAT_LIST_".$idcategory] = "checked";
-                }
-                
-                return $fieldsValues;
 	}
 }

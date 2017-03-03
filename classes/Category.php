@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,13 +19,10 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
-require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsSponsorshipModel.php');
-require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsProductModel.php');
 
 class CategoryCore extends ObjectModel
 {
@@ -663,7 +660,7 @@ class CategoryCore extends ObjectModel
         $formated_medium = ImageType::getFormatedName('medium');
 
         foreach ($result as &$row) {
-            $row['id_image'] = Tools::file_exists_cache(_PS_CAT_IMG_DIR_.$row['id_category'].'.jpg') ? (int)$row['id_category'] : Language::getIsoById($id_lang).'-default';
+            $row['id_image'] = (Tools::file_exists_cache(_PS_CAT_IMG_DIR_.(int)$row['id_category'].'.jpg') || Tools::file_exists_cache(_PS_CAT_IMG_DIR_.(int)$row['id_category'].'_thumb.jpg')) ? (int)$row['id_category'] : Language::getIsoById($id_lang).'-default';
             $row['legend'] = 'no picture';
         }
         return $result;
@@ -707,15 +704,14 @@ class CategoryCore extends ObjectModel
 					FROM `'._DB_PREFIX_.'product` p
 					'.Shop::addSqlAssociation('product', 'p').'
 					LEFT JOIN `'._DB_PREFIX_.'category_product` cp ON p.`id_product` = cp.`id_product`
-					WHERE cp.`id_category` = '.(int)$this->id.' AND p.product_parent = 1'.
+					WHERE cp.`id_category` = '.(int)$this->id.
                 ($front ? ' AND product_shop.`visibility` IN ("both", "catalog")' : '').
                 ($active ? ' AND product_shop.`active` = 1' : '').
                 ($id_supplier ? 'AND p.id_supplier = '.(int)$id_supplier : '');
 
             return (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
         }
-        
-        
+
         if ($p < 1) {
             $p = 1;
         }
@@ -744,16 +740,15 @@ class CategoryCore extends ObjectModel
         if (!Validate::isUnsignedInt($nb_days_new_product)) {
             $nb_days_new_product = 20;
         }
-        
-        /*'.RewardsModel::getRewardReadyForDisplay('p.price', 1).' AS points*/
+
         $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) AS quantity'.(Combination::isFeatureActive() ? ', IFNULL(product_attribute_shop.id_product_attribute, 0) AS id_product_attribute,
 					product_attribute_shop.minimal_quantity AS product_attribute_minimal_quantity' : '').', pl.`description`, pl.`description_short`, pl.`available_now`,
 					pl.`available_later`, pl.`link_rewrite`, pl.`meta_description`, pl.`meta_keywords`, pl.`meta_title`, pl.`name`, image_shop.`id_image` id_image,
 					il.`legend` as legend, m.`name` AS manufacturer_name, cl.`name` AS category_default,
 					DATEDIFF(product_shop.`date_add`, DATE_SUB("'.date('Y-m-d').' 00:00:00",
-					INTERVAL '.(int)$nb_days_new_product.' DAY)) > 0 AS new, product_shop.price AS orderprice   
+					INTERVAL '.(int)$nb_days_new_product.' DAY)) > 0 AS new, product_shop.price AS orderprice
 				FROM `'._DB_PREFIX_.'category_product` cp
-                                LEFT JOIN `'._DB_PREFIX_.'product` p
+				LEFT JOIN `'._DB_PREFIX_.'product` p
 					ON p.`id_product` = cp.`id_product`
 				'.Shop::addSqlAssociation('product', 'p').
                 (Combination::isFeatureActive() ? ' LEFT JOIN `'._DB_PREFIX_.'product_attribute_shop` product_attribute_shop
@@ -762,9 +757,7 @@ class CategoryCore extends ObjectModel
 				LEFT JOIN `'._DB_PREFIX_.'category_lang` cl
 					ON (product_shop.`id_category_default` = cl.`id_category`
 					AND cl.`id_lang` = '.(int)$id_lang.Shop::addSqlRestrictionOnLang('cl').')
-				LEFT JOIN `ps_rewards_product` AS rp
-					ON (rp.id_product = p.`id_product`)
-                                LEFT JOIN `'._DB_PREFIX_.'product_lang` pl
+				LEFT JOIN `'._DB_PREFIX_.'product_lang` pl
 					ON (p.`id_product` = pl.`id_product`
 					AND pl.`id_lang` = '.(int)$id_lang.Shop::addSqlRestrictionOnLang('pl').')
 				LEFT JOIN `'._DB_PREFIX_.'image_shop` image_shop
@@ -774,7 +767,7 @@ class CategoryCore extends ObjectModel
 					AND il.`id_lang` = '.(int)$id_lang.')
 				LEFT JOIN `'._DB_PREFIX_.'manufacturer` m
 					ON m.`id_manufacturer` = p.`id_manufacturer`
-				WHERE product_shop.`id_shop` = '.(int)$context->shop->id.' AND p.product_parent = 1
+				WHERE product_shop.`id_shop` = '.(int)$context->shop->id.'
 					AND cp.`id_category` = '.(int)$this->id
                     .($active ? ' AND product_shop.`active` = 1' : '')
                     .($front ? ' AND product_shop.`visibility` IN ("both", "catalog")' : '')
@@ -787,18 +780,7 @@ class CategoryCore extends ObjectModel
 			LIMIT '.(((int)$p - 1) * (int)$n).','.(int)$n;
         }
 
-        $lista=Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
-        $result= array();
-        foreach($lista as $x){
-            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($context->customer->id);
-            $sponsorships2=array_slice($sponsorships, 1, 15);
-            $precio = RewardsProductModel::getProductReward($x['id_product'],$x['price'],1, $context->currency->id);
-            $x['points']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/(count($sponsorships2)+1));
-            $x['pointsNl']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/16);
-            array_push($result,$x);
-         }
-        
-        //$result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
+        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
 
         if (!$result) {
             return array();
@@ -868,7 +850,6 @@ class CategoryCore extends ObjectModel
             $query = 'SELECT c.`id_category`, cl.`name`, cl.`link_rewrite`, category_shop.`id_shop`
 			FROM `'._DB_PREFIX_.'category` c
 			LEFT JOIN `'._DB_PREFIX_.'category_lang` cl ON (c.`id_category` = cl.`id_category`'.Shop::addSqlRestrictionOnLang('cl').')
-                        INNER JOIN `'._DB_PREFIX_.'category_product` cp ON (c.`id_category` = cp.`id_category`)
 			'.Shop::addSqlAssociation('category', 'c').'
 			WHERE `id_lang` = '.(int)$id_lang.'
 			AND c.`id_parent` = '.(int)$id_parent.'

@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -146,7 +146,6 @@ class OrderHistoryCore extends ObjectModel
                 }
                 $links .= '</ul>';
                 $data = array(
-                    '{username}' => $customer->username,
                     '{lastname}' => $customer->lastname,
                     '{firstname}' => $customer->firstname,
                     '{id_order}' => (int)$order->id,
@@ -411,7 +410,7 @@ class OrderHistoryCore extends ObjectModel
     public function sendEmail($order, $template_vars = false)
     {
         $result = Db::getInstance()->getRow('
-			SELECT osl.`template`, c.`username`, c.`lastname`, c.`firstname`, osl.`name` AS osname, c.`email`, os.`module_name`, os.`id_order_state`, os.`pdf_invoice`, os.`pdf_delivery`
+			SELECT osl.`template`, c.`lastname`, c.`firstname`, osl.`name` AS osname, c.`email`, os.`module_name`, os.`id_order_state`, os.`pdf_invoice`, os.`pdf_delivery`
 			FROM `'._DB_PREFIX_.'order_history` oh
 				LEFT JOIN `'._DB_PREFIX_.'orders` o ON oh.`id_order` = o.`id_order`
 				LEFT JOIN `'._DB_PREFIX_.'customer` c ON o.`id_customer` = c.`id_customer`
@@ -423,7 +422,6 @@ class OrderHistoryCore extends ObjectModel
 
             $topic = $result['osname'];
             $data = array(
-                '{username}' => $result['username'],
                 '{lastname}' => $result['lastname'],
                 '{firstname}' => $result['firstname'],
                 '{id_order}' => (int)$this->id_order,
