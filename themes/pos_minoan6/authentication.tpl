@@ -62,7 +62,7 @@
             <div id="video-signup" class="videoWrapper">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/Z18ynCosZFs" frameborder="0" allowfullscreen></iframe>
             </div>
-        </div>        
+        </div>
 	<div class="row sign-account">
             <div class="col-xs-12 col-sm-6 signup-account">
                 <div class="info-box">
@@ -462,7 +462,7 @@
        <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}"  method="post" id="infoaccount-creation_form" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 std box">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
-            <h2>{l s='Why Sign-Up for Fluz Fluz?'}</h2>
+            <h2>&iquest;POR QU&Eacute; REGISTRARSE EN FLUZ FLUZ?</h2>
             
             <div class="row containerForm">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -470,53 +470,62 @@
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/gift.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12 title-text">{l s="Aﬀordable Shopping!"}</h3>
-                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="Save money when purchasing your favourite household brands"}</p>
+                                    <h3 class="col-lg-12 title-text">&iexcl;Ganando como nunca!</h3>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">Gana dinero por tus compras habituales en tus marcas favoritas.</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/save.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12 title-text">{l s="Save!"}</h3>
-                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="Every time you purchase, you save more."}</p>
+                                    <h3 class="col-lg-12 title-text">&iexcl;Ahorra!</h3>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">Cada vez que compras, recibes Fluz</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/invite.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12 title-text">{l s="Invite Friends!"}</h3>
-                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="The more friends you invite, the more points you recieve."}</p>
+                                    <h3 class="col-lg-12 title-text">&iexcl;Invita a tus amigos!</h3>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">Entre m&aacute;s amigos se unen a tu network, m&aacute;s gan&aacute;s por los consumos de ellos</p>
                                 </div>
                             </div>
                             <div class="row rowAccount">
                                 <img src="{$img_dir}icon/cash.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
-                                    <h3 class="col-lg-12 title-text">{l s="Cash Out!"}</h3>
-                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="Convert the network points your earn into real cash!"}</p>
+                                    <h3 class="col-lg-12 title-text">&iexcl;Redenci&oacute;n en Efectivo!</h3>
+                                    <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">Convierte tus Fluz en pesos</p>
                                 </div>
                             </div>
-                            <div class="row rowAccount">
+                            {*<div class="row rowAccount">
                                 <img src="{$img_dir}icon/diagram.png" class="imglock2 col-lg-4 col-md-4" />
                                 <div class="col-lg-8 col-md-8 infRight">
                                     <h3 class="col-lg-12 title-text">{l s="View Network Statistics"}</h3>
                                     <p class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-auth">{l s="View your network statistics to improve your point tally. "}</p>
                                 </div>
-                            </div>    
-                                
+                            </div>*}
                         </fieldset>
                     </div>
             </div>
         </div>
             <div class="side-nav vdoTube row">
                 <iframe class="vdo-auth" height="315" src="https://www.youtube.com/embed/bVmfZ-Iu-UY?rel=0&controls=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>    
-            </div>         
+                <div class="row bulletins">
+                    <div class="col-sm-4 text-center style_prevu_kit">
+                        <a target="_blank" href="http://www.economiaynegocios.co/index.php/negocios/item/3621-fluz-fluz-llega-a-colombia"><img src="https://s3.amazonaws.com/imagenes-fluzfluz/dev/admin/economia-y-negocios.png"/></a>
+                    </div>
+                    <div class="col-sm-4 text-center style_prevu_kit">
+                        <a target="_blank" href="http://www.bluradio.com/tecnologia/fluz-fluz-una-nueva-alternativa-para-hacer-compras-virtuales-132044"><img src="https://s3.amazonaws.com/imagenes-fluzfluz/dev/admin/bluradio.png"/></a>
+                    </div>
+                    <div class="col-sm-4 text-center style_prevu_kit">
+                        <a target="_blank" href="http://www.finanzaspersonales.com.co/consumo-inteligente/articulo/compras-como-convertir-las-compras-en-consumos-gratis/71597"><img src="https://s3.amazonaws.com/imagenes-fluzfluz/dev/admin/logo-finanzas.png"/></a>
+                    </div>
+                </div>
+            </div>
 	</form>
-        
 	<form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" enctype="multipart/form-data" method="post" id="account-creation_form" class="col-lg-6 col-sm-12 col-md-6 col-xs-12 std box">
 		{$HOOK_CREATE_ACCOUNT_TOP}
         <div class="account_creation">
             <h2>{l s='Your personal information'}</h2>
-            <p>{l s="Please be sure to update your personal information if it’s changed."}</p>
+            {*<p>{l s="Please be sure to update your personal information if it’s changed."}</p>*}
             <p class="required"><sup>*</sup>{l s='Required field'}</p>
             <div class="row containerForm">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -621,10 +630,10 @@
                                            
                                     </div>
                                     <div class="required form-group">
-                                    <p class="{if isset($one_phone_at_least) && $one_phone_at_least}required {/if}form-group">
-                                        <br/><label class="required col-lg-12" for="phone_mobile" style="padding:0px; margin-top: 5px;">{l s='Mobile phone'}{if isset($one_phone_at_least) && $one_phone_at_least} {/if}</label>
-                                        <input type="number" class="is_required validate form-control" data-validate="isPhoneNumber" name="phone_mobile" id="phone_mobile" value="{if isset($smarty.post.phone_mobile)}{$smarty.post.phone_mobile}{/if}" />
-                                    </p>
+                                        <p class="{if isset($one_phone_at_least) && $one_phone_at_least}required {/if}form-group">
+                                            <br/><label class="required col-lg-12" for="phone_mobile" style="padding:0px; margin-top: 5px;">{l s='Mobile phone'}{if isset($one_phone_at_least) && $one_phone_at_least} {/if}</label>
+                                            <input type="number" class="is_required validate form-control" data-validate="isPhoneNumber" name="phone_mobile" id="phone_mobile" value="{if isset($smarty.post.phone_mobile)}{$smarty.post.phone_mobile}{/if}" />
+                                        </p>
                                     </div>
                                     <div class="required form-group">
                                             <label class="required" for="address1">{l s='Address'}</label>
@@ -658,7 +667,7 @@
                                     {if isset($newsletter) && $newsletter}
                                             <div class="col-lg-12 col-md-12 checkbox">
                                                     <input type="checkbox" name="newsletter" id="newsletter" value="1" {if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1} checked="checked"{/if} />
-                                                    <label for="newsletter">{l s='Sign up for our newsletter!'}</label>
+                                                    <label for="newsletter">Reg&iacute;strate en nuestro bolet&iacute;n</label>
                                                     {if array_key_exists('newsletter', $field_required)}
                                                             <sup> *</sup>
                                                     {/if}
@@ -849,10 +858,10 @@
 			<input type="hidden" name="email_create" value="1" />
                         <div class="checkbox">
                                 <input type="checkbox" name="acceptterms" id="acceptterms" value="1"/>
-                                <label for="acceptterms">{l s='I accept Fluz Fluz’s terms and conditions.'}</label>
+                                <label for="acceptterms">Acepto los t&eacute;rminos y condiciones de Fluz Fluz</label>
                         </div>
                         <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount"/>
-				<span>{l s='Register'}<i class="icon-chevron-right right"></i></span>
+				<span>Registro GratisJ<i class="icon-chevron-right right"></i></span>
 			</button>
                     </div>
                     </div>
