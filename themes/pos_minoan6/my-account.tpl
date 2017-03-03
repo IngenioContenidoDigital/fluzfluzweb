@@ -336,6 +336,7 @@
             </div>    
             <div class="row">
                 <div class="containerCard">
+                    <div id="producto_id" style="display:none;"></div>
                     <ul>
                         <li>
                           <input type="radio" id="f-option" name="selector" value="1">
@@ -390,6 +391,7 @@
             var terms = terms1;
             var idproduct = idproduct1;
             var ruta = ruta1;
+            $('#producto_id').html(idproduct);
             $("#img-prod").attr("src",ruta);
             $.ajax({
                     method:"POST",
@@ -553,15 +555,16 @@
         
         $('.c').on("click",".myfanc",function(){
             var codeImg2 = $(this).find(".codeImg").html();
-            var price = document.getElementById("pOculto").innerHTML;
-            var priceValue = document.getElementById("price_value").innerHTML;
+            var price = $(this).find("#pOculto").html();
+            var priceValue = $(this).find("#price_value").html();
             var dateP = $(this).find("#date").html();
-            var name = document.getElementById("nameOculto").innerHTML;
-            var type_currency = document.getElementById("typeOculto").innerHTML;
-            var description = document.getElementById("desc_oculto").innerHTML;
-            var terms = document.getElementById("terms_oculto").innerHTML;
-            var idproduct = document.getElementById("prodid_oculto").innerHTML;
+            var name = $(this).find("#nameOculto").html();
+            var type_currency = $(this).find("#typeOculto").html();
+            var description = $(this).find("#desc_oculto").html();
+            var terms = $(this).find("#terms_oculto").html();
+            var idproduct = $(this).find("#prodid_oculto").html();
             var ruta = $(this).before().find(".oculto").html();
+            $("#producto_id").html(idproduct);
             renderCard(codeImg2,price,priceValue, dateP, name,type_currency,description, terms, idproduct, ruta);
         });
         
@@ -688,9 +691,11 @@
         $('.containerCard').on("click",'input:radio[name=selector]',function()
         {
             var val = $('input:radio[name=selector]:checked').val();
-            var idproduct = document.getElementById("prodid_oculto").innerHTML;
+            var idproduct = document.getElementById("producto_id").innerHTML;
             var codeImg2 = document.getElementById("code-img").innerHTML;
             console.log("val: "+val);
+            console.log("id: "+idproduct);
+            console.log("code: "+codeImg2);
             $.ajax({
                     method:"POST",
                     data: {'action': 'updateUsed','val': val, 'codeImg2': codeImg2,'idproduct':idproduct},
