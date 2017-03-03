@@ -35,6 +35,35 @@ p + .required { font-weight: bold; }
 #authentication .payublock .container .btnpayment { height: 0px!important; }
 #submitTc, #submitPSE { display: none; pointer-events: none; z-index: -1; }
 
+.bulletins { background-color: #C9B197; padding: 15px 30px; }
+.bulletins div { margin-bottom: 15px; }
+.bulletins div img { width: 130px; }
+
+.style_prevu_kit
+{
+    position: relative;
+    cursor: pointer;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1); 
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1); 
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);
+
+}
+.style_prevu_kit:hover
+{
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.5);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1.5);   
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1.5);
+}
+
 .stick {
   position:fixed;
   top:20px;
