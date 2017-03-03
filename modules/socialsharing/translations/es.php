@@ -2,6 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
+
 $_MODULE['<{socialsharing}prestashop>socialsharing_7dba9afe5ed3bbd1683c2c1a9e168cab'] = 'Redes sociales';
 $_MODULE['<{socialsharing}prestashop>socialsharing_622e2c510964bb1eb4e2e721ec6148c5'] = 'Muestra los botones de compartir en redes sociales (Twitter, Facebook, Google+ y Pinterest) en todas las páginas de producto.';
 $_MODULE['<{socialsharing}prestashop>socialsharing_c888438d14855d7d96a2724ee9c306bd'] = 'Configuración actualizada';
@@ -18,3 +19,6 @@ $_MODULE['<{socialsharing}prestashop>socialsharing_3746d4aa96f19672260a424d76729
 $_MODULE['<{socialsharing}prestashop>socialsharing_5a95a425f74314a96f13a2f136992178'] = 'Compartir';
 $_MODULE['<{socialsharing}prestashop>socialsharing_5b2c8bfd1bc974966209b7be1cb51a72'] = 'Google+';
 $_MODULE['<{socialsharing}prestashop>socialsharing_86709a608bd914b28221164e6680ebf7'] = 'Pinterest';
+
+
+return $_MODULE;

@@ -20,7 +20,7 @@ $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_417d63b1effb110e438d4b4b9
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_c888438d14855d7d96a2724ee9c306bd'] = 'Einstellungen aktualisiert';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_b718adec73e04ce3ec720dd11a06a308'] = 'ID';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_9f82518d468b9fee614fcc92f76bb163'] = 'Shop';
-$_MODULE['<{blocknewsletter}prestashop>blocknewsletter_019ec3132cdf8ee0f2e2a75cf5d3e459'] = 'Geschlecht';
+$_MODULE['<{blocknewsletter}prestashop>blocknewsletter_019ec3132cdf8ee0f2e2a75cf5d3e459'] = 'Anrede';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_dff4bf10409100d989495c6d5486035e'] = 'Name';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_04176f095283bc729f1e3926967e7034'] = 'Vorname';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_ce8ae9da5b7cd6c3df2929543a9af92d'] = 'E-Mail';
@@ -32,7 +32,7 @@ $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_4182c8f19d40c7ca236a5f4f8
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_e267e2be02cf3e29f4ba53b5d97cf78a'] = 'Ungültige E-Mail-Adresse';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_1c623b291d95f4f1b1d0c03d0dc0ffa1'] = 'E-Mail-Adresse nicht registriert';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_3b1f17a6fd92e35bc744e986b8e7a61c'] = 'Fehler bei der Abo-Abmeldung';
-$_MODULE['<{blocknewsletter}prestashop>blocknewsletter_d4197f3e8e8b4b5d06b599bc45d683bb'] = 'Abo-Abmeldung erfolgreich.';
+$_MODULE['<{blocknewsletter}prestashop>blocknewsletter_d4197f3e8e8b4b5d06b599bc45d683bb'] = 'Abo-Abmeldung durchgeführt!';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_f6618fce0acbfca15e1f2b0991ddbcd0'] = 'E-Mail-Adresse bereits registriert';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_e172cb581e84f43a3bd8ee4e3b512197'] = 'Fehler beim Abonnement';
 $_MODULE['<{blocknewsletter}prestashop>blocknewsletter_ebc069b1b9a2c48edfa39e344103be1e'] = 'Wir haben Ihnen eine Bestätigungs-E-Mail zugesandt. Bitte prüfen Sie Ihr E-Mail-Postfach.';

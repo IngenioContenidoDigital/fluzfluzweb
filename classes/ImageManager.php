@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -107,13 +107,14 @@ class ImageManagerCore
 
         $memory_limit = Tools::getMemoryLimit();
         // memory_limit == -1 => unlimited memory
-        if (function_exists('memory_get_usage') && (int)$memory_limit != -1) {
+        if (isset($infos['bits']) && function_exists('memory_get_usage') && (int)$memory_limit != -1) {
             $current_memory = memory_get_usage();
-            $channel = isset($infos['channels']) ? ($infos['channels'] / 8) : 1;
+            $bits = $infos['bits'] / 8;
+            $channel = isset($infos['channels']) ? $infos['channels'] : 1;
 
             // Evaluate the memory required to resize the image: if it's too much, you can't resize it.
             // For perfs, avoid computing static maths formulas in the code. pow(2, 16) = 65536 ; 1024 * 1024 = 1048576
-            if (($infos[0] * $infos[1] * $infos['bits'] * $channel + 65536) * 1.8 + $current_memory > $memory_limit - 1048576) {
+            if (($infos[0] * $infos[1] * $bits * $channel + 65536) * 1.8 + $current_memory > $memory_limit - 1048576) {
                 return false;
             }
         }
@@ -540,23 +541,9 @@ class ImageManagerCore
                 imageinterlace($resource, 1); /// make it PROGRESSIVE
                 $success = imagejpeg($resource, $filename, (int)$quality);
             break;
-        }        
+        }
         imagedestroy($resource);
         @chmod($filename, 0664);
-        
-        // Sube las imágenes al AWS S3
-        $awsObj = new Aws();
-        
-        if ($filename) {
-                $oriPath = str_replace(_PS_IMG_DIR_, "", $filename);
-                preg_match('/^([a-zA-Z]+).*(\/[_a-zA-Z0-9-]+\.jpg)$/i', $oriPath, $matches);
-                array_shift($matches);
-                $objAws = implode('', $matches);
-                //error_log("objAws: "."$objAws"."\n",3,"/var/log/php_errors.log");
-                if (!($success && $objAws && $awsObj->setObjectImage($filename, $objAws))) {
-                    $success = false;
-                }
-        }
         return $success;
     }
 

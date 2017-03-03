@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -49,7 +49,6 @@ class IdentityControllerCore extends FrontController
         $origin_newsletter = (bool)$this->customer->newsletter;
 
         if (Tools::isSubmit('submitIdentity')) {
-
             $email = trim(Tools::getValue('email'));
 
             if (Tools::getValue('months') != '' && Tools::getValue('days') != '' && Tools::getValue('years') != '') {
@@ -58,13 +57,6 @@ class IdentityControllerCore extends FrontController
                 $this->customer->birthday = null;
             } else {
                 $this->errors[] = Tools::displayError('Invalid date of birth.');
-            }
-
-            if ( $_FILES['profileimg']['tmp_name'] != "" ) {
-                $typeimg = explode("/", $_FILES['profileimg']['type']);
-                if ( $typeimg[0] != "image" || ($typeimg[1] != "jpeg" && $typeimg[1] != "jpg" ) ) {
-                    $this->errors[] = Tools::displayError('El archivo cargado no se encuentra en un formato correcto (JPEG, JPG).');
-                }
             }
 
             if (Tools::getIsset('old_passwd')) {
@@ -109,48 +101,10 @@ class IdentityControllerCore extends FrontController
                 if (!Tools::getIsset('optin')) {
                     $this->customer->optin = 0;
                 }
-
                 if (Tools::getValue('passwd')) {
                     $this->context->cookie->passwd = $this->customer->passwd;
                 }
-
-                $this->customer->dni = Tools::getValue('government');
-
-                $address = $this->customer->getAddresses();
-                $address = new Address($address[0]['id_address']);
-                $address->dni = Tools::getValue('government');
-                $address->phone = Tools::getValue('phone');
-
-                if ( $_FILES['profileimg']['tmp_name'] != "" ) {
-                    // subir imagen al servidor
-                    $target_path = _PS_IMG_DIR_ . "profile-images/" . basename( $this->customer->id.".".$typeimg[1] );
-                    if ( !move_uploaded_file($_FILES['profileimg']['tmp_name'], $target_path) ) {
-                        $this->errors[] = Tools::displayError('No fue posible cargar la imagen de perfil.');
-                    }
-
-                    // convertir imagen a PNG
-                    $patch_grabar = _PS_IMG_DIR_ . "profile-images/" . basename( $this->customer->id.".png" );
-                    $imagen = imagecreatefromjpeg($target_path);
-                    $pngquality = floor(($quality - 10) / 10);
-                    imagepng($imagen, $patch_grabar, $pngquality);
-
-                    // borrar imagen original
-                    unlink( $target_path );
-
-                    // cambiar tamaño imagen y recortarla en circulo
-                    include_once(_PS_ROOT_DIR_.'/classes/Thumb.php');
-                    $mythumb = new thumb();
-                    $mythumb->loadImage($patch_grabar);
-                    $mythumb->crop(100, 100, 'center');
-                    $mythumb->save($patch_grabar);
-                }
-
-                if ( $this->customer->update() && $address->update() ) {
-                    
-                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."address
-                                                SET address1 = '".Tools::getValue('address1')."', address2 = '".Tools::getValue('address2')."', city = '".Tools::getValue('city')."', dni = '".Tools::getValue('government')."'
-                                                WHERE id_customer = ".$this->customer->id);
-                    
+                if ($this->customer->update()) {
                     $this->context->cookie->customer_lastname = $this->customer->lastname;
                     $this->context->cookie->customer_firstname = $this->customer->firstname;
                     $this->context->smarty->assign('confirmation', 1);
@@ -158,26 +112,6 @@ class IdentityControllerCore extends FrontController
                     $this->errors[] = Tools::displayError('The information cannot be updated.');
                 }
             }
-        } elseif (Tools::isSubmit('submitCard')) {
-            if ( Tools::getValue('numbercard') == "" ) { $this->errors[] = Tools::displayError('This number card can not be empty.'); }
-            if ( Tools::getValue('monthsCard') == "" ) { $this->errors[] = Tools::displayError('This months card expiration can not be empty.'); }
-            if ( Tools::getValue('yearsCard') == "" ) { $this->errors[] = Tools::displayError('This years card expiration can not be empty.'); }
-            if ( Tools::getValue('holdernamecard') == "" ) { $this->errors[] = Tools::displayError('This cardholder name can not be empty.'); }
-            if (!count($this->errors)) {
-                $updatecard = Db::getInstance()->execute("UPDATE "._DB_PREFIX_."cards
-                                            SET nameOwner = '".Tools::getValue('holdernamecard')."', name_creditCard = '".Tools::getValue('typecard')."', num_creditCard = '".Tools::getValue('numbercard')."', date_expiration = '".Tools::getValue('monthsCard')."/".Tools::getValue('yearsCard')."'
-                                            WHERE id_customer = ".$this->customer->id);
-                if ( $updatecard ) {
-                    $this->context->smarty->assign('confirmationcard', 1);
-                } else {
-                    $this->errors[] = Tools::displayError('The information cannot be updated.');
-                }
-            }
-        } elseif (Tools::isSubmit('submitDeactivate')) {
-            $this->customer->active = false;
-            $this->customer->update();
-            $this->customer->logout();
-            Tools::redirect('index.php');
         } else {
             $_POST = array_map('stripslashes', $this->customer->getFields());
         }
@@ -220,56 +154,7 @@ class IdentityControllerCore extends FrontController
         $this->context->smarty->assign('optin', (bool)Configuration::get('PS_CUSTOMER_OPTIN'));
 
         $this->context->smarty->assign('field_required', $this->context->customer->validateFieldsRequiredDatabase());
-        
-        $address = $this->customer->getAddresses();
-        $this->context->smarty->assign('customerGovernment', $address[0]['dni']);
-        $this->context->smarty->assign('customerPhone', $address[0]['phone']);
-        $this->context->smarty->assign('customer', $this->context->customer);
 
-        $card = DB::getInstance()->getRow( "SELECT nameOwner, name_creditCard, num_creditCard, date_expiration
-                                            FROM "._DB_PREFIX_."cards
-                                            WHERE id_customer = ".$this->customer->id );
-        $this->context->smarty->assign('card', $card);
-        
-        $this->context->smarty->assign( 'card_digits',substr($card['num_creditCard'],(strlen($card['num_creditCard'])-4)) );
-
-        $dateExplode = explode("/",$card['date_expiration']);
-        $year = date('Y-m-j');
-        $year_select = '<select id="yearsCard" name="yearsCard" class="form-control inputformcard enabled" disabled>
-                            <option value="">-</option>';
-        for ( $i=0; $i<=15; $i++ ) {
-            $str_year = strtotime ( '+'.$i.' year' , strtotime ( $year ) );
-            $new_year = date( 'Y' , $str_year);
-            if ( $dateExplode[1] == $new_year ) {
-                $year_select .= '<option value="'.$new_year.'" selected="selected">'.$new_year.'</option>';
-            } else {
-                $year_select .= '<option value="'.$new_year.'">'.$new_year.'</option>';
-            }
-        }
-        $year_select .= '</select>';
-        $this->context->smarty->assign('year_select',$year_select);
-        
-        $telconumbers = DB::getInstance()->executeS( "SELECT phone_mobile, default_number
-                                                        FROM "._DB_PREFIX_."address
-                                                        WHERE id_customer = ".$this->customer->id );
-        $this->context->smarty->assign('telconumbers', $telconumbers);
-        
-        $address = DB::getInstance()->executeS( "SELECT address1, address2, city
-                                                    FROM "._DB_PREFIX_."address
-                                                    WHERE id_customer = ".$this->customer->id."
-                                                    LIMIT 1" );
-        $this->context->smarty->assign('address', $address[0]);
-
-        $cities = DB::getInstance()->executeS( "SELECT ciudad
-                                                FROM "._DB_PREFIX_."cities" );
-        $this->context->smarty->assign('cities', $cities);
-        
-        $imgprofile = "";
-        if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ) {
-            $imgprofile = "/img/profile-images/".$this->context->customer->id.".png";
-        }
-        $this->context->smarty->assign('imgprofile',$imgprofile);
-        
         $this->setTemplate(_PS_THEME_DIR_.'identity.tpl');
     }
 

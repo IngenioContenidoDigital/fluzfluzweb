@@ -2,11 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{cronjobs}prestashop>cronjobs_682ee2e41e510efdbced967430173c66'] = 'Gestor de tareas cron';
-$_MODULE['<{cronjobs}prestashop>cronjobs_c75e110ddb05aea61563c50d7baf0ae0'] = 'Gestione todas sus tareas automatizadas desde una única interfaz.';
-$_MODULE['<{cronjobs}prestashop>cronjobs_4093808c9781fb6ca2ed5ade71deff4d'] = 'Para poder utilizar este módulo, por favor, active cURL (una extensión de PHP).';
-$_MODULE['<{cronjobs}prestashop>cronjobs_035d5cdab2c65ad42b303f8125025160'] = 'Tareas cron';
-$_MODULE['<{cronjobs}prestashop>cronjobs_6588952424b58b4c9fc9df026b668991'] = 'Añadir nueva tarea';
+
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_c9cc8cce247e49bae79f15173ce97354'] = 'Guardar';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_d4169d52732e9ae8df56d2cbcad81a94'] = 'Descripción de la tarea';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_70d4968bea9a6e76c0333904b9d385e4'] = 'Actualizar mis monedas';
@@ -26,7 +22,7 @@ $_MODULE['<{cronjobs}prestashop>cronjobsforms_eaf1dc6d93a18adb2619233d8e99c197']
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_9b6545e4cea9b4ad4979d41bb9170e2b'] = 'Avanzado';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_b6610b26530c9ee3d7bc4a478cf35299'] = 'Sólo para usuarios avanzados: use su propio gestor de crontab en vez del servicio de las tareas cron de PrestaShop.';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_2257d36bcb68362b24cf74f626bac599'] = 'El modo avanzado permite que usted utilice su propio gestor de tareas cron en lugar del servicio web de tareas cron de  PrestaShop.';
-$_MODULE['<{cronjobs}prestashop>cronjobsforms_94ad8b9f9d516489693dd835cf22bd3b'] = 'Antes que nada, asegúrese de que la librería \"curl\" está instalada en su servidor.';
+$_MODULE['<{cronjobs}prestashop>cronjobsforms_94ad8b9f9d516489693dd835cf22bd3b'] = 'Antes que nada, asegúrese de que la librería "curl" está instalada en su servidor.';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_18028ef85b7ce8fbde749a2c49c6d18a'] = 'Para ejecutar sus tareas cron, por favor, inserte la siguiente línea en su gestor de tareas cron:';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_b55e509c697e4cca0e1d160a7806698f'] = 'Hora';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_03727ac48595a24daed975559c944a44'] = 'Día';
@@ -42,10 +38,18 @@ $_MODULE['<{cronjobs}prestashop>cronjobsforms_8ed91b71d01993965915f3b296c20336']
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_50875e72e1477618055d1508112199b4'] = 'Todos los días de la semana';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_6e7b34fa59e1bd229b207892956dc41c'] = 'Nunca';
 $_MODULE['<{cronjobs}prestashop>cronjobsforms_16ed0a7b977ec3bbd23badfb5580d56f'] = 'Todos los días del mes';
+$_MODULE['<{cronjobs}prestashop>cronjobs_682ee2e41e510efdbced967430173c66'] = 'Gestor de tareas cron';
+$_MODULE['<{cronjobs}prestashop>cronjobs_c75e110ddb05aea61563c50d7baf0ae0'] = 'Gestione todas sus tareas automatizadas desde una única interfaz.';
+$_MODULE['<{cronjobs}prestashop>cronjobs_4093808c9781fb6ca2ed5ade71deff4d'] = 'Para poder utilizar este módulo, por favor, active cURL (una extensión de PHP).';
+$_MODULE['<{cronjobs}prestashop>cronjobs_035d5cdab2c65ad42b303f8125025160'] = 'Tareas cron';
+$_MODULE['<{cronjobs}prestashop>cronjobs_6588952424b58b4c9fc9df026b668991'] = 'Añadir nueva tarea';
+$_MODULE['<{cronjobs}prestashop>form_ef7bd68a02b6b5656554f7a27d1c7bdf'] = '¡Error!';
+$_MODULE['<{cronjobs}prestashop>form_dc3fd488f03d423a04da27ce66274c1b'] = '¡Atención!';
+$_MODULE['<{cronjobs}prestashop>form_402e7a087747cb56c718bde84651f96a'] = '¡Éxito!';
 $_MODULE['<{cronjobs}prestashop>configure_27c1f598c2b2b0a8e64424d257e8b398'] = '¿Qué hace este módulo?';
 $_MODULE['<{cronjobs}prestashop>configure_c22203a97c7dd88dd68d1e864d46ee0c'] = 'Originalmente, cron es una herramienta del sistema Unix que ofrece la planificación de tareas en el tiempo: puede crear tareas cron, que luego se ejecutan periódicamente en fechas fijas, fechas o intervalos.';
 $_MODULE['<{cronjobs}prestashop>configure_d24ca73e026491b9610193f36d5edec8'] = 'Este módulo le ofrece una herramienta  adaptada a cron: puede crear tareas que exigirán un determinado conjunto de direcciones URL seguras a su tienda PrestaShop, por lo tanto desencadenar actualizaciones y otras tareas automatizadas.';
 $_MODULE['<{cronjobs}prestashop>task_b43ff85c4fc17955aa3ba90827d65430'] = '¡No olvide utilizar una dirección URL absoluta en el enlace de destino para que sea válido! El enlace también tiene que estar en el mismo dominio que la tienda.';
-$_MODULE['<{cronjobs}prestashop>form_ef7bd68a02b6b5656554f7a27d1c7bdf'] = '¡Error!';
-$_MODULE['<{cronjobs}prestashop>form_dc3fd488f03d423a04da27ce66274c1b'] = '¡Atención!';
-$_MODULE['<{cronjobs}prestashop>form_402e7a087747cb56c718bde84651f96a'] = '¡Éxito!';
+
+
+return $_MODULE;

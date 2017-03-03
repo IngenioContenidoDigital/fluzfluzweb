@@ -9,8 +9,8 @@ $_MODULE['<{blocklayered}prestashop>blocklayered_b3786b970611c1a3809dd51b630812a
 $_MODULE['<{blocklayered}prestashop>blocklayered_ccc12c5568381293a27db0232877937b'] = 'Bezeichnung der Filter-Vorlage erforderlich (Feld darf nicht leer sein)';
 $_MODULE['<{blocklayered}prestashop>blocklayered_8c97e587c1b4e519bec26f3903561da3'] = 'Sie müssen mindestens eine Kategorie wählen';
 $_MODULE['<{blocklayered}prestashop>blocklayered_817c37b9c1f5cd4a450dad384e63e6c7'] = 'Ihre Filter';
-$_MODULE['<{blocklayered}prestashop>blocklayered_3185cefd67b575e582063148e4f15860'] = 'wurde erfolgreich aktualisiert.';
-$_MODULE['<{blocklayered}prestashop>blocklayered_7ccab4d8de5d6b9bb61e99c7bba343ab'] = 'wurde erfolgreich hinzugefügt.';
+$_MODULE['<{blocklayered}prestashop>blocklayered_3185cefd67b575e582063148e4f15860'] = 'wurde  aktualisiert.';
+$_MODULE['<{blocklayered}prestashop>blocklayered_7ccab4d8de5d6b9bb61e99c7bba343ab'] = 'wurde  hinzugefügt.';
 $_MODULE['<{blocklayered}prestashop>blocklayered_fe016d3b990c2a9dd72ab6b45892f2ae'] = 'Einstellungen gespeichert';
 $_MODULE['<{blocklayered}prestashop>blocklayered_0d07af70081a2421e2b2972609d699db'] = 'Filter-Vorlage gelöscht, Kategorien aktualisiert (zurückgesetzt auf Standard-Filter-Vorlage).';
 $_MODULE['<{blocklayered}prestashop>blocklayered_491f46aa6101560e9f1e0d55a063231b'] = 'Filter-Vorlage nicht gefunden';
@@ -39,7 +39,7 @@ $_MODULE['<{blocklayered}prestashop>blocklayered_cf4c997f944b08d0eff346a32272998
 $_MODULE['<{blocklayered}prestashop>blocklayered_6c03a470e52036813f268bbfa0873529'] = '%1$s: %2$s';
 $_MODULE['<{blocklayered}prestashop>blocklayered_b47b72ddf8a3fa1949a7fb6bb5dbc60c'] = 'Keine Filter';
 $_MODULE['<{blocklayered}prestashop>blocklayered_75954a3c6f2ea54cb9dff249b6b5e8e6'] = 'Spanne';
-$_MODULE['<{blocklayered}prestashop>blocklayered_5da618e8e4b89c66fe86e32cdafde142'] = 'von';
+$_MODULE['<{blocklayered}prestashop>blocklayered_5da618e8e4b89c66fe86e32cdafde142'] = 'Von';
 $_MODULE['<{blocklayered}prestashop>blocklayered_01b6e20344b68835c5ed1ddedf20d531'] = 'bis';
 $_MODULE['<{blocklayered}prestashop>blocklayered_146ffe2fd9fa5bec3b63b52543793ec7'] = 'Mehr anzeigen';
 $_MODULE['<{blocklayered}prestashop>blocklayered_c74ea6dbff701bfa23819583c52ebd97'] = 'Weniger anzeigen';
@@ -144,7 +144,7 @@ $_MODULE['<{blocklayered}prestashop>view_1.6_f2a6c498fb90ee345d997f888fce3b18'] 
 $_MODULE['<{blocklayered}prestashop>view_1.6_058eeeba77f547f8a9a295a0efd4f6cd'] = 'Keine Filter-Vorlage gefunden.';
 $_MODULE['<{blocklayered}prestashop>view_1.6_ae2b83a081959fff7ab2e96f4ce972d1'] = 'Neue Vorlage';
 $_MODULE['<{blocklayered}prestashop>view_1.6_254f642527b45bc260048e30704edb39'] = 'Einstellungen';
-$_MODULE['<{blocklayered}prestashop>view_1.6_73a0fc0e322b9bc84628ea8d122cba7c'] = 'Nichts anzeigen, wenn kein passendes Produkt gefunden wurde';
+$_MODULE['<{blocklayered}prestashop>view_1.6_73a0fc0e322b9bc84628ea8d122cba7c'] = 'Nichts anzeigen, wenn kein passender Artikel gefunden wurde';
 $_MODULE['<{blocklayered}prestashop>view_1.6_93cba07454f06a4a960172bbd6e2a435'] = 'Ja';
 $_MODULE['<{blocklayered}prestashop>view_1.6_bafd7322c6e97d25b6299b5d6fe8920b'] = 'Nein';
 $_MODULE['<{blocklayered}prestashop>view_1.6_8531c73de81b9ed94322dda7cf947daa'] = 'Anzahl der passenden Artikel anzeigen';
@@ -199,7 +199,7 @@ $_MODULE['<{blocklayered}prestashop>view_f2a6c498fb90ee345d997f888fce3b18'] = 'L
 $_MODULE['<{blocklayered}prestashop>view_058eeeba77f547f8a9a295a0efd4f6cd'] = 'Keine Filter-Vorlage gefunden.';
 $_MODULE['<{blocklayered}prestashop>view_49e61d3c2ed19d967aa62a2cc64b5d12'] = 'Neue Filtervorlage';
 $_MODULE['<{blocklayered}prestashop>view_254f642527b45bc260048e30704edb39'] = 'Einstellungen';
-$_MODULE['<{blocklayered}prestashop>view_73a0fc0e322b9bc84628ea8d122cba7c'] = 'Nichts anzeigen, wenn kein passendes Produkt gefunden wurde';
+$_MODULE['<{blocklayered}prestashop>view_73a0fc0e322b9bc84628ea8d122cba7c'] = 'Nichts anzeigen, wenn kein passender Artikel gefunden wurde';
 $_MODULE['<{blocklayered}prestashop>view_93cba07454f06a4a960172bbd6e2a435'] = 'Ja';
 $_MODULE['<{blocklayered}prestashop>view_bafd7322c6e97d25b6299b5d6fe8920b'] = 'Nein';
 $_MODULE['<{blocklayered}prestashop>view_8531c73de81b9ed94322dda7cf947daa'] = 'Anzahl der passenden Artikel anzeigen';

@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,11 +18,10 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{*
 <table id="payment-tab" width="100%">
 	<tr>
 		<td class="payment center small grey bold" width="44%">{l s='Payment Method' pdf='true'}</td>
@@ -37,15 +36,4 @@
 			</table>
 		</td>
 	</tr>
-</table>
-*}
-
-<table style="width: 100%; color: #949496; font-size: 10pt;" cellpadding="4" cellspacing="4" border="0">
-    <tr style="font-weight: bold;"><td colspan="2" style="font-size: 10pt;">FORMA DE PAGO</td></tr>
-    {if $payment == "Tarjeta_credito"}
-        <tr><td style="font-size: 11pt;">Debito</td><td style="font-size: 11pt;"><span style="color: #E15243;">X</span> Credito</td></tr>
-    {else}
-        <tr><td style="font-size: 11pt;"><span style="color: #E15243;">X</span> Debito</td><td style="font-size: 11pt;">Credito</td></tr>
-    {/if}
-    {*<tr><td colspan="2" style="font-size: 11pt;">Numero de Tarjeta *** *** *** <span style="background-color: #EFEFEF; font-size: 10pt; line-height: 1.5pt;"> 0000 </span></td></tr>*}
 </table>

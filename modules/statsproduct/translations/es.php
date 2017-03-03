@@ -2,6 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
+
 $_MODULE['<{statsproduct}prestashop>statsproduct_78e454064a7d3a7755a011a3b79f31a7'] = 'Detalles del producto';
 $_MODULE['<{statsproduct}prestashop>statsproduct_15944ce3356cfd0513cbc76e7df9d233'] = 'Añade estadísticas detalladas para cada producto al panel de control de estadísticas.';
 $_MODULE['<{statsproduct}prestashop>statsproduct_6602bbeb2956c035fb4cb5e844a4861b'] = 'Guía';
@@ -25,7 +26,7 @@ $_MODULE['<{statsproduct}prestashop>statsproduct_694e8d1f2ee056f98ee488bdc4982d7
 $_MODULE['<{statsproduct}prestashop>statsproduct_3601146c4e948c32b6424d2c0a7f0118'] = 'Precio';
 $_MODULE['<{statsproduct}prestashop>statsproduct_87017c9259838bb0918a2ab4f96016c0'] = 'Ventas cruzadas';
 $_MODULE['<{statsproduct}prestashop>statsproduct_df644ae155e79abf54175bd15d75f363'] = 'Artículo';
-$_MODULE['<{statsproduct}prestashop>statsproduct_2a0440eec72540c5b30d9199c01f348c'] = 'Cant.';
+$_MODULE['<{statsproduct}prestashop>statsproduct_2a0440eec72540c5b30d9199c01f348c'] = 'Cantidad vendida';
 $_MODULE['<{statsproduct}prestashop>statsproduct_844c29394eea07066bb2efefc35784ec'] = 'Precio medio';
 $_MODULE['<{statsproduct}prestashop>statsproduct_818f7defe18dbc97da82d054831df2ad'] = 'Haga clic en un producto para acceder a sus estadísticas.';
 $_MODULE['<{statsproduct}prestashop>statsproduct_0173374ac20f5843d58b553d5b226ef6'] = 'Elija una categoría';
@@ -38,3 +39,6 @@ $_MODULE['<{statsproduct}prestashop>statsproduct_e22269bb51f9f2394e148716babbafb
 $_MODULE['<{statsproduct}prestashop>statsproduct_5e9613e58f3bdbc89b1fef07274c0877'] = 'Visitas (x100)';
 $_MODULE['<{statsproduct}prestashop>statsproduct_287234a1ff35a314b5b6bc4e5828e745'] = 'Atributos';
 $_MODULE['<{statsproduct}prestashop>statsproduct_27ce7f8b5623b2e2df568d64cf051607'] = 'Existencias';
+
+
+return $_MODULE;

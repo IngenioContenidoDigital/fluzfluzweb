@@ -1,4 +1,4 @@
-2007-2015 PrestaShop
+2007-2016 PrestaShop
 
 NOTICE OF LICENSE
 
@@ -17,12 +17,184 @@ versions in the future. If you wish to customize PrestaShop for your
 needs please refer to http://www.prestashop.com for more information.
 
 @author PrestaShop SA <contact@prestashop.com>
-@copyright 2007-2015 PrestaShop  SA
+@copyright 2007-2016 PrestaShop  SA
 @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 International Registred Trademark & Property of PrestaShop SA
 
 Release Notes for PrestaShop 1.6
 --------------------------------
+####################################
+#   v1.6.1.11 - (2016-12-19)
+####################################
+
+	Fixed bugs:
+
+	[-] FO : (b7cc5b8) Re-instate default id
+
+
+	Improved/changed features:
+
+	[*] CORE : (0c5d4d6) performance opt on scandir() usage
+
+
+####################################
+#   v1.6.1.10 - (2016-11-25)
+####################################
+
+	Fixed bugs:
+
+	[-] MO : (3b0f90b) missing IF for PRODUCT_TAB
+
+	[-] BO : (3979614) Fix admin email translations
+
+
+	Improved/changed features:
+
+	[*] BO : (81d6f5b) Bring back email pattern value in case someone uses it
+
+
+	
+
+
+####################################
+#   v1.6.1.7 - (2016-09-06)
+####################################
+
+	Fixed bugs:
+
+	[-] BO : (f19ae86) Solved problem with non-unserialized filters datas
+
+	[-] FO : (2636a31) Fix rouding error in ProductController (PSCSX-7566)
+
+
+	Improved/changed features:
+
+	[*] CORE : (e12c209) Fix a case where $context->smarty could be undefined
+
+
+	Others:
+
+	CO: Fixed cart rule removal with gift product
+	CO: Fix bug #PSCSX-6142 - wrong default cover id in webservice
+	CO: change visibility of installControllers() method
+	CO: Fix warning when duplicating products
+
+	FO: Add a hook on cart product line
+	FO: Solved problem with a situation when we'd like to use category thumb w/o category lead banner
+	FO : Prevent customer to view all codes
+
+	Resolved "price.toFixed is not a function" issue
+	PSCSX-7138 Bad discount computation when multiples tax rates are involved
+	Keep CMS HTML code when upgrading
+
+
+####################################
+#   v1.6.1.6 - (2016-06-15)
+####################################
+
+	Fixed bugs:
+
+	[-] BO : (2e3d0f6) fixed bug when no results with address and map does not exist
+	[-] BO : (2d30765) add user shop origin in autocomplete cart rule
+	[-] BO : (d207083) fixed bug parent tab list wont show if admin tab class is invalid.
+	[-] BO : (052208b) fixed bug when toggle status product not logged
+
+	[-] FO : (c0ee6b7) Fix CSS 404 when using subdirectory
+	[-] FO : (e4a7b70) Only display vouchers available 'only' for customers
+	[-] FO : (e4e2b61) smartyHook now returns empty string when module is not installed.
+	[-] FO : (b2f9338) #PSCSX-5582 fix wrong displayed specific price on product detail
+	[-] FO : (44c1b4e) Display only available vouchers in customer back office
+	[-] FO : (c736160) on user bo, display all discount values
+
+	[-] TEST : (c586ee3) Fix PHP 7 tests
+
+	[-] CORE : (39241d6) Check for displayPaymentEU to fix advanced checkout restrictions
+	[-] CORE : (fb208a3) Fix fatal error on classes/stock/StockAvailable.php (1.6)
+
+	[-] PDF : (2d14094) Fix generation of PDF files
+
+	[-] WS : (114f10b) Fix for PHP 5.2, 5.3 and 7.0 compatibility
+
+	[-] MO : (e7a51f3) #NM-248 Broken pagination links in loyalty
+
+
+	Improved/changed features:
+
+	[*] FO : (4e1a70a) Added more information about minimum amount
+
+
+	Added Features:
+
+	[+] IN : (a1ce85c) All key must not be nullable
+
+
+
+
+
+####################################
+#   v1.6.1.5 - (2016-04-08)
+####################################
+
+	Fixed bugs:
+
+	[-] PDF : (9f7ab92) update constraints on Addresses display
+	[-] PDF : (e7103c4) updated b2b template
+	[-] PDF : (e0bde47) invoices printing now done as page groups to keep the pagination relevant
+	[-] PDF : (3464ca0) fixed pagination block display
+	[-] PDF : (a788652) Moved note block to his own remplate
+	[-] PDF : (b5ef9f2) (re) added shipping box in invoice
+
+	[-] FO : (331527c) Fix incorrect cart rules list in case of country restriction (PSCSX-7873)
+	[-] FO : (a343610) PSCSX-7449, fix parse error in AuthController.php
+	[-] FO : (42d8847) #PSCSX-5582 fix wrong displayed specific price on product detail
+	[-] FO : (755f77b) Fix warning if combinations are disabled
+	[-] FO : (05b701f) Fix combination price calculation with impact and reduction
+	[-] FO : (b1352d7) Fix JavaScript mistake in blocklayered.js
+	[-] FO : (8ee195a) fixed bug on payment module, check if defined $order object
+
+	[-] CORE : (9870d84) use a cached cacert file for curl
+	[-] CORE : (deebce3) Fixed double preg_quote()
+
+	[-] BO : (647eba0) Fix the display of the listing filters on the toolbar
+	[-] BO : (6e69c4a) Change only active state on bulk status change
+	[-] BO : (69b87a8) Fix incorrect shipping taxes in order slips (PSCSX-4881)
+	[-] BO : (44eb96c) Fix filter by category change not working after other actions. …
+	[-] BO : (76d53ac) add error message on upload theme bigger than post_max_size
+
+	[-] LO : (011a2e5) Traditionnal Chinese for HK pack
+
+	[-] TR : (948a3e5) language.xml - fix TW script
+
+	[-] SECURITY : (cc49345) Fixes PSCSX-4841 Usage of ECB mode
+
+	[-] CLASS : (7234efd) Alias / return false if feature is not active in aliasExists()
+
+	[-] MO : (de7e9aa) bankwire / correct module name for translation
+
+
+	Improved/changed features:
+
+	[*] CORE : (85e6025) Update swift mailer
+	[*] CORE : (81465fe) Add a fallback to curl when file_get_content() return an empty response
+
+	[*] TR : (4b3ddf5) Update Polish installer
+	[*] TR : (62bbc16) feature.xml in Vietnamese
+	[*] TR : (1cce929) Update italian installer
+	[*] TR : (5319857) Improve Dutch meta info
+
+	[*] CLASS : (ec03391) Hook / indicate which method to use for deprecated methods
+
+	[*] FO : (999ff45) Removed template logic that is not needed
+
+
+	Added Features:
+
+	[+] TR : (30c4adc) Adding Vietnamese installer
+
+
+
+
+
 ####################################
 #   v1.6.1.4 - (2016-01-06)
 ####################################
@@ -76,7 +248,7 @@ Release Notes for PrestaShop 1.6
 	[-] LO : (673d7fe) Fix Intra-EU VAT
 
 
-	
+
 
 
 ####################################
@@ -306,7 +478,7 @@ Release Notes for PrestaShop 1.6
 	[*] INSTALL : The 1.6.1.1 indexes are now safely removed
 
 
-	
+
 
 
 ####################################
@@ -555,7 +727,7 @@ Release Notes for PrestaShop 1.6
 	[+] TESTS : Add unit tests for PrestaShop#2867 minifyCSS() && ReplaceByAbsoluteURL()
 
 
-	
+
 
 
 ####################################
@@ -1390,7 +1562,7 @@ Release Notes for PrestaShop 1.6
 	[+] DBQUERY : improve to use SELECT or DELETE syntax.
 
 
-	
+
 
 
 

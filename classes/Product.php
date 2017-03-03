@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -82,12 +82,8 @@ class ProductCore extends ObjectModel
 
     /** @var float Price in euros */
     public $price = 0;
-    
-    public $price_shop=0;
 
     public $specificPrice = 0;
-    
-    public $save_dolar=0;
 
     /** @var float Additional shipping cost */
     public $additional_shipping_cost = 0;
@@ -115,12 +111,6 @@ class ProductCore extends ObjectModel
 
     /** @var string Reference */
     public $reference;
-    
-    public $product_parent;
-    
-    public $single_use = false;
-    
-    public $expiration = '0000-00-00';
 
     /** @var string Supplier Reference */
     public $supplier_reference;
@@ -199,9 +189,6 @@ class ProductCore extends ObjectModel
 
     /** @var string ENUM('both', 'catalog', 'search', 'none') front office visibility */
     public $visibility;
-    
-    /** @var string ENUM('peso', 'dolar') front office type currency */
-    public $type_currency;
 
     /** @var string Object creation date */
     public $date_add;
@@ -219,9 +206,6 @@ class ProductCore extends ObjectModel
     public $base_price;
 
     public $id_tax_rules_group = 1;
-    
-    public $codetype = 0;
-   
 
     /**
      * We keep this variable for retrocompatibility for themes
@@ -292,24 +276,20 @@ class ProductCore extends ObjectModel
             'depth' =>                        array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedFloat'),
             'weight' =>                    array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedFloat'),
             'quantity_discount' =>            array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-            'codetype' =>                    array('type' => self::TYPE_BOOL, 'validate' => 'isInt'),
             'ean13' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isEan13', 'size' => 13),
             'upc' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isUpc', 'size' => 12),
             'cache_is_pack' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'cache_has_attachments' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'is_virtual' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-            'product_parent' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-            'expiration'=>                  array('type' => self::TYPE_DATE, 'validate' => 'isDateFormat'),
+
             /* Shop fields */
             'id_category_default' =>        array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedId'),
             'id_tax_rules_group' =>        array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedId'),
             'on_sale' =>                    array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'online_only' =>                array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
-            'single_use' =>                array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'ecotax' =>                    array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice'),
             'minimal_quantity' =>            array('type' => self::TYPE_INT, 'shop' => true, 'validate' => 'isUnsignedInt'),
             'price' =>                        array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice', 'required' => true),
-            'price_shop' =>                 array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice', 'required' => true),
             'wholesale_price' =>            array('type' => self::TYPE_FLOAT, 'shop' => true, 'validate' => 'isPrice'),
             'unity' =>                        array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isString'),
             'unit_price_ratio' =>            array('type' => self::TYPE_FLOAT, 'shop' => true),
@@ -326,8 +306,6 @@ class ProductCore extends ObjectModel
             'show_price' =>                array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'indexed' =>                    array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'visibility' =>                array('type' => self::TYPE_STRING, 'shop' => true, 'validate' => 'isProductVisibility', 'values' => array('both', 'catalog', 'search', 'none'), 'default' => 'both'),
-            'type_currency' =>             array('type' => self::TYPE_STRING, 'validate' => 'isReference', 'size' => 20),
-            'save_dolar' =>             array('type' => self::TYPE_INT, 'validate' => 'isInt'),
             'cache_default_attribute' =>    array('type' => self::TYPE_INT, 'shop' => true),
             'advanced_stock_management' =>    array('type' => self::TYPE_BOOL, 'shop' => true, 'validate' => 'isBool'),
             'date_add' =>                    array('type' => self::TYPE_DATE, 'shop' => true, 'validate' => 'isDate'),
@@ -583,8 +561,7 @@ class ProductCore extends ObjectModel
             Db::getInstance()->update('stock', array(
                 'reference' => pSQL($this->reference),
                 'ean13'     => pSQL($this->ean13),
-                'codetype' => pSQL($this->codetype),
-                'upc'        => pSQL($this->upc)
+                'upc'        => pSQL($this->upc),
             ), 'id_product = '.(int)$this->id.' AND id_product_attribute = 0');
         }
 
@@ -3050,7 +3027,7 @@ class ProductCore extends ObjectModel
         // convert only if the specific price is in the default currency (id_currency = 0)
         if (!$specific_price || !($specific_price['price'] >= 0 && $specific_price['id_currency'])) {
             $price = Tools::convertPrice($price, $id_currency);
-            if (isset($specific_price['price'])) {
+            if (isset($specific_price['price']) && $specific_price['price'] >= 0) {
                 $specific_price['price'] = $price;
             }
         }
@@ -4133,9 +4110,9 @@ class ProductCore extends ObjectModel
         }
 
         if (($customization_labels = Db::getInstance()->executeS('
-			SELECT `id_customization_field`, `id_lang`, `name`
+			SELECT `id_customization_field`, `id_lang`, `id_shop`, `name`
 			FROM `'._DB_PREFIX_.'customization_field_lang`
-			WHERE `id_customization_field` IN ('.implode(', ', $customization_field_ids).')'.($id_shop ? ' AND cfl.`id_shop` = '.$id_shop : '').'
+			WHERE `id_customization_field` IN ('.implode(', ', $customization_field_ids).')'.($id_shop ? ' AND `id_shop` = '.$id_shop : '').'
 			ORDER BY `id_customization_field`')) === false) {
             return false;
         }
@@ -4187,6 +4164,7 @@ class ProductCore extends ObjectModel
                     $data = array(
                         'id_customization_field' => (int)$customization_field_id,
                         'id_lang' => (int)$customization_label['id_lang'],
+                        'id_shop' => (int)$customization_label['id_shop'],
                         'name' => pSQL($customization_label['name']),
                     );
 
@@ -4384,8 +4362,7 @@ class ProductCore extends ObjectModel
                 isset($row['cache_is_pack']) ? $row['cache_is_pack'] : null
             );
         }
-        
-        $row['id_image_parent'] = $row['id_image'];
+
         $row['id_image'] = Product::defineProductImage($row, $id_lang);
         $row['features'] = Product::getFrontFeaturesStatic((int)$id_lang, $row['id_product']);
 
@@ -5396,7 +5373,7 @@ class ProductCore extends ObjectModel
     public function setCoverWs($id_image)
     {
         Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'image_shop` image_shop, `'._DB_PREFIX_.'image` i
-			SET image_shop.`cover` = 0
+			SET image_shop.`cover` = NULL
 			WHERE i.`id_product` = '.(int)$this->id.' AND i.id_image = image_shop.id_image
 			AND image_shop.id_shop='.(int)Context::getContext()->shop->id);
         Db::getInstance()->execute('UPDATE `'._DB_PREFIX_.'image_shop`

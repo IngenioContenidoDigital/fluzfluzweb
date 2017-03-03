@@ -33,7 +33,7 @@ class BlockCategories extends Module
 	{
 		$this->name = 'blockcategories';
 		$this->tab = 'front_office_features';
-		$this->version = '2.9.3';
+		$this->version = '2.9.4';
 		$this->author = 'PrestaShop';
 
 		$this->bootstrap = true;
@@ -41,7 +41,7 @@ class BlockCategories extends Module
 
 		$this->displayName = $this->l('Categories block');
 		$this->description = $this->l('Adds a block featuring product categories.');
-		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.6.99.99');
 	}
 
 	public function install()
@@ -131,7 +131,7 @@ class BlockCategories extends Module
 		if (isset($resultParents[$id_category]) && count($resultParents[$id_category]) && ($maxDepth == 0 || $currentDepth < $maxDepth))
 			foreach ($resultParents[$id_category] as $subcat)
 				$children[] = $this->getTree($resultParents, $resultIds, $maxDepth, $subcat['id_category'], $currentDepth + 1);
-		if (isset($resultIds[$id_category])) 
+		if (isset($resultIds[$id_category]))
 		{
 			$link = $this->context->link->getCategoryLink($id_category, $resultIds[$id_category]['link_rewrite']);
 			$name = $resultIds[$id_category]['name'];
@@ -139,7 +139,7 @@ class BlockCategories extends Module
 		}
 		else
 			$link = $name = $desc = '';
-			
+
 		$return = array(
 			'id' => $id_category,
 			'link' => $link,
@@ -236,21 +236,7 @@ class BlockCategories extends Module
 			}
 
 			$blockCategTree = $this->getTree($resultParents, $resultIds, $maxdepth, ($category ? $category->id : null));
-                        $this->smarty->assign('blockCategTree', $blockCategTree);
-
-                        $categoryInitial = Category::getRootCategories();
-                        $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
-                        foreach ( $categories as $key => &$categoryy ) {
-                            $categoryy['link'] = $this->context->link->getCategoryLink($categoryy['id_category'], $categoryy['link_rewrite']);
-                            $categoryy['father'] = "true";
-                            $categoryy['children'] = Category::getChildren($categoryy['id_category'], 1);
-                            foreach ( $categoryy['children'] as &$categ ) {
-                                $categ['link'] = $this->context->link->getCategoryLink($categ['id_category'], $categ['link_rewrite']);
-                                $categ['father'] = "false";
-                                $categ['children'] = array();
-                            }
-                        }
-                        $this->smarty->assign('blockTreeCategories', $categories);
+			$this->smarty->assign('blockCategTree', $blockCategTree);
 
 			if ((Tools::getValue('id_product') || Tools::getValue('id_category')) && isset($this->context->cookie->last_visited_category) && $this->context->cookie->last_visited_category)
 			{
@@ -265,13 +251,6 @@ class BlockCategories extends Module
 			else
 				$this->smarty->assign('branche_tpl_path', _PS_MODULE_DIR_.'blockcategories/category-tree-branch.tpl');
 		}
-
-                $manufacturersFilter = $this->orderForLetter( Manufacturer::ManufacturersFilter() , 'name' );
-                $this->smarty->assign('manufacturers_filter', $manufacturersFilter);
-
-                $citiesManufacturerFilter = $this->orderForLetter( Manufacturer::citiesManufacturerFilter() , 'city' );
-                $this->smarty->assign('cities_manufacturer_filter', $citiesManufacturerFilter);
-                
 		return $this->display(__FILE__, 'blockcategories.tpl', $cacheId);
 	}
 
@@ -536,25 +515,4 @@ class BlockCategories extends Module
 			'BLOCK_CATEG_ROOT_CATEGORY' => Tools::getValue('BLOCK_CATEG_ROOT_CATEGORY', Configuration::get('BLOCK_CATEG_ROOT_CATEGORY'))
 		);
 	}
-        
-    public function orderForLetter($list, $dataOrder) {
-        $orderedList = [];
-        foreach ( $list as $option ) {
-            $firstLetter = strtolower(substr($option[$dataOrder], 0, 1));
-            if ( $firstLetter == "a" || $firstLetter == "b" || $firstLetter == "c" || $firstLetter == "d" || $firstLetter == "e" || $firstLetter == "f" || $firstLetter == "g" ) {
-                $orderedList['A-G'][] = $option;
-            }
-            if ( $firstLetter == "h" || $firstLetter == "i" || $firstLetter == "j" || $firstLetter == "k" || $firstLetter == "l" || $firstLetter == "m" || $firstLetter == "n" ) {
-                $orderedList["H-N"][] = $option;
-            }
-            if ( $firstLetter == "o" || $firstLetter == "p" || $firstLetter == "q" || $firstLetter == "r" || $firstLetter == "s" || $firstLetter == "t" ) {
-                $orderedList["O-T"][] = $option;
-            }
-            if ( $firstLetter == "u" || $firstLetter == "v" || $firstLetter == "w" || $firstLetter == "x" || $firstLetter == "y" || $firstLetter == "z" ) {
-                $orderedList["U-Z"][] = $option;
-            }
-        }
-        
-        return $orderedList;
-    }
 }

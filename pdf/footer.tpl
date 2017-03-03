@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,14 +18,13 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{*
 <table style="width: 100%;">
 	<tr>
-		<td style="text-align: center; font-size: 6pt; color: #444;  width:87%;">
+		<td style="text-align: center; font-size: 6pt; color: #444;  width:100%;">
 			{if $available_in_your_account}
 				{l s='An electronic version of this invoice is available in your account. To access it, log in to our website using your e-mail address and password (which you created when placing your first order).' pdf='true'}
 				<br />
@@ -52,26 +51,6 @@
 				{$free_text|escape:'html':'UTF-8'}<br />
 			{/if}
 		</td>
-		<td style="text-align: right; font-size: 8pt; color: #444;  width:13%;">
-            {literal}{:pnp:} / {:ptp:}{/literal}
-        </td>
 	</tr>
 </table>
-*}
 
-<table style="width: 200%; color: #949496; font-size: 10pt;" border="0">
-    <tr>
-        <td style="font-size: 25pt; color: #FDBB1D; letter-spacing: 1px;">Preguntas?</td>
-    </tr>
-    <tr>
-        <td style="font-size: 10pt;">Escribenos a <span style="color: #E77569;">info@fluzfluz.com</span></td>
-    </tr>
-    <tr><td></td></tr>
-    <tr>
-        <td style="font-size: 7.5pt;">No somos grandes contribuyentes, somos intermediarios<br>Esta factura presta m&eacute;rito ejecutivo de acuerdo a la ley 1231 de 2008.</td>
-    </tr>
-    <tr><td></td></tr>
-    <tr>
-        <td style="font-size: 7.5pt;">Resoluci&oacute;n Dian 320001411886 del 14 junio 2016, prefijo B rango 1-5000 autoriza impresa por computador<br>Proveedor software Ingenio contenido digital SAS NIT 900521885-1<br>Calle 12B No.8-03 OFC 308 Bogot&uacute;, Colombia <span style="color: #FDBB1D; font-size: 10pt; line-height: 0pt;">&curren;</span></td>
-    </tr>
-</table>

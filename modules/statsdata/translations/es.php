@@ -2,6 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
+
 $_MODULE['<{statsdata}prestashop>statsdata_a51950bf91ba55cd93a33ce3f8d448c2'] = 'Explotación de datos para las estadísticas';
 $_MODULE['<{statsdata}prestashop>statsdata_c77dfd683d0d76940e5e04cb24e8bce1'] = 'Este módulo debe estar activado si quiere utilizar las estadísticas.';
 $_MODULE['<{statsdata}prestashop>statsdata_20015706a8cbd457cbb6ea3e7d5dc9b3'] = 'Configuración actualizada';
@@ -15,3 +16,6 @@ $_MODULE['<{statsdata}prestashop>statsdata_339acfd90b82e91ce9141ec75e4bff24'] = 
 $_MODULE['<{statsdata}prestashop>statsdata_c0e4406117ba4c29c4d66e3069ebf3d3'] = 'Detección de plug-ins';
 $_MODULE['<{statsdata}prestashop>statsdata_e4af29282b3a403c2b23c2a516bba889'] = 'La detección de extensiones carga 20 kb adicionales al archivo JavaScript por cada nuevo visitante.';
 $_MODULE['<{statsdata}prestashop>statsdata_c9cc8cce247e49bae79f15173ce97354'] = 'Guardar';
+
+
+return $_MODULE;
