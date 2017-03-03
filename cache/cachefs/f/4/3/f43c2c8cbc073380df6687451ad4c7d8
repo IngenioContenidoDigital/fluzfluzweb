@@ -1,0 +1,21 @@
+a:1:{i:0;a:14:{s:17:"id_posstaticblock";s:1:"7";s:8:"identify";s:13:"footer_bottom";s:13:"hook_position";s:12:"blockFooter4";s:11:"name_module";s:0:"";s:11:"hook_module";s:13:"displayFooter";s:8:"posorder";s:1:"0";s:13:"insert_module";s:1:"0";s:6:"active";s:1:"0";s:10:"is_default";s:1:"1";s:8:"showhook";s:1:"1";s:7:"id_lang";s:1:"1";s:5:"title";s:13:"Footer Bottom";s:11:"description";s:1202:"<div class="contenedor">
+<div class="row">
+<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+<p style="text-align: center; font-size: 10px;"><a href="http://reglas.fluzfluz.co/polycy-data-tretament/" style="color: #6d6e6e;" target="_blank">PRIVACIDAD DE DATOS<br /></a></p>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+<p style="text-align: center; font-size: 10px;"><a href="http://www.sic.gov.co/drupal/" target="_blank">WWW.SIC.GOV.CO</a></p>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+<p style="text-align: center; font-size: 10px;"><a href=" http://reglas.fluzfluz.co/terminos-y-condiciones/" style="color: #6d6e6e;" target="_blank">TERMINOS Y CONDICIONES</a></p>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+<p style="text-align: center; font-size: 10px;"><i class="icon-envelope"></i> <span><a href="/es/contactanos">CONTACTANOS</a></span></p>
+</div>
+</div>
+<div class="row">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<p style="text-align: center; font-size: 10px;">Copyright&nbsp;<i class="icon-copyright"></i>&nbsp;<a href="/" style="color: #ee4a42;">FluzFluz</a>. Todos los derechos reservados</p>
+</div>
+</div>
+</div>";s:7:"id_shop";s:1:"1";}}
