@@ -48,8 +48,8 @@ class MyAccountController extends MyAccountControllerCore
         $ptosTotal = $this->getPointTotal($this->context->customer->id);
         $this->context->smarty->assign('ptosTotal', $ptosTotal);
         
-        $datePoint = $this->getPointsLastDays($this->context->customer->id);
-        $lastPoint = round($datePoint, $precision=0);
+        $lastPoint = $this->getPointsLastDays($this->context->customer->id);
+        
         $this->context->smarty->assign('lastPoint', $lastPoint);
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         $membersCount = $this->numberMembers();
@@ -267,7 +267,7 @@ class MyAccountController extends MyAccountControllerCore
                                 LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
                                 LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
                                 WHERE  MONTH(o.date_add) = MONTH(NOW()) AND o.id_customer = '.$this->context->customer->id.' 
-                                AND r.id_reward_state=2  
+                                AND r.id_reward_state=2 AND r.`plugin` = "loyalty" 
                                 ORDER BY o.date_add DESC';
         
         $roworders = db::getInstance()->getRow($orderMonthcurrent);
@@ -353,33 +353,19 @@ class MyAccountController extends MyAccountControllerCore
         return $alertpurchaseorder;
     }
     
-    public function getPointsLastDays(){
+    public function getPointsLastDays($id_customer){
      
-        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-            $sum=0;
-            foreach ($tree as $valor){
-                $queryTop = 'SELECT SUM(n.credits) AS points
-                            FROM '._DB_PREFIX_.'rewards n 
+                $queryTop = 'SELECT ROUND(SUM(n.credits)) AS points
+                            FROM ps_rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
-                            AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day'.'
-                            AND n.id_reward_state = 2 AND n.credits > 0 AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
+                            WHERE n.id_customer='.$id_customer.'    
+                            AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day
+                            AND n.id_reward_state = 2 AND n.credits > 0';
                 
-                $result = Db::getInstance()->executeS($queryTop);
+                $result = Db::getInstance()->getRow($queryTop);
                 
-                if ($result[0]['points'] != "" ) {
-                    $top[] = $result[0];
-                }
-            }
-            usort($top, function($a, $b) {
-                return $b['points'] - $a['points'];
-            });
-            
-            foreach ($top as $x){
-                $sum += $x['points'];
-            }
-            
-            return $sum;    
+            return $result;    
         }
         
     public function getCustomerSponsorship($id_customer){
