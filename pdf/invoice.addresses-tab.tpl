@@ -1,5 +1,5 @@
 {*
-* 2007-2016 PrestaShop
+* 2007-2015 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,10 +18,11 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2016 PrestaShop SA
+*  @copyright  2007-2015 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+{*
 <table id="addresses-tab" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="33%"><span class="bold"> </span><br/><br/>
@@ -35,4 +36,18 @@
 				{$invoice_address}
 		</td>
 	</tr>
+</table>
+*}
+<table style="width: 100%; color: #949496; font-size: 10pt;" cellpadding="4" cellspacing="4" border="0">
+    <tr><td style="font-weight: bold;">DATOS DEL COMPRADOR</td></tr>
+    <tr>
+        <td style="line-height: 1.3pt; font-size: 10pt;">
+            &nbsp;Nombre del cliente: {$customer->firstname} {$customer->lastname}<br>
+            &nbsp;Tel&eacute;fono del cliente: {$addresses.invoice->phone}<br>
+            &nbsp;Identificaci&oacute;n del cliente: {$addresses.invoice->dni}<br>
+            &nbsp;Email del cliente: {$customer->email}<br>
+            &nbsp;Direcci&oacute;n del cliente: {$addresses.invoice->address1} | {$addresses.invoice->address2}<br>
+            &nbsp;Ciudad: {$addresses.invoice->city|lower|capitalize}
+        </td>
+    </tr>
 </table>
