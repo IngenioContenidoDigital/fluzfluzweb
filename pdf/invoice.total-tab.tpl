@@ -1,5 +1,5 @@
 {*
-* 2007-2016 PrestaShop
+* 2007-2015 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,10 +18,11 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2016 PrestaShop SA
+*  @copyright  2007-2015 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+{*
 <table id="total-tab" width="100%">
 
 	<tr>
@@ -95,4 +96,12 @@
 			{displayPrice currency=$order->id_currency price=$footer.total_paid_tax_incl}
 		</td>
 	</tr>
+</table>
+*}
+
+<table style="width: 100%; color: #949496; font-size: 10pt; " cellpadding="2" cellspacing="4" border="0">
+    <tr>
+        <td style="width: 45%; font-size: 10pt; font-weight: bold; text-align: left; line-height: 1.5pt;">VALOR TOTAL</td>
+        <td style="width: 55%; text-align: right;"><span style="background-color: #EFEFEF; font-size: 10pt; line-height: 1.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{displayPrice currency=$order->id_currency price=$footer.total_paid_tax_incl}&nbsp;&nbsp;</span></td>
+    </tr>
 </table>
