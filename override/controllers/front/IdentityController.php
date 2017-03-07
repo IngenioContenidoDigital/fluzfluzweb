@@ -146,10 +146,10 @@ class IdentityController extends IdentityControllerCore
             if ( Tools::getValue('yearsCard') == "" ) { $this->errors[] = Tools::displayError('This years card expiration can not be empty.'); }
             if ( Tools::getValue('holdernamecard') == "" ) { $this->errors[] = Tools::displayError('This cardholder name can not be empty.'); }
             if (!count($this->errors)) {
-                $updatecard = Db::getInstance()->execute("UPDATE "._DB_PREFIX_."cards
-                                            SET nameOwner = '".Tools::getValue('holdernamecard')."', name_creditCard = '".Tools::getValue('typecard')."', num_creditCard = '".Tools::getValue('numbercard')."', date_expiration = '".Tools::getValue('monthsCard')."/".Tools::getValue('yearsCard')."'
-                                            WHERE id_customer = ".$this->customer->id);
-                if ( $updatecard ) {
+
+                $addCard = Customer::addCard($this->customer->id, $this->customer->secure_key, Tools::getValue('numbercard'), Tools::getValue('holdernamecard'), Tools::getValue('typecard'), Tools::getValue('monthsCard')."/".Tools::getValue('yearsCard'));
+
+                if ( $addCard ) {
                     $this->context->smarty->assign('confirmationcard', 1);
                 } else {
                     $this->errors[] = Tools::displayError('The information cannot be updated.');
@@ -205,12 +205,8 @@ class IdentityController extends IdentityControllerCore
         $this->context->smarty->assign('customerPhone', $address[0]['phone']);
         $this->context->smarty->assign('customer', $this->context->customer);
 
-        $card = DB::getInstance()->getRow( "SELECT nameOwner, name_creditCard, num_creditCard, date_expiration
-                                            FROM "._DB_PREFIX_."cards
-                                            WHERE id_customer = ".$this->customer->id );
+        $card = Customer::getCard($this->customer->id);
         $this->context->smarty->assign('card', $card);
-        
-        $this->context->smarty->assign( 'card_digits',substr($card['num_creditCard'],(strlen($card['num_creditCard'])-4)) );
 
         $dateExplode = explode("/",$card['date_expiration']);
         $year = date('Y-m-j');
