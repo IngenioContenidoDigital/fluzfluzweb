@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="col-lg-7 col-md-6 col-sm-5 col-xs-8 codigoCard2">
-                            <span style="color: #000;">{l s='Tarjeta: '}</span>
+                            <span style="color: #000;">{l s='Bono: '}</span>
                             <span class="codeImg">{$card.card_code}</span></div>
                         <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
                     </div>

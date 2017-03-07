@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th><strong>Codigos</strong></th>
+                            <th style="text-align: center;"><strong>Pin</strong></th>
                             <th style="text-align: center;"><strong>Estado</strong></th>
                             <th style="text-align: center;"><strong>Orden</strong></th>
                             <th style="text-align: center;"><strong>Fecha Creacion</strong></th>
@@ -28,6 +29,7 @@
                         {foreach $codes as $code}
                             <tr>
                                 <td>{$code.code}</td>
+                                <td style="text-align: center;">{$code.pin}</td>
                                 <td style="text-align: center;">{$code.estado}</td>
                                 <td style="text-align: center;">{$code.order}</td>
                                 <td style="text-align: center;">{$code.date_add}</td>
