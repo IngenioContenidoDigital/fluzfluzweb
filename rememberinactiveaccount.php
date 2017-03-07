@@ -25,7 +25,9 @@ $query = "SELECT
             FROM "._DB_PREFIX_."customer c
             INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer )
             LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
-            WHERE o.payment != 'Pedido gratuito'    
+            WHERE o.payment != 'Pedido gratuito'
+            AND c.active = 1
+            AND c.kick_out = 0
             GROUP BY c.id_customer
             -- HAVING days_inactive IN (0, 30 , 45 , 52 , 59 , 60 ) OR days_inactive >= 61
             ORDER BY days_inactive DESC";
