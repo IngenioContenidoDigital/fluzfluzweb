@@ -3,7 +3,7 @@ include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 
 // ENCRYPT
-/*
+
 $query = "SELECT c.id_card, c.id_customer, c.num_creditCard, cc.secure_key
             FROM "._DB_PREFIX_."cards c
             INNER JOIN "._DB_PREFIX_."customer cc ON ( c.id_customer = cc.id_customer )";
@@ -19,7 +19,7 @@ foreach ( $cards as $card ) {
                                 SET num_creditCard = '".$cardencrypt."', last_digits = '".$lastdigits."'
                                 WHERE id_card = ".$card['id_card']);
 }
-*/
+
 
 // ENCRYPT
 /*
