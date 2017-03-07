@@ -166,8 +166,9 @@ class AuthController extends AuthControllerCore
                 $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
             } elseif (!$authentication || !$customer->id) {
                 $this->errors[] = Tools::displayError('Authentication failed.');
+            /* VALIDACION COMPRA DE LICENCIA COMPLETA
             } elseif ( !$customer->customerPurchaseLicense($email) ) {
-                $this->errors[] = Tools::displayError('Por favor verifica el estado de tu afiliacion, tu proceso de registro esta incompleto. Si tienes una invitacion por favor realiza el proceso de registro nuevamente.');
+                $this->errors[] = Tools::displayError('Por favor verifica el estado de tu afiliacion, tu proceso de registro esta incompleto. Si tienes una invitacion por favor realiza el proceso de registro nuevamente.');*/
             } else {
                 $this->context->cookie->id_compare = isset($this->context->cookie->id_compare) ? $this->context->cookie->id_compare: CompareProduct::getIdCompareByIdCustomer($customer->id);
                 $this->context->cookie->id_customer = (int)($customer->id);
