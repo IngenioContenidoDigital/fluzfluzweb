@@ -861,7 +861,7 @@
                                 <label for="acceptterms">Acepto los t&eacute;rminos y condiciones de Fluz Fluz</label>
                         </div>
                         <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount"/>
-				<span>Registro GratisJ<i class="icon-chevron-right right"></i></span>
+				<span>Registro Gratis<i class="icon-chevron-right right"></i></span>
 			</button>
                     </div>
                     </div>
