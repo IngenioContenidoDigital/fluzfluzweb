@@ -53,10 +53,12 @@ class MyAccountController extends MyAccountControllerCore
         $this->context->smarty->assign('lastPoint', $lastPoint);
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         $membersCount = $this->numberMembers();
+        
         $this->context->smarty->assign('membersCount', $membersCount);
         $this->context->smarty->assign(array(
             's3'=> _S3_PATH_,
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
+            'pin_code' => $this->pinCodeProduct(),
             'has_customer_an_address' => empty($has_address),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
             'order_lastmonth' => $this->orderQuantity(),
@@ -216,20 +218,20 @@ class MyAccountController extends MyAccountControllerCore
         $query='SELECT
                 PM.id_manufacturer AS id_manufacturer,
                 PM.`name` AS manufacturer_name,
+                PP.id_product AS id_product,
                 Count(OD.product_id) AS products,
                 Count(wp.id_webservice_external_product) as count_m,
                 Sum(PP.price) AS total
                 FROM
                 ps_orders AS PO
-                INNER JOIN ps_order_state_lang AS OSL ON PO.current_state = OSL.id_order_state
-                INNER JOIN ps_order_detail AS OD ON PO.id_order = OD.id_order
-                INNER JOIN ps_product AS PP ON OD.product_id = PP.id_product
-                INNER JOIN ps_supplier AS PS ON PS.id_supplier = PP.id_supplier
-                INNER JOIN ps_manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
-                LEFT JOIN ps_webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
+                INNER JOIN '._DB_PREFIX_.'order_state_lang AS OSL ON PO.current_state = OSL.id_order_state
+                INNER JOIN '._DB_PREFIX_.'order_detail AS OD ON PO.id_order = OD.id_order
+                INNER JOIN '._DB_PREFIX_.'product AS PP ON OD.product_id = PP.id_product
+                INNER JOIN '._DB_PREFIX_.'supplier AS PS ON PS.id_supplier = PP.id_supplier
+                INNER JOIN '._DB_PREFIX_.'manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
+                LEFT JOIN '._DB_PREFIX_.'webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
                 WHERE
-                ((OSL.id_order_state = 2 OR
-                OSL.id_order_state = 5) AND
+                ((OSL.id_order_state = 2) AND
                 (PO.id_customer ='.$id_customer.') AND (PP.reference<>"MFLUZ") AND (OSL.id_lang='.$this->context->language->id.'))
                 GROUP BY
                  id_manufacturer,
@@ -240,6 +242,23 @@ class MyAccountController extends MyAccountControllerCore
         $supplier = Db::getInstance()->executeS($query);
         
         return $supplier;
+    }
+    
+    public function pinCodeProduct(){
+        
+        $products = $this->getProductsByManufacturer($this->context->customer->id);
+        $listPin = array();
+        foreach ($products as &$p){
+            $querypin = 'SELECT COUNT(pc.pin_code) AS pin, p.id_manufacturer FROM '._DB_PREFIX_.'product_code pc 
+                     LEFT JOIN '._DB_PREFIX_.'product p ON (pc.id_product = p.id_product)  
+                     WHERE p.id_product = '.$p['id_product'].' AND pc.pin_code != ""';
+            
+            $rowpin = Db::getInstance()->executeS($querypin);
+            
+            $listPin[] = $rowpin[0]; 
+        }
+        
+        return $listPin;
     }
     
     public function getProfileCustomer($id_customer){

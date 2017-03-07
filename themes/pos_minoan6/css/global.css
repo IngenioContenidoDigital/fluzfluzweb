@@ -4249,6 +4249,8 @@ h2.title_blockSale {
     display:none;
 }
 
+#pin-oculto{display: none;}
+
 .cardDesign{
     height:auto;
     background:#c9b197;

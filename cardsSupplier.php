@@ -25,7 +25,7 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
      
 class cardsSupplier {
     public function getCardsbySupplier2($id_customer,$id_manufacturer){
-        $query="SELECT PC.`code` AS card_code, 
+        $query="SELECT PC.`code` AS card_code, PC.pin_code as codepin,
 	PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description, PL.description_short,
 	PC.id_product,
         PC.used AS used,
