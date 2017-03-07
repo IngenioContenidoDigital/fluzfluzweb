@@ -257,6 +257,36 @@ class Customer extends CustomerCore
             return false;
         }
     }
+    
+    public static function getCard($customer) {
+        $card = DB::getInstance()->getRow( "SELECT c.id_card, c.id_customer, c.num_creditCard, c.last_digits, c.nameOwner, c.name_creditCard, c.date_expiration, cc.secure_key
+                                            FROM "._DB_PREFIX_."cards c
+                                            INNER JOIN "._DB_PREFIX_."customer cc ON ( c.id_customer = cc.id_customer )
+                                            WHERE c.id_customer = ".$customer );
+        $card['num_creditCard'] = Encrypt::decrypt($card['secure_key'] , $card['num_creditCard']);
+        
+        return $card;
+    }
+    
+    public static function addCard($customer, $secure_key, $num_card, $nameOwner, $type_card, $date_expiration) {
+
+        $card = Encrypt::encrypt($secure_key , $num_card);
+        $lastdigits = substr($num_card, -4);
+
+        $existcard = Db::getInstance()->getValue("SELECT COUNT(*) cards
+                                                    FROM "._DB_PREFIX_."cards
+                                                    WHERE id_customer = ".$customer);
+        if ( $existcard > 0 ) {
+            $addCard = Db::getInstance()->execute("UPDATE "._DB_PREFIX_."cards
+                                                        SET nameOwner = '".$nameOwner."', name_creditCard = '".$type_card."', num_creditCard = '".$card."', last_digits = '".$lastdigits."', date_expiration = '".$date_expiration."'
+                                                        WHERE id_customer = ".$customer);
+        } else {
+            $addCard = Db::getInstance()->Execute( 'INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, name_creditCard, num_creditCard, last_digits, date_expiration)
+                                                        VALUES ('.$customer.', "'.$nameOwner.'", "'.$type_card.'", "'.$card.'", "'.$lastdigits.'", "'.$date_expiration.'")' );
+        }
+        
+        return $addCard;
+    }
 }
 
 ?>

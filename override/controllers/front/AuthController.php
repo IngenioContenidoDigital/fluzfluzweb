@@ -421,13 +421,7 @@ class AuthController extends AuthControllerCore
                                 $address->add();
                             }
 
-                            $numCardCredit = "1000000000000000";
-                            $cardExpirationDate = '01/'.date("Y");
-                            if ( !empty($_POST['numerot']) && !empty($_POST['Month']) && !empty($_POST['year']) ) {
-                                $numCardCredit = $_POST['numerot'];
-                                $cardExpirationDate = $_POST['Month'].'/'.$_POST['year'];
-                            }
-                            Db::getInstance()->Execute( 'INSERT INTO '._DB_PREFIX_.'cards(id_customer, nameOwner, num_creditCard, date_expiration) VALUES ('.(int)$customer->id.', "'.$customer->firstname." ".$customer->lastname .'","'.$numCardCredit.'", "'.$cardExpirationDate.'")' );
+                            // Customer::addCard($customer->id, $customer->secure_key, $_POST['numerot'], $customer->firstname." ".$customer->lastname, '', $_POST['Month']."/".$_POST['year']);
                             
                             $addresscreate = $customer->getAddresses(0);
 

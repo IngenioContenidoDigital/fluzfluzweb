@@ -273,7 +273,7 @@
                             <label for="numbercard" class="required">
                                 {l s='Number'}:
                             </label>
-                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isCard" type="password" id="numbercard" name="numbercard" value="{$card.num_creditCard}" /><span class="card_digits">{$card_digits}</span>
+                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isCard" type="password" id="numbercard" name="numbercard" value="{$card.num_creditCard}" /><span class="card_digits">{$card.last_digits}</span>
                         </div>
                         <div class="form-group dateExpiration">
                             <label>
