@@ -463,8 +463,9 @@ class AuthController extends AuthControllerCore
                                 Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
                                 Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer->id.",3), (".$customer->id.",4)");
                                 Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET id_default_group = 4 WHERE id_customer = ".$customer->id);
+                                /* REGISTRAR COMPRA DE LICENCIA DE 0 PESOS
                                 $payment_module = Module::getInstanceByName('bankwire');
-                                $payment_module->validateOrder($cart->id, 2, 0, 'Pedido Gratuito');
+                                $payment_module->validateOrder($cart->id, 2, 0, 'Pedido Gratuito');*/
                                 $this->sendNotificationSponsor($customer->id);
                                 Tools::redirect($this->context->link->getPageLink('my-account', true));
                             }
