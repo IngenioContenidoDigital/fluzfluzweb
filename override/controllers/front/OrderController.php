@@ -123,9 +123,7 @@ class OrderController extends OrderControllerCore
             $this->context->cart->setNoMultishipping();
         }
 
-        $card = DB::getInstance()->getRow( "SELECT nameOwner, name_creditCard, num_creditCard, date_expiration
-                                            FROM "._DB_PREFIX_."cards
-                                            WHERE id_customer = ".$this->context->customer->id );
+        $card = Customer::getCard($this->context->customer->id);
         $this->context->smarty->assign('cardCustomer', $card);
 
         // Check for alternative payment api
