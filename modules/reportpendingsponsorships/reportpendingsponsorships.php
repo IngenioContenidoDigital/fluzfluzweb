@@ -38,6 +38,12 @@ class reportpendingsponsorships extends ModuleGrid
                 'align' => 'center'
             ),
             array(
+                'id' => 'phone',
+                'header' => 'Telefono',
+                'dataIndex' => 'phone',
+                'align' => 'center'
+            ),
+            array(
                 'id' => 'pendingsinvitation',
                 'header' => $this->l('# Espacio Invitaciones'),
                 'dataIndex' => 'pendingsinvitation',
@@ -62,7 +68,11 @@ class reportpendingsponsorships extends ModuleGrid
                             c.id_customer,
                             c.username,
                             c.email,
-                            (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                            (2 - COUNT(rs.id_sponsorship)) pendingsinvitation,
+                            (SELECT IFNULL(a.phone,a.phone_mobile) phone
+                            FROM "._DB_PREFIX_."address a
+                            WHERE a.id_customer = c.id_customer
+                            LIMIT 1) phone
                         FROM "._DB_PREFIX_."customer c
                         LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                         WHERE c.active = 1
