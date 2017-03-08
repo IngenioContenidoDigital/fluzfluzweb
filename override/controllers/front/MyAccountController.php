@@ -219,7 +219,7 @@ class MyAccountController extends MyAccountControllerCore
                 PM.id_manufacturer AS id_manufacturer,
                 PM.`name` AS manufacturer_name,
                 PP.id_product AS id_product,
-                Count(OD.product_id) AS products,
+                SUM(OD.product_quantity) AS products,
                 Count(wp.id_webservice_external_product) as count_m,
                 Sum(PP.price) AS total
                 FROM
