@@ -215,8 +215,8 @@
                                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 barTop">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='Pts. From Last 30 Days'}</div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <span class="ptoCustomer">+{$lastPoint}</span>
-                                                        <span style="color:#000;">{displayPrice price=$lastPoint * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
+                                                        <span class="ptoCustomer">+{$lastPoint.points}</span>
+                                                        <span style="color:#000;">{displayPrice price=$lastPoint.points * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</span>
                                                     </div>    
                                                 </div>
                                                  <div class="col-lg-1 col-md-1 col-sm-4 col-xs-6 barTop">    

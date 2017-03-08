@@ -334,7 +334,7 @@
                                                                                 {/if}    
                                                                             </div><br>
                                                                             <div class="detail-product" id="detail_product_{$list.id_product}" style="display:none">
-                                                                                <div class="title-detail">{l s="Detalles de Tarjeta de Regalo"}</div>
+                                                                                <div class="title-detail">{l s="Detalles de Bono de Regalo"}</div>
                                                                                 {if $list.online==1}
                                                                                     <div class="text-detail">{l s="- Solamente Online"}</div>
                                                                                 {else}
@@ -345,7 +345,7 @@
                                                                                 {else}
                                                                                     <span>{l s=""}</span>
                                                                                 {/if}
-                                                                                <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
+                                                                                <div class="text-detail">{l s="- Los Bonos de regalo no se pueden utilizar para comprar otras bonos de regalo"}</div>
                                                                                 {if $list.type_currency == 'COP'}
                                                                                     <div class="text-detail">{l s=""}</div>
                                                                                 {else}
@@ -403,7 +403,7 @@
                                                                                 {/if}
                                                                             </div>
                                                                             <div class="detail-product" id="detail_product_{$product->id}" style="display:none">
-                                                                                <div class="title-detail">{l s="Detalles de Tarjeta de Regalo"}</div>
+                                                                                <div class="title-detail">{l s="Detalles de Bono de Regalo"}</div>
                                                                                 {if $product->online==1}
                                                                                     <div class="text-detail">{l s="- Solamente Online"}</div>
                                                                                 {else}
@@ -414,7 +414,7 @@
                                                                                 {else}
                                                                                     <span>{l s=""}</span>
                                                                                 {/if}
-                                                                                <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
+                                                                                <div class="text-detail">{l s="- Los Bonos de regalo no se pueden utilizar para comprar otras bonos de regalo"}</div>
                                                                                 {if $product->expiration=='0000-00-00'}
                                                                                     <div class="expiration-detail"></div>
                                                                                 {else}

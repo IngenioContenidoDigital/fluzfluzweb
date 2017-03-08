@@ -48,15 +48,17 @@ class MyAccountController extends MyAccountControllerCore
         $ptosTotal = $this->getPointTotal($this->context->customer->id);
         $this->context->smarty->assign('ptosTotal', $ptosTotal);
         
-        $datePoint = $this->getPointsLastDays($this->context->customer->id);
-        $lastPoint = round($datePoint, $precision=0);
+        $lastPoint = $this->getPointsLastDays($this->context->customer->id);
+        
         $this->context->smarty->assign('lastPoint', $lastPoint);
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         $membersCount = $this->numberMembers();
+        
         $this->context->smarty->assign('membersCount', $membersCount);
         $this->context->smarty->assign(array(
             's3'=> _S3_PATH_,
             'manufacturers'=> $this->getProductsByManufacturer($this->context->customer->id),
+            'pin_code' => $this->pinCodeProduct(),
             'has_customer_an_address' => empty($has_address),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
             'order_lastmonth' => $this->orderQuantity(),
@@ -216,20 +218,20 @@ class MyAccountController extends MyAccountControllerCore
         $query='SELECT
                 PM.id_manufacturer AS id_manufacturer,
                 PM.`name` AS manufacturer_name,
+                PP.id_product AS id_product,
                 Count(OD.product_id) AS products,
                 Count(wp.id_webservice_external_product) as count_m,
                 Sum(PP.price) AS total
                 FROM
                 ps_orders AS PO
-                INNER JOIN ps_order_state_lang AS OSL ON PO.current_state = OSL.id_order_state
-                INNER JOIN ps_order_detail AS OD ON PO.id_order = OD.id_order
-                INNER JOIN ps_product AS PP ON OD.product_id = PP.id_product
-                INNER JOIN ps_supplier AS PS ON PS.id_supplier = PP.id_supplier
-                INNER JOIN ps_manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
-                LEFT JOIN ps_webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
+                INNER JOIN '._DB_PREFIX_.'order_state_lang AS OSL ON PO.current_state = OSL.id_order_state
+                INNER JOIN '._DB_PREFIX_.'order_detail AS OD ON PO.id_order = OD.id_order
+                INNER JOIN '._DB_PREFIX_.'product AS PP ON OD.product_id = PP.id_product
+                INNER JOIN '._DB_PREFIX_.'supplier AS PS ON PS.id_supplier = PP.id_supplier
+                INNER JOIN '._DB_PREFIX_.'manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
+                LEFT JOIN '._DB_PREFIX_.'webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
                 WHERE
-                ((OSL.id_order_state = 2 OR
-                OSL.id_order_state = 5) AND
+                ((OSL.id_order_state = 2) AND
                 (PO.id_customer ='.$id_customer.') AND (PP.reference<>"MFLUZ") AND (OSL.id_lang='.$this->context->language->id.'))
                 GROUP BY
                  id_manufacturer,
@@ -240,6 +242,23 @@ class MyAccountController extends MyAccountControllerCore
         $supplier = Db::getInstance()->executeS($query);
         
         return $supplier;
+    }
+    
+    public function pinCodeProduct(){
+        
+        $products = $this->getProductsByManufacturer($this->context->customer->id);
+        $listPin = array();
+        foreach ($products as &$p){
+            $querypin = 'SELECT COUNT(pc.pin_code) AS pin, p.id_manufacturer FROM '._DB_PREFIX_.'product_code pc 
+                     LEFT JOIN '._DB_PREFIX_.'product p ON (pc.id_product = p.id_product)  
+                     WHERE p.id_product = '.$p['id_product'].' AND pc.pin_code != ""';
+            
+            $rowpin = Db::getInstance()->executeS($querypin);
+            
+            $listPin[] = $rowpin[0]; 
+        }
+        
+        return $listPin;
     }
     
     public function getProfileCustomer($id_customer){
@@ -267,7 +286,7 @@ class MyAccountController extends MyAccountControllerCore
                                 LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
                                 LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
                                 WHERE  MONTH(o.date_add) = MONTH(NOW()) AND o.id_customer = '.$this->context->customer->id.' 
-                                AND r.id_reward_state=2  
+                                AND r.id_reward_state=2 AND r.`plugin` = "loyalty" 
                                 ORDER BY o.date_add DESC';
         
         $roworders = db::getInstance()->getRow($orderMonthcurrent);
@@ -353,33 +372,19 @@ class MyAccountController extends MyAccountControllerCore
         return $alertpurchaseorder;
     }
     
-    public function getPointsLastDays(){
+    public function getPointsLastDays($id_customer){
      
-        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-            $sum=0;
-            foreach ($tree as $valor){
-                $queryTop = 'SELECT SUM(n.credits) AS points
-                            FROM '._DB_PREFIX_.'rewards n 
+                $queryTop = 'SELECT ROUND(SUM(n.credits)) AS points
+                            FROM ps_rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
-                            AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day'.'
-                            AND n.id_reward_state = 2 AND n.credits > 0 AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
+                            WHERE n.id_customer='.$id_customer.'    
+                            AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day
+                            AND n.id_reward_state = 2 AND n.credits > 0';
                 
-                $result = Db::getInstance()->executeS($queryTop);
+                $result = Db::getInstance()->getRow($queryTop);
                 
-                if ($result[0]['points'] != "" ) {
-                    $top[] = $result[0];
-                }
-            }
-            usort($top, function($a, $b) {
-                return $b['points'] - $a['points'];
-            });
-            
-            foreach ($top as $x){
-                $sum += $x['points'];
-            }
-            
-            return $sum;    
+            return $result;    
         }
         
     public function getCustomerSponsorship($id_customer){

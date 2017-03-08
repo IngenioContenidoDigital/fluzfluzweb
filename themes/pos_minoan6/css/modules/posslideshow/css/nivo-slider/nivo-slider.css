@@ -75,7 +75,7 @@
   .nivoSlider{height: 230px;}  
   .pos-slideshow-title{display: none;}
   .pos-slideshow-title h3 { font-size: 16px; }
-  .pos_description h2.title2 { font-size: 12px; padding: 5px 10px; margin-top: 40px; margin-bottom: 10px; }
+  .pos_description h2.title2 { font-size: 12px; padding: 5px 10px; margin-top: 10px; margin-bottom: 10px; }
   .pos_description h3.title3 { font-size: 12px; width: 100%; display: none;}
   .pos-slideshow-readmore a { line-height: 25px; font-size: 10px; margin-top: 5px; padding: 0 10px; } }
 @media (max-width:375px){
