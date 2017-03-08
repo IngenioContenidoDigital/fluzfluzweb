@@ -89,7 +89,7 @@
         </div>
         <div class="row">    
             <div class="col-xs-6 col-sm-7 col-md-6 col-lg-6 div-info">
-                    <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
+                    <div class="pCode">C&oacute;digo de Bono:</div><div class="micode"></div>
                     <div class="pPrice col-lg-4 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="price-cardview col-lg-8 col-md-6 col-sm-6 col-xs-6"></div>
                     <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used2" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
             </div>

@@ -349,12 +349,30 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		} else if (Tools::isSubmit('submitSponsor') && (int)Tools::getValue('new_sponsor')) {
 			$customer = new Customer((int)$params['id_customer']);
 			$new_sponsor = new Customer((int)Tools::getValue('new_sponsor'));
-			if (Validate::isLoadedObject($new_sponsor)) {
+                        
+                        $query_sponsor = 'SELECT COUNT(rs.id_sponsor) AS cont_sponsor FROM '._DB_PREFIX_.'rewards_sponsorship AS rs WHERE rs.id_sponsor ='.(int)Tools::getValue('new_sponsor');
+                        $row_sponsor = Db::getInstance()->getRow($query_sponsor);
+                        $count_sponsor = $row_sponsor['cont_sponsor'];
+                        
+                        if($count_sponsor < Configuration::get('RSPONSORSHIP_NB_FRIENDS')){
+                            if (Validate::isLoadedObject($new_sponsor)) {
 				if ($this->_createSponsorship($new_sponsor, $customer, true, (bool)Tools::getValue('generate_voucher'), (int)Tools::getValue('generate_currency')))
 					return $this->instance->displayConfirmation($this->l('The sponsor has been updated.'));
 				else
 					return $this->instance->displayError($this->l('The sponsor update failed.'));
-			}
+                            }
+                        }
+                        else{
+                             
+                                echo '<div style="padding: 15px 5px; color: #EE4A42;font-size: 14px;">
+                                    <span>El Sponsor ingresado ya ha utilizado sus '.Configuration::get('RSPONSORSHIP_NB_FRIENDS').' invitaciones permitidas. </span>
+                                </div>
+                            
+                                <script>
+                                        alert("El Sponsor ingresado ya ha utilizado sus '.Configuration::get('RSPONSORSHIP_NB_FRIENDS').' invitaciones permitidas.");
+                                      </script>';
+                        }
+                        
 		} else if (Tools::isSubmit('submitSponsorshipEndDate') && (int)Tools::getValue('id_sponsorship_to_update')) {
 			$this->_postValidation();
 			if (!sizeof($this->_errors)) {
