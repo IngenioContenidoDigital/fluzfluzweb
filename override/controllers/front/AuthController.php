@@ -151,6 +151,10 @@ class AuthController extends AuthControllerCore
         $passwd = trim(Tools::getValue('passwd'));
         $_POST['passwd'] = null;
         $email = trim(Tools::getValue('email'));
+        
+        setcookie('citymanufacturerfilter', '', time()+604800,'/');
+        setcookie('manufacturerfilter', '', time()+604800,'/');
+            
         if (empty($email)) {
             $this->errors[] = Tools::displayError('An email address required.');
         } elseif (!Validate::isEmail($email)) {
