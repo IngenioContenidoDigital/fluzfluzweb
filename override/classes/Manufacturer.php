@@ -188,6 +188,7 @@ class Manufacturer extends ManufacturerCore
                     m.date_upd, 
                     p.id_product,
                     pl.link_rewrite,
+                    cl.name as name_category,
                     m.category,
                     (SELECT (COUNT(p.id_product)) AS contador
                     FROM ps_product AS p
@@ -208,17 +209,15 @@ class Manufacturer extends ManufacturerCore
                 FROM '._DB_PREFIX_.'manufacturer AS m
                 LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
                 LEFT JOIN '._DB_PREFIX_.'product p ON ( m.id_manufacturer = p.id_manufacturer )
-                LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )    
+                LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )  
+                LEFT JOIN '._DB_PREFIX_.'category_lang cl ON ( cl.id_category = m.category )  
                 WHERE m.active = 1 AND p.product_parent = 1
                 '.$cityfilter.'
                 GROUP BY m.id_manufacturer
                 HAVING count >= 1
-                ORDER BY m.date_add DESC LIMIT 6';
+                ORDER BY m.date_add DESC LIMIT 9';
         
         $manufacturers = Db::getInstance()->executeS($query);  
-        echo '<pre>';
-        print_r($manufacturers);
-        die();
         
         return $manufacturers;
     }
