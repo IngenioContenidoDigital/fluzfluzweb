@@ -24,6 +24,7 @@ class cardsviewControllerCore extends FrontController {
         $this->context->smarty->assign(array(
             's3'=> _S3_PATH_,
             'cards'=> $card,
+            'pin_code' => $this->pinCodeProduct(),
             'page' => ((int)(Tools::getValue('p')) > 0 ? (int)(Tools::getValue('p')) : 1),
             'nbpagination' => ((int)(Tools::getValue('n') > 0) ? (int)(Tools::getValue('n')) : 10),
             'nArray' => array(10, 20, 50),
@@ -32,9 +33,28 @@ class cardsviewControllerCore extends FrontController {
         ));
         $this->setTemplate(_PS_THEME_DIR_.'cardsview.tpl');
     }
+    
+    public function pinCodeProduct(){
+        
+        $product = new Product(Tools::getValue("id_product"));
+        $products = $this->getCardsbySupplier($this->context->customer->id, $product->id_manufacturer, Tools::getValue("id_order"));
+        $listPin = array();
+        foreach ($products as &$p){
+            $querypin = 'SELECT COUNT(pc.pin_code) AS pin, p.id_manufacturer FROM '._DB_PREFIX_.'product_code pc 
+                     LEFT JOIN '._DB_PREFIX_.'product p ON (pc.id_product = p.id_product)  
+                     WHERE p.id_product = '.$p['id_product'].' AND pc.pin_code != ""';
+            
+            $rowpin = Db::getInstance()->executeS($querypin);
+            
+            $listPin[] = $rowpin[0]; 
+        }
+        
+        return $listPin[0];
+    }
 
     public function getCardsbySupplier($id_customer, $id_manufacturer, $id_order) {
         $query = "SELECT PC.`code` AS card_code, 
+                        PC.pin_code as codepin,
                         PL.`name` AS product_name, PL.link_rewrite, PL.id_lang,  PL.description, PL.description_short,
                         PC.id_product, 
                         PP.id_manufacturer, 
