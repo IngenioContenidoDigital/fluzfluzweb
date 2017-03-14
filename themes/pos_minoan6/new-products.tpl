@@ -25,7 +25,7 @@
 
 {capture name=path}{l s='New products'}{/capture}
 
-<h1 class="page-heading product-listing">{l s='New products'}</h1>
+<h1 class="page-heading product-listing">{l s='Nuevos Comercios'}</h1>
 
 {if $products}
 	<div class="content_sortPagiBar clearfix">
@@ -48,3 +48,10 @@
 	{else}
 	<p class="alert alert-warning">{l s='No new products.'}</p>
 {/if}
+{literal}
+    <style>
+        .hidden-xs{display: none !important;}
+        .name-merchant{text-align: center; margin-bottom: 15px;}
+        .content_sortPagiBar{display: none;}
+    </style>
+{/literal}    
