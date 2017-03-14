@@ -391,7 +391,7 @@
     <script>
         
         
-        function renderCard(codeImg21, pincode1, price1,priceValue1, dateP1, name1, type_currency1, description1,terms1,idproduct1,ruta1){           
+        function renderCard(codeImg21, codecryOculto, pincode1, price1,priceValue1, dateP1, name1, type_currency1, description1,terms1,idproduct1,ruta1){           
             var codeImg2 = codeImg21;
             var pincode2 = pincode1;
             var price = price1;
@@ -407,7 +407,7 @@
             $("#img-prod").attr("src",ruta);
             $.ajax({
                     method:"POST",
-                    data: {'action': 'consultcodebar', 'codeImg2': codeImg2,'price':price,'idproduct':idproduct},
+                    data: {'action': 'consultcodebar', 'codeImg2': codecryOculto,'price':price,'idproduct':idproduct},
                     url: '/raizBarcode.php', 
                     success:function(response){
                         var response = jQuery.parseJSON(response);
@@ -536,6 +536,7 @@
                         '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 codigoCard"><span style="color: #000;">Bono: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
                     '<div class="oculto">/img/m/'+x[i].id_manufacturer+'.jpg</div>'+
                     '</div>'+
+                    '<div id="codecryOculto" style="display: none;">'+x[i].card_code_cry+'</div>'+
                     '<div id="pin-oculto">'+x[i].codepin+'</div>'+
                     '<div id="pOculto">'+Math.round(x[i].price)+'</div>'+
                     '<div id="desc_oculto">'+x[i].description_short+'</div>'+
@@ -565,13 +566,14 @@
                         }
                     });
                     $('.avail').html(avail);
-                    renderCard(x[0].card_code,x[0].codepin, Math.round(x[0].price), Math.round(x[0].price_value), x[0].date,x[0].product_name,x[0].type_currency,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
+                    renderCard(x[0].card_code,x[0].card_code_cry,x[0].codepin, Math.round(x[0].price), Math.round(x[0].price_value), x[0].date,x[0].product_name,x[0].type_currency,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
                     $('#myspecialcontent').parent().show();
               }});
         });
         
         $('.c').on("click",".myfanc",function(){
             var codeImg2 = $(this).find(".codeImg").html();
+            var codecryOculto = $(this).find("#codecryOculto").html();
             var pincode = $(this).find("#pin-oculto").html();
             var price = $(this).find("#pOculto").html();
             var priceValue = $(this).find("#price_value").html();
@@ -583,7 +585,7 @@
             var idproduct = $(this).find("#prodid_oculto").html();
             var ruta = $(this).before().find(".oculto").html();
             $("#producto_id").html(idproduct);
-            renderCard(codeImg2,pincode,price,priceValue, dateP, name,type_currency,description, terms, idproduct, ruta);
+            renderCard(codeImg2,codecryOculto,pincode,price,priceValue, dateP, name,type_currency,description, terms, idproduct, ruta);
         });
         
         $('#used').click(function(){
