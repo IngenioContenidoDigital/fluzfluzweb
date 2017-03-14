@@ -17,7 +17,9 @@
                         </div>
                         <div class="col-lg-7 col-md-6 col-sm-5 col-xs-8 codigoCard2">
                             <span style="color: #000;">{l s='Bono: '}</span>
-                            <span class="codeImg">{$card.card_code}</span></div>
+                            <span class="codeImg">{$card.card_code}</span>
+                        </div>
+                        <div id="codecryOculto" style="display: none;">{$card.card_code_cry}</div>
                         <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
                     </div>
                 </a>
@@ -149,6 +151,7 @@
         
         $('.myfanc').click(function(){
             var codeImg2 = $(this).find(".codeImg").html();
+            var codecryOculto = $(this).find("#codecryOculto").html();
             var price = document.getElementById("pOculto").innerHTML;
             var priceValue = document.getElementById("price_value").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
@@ -160,7 +163,7 @@
             $("#img-prod").attr("src",ruta);
             $.ajax({
                 method:"POST",
-                data: {'action': 'consultcodebar', 'codeImg2': codeImg2,'price':price,'idproduct':idproduct},
+                data: {'action': 'consultcodebar', 'codeImg2': codecryOculto,'price':price,'idproduct':idproduct},
                 url: '/raizBarcode.php', 
                 success:function(response) {
                     var response = jQuery.parseJSON(response);

@@ -331,16 +331,17 @@ abstract class PaymentModule extends PaymentModuleCore
                         $code2 = $rowType["codetype"];
                         
                         foreach ($rowCode AS $code){
+                            $codecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
                             if ($code2 == 2){
-                                $image_url .=  "<label>".$code['code']."</label><br>";
+                                $image_url .=  "<label>".$codecrypt."</label><br>";
                             }
                             else{
                                 $this->consultcodebar($code['id_product'], $code['code']);
                                 if (isset($_SERVER['HTTPS'])) {
-                                    $image_url .=  "<label>".$code['code']."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                    $image_url .=  "<label>".$codecrypt."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                                 }
                                 else{
-                                    $image_url .=  "<center><label>".$code['code']."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                    $image_url .=  "<center><label>".$codecrypt."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                                 }
                             }
                         }
