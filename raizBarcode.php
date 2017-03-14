@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST["action"]) ) {
     $algo="";
-    $barnumber=$_POST['codeImg2'];
+    $barnumber=str_replace("/","@",$_POST['codeImg2']);
     $idproduct=$_POST['idproduct'];
     $ruta="./upload/";
     $archivo="code-".$barnumber;

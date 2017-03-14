@@ -75,19 +75,20 @@ class Order extends OrderCore
                     $code2 = $rowType["codetype"];
 
                     foreach ($rowCode AS $code){
-                            if ($code2 == 2){
-                                $image_url .=  "<label>".$code['code']."</label><br>";
+                        $codecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
+                        if ($code2 == 2){
+                            $image_url .=  "<label>".$codecrypt."</label><br>";
+                        }
+                        else{
+                            PaymentModule::consultcodebar($code['id_product'], $code['code']);
+                            if (isset($_SERVER['HTTPS'])) {
+                                $image_url .=  "<label>".$codecrypt."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                             }
                             else{
-                                PaymentModule::consultcodebar($code['id_product'], $code['code']);
-                                if (isset($_SERVER['HTTPS'])) {
-                                    $image_url .=  "<label>".$code['code']."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
-                                }
-                                else{
-                                    $image_url .=  "<center><label>".$code['code']."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
-                                }
+                                $image_url .=  "<center><label>".$codecrypt."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                             }
                         }
+                    }
                     
                     $total_value .= "<label>".round($product['price_shop'])."</label><br>";
                     $price = Product::getPriceStatic((int)$product['id_product'], false, ($product['id_product_attribute'] ? (int)$product['id_product_attribute'] : null), 6, null, false, true, $product['cart_quantity'], false, (int)$order->id_customer, (int)$order->id_cart, (int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});

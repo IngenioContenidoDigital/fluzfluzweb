@@ -51,7 +51,13 @@ class fluzfluzCodes extends Module{
     }
     
     public function hookdisplayAdminProductsExtra($params) {
-        $query1 = "SELECT CONCAT('**********',SUBSTRING("._DB_PREFIX_."product_code.`code`,LENGTH("._DB_PREFIX_."product_code.`code`)-3,LENGTH("._DB_PREFIX_."product_code.`code`))) AS code, "._DB_PREFIX_."product_code.`pin_code` as pin , (CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN '' ELSE "._DB_PREFIX_."product_code.id_order END AS `order`, date_add , ps_product_code.`code` codecomplete
+        $query1 = "SELECT 
+                        id_product_code,
+                        CONCAT('********** ',last_digits) code,
+                        pin_code pin ,
+                        (CASE id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) estado,
+                        (CASE id_order WHEN 0 THEN '' ELSE id_order END) `order`,
+                        date_add
                     FROM "._DB_PREFIX_."product_code
                     WHERE id_product = ".Tools::getValue('id_product');
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);
@@ -198,7 +204,11 @@ class fluzfluzCodes extends Module{
             $query="SELECT ps_product.id_product, ps_product.reference 
                 FROM ps_product WHERE ps_product.reference = '".$results[0]."'";
             if($line=Db::getInstance()->getRow($query)){
-                $query1="INSERT INTO "._DB_PREFIX_."product_code (id_product,code,pin_code,date_add) VALUES ('".$line['id_product']."','".$results[1]."','".$results[2]."',NOW())";
+                
+                $code = Encrypt::encrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $results[1]);
+                $lastdigits = substr($results[1], -4);
+                
+                $query1="INSERT INTO "._DB_PREFIX_."product_code (id_product,code,last_digits,pin_code,date_add) VALUES ('".$line['id_product']."','".$code."','".$lastdigits."','".$results[2]."',NOW())";
                 $run=Db::getInstance()->execute($query1);
             }
         }
