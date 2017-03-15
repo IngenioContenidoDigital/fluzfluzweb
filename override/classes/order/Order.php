@@ -321,7 +321,7 @@ class Order extends OrderCore
         
         foreach ( $orders as $order ) {
             // CODIGOS PRODUCTO
-            $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",SUBSTRING(pc.code,-4)) ) codigos_producto, pc.state AS estado_tarjeta, pc.price_card_used AS valor_utilizado
+            $sql = 'SELECT GROUP_CONCAT( CONCAT("**********",pc.last_digits) ) codigos_producto, pc.state AS estado_tarjeta, pc.price_card_used AS valor_utilizado
                     FROM '._DB_PREFIX_.'product_code pc
                     INNER JOIN '._DB_PREFIX_.'product p ON ( pc.id_product = p.id_product )
                     WHERE pc.id_order = '.$order['orden'].'
