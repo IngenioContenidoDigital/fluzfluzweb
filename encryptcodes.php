@@ -5,7 +5,8 @@ include_once('./config/config.inc.php');
 // ENCRYPT
 
 $query = "SELECT id_product_code, code
-            FROM "._DB_PREFIX_."product_code";
+            FROM "._DB_PREFIX_."product_code
+		WHERE last_digits = '0' ORDER BY id_product_code";
 
 $codes = Db::getInstance()->executeS($query);
 //echo '<pre>';print_r($codes); die();
