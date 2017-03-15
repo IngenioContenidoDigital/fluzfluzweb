@@ -15,7 +15,6 @@
 .table td.history_detail a + a { margin-left: 14px; }
 .table td.step-by-step-date { width: 105px; }
 .table tfoot strong { color: #252525; }
-
 .info-order i { font-size: 20px; }
 .info-order i.icon-gift { color: #f13340; }
 .info-order i.icon-repeat { color: #55c65e; }
@@ -69,7 +68,30 @@
      vertical-align: middle;
      position: relative;}
 
-@media (max-width:768px){
+@media (min-width:982px){
+    .container_order{margin-bottom: 20px !important;}
+}
+
+@media (max-width:982px){
+    .block-qty {padding-left: 25px!important; }
+    .description-none{display: none;}
+    .img-logo {
+        background-size: 100% 100% !important;
+        margin: 10px;
+        height: 100px;
+        margin-top: 30px;
+        margin-bottom: 25px;
+    }
+    
+    .img-center {
+        padding: 10px;
+        min-width: 100%;
+        display: table;
+        margin-bottom: 5px;
+        height: 100px;
+        text-align: center;
+    }
+    
     .image-resp{    
         width: 82% !important;
         margin-left: 22px !important;
@@ -78,7 +100,8 @@
     .div-btnShop{padding-right: 15px;}
 }
 
-@media (max-width:425px){
+@media (max-width:767px){
+    .date-none{display: none;}
     .image-resp{    
         width: 100% !important;
         margin-left: 0px !important;
@@ -89,6 +112,7 @@
     }
     .btn-history{font-size: 11px;}
     .btn-history-shop{font-size: 11px;}
+    .history_list > .row > div{text-align: center !important;}
 }
 
 @media (max-width:375px){
@@ -99,4 +123,20 @@
 @media (max-width:320px){
     .btn_history {padding: 8px 7px !important;}
     .block-points{font-size: 14px;}
+    .img-logo {
+        background-size: 100% 100% !important;
+        margin: 10px;
+        height: 75px;
+        margin-top: 40px;
+        margin-bottom: 35px;
+    }
+    .img-center {
+        padding: 10px;
+        min-width: 100%;
+        display: table;
+        margin-bottom: 5px;
+        height: 75px;
+        text-align: center;
+    }
+    
 }
