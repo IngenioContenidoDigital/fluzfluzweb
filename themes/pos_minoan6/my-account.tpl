@@ -170,7 +170,7 @@
         {l s='My Messaging'}
     </h1>
     <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
-            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-r">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-11 block-r">
                 <h2 class="title-msj">{l s='My Network'}</h2>
                 <div class="containtertables">
                     <div class="tablenetwork">
@@ -212,7 +212,7 @@
                     <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga" class="icon-refresh icon-white"></i></button>
             </div>
             
-            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-red">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-11 block-red">
                 <h2 class="title-msj">{l s='My Messages'}</h2>
                 <div class="containtertables">
                     <div class="tablemessages">
