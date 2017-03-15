@@ -38,13 +38,15 @@ class cardsviewController extends cardsviewControllerCore {
                         ROUND(PP.price) AS price_shop,
                         DATE_FORMAT(PO.date_add, '%M %d, %Y') AS date,
                         PPI.id_image, 
-                        PPI.cover
+                        PPI.cover,
+                        C.secure_key
                 FROM "._DB_PREFIX_."product_code PC
                 INNER JOIN "._DB_PREFIX_."order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
                 INNER JOIN "._DB_PREFIX_."orders PO ON POD.id_order = PO.id_order
                 INNER JOIN "._DB_PREFIX_."product PP ON PC.id_product = PP.id_product
-                LEFT JOIN "._DB_PREFIX_."image AS PPI ON PP.id_product = PPI.id_product
                 INNER JOIN "._DB_PREFIX_."product_lang PL ON PP.id_product = PL.id_product
+                LEFT JOIN "._DB_PREFIX_."image AS PPI ON PP.id_product = PPI.id_product
+                LEFT JOIN "._DB_PREFIX_."customer C ON PO.id_customer = C.id_customer
                 WHERE (
                     (PO.current_state = 2 OR PO.current_state = 5)
                     AND (PO.id_customer =".(int)$id_customer.")
@@ -59,7 +61,7 @@ class cardsviewController extends cardsviewControllerCore {
         
         foreach ($cards as &$card) {
             $card['card_code_cry'] = $card['card_code'];
-            $card['card_code'] = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $card['card_code']);
+            $card['card_code'] = Encrypt::decrypt($card['secure_key'] , $card['card_code']);
         }
         
         return $cards;
