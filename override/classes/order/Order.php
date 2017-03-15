@@ -56,9 +56,25 @@ class Order extends OrderCore
             Db::getInstance()->execute($qstate);
 
                 foreach ($productId as $valor) {
-                        for($i=0;$i<$valor['product_quantity'];$i++){
-                                $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
-                            }
+                    for($i=0;$i<$valor['product_quantity'];$i++){
+                        $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
+                    }
+                }
+                
+                $query = "SELECT pc.id_product_code, pc.code, pc.id_order, c.id_customer, c.secure_key
+                            FROM "._DB_PREFIX_."product_code pc
+                            INNER JOIN "._DB_PREFIX_."orders o ON ( pc.id_order = o.id_order )
+                            INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+                            AND pc.id_order = ".(int)$order->id;
+                $codes = Db::getInstance()->executeS($query);
+
+                foreach ( $codes as $code ) {
+                    $codedecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
+                    $codeencrypt = Encrypt::encrypt($code['secure_key'] , $codedecrypt);
+
+                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
+                                                SET code = '".$codeencrypt."'
+                                                WHERE id_product_code = ".$code['id_product_code']);
                 }
 
                 $product_list = $order->getProducts();
@@ -75,7 +91,8 @@ class Order extends OrderCore
                     $code2 = $rowType["codetype"];
 
                     foreach ($rowCode AS $code){
-                        $codecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
+                        $customer = new Customer($order->id_customer);
+                        $codecrypt = Encrypt::decrypt($customer->secure_key , $code['code']);
                         if ($code2 == 2){
                             $image_url .=  "<label>".$codecrypt."</label><br>";
                         }
