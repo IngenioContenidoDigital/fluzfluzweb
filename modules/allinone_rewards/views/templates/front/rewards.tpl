@@ -56,25 +56,27 @@
         </span>
         <p class="pGrap">{l s="Tus Fluz" mod='allinone_rewards'}</p>
         {foreach from=$topPoint item=top}
-        <div class="col-lg-10" style="padding-left:0px;">
-            <span class="barra-fondo">
-                <li class="barras" id="top" data-value="{(($top.points/$suma)*100)}"><span>{$top.points|number_format:0}</span></li>
-            </span>
+        <div class="row">
+            <div class="col-lg-10" style="padding-left:0px;">
+                <span class="barra-fondo">
+                    <li class="barras" id="top" data-value="{(($top.points/$suma)*100)}"><span>{$top.points|number_format:0}</span></li>
+                </span>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pGrap">{l s="MAYOR CONSUMO: " mod='allinone_rewards'}&nbsp;{$top.username}</div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$top.id_sponsor}|{$top.name}|{$urlimgnet}|{$top.id}">{l s='Mensaje'}</span></div>
         </div>
-        <p class="col-lg-6 pGrap">{l s="MAYOR CONSUMO: " mod='allinone_rewards'}&nbsp;{$top.username}</p>
-        
-        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$top.id_sponsor}|{$top.name}|{$urlimgnet}|{$top.id}">{l s='Mensaje'}</span></div>
         {/foreach}
         
         {foreach from=$worstPoint item=worst}
-        <div class="col-lg-10" style="padding-left:0px;">
-        <span class="barra-fondo">
-            <li class="barras" id="worst" data-value="{($worst.points/$suma)*100}"><span>{$worst.points|number_format:0}</span></li>
-        </span>
+        <div class="row">
+            <div class="col-lg-10" style="padding-left:0px;">
+                <span class="barra-fondo">
+                    <li class="barras" id="worst" data-value="{($worst.points/$suma)*100}"><span>{$worst.points|number_format:0}</span></li>
+                </span>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pGrap">{l s="MENOR CONSUMO: " mod='allinone_rewards'}&nbsp;{$worst.username}</div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id_sponsor}|{$worst.name}|{$urlimgnet}|{$worst.id}">{l s='Mensaje'}</span></div>
         </div>
-        <p class="col-lg-6 pGrap">{l s="MENOR CONSUMO: " mod='allinone_rewards'}&nbsp;{$worst.username}</p>
-        
-        <div class="col-lg-6 message line"><span class="myfancybox" href="#myspecialcontent" send="{$worst.id_sponsor}|{$worst.name}|{$urlimgnet}|{$worst.id}">{l s='Mensaje'}</span></div>
         {/foreach}
     </ul>
 </div>
