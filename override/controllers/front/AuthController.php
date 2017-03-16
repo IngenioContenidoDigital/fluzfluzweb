@@ -429,7 +429,7 @@ class AuthController extends AuthControllerCore
                             
                             $addresscreate = $customer->getAddresses(0);
 
-                            $cart = new Cart();
+                            /*$cart = new Cart();
                             $cart->id_customer = (int)($customer->id);
                             $cart->id_lang = (int)($this->context->cookie->id_lang);
                             $cart->id_address_delivery = $addresscreate[0]['id_address'];
@@ -446,7 +446,7 @@ class AuthController extends AuthControllerCore
                             $idProduct = $row['id_product'];
                             $this->context->cart = $cart;
                             $this->context->cart->updateQty(1,$idProduct,NULL,FALSE);
-                            $cart->update();
+                            $cart->update();*/
                             
                             if ( Configuration::get('PS_BUY_MEMBERSHIP') ) {
                                 switch ( $methodPayment ) {
