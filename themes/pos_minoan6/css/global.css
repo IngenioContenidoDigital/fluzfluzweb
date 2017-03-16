@@ -2976,9 +2976,10 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
   #order-detail-content #cart_summary td.cart_unit{border-top: 1px solid #cccccc;}
   #order-detail-content #cart_summary tr{padding-bottom:0px;}
   #order-detail-content #cart_summary tfoot td{float: left;width: 33%;}
-  #toUse{width: 73% !important;padding: 4px 0px;border: 1px solid #d6d4d4;}
+  #toUse{width: 18% !important;padding: 4px 0px;border: 1px solid #d6d4d4;}
+  .btn{padding: 8px 36px;}
   .text-allpoint{ margin-top: 0;}
-  .btn-cart{width: 93%;}
+  .btn-cart{width: 53%; padding: 10px;}
   #order-detail-content #cart_summary tfoot td{width:100%;}
 }
 
@@ -2990,7 +2991,7 @@ div.star_hover a, div.star a:hover { background-position: 0 -32px; }
     ul.step li a{font-size:12px;}
     .page-heading{font-size:14px;}
     .text-allpoint{font-size:10px !important;}
-    #toUse{border: 1px solid #d6d4d4; width: 31% !important;}
+    #toUse{border: 1px solid #d6d4d4; width: 24% !important;}
     #order-detail-content #cart_summary tfoot td{float: left;width: 100%;}
     .btn-cart {width: 50%;}  
 }
