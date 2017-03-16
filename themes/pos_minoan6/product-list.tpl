@@ -46,7 +46,7 @@
         </div>
         
 	<ul{if isset($id) && $id} id="{$id}"{/if} class="product_list grid row{if isset($class) && $class} {$class}{/if}">
-            <div id="row">
+            <div class="row">
                 {foreach from=$products item=product name=products}
                         {math equation="(total%perLine)" total=$smarty.foreach.products.total perLine=$nbItemsPerLine assign=totModulo}
                         {math equation="(total%perLineT)" total=$smarty.foreach.products.total perLineT=$nbItemsPerLineTablet assign=totModuloTablet}
@@ -116,7 +116,7 @@
         .bottom-pagination-content{padding-left: 15px;}
         .quick-view{display: none;}
         .img-logo{background-size:100% 100% !important; margin:10px;}
-        .img-center{padding: 10px; min-width: 100%;display: table; margin-bottom: 5px; min-height: 200px; text-align: center;}
+        .img-center{padding: 10px; width: 100%;display: table; margin-bottom: 5px; height: 200px; text-align: center;}
         .img-center img{max-width: 100% !important; margin: 0px auto !important;}
         .logo-manufacturer{display: table-cell;
              vertical-align: middle;
