@@ -188,8 +188,8 @@
 		<tbody>
                     {foreach from=$activityRecent item=activity}
                     <div class="t-reward"><tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.username|escape:'html':'UTF-8'}</td>
-                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$activity.manufacturer|escape:'htmlall':'UTF-8'}</td>
+                                <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: 33px; margin-right: 3%;" class="img-reward"/>{$activity.username|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: 33px; margin-right: 3%;" class="img-reward"/>{$activity.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                     <td align="right" style="padding-top:17px;">{$activity.points|number_format:0}</td>
                                     <td style="padding-top:17px;">{dateFormat date=$activity.time full=1}</td>
 
@@ -343,8 +343,8 @@
 		<tbody>
                 {foreach from=$topNetwork item=topNet name=myLoop}
                                 <tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-                                    <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.username|escape:'html':'UTF-8'}</td>
-                                    <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$topNet.manufacturer|escape:'htmlall':'UTF-8'}</td>
+                                    <td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: 33px; margin-right: 3%;" class="img-reward"/>{$topNet.username|escape:'html':'UTF-8'}</td>
+                                    <td><img src="{$img_dir}icon/points.png" style="height:50%; width: 33px; margin-right: 3%;" class="img-reward"/>{$topNet.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                     <td align="right" style="padding-top:17px;">{$topNet.points|number_format:0}</td>
                                     <td style="padding-top:17px;" class="time-reward">{dateFormat date=$topNet.time full=1}</td>
                                     <td>
@@ -368,8 +368,8 @@
 		<tbody>
 	{foreach from=$topWorst item=worst name=myLoop}
 			<tr class="{if ($smarty.foreach.myLoop.iteration % 2) == 0}item{else}alternate_item{/if}">
-				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.username|escape:'html':'UTF-8'}</td>
-                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: auto; margin-right: 3%;" class="img-reward"/>{$worst.manufacturer|escape:'htmlall':'UTF-8'}</td>
+				<td align="right"><img src="{$img_dir}icon/points.png" style="height:50%; width: 33px; margin-right: 3%;" class="img-reward"/>{$worst.username|escape:'html':'UTF-8'}</td>
+                                <td><img src="{$img_dir}icon/points.png" style="height:50%; width: 33px; margin-right: 3%;" class="img-reward"/>{$worst.manufacturer|escape:'htmlall':'UTF-8'}</td>
                                 <td align="right" style="padding-top:17px;">{$worst.points|number_format:0}</td>
                                 <td style="padding-top:17px;" class="time-reward">{dateFormat date=$worst.time full=1}</td>
                                 <td>
