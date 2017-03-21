@@ -195,26 +195,40 @@ class fluzfluzCodes extends Module{
     }
     
     public function uploadCodes(){
-        $state =false;
+        $productCodes = array();
+        $state = false;
         $headers = array('Reference #','code', 'pin');
         $handle = fopen($this->location.$this->folder.$this->nuevo_archivo, 'a+');
 
         while (($results = fgetcsv($handle, 1000, ";")) !== FALSE) {
-            echo $results[0];
-            $query="SELECT "._DB_PREFIX_."product.id_product, "._DB_PREFIX_."product.reference 
-                FROM "._DB_PREFIX_."product WHERE "._DB_PREFIX_."product.reference = '".$results[0]."'";
-            if($line=Db::getInstance()->getRow($query)){
+            $query = "SELECT "._DB_PREFIX_."product.id_product, "._DB_PREFIX_."product.reference 
+                        FROM "._DB_PREFIX_."product WHERE "._DB_PREFIX_."product.reference = '".$results[0]."'";
+            if( $line = Db::getInstance()->getRow($query) ) {
                 
                 $code = Encrypt::encrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $results[1]);
                 $lastdigits = substr($results[1], -4);
                 
-                $query1="INSERT INTO "._DB_PREFIX_."product_code (id_product,code,last_digits,pin_code,date_add) VALUES ('".$line['id_product']."','".$code."','".$lastdigits."','".$results[2]."',NOW())";
-                $run=Db::getInstance()->execute($query1);
+                $query1 = "INSERT INTO "._DB_PREFIX_."product_code (id_product,code,last_digits,pin_code,date_add) VALUES ('".$line['id_product']."','".$code."','".$lastdigits."','".$results[2]."',NOW())";
+                $run = Db::getInstance()->execute($query1);
+                
+                $query = "SELECT id_manufacturer
+                            FROM "._DB_PREFIX_."product
+                            WHERE id_product = ".$line['id_product'];
+                $productCodes[$line['id_product']]['quantity'] = $productCodes[$line['id_product']]['quantity'] + 1;
+                $productCodes[$line['id_product']]['merchant'] = Db::getInstance()->getValue($query);
             }
         }
         fclose($handle);
+
+        $employee = new Employee((int)Context::getContext()->cookie->id_employee);
+        foreach ( $productCodes as $key => $productCode ) {
+            $querylog = "INSERT INTO "._DB_PREFIX_."log_import_codes (merchant, sku, quantity, employee, api, date_import, file)
+                        VALUES (".$productCode['merchant'].", ".$key.", ".$productCode['quantity'].", '".$employee->firstname." ".$employee->lastname."', '', NOW(), '".$this->nuevo_archivo."')";
+            $runlog = Db::getInstance()->execute($querylog);
+        }
+        
         $this->updateQuantities();
-        if($run) $state=true;
+        if($run) $state = true;
         return $state;
     }
     
