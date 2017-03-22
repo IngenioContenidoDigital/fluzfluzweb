@@ -96,6 +96,8 @@ class IdentityController extends IdentityControllerCore
                     $this->context->cookie->passwd = $this->customer->passwd;
                 }
 
+                $this->customer->autoaddnetwork = Tools::getValue('autoaddnetwork');
+
                 $this->customer->dni = Tools::getValue('government');
 
                 $address = $this->customer->getAddresses();
