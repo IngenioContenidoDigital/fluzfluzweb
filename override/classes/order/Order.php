@@ -222,12 +222,18 @@ class Order extends OrderCore
                 $order_invoice_list = $order->getInvoicesCollection();
                 Hook::exec('actionPDFInvoiceRender', array('order_invoice_list' => $order_invoice_list));
                 $pdf = new PDF($order_invoice_list, PDF::TEMPLATE_INVOICE, $context->smarty);
-                $file_attachement['content'] = $pdf->render(false);
-                $file_attachement['name'] = Configuration::get('PS_INVOICE_PREFIX', (int)$order->id_lang, null, $order->id_shop).sprintf('%06d', $order->invoice_number).'.pdf';
-                $file_attachement['mime'] = 'application/pdf';
+                $file_attachement[0]['content'] = $pdf->render(false);
+                $file_attachement[0]['name'] = Configuration::get('PS_INVOICE_PREFIX', (int)$order->id_lang, null, $order->id_shop).sprintf('%06d', $order->invoice_number).'.pdf';
+                $file_attachement[0]['mime'] = 'application/pdf';
                 } else {
                     $file_attachement = null;
                 }
+                
+                $file = _PS_ROOT_DIR_ . '/procedimiento_en_datafono.pdf';
+                $file_attachement[1]['content'] = file_get_contents($file);
+                $file_attachement[1]['name'] = 'Procedimiento en datafono.pdf';
+                $file_attachement[1]['mime'] = 'application/pdf';
+                
                 //$this->context->link->getModuleLink('module_folder_name','controller_name',array_of_params);
                 if (Validate::isEmail($customer->email)) {
                             Mail::Send(
