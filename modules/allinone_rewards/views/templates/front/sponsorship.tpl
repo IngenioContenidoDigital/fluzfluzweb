@@ -140,7 +140,18 @@
 				</div>-->
 				<div>
 					<form id="list_contacts_form" method="post" action="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}">
-                                                <p class="title-sponsor">{l s='Add a friend' mod='allinone_rewards'}<span>{l s='(maximum of two invites per sponsor)' mod='allinone_rewards'}</span></p><br/><br/>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <p class="title-sponsor">{l s='Add a friend' mod='allinone_rewards'}<span>{l s='(maximum of two invites per sponsor)' mod='allinone_rewards'}</span></p>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="checkbox" name="autoaddnetwork" id="autoaddnetwork" value="1" {if isset($autoaddnetwork) && $autoaddnetwork == 1} checked="checked"{/if}/>
+                                                    <label for="autoaddnetwork" style="vertical-align: sub;">
+                                                        Impedir que nuevos usuarios se agreguen autom&aacute;ticamente a mi red
+                                                    </label>
+                                                </div>
+                                            </div>
+                                                <br/><br/>
 						<!--<textarea name="message" class="text">{if isset($message)}{$message|escape:'html':'UTF-8'}{/if}</textarea>-->
                                                         
                                                         {if $subscribeFriends|@count == 0 AND $pendingFriends|@count == 0}
@@ -784,5 +795,25 @@
             }
             $('#invited').html(name);
           });
+    </script>
+{/literal}
+
+<script>
+    var id_customer = {$id_customer};
+</script>
+
+{literal}
+    <script>
+        $('#autoaddnetwork').change(function() {
+            var value = 0;
+            if( $(this).is(":checked") ) {
+                value = 1;
+            }
+            $.ajax({
+                method:"POST",
+                data: {'action': 'updateautoaddnetwork', 'id': id_customer, 'value': value},
+                url: '/autoaddnetwork.php'
+            });
+        });
     </script>
 {/literal}

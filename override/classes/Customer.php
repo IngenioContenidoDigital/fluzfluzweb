@@ -40,6 +40,9 @@ class Customer extends CustomerCore
 
     /** @var string days_inactive number */
     public $days_inactive;
+
+    /** @var string autoaddnetwork number */
+    public $autoaddnetwork;
     
     public static $definition = array(
         'table' => 'customer',
@@ -58,6 +61,7 @@ class Customer extends CustomerCore
             'newsletter_date_add' =>        array('type' => self::TYPE_DATE,'copy_post' => false),
             'ip_registration_newsletter' =>    array('type' => self::TYPE_STRING, 'copy_post' => false),
             'optin' =>                        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
+            'autoaddnetwork' =>               array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'website' =>                    array('type' => self::TYPE_STRING, 'validate' => 'isUrl'),
             'company' =>                    array('type' => self::TYPE_STRING, 'validate' => 'isGenericName'),
             'siret' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isSiret'),
