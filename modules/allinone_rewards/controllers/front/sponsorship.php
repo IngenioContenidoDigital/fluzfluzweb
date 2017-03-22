@@ -373,7 +373,9 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 					'statistics' => $statistics,
 					'reward_order_allowed' => $reward_order_allowed,
 					'reward_registration_allowed' => $reward_registration_allowed,
-					'multilevel' => $multilevel
+					'multilevel' => $multilevel,
+                                        'autoaddnetwork' => $this->context->customer->autoaddnetwork,
+                                        'id_customer' => $this->context->customer->id
 				);
 				$this->context->smarty->assign($smarty_values);
 			}
