@@ -40,7 +40,7 @@ $query = "SELECT
                 WHERE id_customer = c.id_customer
                 ORDER BY date_add DESC
                 LIMIT 1) AS date_add,
-                (SELECT DATE_FORMAT(ADDDATE(oo.date_add, INTERVAL 30 DAY) ,'%d/%m/%Y')
+                (SELECT DATE_FORMAT(ADDDATE(oo.date_add, INTERVAL 2 MONTH) ,'%d/%m/%Y')
                 FROM "._DB_PREFIX_."orders oo
                 WHERE oo.id_customer = c.id_customer
                 ORDER BY oo.date_add DESC

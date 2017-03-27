@@ -140,6 +140,7 @@ class DiscountController extends DiscountControllerCore
         $this->context->smarty->assign('messages', $messages);
         $this->context->smarty->assign('searchmessage', $searchmessage);
         $this->context->smarty->assign('id_customer', $this->context->customer->id);
+        $this->context->smarty->assign('autoaddnetwork', $this->context->customer->autoaddnetwork);
         
         $this->addJS(_THEME_JS_DIR_.'discount.js');
         $this->addCSS(_THEME_CSS_DIR_.'discount.css');

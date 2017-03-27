@@ -219,6 +219,12 @@
                                 </label>
                             </div>
                         {/if}
+                        <div class="checkbox">
+                            <label for="autoaddnetwork">
+                                <input class="inputform enabled" type="checkbox" name="autoaddnetwork" id="autoaddnetwork" value="1" {if isset($smarty.post.autoaddnetwork) && $smarty.post.autoaddnetwork == 1} checked="checked"{/if}/>
+                                Impedir que nuevos usuarios se agreguen autom&aacute;ticamente a mi red
+                            </label>
+                        </div>
                         {*if $b2b_enable}
                             <h1 class="page-subheading">
                                     {l s='Your company information'}

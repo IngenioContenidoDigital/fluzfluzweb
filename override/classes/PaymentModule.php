@@ -655,16 +655,22 @@ abstract class PaymentModule extends PaymentModuleCore
                             $order_invoice_list = $order->getInvoicesCollection();
                             Hook::exec('actionPDFInvoiceRender', array('order_invoice_list' => $order_invoice_list));
                             $pdf = new PDF($order_invoice_list, PDF::TEMPLATE_INVOICE, $this->context->smarty);
-                            $file_attachement['content'] = $pdf->render(false);
-                            $file_attachement['name'] = Configuration::get('PS_INVOICE_PREFIX', (int)$order->id_lang, null, $order->id_shop).sprintf('%06d', $order->invoice_number).'.pdf';
-                            $file_attachement['mime'] = 'application/pdf';
+                            $file_attachement[0]['content'] = $pdf->render(false);
+                            $file_attachement[0]['name'] = Configuration::get('PS_INVOICE_PREFIX', (int)$order->id_lang, null, $order->id_shop).sprintf('%06d', $order->invoice_number).'.pdf';
+                            $file_attachement[0]['mime'] = 'application/pdf';
                         } else {
                             $file_attachement = null;
                         }
                         if (self::DEBUG_MODE) {
                             PrestaShopLogger::addLog('PaymentModule::validateOrder - Mail is about to be sent', 1, null, 'Cart', (int)$id_cart, true);
                         }
-                                if($order_status->id == 2){    
+                                if($order_status->id == 2){   
+                                    
+                                    $file = _PS_ROOT_DIR_ . '/procedimiento_en_datafono.pdf';
+                                    $file_attachement[1]['content'] = file_get_contents($file);
+                                    $file_attachement[1]['name'] = 'Procedimiento en datafono.pdf';
+                                    $file_attachement[1]['mime'] = 'application/pdf';
+                                    
                                     if (Validate::isEmail($this->context->customer->email)) {
                                         Mail::Send(
                                             (int)$order->id_lang,
