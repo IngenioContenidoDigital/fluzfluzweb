@@ -1,0 +1,3 @@
+Active (0/1);Titles ID (Mr=1 , Ms=2);Username;Email;Type Document (CC=0,NIT=1,CE=2);DNI;Birthday (yyyy-mm-dd);Last Name;First Name;Newsletter (0/1);Opt-in (0/1);Address;Address 2;City;Phone;Phone Mobile
+1;1;JsonGmz;jeisson.gomez@ingeniocontenido.co;0;1012430299;1996-03-15;Gomez;Jeisson;0;0;Calle Falsa 123;Torre 2 – Piso 4;Bogotá, D.C.;7805098;3118453299
+1;2;Prueba;prueba.uno@ingeniocontenido.co;1;83165338-5;1996-04-28;Prueba;Uno;1;1;Calle 123;Piso 4;Bogotá, D.C.;7745845;3114578455
