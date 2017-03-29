@@ -236,7 +236,7 @@ class fluzfluzCodes extends Module{
         //$qr="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product) WHERE p.reference <>'MFLUZ'";
         //$qr0 ="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product_attribute as pa ON st.id_product_attribute = pa.id_product_attribute INNER JOIN "._DB_PREFIX_."product AS p ON pa.reference = p.reference SET st.quantity=(SELECT COUNT(pc.code) FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order=0 AND pc.id_product=p.id_product)";
 
-        $qr = "UPDATE "._DB_PREFIX_."stock_available AS st
+        $qr = "UPDATE ps_stock_available AS st
                 INNER JOIN
                 (SELECT
                 p.id_product,
@@ -245,11 +245,11 @@ class fluzfluzCodes extends Module{
                 IFNULL(pa.id_product_attribute,0) AS id_product_attribute,
                 COUNT(pc.code) AS stock 
                 FROM
-                "._DB_PREFIX_."product AS p
-                LEFT JOIN "._DB_PREFIX_."product_code AS pc ON pc.id_product=p.id_product 
-                LEFT JOIN "._DB_PREFIX_."product_attribute AS pa ON p.reference = pa.reference
+                ps_product AS p
+                LEFT JOIN ps_product_code AS pc ON pc.id_product=p.id_product 
+                LEFT JOIN ps_product_attribute AS pa ON p.reference = pa.reference
                 WHERE pc.id_order=0
-                GROUP BY id_parent, id_product_attribute) res ON  res.id_parent = st.id_product AND res.id_product_attribute = st.id_product_attribute 
+                GROUP BY id_parent, id_product_attribute) res ON ((res.id_product=st.id_product AND st.id_product_attribute=0) OR (res.id_parent= st.id_product AND res.id_product_attribute = st.id_product_attribute ))
                 SET st.quantity=res.stock, st.out_of_stock=0 WHERE (res.reference<>'MFLUZ' AND res.reference NOT LIKE 'MOV-%');";
 
         $qr0 = "UPDATE "._DB_PREFIX_."stock_available AS st
