@@ -449,152 +449,177 @@ class AdminImportController extends AdminImportControllerCore
         $shop_is_feature_active = Shop::isFeatureActive();
         $convert = Tools::getValue('convert');
         $force_ids = Tools::getValue('forceIDs');
-
+        
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); $current_line++) {
+            $number_to_import = $current_line;
+        }
+
+        if ( $number_to_import <= 51 ) {
+            for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); $current_line++) {
             
-            $query = "SELECT
-                        c.id_customer,
-                        (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
-                    FROM "._DB_PREFIX_."customer c
-                    LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
-                    WHERE c.active = 1
-                    AND c.kick_out = 0
-                    AND c.autoaddnetwork = 0
-                    GROUP BY c.id_customer
-                    HAVING pendingsinvitation = 2
-                    ORDER BY c.date_add ASC
-                    LIMIT 1";
-            $sponsor = Db::getInstance()->executeS($query);
-            $sponsor = $sponsor[0];
+                $query = "SELECT
+                            c.id_customer,
+                            (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                        FROM "._DB_PREFIX_."customer c
+                        LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                        WHERE c.active = 1
+                        AND c.kick_out = 0
+                        AND c.autoaddnetwork = 0
+                        GROUP BY c.id_customer
+                        HAVING pendingsinvitation = 2
+                        ORDER BY c.date_add ASC
+                        LIMIT 1";
+                $sponsor = Db::getInstance()->executeS($query);
+                $sponsor = $sponsor[0];
 
-            if ( !empty($sponsor) && $sponsor['id_customer'] != "" )  {
-                if ($convert) {
-                    $line = $this->utf8EncodeArray($line);
-                }
-                $info = AdminImportController::getMaskedRow($line);
+                if ( !empty($sponsor) && $sponsor['id_customer'] != "" )  {
+                    if ($convert) {
+                        $line = $this->utf8EncodeArray($line);
+                    }
+                    $info = AdminImportController::getMaskedRow($line);
 
-                AdminImportController::setDefaultValues($info);
+                    AdminImportController::setDefaultValues($info);
 
-                if ($force_ids && isset($info['id']) && (int)$info['id']) {
-                    $customer = new Customer((int)$info['id']);
-                } else {
-                    if (array_key_exists('id', $info) && (int)$info['id'] && Customer::customerIdExistsStatic((int)$info['id'])) {
+                    if ($force_ids && isset($info['id']) && (int)$info['id']) {
                         $customer = new Customer((int)$info['id']);
                     } else {
-                        $customer = new Customer();
-                    }
-                }
-
-                $customer_exist = false;
-
-                if (array_key_exists('id', $info) && (int)$info['id'] && Customer::customerIdExistsStatic((int)$info['id']) && Validate::isLoadedObject($customer)) {
-                    $current_id_customer = (int)$customer->id;
-                    $current_id_shop = (int)$customer->id_shop;
-                    $current_id_shop_group = (int)$customer->id_shop_group;
-                    $customer_exist = true;
-                    $customer_groups = $customer->getGroups();
-                    $addresses = $customer->getAddresses((int)Configuration::get('PS_LANG_DEFAULT'));
-                }
-
-                // Group Importation
-                if (isset($info['group']) && !empty($info['group'])) {
-                    foreach (explode($this->multiple_value_separator, $info['group']) as $key => $group) {
-                        $group = trim($group);
-                        if (empty($group)) {
-                            continue;
-                        }
-                        $id_group = false;
-                        if (is_numeric($group) && $group) {
-                            $my_group = new Group((int)$group);
-                            if (Validate::isLoadedObject($my_group)) {
-                                $customer_groups[] = (int)$group;
-                            }
-                            continue;
-                        }
-                        $my_group = Group::searchByName($group);
-                        if (isset($my_group['id_group']) && $my_group['id_group']) {
-                            $id_group = (int)$my_group['id_group'];
-                        }
-                        if (!$id_group) {
-                            $my_group = new Group();
-                            $my_group->name = array($id_lang => $group);
-                            if ($id_lang != $default_language_id) {
-                                $my_group->name = $my_group->name + array($default_language_id => $group);
-                            }
-                            $my_group->price_display_method = 1;
-                            $my_group->add();
-                            if (Validate::isLoadedObject($my_group)) {
-                                $id_group = (int)$my_group->id;
-                            }
-                        }
-                        if ($id_group) {
-                            $customer_groups[] = (int)$id_group;
-                        }
-                    }
-                } elseif (empty($info['group']) && isset($customer->id) && $customer->id) {
-                    $customer_groups = array(0 => Configuration::get('PS_CUSTOMER_GROUP'));
-                }
-
-                AdminImportController::arrayWalk($info, array('AdminImportController', 'fillInfo'), $customer);
-
-                $passwd = substr(base64_encode($info['email']), 0, 6);
-                $customer->passwd = $passwd;
-                if ($customer->passwd) {
-                    $customer->passwd = Tools::encrypt($customer->passwd);
-                }
-
-                $id_shop_list = explode($this->multiple_value_separator, $customer->id_shop);
-                $customers_shop = array();
-                $customers_shop['shared'] = array();
-                $default_shop = new Shop((int)Configuration::get('PS_SHOP_DEFAULT'));
-                if ($shop_is_feature_active && $id_shop_list) {
-                    foreach ($id_shop_list as $id_shop) {
-                        if (empty($id_shop)) {
-                            continue;
-                        }
-                        $shop = new Shop((int)$id_shop);
-                        $group_shop = $shop->getGroup();
-                        if ($group_shop->share_customer) {
-                            if (!in_array($group_shop->id, $customers_shop['shared'])) {
-                                $customers_shop['shared'][(int)$id_shop] = $group_shop->id;
-                            }
+                        if (array_key_exists('id', $info) && (int)$info['id'] && Customer::customerIdExistsStatic((int)$info['id'])) {
+                            $customer = new Customer((int)$info['id']);
                         } else {
-                            $customers_shop[(int)$id_shop] = $group_shop->id;
+                            $customer = new Customer();
                         }
                     }
-                } else {
-                    $default_shop = new Shop((int)Configuration::get('PS_SHOP_DEFAULT'));
-                    $default_shop->getGroup();
-                    $customers_shop[$default_shop->id] = $default_shop->getGroup()->id;
-                }
 
-                //set temporally for validate field
-                $customer->id_shop = $default_shop->id;
-                $customer->id_shop_group = $default_shop->getGroup()->id;
-                if (isset($info['id_default_group']) && !empty($info['id_default_group']) && !is_numeric($info['id_default_group'])) {
-                    $info['id_default_group'] = trim($info['id_default_group']);
-                    $my_group = Group::searchByName($info['id_default_group']);
-                    if (isset($my_group['id_group']) && $my_group['id_group']) {
-                        $info['id_default_group'] = (int)$my_group['id_group'];
+                    $customer_exist = false;
+
+                    if (array_key_exists('id', $info) && (int)$info['id'] && Customer::customerIdExistsStatic((int)$info['id']) && Validate::isLoadedObject($customer)) {
+                        $current_id_customer = (int)$customer->id;
+                        $current_id_shop = (int)$customer->id_shop;
+                        $current_id_shop_group = (int)$customer->id_shop_group;
+                        $customer_exist = true;
+                        $customer_groups = $customer->getGroups();
+                        $addresses = $customer->getAddresses((int)Configuration::get('PS_LANG_DEFAULT'));
                     }
-                }
-                $my_group = new Group($customer->id_default_group);
-                if (!Validate::isLoadedObject($my_group)) {
-                    $customer->id_default_group = (int)Configuration::get('PS_CUSTOMER_GROUP');
-                }
-                $customer_groups[] = (int)$customer->id_default_group;
-                $customer_groups = array_flip(array_flip($customer_groups));
-                $res = false;
-                if (($field_error = $customer->validateFields(UNFRIENDLY_ERROR, true)) === true &&
-                    ($lang_field_error = $customer->validateFieldsLang(UNFRIENDLY_ERROR, true)) === true) {
-                    $res = true;
-                    foreach ($customers_shop as $id_shop => $id_group) {
-                        $customer->force_id = (bool)$force_ids;
-                        if ($id_shop == 'shared') {
-                            foreach ($id_group as $key => $id) {
-                                $customer->id_shop = (int)$key;
-                                $customer->id_shop_group = (int)$id;
-                                if ($customer_exist && ((int)$current_id_shop_group == (int)$id || in_array($current_id_shop, ShopGroup::getShopsFromGroup($id)))) {
+
+                    // Group Importation
+                    if (isset($info['group']) && !empty($info['group'])) {
+                        foreach (explode($this->multiple_value_separator, $info['group']) as $key => $group) {
+                            $group = trim($group);
+                            if (empty($group)) {
+                                continue;
+                            }
+                            $id_group = false;
+                            if (is_numeric($group) && $group) {
+                                $my_group = new Group((int)$group);
+                                if (Validate::isLoadedObject($my_group)) {
+                                    $customer_groups[] = (int)$group;
+                                }
+                                continue;
+                            }
+                            $my_group = Group::searchByName($group);
+                            if (isset($my_group['id_group']) && $my_group['id_group']) {
+                                $id_group = (int)$my_group['id_group'];
+                            }
+                            if (!$id_group) {
+                                $my_group = new Group();
+                                $my_group->name = array($id_lang => $group);
+                                if ($id_lang != $default_language_id) {
+                                    $my_group->name = $my_group->name + array($default_language_id => $group);
+                                }
+                                $my_group->price_display_method = 1;
+                                $my_group->add();
+                                if (Validate::isLoadedObject($my_group)) {
+                                    $id_group = (int)$my_group->id;
+                                }
+                            }
+                            if ($id_group) {
+                                $customer_groups[] = (int)$id_group;
+                            }
+                        }
+                    } elseif (empty($info['group']) && isset($customer->id) && $customer->id) {
+                        $customer_groups = array(0 => Configuration::get('PS_CUSTOMER_GROUP'));
+                    }
+
+                    AdminImportController::arrayWalk($info, array('AdminImportController', 'fillInfo'), $customer);
+
+                    $passwd = substr(base64_encode($info['email']), 0, 6);
+                    $customer->passwd = $passwd;
+                    if ($customer->passwd) {
+                        $customer->passwd = Tools::encrypt($customer->passwd);
+                    }
+
+                    $id_shop_list = explode($this->multiple_value_separator, $customer->id_shop);
+                    $customers_shop = array();
+                    $customers_shop['shared'] = array();
+                    $default_shop = new Shop((int)Configuration::get('PS_SHOP_DEFAULT'));
+                    if ($shop_is_feature_active && $id_shop_list) {
+                        foreach ($id_shop_list as $id_shop) {
+                            if (empty($id_shop)) {
+                                continue;
+                            }
+                            $shop = new Shop((int)$id_shop);
+                            $group_shop = $shop->getGroup();
+                            if ($group_shop->share_customer) {
+                                if (!in_array($group_shop->id, $customers_shop['shared'])) {
+                                    $customers_shop['shared'][(int)$id_shop] = $group_shop->id;
+                                }
+                            } else {
+                                $customers_shop[(int)$id_shop] = $group_shop->id;
+                            }
+                        }
+                    } else {
+                        $default_shop = new Shop((int)Configuration::get('PS_SHOP_DEFAULT'));
+                        $default_shop->getGroup();
+                        $customers_shop[$default_shop->id] = $default_shop->getGroup()->id;
+                    }
+
+                    //set temporally for validate field
+                    $customer->id_shop = $default_shop->id;
+                    $customer->id_shop_group = $default_shop->getGroup()->id;
+                    if (isset($info['id_default_group']) && !empty($info['id_default_group']) && !is_numeric($info['id_default_group'])) {
+                        $info['id_default_group'] = trim($info['id_default_group']);
+                        $my_group = Group::searchByName($info['id_default_group']);
+                        if (isset($my_group['id_group']) && $my_group['id_group']) {
+                            $info['id_default_group'] = (int)$my_group['id_group'];
+                        }
+                    }
+                    $my_group = new Group($customer->id_default_group);
+                    if (!Validate::isLoadedObject($my_group)) {
+                        $customer->id_default_group = (int)Configuration::get('PS_CUSTOMER_GROUP');
+                    }
+                    $customer_groups[] = (int)$customer->id_default_group;
+                    $customer_groups = array_flip(array_flip($customer_groups));
+                    $res = false;
+                    if (($field_error = $customer->validateFields(UNFRIENDLY_ERROR, true)) === true &&
+                        ($lang_field_error = $customer->validateFieldsLang(UNFRIENDLY_ERROR, true)) === true) {
+                        $res = true;
+                        foreach ($customers_shop as $id_shop => $id_group) {
+                            $customer->force_id = (bool)$force_ids;
+                            if ($id_shop == 'shared') {
+                                foreach ($id_group as $key => $id) {
+                                    $customer->id_shop = (int)$key;
+                                    $customer->id_shop_group = (int)$id;
+                                    if ($customer_exist && ((int)$current_id_shop_group == (int)$id || in_array($current_id_shop, ShopGroup::getShopsFromGroup($id)))) {
+                                        $customer->id = (int)$current_id_customer;
+                                        $res &= $customer->update();
+                                    } else {
+                                        $res &= $customer->add();
+                                        if (isset($addresses)) {
+                                            foreach ($addresses as $address) {
+                                                $address['id_customer'] = $customer->id;
+                                                unset($address['country'], $address['state'], $address['state_iso'], $address['id_address']);
+                                                Db::getInstance()->insert('address', $address, false, false);
+                                            }
+                                        }
+                                    }
+                                    if ($res && isset($customer_groups)) {
+                                        $customer->updateGroup($customer_groups);
+                                    }
+                                }
+                            } else {
+                                $customer->id_shop = $id_shop;
+                                $customer->id_shop_group = $id_group;
+                                if ($customer_exist && (int)$id_shop == (int)$current_id_shop) {
                                     $customer->id = (int)$current_id_customer;
                                     $res &= $customer->update();
                                 } else {
@@ -611,108 +636,91 @@ class AdminImportController extends AdminImportControllerCore
                                     $customer->updateGroup($customer_groups);
                                 }
                             }
-                        } else {
-                            $customer->id_shop = $id_shop;
-                            $customer->id_shop_group = $id_group;
-                            if ($customer_exist && (int)$id_shop == (int)$current_id_shop) {
-                                $customer->id = (int)$current_id_customer;
-                                $res &= $customer->update();
-                            } else {
-                                $res &= $customer->add();
-                                if (isset($addresses)) {
-                                    foreach ($addresses as $address) {
-                                        $address['id_customer'] = $customer->id;
-                                        unset($address['country'], $address['state'], $address['state_iso'], $address['id_address']);
-                                        Db::getInstance()->insert('address', $address, false, false);
-                                    }
-                                }
-                            }
-                            if ($res && isset($customer_groups)) {
-                                $customer->updateGroup($customer_groups);
-                            }
                         }
                     }
-                }
 
-                if (isset($customer_groups)) {
-                    unset($customer_groups);
-                }
-                if (isset($current_id_customer)) {
-                    unset($current_id_customer);
-                }
-                if (isset($current_id_shop)) {
-                    unset($current_id_shop);
-                }
-                if (isset($current_id_shop_group)) {
-                    unset($current_id_shop_group);
-                }
-                if (isset($addresses)) {
-                    unset($addresses);
-                }
-
-                if (!$res) {
-                    $this->errors[] = sprintf(
-                        Tools::displayError('%1$s cannot be saved'),
-                        $info['email'],
-                        (isset($info['id']) && !empty($info['id']))? $info['id'] : 'null'
-                    );
-                    $this->errors[] = ($field_error !== true ? $field_error : '').(isset($lang_field_error) && $lang_field_error !== true ? $lang_field_error : '').
-                        Db::getInstance()->getMsgError();
-                } else {
-                    // Assing Sponsor
-                    $sponsorship = new RewardsSponsorshipModel();
-                    $sponsorship->id_sponsor = $sponsor['id_customer'];
-                    $sponsorship->id_customer = $customer->id;
-                    $sponsorship->firstname = $customer->firstname;
-                    $sponsorship->lastname = $customer->lastname;
-                    $sponsorship->channel = 1;
-                    $sponsorship->email = $customer->email;
-                    $sponsorship->save();
-                    
-                    // Assing Address
-                    $address = new Address();
-                    $address->id_country = $info['id_country'];
-                    $address->id_customer = $customer->id;
-                    $address->alias = $info['alias'];
-                    $address->lastname = $customer->lastname;
-                    $address->firstname = $customer->firstname;
-                    $address->address1 = $info['address1'];
-                    $address->address2 = $info['address2'];
-                    $address->city = $info['city'];
-                    $address->phone = $info['phone'];
-                    $address->phone_mobile = $info['phone_mobile'];
-                    $address->type_document = $info['type_document'];
-                    if ( $info['type_document'] == 1 ) {
-                        $dni = explode("-", $customer->dni);
-                        $address->dni = $dni[0];
-                        $address->checkdigit = $dni[1];
-                    } else {
-                        $address->dni = $customer->dni;
-                        $address->checkdigit = 0;
+                    if (isset($customer_groups)) {
+                        unset($customer_groups);
                     }
-                    $address->active = 1;
-                    $address->add();
-                    
-                    // Welcome Email
-                    $vars = array(
-                        '{password}' => $passwd,
-                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
-                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                    );
+                    if (isset($current_id_customer)) {
+                        unset($current_id_customer);
+                    }
+                    if (isset($current_id_shop)) {
+                        unset($current_id_shop);
+                    }
+                    if (isset($current_id_shop_group)) {
+                        unset($current_id_shop_group);
+                    }
+                    if (isset($addresses)) {
+                        unset($addresses);
+                    }
 
-                    Mail::Send(
-                        Context::getContext()->language->id,
-                        'welcome_fluzfluz',
-                        'Bienvenido a FluzFluz',
-                        $vars,
-                        $customer->email,
-                        $customer->firstname
-                    );
+                    if (!$res) {
+                        $this->errors[] = sprintf(
+                            Tools::displayError('%1$s cannot be saved'),
+                            $info['email'],
+                            (isset($info['id']) && !empty($info['id']))? $info['id'] : 'null'
+                        );
+                        $this->errors[] = ($field_error !== true ? $field_error : '').(isset($lang_field_error) && $lang_field_error !== true ? $lang_field_error : '').
+                            Db::getInstance()->getMsgError();
+                    } else {
+                        // Assing Sponsor
+                        $sponsorship = new RewardsSponsorshipModel();
+                        $sponsorship->id_sponsor = $sponsor['id_customer'];
+                        $sponsorship->id_customer = $customer->id;
+                        $sponsorship->firstname = $customer->firstname;
+                        $sponsorship->lastname = $customer->lastname;
+                        $sponsorship->channel = 1;
+                        $sponsorship->email = $customer->email;
+                        $sponsorship->save();
+
+                        // Assing Address
+                        $address = new Address();
+                        $address->id_country = $info['id_country'];
+                        $address->id_customer = $customer->id;
+                        $address->alias = $info['alias'];
+                        $address->lastname = $customer->lastname;
+                        $address->firstname = $customer->firstname;
+                        $address->address1 = $info['address1'];
+                        $address->address2 = $info['address2'];
+                        $address->city = $info['city'];
+                        $address->phone = $info['phone'];
+                        $address->phone_mobile = $info['phone_mobile'];
+                        $address->type_document = $info['type_document'];
+                        if ( $info['type_document'] == 1 ) {
+                            $dni = explode("-", $customer->dni);
+                            $address->dni = $dni[0];
+                            $address->checkdigit = $dni[1];
+                        } else {
+                            $address->dni = $customer->dni;
+                            $address->checkdigit = 0;
+                        }
+                        $address->active = 1;
+                        $address->add();
+
+                        // Welcome Email
+                        $vars = array(
+                            '{password}' => $passwd,
+                            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        );
+
+                        Mail::Send(
+                            Context::getContext()->language->id,
+                            'welcome_fluzfluz',
+                            'Bienvenido a FluzFluz',
+                            $vars,
+                            $customer->email,
+                            $customer->firstname
+                        );
+                    }
                 }
             }
+            $this->closeCsvFile($handle);
+        } else {
+            $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
         }
-        $this->closeCsvFile($handle);
     }
 
     protected function truncateTables($case)
