@@ -147,7 +147,7 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <input type="checkbox" name="autoaddnetwork" id="autoaddnetwork" value="1" {if isset($autoaddnetwork) && $autoaddnetwork == 1} checked="checked"{/if}/>
                                                     <label for="autoaddnetwork" style="vertical-align: sub;">
-                                                        Impedir que nuevos usuarios se agreguen autom&aacute;ticamente a mi red
+                                                        Impedir que nuevos usuarios se agreguen autom&aacute;ticamente a mi network
                                                     </label>
                                                 </div>
                                             </div>
