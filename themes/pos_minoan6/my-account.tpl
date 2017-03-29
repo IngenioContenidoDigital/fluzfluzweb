@@ -145,7 +145,7 @@
                                 {$name_customer} {l s='has purchased a'} {convertPrice price=$price} {l s='in'} 
                                 <span class="pointsmnf">
                                  <a class="product_img_link" href="{if $merchant.category != "" && $merchant.category != 0}{$link->getCategoryLink({$merchant.category})}{else}#{/if}" title="{$merchant.name|lower|escape:'htmlall':'UTF-8'}" itemprop="url">
-                                     {$name_product|truncate:10:"...":true}</a>
+                                     {$name_product}</a>
                                 </span>.
                             </div>
                             <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 message">

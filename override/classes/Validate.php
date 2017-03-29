@@ -75,8 +75,8 @@ class Validate extends ValidateCore
             preg_match_all('/'.$value.'/', $id, $matches, PREG_PATTERN_ORDER);
             $cant += count($matches[0]);
 	}
-
-	if ( !empty($id) && substr($id, 0, 1) != 0 && strlen($id) >= 5 && !preg_match('/1{4}|2{4}|3{4}|4{4}|5{4}|6{4}|7{4}|8{4}|9{4}|0{4}/', $id) && $cant <= 1 ) {
+        
+	if ( !empty($id) && substr($id, 0, 1) != 0 && strlen($id) >= 5 && $cant <= 1 ) {
             if ( preg_match('/^[0-9]{5,}-{1}[0-9]{1}$/', $id) || ($id > 9999 && $id < 100000000) || ($id > 1000000000 && $id < 4099999999) ) {
                 return false;
             } else {

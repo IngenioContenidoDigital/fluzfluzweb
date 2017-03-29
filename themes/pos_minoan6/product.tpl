@@ -727,7 +727,9 @@
                                             {foreach from=$address_manufacturer item='address'}
                                                     <div class=address-div>
                                                         <span class="text-info-merchant address-style">
-                                                            {$address.city}: &nbsp;{$address.address1}
+                                                            <div style="font-weight:bold;">{$address.firstname}</div>
+                                                            <div>{$address.address1}</div>
+                                                            <div>{$address.city}</div>
                                                         </span><br/>
                                                     </div>
                                             {/foreach}
