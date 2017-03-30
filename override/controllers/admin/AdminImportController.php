@@ -450,11 +450,14 @@ class AdminImportController extends AdminImportControllerCore
         $convert = Tools::getValue('convert');
         $force_ids = Tools::getValue('forceIDs');
         
+        $number_to_import = 0;
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); $current_line++) {
-            $number_to_import = $current_line;
+            $number_to_import++;
         }
+        $this->closeCsvFile($handle);
 
         if ( $number_to_import <= 51 ) {
+            $handle = $this->openCsvFile();
             for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); $current_line++) {
             
                 $query = "SELECT
@@ -717,6 +720,12 @@ class AdminImportController extends AdminImportControllerCore
                     }
                 }
             }
+            
+            // INSERT LOG IMPORT
+            $employee = new Employee((int)Context::getContext()->cookie->id_employee);
+            Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."log_import_customers (link_file, employee, status, quantity, date_import)
+                                        VALUES ('".$this->context->cookie->csv_selected."', '".$employee->firstname." ".$employee->lastname."', 'Successful', ".$number_to_import.", NOW())");
+            
             $this->closeCsvFile($handle);
         } else {
             $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
