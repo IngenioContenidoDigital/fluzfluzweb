@@ -294,7 +294,7 @@ class MyAccountController extends MyAccountControllerCore
         
         $querydays = 'SELECT DATEDIFF(NOW(), date_add) AS days FROM '._DB_PREFIX_.'customer WHERE id_customer ='.$this->context->customer->id;
         $rowday = db::getInstance()->getRow($querydays);
-        $days = $rowday['days'];
+        $days = $rowday['days']; 
         
         $query='SELECT count(o.id_order) AS compras_mes, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, 
                     DATE_FORMAT(date_add(o.date_add, INTERVAL 2 MONTH),"%d %b %Y") AS date_cancel
