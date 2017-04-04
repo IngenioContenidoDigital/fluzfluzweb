@@ -55,6 +55,7 @@ abstract class PaymentModule extends PaymentModuleCore
             PrestaShopLogger::addLog('PaymentModule::validateOrder - Order Status cannot be loaded', 3, null, 'Cart', (int)$id_cart, true);
             throw new PrestaShopException('Can\'t load Order status');
         }
+        
         if (!$this->active) {
             PrestaShopLogger::addLog('PaymentModule::validateOrder - Module is not active', 3, null, 'Cart', (int)$id_cart, true);
             die(Tools::displayError());
@@ -185,7 +186,8 @@ abstract class PaymentModule extends PaymentModuleCore
                     
                     $memberpoints = false;
                     foreach ( $order->product_list as $product ) {
-                        if ( $product['reference'] == "MFLUZ" ) {
+                        $fluz_gift = substr($product['reference'], 0,5);
+                        if ( $fluz_gift == "MFLUZ" ) {
                             $memberpoints = true;
                         }
                     }
@@ -199,14 +201,21 @@ abstract class PaymentModule extends PaymentModuleCore
                     // We don't use the following condition to avoid the float precision issues : http://www.php.net/manual/en/language.types.float.php
                     // if ($order->total_paid != $order->total_paid_real)
                     // We use number_format in order to compare two string
+                    if($amount_paid == 0){
+                        $cart_total_paid = 0;
+                        $order->total_paid_tax_excl = 0;
+                        $order->total_paid_tax_incl = 0;
+                    }       
                     if ($order_status->logable && number_format($cart_total_paid, _PS_PRICE_COMPUTE_PRECISION_) != number_format($amount_paid, _PS_PRICE_COMPUTE_PRECISION_)) {
                         $id_order_state = Configuration::get('PS_OS_ERROR');
                     }
+                    
                     $order_list[] = $order;
                     if (self::DEBUG_MODE) {
                         PrestaShopLogger::addLog('PaymentModule::validateOrder - OrderDetail is about to be added', 1, null, 'Cart', (int)$id_cart, true);
                     }
                     // Insert new Order detail list using cart for the current order
+                    
                     $order_detail = new OrderDetail(null, null, $this->context);
                     $order_detail->createList($order, $this->context->cart, $id_order_state, $order->product_list, 0, true, $package_list[$id_address][$id_package]['id_warehouse']);
                     $order_detail_list[] = $order_detail;
@@ -253,7 +262,6 @@ abstract class PaymentModule extends PaymentModuleCore
                 }
             }    
             $product_list = $order->getProducts();
-            
             $total_value = "";
            
             foreach ($product_list as $product) {
@@ -554,7 +562,6 @@ abstract class PaymentModule extends PaymentModuleCore
                             'orderStatus' => $order_status
                         ));
                     } else {
-                        
                         Hook::exec('actionValidateOrder2', array(
                             'cart' => $this->context->cart,
                             'order' => $order,
