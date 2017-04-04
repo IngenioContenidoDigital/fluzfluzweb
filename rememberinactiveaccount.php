@@ -135,14 +135,14 @@ foreach ( $customers as $key => &$customer ) {
         );
 
         if ( $customer['days_inactive'] != "NULL" ) { 
-            /*Mail::Send(
+            Mail::Send(
                 Context::getContext()->language->id,
                 $template,
                 $subject,
                 $vars,
                 $customer['email'],
                 $customer['username']
-            );*/
+            );
         }
 
         Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history (id_customer, type_message, message, date_send)
