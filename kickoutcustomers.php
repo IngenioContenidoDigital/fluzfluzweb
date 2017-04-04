@@ -151,21 +151,21 @@ class kickoutCustomers {
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
         );
 
-        Mail::Send(
+        /*Mail::Send(
             Context::getContext()->language->id,
             "cancellation_account",
             "Tu cuenta fue Cancelada.",
             $vars,
             $customerdata['email'],
             $customerdata['username']
-        );        
+        );*/    
         
         return Db::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship
                                             WHERE id_customer = ".$customer['id']);
     }
     
     public function notificationSponsor($id_sponsor, $id_customer = "", $new_sponsorship = false) {
-        $messagesponsorship = "";
+        /*$messagesponsorship = "";
         if ( $new_sponsorship ) {
             $usernamepromoted = Db::getInstance()->getValue("SELECT username FROM "._DB_PREFIX_."customer WHERE id_customer = ".$id_customer);
             $messagesponsorship = " ".$usernamepromoted." ha sido promovido en tu red.";
@@ -198,7 +198,7 @@ class kickoutCustomers {
             $vars,
             $sponsorinformation[0]['email'],
             $sponsorinformation[0]['username']
-        );
+        );*/
     }
     
     public function finallykickOut() {
