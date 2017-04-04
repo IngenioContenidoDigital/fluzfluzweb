@@ -151,14 +151,14 @@ class kickoutCustomers {
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
         );
 
-        /*Mail::Send(
+        Mail::Send(
             Context::getContext()->language->id,
             "cancellation_account",
             "Tu cuenta fue Cancelada.",
             $vars,
             $customerdata['email'],
             $customerdata['username']
-        );*/    
+        );
         
         return Db::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship
                                             WHERE id_customer = ".$customer['id']);
