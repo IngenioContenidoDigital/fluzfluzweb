@@ -8,18 +8,19 @@ class AdminImportController extends AdminImportControllerCore
 
         $this->bootstrap = true;
         $this->entities = array(
-            $this->l('Categories'),
-            $this->l('Products'),
-            $this->l('Combinations'),
             $this->l('Customers'),
-            $this->l('Addresses'),
+            $this->l('Orders'),
+            /*$this->l('Categories'),
+            $this->l('Products'),
+            $this->l('Combinations'),*/
+            /*$this->l('Addresses'),
             $this->l('Manufacturers'),
             $this->l('Suppliers'),
-            $this->l('Alias'),
+            $this->l('Alias'),*/
         );
 
         // @since 1.5.0
-        if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+        /*if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
             $this->entities = array_merge(
                 $this->entities,
                 array(
@@ -27,7 +28,7 @@ class AdminImportController extends AdminImportControllerCore
                     $this->l('Supply Order Details'),
                 )
             );
-        }
+        }*/
 
         $this->entities = array_flip($this->entities);
 
@@ -275,6 +276,27 @@ class AdminImportController extends AdminImportControllerCore
                     'alias' => 'Mi Direccion',
                 );
             break;
+        
+            case $this->entities[$this->l('Orders')]:
+                //Overwrite required_fields AS only email is required whereas other entities
+                $this->required_fields = array(
+                    'id_customer',
+                    'id_products',
+                    'payment'
+                );
+                
+                $this->available_fields = array(
+                    'no' => array('label' => $this->l('Ignore this column')),
+                    'id_customer' => array('label' => $this->l('Customer ID')),
+                    'id_products' => array('label' => $this->l('Product ID')),
+                    'payment' => array('label' => 'payment (pedido gratuito=1 , tarjeta credito=2)')
+                );
+
+                self::$default_values = array(
+                    'id_shop' => Configuration::get('PS_SHOP_DEFAULT'),
+                    'current_state' => '1',
+                );
+            break;
 
             case $this->entities[$this->l('Addresses')]:
                 //Overwrite required_fields
@@ -433,6 +455,126 @@ class AdminImportController extends AdminImportControllerCore
 
         $this->separator = ($separator = Tools::substr(strval(trim(Tools::getValue('separator'))), 0, 1)) ? $separator :  ';';
         $this->multiple_value_separator = ($separator = Tools::substr(strval(trim(Tools::getValue('multiple_value_separator'))), 0, 1)) ? $separator :  ',';
+    }
+    
+     public function postProcess()
+    {
+        /* PrestaShop demo mode */
+        if (_PS_MODE_DEMO_) {
+            $this->errors[] = Tools::displayError('This functionality has been disabled.');
+            return;
+        }
+
+        if (Tools::isSubmit('import')) {
+            // Check if the CSV file exist
+            if (Tools::getValue('csv')) {
+                $shop_is_feature_active = Shop::isFeatureActive();
+                // If i am a superadmin, i can truncate table
+                if ((($shop_is_feature_active && $this->context->employee->isSuperAdmin()) || !$shop_is_feature_active) && Tools::getValue('truncate')) {
+                    $this->truncateTables((int)Tools::getValue('entity'));
+                }
+                $import_type = false;
+                Db::getInstance()->disableCache();
+                switch ((int)Tools::getValue('entity')) {
+                    case $this->entities[$import_type = $this->l('Categories')]:
+                        $this->categoryImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Products')]:
+                        $this->productImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Customers')]:
+                        $this->customerImport();
+                        break;
+                    case $this->entities[$import_type = $this->l('Orders')]:
+                        $this->ordersImport();
+                        break;
+                    case $this->entities[$import_type = $this->l('Addresses')]:
+                        $this->addressImport();
+                        break;
+                    case $this->entities[$import_type = $this->l('Combinations')]:
+                        $this->attributeImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Manufacturers')]:
+                        $this->manufacturerImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Suppliers')]:
+                        $this->supplierImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Alias')]:
+                        $this->aliasImport();
+                        break;
+                }
+
+                // @since 1.5.0
+                if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+                    switch ((int)Tools::getValue('entity')) {
+                        case $this->entities[$import_type = $this->l('Supply Orders')]:
+                            if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+                                $this->supplyOrdersImport();
+                            }
+                            break;
+                        case $this->entities[$import_type = $this->l('Supply Order Details')]:
+                            if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+                                $this->supplyOrdersDetailsImport();
+                            }
+                            break;
+                    }
+                }
+
+                if ($import_type !== false) {
+                    $log_message = sprintf($this->l('%s import', 'AdminTab', false, false), $import_type);
+                    if (Tools::getValue('truncate')) {
+                        $log_message .= ' '.$this->l('with truncate', 'AdminTab', false, false);
+                    }
+                    PrestaShopLogger::addLog($log_message, 1, null, $import_type, null, true, (int)$this->context->employee->id);
+                }
+            } else {
+                $this->errors[] = $this->l('You must upload a file in order to proceed to the next step');
+            }
+        } elseif ($filename = Tools::getValue('csvfilename')) {
+            $filename = urldecode($filename);
+            $file = AdminImportController::getPath(basename($filename));
+            if (realpath(dirname($file)) != realpath(AdminImportController::getPath())) {
+                exit();
+            }
+            if (!empty($filename)) {
+                $b_name = basename($filename);
+                if (Tools::getValue('delete') && file_exists($file)) {
+                    @unlink($file);
+                } elseif (file_exists($file)) {
+                    $b_name = explode('.', $b_name);
+                    $b_name = strtolower($b_name[count($b_name) - 1]);
+                    $mime_types = array('csv' => 'text/csv');
+
+                    if (isset($mime_types[$b_name])) {
+                        $mime_type = $mime_types[$b_name];
+                    } else {
+                        $mime_type = 'application/octet-stream';
+                    }
+
+                    if (ob_get_level() && ob_get_length() > 0) {
+                        ob_end_clean();
+                    }
+
+                    header('Content-Transfer-Encoding: binary');
+                    header('Content-Type: '.$mime_type);
+                    header('Content-Length: '.filesize($file));
+                    header('Content-Disposition: attachment; filename="'.$filename.'"');
+                    $fp = fopen($file, 'rb');
+                    while (is_resource($fp) && !feof($fp)) {
+                        echo fgets($fp, 16384);
+                    }
+                    exit;
+                }
+            }
+        }
+        Db::getInstance()->enableCache();
+        return parent::postProcess();
     }
     
     public function customerImport()
@@ -730,6 +872,159 @@ class AdminImportController extends AdminImportControllerCore
         } else {
             $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
         }
+    }
+    
+    public function ordersImport()
+    {
+        $this->receiveTab();
+        $handle = $this->openCsvFile();
+        $default_language_id = (int)Configuration::get('PS_LANG_DEFAULT');
+        $id_lang = Language::getIdByIso(Tools::getValue('iso_lang'));
+        if (!Validate::isUnsignedId($id_lang)) {
+            $id_lang = $default_language_id;
+        }
+        AdminImportController::setLocale();
+
+        $shop_is_feature_active = Shop::isFeatureActive();
+        $convert = Tools::getValue('convert');
+        $force_ids = Tools::getValue('forceIDs');
+
+        // main loop, for each supply orders to import
+        for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
+            // if convert requested
+            if ($convert) {
+                $line = $this->utf8EncodeArray($line);
+            }
+            $info = AdminImportController::getMaskedRow($line);
+
+            // sets default values if needed
+            AdminImportController::setDefaultValues($info);
+            
+            // if an id is set, instanciates a supply order with this id if possible
+            
+            if (array_key_exists('id_customer', $info) && (int)$info['id_customer'] && Customer::customerIdExistsStatic((int)$info['id_customer'])) {
+                
+                $query_secure = 'SELECT secure_key FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$info['id_customer'];
+                $row = Db::getInstance()->getRow($query_secure);
+                $key = $row['secure_key'];
+                
+                $product_fluz = array();
+                $products_normal = array();
+                $products = explode(",", $info['id_products']);
+                
+                foreach ($products as $p){
+                    $product_quantity = explode(":", $p);
+                    $id_product = $product_quantity[0];
+                    $quantity = $product_quantity[1];
+                    
+                    $query_stock = 'SELECT quantity FROM '._DB_PREFIX_.'stock_available WHERE id_product = '.$id_product;
+                    $row_stock = Db::getInstance()->getRow($query_stock);
+                    $stock_available = $row_stock['quantity'];
+                    
+                    $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
+                    $m_fluz = Db::getInstance()->executeS($query_m);
+                    $reference = $m_fluz[0]['reference'];
+                    $fluz = substr($reference, 0,5);
+                    
+                    if($quantity>$stock_available){
+                            $this->errors[] = Tools::displayError('Producto ID: '.$id_product.' sin Codigos Disponibles');
+                            break;
+                    }
+                    if($fluz == 'MFLUZ' && $info['payment']==2){
+                            $this->errors[] = Tools::displayError('Carga de Bonos Fluz solo en Pedido Gratituito');
+                            break;
+                    }
+                    
+                }
+                
+                if(strlen($this->errors[0])<=0){
+                    foreach ($products as $p){
+                            $product_quantity = explode(":", $p);
+                            $id_product = $product_quantity[0];
+                            $quantity = $product_quantity[1];
+
+                            $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
+                            $m_fluz = Db::getInstance()->executeS($query_m);
+                            $reference = $m_fluz[0]['reference'];
+                            $fluz = substr($reference, 0,5);
+
+                            if($fluz == 'MFLUZ'){
+                                $query_fluz = 'SELECT * FROM ps_product WHERE id_product = '.$id_product;
+                                $p_fluz = Db::getInstance()->executeS($query_fluz);
+                                $p_fluz[0]['quantity']= $quantity;
+
+                                array_push($product_fluz, $p_fluz);
+                            }
+                            else{
+                                $query_n = 'SELECT * FROM ps_product WHERE id_product = '.$id_product;
+                                $p_normal = Db::getInstance()->executeS($query_n);
+                                $p_normal[0]['quantity']= $quantity;
+
+                                array_push($products_normal, $p_normal);
+                            }
+                        }
+                
+                $array_products_fluz = array_map('current',$product_fluz);
+                $array_products_normal = array_map('current',$products_normal);
+                
+                if(!empty($array_products_fluz)){
+                    $cart_fluz = new Cart();
+                    $cart_fluz->id_customer = (int)$info['id_customer'];
+                    $cart_fluz->id_shop_group = 1;
+                    $cart_fluz->id_currency = Currency::getDefaultCurrency()->id;
+                    $cart_fluz->id_lang = (int)Configuration::get('PS_LANG_DEFAULT');
+                    $cart_fluz->secure_key = $key;
+
+                    $cart_fluz->add();
+                    
+                    foreach ($array_products_fluz as $p){
+                        $cart_fluz->updateQty($p['quantity'],$p['id_product']);
+                    }
+                    
+                    $payment = 'Pedido gratuito';
+                    $module = 'free_order';
+                    $state = 2;
+                    $paid = 0;
+                    $payment_module = Module::getInstanceByName('bankwire');
+                    $payment_module->validateOrder($cart_fluz->id, $state, $paid, $payment);
+
+                }
+                if(!empty($array_products_normal)){
+                    $cart_normal = new Cart();
+                    $cart_normal->id_customer = (int)$info['id_customer'];
+                    $cart_normal->id_shop_group = 1;
+                    $cart_normal->id_currency = Currency::getDefaultCurrency()->id;
+                    $cart_normal->id_lang = (int)Configuration::get('PS_LANG_DEFAULT');
+                    $cart_normal->secure_key = $key;
+
+                    $cart_normal->add();
+                    
+                    foreach ($array_products_normal as &$p){
+                        $cart_normal->updateQty($p['quantity'],$p['id_product']);
+                    }
+                    
+                    if($info['payment']==1){
+                        $payment = 'Pedido gratuito';
+                        $module = 'free_order';
+                        $state = 2;
+                        $paid = 0;
+                        $payment_module = Module::getInstanceByName('bankwire');
+                        $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);
+                    }
+                    else{
+                        $payment = 'Tarjeta_credito';
+                        $module = 'payulatam';
+                        $state = 15;
+                        $paid = $cart_normal->getOrderTotal();
+                        $payment_module = Module::getInstanceByName($module);
+                        $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);
+                    }
+                }
+                }
+            }
+        }
+        // closes
+        $this->closeCsvFile($handle);
     }
 
     protected function truncateTables($case)

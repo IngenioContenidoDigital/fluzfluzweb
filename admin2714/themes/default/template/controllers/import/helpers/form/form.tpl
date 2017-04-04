@@ -577,3 +577,8 @@
 		});
 	});
 </script>
+{literal}
+    <style>
+        .import_products_categories{display: none !important;}
+    </style>
+{/literal}
