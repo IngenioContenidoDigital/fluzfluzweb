@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
@@ -25,11 +25,9 @@ $query = "SELECT
             FROM "._DB_PREFIX_."customer c
             INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer )
             LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
-            WHERE o.payment != 'Pedido gratuito'
-            AND c.active = 1
+            WHERE c.active = 1
             AND c.kick_out = 0
             GROUP BY c.id_customer
-            -- HAVING days_inactive IN (0, 30 , 45 , 52 , 59 , 60 ) OR days_inactive >= 61
             ORDER BY days_inactive DESC";
 $customers = Db::getInstance()->executeS($query);
 
@@ -37,12 +35,18 @@ $customers = Db::getInstance()->executeS($query);
 
 $execute_kickout = false;
 foreach ( $customers as $key => &$customer ) {
-
+    set_time_limit(60);
+    
     Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET days_inactive = ".$customer['days_inactive']." WHERE id_customer = ".$customer['id_customer']);
 
     if ( $customer['days_inactive'] >= 61 && $customer['products'] < 4 ) {
         $customer['days_inactive'] = 90;
     }
+    
+    if ( $customer['points'] == "" || $customer['points'] == "null" ) {
+        $customer['points'] = 0;
+    }
+
 
     $subject = "";
     $template = 'remember_inactive_account';
@@ -114,7 +118,7 @@ foreach ( $customers as $key => &$customer ) {
         $points_count = Db::getInstance()->getValue("SELECT SUM(credits) points_count
                                                         FROM "._DB_PREFIX_."rewards
                                                         WHERE id_reward_state = 2");
-
+        
         $vars = array(
             '{username}' => $customer['username'],
             '{days_inactive}' => $customer['days_inactive'],
@@ -131,14 +135,14 @@ foreach ( $customers as $key => &$customer ) {
         );
 
         if ( $customer['days_inactive'] != "NULL" ) { 
-            Mail::Send(
+            /*Mail::Send(
                 Context::getContext()->language->id,
                 $template,
                 $subject,
                 $vars,
                 $customer['email'],
                 $customer['username']
-            );
+            );*/
         }
 
         Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history (id_customer, type_message, message, date_send)
