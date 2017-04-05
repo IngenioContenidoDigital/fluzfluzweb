@@ -1271,7 +1271,7 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		{*<div class="form-group">
 			<label class="control-label col-lg-3" for="id_currency">
 				{l s='Currency'}
 			</label>
@@ -1299,7 +1299,7 @@
 					{/foreach}
 				</select>
 			</div>
-		</div>
+		</div>*}
 	</div>
 
 	<div class="panel" id="vouchers_part" style="display:none;">
@@ -1398,7 +1398,7 @@
 			{l s='Shipping'}
 		</div>
 		<div id="carriers_err" style="display:none;" class="alert alert-warning"></div>
-		<div id="carrier_form">
+		{*<div id="carrier_form">
 			<div class="form-group">
 				<label class="control-label col-lg-3">
 					{l s='Delivery option'}
@@ -1462,7 +1462,7 @@
 				</div>
 			</div>
 			{/if}
-		</div>
+		</div>*}
 	</div>
 	<div class="panel" id="summary_part" style="display:none;">
 		<div class="panel-heading">
@@ -1522,20 +1522,6 @@
 					</div>
 				</div>
 				<div class="form-group">
-					{if !$PS_CATALOG_MODE}
-					<div class="col-lg-9 col-lg-offset-3">
-						<a href="javascript:void(0);" id="send_email_to_customer" class="btn btn-default">
-							<i class="icon-credit-card"></i>
-							{l s='Send an email to the customer with the link to process the payment.'}
-						</a>
-						<a id="go_order_process" href="" class="btn btn-link _blank">
-							{l s='Go on payment page to process the payment.'}
-							<i class="icon-external-link"></i>
-						</a>
-					</div>
-					{/if}
-				</div>
-				<div class="form-group">
 					<label class="control-label col-lg-3">{l s='Payment'}</label>
 					<div class="col-lg-9">
 						<select name="payment_module_name" id="payment_module_name">
@@ -1549,7 +1535,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group">
+				{*<div class="form-group">
 					<label class="control-label col-lg-3">{l s='Order status'}</label>
 					<div class="col-lg-9">
 						<select name="id_order_state" id="id_order_state">
@@ -1566,6 +1552,20 @@
 							{l s='Create the order'}
 						</button>
 					</div>
+				</div>*}
+                                <div class="form-group">
+					{if !$PS_CATALOG_MODE}
+                                                <div class="col-lg-9 col-lg-offset-3">
+                                                        <a href="javascript:void(0);" id="send_email_to_customer" class="btn btn-default">
+                                                                <i class="icon-credit-card"></i>
+                                                                {l s='Enviar enlace de pago al cliente'}
+                                                        </a>
+                                                        {*<a id="go_order_process" href="" class="btn btn-link _blank">
+                                                                {l s='Go on payment page to process the payment.'}
+                                                                <i class="icon-external-link"></i>
+                                                        </a>*}
+                                                </div>
+					{/if}
 				</div>
 			</div>
 		</div>
