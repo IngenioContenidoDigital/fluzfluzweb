@@ -888,7 +888,15 @@ class AdminImportController extends AdminImportControllerCore
         $shop_is_feature_active = Shop::isFeatureActive();
         $convert = Tools::getValue('convert');
         $force_ids = Tools::getValue('forceIDs');
-
+        
+        $number_to_import = 0;
+        for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); $current_line++) {
+            $number_to_import++;
+        }
+        $this->closeCsvFile($handle);
+        
+        if ( $number_to_import <= 51 ) {
+        $handle = $this->openCsvFile();
         // main loop, for each supply orders to import
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
             // if convert requested
@@ -987,7 +995,12 @@ class AdminImportController extends AdminImportControllerCore
                     $paid = 0;
                     $payment_module = Module::getInstanceByName('bankwire');
                     $payment_module->validateOrder($cart_fluz->id, $state, $paid, $payment);
-
+                    
+                    // INSERT LOG IMPORT ORDERS
+                    $employee = new Employee((int)Context::getContext()->cookie->id_employee);
+                    Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."log_import_orders (id_cart, link_file, employee, status, payment, quantity, date_import)
+                                        VALUES (".$cart_fluz->id.",'".$this->context->cookie->csv_selected."', '".$employee->firstname." ".$employee->lastname."', 'Successful','".$payment."', ".$number_to_import.", NOW())");
+                    
                 }
                 if(!empty($array_products_normal)){
                     $cart_normal = new Cart();
@@ -1019,12 +1032,22 @@ class AdminImportController extends AdminImportControllerCore
                         $payment_module = Module::getInstanceByName($module);
                         $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);
                     }
+                        // INSERT LOG IMPORT ORDERS
+                        $employee = new Employee((int)Context::getContext()->cookie->id_employee);
+                        Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."log_import_orders (id_cart, link_file, employee, status, payment, quantity, date_import)
+                                        VALUES (".$cart_normal->id.",'".$this->context->cookie->csv_selected."', '".$employee->firstname." ".$employee->lastname."', 'Successful','".$payment."', ".$number_to_import.", NOW())");
                 }
                 }
             }
         }
-        // closes
-        $this->closeCsvFile($handle);
+            
+            // closes
+            $this->closeCsvFile($handle);
+        }
+        else {
+            $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
+        }
+        
     }
 
     protected function truncateTables($case)
