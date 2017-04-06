@@ -94,7 +94,7 @@ class="page-heading {if !isset($instant_search) || (isset($instant_search) && !$
         .divTitleFeatured{margin-top: 10px !important;}
         .top-pagination-content{padding-left: 0px !important;}
         .product_list{margin-left: -5px !important;}
-        .name-merchant{text-align: center;margin-bottom: 15px;}
+        .name-merchant{text-align: center;margin-bottom: 0px;}
        
         @media (max-width:768px){
             .title-block div:last-child{font-size: 14px;}
