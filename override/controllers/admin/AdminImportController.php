@@ -1025,12 +1025,25 @@ class AdminImportController extends AdminImportControllerCore
                         $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);
                     }
                     else{
-                        $payment = 'Tarjeta_credito';
+                        
+                        $customer = new Customer($info['id_customer']);
+                        
+                        $mailVars = array(
+                            '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart_normal->id_lang, 'step=3&recover_cart='.(int)$cart_normal->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart_normal->id)),
+                            '{username}' => $customer->username,
+                            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        );
+                        Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Completa tu pedido', (int)$cart_normal->id_lang), $mailVars, $customer->email,
+                        $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
+                        
+                        
+                        /*$payment = 'Tarjeta_credito';
                         $module = 'payulatam';
                         $state = 15;
                         $paid = $cart_normal->getOrderTotal();
                         $payment_module = Module::getInstanceByName($module);
-                        $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);
+                        $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);*/
                     }
                         // INSERT LOG IMPORT ORDERS
                         $employee = new Employee((int)Context::getContext()->cookie->id_employee);

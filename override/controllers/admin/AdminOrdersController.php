@@ -1280,11 +1280,11 @@ class AdminOrdersController extends AdminOrdersControllerCore
                 if (Validate::isLoadedObject($customer)) {
                     $mailVars = array(
                         '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart->id_lang, 'step=3&recover_cart='.(int)$cart->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart->id)),
-                        '{firstname}' => $customer->firstname,
-                        '{lastname}' => $customer->lastname,
-                        '{username}' => $customer->username
+                        '{username}' => $customer->username,
+                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                     );
-                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Process the payment of your order', (int)$cart->id_lang), $mailVars, $customer->email,
+                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Completa tu pedido', (int)$cart->id_lang), $mailVars, $customer->email,
                             $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {
                         die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
                     }
@@ -1293,8 +1293,6 @@ class AdminOrdersController extends AdminOrdersControllerCore
             $this->content = Tools::jsonEncode(array('errors' => true, 'result' => $this->l('Error in sending the email to your customer.')));
         }
     }
-    
-    
 }
 
 ?>
