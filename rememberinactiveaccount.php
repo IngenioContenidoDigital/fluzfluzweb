@@ -3,56 +3,60 @@ include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
 
+$execute_kickout = false;
+
 $query = "SELECT
-                IF( o.date_add IS NULL,
-                    DATEDIFF(NOW(),MAX(c.date_add)),
-                    DATEDIFF(NOW(),MAX(o.date_add))
-                ) days_inactive,
                 c.id_customer,
                 c.username,
                 c.email,
-                ( SELECT COUNT(od.id_order_detail)
-                    FROM "._DB_PREFIX_."orders o2
-                    LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o2.id_order = od.id_order )
-                    WHERE o2.id_customer = c.id_customer
-                    AND o2.date_add BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL -2 MONTH) 
-		) products,
+                c.date_kick_out,
+                c.warning_kick_out,
+                IF( MAX(o.date_add) IS NULL,
+                    DATEDIFF(NOW(),c.date_add),
+                    DATEDIFF(NOW(),MAX(o.date_add))
+                ) days_inactive,
                 ( SELECT SUM(r.credits)
-                    FROM ps_rewards r
+                    FROM "._DB_PREFIX_."rewards r
                     WHERE r.id_customer = c.id_customer
                     AND r.id_reward_state = 2
                 ) points
             FROM "._DB_PREFIX_."customer c
-            INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer )
             LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
             WHERE c.active = 1
             AND c.kick_out = 0
-            GROUP BY c.id_customer
-            ORDER BY days_inactive DESC";
+            GROUP BY c.id_customer";
 $customers = Db::getInstance()->executeS($query);
 
-// echo '<pre>'; print_r($customers); die();
-
-$execute_kickout = false;
 foreach ( $customers as $key => &$customer ) {
     set_time_limit(60);
     
     Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET days_inactive = ".$customer['days_inactive']." WHERE id_customer = ".$customer['id_customer']);
-
-    if ( $customer['days_inactive'] >= 61 && $customer['products'] < 4 ) {
+    
+    $query = "SELECT COUNT(od.id_order_detail) purchases
+                FROM "._DB_PREFIX_."orders o
+                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                WHERE o.current_state = 2
+                AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out']."', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out']."' )
+                AND id_customer = ".$customer['id_customer'];
+    $purchases = Db::getInstance()->getValue($query);
+    
+    $query = "SELECT DATE_FORMAT(DATE_ADD(date_kick_out, INTERVAL ".($customer['warning_kick_out'] == 0 ? '30' : '0')." DAY),'%Y-%m-%d') date
+                FROM "._DB_PREFIX_."customer
+                WHERE id_customer = ".$customer['id_customer'];
+    $expiration_date = Db::getInstance()->getValue($query);
+    
+    if ( $customer['warning_kick_out'] == 1 && $purchases < 4 ) {
         $customer['days_inactive'] = 90;
     }
     
-    if ( $customer['points'] == "" || $customer['points'] == "null" ) {
-        $customer['points'] = 0;
+    if ( $customer['warning_kick_out'] == 0 ) {
+        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = ".($purchases < 2 ? '1' : '0')." WHERE id_customer = ".$customer['id_customer']);
     }
 
 
-    $subject = "";
+
+    $subject = $message_1 = $message_2 = $message_3 = "";
     $template = 'remember_inactive_account';
-    $message_1 = "";
-    $message_2 = "";
-    $message_3 = "";
     switch ( $customer['days_inactive'] ) {
         case 0:
             $customer['days_inactive'] = "NULL";
@@ -95,14 +99,8 @@ foreach ( $customers as $key => &$customer ) {
             break;
     }
     
-    if ( $subject != "" && $template != "cancellation_account"  ) {
-        if ( $customer['days_inactive'] != "NULL" ) {
-            
-            $today = date_create( date("Y-m-d") );
-            $missing_days = (61 - $customer['days_inactive']).' days';
-            date_add( $today , date_interval_create_from_date_string($missing_days));
-            $expiration_date = date_format($today, 'Y-m-d');
-            
+    if ( $subject != "" && $template != "cancellation_account" ) {
+        if ( $customer['days_inactive'] != "NULL" ) {            
             $existNotificationInactive = Db::getInstance()->getValue("SELECT COUNT(*) FROM "._DB_PREFIX_."notification_inactive WHERE id_customer = ".$customer['id_customer']);
             if ( $existNotificationInactive == 0 ) {
                 Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_inactive (id_customer, date_alert_".$customer['days_inactive'].") VALUES (".$customer['id_customer'].", NOW())");
@@ -111,14 +109,11 @@ foreach ( $customers as $key => &$customer ) {
             }
         }
 
-        $contributor_count = Db::getInstance()->getValue("SELECT COUNT(*) contributor_count
-                                                            FROM "._DB_PREFIX_."customer
-                                                            WHERE active = 1");
-        
-        $points_count = Db::getInstance()->getValue("SELECT SUM(credits) points_count
-                                                        FROM "._DB_PREFIX_."rewards
-                                                        WHERE id_reward_state = 2");
-        
+        Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history (id_customer, type_message, message, date_send) VALUES (".$customer['id_customer'].",'Recordatorio cuenta inactiva', '".$message_1."', NOW())");
+
+        $contributor_count = Db::getInstance()->getValue("SELECT COUNT(*) contributor_count FROM "._DB_PREFIX_."customer WHERE active = 1");
+        $points_count = Db::getInstance()->getValue("SELECT SUM(credits) points_count FROM "._DB_PREFIX_."rewards WHERE id_reward_state = 2");
+
         $vars = array(
             '{username}' => $customer['username'],
             '{days_inactive}' => $customer['days_inactive'],
@@ -134,7 +129,7 @@ foreach ( $customers as $key => &$customer ) {
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
         );
 
-        if ( $customer['days_inactive'] != "NULL" ) { 
+        if ( $customer['days_inactive'] != "NULL" ) {
             Mail::Send(
                 Context::getContext()->language->id,
                 $template,
@@ -144,9 +139,6 @@ foreach ( $customers as $key => &$customer ) {
                 $customer['username']
             );
         }
-
-        Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history (id_customer, type_message, message, date_send)
-                                    VALUES (".$customer['id_customer'].",'Recordatorio cuenta inactiva', '".$message_1."', NOW())");
     }
 }
 
