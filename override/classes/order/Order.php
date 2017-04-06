@@ -52,7 +52,7 @@ class Order extends OrderCore
             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
             $productId = Db::getInstance()->executeS($query);
 
-            $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_order=".$order->id;
+            $qstate="UPDATE "._DB_PREFIX_."rewards AS r SET r.id_reward_state= 2 WHERE r.id_order=".$order->id.' AND r.id_cart is NULL';
             Db::getInstance()->execute($qstate);
 
                 foreach ($productId as $valor) {

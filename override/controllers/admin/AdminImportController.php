@@ -1034,21 +1034,15 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
+                        
                         Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Completa tu pedido', (int)$cart_normal->id_lang), $mailVars, $customer->email,
                         $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
                         
-                        
-                        /*$payment = 'Tarjeta_credito';
-                        $module = 'payulatam';
-                        $state = 15;
-                        $paid = $cart_normal->getOrderTotal();
-                        $payment_module = Module::getInstanceByName($module);
-                        $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);*/
                     }
                         // INSERT LOG IMPORT ORDERS
                         $employee = new Employee((int)Context::getContext()->cookie->id_employee);
                         Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."log_import_orders (id_cart, link_file, employee, status, payment, quantity, date_import)
-                                        VALUES (".$cart_normal->id.",'".$this->context->cookie->csv_selected."', '".$employee->firstname." ".$employee->lastname."', 'Successful','".$payment."', ".$number_to_import.", NOW())");
+                                        VALUES (".$cart_normal->id.",'".$this->context->cookie->csv_selected."', '".$employee->firstname." ".$employee->lastname."', 'Successful','Tarjeta_credito', ".$number_to_import.", NOW())");
                 }
                 }
             }
