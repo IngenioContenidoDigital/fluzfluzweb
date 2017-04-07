@@ -84,6 +84,8 @@ class Customer extends CustomerCore
             'kick_out' =>                   array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'manual_inactivation' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'days_inactive' =>              array('type' => self::TYPE_INT),
+            'date_kick_out' =>              array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
+            'warning_kick_out' =>              array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
         ),  
     );
     
