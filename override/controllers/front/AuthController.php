@@ -366,6 +366,10 @@ class AuthController extends AuthControllerCore
 
                     $customerLoaded = false;
                     $customExists = Customer::customerExists( Tools::getValue('email') );
+                    
+                    $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+                    $customer->warning_kick_out = 0;
+                    
                     if ( $customExists ) {
                         $idCustom = Customer::getCustomersByEmail( Tools::getValue('email') );
                         $customer = new Customer($idCustom[0]['id_customer']);
@@ -376,8 +380,6 @@ class AuthController extends AuthControllerCore
                         $customer->dni = Tools::getValue("gover");
                         $customer->kick_out = 0;
                         $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
-                        $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
-                        $customer->warning_kick_out = 0;
                         $customer->update();
                         $customerLoaded = true;
                     } else {
