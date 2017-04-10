@@ -8,15 +8,15 @@ class AdminImportController extends AdminImportControllerCore
 
         $this->bootstrap = true;
         $this->entities = array(
-            $this->l('Customers'),
-            $this->l('Orders'),
-            /*$this->l('Categories'),
+            $this->l('Categories'),
             $this->l('Products'),
-            $this->l('Combinations'),*/
-            /*$this->l('Addresses'),
+            $this->l('Combinations'),
+            $this->l('Addresses'),
             $this->l('Manufacturers'),
             $this->l('Suppliers'),
-            $this->l('Alias'),*/
+            $this->l('Alias'),
+            $this->l('Customers'),
+            $this->l('Orders'),
         );
 
         // @since 1.5.0
