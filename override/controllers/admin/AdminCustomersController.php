@@ -569,6 +569,13 @@ class AdminCustomersController extends AdminCustomersControllerCore
         }
     }
     
+    public function beforeAdd($customer)
+    {
+        $customer->id_shop = $this->context->shop->id;
+        $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+        $customer->warning_kick_out = 0;
+    }
+    
      public function processSave()
     {
         // Check that default group is selected
