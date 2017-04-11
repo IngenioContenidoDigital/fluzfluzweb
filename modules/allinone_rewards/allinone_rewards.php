@@ -588,7 +588,7 @@ class allinone_rewards extends Module
 		return (array_key_exists($key, $translations)) ? $translations[$key] : $key;
 	}
 
-	public function sendMail($id_lang, $template, $subject, $data, $mail, $name, $attachment=null) {
+	public static function sendMail($id_lang, $template, $subject, $data, $mail, $name, $attachment=null) {
 		if (version_compare(_PS_VERSION_, '1.6', '>='))
 			$template = '16-'.$template;
 		$iso = Language::getIsoById((int)$id_lang);

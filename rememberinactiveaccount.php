@@ -2,6 +2,7 @@
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 $query = "SELECT
                 IF( o.date_add IS NULL,
@@ -46,8 +47,7 @@ foreach ( $customers as $key => &$customer ) {
     if ( $customer['points'] == "" || $customer['points'] == "null" ) {
         $customer['points'] = 0;
     }
-
-
+    
     $subject = "";
     $template = 'remember_inactive_account';
     $message_1 = "";
@@ -133,16 +133,19 @@ foreach ( $customers as $key => &$customer ) {
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
         );
-
+        
         if ( $customer['days_inactive'] != "NULL" ) { 
-            Mail::Send(
+            
+            $reward = new allinone_rewards();
+            $reward->sendMail(Context::getContext()->language->id, $template, $subject, $vars, $customer['email'], $customer['username']);
+            /*Mail::Send(
                 Context::getContext()->language->id,
                 $template,
                 $subject,
                 $vars,
                 $customer['email'],
                 $customer['username']
-            );
+            );*/
         }
 
         Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history (id_customer, type_message, message, date_send)

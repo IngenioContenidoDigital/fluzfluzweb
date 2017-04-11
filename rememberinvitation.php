@@ -200,7 +200,7 @@ foreach ($invitations as $key => &$invitation) {
         $sponsorship->lastname = $friendLastName;
         $sponsorship->channel = 1;
         $sponsorship->email = $friendEmail;
-
+        $template = 'invitation-cancel';
         $vars = array(
                     '{message}' => "PRUEBA",
                     '{firstname_invited}'=> $sponsorship->firstname,
@@ -211,15 +211,18 @@ foreach ($invitations as $key => &$invitation) {
                     '{email_friend}' => $friendEmail,
                     '{link}' => $sponsorship->getSponsorshipMailLink()
                 );
-
-        Mail::Send(
+        
+        $allinone_rewards = new allinone_rewards();
+        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL('Invitacion Cancelada'), $vars, $friendEmail, $invitation['sponsorfirstname'].' '.$invitation['sponsorlastname']);
+        
+        /*Mail::Send(
             Context::getContext()->language->id,
             'invitationCancel',
             'Invitacion Cancelada',
             $vars,
             $friendEmail,
             $invitation['sponsorfirstname'].' '.$invitation['sponsorlastname']
-        );
+        );*/
 
         $deletemail = "DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_customer=".$invitation['id_customer'];
         Db::getInstance()->execute($deletemail);

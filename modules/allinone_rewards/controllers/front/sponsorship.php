@@ -297,7 +297,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                 $sponsorship = new RewardsSponsorshipModel((int)$key);
                                                 $query = 'DELETE FROM '._DB_PREFIX_.'rewards_sponsorship WHERE email = "'.$sponsorship->email.'"';
                                                 Db::getInstance()->execute($query);
-                                                
+                                                $template = 'invitation-cancel';
                                                 $vars = array(
 								'{email}' => $this->context->customer->email,
                                                                 '{username}' => $this->context->customer->username,
@@ -308,14 +308,16 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 								'{nb_discount}' => $nb_discount,
 								'{discount}' => $discount_gc
 							);
-                                                Mail::Send(
+                                                
+                                                /*Mail::Send(
                                                     (int)$this->context->language->id,
                                                     'invitationCancel',
                                                     'Invitacion Cancelada',
                                                     $vars,
                                                     $sponsorship->email,
                                                     $sponsorship->firstname.' '.$sponsorship->lastname
-                                                );
+                                                );*/
+						$this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL('Invitacion Cancelada'), $vars, $sponsorship->email, $sponsorship->firstname.' '.$sponsorship->lastname);
                                                 Tools::redirect($this->context->link->getPageLink('cancelinvitation', true, (int)$this->context->language->id));
                                             }
 					}
