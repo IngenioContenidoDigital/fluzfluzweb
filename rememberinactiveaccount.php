@@ -10,6 +10,7 @@ $query = "SELECT
                 c.username,
                 c.email,
                 c.date_kick_out,
+                DATE_FORMAT(c.date_kick_out,'%Y-%m-%d') date_kick_out_show,
                 c.warning_kick_out,
                 IF( MAX(o.date_add) IS NULL,
                     DATEDIFF(NOW(),c.date_add),
@@ -53,7 +54,7 @@ foreach ( $customers as $key => &$customer ) {
         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = 0 WHERE id_customer = ".$customer['id_customer']);
     }
     
-    if ( $customer['warning_kick_out'] == 0 ) {
+    if ( $customer['warning_kick_out'] == 0 && strtotime(date('Y-m-d')) == strtotime($customer['date_kick_out_show']) ) {
         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = ".($purchases < 2 ? '1' : '0')." WHERE id_customer = ".$customer['id_customer']);
     }
     
