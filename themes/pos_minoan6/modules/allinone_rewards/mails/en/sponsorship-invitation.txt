@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Hello,
 
 Your friend {firstname} {lastname} wants to sponsor you on {shop_url}.
@@ -9,6 +10,18 @@ His message :
 {message}
 
 It's very easy to sign up. Just click on the following link:
+=======
+Hola,
+
+Su amigo(a) {firstname} {lastname} le ha apadrinado en la web {shop_name}.
+Conviertase en su ahijado(a) para conseguir {nb_discount} vale(s) de compra.
+Descripción : {discount}
+
+Su mensaje :
+{message}
+
+Para acceder, nada más sencillo. Dirijase a la dirección siguiente :
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 {link}
 
 

@@ -1,6 +1,10 @@
 {foreach $list as $product}
 <tr>
+<<<<<<< HEAD
 	<td style="border:1px solid #D6D4D4;">
+=======
+	<!--td style="border:1px solid #D6D4D4;">
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 		<table class="table">
 			<tr>
 				<td width="10">&nbsp;</td>
@@ -12,7 +16,11 @@
 				<td width="10">&nbsp;</td>
 			</tr>
 		</table>
+<<<<<<< HEAD
 	</td>
+=======
+	</td-->
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 	<td style="border:1px solid #D6D4D4;">
 		<table class="table">
 			<tr>
@@ -26,6 +34,35 @@
 			</tr>
 		</table>
 	</td>
+<<<<<<< HEAD
+=======
+        <td style="border:1px solid #D6D4D4;">
+		<table class="table">
+			<tr>
+				<td width="10">&nbsp;</td>
+				<td>
+					<font size="2" face="Open-sans, sans-serif" color="#555454">
+						{$product['descripcion']}
+					</font>
+				</td>
+				<td width="10">&nbsp;</td>
+			</tr>
+		</table>
+	</td>
+        <td style="border:1px solid #D6D4D4;">
+		<table class="table">
+			<tr>
+				<td width="10">&nbsp;</td>
+				<td>
+					<font size="2" face="Open-sans, sans-serif" color="#555454">
+						{$product['image_code']}
+					</font>
+				</td>
+				<td width="10">&nbsp;</td>
+			</tr>
+		</table>
+	</td>
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 	<td style="border:1px solid #D6D4D4;">
 		<table class="table">
 			<tr>

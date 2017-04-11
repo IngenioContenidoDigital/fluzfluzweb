@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 [{shop_url}] 
 
@@ -18,11 +19,33 @@ UNIT PRICE
 QUANTITY
 
 TOTAL PRICE
+=======
+[{shop_url}] 
+
+Hola {firstname} {lastname},
+
+Le agradecemos por realizar sus compras en {shop_name}! 
+
+PEDIDO: {order_name} Situado en {date}
+
+PAGO: {payment} 		 
+
+REFERENCIA
+
+PRODUCTO
+
+PRECIO UNITARIO
+
+CANTIDAD
+
+PRECIO TOTAL
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 {products_txt} 
 
 {discounts} 
 
+<<<<<<< HEAD
 PRODUCTS 
 
 {total_products} 
@@ -50,11 +73,41 @@ TOTAL PAID
 CARRIER: {carrier}
 
 PAYMENT: {payment} 		 
+=======
+PRODUCTOS 
+
+{total_products} 
+
+DESCUENTOS 
+
+{total_discounts} 
+
+PAPEL DE REGALO 
+
+{total_wrapping} 
+
+TRANSPORTE 
+
+{total_shipping} 
+
+IMPUESTO TOTAL 
+
+{total_tax_paid} 
+
+PAGO TOTAL 
+
+{total_paid} 
+
+TRANSPORTISTA: {carrier}
+
+PAGO: {payment} 		 
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 {delivery_block_txt} 
 
 {invoice_block_txt} 
 
+<<<<<<< HEAD
 You can review your order and download your invoice from the
 "Order history" [{history_url}] section of your
 customer account by clicking "My account"
@@ -66,5 +119,18 @@ If you have a guest account, you can follow your order via the
 on our shop. 
 
 {shop_name} [{shop_url}] powered by
+=======
+Usted puede revisar su pedido y descargar la factura desde
+"Historial de pedidos" [{history_url}] de su cuenta
+de cliente, haga clic en [{my_account_url}] en
+nuestra tienda. 
+
+Si tiene una cuenta de invitado, puede seguir su pedido desde la
+sección: "Seguimiento de invitado"
+[{guest_tracking_url}?id_order={order_name}] en
+nuestra tienda. 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 

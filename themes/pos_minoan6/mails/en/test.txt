@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 [{shop_url}] 
 
@@ -8,5 +9,16 @@ This is a TEST E-MAIL from your shop.
 If you can read this, the test was successful!. 
 
 {shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Hola 
+
+Esto es un E-MAIL DE TEST desde su tienda. 
+
+Si puede leerlo, es que ¡el test ha sido realizado con éxito!. 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 

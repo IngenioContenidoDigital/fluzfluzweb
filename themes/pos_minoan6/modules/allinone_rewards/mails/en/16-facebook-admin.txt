@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 Hello,
 
 A visitor has just clicked "{action}" on {shop_name}.
 Customer : {customer}
+=======
+Hola
+
+Un visitor acaba de pinchar "{action}" on {shop_name}.
+Cliente : {customer}
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 
 

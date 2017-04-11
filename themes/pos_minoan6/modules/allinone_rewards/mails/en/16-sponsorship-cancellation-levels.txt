@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 Hi {sponsor_firstname} {sponsor_lastname},
 
 An order of your indirect sponsored friends has been canceled.
 As a result, your {sponsor_reward} reward has also been canceled.
+=======
+Hola {sponsor_firstname} {sponsor_lastname},
+
+El pedido de un@ de sus ahijad@s indirect@s ha sido anulado.
+Por esa razón, la recompensa de {sponsor_reward} también ha sido anulada.
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 
 

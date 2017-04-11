@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 [{shop_url}] 
 
@@ -7,5 +8,15 @@ Regarding your newsletter subscription, we are pleased to offer
 you the following voucher: {discount} 
 
 {shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Hola, 
+
+Después de su suscripción a nuestro boletín, nos complace
+ofrecerle el siguiente cupón: {discount} 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 

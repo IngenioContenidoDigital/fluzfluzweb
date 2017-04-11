@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 Congratulations {sponsor_firstname} {sponsor_lastname} !
 
 Your sponsored friend {sponsored_firstname} {sponsored_lastname} has just registered on {shop_url} !
+=======
+Felicidades {sponsor_firstname} {sponsor_lastname},
+
+Su ahijado(a) {sponsored_firstname} {sponsored_lastname} acaba de registrarse en {shop_url}!
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 
 

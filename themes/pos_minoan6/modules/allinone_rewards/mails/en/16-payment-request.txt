@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Hello,
 
 {customer} just sent a payment request worth {value}.
@@ -5,6 +6,15 @@ Details :
 {text}
 
 Once the payment has been processed, please visit the customer profil in your back-end and mark the request as paid.
+=======
+Hola,
+
+{customer} acaba de enviar una solicitud de pago de recompensas {value}.
+Detalles :
+{text}
+
+Una vez que el pago haya  sido procesado, por favor visite el perfil del cliente en su back-office y marcar la solicitud como pagada
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 
 

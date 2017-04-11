@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 Hi {customer_firstname} {customer_lastname},
 
 Your order {order} has been canceled.
 As a result, the {customer_reward} loyalty reward has also been canceled.
+=======
+Hola {customer_firstname} {customer_lastname},
+
+Su pedido {order} ha sido anulado.
+Por esa razón, el premio de fidelidad de {customer_reward} también ha sido anulado.
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 
 

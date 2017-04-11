@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 Congratulations {sponsor_firstname} {sponsor_lastname} !
 
 An order of your indirect sponsored friend has been validated.
 Your {sponsor_reward} reward is now available in your rewards account.
+=======
+Felicidades {sponsor_firstname} {sponsor_lastname},
+
+El pedido de un@ de sus ahijad@s indirect@s ha sido validado.
+Su premio de {sponsor_reward} está disponible en tu cuenta de fidelización. 
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 
 

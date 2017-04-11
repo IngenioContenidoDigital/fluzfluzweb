@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Hi {firstname} {lastname},
 
 We are pleased to inform you that {nb_discount} voucher(s) is(are) available in your name regarding your sponsorship.
@@ -8,6 +9,16 @@ Details : {voucher_details}
 Simply copy/paste this code during the payment process for your next order.
 
 Thank you for shopping at {shop_name}.
+=======
+Hola {firstname} {lastname},
+
+Le informamos de que acaba de conseguir {nb_discount} vale(s) de descuento, relativo a su apadrinamiento.
+
+Este es el código de su vale : {voucher_num}
+Descripción : {voucher_details}
+
+Copie este código y pongalo en la cesta de la compra de su próximo pedido, antes de hacer el pago.
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 
 
 

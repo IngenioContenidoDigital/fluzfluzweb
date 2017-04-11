@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 [{shop_url}] 
 
@@ -9,5 +10,17 @@ the reference {order_name}.
 MESSAGE: {message} 		 
 
 {shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Hola {firstname} {lastname}, 
+
+Ha recibido un nuevo mensaje de {shop_name} en relación al pedido
+con la referencia {order_name}.
+
+MENSAJE: {message} 		 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 

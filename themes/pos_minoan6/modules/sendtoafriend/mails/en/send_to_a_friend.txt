@@ -1,5 +1,6 @@
 [{shop_url}] 
 
+<<<<<<< HEAD
 Hi {name},
 
 
@@ -10,5 +11,13 @@ Click here to view this item: {product}
 [{product_link}] 
 
 {shop_name} [{shop_url}] powered by
+=======
+Hola {name},
+
+Haga clic aquí para ver este artículo: {product}
+[{product_link}] 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 

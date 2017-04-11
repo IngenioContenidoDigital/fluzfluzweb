@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 [{shop_url}] 
 
@@ -9,5 +10,16 @@ You can check for it in the "TOOLS" > "LOGS" section of your Back
 Office. 		 
 
 {shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Hola {firstname} {lastname}, 
+
+ATENCIÓN: ha recibido un nuevo registro en su Back Office.
+
+Puede comprobarlo en "HERRAMIENTAS"&gt; "REGISTROS" de su Back Office.
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 
