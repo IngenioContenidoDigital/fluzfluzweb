@@ -45,15 +45,19 @@ foreach ( $customers as $key => &$customer ) {
                 WHERE id_customer = ".$customer['id_customer'];
     $expiration_date = Db::getInstance()->getValue($query);
     
-    if ( $customer['warning_kick_out'] == 1 && $purchases < 4 ) {
+    if ( $customer['warning_kick_out'] == 1 && $purchases < 4 && strtotime(date('Y-m-d')) == strtotime($expiration_date) ) {
         $customer['days_inactive'] = 90;
+    }
+    
+    if ( $customer['warning_kick_out'] == 1 && $purchases >= 4 && strtotime(date('Y-m-d')) == strtotime($expiration_date) ) {
+        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = 0 WHERE id_customer = ".$customer['id_customer']);
     }
     
     if ( $customer['warning_kick_out'] == 0 ) {
         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = ".($purchases < 2 ? '1' : '0')." WHERE id_customer = ".$customer['id_customer']);
     }
-
-
+    
+    
 
     $subject = $message_1 = $message_2 = $message_3 = "";
     $template = 'remember_inactive_account';
