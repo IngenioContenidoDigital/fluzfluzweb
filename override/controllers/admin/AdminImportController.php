@@ -1029,11 +1029,22 @@ class AdminImportController extends AdminImportControllerCore
                     }
                     else{
                         
+                        foreach ($cart_normal->getProducts() as $product_cart){
+                                    $name .=  "<label>".$product_cart['name']."</label><br>";
+                                    $quantity_p .=  "<label>".$product_cart['cart_quantity']."</label><br>";
+                                    $price_unit .=  "<label>".$product_cart['price']."</label><br>";
+                                    $price_total .=  "<label>".$product_cart['total']."</label><br>";
+                        }
+                        
                         $customer = new Customer($info['id_customer']);
                         
                         $mailVars = array(
                             '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart_normal->id_lang, 'step=3&recover_cart='.(int)$cart_normal->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart_normal->id)),
                             '{username}' => $customer->username,
+                            '{quantity}' => $quantity_p,
+                            '{name_product}' => $name,
+                            '{price_unit}' => $price_unit,
+                            '{price_total}' => $price_total,
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
