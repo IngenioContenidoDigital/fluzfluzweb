@@ -1277,10 +1277,22 @@ class AdminOrdersController extends AdminOrdersControllerCore
             $cart = new Cart((int)Tools::getValue('id_cart'));
             if (Validate::isLoadedObject($cart)) {
                 $customer = new Customer((int)$cart->id_customer);
+                
+                foreach ($cart->getProducts() as $product_cart){
+                    $name .=  "<label>".$product_cart['name']."</label><br>";
+                    $quantity_p .=  "<label>".$product_cart['cart_quantity']."</label><br>";
+                    $price_unit .=  "<label>".$product_cart['price']."</label><br>";
+                    $price_total .=  "<label>".$product_cart['total']."</label><br>";
+                }
+                
                 if (Validate::isLoadedObject($customer)) {
                     $mailVars = array(
                         '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart->id_lang, 'step=3&recover_cart='.(int)$cart->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart->id)),
                         '{username}' => $customer->username,
+                        '{quantity}' => $quantity_p,
+                        '{name_product}' => $name,
+                        '{price_unit}' => $price_unit,
+                        '{price_total}' => $price_total,
                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                     );
