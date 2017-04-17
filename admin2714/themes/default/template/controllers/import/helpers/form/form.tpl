@@ -337,6 +337,10 @@
 				<a class="list-group-item _blank" href="../docs/csv_import/customers_import.csv">
 					{l s='Sample Customers file'}
 				</a>
+                                
+                                <a class="list-group-item _blank" href="../docs/csv_import/orders_import.csv">
+					{l s='Archivo de ejemplo de Ordenes'}
+				</a>
 				{*
                                 <a class="list-group-item _blank" href="../docs/csv_import/addresses_import.csv">
 					{l s='Sample Addresses file'}

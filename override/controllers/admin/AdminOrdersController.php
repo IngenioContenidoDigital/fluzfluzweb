@@ -1283,6 +1283,14 @@ class AdminOrdersController extends AdminOrdersControllerCore
                     $quantity_p .=  "<label>".$product_cart['cart_quantity']."</label><br>";
                     $price_unit .=  "<label>".$product_cart['price']."</label><br>";
                     $price_total .=  "<label>".$product_cart['total']."</label><br>";
+                
+                    $query_value = 'SELECT (rp.`value`/100) as value FROM '._DB_PREFIX_.'rewards_product rp WHERE id_product = '.$product_cart['id_product'];
+                    $row_v = Db::getInstance()->getRow($query_value);
+                    $value_porc = $row_v['value'];
+
+                    $reward = round(RewardsModel::getRewardReadyForDisplay($product_cart['total'], $this->context->currency->id)/(count($sponsorships2)+1));
+                    $r_point = floor($reward*$value_porc);
+                    $price_point .=  "<label>".$r_point."</label><br>";
                 }
                 
                 if (Validate::isLoadedObject($customer)) {
@@ -1291,6 +1299,7 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         '{username}' => $customer->username,
                         '{quantity}' => $quantity_p,
                         '{name_product}' => $name,
+                        '{points}' => $price_point,
                         '{price_unit}' => $price_unit,
                         '{price_total}' => $price_total,
                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
