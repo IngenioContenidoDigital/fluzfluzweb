@@ -1305,7 +1305,7 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                     );
-                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Pedido recomendado', (int)$cart->id_lang), $mailVars, $customer->email,
+                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart->id_lang), $mailVars, $customer->email,
                             $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {
                         die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
                     }
