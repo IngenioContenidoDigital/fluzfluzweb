@@ -1057,7 +1057,7 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
                         
-                        Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
+                        Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
                         $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
                         
                     }
