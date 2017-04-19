@@ -1,5 +1,6 @@
 <?php
 
+include_once(_PS_MODULE_DIR_.'allinone_rewards/allinone_rewards.php');
 class AdminImportController extends AdminImportControllerCore
 {
     public function __construct()
@@ -899,6 +900,13 @@ class AdminImportController extends AdminImportControllerCore
         $handle = $this->openCsvFile();
         // main loop, for each supply orders to import
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
+            
+            $name = '';
+            $quantity_p = '';
+            $price_unit = '';
+            $price_total = '';
+            $price_point = '';
+
             // if convert requested
             if ($convert) {
                 $line = $this->utf8EncodeArray($line);
@@ -1028,7 +1036,7 @@ class AdminImportController extends AdminImportControllerCore
                         
                         $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants((int)$info['id_customer']);
                         $sponsorships2=array_slice($sponsorships, 1, 15);
-                       
+                        
                         foreach ($cart_normal->getProducts() as &$product_cart){
                             $name .=  "<label>".$product_cart['name']."</label><br>";
                             $quantity_p .=  "<label>".$product_cart['cart_quantity']."</label><br>";
@@ -1056,9 +1064,14 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
+                        $template = 'backoffice_order';
                         
-                        Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
+                        /*Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
                         $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
+                        */
+                        $allinone_rewards = new allinone_rewards();
+                        $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL('Pedido Recomendado'), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
+        
                         
                     }
                         // INSERT LOG IMPORT ORDERS
