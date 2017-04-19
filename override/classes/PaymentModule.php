@@ -346,7 +346,7 @@ abstract class PaymentModule extends PaymentModuleCore
                     $product_var_tpl_list = array();
                     foreach ($order->product_list as $product) {
                         $image_url = "";    
-                        $codeText = 'select code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
+                        $codeText = 'select code, id_product, pin_code FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
                         $rowCode = Db::getInstance()->executeS($codeText);
                         
                         $query = 'SELECT codetype FROM '._DB_PREFIX_.'product WHERE id_product = '.$product['id_product'];
@@ -357,15 +357,20 @@ abstract class PaymentModule extends PaymentModuleCore
                             $customer = new Customer($order->id_customer);
                             $codecrypt = Encrypt::decrypt($customer->secure_key , $code['code']);
                             if ($code2 == 2){
-                                $image_url .=  "<label>".$codecrypt."</label><br>";
+                                if($code['pin_code']==''){
+                                    $image_url .=  "<label>".$codecrypt."</label><br>";
+                                }
+                                else{
+                                    $image_url .=  "<label>".$codecrypt."-".$code['pin_code']."</label><br>";
+                                }
                             }
                             else{
                                 $this->consultcodebar($code['id_product'], $code['code']);
                                 if (isset($_SERVER['HTTPS'])) {
-                                    $image_url .=  "<label>".$codecrypt."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                    $image_url .=  "<label>".$codecrypt."-".$code['pin_code']."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                                 }
                                 else{
-                                    $image_url .=  "<center><label>".$codecrypt."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                    $image_url .=  "<center><label>".$codecrypt."</label>-".$code['pin_code']."</center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                                 }
                             }
                         }
