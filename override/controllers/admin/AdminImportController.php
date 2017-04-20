@@ -1,6 +1,7 @@
 <?php
 
-include_once(_PS_MODULE_DIR_.'allinone_rewards/allinone_rewards.php');
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+
 class AdminImportController extends AdminImportControllerCore
 {
     public function __construct()
@@ -1075,7 +1076,6 @@ class AdminImportController extends AdminImportControllerCore
                         $allinone_rewards = new allinone_rewards();
                         $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL('Pedido Recomendado'), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
         
-                        
                     }
                         // INSERT LOG IMPORT ORDERS
                         $employee = new Employee((int)Context::getContext()->cookie->id_employee);

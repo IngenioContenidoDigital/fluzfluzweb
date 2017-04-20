@@ -27,6 +27,8 @@
 /**
  * @property Order $object
  */
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+
 class AdminOrdersController extends AdminOrdersControllerCore
 {
     public function initToolbar()
