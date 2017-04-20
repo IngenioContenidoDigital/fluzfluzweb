@@ -168,6 +168,12 @@
                                     </script>
                                 {/literal}   
                                 {if $page_name=='my-account'}
+                                    {if $order_lastmonth['alert'] == 4}
+                                        <div class="col-lg-12 banner-advertencia">
+                                            <p class="p-advertencia">{l s="Tu cuenta se encuentra actualmente cancelada."}</p>
+                                        </div>
+                                    {/if}
+
                                     {if $order_lastmonth['alert'] == 3}
                                         <div class="col-lg-12 banner-advertencia">
                                             <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "}{$order_lastmonth['quantity_max']}{" compras y te estas pasando de la fecha de vencimiento. Si no haces "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['dateCancel']}{") tu cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
