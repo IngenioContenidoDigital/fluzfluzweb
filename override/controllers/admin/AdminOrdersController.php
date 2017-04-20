@@ -27,8 +27,6 @@
 /**
  * @property Order $object
  */
-//include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
-//include_once '../../../modules/allinone_rewards/allinone_rewards.php';
 
 class AdminOrdersController extends AdminOrdersControllerCore
 {
@@ -1310,13 +1308,13 @@ class AdminOrdersController extends AdminOrdersControllerCore
                     );
                     $template = 'backoffice_order';
                     $allinone_rewards = new allinone_rewards();
-                    /*if ($allinone_rewards->sendMail((int)$cart->id_lang, $template, $allinone_rewards->getL('Pedido Recomendado'), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname)) {
-                        die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
-                    }*/
-                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart->id_lang), $mailVars, $customer->email,
-                            $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {
+                    if ($allinone_rewards->sendMail((int)$cart->id_lang, $template, $allinone_rewards->getL('Pedido Recomendado'), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname)) {
                         die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
                     }
+                    /*if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart->id_lang), $mailVars, $customer->email,
+                            $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {
+                        die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
+                    }*/
                 }
             }
             $this->content = Tools::jsonEncode(array('errors' => true, 'result' => $this->l('Error in sending the email to your customer.')));
