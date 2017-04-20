@@ -27,7 +27,8 @@
 /**
  * @property Order $object
  */
-require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+//include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once '../../../modules/allinone_rewards/allinone_rewards.php';
 
 class AdminOrdersController extends AdminOrdersControllerCore
 {
