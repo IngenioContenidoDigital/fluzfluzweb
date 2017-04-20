@@ -286,7 +286,8 @@ class MyAccountController extends MyAccountControllerCore
                         c.id_customer,
                         c.date_kick_out,
                         DATE_FORMAT(c.date_kick_out,'%Y-%m-%d') date_kick_out_show,
-                        c.warning_kick_out
+                        c.warning_kick_out,
+                        c.kick_out
                     FROM "._DB_PREFIX_."customer c
                     WHERE c.id_customer = ".$this->context->customer->id;
         $customer = Db::getInstance()->getRow($query);
@@ -324,6 +325,10 @@ class MyAccountController extends MyAccountControllerCore
             $alertpurchaseorder['quantity'] = 4 - $purchases;
             $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
             $alertpurchaseorder['dateCancel'] = $expiration_date;
+        }
+        
+        if ( $customer['kick_out'] == 1 ) {
+            $alertpurchaseorder['alert'] = 4;
         }
 
         return $alertpurchaseorder;
