@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+Congratulations {customer_firstname} {customer_lastname} !
+
+Your order {order} has been validated.
+The {customer_reward} loyalty reward is now available in your rewards account.
+=======
+Felicidades {customer_firstname} {customer_lastname} !
+
+Su pedido {order} ha sido validado.
+El premio de fidelización de {customer_reward} está disponible en su cuenta de fidelización.
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+
+
+
+{shop_name}
+{shop_url}

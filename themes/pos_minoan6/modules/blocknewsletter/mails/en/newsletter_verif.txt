@@ -1,0 +1,26 @@
+<<<<<<< HEAD
+
+[{shop_url}] 
+
+Hi, 
+
+Thank you for subscribing to our newsletter, please confirm your
+request by clicking the link below :
+
+{verif_url} [{verif_url}] 		 
+
+{shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Hola, 
+
+Gracias por suscribirse a nuestro boletín de noticias, confirmar su
+solicitud haciendo clic en enlace de té abajo:
+
+{verif_url} [{verif_url}] 		 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+PrestaShop(tm) [http://www.prestashop.com/] 
+

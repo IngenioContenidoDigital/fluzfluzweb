@@ -4,6 +4,7 @@ global $_LANGMAIL;
 $_LANGMAIL = array();
 $_LANGMAIL['Welcome!'] = '¡Bienvenido!';
 $_LANGMAIL['Process the payment of your order'] = 'Proceso de pago de su pedido';
+$_LANGMAIL['Completa tu pedido'] = '';
 $_LANGMAIL['Message from contact form'] = 'Mensaje desde el formulario de contacto';
 $_LANGMAIL['Your message has been correctly sent #ct%1$s #tc%2$s'] = 'Tu mensaje ha sido enviado correctamente #ct%1$s #tc%2$s';
 $_LANGMAIL['Your message has been correctly sent'] = 'Su mensaje se ha enviado correctamente';
@@ -27,6 +28,18 @@ $_LANGMAIL['Email verification'] = 'Verificación de correo';
 $_LANGMAIL['Newsletter voucher'] = 'Voucher boletín de noticias';
 $_LANGMAIL['Your wishlist\\\'s link'] = '';
 $_LANGMAIL['Message from %1$s %2$s'] = 'Mensaje de %1$s %2$s';
+$_LANGMAIL['Your cart and your discount'] = '';
+$_LANGMAIL['Thanks for your order'] = '';
+$_LANGMAIL['You are one of our best customers'] = '';
+$_LANGMAIL['We miss you'] = '';
+$_LANGMAIL['Product available'] = '';
+$_LANGMAIL['New order : #%d - %s'] = '';
+$_LANGMAIL['Your order has been changed'] = '';
+$_LANGMAIL['Stock coverage'] = '';
+$_LANGMAIL['Product out of stock'] = '';
+$_LANGMAIL['New return from order #%d - %s'] = '';
+$_LANGMAIL['Congratulations!'] = '';
+$_LANGMAIL['Referral Program'] = '';
 $_LANGMAIL['%1$s sent you a link to %2$s'] = '%1$s envió un link a %2$s';
 
 ?>

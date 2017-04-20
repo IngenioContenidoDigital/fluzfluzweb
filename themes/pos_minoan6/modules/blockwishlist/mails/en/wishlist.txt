@@ -1,0 +1,28 @@
+<<<<<<< HEAD
+
+[{shop_url}] 
+
+Hi, 
+
+Message from {shop_name} 
+
+{firstname} {lastname} indicated you may want to see his/her
+wishlist: {wishlist}
+
+{wishlist} [{message}] 
+
+{shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Hola, 
+
+{firstname} {lastname} indicó que puede interesarle ver su lista de
+deseos: {wishlist}
+
+{wishlist} [{message}] 		 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+PrestaShop(tm) [http://www.prestashop.com/] 
+

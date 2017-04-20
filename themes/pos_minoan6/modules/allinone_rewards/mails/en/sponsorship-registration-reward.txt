@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+Congratulations {sponsor_firstname} {sponsor_lastname} !
+
+Your sponsored friend {sponsored_firstname} {sponsored_lastname} has just registered on {shop_url} !
+Thanks to that sponsorship, you get {sponsor_reward}.
+=======
+Felicidades {sponsor_firstname} {sponsor_lastname},
+
+Su ahijado(a) {sponsored_firstname} {sponsored_lastname} acaba de registrarse en {shop_url}!
+Con este apadrinamiento gana {sponsor_reward}.
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+
+
+
+{shop_name}
+{shop_url}

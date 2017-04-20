@@ -1,0 +1,32 @@
+<<<<<<< HEAD
+
+[{shop_url}] 
+
+Message from a {shop_name} customer 
+
+CUSTOMER E-MAIL ADDRESS: {email}
+
+CUSTOMER MESSAGE: {message}
+
+ORDER ID: {order_name}
+
+ATTACHED FILE: {attached_file} 		 
+
+{shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Mensaje de un cliente de {shop_name} 
+
+DIRECCIÓN DE E-MAIL: {email}
+
+MENSAJE: {message}
+
+ID DEL PEDIDO: {order_name}
+
+ARCHIVO ADJUNTO: {attached_file} 		 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+PrestaShop(tm) [http://www.prestashop.com/] 
+

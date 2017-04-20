@@ -1277,14 +1277,35 @@ class AdminOrdersController extends AdminOrdersControllerCore
             $cart = new Cart((int)Tools::getValue('id_cart'));
             if (Validate::isLoadedObject($cart)) {
                 $customer = new Customer((int)$cart->id_customer);
+                
+                foreach ($cart->getProducts() as $product_cart){
+                    $name .=  "<label>".$product_cart['name']."</label><br>";
+                    $quantity_p .=  "<label>".$product_cart['cart_quantity']."</label><br>";
+                    $price_unit .=  "<label>".$product_cart['price']."</label><br>";
+                    $price_total .=  "<label>".$product_cart['total']."</label><br>";
+                
+                    $query_value = 'SELECT (rp.`value`/100) as value FROM '._DB_PREFIX_.'rewards_product rp WHERE id_product = '.$product_cart['id_product'];
+                    $row_v = Db::getInstance()->getRow($query_value);
+                    $value_porc = $row_v['value'];
+
+                    $reward = round(RewardsModel::getRewardReadyForDisplay($product_cart['total'], $this->context->currency->id)/(count($sponsorships2)+1));
+                    $r_point = floor($reward*$value_porc);
+                    $price_point .=  "<label>".$r_point."</label><br>";
+                }
+                
                 if (Validate::isLoadedObject($customer)) {
                     $mailVars = array(
                         '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart->id_lang, 'step=3&recover_cart='.(int)$cart->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart->id)),
                         '{username}' => $customer->username,
+                        '{quantity}' => $quantity_p,
+                        '{name_product}' => $name,
+                        '{points}' => $price_point,
+                        '{price_unit}' => $price_unit,
+                        '{price_total}' => $price_total,
                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                     );
-                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Completa tu pedido', (int)$cart->id_lang), $mailVars, $customer->email,
+                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Pedido recomendado', (int)$cart->id_lang), $mailVars, $customer->email,
                             $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {
                         die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
                     }

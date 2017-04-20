@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+Congratulations {sponsor_firstname} {sponsor_lastname} !
+
+The order of your sponsored friend {sponsored_firstname} {sponsored_lastname} has been validated.
+Your {sponsor_reward} reward is now available in your rewards account.
+
+=======
+Felicidades {sponsor_firstname} {sponsor_lastname},
+
+El pedido de su ahijado {sponsored_firstname} {sponsored_lastname} ha sido validado.
+Su premio de {sponsor_reward} está disponible en tu cuenta de fidelización.
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+
+
+{shop_name}
+{shop_url}

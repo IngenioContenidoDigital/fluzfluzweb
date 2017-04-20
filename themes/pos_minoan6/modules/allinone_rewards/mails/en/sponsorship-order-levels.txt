@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+Congratulations {sponsor_firstname} {sponsor_lastname} !
+
+One of your indirect sponsored friends has placed an order on {shop_url} !
+To thank you, when his order will be validated you will receive {sponsor_reward} in your rewards account.
+
+=======
+Felicidades {sponsor_firstname} {sponsor_lastname},
+
+Uno de sus ahijad@s indirectos ha hecho un pedido en {shop_name} !
+Cuando su pedido sea validado, {sponsor_reward} seran cargados en su cuenta de fidelización, como agradecimiento. 
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+
+
+{shop_name}
+{shop_url}

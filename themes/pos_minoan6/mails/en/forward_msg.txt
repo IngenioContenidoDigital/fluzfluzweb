@@ -1,0 +1,28 @@
+<<<<<<< HEAD
+
+[{shop_url}] 
+
+Hi {firstname} {lastname}, 
+
+{employee} wanted to forward this discussion to you. 
+
+DISCUSSION HISTORY: {messages}
+
+{employee} added "{comment}" 		 
+
+{shop_name} [{shop_url}] powered by
+=======
+[{shop_url}] 
+
+Hola {firstname} {lastname}, 
+
+{employee} quería enviar este mensaje para usted. 
+
+HISTORIAL DE LA CONVERSACIÓN: {messages}
+
+{employee} añadido "{comment}" 		 
+
+{shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
+PrestaShop(tm) [http://www.prestashop.com/] 
+
