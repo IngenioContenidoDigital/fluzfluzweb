@@ -897,7 +897,7 @@ class AdminImportController extends AdminImportControllerCore
         }
         $this->closeCsvFile($handle);
         
-        if ( $number_to_import <= 51 ) {
+        if ( $number_to_import <= 20 ) {
         $handle = $this->openCsvFile();
         // main loop, for each supply orders to import
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
