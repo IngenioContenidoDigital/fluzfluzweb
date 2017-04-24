@@ -69,9 +69,10 @@ class reportlogimportcustomers extends ModuleGrid
 
     public function getData()
     {
-        // $date_between = $this->getDate();
+        $date_between = $this->getDate();
         $this->query = "SELECT *
-                        FROM "._DB_PREFIX_."log_import_customers";
+                        FROM "._DB_PREFIX_."log_import_customers
+                        WHERE date_import BETWEEN ".$date_between;
 
         $list = Db::getInstance()->executeS($this->query);
 
