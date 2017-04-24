@@ -93,12 +93,13 @@ class reportlogimportcodes extends ModuleGrid
 
     public function getData()
     {
-        // $date_between = $this->getDate();
+        $date_between = $this->getDate();
         $this->query = "SELECT lic.id_log_import_codes, m.name merchant, p.reference, lic.sku, pl.name product, lic.quantity, lic.employee, lic.api, lic.date_import, lic.file
                         FROM "._DB_PREFIX_."log_import_codes lic
                         LEFT JOIN "._DB_PREFIX_."manufacturer m ON ( lic.merchant = m.id_manufacturer )
                         LEFT JOIN "._DB_PREFIX_."product_lang pl ON ( lic.sku = pl.id_product AND pl.id_lang = 1 )
-                        LEFT JOIN "._DB_PREFIX_."product p ON ( lic.sku = p.id_product )";
+                        LEFT JOIN "._DB_PREFIX_."product p ON ( lic.sku = p.id_product )
+                        WHERE lic.date_import BETWEEN ".$date_between;
 
         $list = Db::getInstance()->executeS($this->query);
 
