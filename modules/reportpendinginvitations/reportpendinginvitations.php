@@ -57,7 +57,7 @@ class reportpendinginvitations extends ModuleGrid
 
     public function getData()
     {
-        // $date_between = $this->getDate();
+        $date_between = $this->getDate();
         $this->query = "SELECT
                             IFNULL(c2.email, '') sponsor,
                             rs.email user,
@@ -73,7 +73,8 @@ class reportpendinginvitations extends ModuleGrid
                         FROM "._DB_PREFIX_."rewards_sponsorship rs
                         LEFT JOIN "._DB_PREFIX_."customer c ON ( rs.id_customer = c.id_customer )
                         LEFT JOIN "._DB_PREFIX_."customer c2 ON ( rs.id_sponsor = c2.id_customer )
-                        WHERE c.id_customer IS NULL";
+                        WHERE c.id_customer IS NULL
+                        AND rs.date_add BETWEEN ".$date_between;
 
         $list = Db::getInstance()->executeS($this->query);
 
