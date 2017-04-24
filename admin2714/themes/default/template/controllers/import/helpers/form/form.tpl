@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 **
 * NOTICE OF LICENSE
 **
@@ -18,7 +18,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 **
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
@@ -224,6 +224,7 @@
 					</div>
 				</div>
 				<hr />
+                                {*
 				<div class="form-group">
 					<label for="truncate" class="control-label col-lg-4">{l s='Delete all'} <span id="entitie">{l s='categories'}</span> {l s='before import'} </label>
 					<div class="col-lg-8">
@@ -237,6 +238,7 @@
 						</label>
 					</div>
 				</div>
+                                *}
 				<div class="form-group" style="display: none">
 					<label for="match_ref" class="control-label col-lg-4">
 						<span data-toggle="tooltip" class="label-tooltip" data-original-title="{l s='If enabled, the product\'s reference number MUST be unique!'}">
@@ -254,6 +256,7 @@
 						</label>
 					</div>
 				</div>
+                                {*
 				<div class="form-group">
 					<label for="regenerate" class="control-label col-lg-4">{l s='Skip thumbnails regeneration'}</label>
 					<div class="col-lg-8">
@@ -284,6 +287,7 @@
 						</label>
 					</div>
 				</div>
+                                *}
 <!--
 				{*if empty($files_to_import)*}
 				<div class="alert alert-info">{l s='You must upload a file in order to proceed to the next step'}</div>
@@ -300,7 +304,8 @@
 	</div>
 	<div class="col-lg-4">
 		{* Available and required fields *}
-		<div class="panel">
+		{*
+                <div class="panel">
 			<h3>
 				<i class="icon-list-alt"></i>
 				{l s='Available fields'}
@@ -310,6 +315,7 @@
 			</div>
 			<p>{l s='* Required field'}</p>
 		</div>
+                *}
 		<div class="panel">
 			<div class="panel-heading">
 				<i class="icon-download"></i>
@@ -317,6 +323,7 @@
 			</div>
 
 			<div class="list-group">
+                                {*
 				<a class="list-group-item _blank" href="../docs/csv_import/categories_import.csv">
 					{l s='Sample Categories file'}
 				</a>
@@ -326,10 +333,16 @@
 				<a class="list-group-item _blank" href="../docs/csv_import/combinations_import.csv">
 					{l s='Sample Combinations file'}
 				</a>
+                                *}
 				<a class="list-group-item _blank" href="../docs/csv_import/customers_import.csv">
 					{l s='Sample Customers file'}
 				</a>
-				<a class="list-group-item _blank" href="../docs/csv_import/addresses_import.csv">
+                                
+                                <a class="list-group-item _blank" href="../docs/csv_import/orders_import.csv">
+					{l s='Archivo de ejemplo de Ordenes'}
+				</a>
+				{*
+                                <a class="list-group-item _blank" href="../docs/csv_import/addresses_import.csv">
 					{l s='Sample Addresses file'}
 				</a>
 				<a class="list-group-item _blank" href="../docs/csv_import/manufacturers_import.csv">
@@ -349,6 +362,7 @@
 					{l s='Sample Supply Order Details file'}
 				</a>
 				{/if}
+                                *}
 			</div>
 		</div>
 	</div>
@@ -567,3 +581,8 @@
 		});
 	});
 </script>
+{literal}
+    <style>
+        .import_products_categories{display: none !important;}
+    </style>
+{/literal}

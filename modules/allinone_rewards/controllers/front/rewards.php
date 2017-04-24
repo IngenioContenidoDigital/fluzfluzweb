@@ -366,7 +366,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
             INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
             INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
             INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
-            WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." )
+            WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND r.id_reward_state = 2
             ORDER BY o.date_add DESC ";
             
             $activity=Db::getInstance()->executeS($query);

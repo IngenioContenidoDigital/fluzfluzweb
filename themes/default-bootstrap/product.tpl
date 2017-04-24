@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,7 +18,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
@@ -497,12 +497,14 @@
 			{include file="$tpl_dir./product-list.tpl" products=$packItems}
 		</section>
 		{/if}
+		{if (isset($HOOK_PRODUCT_TAB) && $HOOK_PRODUCT_TAB) || (isset($HOOK_PRODUCT_TAB_CONTENT) && $HOOK_PRODUCT_TAB_CONTENT)}
 		<!--HOOK_PRODUCT_TAB -->
 		<section class="page-product-box">
 			{$HOOK_PRODUCT_TAB}
 			{if isset($HOOK_PRODUCT_TAB_CONTENT) && $HOOK_PRODUCT_TAB_CONTENT}{$HOOK_PRODUCT_TAB_CONTENT}{/if}
 		</section>
 		<!--end HOOK_PRODUCT_TAB -->
+		{/if}
 		{if isset($accessories) && $accessories}
 			<!--Accessories -->
 			<section class="page-product-box">
@@ -525,7 +527,7 @@
 											</div>
 										</div>
 										<div class="s_title_block">
-											<h5 itemprop="name" class="product-name">
+											<h5 class="product-name">
 												<a href="{$accessoryLink|escape:'html':'UTF-8'}">
 													{$accessory.name|truncate:20:'...':true|escape:'html':'UTF-8'}
 												</a>

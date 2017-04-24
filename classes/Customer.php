@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -46,9 +46,6 @@ class CustomerCore extends ObjectModel
 
     /** @var int Current language used by the customer */
     public $id_lang;
-    
-    /** @var string Current username */
-    public $username;
 
     /** @var string Lastname */
     public $lastname;
@@ -138,18 +135,6 @@ class CustomerCore extends ObjectModel
 
     public $groupBox;
 
-    /** @var string DNI number */
-    public $dni;
-
-    /** @var string kick_out number */
-    public $kick_out;
-
-    /** @var string manual_inactivation number */
-    public $manual_inactivation;
-
-    /** @var string days_inactive number */
-    public $days_inactive;
-
     protected $webserviceParameters = array(
         'fields' => array(
             'id_default_group' => array('xlink_resource' => 'groups'),
@@ -174,7 +159,6 @@ class CustomerCore extends ObjectModel
         'primary' => 'id_customer',
         'fields' => array(
             'secure_key' =>                array('type' => self::TYPE_STRING, 'validate' => 'isMd5', 'copy_post' => false),
-            'username' =>                    array('type' => self::TYPE_STRING, 'required' => true, 'size' => 32),
             'lastname' =>                    array('type' => self::TYPE_STRING, 'validate' => 'isName', 'required' => true, 'size' => 32),
             'firstname' =>                    array('type' => self::TYPE_STRING, 'validate' => 'isName', 'required' => true, 'size' => 32),
             'email' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isEmail', 'required' => true, 'size' => 128),
@@ -204,11 +188,7 @@ class CustomerCore extends ObjectModel
             'id_lang' =>                    array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'copy_post' => false),
             'date_add' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
             'date_upd' =>                    array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
-            'dni' =>                        array('type' => self::TYPE_STRING, 'validate' => 'isDniLite', 'size' => 16),
-            'kick_out' =>                   array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-            'manual_inactivation' =>        array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
-            'days_inactive' =>              array('type' => self::TYPE_INT),
-        ),  
+        ),
     );
 
     protected static $_defaultGroupId = array();
@@ -238,8 +218,7 @@ class CustomerCore extends ObjectModel
             if ($this->is_guest) {
                 $this->id_default_group = (int)Configuration::get('PS_GUEST_GROUP');
             } else {
-                //$this->id_default_group = (int)Configuration::get('PS_CUSTOMER_GROUP');
-                $this->id_default_group = 4;
+                $this->id_default_group = (int)Configuration::get('PS_CUSTOMER_GROUP');
             }
         }
 
@@ -251,11 +230,10 @@ class CustomerCore extends ObjectModel
         $this->updateGroup($this->groupBox);
         return $success;
     }
-   
+
     public function update($nullValues = false)
     {
         $this->birthday = (empty($this->years) ? $this->birthday : (int)$this->years.'-'.(int)$this->months.'-'.(int)$this->days);
-        $this->manual_inactivation = (!$this->active) ? 1 : 0;
 
         if ($this->newsletter && !Validate::isDate($this->newsletter_date_add)) {
             $this->newsletter_date_add = date('Y-m-d H:i:s');
@@ -476,11 +454,7 @@ class CustomerCore extends ObjectModel
 					LEFT JOIN `'._DB_PREFIX_.'country_lang` cl ON (c.`id_country` = cl.`id_country`)
 					LEFT JOIN `'._DB_PREFIX_.'state` s ON (s.`id_state` = a.`id_state`)
 					'.($share_order ? '' : Shop::addSqlAssociation('country', 'c')).'
-					WHERE `id_customer` = '.(int)$this->id.' AND a.`deleted` = 0';
-
-            if ( (int)$id_lang != 0 ) {
-                $sql .= ' AND `id_lang` = '.(int)$id_lang;
-            }
+					WHERE `id_lang` = '.(int)$id_lang.' AND `id_customer` = '.(int)$this->id.' AND a.`deleted` = 0';
 
             $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql);
             Cache::store($cache_id, $result);
@@ -801,7 +775,6 @@ class CustomerCore extends ObjectModel
         $this->addGroups(array(Configuration::get('PS_CUSTOMER_GROUP'))); // add default customer group
         if ($this->update()) {
             $vars = array(
-                '{username}' => $this->username,
                 '{firstname}' => $this->firstname,
                 '{lastname}' => $this->lastname,
                 '{email}' => $this->email,
@@ -951,57 +924,5 @@ class CustomerCore extends ObjectModel
     {
         $sql_filter .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'main');
         return parent::getWebserviceObjectList($sql_join, $sql_filter, $sql_sort, $sql_limit);
-    }
-    
-    public static function customerPurchaseLicense($email) {
-        $membresias = Db::getInstance()->getValue("SELECT COUNT(*) membresias
-                                                    FROM "._DB_PREFIX_."customer c
-                                                    LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
-                                                    LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
-                                                    LEFT JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order )
-                                                    WHERE c.email = '".$email."'
-                                                    AND od.product_reference = 'MFLUZ'
-                                                    AND oh.id_order_state = 2");
-
-        /*$expulsiones = Db::getInstance()->getValue("SELECT COUNT(*) expulsiones
-                                                    FROM "._DB_PREFIX_."rewards_sponsorship_kick_out
-                                                    WHERE email = '".$email."'");*/
-        
-        if ( $membresias > 0 /*&& $membresias > $expulsiones*/ ) {
-            return true;
-        } else {
-            return false;
-        }
-        
-    }
-    
-    public static function updateEmailSponsorship($id_customer, $email) {
-        return Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards_sponsorship
-                                            SET email = "'.$email.'"
-                                            WHERE id_customer = '.(int)$id_customer);
-    }
-    
-    public static function usernameExists($username) {
-        $users = Db::getInstance()->getValue("SELECT COUNT(*)
-                                                FROM "._DB_PREFIX_."customer
-                                                WHERE username = '".$username."'
-                                                AND active = 1");  
-        if ( $users > 0 ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static function dniExists($dni) {
-        $users = Db::getInstance()->getValue("SELECT COUNT(*)
-                                                FROM "._DB_PREFIX_."customer
-                                                WHERE dni = ".$dni."
-                                                AND active = 1");  
-        if ( $users > 0 ) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }

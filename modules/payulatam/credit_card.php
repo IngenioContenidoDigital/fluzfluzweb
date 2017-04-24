@@ -23,7 +23,7 @@ class PayuCreditCard extends PayUControllerWS {
 
         $membership = false;
         $productsCart = $this->context->cart->getProducts();
-        $description = "(Cliente: ".$this->context->cart->id_customer.")(Carrito: ".$this->context->cart->id."). Productos: ";
+        $description = "(Cliente: ".$this->context->customer->username."). Productos: ";
         foreach ($productsCart as $product) {
             $description .= "[".$product['name'].",".$product['cart_quantity']."] ";
             if ( $product['reference'] == "MFLUZ" ) {
@@ -264,7 +264,7 @@ class PayuCreditCard extends PayUControllerWS {
                     $this->createAccountSuccess($membership, $customer->id);
                 }
 
-                $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".(int)$customer->id." AND id_order=".(int) $order['id_order']." AND id_cart=".$this->context->cart->id;
+                $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".(int)$customer->id." AND id_order=".(int) $order['id_order']." AND id_cart is NULL";
                 Db::getInstance()->execute($qstate);
                 
                 Tools::redirectLink($url_confirmation);

@@ -85,10 +85,15 @@
                                         <div class="name-merchant">
                                                 {if isset($product.pack_quantity) && $product.pack_quantity}{$product.pack_quantity|intval|cat:' x '}{/if}
                                                 {*<a class="product-name" href="{$product.link|escape:'html':'UTF-8'}" title="{$product.name|escape:'html':'UTF-8'}" itemprop="url" style="padding-left:0px;">*}
-                                                        {$product.manufacturer_name|truncate:45:'...'|escape:'html':'UTF-8'|upper}
+                                                        {if $products|@count > 1}
+                                                            {$product.manufacturer_name|truncate:30:'...'|escape:'html':'UTF-8'|upper}<br>
+                                                            {$product.name_product|truncate:30:'...'|escape:'html':'UTF-8'|upper}
+                                                        {else}
+                                                            {$product.manufacturer_name|truncate:30:'...'|escape:'html':'UTF-8'|upper}
+                                                        {/if}
                                                 {*</a>*}
                                         </div>
-                                        <div class="name-merchant" style="color:#EF4136;">
+                                        <div class="name-merchant" style="color:#EF4136; margin-bottom: 10px;">
                                             {foreach from=$points_subcategories item=p}
                                                 {if $product.id_product==$p.id_padre}
                                                     {if $logged}

@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{cheque}prestashop>cheque_7b4cc4f79be9aae43efd53b4ae5cba4d'] = 'Payment by check';
 $_MODULE['<{cheque}prestashop>cheque_c888438d14855d7d96a2724ee9c306bd'] = 'Your settings have been updated.';
 $_MODULE['<{cheque}prestashop>cheque_5dd532f0a63d89c5af0243b74732f63c'] = 'Contact details';
@@ -15,3 +14,5 @@ $_MODULE['<{cheque}prestashop>payment_return_e1c54fdba2544646684f41ace03b5fda'] 
 $_MODULE['<{cheque}prestashop>payment_return_4761b03b53bc2b3bd948bb7443a26f31'] = 'Do not forget to include your order reference %s.';
 $_MODULE['<{cheque}prestashop>payment_return_0db71da7150c27142eef9d22b843b4a9'] = 'If you have questions, comments or concerns, please contact our';
 $_MODULE['<{cheque}prestashop>payment_841728ede901f5134574c4656aba5464'] = 'Pay by check (order processing will take more time)';
+
+?>

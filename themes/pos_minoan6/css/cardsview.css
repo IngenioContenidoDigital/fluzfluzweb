@@ -248,6 +248,7 @@ ul li .check::before {
     margin-top: 10px;
 }
 .micode { font-family: 'Open Sans' !important; text-align: center; width: 100%; font-size: 18px; color: #ef4136; margin-bottom: 20px;}
+.micodepin{ font-family: 'Open Sans' !important; text-align: center; width: 100%; font-size: 18px; color: #ef4136; margin-bottom: 20px;}
 #priceCard{padding: 0; background: transparent;color: #ef4136; font-size: 18px; text-align: center; margin-top: 10px;}
 #typecurrency{padding: 0; background: transparent;color: #ef4136; font-size: 18px; text-align: center; margin-top: 10px;}
 #priceCard:before{
@@ -341,8 +342,7 @@ ul li .check::before {
     .c{margin-left: 0px;}
     .menuSticky{background: #fff; border-bottom: none; display: none;}
     #bar-code{margin-bottom: 0px;margin-top: 10px;margin-left: 139px !important;}
-    .codigoCard{margin-top: 4px;}
-    .instrucciones-pop{padding-left: 0px; padding-right: 0px;}
+    .instrucciones-pop{padding-left: 0px; padding-right: 0px;margin-bottom: 20px;}
     .c{padding-top: 0px; margin-top: 20px; max-height: 255px;}
     .update-card{margin-top: 20px;}
     .card-view { margin-left: 0!important; }
@@ -356,6 +356,7 @@ ul li .check::before {
 
 @media (max-width:425px){
     .c{ max-height: 252px;margin-left: 0px;}
+    .card {height: 46px !important;}
     #priceCard{font-size: 16px !important;}
     #nameViewCard{font-size: 12px;}
     .update-card{margin-left: 17px;}

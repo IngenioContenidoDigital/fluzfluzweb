@@ -2,7 +2,6 @@
 
 global $_MODULE;
 $_MODULE = array();
-
 $_MODULE['<{blockcms}prestashop>blockcms_a82be0f551b8708bc08eb33cd9ded0cf'] = 'Information';
 $_MODULE['<{blockcms}prestashop>blockcms_ea4788705e6873b424c65e91c2846b19'] = 'Cancel';
 $_MODULE['<{blockcms}prestashop>blockcms_ef61fb324d729c341ea8ab9901e23566'] = 'Add new';
@@ -23,3 +22,5 @@ $_MODULE['<{blockcms}prestashop>form_258f49887ef8d14ac268c92b02503aaa'] = 'Up';
 $_MODULE['<{blockcms}prestashop>form_7dce122004969d56ae2e0245cb754d35'] = 'Edit';
 $_MODULE['<{blockcms}prestashop>form_f2a6c498fb90ee345d997f888fce3b18'] = 'Delete';
 $_MODULE['<{blockcms}prestashop>form_49ee3087348e8d44e1feda1917443987'] = 'Name';
+
+?>

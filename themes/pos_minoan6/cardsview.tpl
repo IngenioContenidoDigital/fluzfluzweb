@@ -4,6 +4,7 @@
 {else}
     <div class='row c'>
         {foreach from=$cards item=card}
+            <div class="pin_code" id="pin_code" style="display:none;">{$card.codepin}</div>
             <div class="cardView-div">
                 <a class="myfanc" href="#myspecialcontent">
                     <div class="card col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -15,8 +16,10 @@
                             </div>
                         </div>
                         <div class="col-lg-7 col-md-6 col-sm-5 col-xs-8 codigoCard2">
-                            <span style="color: #000;">{l s='Tarjeta: '}</span>
-                            <span class="codeImg">{$card.card_code}</span></div>
+                            <span style="color: #000;">{l s='Bono: '}</span>
+                            <span class="codeImg">{$card.card_code}</span>
+                        </div>
+                        <div id="codecryOculto" style="display: none;">{$card.card_code_cry}</div>
                         <div class="oculto">{$img_manu_dir}{$card.id_manufacturer}.jpg</div>
                     </div>
                 </a>
@@ -89,7 +92,19 @@
         </div>
         <div class="row">    
             <div class="col-xs-6 col-sm-7 col-md-6 col-lg-6 div-info">
-                    <div class="pCode">{l s="Your Gift Card ID is: "}</div><div class="micode"></div>
+                    <div class="pCode">C&oacute;digo de Bono:</div><div class="micode"></div>
+                    {foreach from=$pin_code item=pin}
+                        <div class="id_manufacturer" id="manufacturer" name="manufacturer" style="display:none;">{$pin.id_manufacturer}</div>
+                        {if $pin.pin >= 1 }
+                            <div class="title-cod-class-pin" id="title-pin-{$pin.id_manufacturer}" style="display:none;">
+                                <div class="pCode">{l s="Pin del bono: "}</div>
+                                <div class="micodepin"></div>
+                            </div>
+                        {else}
+                            <div class="title-cod-class-pin" id="title-pin-{$pin.id_manufacturer}" style="display:none;">
+                            </div>
+                        {/if}
+                    {/foreach}
                     <div class="pPrice col-lg-4 col-md-6 col-sm-6 col-xs-6">{l s="Value: "}</div><div id="priceCard" class="price-cardview col-lg-8 col-md-6 col-sm-6 col-xs-6"></div>
                     <div class="pPrice-used col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Utilizado: "}</div><div id="priceCard_used2" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
             </div>
@@ -136,6 +151,7 @@
         
         $('.myfanc').click(function(){
             var codeImg2 = $(this).find(".codeImg").html();
+            var codecryOculto = $(this).find("#codecryOculto").html();
             var price = document.getElementById("pOculto").innerHTML;
             var priceValue = document.getElementById("price_value").innerHTML;
             var name = document.getElementById("nameOculto").innerHTML;
@@ -147,7 +163,7 @@
             $("#img-prod").attr("src",ruta);
             $.ajax({
                 method:"POST",
-                data: {'action': 'consultcodebar', 'codeImg2': codeImg2,'price':price,'idproduct':idproduct},
+                data: {'action': 'consultcodebar', 'codeImg2': codecryOculto,'price':price,'idproduct':idproduct},
                 url: '/raizBarcode.php', 
                 success:function(response) {
                     var response = jQuery.parseJSON(response);
@@ -223,6 +239,18 @@
             $('#labelCard2').addClass('labelcard');
             $('#labelCard').removeClass('labelcard');
             $('#used').removeClass('checkConfirm');
+        });
+        
+        $('.card').click(function(){
+            
+            var id_manu = document.getElementById("manufacturer").innerHTML;
+            var cardcode = document.getElementById("pin_code").innerHTML;
+            $(".title-cod-class").css("display","none");
+            $("#title-cod-"+id_manu).css("display","block");
+            $(".title-cod-class-pin").css("display","none");
+            $("#title-pin-"+id_manu).css("display","block");
+            
+            $('.micodepin').html(cardcode);
         });
 
         $('.containerCard').on("click",'input:radio[name=selector]',function()

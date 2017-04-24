@@ -1,5 +1,5 @@
 {*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,23 +18,14 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 {if isset($new_products) && $new_products}
 	{include file="$tpl_dir./product-list.tpl" products=$new_products class='blocknewproducts tab-pane' id='blocknewproducts'}
 {else}
-<section class="page-product-box blockproductscategory">
-        <div class="divTitleFeatured">
-            <h1 class="titleFeatured2">{l s="New Products"}</h1>
-        </div>
 <ul id="blocknewproducts" class="blocknewproducts tab-pane">
 	<li class="alert alert-info">{l s='No new products at this time.' mod='blocknewproducts'}</li>
 </ul>
-<div class="boxprevnext2">
-    <a class="prev prev-product"><i class="icon-chevron-left"></i></a>
-    <a class="next next-product"><i class="icon-chevron-right"></i></a>
-</div>
-</section>
 {/if}

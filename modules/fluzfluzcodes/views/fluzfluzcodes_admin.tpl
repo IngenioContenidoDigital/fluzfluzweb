@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th><strong>Codigos</strong></th>
+                            <th style="text-align: center;"><strong>Pin</strong></th>
                             <th style="text-align: center;"><strong>Estado</strong></th>
                             <th style="text-align: center;"><strong>Orden</strong></th>
                             <th style="text-align: center;"><strong>Fecha Creacion</strong></th>
@@ -28,12 +29,13 @@
                         {foreach $codes as $code}
                             <tr>
                                 <td>{$code.code}</td>
+                                <td style="text-align: center;">{$code.pin}</td>
                                 <td style="text-align: center;">{$code.estado}</td>
                                 <td style="text-align: center;">{$code.order}</td>
                                 <td style="text-align: center;">{$code.date_add}</td>
                                 <td style="text-align: center;" class="action">
                                     {if $code.order == ""}
-                                        <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.codecomplete}');">
+                                        <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.id_product_code}', '{$code.code}');">
                                     {/if}
                                 </td>
                             </tr>
@@ -49,15 +51,15 @@
 </div>
 
 <script type="text/javascript">
-    function sendAction(action, product, code) {
+    function sendAction(action, product, id_product_code, code) {
         var msgError = "Se ha generado un error ejecutando la accion porfavor intente de nuevo.";
-        if ( action == "deletecode" && product != "" && code != "" ) {
-            conf = confirm( 'Confirma que desea eliminar el codigo **********'+code.substr(-4,code.lenght) );
+        if ( action == "deletecode" && product != "" && id_product_code != "" ) {
+            conf = confirm( 'Confirma que desea eliminar el codigo '+code );
             if ( conf == true ) {
                 $.ajax({
                     method: "POST",
                     url: "{$module_dir}ajax/fluzfluzcodes_admin.php",
-                    data: { action: action, product: product, code: code }
+                    data: { action: action, product: product, id_product_code: id_product_code }
                 }).done(function(response) {
                     if ( response != 0 ) {
                         alert("El codigo ha sido eliminado exitosamente");

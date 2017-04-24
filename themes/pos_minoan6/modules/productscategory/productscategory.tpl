@@ -56,7 +56,7 @@
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
                                                 <div style="font-size:12px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                        {$categoryProduct.manufacturer_name|truncate:30:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
@@ -87,7 +87,7 @@
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
                                                 <div style="font-size:12px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                        {$categoryProduct.manufacturer_name|truncate:30:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
@@ -118,7 +118,7 @@
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
                                                 <div style="font-size:12px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                        {$categoryProduct.manufacturer_name|truncate:30:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
@@ -149,7 +149,7 @@
                                         {assign var="idprodshop" value=$product.reference}
                                         {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
                                                 <div style="font-size:12px; margin-left: 0px;">
-                                                        {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                        {$categoryProduct.manufacturer_name|truncate:30:'...'|escape:'html':'UTF-8'}
                                                 </div>
                                                 {foreach from=$points_subcategories item=p}
                                                     {if $categoryProduct.id_product==$p.id_padre}
@@ -180,7 +180,7 @@
                                             {assign var="idprodshop" value=$product.reference}
                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$categoryProduct.price_shop r=$categoryProduct.price_tax_exc}}    
                                                     <div style="font-size:12px; margin-left: 0px;">
-                                                            {$categoryProduct.manufacturer_name|truncate:40:'...'|escape:'html':'UTF-8'}
+                                                            {$categoryProduct.manufacturer_name|truncate:30:'...'|escape:'html':'UTF-8'}
                                                     </div>
                                                     {foreach from=$points_subcategories item=p}
                                                         {if $categoryProduct.id_product==$p.id_padre}

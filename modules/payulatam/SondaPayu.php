@@ -16,8 +16,8 @@ class SondaPayu extends PayUControllerWS {
     if(Configuration::get('PAYU_LATAM_TEST') === 'true'){
         $this->url_reports = 'https://sandbox.api.payulatam.com/reports-api/4.0/service.cgi';
     }else{
-        $this->url_reports =  'https://api.payulatam.com/reports-api/4.0/service.cgi';
-        //$this->url_reports = 'https://sandbox.api.payulatam.com/reports-api/4.0/service.cgi';
+        //$this->url_reports =  'https://api.payulatam.com/reports-api/4.0/service.cgi';
+        $this->url_reports = 'https://sandbox.api.payulatam.com/reports-api/4.0/service.cgi';
     }
  }                      
 
@@ -70,21 +70,8 @@ public function updatePendyngOrdes(){
                                   $this->response_sonda_payu($order, $response);
                                }
   }
-        $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$key['id_order'];
-        $row = Db::getInstance()->getRow($queryValidation);
-        $orderValidation = $row['total'];
-
-        $quantityProducts = 'SELECT COUNT(product_id) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$key['id_order'];
-
-        $row2 = Db::getInstance()->getRow($quantityProducts);
-        $productos = $row2['productos'];                  
-        
-        if($order->getCurrentState() == 2 && (($orderValidation < $productos))){
-            Order::updateCodes($order);
-        } 
 
 }
-        
 }
 
 public function getByOrderId($order_id){
@@ -262,28 +249,14 @@ public function updatePendyngOrdesConfirmation(){
                             $order->setCurrentState((int) Configuration::get('PS_OS_ERROR'));
                             }  
                           }
-                          
-        $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$key['id_order'];
-        $row = Db::getInstance()->getRow($queryValidation);
-        $orderValidation = $row['total'];
 
-        $quantityProducts = 'SELECT COUNT(product_id) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$key['id_order'];
-
-        $row2 = Db::getInstance()->getRow($quantityProducts);
-        $productos = $row2['productos'];                  
-        
-        if($order->getCurrentState() == 2 && (($orderValidation < $productos))){
-            Order::updateCodes($order);
-        }                  
-                          
         if (_PS_VERSION_ >= 1.5) {
             $payment = $order->getOrderPaymentCollection();
             if (isset($payment[0])) {
                $payment[0]->transaction_id = pSQL("payU_".$key['id_cart']);
                $payment[0]->save();
             }
-        }        
-        
+        }                          
 echo '<br>Order: '.$key['id_order'];
   }
 }
@@ -371,39 +344,5 @@ public function response_sonda_payu($order, $response_ws){
           return false;
 }
 
-/*public function updatePendyngCustomers(){
-        // Inactivar Clientes - Orden Error de pago
-        $customers = Db::getInstance()->ExecuteS("SELECT c.id_customer
-                                                FROM "._DB_PREFIX_."customer c
-                                                INNER JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
-                                                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
-                                                WHERE o.id_customer NOT IN (
-                                                    SELECT c.id_customer
-                                                    FROM "._DB_PREFIX_."customer c
-                                                    INNER JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer AND o.current_state = 2 )
-                                                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
-                                                    GROUP BY c.id_customer
-                                                )
-                                                GROUP BY o.id_customer");
-        foreach ( $customers as $customer ) {
-            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 0, id_default_group = 2 WHERE id_customer = ".$customer['id_customer']);
-            Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer['id_customer']);
-            Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",2)");
-        }
-
-        // Activar Clientes - Orden Pago aceptado
-        $customers = Db::getInstance()->ExecuteS("SELECT c.id_customer
-                                                FROM "._DB_PREFIX_."customer c
-                                                INNER JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer AND o.current_state = 2 )
-                                                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference = 'MFLUZ' )
-                                                WHERE c.manual_inactivation = 0
-                                                GROUP BY c.id_customer");
-        foreach ( $customers as $customer ) {
-            Db::getInstance()->Execute("UPDATE "._DB_PREFIX_."customer SET active = 1, id_default_group = 4 WHERE id_customer = ".$customer['id_customer']);
-            Db::getInstance()->Execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer['id_customer']);
-            Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",3)");
-            Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer['id_customer'].",4)");
-        }
-    }*/
 }
 ?>

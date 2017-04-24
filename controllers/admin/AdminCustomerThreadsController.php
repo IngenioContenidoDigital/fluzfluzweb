@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -660,7 +660,7 @@ class AdminCustomerThreadsControllerCore extends AdminController
                 foreach ($orders as $key => $order) {
                     if ($order['valid']) {
                         $orders_ok[] = $order;
-                        $total_ok += $order['total_paid_real'];
+                        $total_ok += $order['total_paid_real']/$order['conversion_rate'];
                     }
                     $orders[$key]['date_add'] = Tools::displayDate($order['date_add']);
                     $orders[$key]['total_paid_real'] = Tools::displayPrice($order['total_paid_real'], new Currency((int)$order['id_currency']));
@@ -1079,6 +1079,8 @@ class AdminCustomerThreadsControllerCore extends AdminController
                         $message = utf8_encode($message);
                         $message = quoted_printable_decode($message);
                         $message = nl2br($message);
+                        $message = Tools::substr($message, 0, (int) CustomerMessage::$definition['fields']['message']['size']);
+
                         $cm = new CustomerMessage();
                         $cm->id_customer_thread = $ct->id;
                         if (empty($message) || !Validate::isCleanHtml($message)) {

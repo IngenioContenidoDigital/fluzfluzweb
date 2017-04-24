@@ -11,20 +11,16 @@
  * Support on forum : Patanock
  * Support on Skype : Patanock13
  */
-
 if (!defined('_PS_VERSION_'))
 	exit;
-
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/plugins/RewardsGenericPlugin.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsModel.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
-
 class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 {
 	public $name = 'sponsorship';
 	private $_configuration;
 	private $_popup = false;
-
 	public function install()
 	{
 		// hooks
@@ -37,7 +33,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		|| !$this->registerHook('actionObjectOrderDetailAddAfter') || !$this->registerHook('actionObjectOrderDetailUpdateAfter') || !$this->registerHook('actionObjectOrderDetailDeleteAfter')
 		|| !$this->registerHook('actionObjectCustomerDeleteAfter'))
 			return false;
-
 		$idEn = Language::getIdByIso('en');
 		$desc = array();
 		$account_txt = array();
@@ -56,13 +51,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			$tmp = $this->l('rules_txt', (int)$language['id_lang']);
 			$rules_txt[(int)$language['id_lang']] = isset($tmp) && !empty($tmp) ? $tmp : $this->l('rules_txt', $idEn);
 		}
-
 		$groups_config = '';
 		$groups = Group::getGroups((int)Configuration::get('PS_LANG_DEFAULT'));
 		foreach ($groups AS $group)
 			$groups_config .= (int)$group['id_group'].',';
 		$groups_config = rtrim($groups_config, ',');
-
 		if (!Configuration::updateValue('RSPONSORSHIP_ORDER_QUANTITY_S', 0)
 		|| !Configuration::updateValue('RSPONSORSHIP_VOUCHER_DETAILS', $desc)
 		|| !Configuration::updateValue('RSPONSORSHIP_REAL_VOUCHER_GC', 0)
@@ -107,21 +100,18 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		|| !Configuration::updateValue('RSPONSORSHIP_RULES_TXT', $rules_txt, true)
 		|| !Configuration::updateValue('RSPONSORSHIP_GROUPS', $groups_config))
 			return false;
-
 		if (version_compare(_PS_VERSION_, '1.5.2', '<')) {
 			Configuration::set('RSPONSORSHIP_ACCOUNT_TXT', $account_txt);
 			Configuration::set('RSPONSORSHIP_ORDER_TXT', $order_txt);
 			Configuration::set('RSPONSORSHIP_POPUP_TXT', $popup_txt);
 			Configuration::set('RSPONSORSHIP_RULES_TXT', $rules_txt);
 		}
-
 		foreach ($this->instance->getCurrencies() as $currency) {
 			Configuration::updateValue('RSPONSORSHIP_REWARD_VALUE_S_'.(int)($currency['id_currency']), 5);
 			Configuration::updateValue('RSPONSORSHIP_VOUCHER_VALUE_GC_'.(int)($currency['id_currency']), 5);
 			Configuration::updateValue('RSPONSORSHIP_MINIMUM_VALUE_GC_'.(int)($currency['id_currency']), 0);
 			Configuration::updateValue('RSPONSORSHIP_UNLOCK_GC_'.(int)($currency['id_currency']), 0);
 		}
-
 		// database
 		Db::getInstance()->Execute('
 		CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'rewards_sponsorship` (
@@ -140,7 +130,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			UNIQUE KEY `index_unique_sponsorship_email` (`email`),
 			KEY `index_id_customer` (`id_customer`)
 		) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
-
 		Db::getInstance()->Execute('
 		CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'rewards_sponsorship_detail` (
 			`id_reward` INT UNSIGNED NOT NULL,
@@ -148,14 +137,12 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			`level_sponsorship` INT UNSIGNED DEFAULT \'0\',
 			PRIMARY KEY (`id_reward`)
 		) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
-
 		Db::getInstance()->Execute('
 		CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'rewards_sponsorship_code` (
 			`id_sponsor` INT UNSIGNED NOT NULL,
 			`code` VARCHAR(20) NOT NULL,
 			PRIMARY KEY (`id_sponsor`)
 		) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 ;');
-
 		// create an invisible tab so we can call an admin controller to manage the sponsor autocomplete field in the customer page
 		$tab = new Tab();
 		$tab->active = 1;
@@ -167,10 +154,8 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		$tab->module = $this->instance->name;
 		if (!$tab->add())
 			return false;
-
 		return true;
 	}
-
 	public function uninstall()
 	{
 		//Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'rewards_sponsorship_detail`;');
@@ -178,14 +163,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		Db::getInstance()->Execute('
 			DELETE FROM `'._DB_PREFIX_.'configuration_lang`
 			WHERE `id_configuration` IN (SELECT `id_configuration` from `'._DB_PREFIX_.'configuration` WHERE `name` like \'RSPONSORSHIP_%\')');
-
 		Db::getInstance()->Execute('
 			DELETE FROM `'._DB_PREFIX_.'configuration`
 			WHERE `name` like \'RSPONSORSHIP_%\'');
-
 		return true;
 	}
-
 	// get the configuration by level
 	private function _initConf($id_template)
 	{
@@ -193,7 +175,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		$this->_configuration['reward_type'] = explode(',', MyConf::get('RSPONSORSHIP_REWARD_TYPE_S', null, $id_template));
 		$this->_configuration['reward_percentage'] = explode(',', MyConf::get('RSPONSORSHIP_REWARD_PERCENTAGE', null, $id_template));
 		$this->_configuration['unlimited'] = (int)MyConf::get('RSPONSORSHIP_UNLIMITED_LEVELS', null, $id_template);
-
 		$currencies = $this->instance->getCurrencies();
 		$tmp = Tools::getValue('reward_value_s');
 		foreach ($currencies as $currency) {
@@ -205,25 +186,22 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			}
 		}
 	}
-
 	public function isActive()
 	{
 		if ($this->context->customer->isLogged()) {
-			// si le client est logguÃ© on regarde si le parrainage est actif pour lui
+			// si le client est loggué on regarde si le parrainage est actif pour lui
 			$id_template = (int)MyConf::getIdTemplate('sponsorship', $this->context->customer->id);
 			return MyConf::get('RSPONSORSHIP_ACTIVE', null, $id_template);
 		} else {
-			// sinon, on teste si au moins un modÃ¨le est actif car dans ce cas il faut toujours afficher le champs de parrainage sur le formulaire d'inscription
+			// sinon, on teste si au moins un modèle est actif car dans ce cas il faut toujours afficher le champs de parrainage sur le formulaire d'inscription
 			// et traiter les URL
 			return Configuration::get('RSPONSORSHIP_ACTIVE') || MyConf::isActiveAtLeastOnce('RSPONSORSHIP_ACTIVE');
 		}
 	}
-
 	public function getTitle()
 	{
 		return $this->l('Sponsorship program');
 	}
-
 	public function getDetails($reward, $admin) {
 		$row = RewardsSponsorshipModel::getRewardDetails($reward['id_reward']);
 		if ($reward['id_order']) {
@@ -246,12 +224,10 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			}
 		}
 	}
-
 	protected function postProcess($params=null)
 	{
-		// on initialise le template Ã  chaque chargement
+		// on initialise le template à chaque chargement
 		$this->initTemplate();
-
 		if (Tools::isSubmit('submitSponsorship')) {
 			$this->_postValidation();
 			if (!sizeof($this->_errors)) {
@@ -266,7 +242,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				MyConf::updateValue('RSPONSORSHIP_POPUP_DELAY', (int)Tools::getValue('popup_delay'), null, $this->id_template);
 				if (Tools::getValue('popup_reset'))
 					MyConf::updateValue('RSPONSORSHIP_POPUP_KEY', Tools::passwdGen(), null, $this->id_template);
-
 				MyConf::updateValue('RSPONSORSHIP_ACTIVE', (int)Tools::getValue('sponsorship_active'), null, $this->id_template);
 				MyConf::updateValue('RSPONSORSHIP_REWARD_REGISTRATION', (int)Tools::getValue('reward_registration'), null, $this->id_template);
 				MyConf::updateValue('RSPONSORSHIP_REGISTR_MULTIPLE', implode(',', Tools::getValue('rsponsorship_registr_multiple')), null, $this->id_template);
@@ -296,7 +271,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				MyConf::updateValue('RSPONSORSHIP_FREESHIPPING_GC', (int)Tools::getValue('freeshipping_gc'), null, $this->id_template);
 				MyConf::updateValue('RSPONSORSHIP_DISCOUNTED_ALLOWED', (int)Tools::getValue('rsponsorship_discounted_allowed'), null, $this->id_template);
 				MyConf::updateValue('RSPONSORSHIP_SHARE_IMAGE_URL', Tools::getValue('share_image_url'), null, $this->id_template);
-
 				$currencies = $this->instance->getCurrencies();
 				foreach ($currencies as $currency) {
 					MyConf::updateValue('RSPONSORSHIP_MINIMUM_VALUE_GC_'.$currency['id_currency'], (float)Tools::getValue('minimum_value_gc_'.$currency['id_currency']), null, $this->id_template);
@@ -349,12 +323,30 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		} else if (Tools::isSubmit('submitSponsor') && (int)Tools::getValue('new_sponsor')) {
 			$customer = new Customer((int)$params['id_customer']);
 			$new_sponsor = new Customer((int)Tools::getValue('new_sponsor'));
-			if (Validate::isLoadedObject($new_sponsor)) {
+                        
+                        $query_sponsor = 'SELECT COUNT(rs.id_sponsor) AS cont_sponsor FROM '._DB_PREFIX_.'rewards_sponsorship AS rs WHERE rs.id_sponsor ='.(int)Tools::getValue('new_sponsor');
+                        $row_sponsor = Db::getInstance()->getRow($query_sponsor);
+                        $count_sponsor = $row_sponsor['cont_sponsor'];
+                        
+                        if($count_sponsor < Configuration::get('RSPONSORSHIP_NB_FRIENDS')){
+                            if (Validate::isLoadedObject($new_sponsor)) {
 				if ($this->_createSponsorship($new_sponsor, $customer, true, (bool)Tools::getValue('generate_voucher'), (int)Tools::getValue('generate_currency')))
 					return $this->instance->displayConfirmation($this->l('The sponsor has been updated.'));
 				else
 					return $this->instance->displayError($this->l('The sponsor update failed.'));
-			}
+                            }
+                        }
+                        else{
+                             
+                                echo '<div style="padding: 15px 5px; color: #EE4A42;font-size: 14px;">
+                                    <span>El Sponsor ingresado ya ha utilizado sus '.Configuration::get('RSPONSORSHIP_NB_FRIENDS').' invitaciones permitidas. </span>
+                                </div>
+                            
+                                <script>
+                                        alert("El Sponsor ingresado ya ha utilizado sus '.Configuration::get('RSPONSORSHIP_NB_FRIENDS').' invitaciones permitidas.");
+                                      </script>';
+                        }
+                        
 		} else if (Tools::isSubmit('submitSponsorshipEndDate') && (int)Tools::getValue('id_sponsorship_to_update')) {
 			$this->_postValidation();
 			if (!sizeof($this->_errors)) {
@@ -372,14 +364,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			return $this->instance->displayConfirmation($this->l('The template has been updated.'));
 		}
 	}
-
 	private function _postValidation($params=null)
 	{
 		$this->_errors = array();
-
 		if (Tools::isSubmit('submitSponsorship')) {
 			$currencies = $this->instance->getCurrencies();
-
 			if (Tools::getValue('popup') && (!is_numeric(Tools::getValue('popup_delay')) || Tools::getValue('popup_delay') <= 0))
 				$this->_errors[] = $this->l('The number of days before opening the popup again, is invalid.');
 			if (Tools::getValue('share_image_url') && !Validate::isAbsoluteUrl(Tools::getValue('share_image_url')))
@@ -390,7 +379,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				$this->_errors[] = $this->l('The number of lines displayed in the invitation form is required/invalid.');
 			if (empty($this->id_template) && !is_array(Tools::getValue('rsponsorship_groups')))
 				$this->_errors[] = $this->l('Please select at least 1 customer group allowed to sponsor its friends');
-
 			if (Tools::getValue('reward_registration')) {
 				$sponsorship_registr_multiple = Tools::getValue('rsponsorship_registr_multiple');
 				$sponsorship_registr_repeat = Tools::getValue('rsponsorship_registr_repeat');
@@ -404,7 +392,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						$this->_errors[] = sprintf($this->l('The reward value is required/invalid for rule #%s.'), $key+1);
 				}
 			}
-
 			if(Tools::getValue('reward_order')) {
 				if (!is_numeric(Tools::getValue('rsponsorship_duration')) || Tools::getValue('rsponsorship_duration') < 0)
 					$this->_errors[] = $this->l('The duration of the sponsorship is required/invalid.');
@@ -416,7 +403,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				foreach ($currencies as $currency) {
 					if (Tools::getValue('unlock_gc_'.$currency['id_currency'])!='' && !Validate::isUnsignedFloat(Tools::getValue('unlock_gc_'.$currency['id_currency'])))
 						$this->_errors[] = $this->l('Minimum unlock amount for the currency').' '.$currency['name'].' '.$this->l('is invalid.');
-
 					if (is_array($reward_value_s[$currency['id_currency']])) {
 						foreach($reward_value_s[$currency['id_currency']] as $level => $value) {
 							if (empty($value))
@@ -477,7 +463,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						if (empty($description))
 							$this->_errors[] = $this->l('Voucher description is required for').' '.$lang['name'];
 					}
-
 				}
 			}
 		} else if (Tools::isSubmit('submitSponsorshipEndDate')) {
@@ -492,30 +477,24 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			}
 		}
 	}
-
 	public function displayForm() {
 		if (Tools::getValue('stats')) {
 			$id_sponsor = Tools::getValue('id_sponsor');
 			return $this->_getStatistics(empty($id_sponsor) ? null : $id_sponsor);
 		}
-
 		$this->postProcess();
 		$this->_initConf($this->id_template);
-
 		// Languages preliminaries
 		$defaultLanguage = (int)Configuration::get('PS_LANG_DEFAULT');
 		$languages = Language::getLanguages();
-
 		$currencies = $this->instance->getCurrencies();
 		$defaultCurrency = new Currency((int)Configuration::get('PS_CURRENCY_DEFAULT'));
-
 		$groups = Group::getGroups($this->context->language->id);
 		$allowed_groups = Tools::getValue('rsponsorship_groups', explode(',', Configuration::get('RSPONSORSHIP_GROUPS')));
 		$categories = Tools::getValue('categoryBox', explode(',', MyConf::get('RSPONSORSHIP_CATEGORIES_GC', null, $this->id_template)));
 		$code_cart_rule = Tools::getValue('real_code_gc', MyConf::get('RSPONSORSHIP_REAL_CODE_GC', null, $this->id_template));
 		$cart_rule = new CartRule((int)CartRule::getIdByCode($code_cart_rule));
 		$token = Tools::getAdminToken('AdminCartRules'.(int)Tab::getIdFromClassName('AdminCartRules').(int)$this->context->employee->id);
-
 		$html = $this->getTemplateForm($this->id_template, $this->name, $this->l('Sponsorship')).'
 		<div class="tabs" style="display: none">
 			<ul>
@@ -727,7 +706,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					</div>
 					<div class="clear" style="padding-top: 10px"></div>
 					<label class="t" style="width: 100% !important"><strong>'.$this->l('If you want to reward the sponsors on several levels, you can define as many levels as necessary').'</strong></label>';
-
 		foreach($this->_configuration['reward_type'] as $level => $reward_type) {
 			$html .= '
 					<div class="clear level_information">
@@ -972,7 +950,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 							</div>';
 		}
 		$html .= '
-
 						</div>
 					</fieldset>
 					<fieldset>
@@ -1017,7 +994,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		</div>';
 		return $html;
 	}
-
 	private function _getStatistics($id_sponsor=null)
 	{
 		$stats = RewardsSponsorshipModel::getAdminStatistics();
@@ -1053,7 +1029,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						<td>".Tools::displayPrice($stats['total_orders'], (int)Configuration::get('PS_CURRENCY_DEFAULT'))."</td>
 					</tr>
 				</table>
-
 				<div class='title'>".$this->l('Details by registration channel')."</div>
 				<table class='channels_sponsorship'>
 					<tr class='title'>
@@ -1111,7 +1086,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						<td class='price'>".Tools::displayPrice($stats['total_rewards_registrations_channel5'], (int)Configuration::get('PS_CURRENCY_DEFAULT'))."</td>
 					</tr>
 				</table>
-
 				<div class='title'>".$this->l('Details by sponsor')."</div>
 				<table class='customers tablesorter tablesorter-ice'>
 					<thead>
@@ -1219,13 +1193,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return $result;
 	}
-
 	// Return the reward calculated from a price in a specific currency, and converted in the 2nd currency
 	private function _getNbCreditsByPrice($price, $idCurrencyFrom, $idCurrencyTo = NULL, $extraParams = array())
 	{
 		if (!isset($idCurrencyTo))
 			$idCurrencyTo = $idCurrencyFrom;
-
 		// for a fixed reward, special offers are always taken in account
 		if (Configuration::get('PS_CURRENCY_DEFAULT') != $idCurrencyFrom)
 		{
@@ -1245,7 +1217,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			return 0;
 		}
 	}
-
 	// check if a sponsorship link has been clicked
 	private function _checkSponsorshipLink()
 	{
@@ -1263,7 +1234,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				$this->context->cookie->rewards_sponsorship_id = Validate::isLoadedObject($sponsorship) ? $sponsorship->id : '';
 				$id_template = (int)MyConf::getIdTemplate('sponsorship', $sponsor->id);
 			}
-
 			if (MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template) != 'home' && $this->context->controller instanceof IndexController) {
 				if (MyConf::get('RSPONSORSHIP_REDIRECT', null, $id_template) == 'form')
 					Tools::redirect('index.php?controller=authentication&create_account=1');
@@ -1272,7 +1242,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			}
 		}
 	}
-
 	public function hookDisplayHeader()
 	{
 		// check if the sponsor in cookie is still authorized to sponsor
@@ -1283,10 +1252,8 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				unset($this->context->cookie->rewards_sponsorship_id);
 			}
 		}
-
 		// check for the sponsor
 		$this->_checkSponsorshipLink();
-
 		// add css and js for the sponsorship form and popup
 		if (RewardsSponsorshipModel::isCustomerAllowed($this->context->customer)) {
 			$this->context->controller->addjqueryPlugin('fancybox');
@@ -1295,7 +1262,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			else
 				$this->context->controller->addJS($this->instance->getPath().'js/sponsorship.js');
 		}
-
 		// add ogimage
 		$id_template = (int)MyConf::getIdTemplate('sponsorship', (int)$this->context->cookie->rewards_sponsor_id);
 		$ogimage = MyConf::get('RSPONSORSHIP_SHARE_IMAGE_URL', null, $id_template);
@@ -1305,7 +1271,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return false;
 	}
-
 	// Open sponsorship popup
 	public function hookDisplayFooter($params)
 	{
@@ -1317,24 +1282,20 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			return $this->_popup(true);
 		return false;
 	}
-
 	public function hookDisplayCustomerAccount($params)
 	{
 		if (RewardsSponsorshipModel::isCustomerAllowed($this->context->customer))
 			return $this->instance->display($this->instance->path, 'customer-account-sponsorship.tpl');
 	}
-
 	public function hookDisplayMyAccountBlock($params)
 	{
 		if (RewardsSponsorshipModel::isCustomerAllowed($this->context->customer))
 			return $this->instance->display($this->instance->path, 'my-account-sponsorship.tpl');
 	}
-
 	public function hookDisplayMyAccountBlockFooter($params)
 	{
 		return $this->hookDisplayMyAccountBlock($params);
 	}
-
 	// Add an additional input on bottom for the sponsor's email address
 	public function hookDisplayCustomerAccountForm($params)
 	{
@@ -1360,14 +1321,12 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return $this->instance->display($this->instance->path, 'authentication.tpl');
 	}
-
 	// Create the sponsorship, and a discount for the customer
 	public function hookActionCustomerAccountAdd($params)
 	{
 		$newCustomer = $params['newCustomer'];
 		if (!Validate::isLoadedObject($newCustomer))
 			return false;
-
 		$sponsor = null;
 		if (!empty($this->context->cookie->rewards_sponsor_id)) {
 			// sponsor already in the cookie
@@ -1385,7 +1344,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return $this->_createSponsorship($sponsor, $newCustomer);
 	}
-
 	private function _createSponsorship($sponsor, $customer, $force=false, $voucher=true, $currency=0) {
 		if (Validate::isLoadedObject($sponsor) && RewardsSponsorshipModel::isCustomerAllowed($sponsor) && $sponsor->email != $customer->email)
 		{
@@ -1419,7 +1377,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				if ((int)MyConf::get('RSPONSORSHIP_DURATION', null, $id_template))
 					$sponsorship->date_end = date('Y-m-d H:i:s', time() + (int)MyConf::get('RSPONSORSHIP_DURATION', null, $id_template)*24*60*60);
 				$sponsorship->save();
-
 				// check if there's some reward to give for registration
 				$sponsor_reward = 0;
 				if (MyConf::get('RSPONSORSHIP_REWARD_REGISTRATION', null, $id_template) && $friends = RewardsSponsorshipModel::getSponsorFriends((int)$sponsor->id, 'subscribed')) {
@@ -1441,7 +1398,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 							RewardsSponsorshipModel::saveDetails($reward->id, (int)$sponsorship->id, 1);
 					}
 				}
-
 				// send notifications
 				if (Configuration::get('RSPONSORSHIP_MAIL_REGISTRATION') || Configuration::get('RSPONSORSHIP_MAIL_REGISTRATION_S')) {
 					$lang = (int)Configuration::get('PS_LANG_DEFAULT');
@@ -1465,7 +1421,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						$this->instance->sendMail($lang, $sponsor_reward > 0 ? 'sponsorship-registration-reward' : 'sponsorship-registration', $this->l('Sponsorship', $lang), $data, $sponsor->email, $sponsor->firstname.' '.$sponsor->lastname);
 					}
 				}
-
 				if (MyConf::get('RSPONSORSHIP_DISCOUNT_GC', null, $id_template) && $voucher) {
 					// when called from back-end, currency is provided
 					if ($currency == 0)
@@ -1530,7 +1485,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				// if a sponsorship is over, stop all rewards for the ascendants
 				if ($sponsorship['date_end']!='0000-00-00 00:00:00' && $sponsorship['date_end'] <= date('Y-m-d H:i:s'))
 					break;
-
 				$level++;
 				$id_template = (int)MyConf::getIdTemplate('sponsorship', $sponsorship['id_sponsor']);
 				$this->_initConf($id_template);
@@ -1542,7 +1496,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					continue;
 				else if (!isset($this->_configuration['reward_type'][$level]))
 					$indice = $limit;
-
 				$price2 = MyConf::get('RSPONSORSHIP_DISCOUNTED_ALLOWED', null, $id_template) ? $totals[MyConf::get('RSPONSORSHIP_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['with_discounted'] : $totals[MyConf::get('RSPONSORSHIP_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['without_discounted'];
                                 
 				if ($price2 > 0) {
@@ -1551,6 +1504,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->plugin = $this->name;
 					$reward->id_customer = (int)$sponsorship['id_customer'];
 					$reward->id_order = (int)$order->id;
+                                        $reward->id_cart = $order->id_cart;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
                                         $price = round($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(count($sponsorships2)+1));
                                         
@@ -1567,11 +1521,13 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					// if sponsor's reward=0 (only special offers, voucher used, or % set to 0 in BO)
 					if ($reward->credits == 0)
 						continue;
-
+                                        if($order->payment=='Pedido gratuito'){
+                                            break;
+                                            //$reward->id_reward_state = RewardsStateModel::getDiscountedId();
+                                        }
 					if ($reward->save()) {
 						RewardsSponsorshipModel::saveDetails($reward->id, (int)$sponsorship['id_sponsorship'], $level+1);
 						$bMail = true;
-
 						// send customer's notifications
 						if (Configuration::get('RSPONSORSHIP_MAIL_ORDER_S') || Configuration::get('RSPONSORSHIP_MAIL_ORDER')) {
 							$sponsor = new Customer((int) $sponsorship['id_sponsor']);
@@ -1597,7 +1553,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 								$template = 'sponsorship-order-levels';
 							if (Configuration::get('RSPONSORSHIP_MAIL_ORDER_S'))
 								$result = $this->instance->sendMail($lang, $template, $this->l('Sponsorship', $lang), $data, $sponsor->email, $sponsor->firstname.' '.$sponsor->lastname);
-
 							// text for the admin notification
 							$sponsorsMailHtml .= $this->l('Level', (int)Configuration::get('PS_LANG_DEFAULT')).' '.($level+1).' : '. $sponsor->firstname.' '.$sponsor->lastname.' ('.$sponsor->email.') '.$this->l('will receive', (int)Configuration::get('PS_LANG_DEFAULT')).' '.$rewardAmountAdmin.'<br>';
 							$sponsorsMailTxt .= $this->l('Level', (int)Configuration::get('PS_LANG_DEFAULT')).' '.($level+1).' : '. $sponsor->firstname.' '.$sponsor->lastname.' ('.$sponsor->email.') '.$this->l('will receive', (int)Configuration::get('PS_LANG_DEFAULT')).' '.$rewardAmountAdmin.'\r\n';
@@ -1618,35 +1573,29 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			}
 		}
 	}
-
 	// give reward to sponsor in "Waiting for validation" state
 	// send notification to sponsor to inform them a sponsored placed an order
 	public function hookActionValidateOrder($params)
 	{
 		if (!Validate::isLoadedObject($customer = $params['customer']) || !Validate::isLoadedObject($order = $params['order']))
 			die(Tools::displayError('Missing parameters for hookActionValidateOrder'));
-
 		// check if the customer has been sponsored
 		$sponsorship = new RewardsSponsorshipModel(RewardsSponsorshipModel::isSponsorised((int)$customer->id, true, true));
 		if (!Validate::isLoadedObject($sponsorship))
 			return false;
-
 		$id_template = (int)MyConf::getIdTemplate('sponsorship', $sponsorship->id_sponsor);
-
-		// ATTENTION en cas de multilevel, actuellement tous les niveaux suivants dÃ©pendent des tests du parrain direct.
-		// A passer dans createAllRewards et Ã  tester Ã  chaque niveau si on m'en fait la demande.
+		// ATTENTION en cas de multilevel, actuellement tous les niveaux suivants dépendent des tests du parrain direct.
+		// A passer dans createAllRewards et à tester à chaque niveau si on m'en fait la demande.
 		// TODO : if order is splitted but if it's the first order, should be allowed for both orders even if rewards is only for the first order
 		// if sponsor is allowed to get a reward
 		if (MyConf::get('RSPONSORSHIP_REWARD_ORDER', null, $id_template)) {
 			// if there's reward only on the first order and the sponsor has already beeen rewarded for this customer, do nothing
 			if ((int)MyConf::get('RSPONSORSHIP_ON_EVERY_ORDER', null, $id_template) == 0 && RewardsSponsorshipModel::isAlreadyRewarded($sponsorship->id))
 				return false;
-
 			// Shipping included in minimum to unlock sponsor's reward ?
 			$total_unlock = (float)$order->total_paid;
 			if ((int)MyConf::get('RSPONSORSHIP_UNLOCK_SHIPPING', null, $id_template) == 0)
 				$total_unlock = (float)$order->total_paid - (float)$order->total_shipping;
-
 			// Check if minimum is reached
 			if ($total_unlock >= (float)MyConf::get('RSPONSORSHIP_UNLOCK_GC_' . $order->id_currency, null, $id_template)) {
 				$this->_createAllRewards($order, $customer);
@@ -1655,26 +1604,22 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return false;
 	}
-
 	// modify all rewards for a given order
 	private function _updateStatusAllRewards($order, $customer, $orderState)
 	{
 		// all sponsors who will get a reward
 		$sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer->id);
-
 		// loop on sponsor, starting from the nearest
 		$level = 0;
 		foreach($sponsorships as $sponsorship) {
 			// if a reward has been granted for this sponsorship
 			if (!Validate::isLoadedObject($reward = new RewardsModel(RewardsSponsorshipModel::getByOrderId($order->id, $sponsorship['id_sponsorship']))))
 				return false;
-
 			if ($reward->id_reward_state != RewardsStateModel::getConvertId()) {
 				$sponsor = new Customer((int) $sponsorship['id_sponsor']);
 				$lang = (int)Configuration::get('PS_LANG_DEFAULT');
 				if (version_compare(_PS_VERSION_, '1.5.4.0', '>='))
 					$lang = (int)$sponsor->id_lang;
-
 				// if not already converted, validate or cancel the reward
 				if (in_array($orderState->id, $this->rewardStateValidation->getValues())) {
 					// if reward is locked during return period
@@ -1693,12 +1638,10 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$subject = $this->l('Reward cancellation', $lang);
 				}
 				$reward->save();
-
 				// send customers's notifications
 				if (Configuration::get('RSPONSORSHIP_MAIL_VALIDATION_S')) {
 					if ($level > 0)
 						$template .= '-levels';
-
 					$data = array(
 						'{sponsored_firstname}' => $customer->firstname,
 						'{sponsored_lastname}' => $customer->lastname,
@@ -1719,21 +1662,17 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			$level++;
 		}
 	}
-
 	// Validate or cancel the sponsor's rewards
 	// Send mail to notify about validation or cancellation of the reward
 	public function hookActionOrderStatusUpdate($params)
 	{
 		$this->instanceDefaultStates();
-
 		if (!Validate::isLoadedObject($orderState = $params['newOrderStatus']) || !Validate::isLoadedObject($order = new Order((int)$params['id_order'])) || !Validate::isLoadedObject($customer = new Customer((int)$order->id_customer)))
 			die (Tools::displayError('Missing parameters for hookActionOrderStatusUpdate'));
-
 		// check if a sponsorship is in progress
 		$sponsorship = new RewardsSponsorshipModel(RewardsSponsorshipModel::isSponsorised((int)$customer->id, true));
 		if (!Validate::isLoadedObject($sponsorship))
 			return false;
-
 		// if sponsor is allowed to get a reward
 		if (MyConf::get('RSPONSORSHIP_REWARD_ORDER', null, (int)MyConf::getIdTemplate('sponsorship', $sponsorship->id_sponsor))) {
 			// if status change to validation status or cancellation status for the reward
@@ -1744,33 +1683,26 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return false;
 	}
-
 	// calulate all rewards after an order detail has been modified
 	private function _modifyOrderDetailAllRewards($order, $customer)
 	{
 		// all sponsors who will get a reward
 		$sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer->id);
-
 		if (count($sponsorships) > 0) {
 			// totals with and without discounted products
 			$totals = RewardsModel::getOrderTotalsForReward($order);
-
 			// loop on sponsor, starting from the nearest
 			$level = -1;
 			foreach($sponsorships as $sponsorship) {
 				$level++;
-
 				// if no reward has been granted for this sponsorship
 				if (!Validate::isLoadedObject($reward = new RewardsModel(RewardsSponsorshipModel::getByOrderId($order->id, $sponsorship['id_sponsorship']))))
 					continue;
-
 				if ($reward->id_reward_state != RewardsStateModel::getConvertId()) {
 					$id_template = (int)MyConf::getIdTemplate('sponsorship', $sponsorship['id_sponsor']);
 					$this->_initConf($id_template);
-
 					$price = MyConf::get('RSPONSORSHIP_DISCOUNTED_ALLOWED', null, $id_template) ? $totals[MyConf::get('RSPONSORSHIP_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['with_discounted'] : $totals[MyConf::get('RSPONSORSHIP_TAX', null, $id_template) ? 'tax_incl' : 'tax_excl']['without_discounted'];
 					$oldCredits = $reward->credits;
-
 					// maximum level for this template
 					$limit = count($this->_configuration['reward_type']) - 1;
 					// try to get settings for the level, if not found last will be used
@@ -1780,13 +1712,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						$indice = $level;
 						if (!isset($this->_configuration['reward_type'][$level]))
 							$indice = $limit;
-
 						$extraParams = array();
 						$extraParams['type'] = (int)$this->_configuration['reward_type'][$indice];
 						$extraParams['value'] = (float)($extraParams['type'] == 1 ? $this->_configuration['reward_value'][$indice][$order->id_currency] : $this->_configuration['reward_percentage'][$indice]);
 						$reward->credits = (float)$this->_getNbCreditsByPrice($price, $order->id_currency, Configuration::get('PS_CURRENCY_DEFAULT'), $extraParams);
 					}
-
 					// test if something has changed, because return product doesn't change the price of the cart
 					if ((float)$oldCredits != (float)$reward->credits) {
 						if (!MyConf::get('RSPONSORSHIP_DISCOUNTED_ALLOWED', null, $id_template) && (float)$reward->credits == 0)
@@ -1794,14 +1724,12 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 						else if ((float)$reward->credits == 0)
 							$reward->id_reward_state = RewardsStateModel::getCancelId();
 						$reward->save();
-
 						// send notification
 						if (Configuration::get('RSPONSORSHIP_MAIL_CANCELPROD_S')) {
 							$sponsor = new Customer((int) $sponsorship['id_sponsor']);
 							$lang = (int)Configuration::get('PS_LANG_DEFAULT');
 							if (version_compare(_PS_VERSION_, '1.5.4.0', '>='))
 								$lang = (int)$sponsor->id_lang;
-
 							$data = array(
 								'{sponsored_firstname}' => $customer->firstname,
 								'{sponsored_lastname}' => $customer->lastname,
@@ -1814,7 +1742,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 							$template = 'sponsorship-cancel-product';
 							if ($level > 0)
 								$template = 'sponsorship-cancel-product-levels';
-
 							$this->instance->sendMail($lang, $template, $this->l('Reward modification', $lang), $data, $sponsor->email, $sponsor->firstname.' '.$sponsor->lastname);
 						}
 					}
@@ -1823,25 +1750,21 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			}
 		}
 	}
-
 	// Hook called when the order detail is modified
 	public function hookActionObjectOrderDetailAddAfter($params)
 	{
 		return $this->_modifyOrderDetail($params);
 	}
-
 	// Hook called when the order detail is modified
 	public function hookActionObjectOrderDetailDeleteAfter($params)
 	{
 		return $this->_modifyOrderDetail($params);
 	}
-
 	// Hook called when the order detail is modified
 	public function hookActionObjectOrderDetailUpdateAfter($params)
 	{
 		return $this->_modifyOrderDetail($params);
 	}
-
 	// calculate reward when the order detail is modified
 	private function _modifyOrderDetail($params)
 	{
@@ -1850,19 +1773,16 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		|| !Validate::isLoadedObject($customer = new Customer((int)$order->id_customer))) {
 			return false;
 		}
-
 		// if the sponsorship exists
 		$sponsorship = new RewardsSponsorshipModel(RewardsSponsorshipModel::isSponsorised((int)$customer->id, true));
 		if (!Validate::isLoadedObject($sponsorship))
 			return false;
-
 		// if sponsor is allowed to get a reward
 		if (MyConf::get('RSPONSORSHIP_REWARD_ORDER', null, (int)MyConf::getIdTemplate('sponsorship', $sponsorship->id_sponsor))) {
 			$this->_modifyOrderDetailAllRewards($order, $customer);
 		}
 		return true;
 	}
-
 	// display the sponsorship form
 	public function hookDisplayOrderConfirmation($params)
 	{
@@ -1871,7 +1791,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			return $this->_popup();
 		return false;
 	}
-
 	// open the sponsorship popup
 	private function _popup($scheduled=false)
 	{
@@ -1890,7 +1809,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		}
 		return false;
 	}
-
 	// Display sponsorship information in the order page
 	public function hookDisplayAdminOrder($params)
 	{
@@ -1900,31 +1818,25 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		$this->context->smarty->assign($smarty_values);
 		return $this->instance->display($this->instance->path, 'adminorders-sponsorship.tpl');
 	}
-
 	// Display sponsorship information in the customer page
 	public function hookDisplayAdminCustomers($params)
 	{
 		$customer = new Customer((int)$params['id_customer']);
 		if (!Validate::isLoadedObject($customer))
 			die (Tools::displayError('Incorrect object Customer.'));
-
 		$msg = $this->postProcess($params);
-
 		$stats = RewardsSponsorshipModel::getAdminStatistics((int)$customer->id);
 		$customerStats = $stats['sponsors'][(int)$customer->id];
 		$friends = $stats['sponsored'][(int)$customer->id];
 		$code_sponsorship = RewardsSponsorshipModel::getSponsorshipCode($customer);
 		$link_sponsorship = RewardsSponsorshipModel::getSponsorshipLink($customer);
 		$rewards_sponsorship_code = new RewardsSponsorshipCodeModel((int)$customer->id);
-
 		$sponsorship_template_id = (int)MyConf::getIdTemplate('sponsorship', $this->context->customer->id);
 		$sponsorship_templates = RewardsTemplateModel::getList('sponsorship');
-
 		if ($id_sponsorship = RewardsSponsorshipModel::isSponsorised((int)$customer->id, true)) {
 			$sponsorship = new RewardsSponsorshipModel((int)$id_sponsorship);
 			$sponsor = new Customer((int)$sponsorship->id_sponsor);
 		}
-
 		$smarty_values = array(
 			'msg' => $msg,
 			'sponsorship_templates' => $sponsorship_templates,
@@ -1944,13 +1856,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		$this->context->smarty->assign($smarty_values);
 		return $this->instance->display($this->instance->path, 'admincustomer-sponsorship.tpl');
 	}
-
 	public function hookActionAdminControllerSetMedia($params)
 	{
     	// add necessary javascript to customers back office
 		if ($this->context->controller->controller_name == 'AdminCustomers') {
 			$this->context->controller->addjQueryPlugin('date');
-
 			if (version_compare(_PS_VERSION_, '1.6', '>=')) {
 				$this->context->controller->addJqueryUI(array(
 					'ui.core',
@@ -1960,7 +1870,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					'ui.slider',
 					'ui.datepicker'
 				));
-
 				$this->context->controller->addJS(_PS_JS_DIR_.'jquery/plugins/autocomplete/jquery.autocomplete.js');
 				$this->context->controller->addCSS(_PS_JS_DIR_.'jquery/plugins/autocomplete/jquery.autocomplete.css');
 			} else {
@@ -1973,14 +1882,12 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				));
 				$this->context->controller->addJS($this->instance->getPath().'js/jquery-ui-1.8.16.custom.min.js');
 			}
-
 			$this->context->controller->addJS(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js');
 			$this->context->controller->addCSS(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css');
 			$this->context->controller->addCSS($this->instance->getPath().'css/admin-customer.css', 'all');
 			$this->context->controller->addJS($this->instance->getPath().'js/admin-customer.js');
 		}
 	}
-
 	// Hook called on product page
 	public function hookDisplayLeftColumnProduct($params)
 	{
@@ -1991,7 +1898,6 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			return $this->instance->display($this->instance->path, 'product-sponsorship.tpl');
 		}
 	}
-
 	public function hookActionObjectCustomerDeleteAfter($params)
 	{
 		Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'rewards_sponsorship_detail` WHERE `id_reward` NOT IN (SELECT `id_reward` FROM `'._DB_PREFIX_.'rewards`)');

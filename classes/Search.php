@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -199,7 +199,7 @@ class SearchCore
                 $start_search = Configuration::get('PS_SEARCH_START') ? '%': '';
                 $end_search = Configuration::get('PS_SEARCH_END') ? '': '%';
 
-                $intersect_array[] = 'SELECT si.id_product
+                $intersect_array[] = 'SELECT DISTINCT si.id_product
 					FROM '._DB_PREFIX_.'search_word sw
 					LEFT JOIN '._DB_PREFIX_.'search_index si ON sw.id_word = si.id_word
 					WHERE sw.id_lang = '.(int)$id_lang.'
@@ -242,13 +242,13 @@ class SearchCore
         }
 
         $results = $db->executeS('
-		SELECT cp.`id_product`
+		SELECT DISTINCT cp.`id_product`
 		FROM `'._DB_PREFIX_.'category_product` cp
 		'.(Group::isFeatureActive() ? 'INNER JOIN `'._DB_PREFIX_.'category_group` cg ON cp.`id_category` = cg.`id_category`' : '').'
 		INNER JOIN `'._DB_PREFIX_.'category` c ON cp.`id_category` = c.`id_category`
 		INNER JOIN `'._DB_PREFIX_.'product` p ON cp.`id_product` = p.`id_product`
 		'.Shop::addSqlAssociation('product', 'p', false).'
-		WHERE c.`active` = 1 AND p.product_parent = 1
+		WHERE c.`active` = 1
 		AND product_shop.`active` = 1
 		AND product_shop.`visibility` IN ("both", "search")
 		AND product_shop.indexed = 1
@@ -258,19 +258,17 @@ class SearchCore
         foreach ($results as $row) {
             $eligible_products[] = $row['id_product'];
         }
+
+        $eligible_products2 = array();
         foreach ($intersect_array as $query) {
-            $eligible_products2 = array();
             foreach ($db->executeS($query, true, false) as $row) {
                 $eligible_products2[] = $row['id_product'];
             }
-
-            $eligible_products = array_intersect($eligible_products, $eligible_products2);
-            if (!count($eligible_products)) {
-                return ($ajax ? array() : array('total' => 0, 'result' => array()));
-            }
         }
-
-        $eligible_products = array_unique($eligible_products);
+        $eligible_products = array_unique(array_intersect($eligible_products, array_unique($eligible_products2)));
+        if (!count($eligible_products)) {
+            return ($ajax ? array() : array('total' => 0, 'result' => array()));
+        }
 
         $product_pool = '';
         foreach ($eligible_products as $id_product) {
@@ -312,8 +310,8 @@ class SearchCore
             $alias = 'p.';
         }
         $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) as quantity,
-				pl.`description_short`, pl.`available_now`, pl.`available_later`, pl.`link_rewrite`, pl.`name`, 
-                                image_shop.`id_image` id_image, il.`legend`, m.`name` manufacturer_name '.$score.',
+				pl.`description_short`, pl.`available_now`, pl.`available_later`, pl.`link_rewrite`, pl.`name`,
+			 image_shop.`id_image` id_image, il.`legend`, m.`name` manufacturer_name '.$score.',
 				DATEDIFF(
 					p.`date_add`,
 					DATE_SUB(
@@ -331,26 +329,15 @@ class SearchCore
 				ON (p.`id_product` = product_attribute_shop.`id_product` AND product_attribute_shop.`default_on` = 1 AND product_attribute_shop.id_shop='.(int)$context->shop->id.')':'').'
 				'.Product::sqlStock('p', 0).'
 				LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON m.`id_manufacturer` = p.`id_manufacturer`
-				LEFT JOIN `ps_rewards_product` AS rp
-					ON (rp.id_product = p.`id_product`)
-                                LEFT JOIN `'._DB_PREFIX_.'image_shop` image_shop
+				LEFT JOIN `'._DB_PREFIX_.'image_shop` image_shop
 					ON (image_shop.`id_product` = p.`id_product` AND image_shop.cover=1 AND image_shop.id_shop='.(int)$context->shop->id.')
 				LEFT JOIN `'._DB_PREFIX_.'image_lang` il ON (image_shop.`id_image` = il.`id_image` AND il.`id_lang` = '.(int)$id_lang.')
-				WHERE p.`id_product` '.$product_pool.' AND p.product_parent = 1
+				WHERE p.`id_product` '.$product_pool.'
 				GROUP BY product_shop.id_product
 				'.($order_by ? 'ORDER BY  '.$alias.$order_by : '').($order_way ? ' '.$order_way : '').'
 				LIMIT '.(int)(($page_number - 1) * $page_size).','.(int)$page_size;
-        $lista=Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql, true, false);
-        $result= array();
-        foreach($lista as $x){
-            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($context->customer->id);
-            $sponsorships2=array_slice($sponsorships, 1, 15);
-            $precio = RewardsProductModel::getProductReward($x['id_product'],$x['price'],1, $context->currency->id);
-            $x['points']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/(count($sponsorships2)+1));
-            $x['pointsNl']=round(RewardsModel::getRewardReadyForDisplay($precio, $context->currency->id)/16);
-            array_push($result,$x);
-         }
-         
+        $result = $db->executeS($sql, true, false);
+
         $sql = 'SELECT COUNT(*)
 				FROM '._DB_PREFIX_.'product p
 				'.Shop::addSqlAssociation('product', 'p').'
@@ -359,7 +346,7 @@ class SearchCore
 					AND pl.`id_lang` = '.(int)$id_lang.Shop::addSqlRestrictionOnLang('pl').'
 				)
 				LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON m.`id_manufacturer` = p.`id_manufacturer`
-				WHERE p.`id_product` '.$product_pool.' AND p.product_parent = 1';
+				WHERE p.`id_product` '.$product_pool;
         $total = $db->getValue($sql, false);
 
         if (!$result) {

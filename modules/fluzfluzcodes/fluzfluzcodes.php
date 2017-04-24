@@ -51,7 +51,13 @@ class fluzfluzCodes extends Module{
     }
     
     public function hookdisplayAdminProductsExtra($params) {
-        $query1 = "SELECT CONCAT('**********',SUBSTRING("._DB_PREFIX_."product_code.`code`,LENGTH("._DB_PREFIX_."product_code.`code`)-3,LENGTH("._DB_PREFIX_."product_code.`code`))) AS code,(CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) AS estado, CASE "._DB_PREFIX_."product_code.id_order WHEN 0 THEN '' ELSE "._DB_PREFIX_."product_code.id_order END AS `order`, date_add , ps_product_code.`code` codecomplete
+        $query1 = "SELECT 
+                        id_product_code,
+                        CONCAT('********** ',last_digits) code,
+                        pin_code pin ,
+                        (CASE id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) estado,
+                        (CASE id_order WHEN 0 THEN '' ELSE id_order END) `order`,
+                        date_add
                     FROM "._DB_PREFIX_."product_code
                     WHERE id_product = ".Tools::getValue('id_product');
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);
@@ -189,32 +195,76 @@ class fluzfluzCodes extends Module{
     }
     
     public function uploadCodes(){
-        $state =false;
-        $headers = array('Reference #','code');
+        $productCodes = array();
+        $state = false;
+        $headers = array('Reference #','code', 'pin');
         $handle = fopen($this->location.$this->folder.$this->nuevo_archivo, 'a+');
 
         while (($results = fgetcsv($handle, 1000, ";")) !== FALSE) {
-            echo $results[0];
-            $query="SELECT ps_product.id_product, ps_product.reference 
-                FROM ps_product WHERE ps_product.reference = '".$results[0]."'";
-            if($line=Db::getInstance()->getRow($query)){
-                $query1="INSERT INTO "._DB_PREFIX_."product_code (id_product,code,date_add) VALUES ('".$line['id_product']."','".$results[1]."',NOW())";
-                $run=Db::getInstance()->execute($query1);
+            $query = "SELECT "._DB_PREFIX_."product.id_product, "._DB_PREFIX_."product.reference 
+                        FROM "._DB_PREFIX_."product WHERE "._DB_PREFIX_."product.reference = '".$results[0]."'";
+            if( $line = Db::getInstance()->getRow($query) ) {
+                
+                $code = Encrypt::encrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $results[1]);
+                $lastdigits = substr($results[1], -4);
+                
+                $query1 = "INSERT INTO "._DB_PREFIX_."product_code (id_product,code,last_digits,pin_code,date_add) VALUES ('".$line['id_product']."','".$code."','".$lastdigits."','".$results[2]."',NOW())";
+                $run = Db::getInstance()->execute($query1);
+                
+                $query = "SELECT id_manufacturer
+                            FROM "._DB_PREFIX_."product
+                            WHERE id_product = ".$line['id_product'];
+                $productCodes[$line['id_product']]['quantity'] = $productCodes[$line['id_product']]['quantity'] + 1;
+                $productCodes[$line['id_product']]['merchant'] = Db::getInstance()->getValue($query);
             }
         }
         fclose($handle);
+
+        $employee = new Employee((int)Context::getContext()->cookie->id_employee);
+        foreach ( $productCodes as $key => $productCode ) {
+            $querylog = "INSERT INTO "._DB_PREFIX_."log_import_codes (merchant, sku, quantity, employee, api, date_import, file)
+                        VALUES (".$productCode['merchant'].", ".$key.", ".$productCode['quantity'].", '".$employee->firstname." ".$employee->lastname."', '', NOW(), '".$this->nuevo_archivo."')";
+            $runlog = Db::getInstance()->execute($querylog);
+        }
+        
         $this->updateQuantities();
-        if($run) $state=true;
+        if($run) $state = true;
         return $state;
     }
     
     public function updateQuantities(){
-        //$qr0= "UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=0 WHERE p.reference <>'MFLUZ'";
-        //$qr0 = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=0";
-        //$qr = "UPDATE "._DB_PREFIX_."stock_available AS st SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product)";
-        $qr="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product) WHERE p.reference <>'MFLUZ'";
-        $qr0 ="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product_attribute as pa ON st.id_product_attribute = pa.id_product_attribute INNER JOIN "._DB_PREFIX_."product AS p ON pa.reference = p.reference SET st.quantity=(SELECT COUNT(pc.code) FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order=0 AND pc.id_product=p.id_product)";
-        //Db::getInstance()->execute($qr0);
+        //$qr="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product AS p ON st.id_product=p.id_product SET st.quantity=(SELECT Count(pc.`code`) AS total FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order = 0 AND st.id_product=pc.id_product) WHERE p.reference <>'MFLUZ'";
+        //$qr0 ="UPDATE "._DB_PREFIX_."stock_available AS st INNER JOIN "._DB_PREFIX_."product_attribute as pa ON st.id_product_attribute = pa.id_product_attribute INNER JOIN "._DB_PREFIX_."product AS p ON pa.reference = p.reference SET st.quantity=(SELECT COUNT(pc.code) FROM "._DB_PREFIX_."product_code AS pc WHERE pc.id_order=0 AND pc.id_product=p.id_product)";
+
+        $qr = "UPDATE ps_stock_available AS st
+                INNER JOIN
+                (SELECT
+                p.id_product,
+                p.reference,
+                IFNULL(pa.id_product,p.id_product) AS id_parent,
+                IFNULL(pa.id_product_attribute,0) AS id_product_attribute,
+                COUNT(pc.code) AS stock 
+                FROM
+                ps_product AS p
+                LEFT JOIN ps_product_code AS pc ON pc.id_product=p.id_product 
+                LEFT JOIN ps_product_attribute AS pa ON p.reference = pa.reference
+                WHERE pc.id_order=0
+                GROUP BY id_parent, id_product_attribute) res ON ((res.id_product=st.id_product AND st.id_product_attribute=0) OR (res.id_parent= st.id_product AND res.id_product_attribute = st.id_product_attribute ))
+                SET st.quantity=res.stock, st.out_of_stock=0 WHERE (res.reference<>'MFLUZ' AND res.reference NOT LIKE 'MOV-%');";
+
+        $qr0 = "UPDATE "._DB_PREFIX_."stock_available AS st
+                INNER JOIN
+                (SELECT
+                p.id_product,
+                p.reference,
+                IFNULL(pa.id_product,p.id_product) AS id_parent,
+                IFNULL(pa.id_product_attribute,0) AS id_product_attribute
+                FROM
+                "._DB_PREFIX_."product AS p
+                LEFT JOIN "._DB_PREFIX_."product_attribute AS pa ON p.reference = pa.reference WHERE (p.reference='MFLUZ' OR p.reference LIKE 'MOV-%')) AS res 
+                ON ((res.id_parent = st.id_product AND res.id_product_attribute = st.id_product_attribute) OR res.id_product=st.id_product)
+                SET st.quantity=10000, st.out_of_stock=0;";
+
         Db::getInstance()->execute($qr);
         Db::getInstance()->execute($qr0);
     }

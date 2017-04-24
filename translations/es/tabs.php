@@ -1,5 +1,6 @@
 <?php
 
+global $_TABS;
 $_TABS = array();
 
 $_TABS['AdminDashboard'] = 'Inicio';
@@ -15,13 +16,13 @@ $_TABS['AdminTools'] = 'Parámetros Avanzados';
 $_TABS['AdminAdmin'] = 'Administración';
 $_TABS['AdminParentStats'] = 'Estadísticas';
 $_TABS['AdminStock'] = 'Existencias';
-$_TABS['AdminCms'] = 'Páginas estáticas/CMS';
+$_TABS['AdminCms'] = 'Páginas CMS';
 $_TABS['AdminCmsCategories'] = 'Categorías CMS';
 $_TABS['AdminAttributeGenerator'] = 'Generador de Combinaciones';
 $_TABS['AdminSearch'] = 'Buscar';
-$_TABS['AdminLogin'] = 'Identifíquese';
+$_TABS['AdminLogin'] = 'Iniciar sesión';
 $_TABS['AdminShop'] = 'Tiendas';
-$_TABS['AdminShopUrl'] = 'URLs/Direcciones de la tienda';
+$_TABS['AdminShopUrl'] = 'URLs de la tienda';
 $_TABS['AdminBlockCategories'] = 'Bloque Categorías';
 $_TABS['AdminDashgoals'] = 'Dashgoals';
 $_TABS['AdminThemeConfigurator'] = 'Configurador del tema';
@@ -74,14 +75,14 @@ $_TABS['AdminOrderPreferences'] = 'Pedidos';
 $_TABS['AdminPPreferences'] = 'Productos';
 $_TABS['AdminCustomerPreferences'] = 'Clientes';
 $_TABS['AdminThemes'] = 'Temas';
-$_TABS['AdminMeta'] = 'SEO + URLs';
+$_TABS['AdminMeta'] = 'SEO y URLs';
 $_TABS['AdminCmsContent'] = 'CMS';
 $_TABS['AdminImages'] = 'Imágenes';
 $_TABS['AdminStores'] = 'Contactos de la tienda';
 $_TABS['AdminSearchConf'] = 'Buscar';
 $_TABS['AdminMaintenance'] = 'Mantenimiento';
 $_TABS['AdminGeolocation'] = 'Geolocalización';
-$_TABS['AdminInformation'] = 'Información';
+$_TABS['AdminInformation'] = 'Información de configuración';
 $_TABS['AdminPerformance'] = 'Rendimiento';
 $_TABS['AdminEmails'] = 'Correo Electrónico';
 $_TABS['AdminShopGroup'] = 'Multitienda';
@@ -105,7 +106,7 @@ $_TABS['AdminStockManagement'] = 'Gestión de existencias';
 $_TABS['AdminStockMvt'] = 'Movimiento de Stock';
 $_TABS['AdminStockInstantState'] = 'Estado inmediato de existencias';
 $_TABS['AdminStockCover'] = 'Cobertura de stock';
-$_TABS['AdminSupplyOrders'] = 'Pedidos de materiales';
+$_TABS['AdminSupplyOrders'] = 'Pedidos de suministros';
 $_TABS['AdminStockConfiguration'] = 'Configuración';
 $_TABS['AdminOnboarding'] = 'Primeros pasos';
 

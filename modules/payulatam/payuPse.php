@@ -23,7 +23,7 @@ class PayuPse extends PayUControllerWS{
 
         $membership = false;
         $productsCart = $this->context->cart->getProducts();
-        $description = "(Cliente: ".$this->context->cart->id_customer.")(Carrito: ".$this->context->cart->id."). Productos: ";
+        $description = "(Cliente: ".$this->context->customer->username."). Productos: ";
         foreach ($productsCart as $product) {
             $description .= "[".$product['name'].",".$product['cart_quantity']."] ";
             if ( $product['reference'] == "MFLUZ" ) {

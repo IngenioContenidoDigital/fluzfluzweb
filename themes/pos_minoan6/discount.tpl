@@ -112,7 +112,7 @@
         </div>
     </div>
 </form>
-            
+
 <div id="not-shown" style="display:none;">
     <div id="myspecialcontent" class="infoPopUp">
         <div>
@@ -134,6 +134,15 @@
 </div>
 
 <ul class="footer_links clearfix">
+    
+    <div>
+        <input type="checkbox" name="autoaddnetwork" id="autoaddnetwork" value="1" {if isset($autoaddnetwork) && $autoaddnetwork == 1} checked="checked"{/if}/>
+        <label for="autoaddnetwork" style="vertical-align: sub;">
+            Impedir que nuevos usuarios se agreguen autom&aacute;ticamente a mi network
+        </label>
+    </div>
+    <br>
+
     <li>
         <a class="btn btn-default button button-small" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">
             <span>
@@ -198,6 +207,26 @@
                         }, 1);
                     }, 1000);    
                 });
+        });
+    </script>
+{/literal}
+
+<script>
+    var id_customer = {$id_customer};
+</script>
+
+{literal}
+    <script>
+        $('#autoaddnetwork').change(function() {
+            var value = 0;
+            if( $(this).is(":checked") ) {
+                value = 1;
+            }
+            $.ajax({
+                method:"POST",
+                data: {'action': 'updateautoaddnetwork', 'id': id_customer, 'value': value},
+                url: '/autoaddnetwork.php'
+            });
         });
     </script>
 {/literal}

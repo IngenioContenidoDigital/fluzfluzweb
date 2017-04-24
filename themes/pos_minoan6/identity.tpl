@@ -219,6 +219,12 @@
                                 </label>
                             </div>
                         {/if}
+                        <div class="checkbox">
+                            <label for="autoaddnetwork">
+                                <input class="inputform enabled" type="checkbox" name="autoaddnetwork" id="autoaddnetwork" value="1" {if isset($smarty.post.autoaddnetwork) && $smarty.post.autoaddnetwork == 1} checked="checked"{/if}/>
+                                Impedir que nuevos usuarios se agreguen autom&aacute;ticamente a mi network
+                            </label>
+                        </div>
                         {*if $b2b_enable}
                             <h1 class="page-subheading">
                                     {l s='Your company information'}
@@ -273,7 +279,7 @@
                             <label for="numbercard" class="required">
                                 {l s='Number'}:
                             </label>
-                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isCard" type="password" id="numbercard" name="numbercard" value="{$card.num_creditCard}" /><span class="card_digits">{$card_digits}</span>
+                            <input class="is_required validate form-control inputformcard enabled" disabled data-validate="isCard" type="password" id="numbercard" name="numbercard" value="{$card.num_creditCard}" /><span class="card_digits">{$card.last_digits}</span>
                         </div>
                         <div class="form-group dateExpiration">
                             <label>

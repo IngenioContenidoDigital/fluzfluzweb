@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -408,7 +408,7 @@ class LinkCore
         $not_default = false;
 
         // Check if module is installed, enabled, customer is logged in and watermark logged option is on
-        if (Configuration::get('WATERMARK_LOGGED') && (Module::isInstalled('watermark') && Module::isEnabled('watermark')) && isset(Context::getContext()->customer->id)) {
+        if (($type != '') && Configuration::get('WATERMARK_LOGGED') && (Module::isInstalled('watermark') && Module::isEnabled('watermark')) && isset(Context::getContext()->customer->id)) {
             $type .= '-'.Configuration::get('WATERMARK_HASH');
         }
 
@@ -433,10 +433,8 @@ class LinkCore
                 $uri_path = _THEME_PROD_DIR_.Image::getImgFolderStatic($id_image).$id_image.($type ? '-'.$type : '').$theme.'.jpg';
             }
         }
-        //if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
-        //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
-        return _S3_PATH_.'p/'.$id_image.'-'.$type.'.jpg';
-        
+
+        return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
     }
 
     public function getMediaLink($filepath)
@@ -499,10 +497,7 @@ class LinkCore
         } else {
             $uri_path = _THEME_CAT_DIR_.$id_category.($type ? '-'.$type : '').'.jpg';
         }
-        //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
-        //if (Configuration::get("PS_SHOP_DOMAIN")!='fluzfluz.co') $dev='dev/';
-        //return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
-        return _S3_PATH_.'c/'.$id_category.'-'.$type.'.jpg';
+        return $this->protocol_content.Tools::getMediaServer($uri_path).$uri_path;
     }
 
     /**

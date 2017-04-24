@@ -38,6 +38,12 @@ class reportnotificationinactive extends ModuleGrid
                 'align' => 'center'
             ),
             array(
+                'id' => 'phone',
+                'header' => $this->l('Telefono'),
+                'dataIndex' => 'phone',
+                'align' => 'center'
+            ),
+            array(
                 'id' => 'date_add',
                 'header' => $this->l('Fecha Registro'),
                 'dataIndex' => 'date_add',
@@ -105,15 +111,19 @@ class reportnotificationinactive extends ModuleGrid
                             c.username,
                             c.email,
                             c.date_add,
-                            ni.date_alert_30,
-                            ni.date_alert_45,
-                            ni.date_alert_52,
-                            ni.date_alert_59,
-                            ni.date_alert_60,
-                            ni.date_alert_90,
+                            IFNULL(ni.date_alert_30,'') date_alert_30,
+                            IFNULL(ni.date_alert_45,'') date_alert_45,
+                            IFNULL(ni.date_alert_52,'') date_alert_52,
+                            IFNULL(ni.date_alert_59,'') date_alert_59,
+                            IFNULL(ni.date_alert_60,'') date_alert_60,
+                            IFNULL(ni.date_alert_90,'') date_alert_90,
                             (SELECT MAX(date_add)
                             FROM "._DB_PREFIX_."orders
-                            WHERE id_customer = ni.id_customer ) last_purchase
+                            WHERE id_customer = ni.id_customer ) last_purchase,
+                            (SELECT phone
+                            FROM "._DB_PREFIX_."address
+                            WHERE id_customer = ni.id_customer
+                            LIMIT 1) phone
                         FROM "._DB_PREFIX_."notification_inactive ni
                         INNER JOIN "._DB_PREFIX_."customer c ON ( ni.id_customer = c.id_customer )";
 

@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -1003,7 +1003,7 @@ class AdminImportControllerCore extends AdminController
         }
 
         foreach ($array as $k => $row) {
-            if (!call_user_func_array($funcname, array($row, $k, $user_data))) {
+            if (!call_user_func_array($funcname, array($row, $k, &$user_data))) {
                 return false;
             }
         }
@@ -1539,14 +1539,6 @@ class AdminImportControllerCore extends AdminController
                     }
                 }
                 $product->id_category = array_values(array_unique($product->id_category));
-
-                // Will update default category if category column is not ignored AND if there is categories that are set in the import file row.
-                if (isset($product->id_category[0])) {
-                    $product->id_category_default = (int)$product->id_category[0];
-                } else {
-                    $defaultProductShop = new Shop($product->id_shop_default);
-                    $product->id_category_default = Category::getRootCategory(null, Validate::isLoadedObject($defaultProductShop)?$defaultProductShop:null)->id;
-                }
             }
 
             // Will update default category if there is none set here. Home if no category at all.
@@ -1579,8 +1571,10 @@ class AdminImportControllerCore extends AdminController
                 );
             }
 
-            if (!($match_ref || $force_ids) || !(is_array($product->link_rewrite) && count($product->link_rewrite) && !empty($product->link_rewrite[$id_lang]))) {
+            if (!(is_array($product->link_rewrite) && count($product->link_rewrite))) {
                 $product->link_rewrite = AdminImportController::createMultiLangField($link_rewrite);
+            } else {
+                $product->link_rewrite[(int)$id_lang] = $link_rewrite;
             }
 
             // replace the value of separator by coma

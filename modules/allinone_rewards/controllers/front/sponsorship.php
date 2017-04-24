@@ -140,9 +140,9 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 				$friendsFirstName = Tools::getValue('friendsFirstName');
 				$mails_exists = array();
 
-                                if ( !Customer::customerPurchaseLicense($this->context->customer->email) ) {
+                                /*if ( !Customer::customerPurchaseLicense($this->context->customer->email) ) {
                                     $error = 'purchase incomplete';
-                                }
+                                }*/
 
 				// 1ere boucle pour contrôle des erreurs
 				foreach ($friendsEmail as $key => $friendEmail)
@@ -373,7 +373,9 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 					'statistics' => $statistics,
 					'reward_order_allowed' => $reward_order_allowed,
 					'reward_registration_allowed' => $reward_registration_allowed,
-					'multilevel' => $multilevel
+					'multilevel' => $multilevel,
+                                        'autoaddnetwork' => $this->context->customer->autoaddnetwork,
+                                        'id_customer' => $this->context->customer->id
 				);
 				$this->context->smarty->assign($smarty_values);
 			}

@@ -20,6 +20,7 @@ $query = "SELECT
         FROM "._DB_PREFIX_."customer c
         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
         WHERE c.active = 1
+        AND c.kick_out = 0
         AND o.date_add IS NULL
         GROUP BY c.id_customer";
 $remembers1 = Db::getInstance()->executeS($query);
@@ -39,7 +40,7 @@ $query = "SELECT
                 WHERE id_customer = c.id_customer
                 ORDER BY date_add DESC
                 LIMIT 1) AS date_add,
-                (SELECT DATE_FORMAT(ADDDATE(oo.date_add, INTERVAL 30 DAY) ,'%d/%m/%Y')
+                (SELECT DATE_FORMAT(ADDDATE(oo.date_add, INTERVAL 2 MONTH) ,'%d/%m/%Y')
                 FROM "._DB_PREFIX_."orders oo
                 WHERE oo.id_customer = c.id_customer
                 ORDER BY oo.date_add DESC
@@ -52,14 +53,15 @@ $query = "SELECT
         FROM "._DB_PREFIX_."customer c
         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
         LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference <> 'MFLUZ' )
-        WHERE c.active = 1
-        AND o.date_add IS NOT NULL
+        WHERE o.date_add IS NOT NULL
         AND DATEDIFF(NOW(), (SELECT date_add
                             FROM "._DB_PREFIX_."orders
                             WHERE id_customer = c.id_customer
                             ORDER BY date_add DESC
                             LIMIT 1)
                     ) > 30
+        AND c.active = 1
+        AND c.kick_out = 0
         GROUP BY c.id_customer
         HAVING COUNT(od.id_order_detail) <= 1
         ORDER BY o.date_add DESC";

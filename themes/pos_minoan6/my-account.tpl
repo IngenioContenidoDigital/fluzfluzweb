@@ -24,7 +24,7 @@
 *}
 
 {capture name=path}{l s='My account'}{/capture}
-<h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='My Gift Cards'}</h1>
+<h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='mis bonos'}</h1>
 <p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
 
 <div class="container-fluid">
@@ -170,7 +170,7 @@
         {l s='My Messaging'}
     </h1>
     <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
-            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-r">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-11 block-r">
                 <h2 class="title-msj">{l s='My Network'}</h2>
                 <div class="containtertables">
                     <div class="tablenetwork">
@@ -212,7 +212,7 @@
                     <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga" class="icon-refresh icon-white"></i></button>
             </div>
             
-            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 block-red">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-11 block-red">
                 <h2 class="title-msj">{l s='My Messages'}</h2>
                 <div class="containtertables">
                     <div class="tablemessages">
@@ -268,7 +268,7 @@
 </div>
 <div id="not-shown" style="display:none;">
         <div id="myspecialcontent" class="infoPopUp">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 available_cards">{l s='Tarjetas Disponibles: '}<span class="avail"></span></div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 available_cards">{l s='Bonos Disponibles: '}<span class="avail"></span></div>
             <div class="div-state col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 v"><div class="la-verde"></div><div class="state-card">{l s="Disponible"}</div></div>
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 a"><div class="la-amarilla"></div><div class="state-card">{l s="Usada"}</div></div>
@@ -304,8 +304,19 @@
                                     </div>
                                 {else}
                                     <div class="title-cod-class" id="title-cod-{$manufacturer.id_manufacturer}" style="display:none;">
-                                        <div class="pCode">{l s="Your Gift Card ID is: "}</div>
+                                        <div class="pCode">C&oacute;digo de Bono:</div>
                                         <div class="micode"></div>
+                                    </div>
+                                {/if}
+                            {/foreach}
+                            {foreach from=$pin_code item=pin}
+                                {if $pin.pin >= 1 }
+                                    <div class="title-cod-class-pin" id="title-pin-{$pin.id_manufacturer}" style="display:none;">
+                                        <div class="pCode">{l s="Pin del bono: "}</div>
+                                        <div class="micodepin"></div>
+                                    </div>
+                                {else}
+                                    <div class="title-cod-class-pin" id="title-pin-{$pin.id_manufacturer}" style="display:none;">
                                     </div>
                                 {/if}
                             {/foreach}
@@ -336,6 +347,7 @@
             </div>    
             <div class="row">
                 <div class="containerCard">
+                    <div id="producto_id" style="display:none;"></div>
                     <ul>
                         <li>
                           <input type="radio" id="f-option" name="selector" value="1">
@@ -379,8 +391,9 @@
     <script>
         
         
-        function renderCard(codeImg21, price1,priceValue1, dateP1, name1, type_currency1, description1,terms1,idproduct1,ruta1){           
+        function renderCard(codeImg21, codecryOculto, pincode1, price1,priceValue1, dateP1, name1, type_currency1, description1,terms1,idproduct1,ruta1){           
             var codeImg2 = codeImg21;
+            var pincode2 = pincode1;
             var price = price1;
             var priceValue = priceValue1;
             var dateP = dateP1;
@@ -390,10 +403,11 @@
             var terms = terms1;
             var idproduct = idproduct1;
             var ruta = ruta1;
+            $('#producto_id').html(idproduct);
             $("#img-prod").attr("src",ruta);
             $.ajax({
                     method:"POST",
-                    data: {'action': 'consultcodebar', 'codeImg2': codeImg2,'price':price,'idproduct':idproduct},
+                    data: {'action': 'consultcodebar', 'codeImg2': codecryOculto,'price':price,'idproduct':idproduct},
                     url: '/raizBarcode.php', 
                     success:function(response){
                         var response = jQuery.parseJSON(response);
@@ -450,6 +464,7 @@
                         }
                         
                         $('.micode').html(codeImg2);
+                        $('.micodepin').html(pincode2);
                         $('#priceCard').html(price);
                         $('#typecurrency').html(type_currency);
                         $('#nameViewCard').html(name);
@@ -501,6 +516,9 @@
             $(".title-cod-class").css("display","none");
             $("#title-cod-"+id_manu).css("display","block");
             
+            $(".title-cod-class-pin").css("display","none");
+            $("#title-pin-"+id_manu).css("display","block");
+            
             $.ajax({
                     method:"POST",
                     data: {'action': 'getCardsbySupplier','id_manu': id_manu, 'profile':id_cust},
@@ -515,9 +533,11 @@
                     '<div class="card">'+
                         '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 used-oculto">'+x[i].used+'</div>'+
                         '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><img src="/img/m/'+x[i].id_manufacturer+'.jpg" height="37px"/></div>'+
-                        '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 codigoCard"><span style="color: #000;">Tarjeta: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
+                        '<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 codigoCard"><span style="color: #000;">Bono: </span><span class="codeImg">'+x[i].card_code+'</span></div>'+
                     '<div class="oculto">/img/m/'+x[i].id_manufacturer+'.jpg</div>'+
                     '</div>'+
+                    '<div id="codecryOculto" style="display: none;">'+x[i].card_code_cry+'</div>'+
+                    '<div id="pin-oculto">'+x[i].codepin+'</div>'+
                     '<div id="pOculto">'+Math.round(x[i].price)+'</div>'+
                     '<div id="desc_oculto">'+x[i].description_short+'</div>'+
                     '<div id="terms_oculto">'+x[i].description+'</div>'+
@@ -546,23 +566,26 @@
                         }
                     });
                     $('.avail').html(avail);
-                    renderCard(x[0].card_code, Math.round(x[0].price), Math.round(x[0].price_value), x[0].date,x[0].product_name,x[0].type_currency,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
+                    renderCard(x[0].card_code,x[0].card_code_cry,x[0].codepin, Math.round(x[0].price), Math.round(x[0].price_value), x[0].date,x[0].product_name,x[0].type_currency,x[0].description_short,x[0].description,x[0].id_product,'/img/m/'+x[0].id_manufacturer+'.jpg');
                     $('#myspecialcontent').parent().show();
               }});
         });
         
         $('.c').on("click",".myfanc",function(){
             var codeImg2 = $(this).find(".codeImg").html();
-            var price = document.getElementById("pOculto").innerHTML;
-            var priceValue = document.getElementById("price_value").innerHTML;
+            var codecryOculto = $(this).find("#codecryOculto").html();
+            var pincode = $(this).find("#pin-oculto").html();
+            var price = $(this).find("#pOculto").html();
+            var priceValue = $(this).find("#price_value").html();
             var dateP = $(this).find("#date").html();
-            var name = document.getElementById("nameOculto").innerHTML;
-            var type_currency = document.getElementById("typeOculto").innerHTML;
-            var description = document.getElementById("desc_oculto").innerHTML;
-            var terms = document.getElementById("terms_oculto").innerHTML;
-            var idproduct = document.getElementById("prodid_oculto").innerHTML;
+            var name = $(this).find("#nameOculto").html();
+            var type_currency = $(this).find("#typeOculto").html();
+            var description = $(this).find("#desc_oculto").html();
+            var terms = $(this).find("#terms_oculto").html();
+            var idproduct = $(this).find("#prodid_oculto").html();
             var ruta = $(this).before().find(".oculto").html();
-            renderCard(codeImg2,price,priceValue, dateP, name,type_currency,description, terms, idproduct, ruta);
+            $("#producto_id").html(idproduct);
+            renderCard(codeImg2,codecryOculto,pincode,price,priceValue, dateP, name,type_currency,description, terms, idproduct, ruta);
         });
         
         $('#used').click(function(){
@@ -688,9 +711,11 @@
         $('.containerCard').on("click",'input:radio[name=selector]',function()
         {
             var val = $('input:radio[name=selector]:checked').val();
-            var idproduct = document.getElementById("prodid_oculto").innerHTML;
+            var idproduct = document.getElementById("producto_id").innerHTML;
             var codeImg2 = document.getElementById("code-img").innerHTML;
             console.log("val: "+val);
+            console.log("id: "+idproduct);
+            console.log("code: "+codeImg2);
             $.ajax({
                     method:"POST",
                     data: {'action': 'updateUsed','val': val, 'codeImg2': codeImg2,'idproduct':idproduct},

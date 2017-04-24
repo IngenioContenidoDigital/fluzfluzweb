@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -76,8 +76,14 @@ class AdminStockMvtControllerCore extends AdminController
                     '-1' => $this->l('Decrease'),
                 ),
                 'icon' => array(
-                    -1 => 'remove_stock.png',
-                    1 => 'add_stock.png'
+                    -1 => array(
+                        'src' => 'remove_stock.png',
+                        'alt' => $this->l('Increase'),
+                    ),
+                    1 => array(
+                        'src' => 'add_stock.png',
+                        'alt' => $this->l('Decrease'),
+                    )
                 ),
                 'class' => 'fixed-width-xs'
             ),
@@ -173,6 +179,9 @@ class AdminStockMvtControllerCore extends AdminController
             $this->_where = ' AND w.id_warehouse = '.$id_warehouse;
             self::$currentIndex .= '&id_warehouse='.$id_warehouse;
         }
+
+        $this->_orderBy = 'a.date_add';
+        $this->_orderWay = 'DESC';
 
         // sets the current warehouse
         $this->tpl_list_vars['current_warehouse'] = $this->getCurrentWarehouseId();

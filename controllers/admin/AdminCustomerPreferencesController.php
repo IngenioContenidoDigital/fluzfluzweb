@@ -1,6 +1,6 @@
 <?php
 /*
-* 2007-2015 PrestaShop
+* 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2015 PrestaShop SA
+*  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -109,13 +109,6 @@ class AdminCustomerPreferencesControllerCore extends AdminController
                     'PS_CUSTOMER_OPTIN' => array(
                         'title' => $this->l('Enable opt-in'),
                         'hint' => $this->l('Display or not the opt-in tick box, to receive offers from the store\'s partners.'),
-                        'validation' => 'isBool',
-                        'cast' => 'intval',
-                        'type' => 'bool'
-                    ),
-                    'PS_BUY_MEMBERSHIP' => array(
-                        'title' => $this->l('Activar compra de membresia'),
-                        'hint' => $this->l('Activa el campo para la compra y pago de la membresia.'),
                         'validation' => 'isBool',
                         'cast' => 'intval',
                         'type' => 'bool'

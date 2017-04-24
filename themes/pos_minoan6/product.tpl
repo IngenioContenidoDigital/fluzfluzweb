@@ -334,7 +334,7 @@
                                                                                 {/if}    
                                                                             </div><br>
                                                                             <div class="detail-product" id="detail_product_{$list.id_product}" style="display:none">
-                                                                                <div class="title-detail">{l s="Detalles de Tarjeta de Regalo"}</div>
+                                                                                <div class="title-detail">{l s="Detalles de Bono de Regalo"}</div>
                                                                                 {if $list.online==1}
                                                                                     <div class="text-detail">{l s="- Solamente Online"}</div>
                                                                                 {else}
@@ -345,7 +345,7 @@
                                                                                 {else}
                                                                                     <span>{l s=""}</span>
                                                                                 {/if}
-                                                                                <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
+                                                                                <div class="text-detail">{l s="- Los Bonos de regalo no se pueden utilizar para comprar otras bonos de regalo"}</div>
                                                                                 {if $list.type_currency == 'COP'}
                                                                                     <div class="text-detail">{l s=""}</div>
                                                                                 {else}
@@ -403,7 +403,7 @@
                                                                                 {/if}
                                                                             </div>
                                                                             <div class="detail-product" id="detail_product_{$product->id}" style="display:none">
-                                                                                <div class="title-detail">{l s="Detalles de Tarjeta de Regalo"}</div>
+                                                                                <div class="title-detail">{l s="Detalles de Bono de Regalo"}</div>
                                                                                 {if $product->online==1}
                                                                                     <div class="text-detail">{l s="- Solamente Online"}</div>
                                                                                 {else}
@@ -414,7 +414,7 @@
                                                                                 {else}
                                                                                     <span>{l s=""}</span>
                                                                                 {/if}
-                                                                                <div class="text-detail">{l s="- Las tarjetas de regalo no se pueden utilizar para comprar otras tarjetas de regalo"}</div>
+                                                                                <div class="text-detail">{l s="- Los Bonos de regalo no se pueden utilizar para comprar otras bonos de regalo"}</div>
                                                                                 {if $product->expiration=='0000-00-00'}
                                                                                     <div class="expiration-detail"></div>
                                                                                 {else}
@@ -611,14 +611,14 @@
                                         
                                         {if !$content_only}
 		<div class="more-info">
-                        <h1>{l s='INSTRUCCIONES TARJETA DE REGALO'|escape:'html':'UTF-8'}</h1>
+                        <h1>{l s='INSTRUCCIONES BONO'|escape:'html':'UTF-8'}</h1>
                         <div class="border-title"></div>
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
-				{if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
-                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
-				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
-                                {if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
+				{if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
 				{if $product->description_short && $count_address > 0}<li><a id="more_info_tab_instructions" href="#idTab22"><span>{l s='Direcciones'}</span></a></li>{/if}
+                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
+                                {if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
+				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
                                 {*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
 				{*if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if*}
 				{$HOOK_PRODUCT_TAB}
@@ -727,7 +727,9 @@
                                             {foreach from=$address_manufacturer item='address'}
                                                     <div class=address-div>
                                                         <span class="text-info-merchant address-style">
-                                                            {$address.city}: &nbsp;{$address.address1}
+                                                            <div style="font-weight:bold;">{$address.firstname}</div>
+                                                            <div>{$address.address1}</div>
+                                                            <div>{$address.city}</div>
                                                         </span><br/>
                                                     </div>
                                             {/foreach}

@@ -1,6 +1,6 @@
 <?php
 /**
- * 2007-2015 PrestaShop
+ * 2007-2016 PrestaShop
  *
  * NOTICE OF LICENSE
  *
@@ -19,7 +19,7 @@
  * needs please refer to http://www.prestashop.com for more information.
  *
  *  @author    PrestaShop SA <contact@prestashop.com>
- *  @copyright 2007-2015 PrestaShop SA
+ *  @copyright 2007-2016 PrestaShop SA
  *  @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
@@ -145,8 +145,8 @@ class ConfigurationCore extends ObjectModel
                 FROM `'._DB_PREFIX_.bqSQL(self::$definition['table']).'` c
                 LEFT JOIN `'._DB_PREFIX_.bqSQL(self::$definition['table']).'_lang` cl ON (c.`'.bqSQL(self::$definition['primary']).'` = cl.`'.bqSQL(self::$definition['primary']).'`)';
         $db = Db::getInstance();
-        $result = $db->executeS($sql, false);
-        while ($row = $db->nextRow($result)) {
+        $rows = (array) $db->executeS($sql);
+        foreach ($rows as $row) {
             $lang = ($row['id_lang']) ? $row['id_lang'] : 0;
             self::$types[$row['name']] = ($lang) ? 'lang' : 'normal';
             if (!isset(self::$_cache[self::$definition['table']][$lang])) {
