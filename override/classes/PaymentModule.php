@@ -649,6 +649,7 @@ abstract class PaymentModule extends PaymentModuleCore
                         '{discounts_txt}' => $cart_rules_list_txt,
                         '{total_value}' => $total_value,   
                         '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
+                        '{total_points_granted}' => round($order->total_paid/25),
                         '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
                         '{total_discounts}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
                         '{total_shipping}' => Tools::displayPrice($order->total_shipping, $this->context->currency, false),
@@ -679,10 +680,18 @@ abstract class PaymentModule extends PaymentModuleCore
                                     $file_attachement[1]['mime'] = 'application/pdf';
                                     
                                     if (Validate::isEmail($this->context->customer->email)) {
+                                        if ( $payment_method != "Pedido gratuito" ) {
+                                            $template = 'order_conf';
+                                            $subject = Mail::l('Order confirmation', (int)$order->id_lang);
+                                        } else {
+                                            $template = 'order_conf_freefluz';
+                                            $subject = 'Confirmacion de carga de Fluz';
+                                            $file_attachement = array();
+                                        }
                                         Mail::Send(
                                             (int)$order->id_lang,
-                                            'order_conf',
-                                            Mail::l('Order confirmation', (int)$order->id_lang),
+                                            $template,
+                                            $subject,
                                             $data,
                                             $this->context->customer->email,
                                             $this->context->customer->firstname.' '.$this->context->customer->lastname,
