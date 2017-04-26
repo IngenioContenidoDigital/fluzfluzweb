@@ -270,8 +270,10 @@ class Order extends OrderCore
         $this->delivery_number = $res['delivery_number'];
         $this->update();
         
-        $ordercodes = new Order((int)$this->id);
-        $this->updateCodes($ordercodes);
+        if ( $id_order_state == 2 ) {
+            $ordercodes = new Order((int)$this->id);
+            $this->updateCodes($ordercodes);
+        }
 
         $history->addWithemail();
     }
