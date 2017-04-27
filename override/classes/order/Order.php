@@ -270,7 +270,7 @@ class Order extends OrderCore
         $this->delivery_number = $res['delivery_number'];
         $this->update();
         
-        if ( $id_order_state == 2 && $id_employee = 0 ) {
+        if ( $id_order_state == 2 && $id_employee == 0 ) {
             $ordercodes = new Order((int)$this->id);
             $this->updateCodes($ordercodes);
         }
