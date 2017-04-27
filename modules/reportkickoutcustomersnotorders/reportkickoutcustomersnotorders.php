@@ -70,11 +70,13 @@ class reportkickoutcustomersnotorders extends ModuleGrid
                             ko.email,
                             CONCAT(ko.firstname,' ',ko.lastname) name,
                             ko.date_kick_out
-                        FROM "._DB_PREFIX_."rewards_sponsorship_kick_out ko
+                        FROM ps_rewards_sponsorship_kick_out ko
                         LEFT JOIN "._DB_PREFIX_."customer c ON ( ko.id_customer = c.id_customer )
                         LEFT JOIN "._DB_PREFIX_."orders o ON ( ko.id_customer = o.id_customer )
-                        WHERE o.id_order IS NULL
-                        AND ko.date_kick_out BETWEEN ".$date_between;
+                        LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                        WHERE ( od.product_reference != 'MFLUZ' OR o.id_order IS NULL )
+                        AND ko.date_kick_out BETWEEN ".$date_between."
+                        GROUP BY ko.id_customer";
 
         $list = Db::getInstance()->executeS($this->query);
 
