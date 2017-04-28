@@ -72,6 +72,14 @@ function initRewards() {
 	$('#list_contacts_form').submit(function() {
 		return submitForm($(this));
 	});
+        
+        $('#list_contacts_form_Third').submit(function(e) {
+            var checked = $("#conditionsValidedThird").attr("checked");
+            if ( checked != "checked" ) {
+                alert("Debe aceptar las condiciones del programa antes de seguir.");
+                e.preventDefault();
+            }
+	});
 }
 
 function acceptSponsorshipCGV(form) {
