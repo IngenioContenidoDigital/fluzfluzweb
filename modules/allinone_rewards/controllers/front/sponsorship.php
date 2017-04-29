@@ -412,6 +412,9 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                     if ( $error == "" ) {
                         $sponsor = array();
                         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+                        usort($tree, function($a, $b) {
+                            return  $a['level'] - $b['level'];
+                        });
                         foreach ( $tree AS $sponsorshipMember ) {
                             if ( $this->context->customer->id != $sponsorshipMember['id'] && empty($sponsor) ) {
                                 $sponsorPossible = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
