@@ -775,9 +775,9 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
                         <p class="bold"><span style="color:#ef4136;">{l s="Important: " mod='allinone_rewards'}</span>{l s='Data provided for any action outside the intended shall not be used.' mod='allinone_rewards'}</p>
-                        <p class="checkbox">
+                        <p style="margin: 0px;padding: 0 !important;border: none;color: #666666;font-family: 'Open sans';line-height: 30px;font-size: 13px;">
                             <input class="cgv" type="checkbox" name="conditionsValidedThird" id="conditionsValidedThird" value="1" />&nbsp;
-                            <label for="conditionsValided">{l s='I agree to the terms of service and adhere to them unconditionally.' mod='allinone_rewards'}</label>
+                            <label style="color: #777777;line-height: 30px;font-weight: normal;" for="conditionsValided">{l s='I agree to the terms of service and adhere to them unconditionally.' mod='allinone_rewards'}</label>
                             <a href="http://reglas.fluzfluz.co/terminos-y-condiciones/{*$link->getModuleLink('allinone_rewards', 'rules', ['sback' => $sback], true)|escape:'html':'UTF-8'*}" title="{l s='Conditions of the sponsorship program' mod='allinone_rewards'}" target="_blank">{l s='Read conditions' mod='allinone_rewards'}</a>
                         </p>
                         <p>{l s='Preview' mod='allinone_rewards'} <a href="#emailcontent" style="color:#ef4136; text-decoration: none;" class="mail-invited myfancybox" title="{l s='Invitation email' mod='allinone_rewards'}">{l s='the default email' mod='allinone_rewards'}</a> {l s='that will be sent to your friends.' mod='allinone_rewards'}</p>
