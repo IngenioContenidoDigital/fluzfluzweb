@@ -35,7 +35,7 @@
 			{*if $returnAllowed}<li><a href="{$link->getPageLink('order-follow', true)|escape:'html'}" title="{l s='My merchandise returns' mod='blockmyaccountheader'}">{l s='My merchandise returns' mod='blockmyaccountheader'}</a></li>{/if*}
 			{*<li><a href="{$link->getPageLink('cardsview', true)|escape:'html'}" title="{l s='My Cards' mod='blockmyaccountheader'}">{l s='My Cards' mod='blockmyaccountheader'}</a></li>*}
 			<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}">{l s='My Network' mod='blockmyaccountheader'}</a></li>
-			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Sponsor a friend' mod='blockmyaccountheader'}">{l s='Sponsor a friend' mod='blockmyaccountheader'}</a></li>
+			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="Invitar amigos">Invitar amigos</a></li>
                         <li><a href="{$link->getPageLink('cashout', true)|escape:'html'}" title="{l s='Cash Out' mod='blockmyaccountheader'}">{l s='Cash Out' mod='blockmyaccountheader'}</a></li>
 			{*if $voucherAllowed}<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My vouchers' mod='blockmyaccountheader'}">{l s='My vouchers' mod='blockmyaccountheader'}</a></li>{/if*}
 			{*$HOOK_BLOCK_MY_ACCOUNT*}
@@ -50,7 +50,7 @@
                         <li><a class="back-account">{l s='Regresar' mod='blockmyaccountheader'}</a></li>
 			<li><a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="">{l s='My Account' mod='blockmyaccountheader'}</a></li>
 			<li><a href="{$link->getPageLink('discount', true)|escape:'html'}" title="{l s='My network' mod='blockmyaccountheader'}">{l s='My Network' mod='blockmyaccountheader'}</a></li>
-			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="{l s='Sponsor a friend' mod='blockmyaccountheader'}">{l s='Sponsor a friend' mod='blockmyaccountheader'}</a></li>
+			<li><a href="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}" title="Invitar amigos">Invitar amigos</a></li>
                         <li><a href="{$link->getPageLink('cashout', true)|escape:'html'}" title="{l s='Cash Out' mod='blockmyaccountheader'}">{l s='Cash Out' mod='blockmyaccountheader'}</a></li>
                         <li class="logout signUp"><a style="border-bottom: none;" href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out' mod='blockmyaccountheader'}">{l s='Sign out' mod='blockmyaccountheader'}</a></li>
             </ul>
