@@ -52,6 +52,8 @@
 			{l s='An error occured, the SMS has not been sent' mod='allinone_rewards'}
 		{elseif $error == 'purchase incomplete'}
 			{l s='Por favor verifica el estado de tu afiliacion, tu proceso de registro esta incompleto. Si tienes una invitacion por favor realiza el proceso de registro nuevamente.'}
+		{elseif $error == 'no sponsor'}
+			{l s='No hay espacios disponibles en la red.'}
 		{/if}
 	</p>
 	{/if}
@@ -739,6 +741,76 @@
 		{/if}
 	{/if}
 </div>
+<hr>
+<div class="sponsorshipBlock">
+    <div id="sponsorship_form"  {if isset($popup) && !$afterSubmit}style="display: none"{/if}>
+        <form id="list_contacts_form_Third" method="post" action="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <p class="title-sponsor">Agregar m&aacute;s fluzzer</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <p class="">&iquest;Tiene m&aacute;s miembros que desea ver en su red?</p>
+                    <br>
+                    <p class="">Nuestra herramienta s&oacute;lo le permite invitar a dos miembros directamente a su red. Pero en el caso de que usted tiene un tercer amigo que quiere unirse, puede ayudar a obtener en su red.</p>
+                    <br>
+                    <p class="">Ingrese el correo electr&oacute;nico de su tercer amigo y buscaremos una invitaci&oacute;n abierta en su red. Si hay una invitaci&oacute;n abierta en su red, se insertar&aacute;n a unas pocas capas de distancia.</p>
+                </div>
+            </div>
+            <div class="row">
+                {if empty($sponsorshipThird)}
+                    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">           
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsFirstNameThird" size="20" value="" /></div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsLastNameThird" size="20" value="" /></div>
+                    </div>    
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="text" name="friendsEmailThird" size="20" value="" /></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+                        <p class="bold"><span style="color:#ef4136;">{l s="Important: " mod='allinone_rewards'}</span>{l s='Data provided for any action outside the intended shall not be used.' mod='allinone_rewards'}</p>
+                        <p style="margin: 0px;padding: 0 !important;border: none;color: #666666;font-family: 'Open sans';line-height: 30px;font-size: 13px;">
+                            <input class="cgv" type="checkbox" name="conditionsValidedThird" id="conditionsValidedThird" value="1" />&nbsp;
+                            <label style="color: #777777;line-height: 30px;font-weight: normal;" for="conditionsValided">{l s='I agree to the terms of service and adhere to them unconditionally.' mod='allinone_rewards'}</label>
+                            <a href="http://reglas.fluzfluz.co/terminos-y-condiciones/{*$link->getModuleLink('allinone_rewards', 'rules', ['sback' => $sback], true)|escape:'html':'UTF-8'*}" title="{l s='Conditions of the sponsorship program' mod='allinone_rewards'}" target="_blank">{l s='Read conditions' mod='allinone_rewards'}</a>
+                        </p>
+                        <p>{l s='Preview' mod='allinone_rewards'} <a href="#emailcontent" style="color:#ef4136; text-decoration: none;" class="mail-invited myfancybox" title="{l s='Invitation email' mod='allinone_rewards'}">{l s='the default email' mod='allinone_rewards'}</a> {l s='that will be sent to your friends.' mod='allinone_rewards'}</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                        <p class="submit" align="right"><input type="submit" id="submitSponsorFriendsThird" name="submitSponsorFriendsThird" class="button_large" value="{l s='ADD FRIENDS' mod='allinone_rewards'}" /></p>
+                    </div>
+                {else}
+                    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">           
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='First name' mod='allinone_rewards'}</div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item t-sponsor">{l s='Last name' mod='allinone_rewards'}</div>
+                    </div>    
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 last_item t-sponsor">{l s='Email' mod='allinone_rewards'}</div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 status-email">
+                        <img src="http://fluzfluzweb.localhost/themes/pos_minoan6/img/icon/points.png" style="width: 30px; margin-right: 3%;">{$sponsorshipThird['firstname']}&nbsp;&nbsp;&nbsp;{$sponsorshipThird['lastname']}&nbsp;&nbsp;-&nbsp;&nbsp;{$sponsorshipThird['email']}
+                    </div>                    
+                    {if $sponsorshipThird['id_customer'] != ""}
+                        <div style="color:#22b573; line-height: 25px;height: 53px;text-align:center;" class="col-lg-6 col-md-6 col-sm-6 status-email">Estado: confirmado</div>
+                    {else}
+                        <div style="color:#eabf1e; line-height: 25px; text-align: center;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 status-email">{l s="Estado: Pendiente"}</div>
+                    {/if}
+                {/if}
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<br>
+
 	{if !isset($popup)}
 		{if version_compare($smarty.const._PS_VERSION_,'1.6','>=')}
 <ul class="footer_links clearfix">

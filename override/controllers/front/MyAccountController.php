@@ -281,94 +281,56 @@ class MyAccountController extends MyAccountControllerCore
     }
     
     public function orderQuantity(){
-   
-        $orderMonthcurrent = 'SELECT  COUNT(od.id_order) as orders, o.date_add as date FROM  ps_orders  o
-                                LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
-                                LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
-                                WHERE  MONTH(o.date_add) = MONTH(NOW()) AND o.id_customer = '.$this->context->customer->id.' 
-                                AND r.id_reward_state=2 AND r.`plugin` = "loyalty" 
-                                ORDER BY o.date_add DESC';
         
-        $roworders = db::getInstance()->getRow($orderMonthcurrent);
-        $order = $roworders['orders'];
+        $query = "SELECT
+                        c.id_customer,
+                        c.date_kick_out,
+                        DATE_FORMAT(c.date_kick_out,'%Y-%m-%d') date_kick_out_show,
+                        c.warning_kick_out,
+                        c.kick_out
+                    FROM "._DB_PREFIX_."customer c
+                    WHERE c.id_customer = ".$this->context->customer->id;
+        $customer = Db::getInstance()->getRow($query);
         
-        $querydays = 'SELECT DATEDIFF(NOW(), date_add) AS days FROM '._DB_PREFIX_.'customer WHERE id_customer ='.$this->context->customer->id;
-        $rowday = db::getInstance()->getRow($querydays);
-        $days = $rowday['days']; 
+        $query = "SELECT COUNT(od.id_order_detail) purchases
+                    FROM "._DB_PREFIX_."orders o
+                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                    WHERE o.current_state = 2
+                    AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out']."', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out']."' )
+                    AND id_customer = ".$customer['id_customer'];
+        $purchases = Db::getInstance()->getValue($query);
+
+        $query = "SELECT DATE_FORMAT(DATE_ADD(date_kick_out, INTERVAL ".($customer['warning_kick_out'] == 0 ? '30' : '0')." DAY),'%Y-%m-%d') date
+                    FROM "._DB_PREFIX_."customer
+                    WHERE id_customer = ".$customer['id_customer'];
+        $expiration_date = Db::getInstance()->getValue($query);
         
-        $query='SELECT count(o.id_order) AS compras_mes, DATE_FORMAT(date_add(o.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, 
-                    DATE_FORMAT(date_add(o.date_add, INTERVAL 2 MONTH),"%d %b %Y") AS date_cancel
-                    FROM '._DB_PREFIX_.'orders AS o WHERE (o.id_customer='.(int)$this->context->customer->id.' AND o.id_order IN (SELECT od.id_order FROM '._DB_PREFIX_.'order_detail AS od 
-                    LEFT JOIN '._DB_PREFIX_.'rewards AS rw ON od.id_order=rw.id_order WHERE (rw.id_reward_state=2 AND rw.plugin="loyalty" AND od.product_reference != "MFLUZ" 
-                    AND (MONTH(o.date_add)=MONTH(NOW())))))';
+        if ( $customer['warning_kick_out'] == 0 && $purchases < 2 ) {
+            $alertpurchaseorder['alert'] = 1;
+            $alertpurchaseorder['orden'] = $purchases;
+            $alertpurchaseorder['total'] = 2;
+            $alertpurchaseorder['quantity'] = 2 - $purchases;
+            $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+        }
         
-        $rowmes = db::getInstance()->getRow($query);
-        $date = $rowmes['date'];
-        $dateCancel = $rowmes['date_cancel'];
-        
-        if($order >= 2 && $days <= 30){
+        if ( $customer['warning_kick_out'] == 0 && $purchases >= 2 ) {
             $alertpurchaseorder['alert'] = 2;
         }
         
-        else if(($order >=1 && $order < 2) && ($days <= 30)){
-            $alertpurchaseorder['date'] = $date;
-            $alertpurchaseorder['alert'] = 1;
-            $alertpurchaseorder['total'] = 2;
-            $alertpurchaseorder['orden'] = $order;
-            $alertpurchaseorder['quantity'] = 2 - $order;
+        if ( $customer['warning_kick_out'] == 1 && $purchases < 4 ) {
+            $alertpurchaseorder['alert'] = 3;
+            $alertpurchaseorder['orden'] = $purchases;
+            $alertpurchaseorder['quantity_max'] = 4;
+            $alertpurchaseorder['total'] = 4;
+            $alertpurchaseorder['quantity'] = 4 - $purchases;
+            $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+            $alertpurchaseorder['dateCancel'] = $expiration_date;
         }
-        else {
-            
-            $ordervoid = 'SELECT  DATE_FORMAT(DATE_ADD(c.date_add, INTERVAL 1 MONTH),"%d %b %Y") AS date, 
-                        DATE_FORMAT(DATE_ADD(c.date_add, INTERVAL 2 MONTH), "%d %b %Y") AS date_cancel 
-                        FROM '._DB_PREFIX_.'customer c WHERE c.id_customer='.(int)$this->context->customer->id;
-            $rowvoid = db::getInstance()->getRow($ordervoid);
-            $datevoid = $rowvoid['date'];
-            $dateCancelvoid = $rowvoid['date_cancel'];
-            
-            if(($days <= 30 && $order<2)){
-                $alertpurchaseorder['alert'] = 3;
-                $alertpurchaseorder['quantity'] = 2 - $order;
-                $alertpurchaseorder['orden'] = $order;
-                $alertpurchaseorder['quantity_max']=2;
-                if($date==""){$fecha=$datevoid;}else{$fecha=$date;}
-                if($dateCancel==""){$fechaC=$dateCancelvoid;}else{$fechaC=$dateCancel;}
-                $alertpurchaseorder['date'] = $fecha;
-                $alertpurchaseorder['dateCancel'] = $fechaC;
-            }
-            else if ($days > 30){
-            $querylastMonth = 'SELECT  COUNT(od.id_order) as orders, o.date_add as date FROM  ps_orders  o
-                                LEFT JOIN ps_rewards r ON (r.id_order = o.id_order)
-                                LEFT JOIN ps_order_detail od ON (od.id_order = o.id_order)
-                                WHERE  MONTH(o.date_add) = (MONTH(NOW()) - 1) AND o.id_customer = '.$this->context->customer->id.'
-                                AND r.id_reward_state=2  
-                                ORDER BY o.date_add DESC';
-            $rowlastorders = db::getInstance()->getRow($querylastMonth);
-            $lastorder = $rowlastorders['orders'];
-            $countOrders = $order + $lastorder;
-           
-            if ($countOrders >= 4){
-             $alertpurchaseorder['alert'] = 2;
-            }
-            elseif($countOrders == 3){
-             $alertpurchaseorder['date'] = $date;
-             $alertpurchaseorder['alert'] = 1;
-             $alertpurchaseorder['total'] = 4;
-             $alertpurchaseorder['orden'] = $countOrders;
-             $alertpurchaseorder['quantity'] = 4 - $countOrders;
-            }
-            else{
-              $alertpurchaseorder['alert'] = 3;
-              $alertpurchaseorder['quantity'] = 4 - $countOrders;
-              $alertpurchaseorder['orden'] = $countOrders;
-              $alertpurchaseorder['quantity_max']=4;
-              if($date==""){$fecha=$datevoid;}else{$fecha=$date;}
-              if($dateCancel==""){$fechaC=$dateCancelvoid;}else{$fechaC=$dateCancel;}
-              $alertpurchaseorder['date'] = $fecha;
-              $alertpurchaseorder['dateCancel'] = $fechaC;
-            }
-            }
+        
+        if ( $customer['kick_out'] == 1 ) {
+            $alertpurchaseorder['alert'] = 4;
         }
+
         return $alertpurchaseorder;
     }
     

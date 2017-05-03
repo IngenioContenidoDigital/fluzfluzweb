@@ -63,10 +63,11 @@ class reportnotificationhistory extends ModuleGrid
 
     public function getData()
     {
-        // $date_between = $this->getDate();
+        $date_between = $this->getDate();
         $this->query = "SELECT nh.id_customer, c.username, nh.type_message, nh.message, nh.date_send
                         FROM "._DB_PREFIX_."notification_history nh
-                        INNER JOIN "._DB_PREFIX_."customer c ON ( nh.id_customer = c.id_customer )";
+                        INNER JOIN "._DB_PREFIX_."customer c ON ( nh.id_customer = c.id_customer )
+                        WHERE nh.date_send BETWEEN ".$date_between;
 
         $list = Db::getInstance()->executeS($this->query);
 

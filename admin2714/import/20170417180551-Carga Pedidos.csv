@@ -1,0 +1,2 @@
+Id customer; Id products: Cantidad; payment (pedido gratuito+AD0-1 , tarjeta credito+AD0-2)
+5;98:1;2

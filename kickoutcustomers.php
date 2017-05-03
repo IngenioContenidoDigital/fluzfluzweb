@@ -2,7 +2,6 @@
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
-include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 $kickoutCustomers = new kickoutCustomers();
 $kickoutCustomers->init();
@@ -141,8 +140,6 @@ class kickoutCustomers {
                                                         FROM "._DB_PREFIX_."rewards
                                                         WHERE id_reward_state = 2");
         
-        $template = "cancellation_account";
-        $subject = "Tu cuenta fue Cancelada.";
         $vars = array(
             '{username}' => $customerdata['username'],
             '{days_inactive}' => 60,
@@ -153,17 +150,15 @@ class kickoutCustomers {
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
         );
-        $reward = new allinone_rewards();
-        $reward->sendMail(Context::getContext()->language->id, $template, $subject, $vars, $customerdata['email'], $customerdata['username']);
-            
-        /*Mail::Send(
+
+        Mail::Send(
             Context::getContext()->language->id,
             "cancellation_account",
             "Tu cuenta fue Cancelada.",
             $vars,
             $customerdata['email'],
             $customerdata['username']
-        );*/
+        );
         
         return Db::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship
                                             WHERE id_customer = ".$customer['id']);

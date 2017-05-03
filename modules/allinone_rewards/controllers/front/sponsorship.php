@@ -173,7 +173,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 							continue;
 
 						if (RewardsSponsorshipModel::isEmailExists($friendEmail) || Customer::customerExists($friendEmail)) {
-                                                        $customerKickOut = Db::getInstance()->getValue("SELECT COUNT(*) num FROM "._DB_PREFIX_."rewards_sponsorship_kick_out WHERE email = '".$friendEmail."'");
+                                                        $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM "._DB_PREFIX_."customer WHERE email = '".$friendEmail."'");
                                                         if ( $customerKickOut == 0 ) {
                                                             $error = 'email exists';
                                                             $mails_exists[] = $friendEmail;
@@ -297,7 +297,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                 $sponsorship = new RewardsSponsorshipModel((int)$key);
                                                 $query = 'DELETE FROM '._DB_PREFIX_.'rewards_sponsorship WHERE email = "'.$sponsorship->email.'"';
                                                 Db::getInstance()->execute($query);
-                                                $template = 'invitation-cancel';
+                                                
                                                 $vars = array(
 								'{email}' => $this->context->customer->email,
                                                                 '{username}' => $this->context->customer->username,
@@ -308,16 +308,14 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 								'{nb_discount}' => $nb_discount,
 								'{discount}' => $discount_gc
 							);
-                                                
-                                                /*Mail::Send(
+                                                Mail::Send(
                                                     (int)$this->context->language->id,
                                                     'invitationCancel',
                                                     'Invitacion Cancelada',
                                                     $vars,
                                                     $sponsorship->email,
                                                     $sponsorship->firstname.' '.$sponsorship->lastname
-                                                );*/
-						$this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL('Invitacion Cancelada'), $vars, $sponsorship->email, $sponsorship->firstname.' '.$sponsorship->lastname);
+                                                );
                                                 Tools::redirect($this->context->link->getPageLink('cancelinvitation', true, (int)$this->context->language->id));
                                             }
 					}
@@ -391,6 +389,93 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 				$this->context->smarty->assign($smarty_values);
 			}
 		}
+
+                if ( Tools::isSubmit('submitSponsorFriendsThird') ) {
+                    $error = "";
+                    $invitation_sent = false;
+                    $friendFirstNameThird = Tools::getValue('friendsFirstNameThird');
+                    $friendLastNameThird = Tools::getValue('friendsLastNameThird');
+                    $friendEmailThird = Tools::getValue('friendsEmailThird');
+
+                    if (empty($friendFirstNameThird) || empty($friendLastNameThird) || !Validate::isName($friendFirstNameThird) || !Validate::isName($friendLastNameThird)) {
+                        $error = 'name invalid';
+                    } elseif (Tools::isSubmit('submitSponsorFriendsThird') && !Validate::isEmail($friendEmailThird) ) {
+                        $error = 'email invalid';
+                    } elseif (RewardsSponsorshipModel::isEmailExists($friendEmailThird) || Customer::customerExists($friendEmailThird)) {
+                        $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM "._DB_PREFIX_."customer WHERE email = '".$friendEmailThird."'");
+                        if ( $customerKickOut == 0 ) {
+                            $error = 'email exists';
+                            $mails_exists[] = $friendEmailThird;
+                        }
+                    }
+                    
+                    if ( $error == "" ) {
+                        $sponsor = array();
+                        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+                        usort($tree, function($a, $b) {
+                            return  $a['level'] - $b['level'];
+                        });
+                        foreach ( $tree AS $sponsorshipMember ) {
+                            if ( $this->context->customer->id != $sponsorshipMember['id'] && empty($sponsor) ) {
+                                $sponsorPossible = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                                                                                FROM "._DB_PREFIX_."customer c
+                                                                                LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                                                                WHERE c.id_customer = ".$sponsorshipMember['id']);
+                                if ( $sponsorPossible['sponsoships'] > 0 ) {
+                                    $sponsor = $sponsorPossible;
+                                }
+                            }
+                        }
+
+                        if ( !empty($sponsor) ) {
+                            $nb_discount = (int)MyConf::get('RSPONSORSHIP_QUANTITY_GC', null, $id_template);
+                            $discount_gc = $this->module->getDiscountReadyForDisplay((int)MyConf::get('RSPONSORSHIP_DISCOUNT_TYPE_GC', null, $id_template), (int)MyConf::get('RSPONSORSHIP_FREESHIPPING_GC', null, $id_template), (float)MyConf::get('RSPONSORSHIP_VOUCHER_VALUE_GC_'.(int)$this->context->currency->id, null, $id_template), null, MyConf::get('RSPONSORSHIP_REAL_VOUCHER_GC', null, $id_template) ? MyConf::get('RSPONSORSHIP_REAL_DESC_GC', (int)$this->context->language->id, $id_template) : null);
+                            $sponsorship = new RewardsSponsorshipModel();
+                            $sponsorship->id_sponsor = $sponsor['id_customer'];
+                            $sponsorship->id_customer = $this->generateIdTemporary($friendEmailThird);
+                            $sponsorship->firstname = $friendFirstNameThird;
+                            $sponsorship->lastname = $friendLastNameThird;
+                            $sponsorship->email = $friendEmailThird;
+                            $sponsorship->channel = 1;
+                            $send = "";
+                            if ($sponsorship->save()) {
+                                $vars = array(
+                                        '{message}' => Tools::nl2br(Tools::getValue('message')),
+                                        '{email}' => $sponsor['id_customer'],
+                                        '{firstname_invited}'=> $sponsorship->firstname,
+                                        '{inviter_username}' => $sponsor['username'],
+                                        '{username}' => $sponsor['username'],
+                                        '{lastname}' => $sponsor['lastname'],
+                                        '{firstname}' => $sponsor['firstname'],
+                                        '{email_friend}' => $sponsorship->email,
+                                        '{link}' => $sponsorship->getSponsorshipMailLink(),
+                                        '{Expiration}'=> $send,
+                                        '{nb_discount}' => $nb_discount,
+                                        '{discount}' => $discount_gc);
+                                $this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL('invitation'), $vars, $sponsorship->email, $sponsorship->firstname.' '.$sponsorship->lastname);
+                                Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
+                                                            VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())");
+                                $invitation_sent = true;
+                            }
+                        } else {
+                            $error = 'no sponsor';
+                        }
+                    }
+                }
+                
+                $sponsorshipThird = Db::getInstance()->getRow("SELECT rs.id_sponsorship, rs.firstname, rs.lastname, rs.email, c.id_customer
+                                                                FROM "._DB_PREFIX_."rewards_sponsorship_third rst
+                                                                INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( rst.id_rewards_sponsorship = rs.id_sponsorship )
+                                                                LEFT JOIN "._DB_PREFIX_."customer c ON ( rs.id_customer = c.id_customer )
+                                                                WHERE rst.id_customer = ".$this->context->customer->id);
+
+                $smarty_values = array(
+                    'error' => $error,
+                    'invitation_sent' => $invitation_sent,
+                    'sponsorshipThird' => $sponsorshipThird,
+                );
+                $this->context->smarty->assign($smarty_values);
+                
 		$this->setTemplate('sponsorship.tpl');
 	}
 }

@@ -168,24 +168,30 @@
                                     </script>
                                 {/literal}   
                                 {if $page_name=='my-account'}
-                                    {if $order_lastmonth['alert'] == 3}
+                                    {if $order_lastmonth['alert'] == 4}
                                         <div class="col-lg-12 banner-advertencia">
-                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "}{$order_lastmonth['quantity_max']}{" compras y te estas pasando de la fecha de vencimiento ("}{$order_lastmonth['date']}{"). Si no haces "}{$order_lastmonth['quantity']}{" compra más hasta el ("}{$order_lastmonth['dateCancel']}{") tu cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
-                                        </div>
-                                    {/if}    
-                                    
-                                    {if $order_lastmonth['alert'] == 1}
-                                        <div class="col-lg-12 banner-advertencia-month">
-                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "} {$order_lastmonth['total']} {" compras. Necesitaras hacer "}{$order_lastmonth['quantity']}{" compra más hasta el ("}{$order_lastmonth['date']}{") para cubrir tu requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
+                                            <p class="p-advertencia">{l s="Tu cuenta se encuentra actualmente cancelada."}</p>
                                         </div>
                                     {/if}
-                                    
+
+                                    {if $order_lastmonth['alert'] == 3}
+                                        <div class="col-lg-12 banner-advertencia">
+                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "}{$order_lastmonth['quantity_max']}{" compras y te estas pasando de la fecha de vencimiento. Si no haces "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['dateCancel']}{") tu cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
+                                        </div>
+                                    {/if}
+
                                     {if $order_lastmonth['alert'] == 2}
                                         <div class="col-lg-12 banner-advertencia-awesome">
                                             <p class="p-advertencia">{l s="¡Increíble! Tu compra mensual mínima se ha cumplido. "}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-awesome"></i></p>
                                         </div>
                                     {/if}
-                                    
+
+                                    {if $order_lastmonth['alert'] == 1}
+                                        <div class="col-lg-12 banner-advertencia-month">
+                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "} {$order_lastmonth['total']} {" compras. Necesitaras hacer "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['date']}{") para cubrir tu requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
+                                        </div>
+                                    {/if}
+
                                     <div class="container-fluid profileCustomer" style="{if $order_lastmonth['alert'] == 0}margin-top:70px{/if};">
                                         <div class="row" style="width:100%;">
                                                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 contProfile">

@@ -10,15 +10,15 @@ class AdminImportController extends AdminImportControllerCore
 
         $this->bootstrap = true;
         $this->entities = array(
-            $this->l('Customers'),
-            $this->l('Orders'),
-            /*$this->l('Categories'),
+            $this->l('Categories'),
             $this->l('Products'),
-            $this->l('Combinations'),*/
-            /*$this->l('Addresses'),
+            $this->l('Combinations'),
+            $this->l('Customers'),
+            $this->l('Addresses'),
             $this->l('Manufacturers'),
             $this->l('Suppliers'),
-            $this->l('Alias'),*/
+            $this->l('Alias'),
+            $this->l('Orders'),
         );
 
         // @since 1.5.0
@@ -459,7 +459,7 @@ class AdminImportController extends AdminImportControllerCore
         $this->multiple_value_separator = ($separator = Tools::substr(strval(trim(Tools::getValue('multiple_value_separator'))), 0, 1)) ? $separator :  ',';
     }
     
-     public function postProcess()
+    public function postProcess()
     {
         /* PrestaShop demo mode */
         if (_PS_MODE_DEMO_) {
@@ -487,7 +487,7 @@ class AdminImportController extends AdminImportControllerCore
                         $this->clearSmartyCache();
                         break;
                     case $this->entities[$import_type = $this->l('Customers')]:
-                        $this->customerImport();
+                        //$this->customerImport();
                         break;
                     case $this->entities[$import_type = $this->l('Orders')]:
                         $this->ordersImport();
@@ -636,6 +636,9 @@ class AdminImportController extends AdminImportControllerCore
                             $customer = new Customer();
                         }
                     }
+                    
+                    $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+                    $customer->warning_kick_out = 0;
 
                     $customer_exist = false;
 
