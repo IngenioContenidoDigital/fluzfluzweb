@@ -1,14 +1,10 @@
 <?php
-
 global $_LANGMAIL;
 $_LANGMAIL = array();
 $_LANGMAIL['Welcome!'] = '¡Bienvenido!';
 $_LANGMAIL['Process the payment of your order'] = 'Proceso de pago de su pedido';
 $_LANGMAIL['Pedido Recomendado'] = '';
-<<<<<<< HEAD
 $_LANGMAIL['Message from contact form'] = 'Mensaje desde el formulario de contacto';
-=======
->>>>>>> d9b11e443f61c7ee31b42ff80f743d09b5e2d4fa
 $_LANGMAIL['Your message has been correctly sent #ct%1$s #tc%2$s'] = 'Tu mensaje ha sido enviado correctamente #ct%1$s #tc%2$s';
 $_LANGMAIL['Your message has been correctly sent'] = 'Su mensaje se ha enviado correctamente';
 $_LANGMAIL['Message from contact form'] = 'Mensaje desde el formulario de contacto';
@@ -45,5 +41,4 @@ $_LANGMAIL['New return from order #%d - %s'] = '';
 $_LANGMAIL['Congratulations!'] = '';
 $_LANGMAIL['Referral Program'] = '';
 $_LANGMAIL['%1$s sent you a link to %2$s'] = '%1$s envió un link a %2$s';
-
 ?>
