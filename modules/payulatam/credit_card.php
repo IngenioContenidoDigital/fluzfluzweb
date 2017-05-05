@@ -264,7 +264,7 @@ class PayuCreditCard extends PayUControllerWS {
                     $this->createAccountSuccess($membership, $customer->id);
                 }
 
-                $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".(int)$customer->id." AND id_order=".(int) $order['id_order']." AND id_cart is NULL";
+                $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".(int)$customer->id." AND id_order=".(int) $order['id_order'];
                 Db::getInstance()->execute($qstate);
                 
                 Tools::redirectLink($url_confirmation);
