@@ -107,26 +107,26 @@
             </div>
 	</div>
         <div class="row container_tips">
-            <div class="col-xs-12 col-sm-3">
+            <div class="col-xs-12 col-sm-4 col-md-4">
                 <img src="{$img_dir}login/piggy-bank.jpg" class="icon_tip" />
-                <h3>Ahorra!</h3>
-                <span>Entre m&aacute;s compras, m&aacute;s ahorras</span>
+                <h3>Gana!</h3>
+                <span>Entre m&aacute;s compras, m&aacute;s gan&aacute;s y aumenta tus ingresos.</span>
             </div>
-            <div class="col-xs-12 col-sm-3">
+            <div class="col-xs-12 col-sm-4 col-md-4">
                 <img src="{$img_dir}login/email.jpg" class="icon_tip" />
                 <h3>Invita Amigos!</h3>
-                <span>Mientras m&aacute;s amigos invitas, m&aacute;s Fluz recibes por las compras de ellos.</span>
+                <span>Mientras m&aacute;s amigos invitas, m&aacute;s Fluz ganas por las compras de ellos.</span>
             </div>
-            <div class="col-xs-12 col-sm-3">
+            <div class="col-xs-12 col-sm-4 col-md-4">
                 <img src="{$img_dir}login/coins.jpg" class="icon_tip" />
                 <h3>Redime!</h3>
                 <span>Convierte tus Fluz en dinero en efectivo!</span>
             </div>
-            <div class="col-xs-12 col-sm-3">
+            <!--<div class="col-xs-12 col-sm-3">
                 <img src="{$img_dir}login/pie-chart.jpg" class="icon_tip" />
                 <h3>Estad&iacute;sticas!</h3>
                 <span>Revisa tus estad&iacute;sticas para mejorar la obtenci&oacute;n de Fluz.</span>
-            </div>
+            </div>-->
         </div>
 	{if isset($inOrderProcess) && $inOrderProcess && $PS_GUEST_CHECKOUT_ENABLED}
 		<form action="{$link->getPageLink('authentication', true, NULL, "back=$back")|escape:'html':'UTF-8'}" method="post" id="new_account_form" class="std clearfix">

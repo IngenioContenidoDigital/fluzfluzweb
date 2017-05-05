@@ -567,6 +567,7 @@ abstract class PaymentModule extends PaymentModuleCore
                             'orderStatus' => $order_status
                         ));
                     } else {
+                        
                         Hook::exec('actionValidateOrder2', array(
                             'cart' => $this->context->cart,
                             'order' => $order,
@@ -687,13 +688,27 @@ abstract class PaymentModule extends PaymentModuleCore
                                     if (Validate::isEmail($this->context->customer->email)) {
                                         if ( $payment_method != "Pedido gratuito" ) {
                                             $template = 'order_conf';
-                                            $subject = Mail::l('Order confirmation', (int)$order->id_lang);
+                                            $prefix_template = '16-order_conf';
+                
+                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                            $row_subject = Db::getInstance()->getRow($query_subject);
+                                            $message_subject = $row_subject['subject_mail'];
+                                            //$subject = Mail::l('Order confirmation', (int)$order->id_lang);
                                         } else {
                                             $template = 'order_conf_freefluz';
-                                            $subject = 'Confirmacion de carga de Fluz';
+                                            //$subject = 'Confirmacion de carga de Fluz';
                                             $file_attachement = array();
+                                            $prefix_template = '16-order_conf_freefluz';
+                
+                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                            $row_subject = Db::getInstance()->getRow($query_subject);
+                                            $message_subject = $row_subject['subject_mail'];
                                         }
-                                        Mail::Send(
+                                        
+                                        $allinone_rewards = new allinone_rewards();
+                                        $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $this->context->customer->email, $this->context->customer->firstname.' '.$this->context->customer->lastname,$file_attachement);
+                                        
+                                        /*Mail::Send(
                                             (int)$order->id_lang,
                                             $template,
                                             $subject,
@@ -704,7 +719,7 @@ abstract class PaymentModule extends PaymentModuleCore
                                             null,
                                             $file_attachement,
                                             null, _PS_MAIL_DIR_, false, (int)$order->id_shop
-                                        );
+                                        );*/
                                 } }   
                     }
                     // updates stock in shops
