@@ -22,7 +22,7 @@
 .message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; }
 .message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
 .containtertables { overflow-y: auto; height: 330px; margin: 20px 0; }
-.pendingsinvitation { font-size: 11px!important; }
+.pendingsinvitation { font-size: 11px!important; cursor: pointer; }
 
 /* popup */
 #myspecialcontent > div { margin-bottom: 15px; }
