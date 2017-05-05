@@ -223,7 +223,7 @@ foreach ($invitations as $key => &$invitation) {
         $sponsorship->lastname = $friendLastName;
         $sponsorship->channel = 1;
         $sponsorship->email = $friendEmail;
-
+ 
         $vars = array(
                     '{message}' => "PRUEBA",
                     '{firstname_invited}'=> $sponsorship->firstname,

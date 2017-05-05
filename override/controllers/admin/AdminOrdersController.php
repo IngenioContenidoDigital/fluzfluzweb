@@ -195,7 +195,7 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         $productos = $row2['productos'];
                         
                         if(($order_state->id == 2 ) && (($orderValidation < $productos))){
-                            Order::updateCodes($order, $order_state);
+                            Order::updateCodes($order, $order_state); 
                         }
                         
                         // Save all changes

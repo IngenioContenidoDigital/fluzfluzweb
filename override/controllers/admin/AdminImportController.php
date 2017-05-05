@@ -939,7 +939,7 @@ class AdminImportController extends AdminImportControllerCore
                     
                     $query_stock = 'SELECT quantity FROM '._DB_PREFIX_.'stock_available WHERE id_product = '.$id_product;
                     $row_stock = Db::getInstance()->getRow($query_stock);
-                    $stock_available = $row_stock['quantity'];
+                    $stock_available = $row_stock['quantity']; 
                     
                     $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
                     $m_fluz = Db::getInstance()->executeS($query_m);

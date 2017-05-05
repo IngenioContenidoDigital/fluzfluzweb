@@ -206,7 +206,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                         
                                                         $prefix_template = '16-sponsorship-invitation-novoucher';
 
-                                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"'; 
                                                         $row_subject = Db::getInstance()->getRow($query_subject);
                                                         $message_subject = $row_subject['subject_mail'];
                                                         

@@ -694,7 +694,7 @@ abstract class PaymentModule extends PaymentModuleCore
                                             $row_subject = Db::getInstance()->getRow($query_subject);
                                             $message_subject = $row_subject['subject_mail'];
                                             //$subject = Mail::l('Order confirmation', (int)$order->id_lang);
-                                        } else {
+                                        } else { 
                                             $template = 'order_conf_freefluz';
                                             //$subject = 'Confirmacion de carga de Fluz';
                                             $file_attachement = array();

@@ -53,7 +53,7 @@ class Order extends OrderCore
             $productId = Db::getInstance()->executeS($query);
             
             $qstate="UPDATE "._DB_PREFIX_."rewards AS r SET r.id_reward_state= 2 WHERE r.id_order=".$order->id;
-            Db::getInstance()->execute($qstate);
+            Db::getInstance()->execute($qstate); 
 
                 foreach ($productId as $valor) {
                     for($i=0;$i<$valor['product_quantity'];$i++){

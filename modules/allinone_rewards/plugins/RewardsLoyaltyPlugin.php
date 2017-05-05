@@ -775,7 +775,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
                         if($discount > 0){
                             $reward->credits = round(($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_desc);
                         }
-                        
+                         
                         $qrorder="UPDATE "._DB_PREFIX_."rewards r SET r.id_order=".$reward->id_order." WHERE r.id_customer=".$reward->id_customer." AND r.id_order=0 AND r.id_cart=".$reward->id_cart.' ORDER BY r.date_add DESC LIMIT 1';
                         Db::getInstance()->execute($qrorder);
                         

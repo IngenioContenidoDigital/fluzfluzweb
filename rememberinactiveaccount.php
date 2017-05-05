@@ -102,7 +102,7 @@ foreach ( $customers as $key => &$customer ) {
             Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."message_sponsor (id_message_sponsor, id_customer_send, id_customer_receive, message, date_send) VALUES ('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$customer['id_customer'].", 'Tu cuenta ha estado inactiva por mas de 60 dias. Debido a esto, por desgracia, su cuenta ha sido cancelada.', NOW())");
             Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET kick_out = 1 WHERE id_customer = ".$customer['id_customer']);
             break;
-    }
+    } 
     
     if ( $subject != "" && $template != "cancellation_account" ) {
         if ( $customer['days_inactive'] != "NULL" ) {            
