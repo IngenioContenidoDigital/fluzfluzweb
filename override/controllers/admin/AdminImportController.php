@@ -845,13 +845,77 @@ class AdminImportController extends AdminImportControllerCore
                         }
                         $address->active = 1;
                         $address->add();
+                        
+                        $merchants_featured = Manufacturer::getManufacturersFeatured();
+                        $merchant = array_slice($merchants_featured, 0, 4);
+                        
+                        $link = new Link();
+                        $table_merchants_featured = '<table cellspacing="10">
+                                                        <tr>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[0]['id_product'], $merchant[0]['link_rewrite']).'" title="'.$merchant[0]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[0]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[0]['id_manufacturer'].'.jpg" alt="'.$merchant[0]['name'].'" title="'.$merchant[0]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[1]['id_product'], $merchant[1]['link_rewrite']).'" title="'.$merchant[1]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[1]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[1]['id_manufacturer'].'.jpg" alt="'.$merchant[1]['name'].'" title="'.$merchant[1]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[2]['id_product'], $merchant[2]['link_rewrite']).'" title="'.$merchant[2]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[2]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[2]['id_manufacturer'].'.jpg" alt="'.$merchant[2]['name'].'" title="'.$merchant[2]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[3]['id_product'], $merchant[3]['link_rewrite']).'" title="'.$merchant[3]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[3]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[3]['id_manufacturer'].'.jpg" alt="'.$merchant[3]['name'].'" title="'.$merchant[3]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>';
 
                         // Welcome Email
                         $vars = array(
+                            '{username}' => $customer->username,
                             '{password}' => $passwd,
+                            '{firstname}' => $customer->firstname,
+                            '{lastname}' => $customer->lastname,
+                            '{dni}' => $customer->dni,
+                            '{birthdate}' => $customer->birthday,
+                            '{address}' => $address->address1,
+                            '{phone}' => $address->phone_mobile,
+                            '{merchants_featured}' => $table_merchants_featured,
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
 
                         Mail::Send(
