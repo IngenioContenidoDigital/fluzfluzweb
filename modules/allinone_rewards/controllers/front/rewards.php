@@ -225,7 +225,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
         
         public function TopNetwork() {
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-            
+             
             foreach ($tree as $valor){
                 $queryTop = 'SELECT c.username AS username, c.id_customer AS id, c.firstname AS name, c.id_customer as id, rs.id_sponsor AS id_sponsor, p.id_manufacturer, m.name as manufacturer, c.lastname AS lastname, s.product_reference AS reference, s.product_name AS purchase, n.credits AS points,  n.date_add AS time
                             FROM '._DB_PREFIX_.'rewards n 

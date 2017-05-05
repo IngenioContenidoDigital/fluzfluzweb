@@ -24,7 +24,7 @@ foreach ( $customers as $key => $customer ) {
 
     Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."notification_history(id_customer, type_message, message, date_send)
                                 VALUES (".$customer['id_customer'].",'Invita un nuevo Fluzzer', 'Te informamos que aun tienes ".$customer['invitation_count']." invitacion (es) pendiente(s).', NOW())");
-
+ 
     Mail::Send(
         Context::getContext()->language->id,
         'rememberinvitenewusers',

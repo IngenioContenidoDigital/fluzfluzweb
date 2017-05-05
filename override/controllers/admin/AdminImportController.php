@@ -939,7 +939,7 @@ class AdminImportController extends AdminImportControllerCore
                     
                     $query_stock = 'SELECT quantity FROM '._DB_PREFIX_.'stock_available WHERE id_product = '.$id_product;
                     $row_stock = Db::getInstance()->getRow($query_stock);
-                    $stock_available = $row_stock['quantity'];
+                    $stock_available = $row_stock['quantity']; 
                     
                     $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
                     $m_fluz = Db::getInstance()->executeS($query_m);
@@ -1069,12 +1069,17 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
                         $template = 'backoffice_order';
+                        $prefix_template = '16-backoffice_order';
+                        
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
                         
                         /*Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
                         $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
                         */
                         $allinone_rewards = new allinone_rewards();
-                        $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL('Pedido Recomendado'), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
+                        $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL($message_subject), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
         
                     }
                         // INSERT LOG IMPORT ORDERS
