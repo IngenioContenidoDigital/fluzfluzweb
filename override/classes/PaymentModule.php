@@ -686,15 +686,20 @@ abstract class PaymentModule extends PaymentModuleCore
                                     $file_attachement[1]['mime'] = 'application/pdf';
                                     
                                     if (Validate::isEmail($this->context->customer->email)) {
-                                        if ( $payment_method != "Pedido gratuito" ) {
-                                            $template = 'order_conf';
-                                            $prefix_template = '16-order_conf';
-                
-                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
-                                            $row_subject = Db::getInstance()->getRow($query_subject);
-                                            $message_subject = $row_subject['subject_mail'];
-                                            //$subject = Mail::l('Order confirmation', (int)$order->id_lang);
-                                        } else { 
+                                        $template = 'order_conf';
+                                        $subject = Mail::l('Order confirmation', (int)$order->id_lang);
+                                        $cart_rules_order = $this->context->cart->getCartRules();
+                                        
+                                        
+                                        $query_m = "SELECT p.reference
+                                                    FROM "._DB_PREFIX_."cart c
+                                                    INNER JOIN "._DB_PREFIX_."cart_product cp ON ( c.id_cart = cp.id_cart )
+                                                    INNER JOIN "._DB_PREFIX_."product p ON ( cp.id_product = p.id_product )
+                                                    WHERE p.reference LIKE 'MFLUZ%'
+                                                    AND c.id_cart = ".$id_cart;
+                                        $m_fluz = Db::getInstance()->executeS($query_m);
+
+                                        if ( $payment_method == "Pedido gratuito" && empty($cart_rules_order) && !empty($m_fluz) ) {
                                             $template = 'order_conf_freefluz';
                                             //$subject = 'Confirmacion de carga de Fluz';
                                             $file_attachement = array();
@@ -704,11 +709,8 @@ abstract class PaymentModule extends PaymentModuleCore
                                             $row_subject = Db::getInstance()->getRow($query_subject);
                                             $message_subject = $row_subject['subject_mail'];
                                         }
-                                        
-                                        $allinone_rewards = new allinone_rewards();
-                                        $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $this->context->customer->email, $this->context->customer->firstname.' '.$this->context->customer->lastname,$file_attachement);
-                                        
-                                        /*Mail::Send(
+
+                                        Mail::Send(
                                             (int)$order->id_lang,
                                             $template,
                                             $subject,
