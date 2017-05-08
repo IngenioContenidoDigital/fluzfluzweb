@@ -721,8 +721,8 @@ abstract class PaymentModule extends PaymentModuleCore
                                             null,
                                             $file_attachement,
                                             null, _PS_MAIL_DIR_, false, (int)$order->id_shop
-                                        );*/
-                                } }   
+                                        );
+                                } }
                     }
                     // updates stock in shops
                     if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
