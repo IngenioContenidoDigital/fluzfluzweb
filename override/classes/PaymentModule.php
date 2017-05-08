@@ -567,6 +567,7 @@ abstract class PaymentModule extends PaymentModuleCore
                             'orderStatus' => $order_status
                         ));
                     } else {
+                        
                         Hook::exec('actionValidateOrder2', array(
                             'cart' => $this->context->cart,
                             'order' => $order,
@@ -700,8 +701,13 @@ abstract class PaymentModule extends PaymentModuleCore
 
                                         if ( $payment_method == "Pedido gratuito" && empty($cart_rules_order) && !empty($m_fluz) ) {
                                             $template = 'order_conf_freefluz';
-                                            $subject = 'Confirmacion de carga de Fluz';
+                                            //$subject = 'Confirmacion de carga de Fluz';
                                             $file_attachement = array();
+                                            $prefix_template = '16-order_conf_freefluz';
+                
+                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                            $row_subject = Db::getInstance()->getRow($query_subject);
+                                            $message_subject = $row_subject['subject_mail'];
                                         }
 
                                         Mail::Send(
@@ -716,7 +722,7 @@ abstract class PaymentModule extends PaymentModuleCore
                                             $file_attachement,
                                             null, _PS_MAIL_DIR_, false, (int)$order->id_shop
                                         );
-                                } }   
+                                } }
                     }
                     // updates stock in shops
                     if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {

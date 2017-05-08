@@ -51,9 +51,9 @@ class Order extends OrderCore
             
             $query = 'SELECT OD.product_id, OD.product_quantity FROM '._DB_PREFIX_.'order_detail AS OD WHERE OD.id_order='.(int)$order->id;
             $productId = Db::getInstance()->executeS($query);
-
-            $qstate="UPDATE "._DB_PREFIX_."rewards AS r SET r.id_reward_state= 2 WHERE r.id_order=".$order->id.' AND r.id_cart is NULL';
-            Db::getInstance()->execute($qstate);
+            
+            $qstate="UPDATE "._DB_PREFIX_."rewards AS r SET r.id_reward_state= 2 WHERE r.id_order=".$order->id;
+            Db::getInstance()->execute($qstate); 
 
                 foreach ($productId as $valor) {
                     for($i=0;$i<$valor['product_quantity'];$i++){
@@ -239,8 +239,17 @@ class Order extends OrderCore
                 $file_attachement[1]['name'] = 'Procedimiento en datafono.pdf';
                 $file_attachement[1]['mime'] = 'application/pdf';
                 
-                //$this->context->link->getModuleLink('module_folder_name','controller_name',array_of_params);
-                if (Validate::isEmail($customer->email)) {
+                $template = 'order_conf';
+                $prefix_template = '16-order_conf';
+                
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                $row_subject = Db::getInstance()->getRow($query_subject);
+                $message_subject = $row_subject['subject_mail'];
+                
+                $allinone_rewards = new allinone_rewards();
+                $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $customer->email, $customer->firstname.' '.$customer->lastname,$file_attachement);
+        
+                /*if (Validate::isEmail($customer->email)) {
                             Mail::Send(
                                 (int)$order->id_lang,
                                 'order_conf',
@@ -253,7 +262,34 @@ class Order extends OrderCore
                                 $file_attachement,
                                 null, _PS_MAIL_DIR_, false, (int)$order->id_shop
                             );
-                }
+                }*/
+    }
+    
+    public function setCurrentState($id_order_state, $id_employee = 0)
+    {
+        if (empty($id_order_state)) {
+            return false;
+        }
+        $history = new OrderHistory();
+        $history->id_order = (int)$this->id;
+        $history->id_employee = (int)$id_employee;
+        $history->changeIdOrderState((int)$id_order_state, $this);
+        $res = Db::getInstance()->getRow('
+			SELECT `invoice_number`, `invoice_date`, `delivery_number`, `delivery_date`
+			FROM `'._DB_PREFIX_.'orders`
+			WHERE `id_order` = '.(int)$this->id);
+        $this->invoice_date = $res['invoice_date'];
+        $this->invoice_number = $res['invoice_number'];
+        $this->delivery_date = $res['delivery_date'];
+        $this->delivery_number = $res['delivery_number'];
+        $this->update();
+        
+        if ( $id_order_state == 2 && $id_employee == 0 ) {
+            $ordercodes = new Order((int)$this->id);
+            $this->updateCodes($ordercodes);
+        }
+
+        $history->addWithemail();
     }
     
     public function setCurrentState($id_order_state, $id_employee = 0)
