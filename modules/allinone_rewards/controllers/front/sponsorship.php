@@ -421,7 +421,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                                                 FROM "._DB_PREFIX_."customer c
                                                                                 LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                                                                                 WHERE c.id_customer = ".$sponsorshipMember['id']);
-                                if ( $sponsorPossible['sponsoships'] > 0 ) {
+                                if ( $sponsorPossible['sponsoships'] > 0 && $sponsorPossible['id_customer'] != "" ) {
                                     $sponsor = $sponsorPossible;
                                 }
                             }
