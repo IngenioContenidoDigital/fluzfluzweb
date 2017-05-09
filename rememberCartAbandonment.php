@@ -12,7 +12,7 @@ $query_Abandonment = 'SELECT
                         c.username,
                         cu.id_currency,
                         a.id_cart,
-                        IF (IFNULL(o.id_order, \''.'No ordenado'.'\') = \''.'No ordenado'.'\', IF(TIME_TO_SEC(TIMEDIFF(\''.pSQL(date('Y-m-d H:i:00', time())).'\', a.`date_add`)) > 1800, \''.'Carrito abandonado'.'\', \''.'No ordenado'.'\'), o.id_order) AS status
+                        IF (IFNULL(o.id_order, \''.'No ordenado'.'\') = \''.'No ordenado'.'\', IF(TIME_TO_SEC(TIMEDIFF(\''.pSQL(date('Y-m-d H:i:00', time())).'\', a.`date_add`)) > 600, \''.'Carrito abandonado'.'\', \''.'No ordenado'.'\'), o.id_order) AS status
                     FROM '._DB_PREFIX_.'cart as a
                     LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = a.id_customer)
                     LEFT JOIN '._DB_PREFIX_.'orders o ON (o.id_cart = a.id_cart)
