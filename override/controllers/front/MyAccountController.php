@@ -292,11 +292,11 @@ class MyAccountController extends MyAccountControllerCore
                     WHERE c.id_customer = ".$this->context->customer->id;
         $customer = Db::getInstance()->getRow($query);
         
-        $query = "SELECT COUNT(od.id_order_detail) purchases
+        $query = "SELECT IFNULL(SUM(od.product_quantity),0) purchases
                     FROM "._DB_PREFIX_."orders o
-                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference != 'MFLUZ' )
                     WHERE o.current_state = 2
-                    AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out']."', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out']."' )
+                    AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out_show']." 00:00:00', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out_show']." 23:59:59' )
                     AND id_customer = ".$customer['id_customer'];
         $purchases = Db::getInstance()->getValue($query);
 
