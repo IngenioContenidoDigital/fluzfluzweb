@@ -39,7 +39,7 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
         return '<div class="block-mail" >
                     <div class="mail-form">
                         <div class="form-group">
-                            <label class="control-label col-lg-3">'.$this->l('HTML "title" tag').'</label>
+                            <label class="control-label col-lg-3">'.$this->l('Subject Mail').'</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" name="title_'.$group_name.'_'.$mail_name.'" value="'.(isset($title[$lang]) ? $title[$lang] : '').'" />
                                 <p class="help-block">'.(isset($title['en']) ? $title['en'] : '').'</p>

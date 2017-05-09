@@ -687,9 +687,12 @@ abstract class PaymentModule extends PaymentModuleCore
                                     
                                     if (Validate::isEmail($this->context->customer->email)) {
                                         $template = 'order_conf';
-                                        $subject = Mail::l('Order confirmation', (int)$order->id_lang);
+                                        $prefix_template = '16-order_conf';
                                         $cart_rules_order = $this->context->cart->getCartRules();
                                         
+                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                        $row_subject = Db::getInstance()->getRow($query_subject);
+                                        $message_subject = $row_subject['subject_mail'];
                                         
                                         $query_m = "SELECT p.reference
                                                     FROM "._DB_PREFIX_."cart c
@@ -701,7 +704,6 @@ abstract class PaymentModule extends PaymentModuleCore
 
                                         if ( $payment_method == "Pedido gratuito" && empty($cart_rules_order) && !empty($m_fluz) ) {
                                             $template = 'order_conf_freefluz';
-                                            //$subject = 'Confirmacion de carga de Fluz';
                                             $file_attachement = array();
                                             $prefix_template = '16-order_conf_freefluz';
                 
@@ -709,7 +711,10 @@ abstract class PaymentModule extends PaymentModuleCore
                                             $row_subject = Db::getInstance()->getRow($query_subject);
                                             $message_subject = $row_subject['subject_mail'];
                                         }
-
+                                        
+                                            $allinone_rewards = new allinone_rewards();
+                                            $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $this->context->customer->email, $this->context->customer->firstname.' '.$this->context->customer->lastname,$file_attachement);
+                                        /*
                                         Mail::Send(
                                             (int)$order->id_lang,
                                             $template,
@@ -721,7 +726,7 @@ abstract class PaymentModule extends PaymentModuleCore
                                             null,
                                             $file_attachement,
                                             null, _PS_MAIL_DIR_, false, (int)$order->id_shop
-                                        );
+                                        );*/
                                 } }
                     }
                     // updates stock in shops
