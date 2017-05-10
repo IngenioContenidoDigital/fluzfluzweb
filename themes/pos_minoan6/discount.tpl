@@ -54,7 +54,7 @@
                                         <td class="message line"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
                                         <td>
                                             {if $member.pendingsinvitation != 0}
-                                                <span class="data pendingsinvitation">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>
+                                                <span class="data pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>
                                             {/if}
                                             &nbsp;
                                         </td>
