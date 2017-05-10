@@ -780,7 +780,6 @@
                             <label style="color: #777777;line-height: 30px;font-weight: normal;" for="conditionsValided">{l s='I agree to the terms of service and adhere to them unconditionally.' mod='allinone_rewards'}</label>
                             <a href="http://reglas.fluzfluz.co/terminos-y-condiciones/{*$link->getModuleLink('allinone_rewards', 'rules', ['sback' => $sback], true)|escape:'html':'UTF-8'*}" title="{l s='Conditions of the sponsorship program' mod='allinone_rewards'}" target="_blank">{l s='Read conditions' mod='allinone_rewards'}</a>
                         </p>
-                        <p>{l s='Preview' mod='allinone_rewards'} <a href="#emailcontent" style="color:#ef4136; text-decoration: none;" class="mail-invited myfancybox" title="{l s='Invitation email' mod='allinone_rewards'}">{l s='the default email' mod='allinone_rewards'}</a> {l s='that will be sent to your friends.' mod='allinone_rewards'}</p>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                         <p class="submit" align="right"><input type="submit" id="submitSponsorFriendsThird" name="submitSponsorFriendsThird" class="button_large" value="{l s='ADD FRIENDS' mod='allinone_rewards'}" /></p>
