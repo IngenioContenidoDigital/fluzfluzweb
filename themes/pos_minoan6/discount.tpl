@@ -40,7 +40,7 @@
                             <td>
                                 <table class="tablecontent">
                                     <tr>
-                                        <td rowspan="2" class="img">
+                                        <td rowspan="4" class="img">
                                             {assign var="urlimgnet" value=""}
                                             {if $member.img != ""}
                                                 <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
@@ -50,11 +50,22 @@
                                                 {$urlimgnet = $img_dir|cat:"icon/profile.png"}
                                             {/if}
                                         </td>
-                                        <td colspan="2" class="line colname"><span class="name">{$member.username}</span></td>
-                                        <td class="message line"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
-                                        <td>
+                                    </tr>
+                                    <tr class="spacesavailable">
+                                        <td colspan="2" rowspan="2" class="line colname"><span class="name">{$member.username}</span></td>
+                                        <td colspan="2">
                                             {if $member.pendingsinvitation != 0}
-                                                <span class="data pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>
+                                                <span>{$member.pendingsinvitation} Espacio(s) Disponible(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                            {/if}
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="message line"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
+                                        <td class="message line">
+                                            {if $member.pendingsinvitation != 0}
+                                                <span class="pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">Invitar Amigo</span>
+                                                {*span class="data pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>*}
                                             {/if}
                                             &nbsp;
                                         </td>
