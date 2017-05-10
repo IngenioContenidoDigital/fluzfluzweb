@@ -605,6 +605,19 @@ abstract class PaymentModule extends PaymentModuleCore
                         $delivery = new Address((int)$order->id_address_delivery);
                         $delivery_state = $delivery->id_state ? new State((int)$delivery->id_state) : false;
                         $invoice_state = $invoice->id_state ? new State((int)$invoice->id_state) : false;
+                        
+                        $point_product = '';
+                        $name_product = '';
+                        $expiration_product = '';
+                        
+                        foreach ($order->getProducts() as &$product_cart){
+                            
+                            $point_p = floor($product_cart['points']);
+                            $point_product .=  "<label>".$point_p."</label><br>";
+                            $name_product .= "<label>".$product_cart['product_name']."</label><br>";
+                            $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                        }
+                        
                         $data = array(
                         '{username}' => $this->context->customer->username,
                         '{firstname}' => $this->context->customer->firstname,
@@ -651,6 +664,9 @@ abstract class PaymentModule extends PaymentModuleCore
                         '{products}' => $product_list_html,
                         //'{image}'=> $image_url,
                         '{products_txt}' => $product_list_txt,
+                        '{points}' => $point_product,   
+                        '{name_product}' => $name_product, 
+                        '{expiration}' => $expiration_product,     
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
                         '{total_value}' => $total_value,   
@@ -686,13 +702,18 @@ abstract class PaymentModule extends PaymentModuleCore
                                     $file_attachement[1]['mime'] = 'application/pdf';
                                     
                                     if (Validate::isEmail($this->context->customer->email)) {
+                                        
+                                        foreach ($order->getProducts() as &$product_name){
+                                            $name_product_subject .= " ".$product_name['product_name'].", ";
+                                        }
+                                        
                                         $template = 'order_conf';
                                         $prefix_template = '16-order_conf';
                                         $cart_rules_order = $this->context->cart->getCartRules();
                                         
                                         $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
                                         $row_subject = Db::getInstance()->getRow($query_subject);
-                                        $message_subject = $row_subject['subject_mail'];
+                                        $message_subject = $row_subject['subject_mail'].' '.''.$name_product_subject.''.' ';
                                         
                                         $query_m = "SELECT p.reference
                                                     FROM "._DB_PREFIX_."cart c
