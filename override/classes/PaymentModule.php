@@ -704,7 +704,7 @@ abstract class PaymentModule extends PaymentModuleCore
                                     if (Validate::isEmail($this->context->customer->email)) {
                                         
                                         foreach ($order->getProducts() as &$product_name){
-                                            $name_product_subject .= $product_name['product_name'];
+                                            $name_product_subject .= " ".$product_name['product_name'].", ";
                                         }
                                         
                                         $template = 'order_conf';
