@@ -40,9 +40,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <p class="">&iquest;Tiene m&aacute;s miembros que desea ver en su red?</p>
-                        <br>
-                        <p class="">Nuestra herramienta s&oacute;lo le permite invitar a dos miembros directamente a su red. Pero en el caso de que usted tiene un tercer amigo que quiere unirse, puede ayudar a obtener en su red.</p>
+                        <p class="">&iquest;Tienes m&aacute;s amigos que deseas invitar a tu network en una posici&oacute;n especifica? Aqu&iacute; tienes la oportunidad.</p>
                     </div>
                 </div>
                 <div class="row">
