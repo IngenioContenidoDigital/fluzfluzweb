@@ -18,7 +18,7 @@ $query = "SELECT
             c1.firstname sponsorfirstname,
             c1.lastname sponsorlastname
         FROM "._DB_PREFIX_."rewards_sponsorship rs
-        INNER JOIN "._DB_PREFIX_."customer c1 ON ( rs.id_sponsor = c1.id_customer )
+        LEFT JOIN "._DB_PREFIX_."customer c1 ON ( rs.id_sponsor = c1.id_customer )
         LEFT JOIN "._DB_PREFIX_."customer c2 ON ( rs.id_customer = c2.id_customer )
         WHERE c2.id_customer IS NULL
         HAVING ( days IN (1,5,6,7) OR days > 7 )";
@@ -34,6 +34,10 @@ foreach ($invitations as $key => &$invitation) {
     $oneDays = "<label>Este es un recordatorio de que tiene 1 d&iacute;a antes de que expire tu invitaci&oacute;n.</label>";
     $sixHour = "<label>Este es un recordatorio de que tiene 6 horas antes de que expire tu invitaci&oacute;n.</label>";
 
+    if ( $invitation['sponsorusername'] == "" ) {
+        $invitation['sponsorusername'] = "Usuario Patrocinador";
+    }
+    
     $days = $invitation['days'];
     if ($days == 1) {
 
