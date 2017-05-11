@@ -469,7 +469,7 @@ class Order extends OrderCore
                             <td>".$order['recompensa_pesos_nivel_15']."</td>
                             <td>".$order['recompensa_puntos_nivel_15']."</td>";
             } else {
-                $report .= "<td>".$codes_order[0]['codigos_producto']."</td>
+                $report .= "<td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -524,7 +524,7 @@ class Order extends OrderCore
                             <td></td>
                             <td>".$order['usuario_nivel_15']."</td>
                             <td></td>
-                            <td>td>";
+                            <td><td>";
             }
             
             $report .= "</tr>";
