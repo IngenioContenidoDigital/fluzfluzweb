@@ -375,7 +375,6 @@ class Order extends OrderCore
                     AND p.reference = "'.$order['referencia_producto'].'"';
             $codes_order = Db::getInstance()->executeS($sql);
             
-            
             $report .= "<tr>
                             <td>".$order['orden']."</td>
                             <td>".$order['referencia']."</td>
@@ -395,8 +394,10 @@ class Order extends OrderCore
                             <td>".$order['referencia_producto']."</td>
                             <td>".$order['precio_producto']."</td>
                             <td>".$order['costo_producto']."</td>
-                            <td>".$order['cantidad']."</td>
-                            <td>".$codes_order[0]['codigos_producto']."</td>
+                            <td>".$order['cantidad']."</td>";
+            
+            if ( $order['estado'] == "Pago aceptado" ) {
+                $report .= "<td>".$codes_order[0]['codigos_producto']."</td>
                             <td>".$order['recompensa_porcentaje_producto']."</td>
                             <td>".$order['recompensa_pesos_compra']."</td>
                             <td>".$order['recompensa_puntos_compra']."</td>
@@ -451,9 +452,69 @@ class Order extends OrderCore
                             <td>".$order['recompensa_puntos_nivel_14']."</td>
                             <td>".$order['usuario_nivel_15']."</td>
                             <td>".$order['recompensa_pesos_nivel_15']."</td>
-                            <td>".$order['recompensa_puntos_nivel_15']."</td>
-                        </tr>";
+                            <td>".$order['recompensa_puntos_nivel_15']."</td>";
+            } else {
+                $report .= "<td>".$codes_order[0]['codigos_producto']."</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_0']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_1']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_2']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_3']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_4']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_5']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_6']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_7']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_8']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_9']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_10']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_11']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_12']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_13']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_14']."</td>
+                            <td></td>
+                            <td></td>
+                            <td>".$order['usuario_nivel_15']."</td>
+                            <td></td>
+                            <td>td>";
+            }
+            
+            $report .= "</tr>";
         }
+        
         $report .= "         </table>
                         </body>
                     </html>";
@@ -487,7 +548,7 @@ class Order extends OrderCore
                         od.porcentaje porcentaje_producto,
                         od.points puntos_producto,
                         ps.product_supplier_price_te costo_producto
-                FROM ps_orders o
+                FROM "._DB_PREFIX_."orders o
                 INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
                 INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
                 INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
@@ -593,19 +654,18 @@ class Order extends OrderCore
             
         }
 
-            // ACTUALIZAR ESTADO DE ORDEN EN TABLA DE REPORTE
-            Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
+        // ACTUALIZAR ESTADO DE ORDENES EN TABLA DE REPORTE
+        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
                                     INNER JOIN "._DB_PREFIX_."orders o ON ( ro.orden = o.id_order )
                                     INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
                                     SET ro.estado = osl.name");
-            
-            //ACTUALIZA EL ESTADO DE TARJETA Y VALOR UTILIZADO
-            
-            Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
-                                LEFT JOIN "._DB_PREFIX_."product_code pc ON (ro.orden = pc.id_order)
-                                LEFT JOIN "._DB_PREFIX_."product p ON (pc.id_product = p.id_product)
-                                SET ro.valor_utilizado = pc.price_card_used, ro.estado_tarjeta = pc.state
-                                WHERE ro.orden = pc.id_order AND ro.referencia_producto = p.reference");
+
+        // ACTUALIZAR EL ESTADO DE TARJETA Y VALOR UTILIZADO
+        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."report_orders ro
+                                    LEFT JOIN "._DB_PREFIX_."product_code pc ON (ro.orden = pc.id_order)
+                                    LEFT JOIN "._DB_PREFIX_."product p ON (pc.id_product = p.id_product)
+                                    SET ro.valor_utilizado = pc.price_card_used, ro.estado_tarjeta = pc.state
+                                    WHERE ro.orden = pc.id_order AND ro.referencia_producto = p.reference");
     }
 }
 
