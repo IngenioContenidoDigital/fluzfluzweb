@@ -10,6 +10,7 @@ $query = "SELECT
             rs.lastname,
             rs.firstname,
             rs.id_customer,
+            rs.date_add,
             DATEDIFF(NOW(), rs.date_add) AS days,
             c1.id_customer sponsorid,
             c1.username sponsorusername, 
@@ -210,6 +211,8 @@ foreach ($invitations as $key => &$invitation) {
         $friendEmail = $invitation['email'];
         $friendLastName = $invitation['lastname'];
         $friendFirstName = $invitation['firstname'];
+        
+        $template = "invitation_cancel";
 
         $idTemporary = '1';
         for ($i = 0; $i < strlen($friendEmail); $i++) {
@@ -235,7 +238,7 @@ foreach ($invitations as $key => &$invitation) {
                     '{link}' => $sponsorship->getSponsorshipMailLink()
                 );
 
-        $prefix_template = '16-sponsorship-invitation-novoucher';
+        $prefix_template = '16-invitation_cancel';
 
         $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
         $row_subject = Db::getInstance()->getRow($query_subject);
@@ -244,8 +247,15 @@ foreach ($invitations as $key => &$invitation) {
         $allinone_rewards = new allinone_rewards();
         $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
 
-        $deletemail = "DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_customer=".$invitation['id_customer'];
+        $insertnotaccepted = "INSERT INTO "._DB_PREFIX_."rewards_sponsorship_not_accepted (sponsor_id, sponsor_username, sponsor_email, sponsor_lastname, sponsor_firstname, email, lastname, firstname, date_end, date_add)
+                                VALUES (".$invitation['sponsorid'].", '".$invitation['sponsorusername']."', '".$invitation['sponsoremail']."', '".$invitation['sponsorlastname']."', '".$invitation['sponsorfirstname']."', '".$invitation['email']."', '".$invitation['lastname']."', '".$invitation['firstname']."', NOW(), '".$invitation['date_add']."')";
+        Db::getInstance()->execute($insertnotaccepted);
+        
+        $deletemail = "DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_customer = ".$invitation['id_customer'];
         Db::getInstance()->execute($deletemail);
+        
+        $deletemailthird = "DELETE FROM "._DB_PREFIX_."rewards_sponsorship_third WHERE email_third = '".$invitation['email']."'";
+        Db::getInstance()->execute($deletemailthird);
 
     }
 
