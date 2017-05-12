@@ -76,19 +76,24 @@
 						</ul>
 					</div>
 				</div>
-				<div id="translation_mails-control-actions" class="panel-footer">
-					<a name="submitTranslations{$type|ucfirst}" href="{$cancel_url}" class="btn btn-default">
-						<i class="process-icon-cancel"></i> {l s='Cancel'}
-					</a>
-					{*$toggle_button*}
-					<button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}" class="btn btn-default pull-right">
-						<i class="process-icon-save"></i>
-						{l s='Save'}
-					</button>
-					<button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}AndStay" class="btn btn-default pull-right">
-						<i class="process-icon-save"></i>
-						{l s='Save and stay'}
-					</button>
+                                <div id="translation_mails-control-actions" class="panel-footer">
+                                    <div class="row">
+                                        
+                                            <a name="submitTranslations{$type|ucfirst}" href="{$cancel_url}" class="btn btn-default">
+                                                    <i class="process-icon-cancel"></i> {l s='Cancel'}
+                                            </a>
+                                            {*$toggle_button*}
+
+                                            <button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}" class="btn btn-default pull-right">
+                                                    <i class="process-icon-save"></i>
+                                                    {l s='Save'}
+                                            </button>
+                                            <button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}AndStay" class="btn btn-default pull-right">
+                                                    <i class="process-icon-save"></i>
+                                                    {l s='Save and stay'}
+                                            </button>
+                                        
+                                    </div>    
 				</div>
 			</div>
 			<div class="panel">
@@ -166,5 +171,45 @@
 				{/foreach}
 			</div>
 		</form>
+                <!--<form method="post" id="{$table}_form" action="{$url_submit|escape:'html':'UTF-8'}" class="form-horizontal">
+			<div class="panel">
+				<input type="hidden" name="lang" value="{$lang}" />
+				<input type="hidden" name="type" value="{$type}" />
+				<input type="hidden" name="theme" value="{$theme}" />
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$('a.useSpecialSyntax').click(function(){
+							var syntax = $(this).find('img').attr('alt');
+							$('#BoxUseSpecialSyntax .syntax span').html(syntax+".");
+						});
+					});
+				</script>
+                                <div id="translation_mails-control-actions">
+                                    <h3>
+                                        <i class="icon-mail"></i>
+                                        {l s='Envio Mail de Prueba'}
+
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                                {*foreach $module_mails as $module_name => $mails}
+                                                    {$mails['display']}
+                                                {/foreach*}
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-6 panel-footer">
+                                                <input class="form-control " type="text" placeholder="Mail de Prueba" id="testEmail_trasnlations" name="testEmail_trasnlations" value="">
+                                            </div>    
+                                            <div class="col-lg-6">
+                                                <button type="submit" id="{$table}_form_submit_btn" name="submitTranslationsTest" class="btn btn-default">
+                                                        <i class="process-icon-envelope"></i>
+                                                        {l s='Send Test Mail'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>    
+				</div>
+			</div>
+		</form>-->  
 	{/if}
 {/block}
