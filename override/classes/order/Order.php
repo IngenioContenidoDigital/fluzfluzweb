@@ -152,7 +152,13 @@ class Order extends OrderCore
                     $point_p = floor($product_cart['points']);
                     $point_product .=  "<label>".$point_p."</label><br>";
                     $name_product .= "<label>".$product_cart['product_name']."</label><br>";
-                    $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                    
+                    if($product_cart['expiration'] == '0000-00-00'){
+                        $expiration_product = '';
+                    }
+                    else{
+                        $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                    }
                 }
                 
                 $data = array(
