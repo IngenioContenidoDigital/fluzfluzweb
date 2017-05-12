@@ -23,6 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 
 class AdminTranslationsController extends AdminTranslationsControllerCore
 {
@@ -106,20 +107,21 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
             } 
             elseif (Tools::isSubmit('submitTranslationsTest')) {
                 
+                $template = Tools::getValue('mail_name');
                 $email = Tools::getValue('testEmail_trasnlations');
+                
                 $mailVars = array(
-                            '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart_normal->id_lang, 'step=3&recover_cart='.(int)$cart_normal->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart_normal->id)),
+                            '{order_link}' => Context::getContext()->link->getPageLink('order', false, Context::getContext()->language->id, 'step=3&recover_cart='.(int)$cart_normal->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart_normal->id)),
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
-                //$template = Tools::getValue($key);
-                $template = 'backoffice_order';
+                
                 $prefix_template = '16-'.''.$template.'';
 
                 $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
                 $row_subject = Db::getInstance()->getRow($query_subject);
                 $message_subject = $row_subject['subject_mail'];
-
+                
                 $allinone_rewards = new allinone_rewards();
                 $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mailVars, $email);
             }
