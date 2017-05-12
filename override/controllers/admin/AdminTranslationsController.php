@@ -49,4 +49,114 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
                     </div>
                 </div>';
     }
+    
+    public function postProcess()
+    {
+        $this->getInformations();
+
+        /* PrestaShop demo mode */
+        if (_PS_MODE_DEMO_) {
+            $this->errors[] = Tools::displayError('This functionality has been disabled.');
+            return;
+        }
+        /* PrestaShop demo mode */
+
+        try {
+            if (Tools::isSubmit('submitCopyLang')) {
+                if ($this->tabAccess['add'] === '1') {
+                    $this->submitCopyLang();
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to add this.');
+                }
+            } elseif (Tools::isSubmit('submitExport')) {
+                if ($this->tabAccess['add'] === '1') {
+                    $this->submitExportLang();
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to add this.');
+                }
+            } elseif (Tools::isSubmit('submitImport')) {
+                if ($this->tabAccess['add'] === '1') {
+                    $this->submitImportLang();
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to add this.');
+                }
+            } elseif (Tools::isSubmit('submitAddLanguage')) {
+                if ($this->tabAccess['add'] === '1') {
+                    $this->submitAddLang();
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to add this.');
+                }
+            } elseif (Tools::isSubmit('submitTranslationsPdf')) {
+                if ($this->tabAccess['edit'] === '1') {
+                    // Only the PrestaShop team should write the translations into the _PS_TRANSLATIONS_DIR_
+                    if (!$this->theme_selected) {
+                        $this->writeTranslationFile();
+                    } else {
+                        $this->writeTranslationFile(true);
+                    }
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to edit this.');
+                }
+            } elseif (Tools::isSubmit('submitTranslationsBack') || Tools::isSubmit('submitTranslationsErrors') || Tools::isSubmit('submitTranslationsFields') || Tools::isSubmit('submitTranslationsFront')) {
+                if ($this->tabAccess['edit'] === '1') {
+                    $this->writeTranslationFile();
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to edit this.');
+                }
+            } 
+            elseif (Tools::isSubmit('submitTranslationsTest')) {
+                
+                $email = Tools::getValue('testEmail_trasnlations');
+                $mailVars = array(
+                            '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart_normal->id_lang, 'step=3&recover_cart='.(int)$cart_normal->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart_normal->id)),
+                            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        );
+                //$template = Tools::getValue($key);
+                $template = 'backoffice_order';
+                $prefix_template = '16-'.''.$template.'';
+
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                $row_subject = Db::getInstance()->getRow($query_subject);
+                $message_subject = $row_subject['subject_mail'];
+
+                $allinone_rewards = new allinone_rewards();
+                $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mailVars, $email);
+            }
+            elseif (Tools::isSubmit('submitTranslationsMails') || Tools::isSubmit('submitTranslationsMailsAndStay')) {
+                if ($this->tabAccess['edit'] === '1') {
+                    $this->submitTranslationsMails();
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to edit this.');
+                }
+            } elseif (Tools::isSubmit('submitTranslationsModules')) {
+                if ($this->tabAccess['edit'] === '1') {
+                    // Get list of modules
+                    if ($modules = $this->getListModules()) {
+                        // Get files of all modules
+                        $arr_files = $this->getAllModuleFiles($modules, null, $this->lang_selected->iso_code, true);
+
+                        // Find and write all translation modules files
+                        foreach ($arr_files as $value) {
+                            $this->findAndWriteTranslationsIntoFile($value['file_name'], $value['files'], $value['theme'], $value['module'], $value['dir']);
+                        }
+
+                        // Clear modules cache
+                        Tools::clearCache();
+
+                        // Redirect
+                        if (Tools::getIsset('submitTranslationsModulesAndStay')) {
+                            $this->redirect(true);
+                        } else {
+                            $this->redirect();
+                        }
+                    }
+                } else {
+                    $this->errors[] = Tools::displayError('You do not have permission to edit this.');
+                }
+            }
+        } catch (PrestaShopException $e) {
+            $this->errors[] = $e->getMessage();
+        }
+    }
 }
