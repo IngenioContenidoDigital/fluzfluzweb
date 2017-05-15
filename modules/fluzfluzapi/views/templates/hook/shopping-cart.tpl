@@ -18,7 +18,7 @@
                         <option value="0" id="noselect">Elije Telefono</option>
                     {foreach from=$phones item=phone}
                         {if $phone.phone!=null or $phone.phone!=""}
-                            <option value="{$phone.phone}">(&nbsp;{$phone.phone|substr:0:3}&nbsp;)&nbsp;{$phone.phone|substr:3:3}&nbsp;-&nbsp;{$phone.phone|substr:6:4}</option>
+                            <option value="{$phone.phone}">(&nbsp;{$phone.phone|substr:0:3}&nbsp;)&nbsp;{$phone.phone|substr:3:7}</option>
                         {/if}
                     {/foreach}
                     </select>
@@ -35,8 +35,8 @@
                 </div>
                 <div class="col-xs-9 col-sm-8 col-md-8 col-lg-9 pull-right">
                     (&nbsp;<input type="number" size="3" maxlength="3" name="pre1" id="pre1" class="nuevo"/>&nbsp;)&nbsp;
-                    &nbsp;<input type="number" size="3" maxlength="3" name="pre2" id="pre2" class="nuevo"/>&nbsp;
-                    -&nbsp;<input type="number" size="4" maxlength="4" name="pre3" id="pre3" class="nuevo"/>
+                    &nbsp;<input type="number" size="7" maxlength="7" name="pre2" id="pre2" class="nuevo"/>&nbsp;
+                    <!---&nbsp;<input type="number" size="4" maxlength="4" name="pre3" id="pre3" class="nuevo"/>-->
                 </div>
             </div>
         </div>
