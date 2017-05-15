@@ -43,7 +43,7 @@
                                                         </div>
                                                     </div>    
                                                 </a>
-                                                <div class="name-merchant"> {$merchant.name} </div>
+                                                <div class="name-merchant"> {$merchant.name|truncate:35:'...'|escape:'html':'UTF-8'|upper} </div>
                                                 {if $logged}
                                                     <div class="name-merchant" style="color: #ef4136; margin-bottom: 20px;">{l s="GANA HASTA"}&nbsp;{($merchant.value/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
                                                 {else}
@@ -63,7 +63,7 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <div class="name-merchant"> {$merchant.name} </div>
+                                                <div class="name-merchant"> {$merchant.name|truncate:35:'...'|escape:'html':'UTF-8'|upper} </div>
                                                 {if $logged}
                                                     <div class="name-merchant" style="color: #ef4136; margin-bottom: 20px;">{l s="GANA HASTA"}&nbsp;{($merchant.value/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
                                                 {else}
@@ -83,7 +83,7 @@
                                                         </div>
                                                     </div>
                                                 </a> 
-                                                <div class="name-merchant"> {$merchant.name} </div>
+                                                <div class="name-merchant"> {$merchant.name|truncate:35:'...'|escape:'html':'UTF-8'|upper} </div>
                                                 {if $logged}
                                                     <div class="name-merchant" style="color: #ef4136; margin-bottom: 20px;">{l s="GANA HASTA"}&nbsp;{($merchant.value/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
                                                 {else}

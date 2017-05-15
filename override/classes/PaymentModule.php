@@ -567,6 +567,7 @@ abstract class PaymentModule extends PaymentModuleCore
                             'orderStatus' => $order_status
                         ));
                     } else {
+                        
                         Hook::exec('actionValidateOrder2', array(
                             'cart' => $this->context->cart,
                             'order' => $order,
@@ -604,6 +605,25 @@ abstract class PaymentModule extends PaymentModuleCore
                         $delivery = new Address((int)$order->id_address_delivery);
                         $delivery_state = $delivery->id_state ? new State((int)$delivery->id_state) : false;
                         $invoice_state = $invoice->id_state ? new State((int)$invoice->id_state) : false;
+                        
+                        $point_product = '';
+                        $name_product = '';
+                        $expiration_product = '';
+                        
+                        foreach ($order->getProducts() as &$product_cart){
+                            
+                            $point_p = floor($product_cart['points']);
+                            $point_product .=  "<label>".$point_p."</label><br>";
+                            $name_product .= "<label>".$product_cart['product_name']."</label><br>";
+                            
+                            if($product_cart['expiration'] == ''){
+                                $expiration_product = '';
+                            }
+                            else{
+                                $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                            }
+                        }
+                        
                         $data = array(
                         '{username}' => $this->context->customer->username,
                         '{firstname}' => $this->context->customer->firstname,
@@ -650,10 +670,14 @@ abstract class PaymentModule extends PaymentModuleCore
                         '{products}' => $product_list_html,
                         //'{image}'=> $image_url,
                         '{products_txt}' => $product_list_txt,
+                        '{points}' => $point_product,   
+                        '{name_product}' => $name_product, 
+                        '{expiration}' => $expiration_product,     
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
                         '{total_value}' => $total_value,   
                         '{total_paid}' => Tools::displayPrice($order->total_paid, $this->context->currency, false),
+                        '{total_points_granted}' => round($order->total_paid/25),
                         '{total_products}' => Tools::displayPrice(Product::getTaxCalculationMethod() == PS_TAX_EXC ? $order->total_products : $order->total_products_wt, $this->context->currency, false),
                         '{total_discounts}' => Tools::displayPrice($order->total_discounts, $this->context->currency, false),
                         '{total_shipping}' => Tools::displayPrice($order->total_shipping, $this->context->currency, false),
@@ -684,10 +708,44 @@ abstract class PaymentModule extends PaymentModuleCore
                                     $file_attachement[1]['mime'] = 'application/pdf';
                                     
                                     if (Validate::isEmail($this->context->customer->email)) {
+                                        
+                                        foreach ($order->getProducts() as &$product_name){
+                                            $name_product_subject .= " ".$product_name['product_name'].", ";
+                                        }
+                                        
+                                        $template = 'order_conf';
+                                        $prefix_template = '16-order_conf';
+                                        $cart_rules_order = $this->context->cart->getCartRules();
+                                        
+                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                        $row_subject = Db::getInstance()->getRow($query_subject);
+                                        $message_subject = $row_subject['subject_mail'].' '.''.$name_product_subject.''.' ';
+                                        
+                                        $query_m = "SELECT p.reference
+                                                    FROM "._DB_PREFIX_."cart c
+                                                    INNER JOIN "._DB_PREFIX_."cart_product cp ON ( c.id_cart = cp.id_cart )
+                                                    INNER JOIN "._DB_PREFIX_."product p ON ( cp.id_product = p.id_product )
+                                                    WHERE p.reference LIKE 'MFLUZ%'
+                                                    AND c.id_cart = ".$id_cart;
+                                        $m_fluz = Db::getInstance()->executeS($query_m);
+
+                                        if ( $payment_method == "Pedido gratuito" && empty($cart_rules_order) && !empty($m_fluz) ) {
+                                            $template = 'order_conf_freefluz';
+                                            $file_attachement = array();
+                                            $prefix_template = '16-order_conf_freefluz';
+                
+                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                            $row_subject = Db::getInstance()->getRow($query_subject);
+                                            $message_subject = $row_subject['subject_mail'];
+                                        }
+                                        
+                                            $allinone_rewards = new allinone_rewards();
+                                            $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $this->context->customer->email, $this->context->customer->firstname.' '.$this->context->customer->lastname,$file_attachement);
+                                        /*
                                         Mail::Send(
                                             (int)$order->id_lang,
-                                            'order_conf',
-                                            Mail::l('Order confirmation', (int)$order->id_lang),
+                                            $template,
+                                            $subject,
                                             $data,
                                             $this->context->customer->email,
                                             $this->context->customer->firstname.' '.$this->context->customer->lastname,
@@ -695,8 +753,8 @@ abstract class PaymentModule extends PaymentModuleCore
                                             null,
                                             $file_attachement,
                                             null, _PS_MAIL_DIR_, false, (int)$order->id_shop
-                                        );
-                                } }   
+                                        );*/
+                                } }
                     }
                     // updates stock in shops
                     if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {

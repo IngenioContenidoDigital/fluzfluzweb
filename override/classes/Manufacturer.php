@@ -171,6 +171,48 @@ class Manufacturer extends ManufacturerCore
         return $manufacturers;
     }
     
+    public static function getManufacturersFeatured()
+    {        
+        $query = 'SELECT
+                    m.id_manufacturer, 
+                    m.name, 
+                    m.date_add, 
+                    m.date_upd, 
+                    p.id_product,
+                    pl.link_rewrite,
+                    m.category,
+                    (SELECT (COUNT(p.id_product)) AS contador
+                    FROM ps_product AS p
+                    WHERE p.id_manufacturer = m.id_manufacturer AND p.product_parent = 1) AS count,
+                    m.active,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos DESC
+                    LIMIT 1) AS value_no_logged,
+                    (SELECT ((p.price*(rp.`value`)/100)/25) AS max_puntos
+                    FROM '._DB_PREFIX_.'rewards_product AS rp 
+                    INNER JOIN '._DB_PREFIX_.'product AS p ON p.id_product = rp.id_product
+                    WHERE p.id_manufacturer = m.id_manufacturer
+                    ORDER BY max_puntos DESC
+                    LIMIT 1) AS value
+                FROM '._DB_PREFIX_.'manufacturer AS m
+                LEFT JOIN '._DB_PREFIX_.'address a ON ( m.id_manufacturer = a.id_manufacturer )
+                LEFT JOIN '._DB_PREFIX_.'product p ON ( m.id_manufacturer = p.id_manufacturer )
+                INNER JOIN '._DB_PREFIX_.'category_product cp ON (p.id_product = cp.id_product)
+		INNER JOIN '._DB_PREFIX_.'category_lang cl ON (cp.id_category = cl.id_category)
+                LEFT JOIN '._DB_PREFIX_.'product_lang pl ON ( pl.id_product = p.id_product )
+                WHERE m.active = 1 AND p.product_parent = 1 AND cl.`name` = "Destacados"
+                GROUP BY m.id_manufacturer
+                HAVING count >= 1
+                ORDER BY RAND()
+                ';
+        
+        $manufacturers = Db::getInstance()->executeS($query);
+        return $manufacturers;
+    }
+    
     public static function getNewManufacturers()
     {
         if ( isset($_COOKIE['citymanufacturerfilter']) && !empty($_COOKIE['citymanufacturerfilter']) && $_COOKIE['citymanufacturerfilter'] != "" ) {

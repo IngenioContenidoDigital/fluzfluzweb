@@ -1,0 +1,134 @@
+ 
+    
+        
+        
+        Message from {shop_name}
+        	
+            body, h1, h2, h3, h4, h5, p, div, a, th { font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif; }
+        
+    
+    
+    
+        
+        
+            
+                
+                    
+                        
+                    
+                
+            
+            
+                
+                    
+                
+            
+            
+                &nbsp;
+            
+        
+    
+        
+        
+            
+                Hola {username},
+            
+            
+                Este es un aviso de cancelacion de tu cuenta...
+            
+            
+                &nbsp;
+            
+            
+                Tu cuenta ha estado inactiva por {days_inactive} dias. Debido a esto, por desgracia, su cuenta ha sido cancelada.
+            
+            
+                &nbsp;
+            
+            
+                
+                    
+                        APRENDE MAS
+                    
+                
+            
+            
+                &nbsp;
+            
+            
+            
+                Actualmente tienes
+            
+            
+                {points} Fluz
+            
+            
+                en tu cuenta Fluz Fluz
+            
+        
+
+        
+        
+            
+                &nbsp;
+            
+            
+                
+                    
+                
+            
+        
+
+        
+        
+            
+                
+                    
+                        Comprar
+                    
+                
+                
+                    
+                        Politica de privacidad
+                    
+                
+                
+                    
+                        Ayuda
+                    
+                
+                
+                    
+                        Cancelar Suscripción
+                    
+                
+            
+        
+
+        
+        
+            
+                &nbsp;
+            
+            
+                
+                
+                    
+                
+                
+                    
+                
+                
+                    
+                
+                
+                    
+                
+                
+            
+            
+                &nbsp;
+            
+        
+    
+

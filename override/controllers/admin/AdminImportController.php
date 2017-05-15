@@ -1,5 +1,7 @@
 <?php
 
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+
 class AdminImportController extends AdminImportControllerCore
 {
     public function __construct()
@@ -845,13 +847,77 @@ class AdminImportController extends AdminImportControllerCore
                         }
                         $address->active = 1;
                         $address->add();
+                        
+                        $merchants_featured = Manufacturer::getManufacturersFeatured();
+                        $merchant = array_slice($merchants_featured, 0, 4);
+                        
+                        $link = new Link();
+                        $table_merchants_featured = '<table cellspacing="10">
+                                                        <tr>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[0]['id_product'], $merchant[0]['link_rewrite']).'" title="'.$merchant[0]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[0]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[0]['id_manufacturer'].'.jpg" alt="'.$merchant[0]['name'].'" title="'.$merchant[0]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[1]['id_product'], $merchant[1]['link_rewrite']).'" title="'.$merchant[1]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[1]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[1]['id_manufacturer'].'.jpg" alt="'.$merchant[1]['name'].'" title="'.$merchant[1]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[2]['id_product'], $merchant[2]['link_rewrite']).'" title="'.$merchant[2]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[2]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[2]['id_manufacturer'].'.jpg" alt="'.$merchant[2]['name'].'" title="'.$merchant[2]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[3]['id_product'], $merchant[3]['link_rewrite']).'" title="'.$merchant[3]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[3]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[3]['id_manufacturer'].'.jpg" alt="'.$merchant[3]['name'].'" title="'.$merchant[3]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>';
 
                         // Welcome Email
                         $vars = array(
+                            '{username}' => $customer->username,
                             '{password}' => $passwd,
+                            '{firstname}' => $customer->firstname,
+                            '{lastname}' => $customer->lastname,
+                            '{dni}' => $customer->dni,
+                            '{birthdate}' => $customer->birthday,
+                            '{address}' => $address->address1,
+                            '{phone}' => $address->phone_mobile,
+                            '{merchants_featured}' => $table_merchants_featured,
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
 
                         Mail::Send(
@@ -898,7 +964,7 @@ class AdminImportController extends AdminImportControllerCore
         }
         $this->closeCsvFile($handle);
         
-        if ( $number_to_import <= 20 ) {
+        if ( $number_to_import <= 31 ) {
         $handle = $this->openCsvFile();
         // main loop, for each supply orders to import
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
@@ -937,7 +1003,7 @@ class AdminImportController extends AdminImportControllerCore
                     
                     $query_stock = 'SELECT quantity FROM '._DB_PREFIX_.'stock_available WHERE id_product = '.$id_product;
                     $row_stock = Db::getInstance()->getRow($query_stock);
-                    $stock_available = $row_stock['quantity'];
+                    $stock_available = $row_stock['quantity']; 
                     
                     $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
                     $m_fluz = Db::getInstance()->executeS($query_m);
@@ -1067,12 +1133,17 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
                         $template = 'backoffice_order';
+                        $prefix_template = '16-backoffice_order';
+                        
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
                         
                         /*Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
                         $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
                         */
                         $allinone_rewards = new allinone_rewards();
-                        $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL('Pedido Recomendado'), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
+                        $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL($message_subject), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
         
                     }
                         // INSERT LOG IMPORT ORDERS
@@ -1088,7 +1159,7 @@ class AdminImportController extends AdminImportControllerCore
             $this->closeCsvFile($handle);
         }
         else {
-            $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
+            $this->errors[] = "No es posible importar mas de 30 registros. Por favor validar y reducir la cantidad de registros.";
         }
         
     }

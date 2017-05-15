@@ -76,19 +76,24 @@
 						</ul>
 					</div>
 				</div>
-				<div id="translation_mails-control-actions" class="panel-footer">
-					<a name="submitTranslations{$type|ucfirst}" href="{$cancel_url}" class="btn btn-default">
-						<i class="process-icon-cancel"></i> {l s='Cancel'}
-					</a>
-					{*$toggle_button*}
-					<button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}" class="btn btn-default pull-right">
-						<i class="process-icon-save"></i>
-						{l s='Save'}
-					</button>
-					<button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}AndStay" class="btn btn-default pull-right">
-						<i class="process-icon-save"></i>
-						{l s='Save and stay'}
-					</button>
+                                <div id="translation_mails-control-actions" class="panel-footer">
+                                    <div class="row">
+                                        
+                                            <a name="submitTranslations{$type|ucfirst}" href="{$cancel_url}" class="btn btn-default">
+                                                    <i class="process-icon-cancel"></i> {l s='Cancel'}
+                                            </a>
+                                            {*$toggle_button*}
+
+                                            <button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}" class="btn btn-default pull-right">
+                                                    <i class="process-icon-save"></i>
+                                                    {l s='Save'}
+                                            </button>
+                                            <button type="submit" id="{$table}_form_submit_btn" name="submitTranslations{$type|ucfirst}AndStay" class="btn btn-default pull-right">
+                                                    <i class="process-icon-save"></i>
+                                                    {l s='Save and stay'}
+                                            </button>
+                                        
+                                    </div>    
 				</div>
 			</div>
 			<div class="panel">
@@ -165,6 +170,49 @@
 					{$mails['display']}
 				{/foreach}
 			</div>
+                        <div class="panel">
+				
+                                <div id="translation_mails-control-actions-2">
+                                    <h3>
+                                        <i class="icon-mail"></i>
+                                        {l s='Envio Mail de Prueba'}
+
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-lg-6  m-top">
+                                            <select id="mail_name" name="mail_name">
+                                                <option value=''>{l s='Seleccione Plantilla de Email'}</option>
+                                                <option value='backoffice_order'>{l s='16-backoffice_order'}</option>
+                                                <option value='cancellation_account'>{l s='16-cancellation_account'}</option>
+                                                <option value='invitation_cancel'>{l s='16-invitation_cancel'}</option>
+                                                <option value='order_conf_freefluz'>{l s='16-order_conf_freefluz'}</option>
+                                                <option value='order_conf'>{l s='16-order_conf'}</option>
+                                                <option value='remember_cart'>{l s='16-remember_cart'}</option>
+                                                <option value='remember_inactive_account'>{l s='16-remember_inactive_account'}</option>
+                                                <option value='rememberinvitenewusers'>{l s='16-rememberinvitenewusers'}</option>
+                                                <option value='sponsorship-invitation-novoucher'>{l s='16-sponsorship-invitation-novoucher'}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-6 panel-footer">
+                                                <input class="form-control " type="text" placeholder="Mail de Prueba" id="testEmail_trasnlations" name="testEmail_trasnlations" value="">
+                                            </div>    
+                                            <div class="col-lg-6">
+                                                <button type="submit" id="{$table}_form_submit_btn" name="submitTranslationsTest" class="btn btn-default">
+                                                        <i class="process-icon-envelope"></i>
+                                                        {l s='Send Test Mail'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>    
+				</div>
+			</div>
 		</form>
+                {literal}
+                    <style>
+                        .bootstrap #translations_form .mails_field .panel-footer{padding-left: 0px !important; margin-left: 10px;}
+                        .m-top{margin-top: 11px !important;}
+                    </style>
+                {/literal}                                
 	{/if}
 {/block}
