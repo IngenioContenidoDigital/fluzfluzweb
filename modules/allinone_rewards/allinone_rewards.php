@@ -592,15 +592,23 @@ class allinone_rewards extends Module
 		if (version_compare(_PS_VERSION_, '1.6', '>='))
 			$template = '16-'.$template;
 		$iso = Language::getIsoById((int)$id_lang);
-		if (file_exists(dirname(__FILE__).'/mails/'.$iso.'/'.$template.'.txt') && file_exists(dirname(__FILE__).'/mails/'.$iso.'/'.$template.'.html'))
-			//return Mail::Send((int)$id_lang, $template, $subject, $data, $mail, $name, Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'), NULL, NULL, dirname(__FILE__).'/mails/', $attachment);
-			return Mail::Send((int)$id_lang, $template, $subject, $data, $mail, $name, Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),$attachment, NULL, dirname(__FILE__).'/mails/', false);
-                else if (file_exists(dirname(__FILE__).'/mails/en/'.$template.'.txt') && file_exists(dirname(__FILE__).'/mails/en/'.$template.'.html')) {
+                
+                $query_status = 'SELECT status_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail = '."'$template'";
+                $row_m = Db::getInstance()->getRow($query_status);
+                $status_m = $row_m['status_mail'];
+                
+                if($status_m==0){
+                    if (file_exists(dirname(__FILE__).'/mails/'.$iso.'/'.$template.'.txt') && file_exists(dirname(__FILE__).'/mails/'.$iso.'/'.$template.'.html'))
+                            //return Mail::Send((int)$id_lang, $template, $subject, $data, $mail, $name, Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'), NULL, NULL, dirname(__FILE__).'/mails/', $attachment);
+                            return Mail::Send((int)$id_lang, $template, $subject, $data, $mail, $name, Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),$attachment, NULL, dirname(__FILE__).'/mails/', false);
+                
+                    else if (file_exists(dirname(__FILE__).'/mails/en/'.$template.'.txt') && file_exists(dirname(__FILE__).'/mails/en/'.$template.'.html')) {
 			$id_lang = Language::getIdByIso('en');
 			if ($id_lang)
 				//return Mail::Send((int)$id_lang, $template, $subject, $data, $mail, $name, Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'), NULL, NULL, dirname(__FILE__).'/mails/', $attachment);
                             	return Mail::Send((int)$id_lang, $template, $subject, $data, $mail, $name, Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),$attachment, NULL, dirname(__FILE__).'/mails/', false);
-		}
+                    }
+                }
 		return false;
 	}
 
