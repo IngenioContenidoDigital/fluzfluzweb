@@ -186,13 +186,16 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
         if (!empty($mails['files'])) {
             $topic_already_displayed = array();
             foreach ($mails['files'] as $mail_name => $mail_files) {
-                $str_return .= '<div class="panel translations-email-panel">';
-                $str_return .= '<a href="#'.$id_html.'-'.$mail_name.'" class="panel-title" data-toggle="collapse" data-parent="#'.$id_html.'" >'.$mail_name.' <i class="icon-caret-down"></i> </a>';
-                
                 $query_status = 'SELECT status_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail = '."'$mail_name'";
                 $row_m = Db::getInstance()->getRow($query_status);
                 $status_m = $row_m['status_mail'];
-                
+                if ($status_m==0){
+                    $str_return .= '<div class="panel translations-email-panel">';
+                }
+                else{
+                    $str_return .= '<div class="panel translations-email-panel" style="background-color:#F0F0F0;">';
+                }
+                $str_return .= '<a href="#'.$id_html.'-'.$mail_name.'" id="'.$mail_name.'" class="panel-title" data-toggle="collapse" data-parent="#'.$id_html.'" >'.$mail_name.' <i class="icon-caret-down"></i> </a>';
                 $str_return .= '<div class="col-lg-6" style="float:right;">
                                     <label for="status_enable">';
                 if ($status_m==0){
@@ -297,6 +300,7 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
                                             
                                           $("#allinone_rewards-"+email).addClass("in");
                                           $("#allinone_rewards-"+email).show();
+                                          $("#"+email).parent().css( "background-color", "white" );
                                         }
                                     });
                                     e.preventdefault();
@@ -312,6 +316,7 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
                                         success: function(result){
                                             $("#allinone_rewards-"+email).removeClass("in");
                                             $("#allinone_rewards-"+email).hide();
+                                            $("#"+email).parent().css( "background-color", "#F0F0F0" );
                                         }
                                     });
                                     e.preventdefault();

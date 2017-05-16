@@ -24,9 +24,15 @@
 *}
 
 {capture name=path}{l s='My account'}{/capture}
-<h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12">{l s='mis bonos'}</h1>
-<p class="info-account">{l s='View and Redeem your gift card purchases'}</p>
-
+<div class="row page-heading">
+    <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s='mis bonos'}</h1>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-design">
+        <a class="btn btn-default btn-account" href="/content/6-categorias">{l s="Comprar"}</a>
+    </div>
+</div>
+<div class="row">
+    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 info-account">{l s='View and Redeem your gift card purchases'}</p>
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-12 card-st" id="card-div">
@@ -48,8 +54,8 @@
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
             <div class="detail-support">
-                <a href="http://reglas.fluzfluz.co"><p>Aprende c&oacute;mo redimir tus bonos digitales</p></a>
-                <a href="http://reglas.fluzfluz.co"><p><strong style="font-size: 15px;">VER LAS REGLAS DE FLUZ FLUZ</strong></p></a>
+                <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">Aprende c&oacute;mo redimir tus bonos digitales</p></a>
+                <a href="http://reglas.fluzfluz.co"><p><strong style="font-size: 15px;font-family: 'Capitalized';font-weight: bold;">VER LAS REGLAS DE FLUZ FLUZ</strong></p></a>
             </div>
         </div>
     </div>
@@ -370,15 +376,23 @@
 {literal}
     <style>
         .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; font-size: 16px; line-height: 20px;}
-        p.info-account{margin: 16px 0 24px 0;}
+        .page-heading-2{margin-bottom: 0px;padding: 0px;letter-spacing: 0px;font-family: 'Open Sans';font-size: 16px;line-height: 20px;}
+        p.info-account{margin: 16px 0 24px 0; padding-left: 0px;font-family: 'Capitalized';font-weight: bold;}
         .fancybox-inner{height: 700px !important;}
+        .btn-account{font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;
+                        color: #fff;
+                        border: none;
+                        background: #ef4136;}
+        .btn-design{padding-left: 130px;}
         
         @media (max-width:1024px){
             .fancybox-inner{height: 666px !important;}
+            .btn-design{padding-left: 97px;}
         }
         
         @media (max-width:768px){
             .fancybox-inner{height: 990px !important;}
+            .btn-design{text-align: right;padding-left: 0px;}
         }
         
         @media (max-width:420px){
