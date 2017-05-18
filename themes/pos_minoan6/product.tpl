@@ -747,7 +747,7 @@
                                             }
                                             else
                                                 $("#loadMoreAddress").click(function(){
-                                                    $(".address-div:hidden").slice(0, 100).toggle('slow');
+                                                    $(".address-div:hidden").slice(0, 100000000).toggle('slow');
                                                     if($(".address-div:hidden").length == 0){ // check if any hidden divs still exist
                                                         $("#loadMoreAddress").css('display','none'); // alert if there are none left
                                                         $("#loadMenosAddress").css('display','block'); // alert if there are none left
@@ -755,7 +755,7 @@
                                             });
                                         });
                                         $("#loadMenosAddress").click(function(){
-                                                $(".address-div:visible").slice(4, 100).slideUp('slow');
+                                                $(".address-div:visible").slice(4, 100000000).slideUp('slow');
                                                 $("#loadMoreAddress").css('display','block'); // alert if there are none left
                                                 $("#loadMenosAddress").css('display','none'); // alert if there are none left
                                         });
