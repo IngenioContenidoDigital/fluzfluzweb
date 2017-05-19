@@ -10,15 +10,16 @@
                     </div>
                     <br/>
                 {foreach from=$productlist item=product}
+                    {capture assign=new}select-{$product.id_product}{/capture}
                     <div class="row">
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 merchant"><img src="{$img_manu_dir}{$product.id_manufacturer}.jpg" width="45px"/></div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 nombre">{$product.name}</div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <select name="{$product.id_product}" class="numero">
+                    <select id="select-{$product.id_product}" name="{$product.id_product}" class="numero">
                         <option value="0" id="noselect">Elije Telefono</option>
                     {foreach from=$phones item=phone}
                         {if $phone.phone!=null or $phone.phone!=""}
-                            <option value="{$phone.phone}">(&nbsp;{$phone.phone|substr:0:3}&nbsp;)&nbsp;{$phone.phone|substr:3:7}</option>
+                            <option {if $smarty.cookies.$new=={$phone.phone}}selected='selected'{/if} value="{$phone.phone}">(&nbsp;{$phone.phone|substr:0:3}&nbsp;)&nbsp;{$phone.phone|substr:3:7}</option>
                         {/if}
                     {/foreach}
                     </select>

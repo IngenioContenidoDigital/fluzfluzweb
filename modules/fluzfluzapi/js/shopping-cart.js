@@ -38,6 +38,14 @@ $('.action').on('click',function(){
 $('.numero').on('change',function(){
     var product = $(this).attr('name');
     var phone = $(this).val();
+    if($.cookie($(this).attr('id'))!== null){
+        $.removeCookie($(this).attr('id'));
+    }
+    
+    var date = new Date();
+    var minutes = 10;
+    date.setTime(date.getTime() + (minutes * 60 * 1000));
+    $.cookie($(this).attr('id'),phone,{expires: date});
     $.ajax({
         url: "index.php?fc=module&module=fluzfluzapi&controller=shoppingcart",
         method:"post",
