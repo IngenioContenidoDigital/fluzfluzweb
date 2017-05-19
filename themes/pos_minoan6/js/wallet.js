@@ -89,7 +89,7 @@ $(document).ready(function() {
 });
 
 function renderViewCard(key, card) {
-    if(card.expiration=='' or card.expiration==NULL or card.expiration=='00/00/0000'){
+    if(card.expiration=='00/00/0000'){
         $('#vencimiento').hide();
     }else{
         $("#expiration").html( card.expiration );
