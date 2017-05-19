@@ -147,6 +147,20 @@ class Order extends OrderCore
                     $product_list_html = Order::getEmailTemplateContent('order_conf_product_list.tpl', Mail::TYPE_HTML, $product_var_tpl_list);
                 }
                 
+                foreach ($order->getProducts() as &$product_cart){
+                            
+                    $point_p = floor($product_cart['points']);
+                    $point_product .=  "<label>".$point_p."</label><br>";
+                    $name_product .= "<label>".$product_cart['product_name']."</label><br>";
+                    
+                    if($product_cart['expiration'] == '0000-00-00'){
+                        $expiration_product = '';
+                    }
+                    else{
+                        $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                    }
+                }
+                
                 $data = array(
                 '{username}' => $customer->username,
                 '{firstname}' => $customer->firstname,
@@ -212,6 +226,9 @@ class Order extends OrderCore
                 '{payment}' => Tools::substr($order->payment, 0, 32), 
                 '{point_discount}' => Tools::displayPrice($order->total_discounts, 1, false),
                 '{products}' => $product_list_html,
+                '{points}' => $point_product,   
+                '{name_product}' => $name_product, 
+                '{expiration}' => $expiration_product,     
                 //'{image}'=> $image_url,    
                 '{products_txt}' => $product_list_txt,
                 '{total_value}' => Tools::displayPrice($total_value),    
@@ -239,12 +256,16 @@ class Order extends OrderCore
                 $file_attachement[1]['name'] = 'Procedimiento en datafono.pdf';
                 $file_attachement[1]['mime'] = 'application/pdf';
                 
+                foreach ($order->getProducts() as &$product_name){
+                    $name_product_subject .= " ".$product_name['product_name'].", ";
+                }
+                
                 $template = 'order_conf';
                 $prefix_template = '16-order_conf';
                 
                 $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
                 $row_subject = Db::getInstance()->getRow($query_subject);
-                $message_subject = $row_subject['subject_mail'];
+                $message_subject = $row_subject['subject_mail'].' '.''.$name_product_subject.'';
                 
                 $allinone_rewards = new allinone_rewards();
                 $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $customer->email, $customer->firstname.' '.$customer->lastname,$file_attachement);

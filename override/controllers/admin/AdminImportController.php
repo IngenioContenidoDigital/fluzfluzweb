@@ -964,7 +964,7 @@ class AdminImportController extends AdminImportControllerCore
         }
         $this->closeCsvFile($handle);
         
-        if ( $number_to_import <= 20 ) {
+        if ( $number_to_import <= 31 ) {
         $handle = $this->openCsvFile();
         // main loop, for each supply orders to import
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
@@ -1159,7 +1159,7 @@ class AdminImportController extends AdminImportControllerCore
             $this->closeCsvFile($handle);
         }
         else {
-            $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
+            $this->errors[] = "No es posible importar mas de 30 registros. Por favor validar y reducir la cantidad de registros.";
         }
         
     }

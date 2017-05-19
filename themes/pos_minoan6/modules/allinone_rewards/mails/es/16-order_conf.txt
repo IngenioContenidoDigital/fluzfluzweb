@@ -1,69 +1,251 @@
-[{shop_url}] 
+    
+    
+    Confirmación de pedido
+    	
+        body, h1, h2, h3, h4, h5, p, div, a, th { font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif; }
+    
 
-Hola {firstname} {lastname},
 
-Le agradecemos por realizar sus compras en {shop_name}! 
 
-PEDIDO: {order_name} Situado en {date}
 
-PAGO: {payment} 		 
 
-REFERENCIA
 
-PRODUCTO
 
-PRECIO UNITARIO
 
-CANTIDAD
 
-PRECIO TOTAL
 
-{products_txt} 
+  
 
-{discounts} 
 
-PRODUCTOS 
 
-{total_products} 
 
-DESCUENTOS 
 
-{total_discounts} 
 
-PAPEL DE REGALO 
 
-{total_wrapping} 
 
-TRANSPORTE 
+ 
 
-{total_shipping} 
 
-IMPUESTO TOTAL 
 
-{total_tax_paid} 
 
-PAGO TOTAL 
+ Hola {username}&iexcl;Gracias por tu compra! &iexcl;Est&aacute;s en camino hacia la riqueza!&nbsp; &nbsp;
 
-{total_paid} 
 
-TRANSPORTISTA: {carrier}
 
-PAGO: {payment} 		 
+&nbsp;
 
-{delivery_block_txt} 
 
-{invoice_block_txt} 
+&nbsp;
 
-Usted puede revisar su pedido y descargar la factura desde
-"Historial de pedidos" [{history_url}] de su cuenta
-de cliente, haga clic en [{my_account_url}] en
-nuestra tienda. 
 
-Si tiene una cuenta de invitado, puede seguir su pedido desde la
-sección: "Seguimiento de invitado"
-[{guest_tracking_url}?id_order={order_name}] en
-nuestra tienda. 
 
-{shop_name} [{shop_url}] creado por
-PrestaShop(tm) [http://www.prestashop.com/] 
+
+
+
+
+&nbsp;
+ 
+Detalle del pedido
+ Pedido:  creado el {date}Pago: {payment} 
+&nbsp;
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+BonoDescripci&oacute;nBonos a redimir - PinPrecio&nbsp;BonoCantidadPrecio Total
+
+&nbsp;&nbsp;{products}
+
+
+
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Precio 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {total_products} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Valor de los bonos 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {total_value} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+Fluz Utilizados
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {point_discount} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Pagado 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {total_paid} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+ 
+Extractos Fluz
+
+
+
+
+
+    Bono
+    Fluz Recibidos
+    Fecha de Expiraci&oacute;n
+
+
+    {name_product}
+    {points}
+    {expiration}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Comprar 
+ Privacidad de Datos 
+ Aprende M&aacute;s 
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
 
