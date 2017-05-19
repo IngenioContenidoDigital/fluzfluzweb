@@ -195,7 +195,7 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
                 else{
                     $str_return .= '<div class="panel translations-email-panel" style="background-color:#F0F0F0;">';
                 }
-                $str_return .= '<a href="#'.$id_html.'-'.$mail_name.'" id="'.$mail_name.'" class="panel-title" data-toggle="collapse" data-parent="#'.$id_html.'" >'.$mail_name.' <i class="icon-caret-down"></i> </a>';
+                $str_return .= '<a href="#'.$id_html.'-'.$mail_name.'" id="'.$mail_name.'" class="panel-title mail_n" data-toggle="collapse" data-parent="#'.$id_html.'" >'.$mail_name.' <i class="icon-caret-down"></i> </a>';
                 $str_return .= '<div class="col-lg-6" style="float:right;">
                                     <label for="status_enable">';
                 if ($status_m==0){
