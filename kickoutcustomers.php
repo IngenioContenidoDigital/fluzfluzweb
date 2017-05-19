@@ -2,6 +2,7 @@
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
+require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
 
 $kickoutCustomers = new kickoutCustomers();
 $kickoutCustomers->init();
@@ -151,20 +152,24 @@ class kickoutCustomers {
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
         );
         
+        $template = 'cancellation_account';
         $prefix_template = '16-cancellation_account';
                         
-        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
         $row_subject = Db::getInstance()->getRow($query_subject);
         $message_subject = $row_subject['subject_mail'];
         
-        Mail::Send(
+        $allinone_rewards = new allinone_rewards();
+        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject), $vars, $customerdata['email'], $customerdata['username']);
+                
+        /*Mail::Send(
             Context::getContext()->language->id,
             "cancellation_account",
             $message_subject,
             $vars,
             $customerdata['email'],
             $customerdata['username']
-        ); 
+        ); */
         
         return Db::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship
                                             WHERE id_customer = ".$customer['id']);
