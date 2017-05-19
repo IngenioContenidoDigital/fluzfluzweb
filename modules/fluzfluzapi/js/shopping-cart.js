@@ -63,7 +63,8 @@ $('#nextStep').on('click',function(e){
     })
     if(check){
         e.preventDefault();
-        alert("Debes TODOS los numeros a recargar");
+        $("#popup").modal();
+        $(".numero").css('border','solid red 1px');
         $('.numero').first().focus();
     }
 })
