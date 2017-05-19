@@ -191,6 +191,8 @@
                                                 <option value='remember_inactive_account'>{l s='16-remember_inactive_account'}</option>
                                                 <option value='rememberinvitenewusers'>{l s='16-rememberinvitenewusers'}</option>
                                                 <option value='sponsorship-invitation-novoucher'>{l s='16-sponsorship-invitation-novoucher'}</option>
+                                                <option value='cashout_conf'>{l s='16-cashout_conf'}</option>
+                                                <option value='cashout_approval_notice'>{l s='16-cashout_approval_notice'}</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-6">

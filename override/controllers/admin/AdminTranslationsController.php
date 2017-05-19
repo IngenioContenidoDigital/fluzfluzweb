@@ -33,8 +33,8 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
         $this->cleanMailContent($content, $lang, $title);
         $name_for_module = $name_for_module ? $name_for_module.'|' : '';
         
-        $prueba = 'UPDATE '._DB_PREFIX_.'subject_mail SET subject_mail="'.$title['es'].'"
-                   WHERE name_template_mail="'.$mail_name.'"';
+        $prueba = 'UPDATE '._DB_PREFIX_.'mail_send SET subject_mail="'.$title['es'].'"
+                   WHERE name_mail="'.$mail_name.'"';
         Db::getInstance()->execute($prueba);
         
         return '<div class="block-mail" >
@@ -118,7 +118,7 @@ class AdminTranslationsController extends AdminTranslationsControllerCore
                 
                 $prefix_template = '16-'.''.$template.'';
 
-                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                 $row_subject = Db::getInstance()->getRow($query_subject);
                 $message_subject = $row_subject['subject_mail'];
                 
