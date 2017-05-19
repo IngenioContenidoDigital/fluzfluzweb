@@ -322,6 +322,7 @@ PRIMARY KEY (`id_webservice_external_log`))";
             $phones_list=array_unique($phones_list,SORT_REGULAR);
             $this->context->controller->addCSS($this->_path.'/css/shopping-cart.css');
             $this->context->controller->addJS($this->_path.'/js/shopping-cart.js');
+            $this->context->controller->addJS($this->_path.'/js/jquery.cookie.js');
             $this->context->smarty->assign(array(
                 'productlist'=> $productlist,
                 'phones' => $phones_list
