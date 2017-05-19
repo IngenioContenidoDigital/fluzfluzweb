@@ -127,7 +127,7 @@
                             {/if}
                     </tr>
                             
-                    <tr class="cart_total_voucher" {if $total_wrapping == 0}style="display:none"{/if}>
+                    <tr class="cart_total_voucher" style="display:none;"{*if $total_wrapping == 0}style="display:none"{/if*}>
                         <td colspan="4" class="text-right">
                             {if $use_taxes}
                                 {if $priceDisplay}
@@ -176,7 +176,7 @@
                             </tr>
                         {/if}
                     {/if}
-                    <tr class="cart_total_voucher" {if $total_discounts == 0}style="display:none"{/if}>
+                    <tr class="cart_total_voucher" style="display:none;"{*if $total_discounts == 0}style="display:none"{/if*}>
                         <td colspan="4" class="text-right">
                             {if $use_taxes}
                                 {if $priceDisplay}

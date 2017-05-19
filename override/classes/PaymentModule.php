@@ -717,7 +717,7 @@ abstract class PaymentModule extends PaymentModuleCore
                                         $prefix_template = '16-order_conf';
                                         $cart_rules_order = $this->context->cart->getCartRules();
                                         
-                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                                         $row_subject = Db::getInstance()->getRow($query_subject);
                                         $message_subject = $row_subject['subject_mail'].' '.''.$name_product_subject.''.' ';
                                         
@@ -734,7 +734,7 @@ abstract class PaymentModule extends PaymentModuleCore
                                             $file_attachement = array();
                                             $prefix_template = '16-order_conf_freefluz';
                 
-                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                                             $row_subject = Db::getInstance()->getRow($query_subject);
                                             $message_subject = $row_subject['subject_mail'];
                                         }

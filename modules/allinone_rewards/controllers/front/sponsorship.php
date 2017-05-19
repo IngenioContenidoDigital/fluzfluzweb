@@ -206,7 +206,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                         
                                                         $prefix_template = '16-sponsorship-invitation-novoucher';
 
-                                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"'; 
+                                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"'; 
                                                         $row_subject = Db::getInstance()->getRow($query_subject);
                                                         $message_subject = $row_subject['subject_mail'];
                                                         
@@ -327,7 +327,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                 $template = 'invitation_cancel';
                                                 $prefix_template = '16-invitation_cancel';
 
-                                                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                                                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                                                 $row_subject = Db::getInstance()->getRow($query_subject);
                                                 $message_subject = $row_subject['subject_mail'];
 						$this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL($message_subject), $vars, $sponsorship->email, $sponsorship->firstname.' '.$sponsorship->lastname);

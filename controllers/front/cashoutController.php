@@ -78,6 +78,7 @@ class cashoutControllerCore extends FrontController{
                
 		if ($paymentAllowed && Tools::isSubmit('submitPayment') && $totalAvailableUserCurrency >= $paymentMininum && $totalForPaymentDefaultCurrency > 0) {
                     
+                    
                     $name = Tools::getValue('nombre-customer');
                     $lastname = Tools::getValue('lastname-customer');
                     $num = Tools::getValue('numero_tarjeta');
@@ -90,32 +91,49 @@ class cashoutControllerCore extends FrontController{
                     $validacion = Tools::getValue('radio');
                     $pago_parcial = round(RewardsModel::getMoneyReadyForDisplay($point_used, (int)$this->context->currency->id));
                     
+                    $mailVars = array(
+                    '{username}'=> $this->context->customer->username,
+                    '{nombre_del_solicitante}' => $name,
+                    '{numero_de_cuenta}'=> $num,
+                    '{tipo_de_cuenta}' => $bank_account,
+                    '{nombre_del_banco}' => $bank,
+                    '{fluz_utilizados}' => $point_used,
+                    '{cantidad_a_pagar}' => Tools::displayPrice($pago_parcial, 1, false),
+                    );
+                    
+                    $email = $this->context->customer->email;
+                    
+                    $template = 'cashout_conf';
+                    $prefix_template = '16-cashout_conf';
+
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+
+                    $allinone_rewards = new allinone_rewards();
+                    
                     if($validacion == 0){
                         
                         $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$totalForPaymentDefaultCurrency.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query1);
-                        $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nit_cedula, nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
-                                    . "                          VALUES ('".$nit_cedula."','".$name."' ,'".$lastname."','\'".$num."','".$bank_account."','".$bank."',".(int)$point_total.",".((int)$pago-7000).",'0','0',".(-1*$pago+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                        $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nit_cedula, id_customer, nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
+                                    . "                          VALUES ('".$nit_cedula."',".(int)$this->context->customer->id.",'".$name."','".$lastname."','\'".$num."','".$bank_account."','".$bank."',".(int)$point_total.",".((int)$pago-7000).",'0','0',".(-1*$pago+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query2);
+                        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mailVars, $email, $this->context->customer->firstname.' '.$this->context->customer->lastname);
+
                         Tools::redirect($this->context->link->getPageLink('my-account', true));
                     }
                     else if ($validacion == 1){
                         $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".-1*$point_used.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query1);
-                        $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nit_cedula, nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
-                                    . "                          VALUES ('".$nit_cedula."','".$name."' ,'".$lastname."','\'".$num."','".$bank_account."','".$bank."',".(int)$point_used.",".((int)$pago_parcial-7000).",'0','0',".(-1*$pago_parcial+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
+                        $query2 = "INSERT INTO "._DB_PREFIX_."rewards_payment (nit_cedula,id_customer, nombre, apellido, numero_tarjeta,tipo_cuenta, banco, points, credits, detail, invoice, paid, date_add, date_upd)"
+                                    . "                          VALUES ('".$nit_cedula."',".(int)$this->context->customer->id.",'".$name."' ,'".$lastname."','\'".$num."','".$bank_account."','".$bank."',".(int)$point_used.",".((int)$pago_parcial-7000).",'0','0',".(-1*$pago_parcial+7000).",'".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."')";
                         Db::getInstance()->execute($query2);
+                        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mailVars, $email, $this->context->customer->firstname.' '.$this->context->customer->lastname);
+
                         Tools::redirect($this->context->link->getPageLink('my-account', true));}
-                        
-                        /*if (Tools::getValue('payment_details') && (!MyConf::get('REWARDS_PAYMENT_INVOICE', null, $id_template) || (isset($_FILES['payment_invoice']['name']) && !empty($_FILES['payment_invoice']['tmp_name'])))) {
-				if (RewardsPaymentModel::askForPayment($totalForPaymentDefaultCurrency, Tools::getValue('payment_details'), $_FILES['payment_invoice']))
-					Tools::redirect($this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true));
-				else
-					$this->context->smarty->assign('payment_error', 2);
-			} else
-				$this->context->smarty->assign('payment_error', 1);*/
 		}
                 
 		$link = $this->context->link->getModuleLink('allinone_rewards', 'rewards', array(), true);
@@ -155,7 +173,7 @@ class cashoutControllerCore extends FrontController{
 			'nArray' => array(10, 20, 50),
 			'max_page' => floor(sizeof($rewards) / ((int)(Tools::getValue('n') > 0) ? (int)(Tools::getValue('n')) : 10))
 		));
-		
+                
                 $this->setTemplate(_PS_THEME_DIR_.'cashout.tpl');
 	}
       

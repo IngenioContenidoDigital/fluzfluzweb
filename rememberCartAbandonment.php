@@ -75,7 +75,7 @@ foreach ($cart_abandonment as $remember){
                 $template = 'remember_cart';
                 $prefix_template = '16-remember_cart';
 
-                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                 $row_subject = Db::getInstance()->getRow($query_subject);
                 $message_subject = $row_subject['subject_mail'];
 
