@@ -61,6 +61,9 @@ class Link extends LinkCore
         return _S3_PATH_.'p/'.$id_image.'-'.$type.'.jpg';
         
     }
+    public function getManufacturerImageLink($id_manufacturer){
+      return _S3_PATH_.'m/'.$id_manufacturer.'.jpg';
+    }
     
     public function getCatImageLink($name, $id_category, $type = null)
     {
