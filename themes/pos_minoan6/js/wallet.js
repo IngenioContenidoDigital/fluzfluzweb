@@ -89,7 +89,12 @@ $(document).ready(function() {
 });
 
 function renderViewCard(key, card) {
-    $("#expiration").html( card.expiration );
+    if(card.expiration=='' or card.expiration==NULL or card.expiration=='00/00/0000'){
+        $('#vencimiento').hide();
+    }else{
+        $("#expiration").html( card.expiration );
+        $('#vencimiento').show();
+    }
     $("#value_original").html( "COP $ "+Math.round(card.price) );
     $("#value").html( "COP $ "+Math.round(card.price_shop) );
     $("#date_buy").html( card.date );
