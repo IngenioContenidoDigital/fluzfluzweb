@@ -307,6 +307,11 @@
     <script>
         $(".Cards").fancybox();
     </script>
+    <style>
+        @media (max-width:768px){
+            .fancybox-iframe { height: 75vh!important; }
+        }
+    </style>
 {/literal}
 
 {literal}

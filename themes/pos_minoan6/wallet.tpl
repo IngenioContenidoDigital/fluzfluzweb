@@ -11,21 +11,21 @@
     var urlWalletController = "{$link->getPageLink('wallet', true)|escape:'html':'UTF-8'}";
 </script>
 
-<div class="container">
+<div class="container wallet-container">
     <div class="row row1">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <label class="title title-line-bottom">cartera</label>&nbsp;&nbsp;<label class="title">móvil</label>
         </div>
     </div>
     <div class="row row2">
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
             <p class="available-cards">Tarjetas Disponibles - <tt id="available-cards">{$cards|@count}</tt> Total</p>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 filter-view">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 filter-view">
             <div>
                 <a class="btn dropdown-toggle sortby" data-toggle="dropdown" href="#">filtrar por<span class="icon icon-angle-down"></span></a>
                 <ul id="sortby" class="dropdown-menu">
-                    <li><a href="#" id="all">TODAS<i class="icon icon-bullseye"></i></a></li>
+                    <li><a href="#" id="all">Todas<i class="icon icon-bullseye"></i></a></li>
                     <li><a href="#" id="unused">Disponible<i class="icon icon-circle"></i></a></li>
                     <li><a href="#" id="used">Usada<i class="icon icon-circle"></i></a></li>
                     <li><a href="#" id="finished">Terminada<i class="icon icon-circle"></i></a></li>
@@ -35,12 +35,12 @@
     </div>
     <div class="row row3">
         {foreach from=$cards key=key item=card}
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 card" key="{$key}">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 card" key="{$key}">
                 <div class="row state-used state-used{$card.used}">
                     <i class="icon icon-circle"></i>
                 </div>
                 <div class="row container-card">
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col1">
+                    <div class="col-xs-5 col-sm-3 col-md-3 col-lg-3 col1">
                         <img src="{$s3}m/{$card.id_manufacturer}.jpg" class="img-manufacturer"/>
                     </div>
                     <div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 col2">
@@ -48,7 +48,7 @@
                         <br>
                         <span class="">{$card.card_code}</span>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col3">
+                    <div class="col-xs-0 col-sm-4 col-md-4 col-lg-4 col3">
                         <label class="price">{displayPrice price=$card.price_shop}</label>
                     </div>
                 </div>
@@ -56,16 +56,16 @@
         {/foreach}
     </div>
     <div class="row row4">
-        <ul class="pagination">
+        {*<ul class="pagination">
             <li><a href="#" id="prev-container-card"><</a></li>
             <li><a href="#">1</a></li>
             <li><a href="#">2</a></li>
             <li><a href="#">3</a></li>
             <li><a href="#" id="next-container-card">></a></li>
-        </ul>
+        </ul>*}
     </div>
     <div class="row row5 viewdetailcard">
-        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
             <div class="row cardview-info">
                 <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                     <img src="{$s3}m/{$cards.0.id_manufacturer}.jpg" class="img-manufacturer"/>
@@ -78,11 +78,11 @@
                 </div>
             </div>
             <div class="row cardview-price">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <p class="cardinfo">Valor:</p>
                     <p class="price" id="value"></p>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <p class="cardinfo">Código Asociado:</p>
                     <p class="price" id="code"></p>
                 </div>
@@ -113,23 +113,25 @@
                 <input type="hidden" id="card_key" value="" />
             </div>
         </div>
-        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 cardviewupt-instructions">
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 cardviewupt-instructions">
             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#instructions">Instrucciones<i class="icon icon-plus"></i></button>
             <div id="instructions" class="collapse"></div>
             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#terms">Términos<i class="icon icon-plus"></i></button>
             <div id="terms" class="collapse"></div>
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#locations">Direcciones<i class="icon icon-plus"></i></button>
-            <div id="locations" class="collapse">
-                {foreach from=$addreses_manufacturer key=key item=address}
-                    <div class="row address-manufacturer">
-                        <p><label>{$address.firstname}</label></p>
-                        <p>{$address.address1}</p>
-                        <p>{$address.city}</p>
-                    </div>
-                {/foreach}
-                <div id="loadMoreAddress"><label class="more-address">{l s="Mostrar mas"}</label></div>
-                <div id="loadMenosAddress" style='display:none;'><label class="more-address">{l s="Mostrar menos"}</label></div>
-            </div>
+            {if $addreses_manufacturer}
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#locations">Direcciones<i class="icon icon-plus"></i></button>
+                <div id="locations" class="collapse">
+                    {foreach from=$addreses_manufacturer key=key item=address}
+                        <div class="row address-manufacturer">
+                            <p><label>{$address.firstname}</label></p>
+                            <p>{$address.address1}</p>
+                            <p>{$address.city}</p>
+                        </div>
+                    {/foreach}
+                    <div id="loadMoreAddress"><label class="more-address">{l s="Mostrar mas"}</label></div>
+                    <div id="loadMenosAddress" style='display:none;'><label class="more-address">{l s="Mostrar menos"}</label></div>
+                </div>
+            {/if}
         </div>
     </div>
     <div class="row row6">
