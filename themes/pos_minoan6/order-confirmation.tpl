@@ -88,8 +88,8 @@
                 </td>
                 <td>
                     <span class="name_product">{$product.product_name}</span><br>
-                    <span class="number_product">{l s='Product'} #:</span><br>
-                    <span class="number_product">{$product.product_reference}</span>
+                    <!--<span class="number_product">{l s='Product'} #:</span><br>-->
+                    <!--<span class="number_product">{$product.product_reference}</span>-->
                 </td>
                 <td>{$product.type_currency}&nbsp;${$product.price_shop|number_format:0:".":","}</td>
                 <td>{$product.fluzpoints}</td>

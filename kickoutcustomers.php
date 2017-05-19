@@ -150,22 +150,28 @@ class kickoutCustomers {
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
             '{learn_more_url}' => "http://reglas.fluzfluz.co"
         );
-
+        
+        $prefix_template = '16-cancellation_account';
+                        
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+        $row_subject = Db::getInstance()->getRow($query_subject);
+        $message_subject = $row_subject['subject_mail'];
+        
         Mail::Send(
             Context::getContext()->language->id,
             "cancellation_account",
-            "Tu cuenta fue Cancelada.",
+            $message_subject,
             $vars,
             $customerdata['email'],
             $customerdata['username']
-        );        
+        ); 
         
         return Db::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship
                                             WHERE id_customer = ".$customer['id']);
     }
     
     public function notificationSponsor($id_sponsor, $id_customer = "", $new_sponsorship = false) {
-        $messagesponsorship = "";
+        /*$messagesponsorship = "";
         if ( $new_sponsorship ) {
             $usernamepromoted = Db::getInstance()->getValue("SELECT username FROM "._DB_PREFIX_."customer WHERE id_customer = ".$id_customer);
             $messagesponsorship = " ".$usernamepromoted." ha sido promovido en tu red.";
@@ -198,7 +204,7 @@ class kickoutCustomers {
             $vars,
             $sponsorinformation[0]['email'],
             $sponsorinformation[0]['username']
-        );
+        );*/
     }
     
     public function finallykickOut() {

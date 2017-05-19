@@ -1,5 +1,7 @@
 <?php
 
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+
 class AdminImportController extends AdminImportControllerCore
 {
     public function __construct()
@@ -16,10 +18,11 @@ class AdminImportController extends AdminImportControllerCore
             $this->l('Manufacturers'),
             $this->l('Suppliers'),
             $this->l('Alias'),
+            $this->l('Orders'),
         );
 
         // @since 1.5.0
-        if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+        /*if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
             $this->entities = array_merge(
                 $this->entities,
                 array(
@@ -27,7 +30,7 @@ class AdminImportController extends AdminImportControllerCore
                     $this->l('Supply Order Details'),
                 )
             );
-        }
+        }*/
 
         $this->entities = array_flip($this->entities);
 
@@ -275,6 +278,27 @@ class AdminImportController extends AdminImportControllerCore
                     'alias' => 'Mi Direccion',
                 );
             break;
+        
+            case $this->entities[$this->l('Orders')]:
+                //Overwrite required_fields AS only email is required whereas other entities
+                $this->required_fields = array(
+                    'id_customer',
+                    'id_products',
+                    'payment'
+                );
+                
+                $this->available_fields = array(
+                    'no' => array('label' => $this->l('Ignore this column')),
+                    'id_customer' => array('label' => $this->l('Customer ID')),
+                    'id_products' => array('label' => $this->l('Product ID')),
+                    'payment' => array('label' => 'payment (pedido gratuito=1 , tarjeta credito=2)')
+                );
+
+                self::$default_values = array(
+                    'id_shop' => Configuration::get('PS_SHOP_DEFAULT'),
+                    'current_state' => '1',
+                );
+            break;
 
             case $this->entities[$this->l('Addresses')]:
                 //Overwrite required_fields
@@ -435,6 +459,126 @@ class AdminImportController extends AdminImportControllerCore
         $this->multiple_value_separator = ($separator = Tools::substr(strval(trim(Tools::getValue('multiple_value_separator'))), 0, 1)) ? $separator :  ',';
     }
     
+    public function postProcess()
+    {
+        /* PrestaShop demo mode */
+        if (_PS_MODE_DEMO_) {
+            $this->errors[] = Tools::displayError('This functionality has been disabled.');
+            return;
+        }
+
+        if (Tools::isSubmit('import')) {
+            // Check if the CSV file exist
+            if (Tools::getValue('csv')) {
+                $shop_is_feature_active = Shop::isFeatureActive();
+                // If i am a superadmin, i can truncate table
+                if ((($shop_is_feature_active && $this->context->employee->isSuperAdmin()) || !$shop_is_feature_active) && Tools::getValue('truncate')) {
+                    $this->truncateTables((int)Tools::getValue('entity'));
+                }
+                $import_type = false;
+                Db::getInstance()->disableCache();
+                switch ((int)Tools::getValue('entity')) {
+                    case $this->entities[$import_type = $this->l('Categories')]:
+                        $this->categoryImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Products')]:
+                        $this->productImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Customers')]:
+                        //$this->customerImport();
+                        break;
+                    case $this->entities[$import_type = $this->l('Orders')]:
+                        $this->ordersImport();
+                        break;
+                    case $this->entities[$import_type = $this->l('Addresses')]:
+                        $this->addressImport();
+                        break;
+                    case $this->entities[$import_type = $this->l('Combinations')]:
+                        $this->attributeImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Manufacturers')]:
+                        $this->manufacturerImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Suppliers')]:
+                        $this->supplierImport();
+                        $this->clearSmartyCache();
+                        break;
+                    case $this->entities[$import_type = $this->l('Alias')]:
+                        $this->aliasImport();
+                        break;
+                }
+
+                // @since 1.5.0
+                if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+                    switch ((int)Tools::getValue('entity')) {
+                        case $this->entities[$import_type = $this->l('Supply Orders')]:
+                            if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+                                $this->supplyOrdersImport();
+                            }
+                            break;
+                        case $this->entities[$import_type = $this->l('Supply Order Details')]:
+                            if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {
+                                $this->supplyOrdersDetailsImport();
+                            }
+                            break;
+                    }
+                }
+
+                if ($import_type !== false) {
+                    $log_message = sprintf($this->l('%s import', 'AdminTab', false, false), $import_type);
+                    if (Tools::getValue('truncate')) {
+                        $log_message .= ' '.$this->l('with truncate', 'AdminTab', false, false);
+                    }
+                    PrestaShopLogger::addLog($log_message, 1, null, $import_type, null, true, (int)$this->context->employee->id);
+                }
+            } else {
+                $this->errors[] = $this->l('You must upload a file in order to proceed to the next step');
+            }
+        } elseif ($filename = Tools::getValue('csvfilename')) {
+            $filename = urldecode($filename);
+            $file = AdminImportController::getPath(basename($filename));
+            if (realpath(dirname($file)) != realpath(AdminImportController::getPath())) {
+                exit();
+            }
+            if (!empty($filename)) {
+                $b_name = basename($filename);
+                if (Tools::getValue('delete') && file_exists($file)) {
+                    @unlink($file);
+                } elseif (file_exists($file)) {
+                    $b_name = explode('.', $b_name);
+                    $b_name = strtolower($b_name[count($b_name) - 1]);
+                    $mime_types = array('csv' => 'text/csv');
+
+                    if (isset($mime_types[$b_name])) {
+                        $mime_type = $mime_types[$b_name];
+                    } else {
+                        $mime_type = 'application/octet-stream';
+                    }
+
+                    if (ob_get_level() && ob_get_length() > 0) {
+                        ob_end_clean();
+                    }
+
+                    header('Content-Transfer-Encoding: binary');
+                    header('Content-Type: '.$mime_type);
+                    header('Content-Length: '.filesize($file));
+                    header('Content-Disposition: attachment; filename="'.$filename.'"');
+                    $fp = fopen($file, 'rb');
+                    while (is_resource($fp) && !feof($fp)) {
+                        echo fgets($fp, 16384);
+                    }
+                    exit;
+                }
+            }
+        }
+        Db::getInstance()->enableCache();
+        return parent::postProcess();
+    }
+    
     public function customerImport()
     {
         $this->receiveTab();
@@ -492,6 +636,9 @@ class AdminImportController extends AdminImportControllerCore
                             $customer = new Customer();
                         }
                     }
+                    
+                    $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+                    $customer->warning_kick_out = 0;
 
                     $customer_exist = false;
 
@@ -700,13 +847,77 @@ class AdminImportController extends AdminImportControllerCore
                         }
                         $address->active = 1;
                         $address->add();
+                        
+                        $merchants_featured = Manufacturer::getManufacturersFeatured();
+                        $merchant = array_slice($merchants_featured, 0, 4);
+                        
+                        $link = new Link();
+                        $table_merchants_featured = '<table cellspacing="10">
+                                                        <tr>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[0]['id_product'], $merchant[0]['link_rewrite']).'" title="'.$merchant[0]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[0]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[0]['id_manufacturer'].'.jpg" alt="'.$merchant[0]['name'].'" title="'.$merchant[0]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[1]['id_product'], $merchant[1]['link_rewrite']).'" title="'.$merchant[1]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[1]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[1]['id_manufacturer'].'.jpg" alt="'.$merchant[1]['name'].'" title="'.$merchant[1]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[2]['id_product'], $merchant[2]['link_rewrite']).'" title="'.$merchant[2]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[2]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[2]['id_manufacturer'].'.jpg" alt="'.$merchant[2]['name'].'" title="'.$merchant[2]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="'.$link->getProductLink($merchant[3]['id_product'], $merchant[3]['link_rewrite']).'" title="'.$merchant[3]['name'].'">
+                                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[3]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
+                                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
+                                                                            <div style="display: table-cell; vertical-align: middle;">
+                                                                                <img src="'._S3_PATH_.'m/'.$merchant[3]['id_manufacturer'].'.jpg" alt="'.$merchant[3]['name'].'" title="'.$merchant[3]['name'].'" style="max-width: 70%;">
+                                                                            </div>    
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>';
 
                         // Welcome Email
                         $vars = array(
+                            '{username}' => $customer->username,
                             '{password}' => $passwd,
+                            '{firstname}' => $customer->firstname,
+                            '{lastname}' => $customer->lastname,
+                            '{dni}' => $customer->dni,
+                            '{birthdate}' => $customer->birthday,
+                            '{address}' => $address->address1,
+                            '{phone}' => $address->phone_mobile,
+                            '{merchants_featured}' => $table_merchants_featured,
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
 
                         Mail::Send(
@@ -730,6 +941,227 @@ class AdminImportController extends AdminImportControllerCore
         } else {
             $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
         }
+    }
+    
+    public function ordersImport()
+    {
+        $this->receiveTab();
+        $handle = $this->openCsvFile();
+        $default_language_id = (int)Configuration::get('PS_LANG_DEFAULT');
+        $id_lang = Language::getIdByIso(Tools::getValue('iso_lang'));
+        if (!Validate::isUnsignedId($id_lang)) {
+            $id_lang = $default_language_id;
+        }
+        AdminImportController::setLocale();
+
+        $shop_is_feature_active = Shop::isFeatureActive();
+        $convert = Tools::getValue('convert');
+        $force_ids = Tools::getValue('forceIDs');
+        
+        $number_to_import = 0;
+        for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); $current_line++) {
+            $number_to_import++;
+        }
+        $this->closeCsvFile($handle);
+        
+        if ( $number_to_import <= 31 ) {
+        $handle = $this->openCsvFile();
+        // main loop, for each supply orders to import
+        for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
+            
+            $name = '';
+            $quantity_p = '';
+            $price_unit = '';
+            $price_total = '';
+            $price_point = '';
+
+            // if convert requested
+            if ($convert) {
+                $line = $this->utf8EncodeArray($line);
+            }
+            $info = AdminImportController::getMaskedRow($line);
+
+            // sets default values if needed
+            AdminImportController::setDefaultValues($info);
+            
+            // if an id is set, instanciates a supply order with this id if possible
+            
+            if (array_key_exists('id_customer', $info) && (int)$info['id_customer'] && Customer::customerIdExistsStatic((int)$info['id_customer'])) {
+                
+                $query_secure = 'SELECT secure_key FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$info['id_customer'];
+                $row = Db::getInstance()->getRow($query_secure);
+                $key = $row['secure_key'];
+                
+                $product_fluz = array();
+                $products_normal = array();
+                $products = explode(",", $info['id_products']);
+                
+                foreach ($products as $p){
+                    $product_quantity = explode(":", $p);
+                    $id_product = $product_quantity[0];
+                    $quantity = $product_quantity[1];
+                    
+                    $query_stock = 'SELECT quantity FROM '._DB_PREFIX_.'stock_available WHERE id_product = '.$id_product;
+                    $row_stock = Db::getInstance()->getRow($query_stock);
+                    $stock_available = $row_stock['quantity']; 
+                    
+                    $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
+                    $m_fluz = Db::getInstance()->executeS($query_m);
+                    $reference = $m_fluz[0]['reference'];
+                    $fluz = substr($reference, 0,5);
+                    
+                    if($quantity>$stock_available){
+                            $this->errors[] = Tools::displayError('Producto ID: '.$id_product.' sin Codigos Disponibles');
+                            break;
+                    }
+                    if($fluz == 'MFLUZ' && $info['payment']==2){
+                            $this->errors[] = Tools::displayError('Carga de Bonos Fluz solo en Pedido Gratituito');
+                            break;
+                    }
+                    
+                }
+                
+                if(strlen($this->errors[0])<=0){
+                    foreach ($products as $p){
+                            $product_quantity = explode(":", $p);
+                            $id_product = $product_quantity[0];
+                            $quantity = $product_quantity[1];
+
+                            $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
+                            $m_fluz = Db::getInstance()->executeS($query_m);
+                            $reference = $m_fluz[0]['reference'];
+                            $fluz = substr($reference, 0,5);
+
+                            if($fluz == 'MFLUZ'){
+                                $query_fluz = 'SELECT * FROM ps_product WHERE id_product = '.$id_product;
+                                $p_fluz = Db::getInstance()->executeS($query_fluz);
+                                $p_fluz[0]['quantity']= $quantity;
+
+                                array_push($product_fluz, $p_fluz);
+                            }
+                            else{
+                                $query_n = 'SELECT * FROM ps_product WHERE id_product = '.$id_product;
+                                $p_normal = Db::getInstance()->executeS($query_n);
+                                $p_normal[0]['quantity']= $quantity;
+
+                                array_push($products_normal, $p_normal);
+                            }
+                        }
+                
+                $array_products_fluz = array_map('current',$product_fluz);
+                $array_products_normal = array_map('current',$products_normal);
+                
+                if(!empty($array_products_fluz)){
+                    $cart_fluz = new Cart();
+                    $cart_fluz->id_customer = (int)$info['id_customer'];
+                    $cart_fluz->id_shop_group = 1;
+                    $cart_fluz->id_currency = Currency::getDefaultCurrency()->id;
+                    $cart_fluz->id_lang = (int)Configuration::get('PS_LANG_DEFAULT');
+                    $cart_fluz->secure_key = $key;
+
+                    $cart_fluz->add();
+                    
+                    foreach ($array_products_fluz as $p){
+                        $cart_fluz->updateQty($p['quantity'],$p['id_product']);
+                    }
+                    
+                    $payment = 'Pedido gratuito';
+                    $module = 'free_order';
+                    $state = 2;
+                    $paid = 0;
+                    $payment_module = Module::getInstanceByName('bankwire');
+                    $payment_module->validateOrder($cart_fluz->id, $state, $paid, $payment);
+                    
+                    // INSERT LOG IMPORT ORDERS
+                    $employee = new Employee((int)Context::getContext()->cookie->id_employee);
+                    Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."log_import_orders (id_cart, link_file, employee, status, payment, quantity, date_import)
+                                        VALUES (".$cart_fluz->id.",'".$this->context->cookie->csv_selected."', '".$employee->firstname." ".$employee->lastname."', 'Successful','".$payment."', ".$number_to_import.", NOW())");
+                    
+                }
+                if(!empty($array_products_normal)){
+                    $cart_normal = new Cart();
+                    $cart_normal->id_customer = (int)$info['id_customer'];
+                    $cart_normal->id_shop_group = 1;
+                    $cart_normal->id_currency = Currency::getDefaultCurrency()->id;
+                    $cart_normal->id_lang = (int)Configuration::get('PS_LANG_DEFAULT');
+                    $cart_normal->secure_key = $key;
+
+                    $cart_normal->add();
+                    
+                    foreach ($array_products_normal as &$p){
+                        $cart_normal->updateQty($p['quantity'],$p['id_product']);
+                    }
+                    
+                    if($info['payment']==1){
+                        $payment = 'Pedido gratuito';
+                        $module = 'free_order';
+                        $state = 2;
+                        $paid = 0;
+                        $payment_module = Module::getInstanceByName('bankwire');
+                        $payment_module->validateOrder($cart_normal->id, $state, $paid, $payment);
+                    }
+                    else{
+                        
+                        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants((int)$info['id_customer']);
+                        $sponsorships2=array_slice($sponsorships, 1, 15);
+                        
+                        foreach ($cart_normal->getProducts() as &$product_cart){
+                            $name .=  "<label>".$product_cart['name']."</label><br>";
+                            $quantity_p .=  "<label>".$product_cart['cart_quantity']."</label><br>";
+                            $price_unit .=  "<label>".$product_cart['price']."</label><br>";
+                            $price_total .=  "<label>".$product_cart['total']."</label><br>";
+                            
+                            $query_value = 'SELECT (rp.`value`/100) as value FROM '._DB_PREFIX_.'rewards_product rp WHERE id_product = '.$product_cart['id_product'];
+                            $row_v = Db::getInstance()->getRow($query_value);
+                            $value_porc = $row_v['value'];
+                            
+                            $reward = round(RewardsModel::getRewardReadyForDisplay($product_cart['total'], $this->context->currency->id)/(count($sponsorships2)+1));
+                            $r_point = floor($reward*$value_porc);
+                            $price_point .=  "<label>".$r_point."</label><br>";
+                        }
+                        
+                        $customer = new Customer($info['id_customer']);
+                        $mailVars = array(
+                            '{order_link}' => Context::getContext()->link->getPageLink('order', false, (int)$cart_normal->id_lang, 'step=3&recover_cart='.(int)$cart_normal->id.'&token_cart='.md5(_COOKIE_KEY_.'recover_cart_'.(int)$cart_normal->id)),
+                            '{username}' => $customer->username,
+                            '{quantity}' => $quantity_p,
+                            '{name_product}' => $name,
+                            '{points}' => $price_point,
+                            '{price_unit}' => $price_unit,
+                            '{price_total}' => $price_total,
+                            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        );
+                        $template = 'backoffice_order';
+                        $prefix_template = '16-backoffice_order';
+                        
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
+                        
+                        /*Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
+                        $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
+                        */
+                        $allinone_rewards = new allinone_rewards();
+                        $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL($message_subject), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
+        
+                    }
+                        // INSERT LOG IMPORT ORDERS
+                        $employee = new Employee((int)Context::getContext()->cookie->id_employee);
+                        Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."log_import_orders (id_cart, link_file, employee, status, payment, quantity, date_import)
+                                        VALUES (".$cart_normal->id.",'".$this->context->cookie->csv_selected."', '".$employee->firstname." ".$employee->lastname."', 'Successful','Tarjeta_credito', ".$number_to_import.", NOW())");
+                }
+                }
+            }
+        }
+            
+            // closes
+            $this->closeCsvFile($handle);
+        }
+        else {
+            $this->errors[] = "No es posible importar mas de 30 registros. Por favor validar y reducir la cantidad de registros.";
+        }
+        
     }
 
     protected function truncateTables($case)

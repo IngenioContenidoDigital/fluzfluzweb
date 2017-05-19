@@ -755,21 +755,28 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
                         $rowdisc = Db::getInstance()->getRow($qdiscount);
                         $discount = $rowdisc['total_discounts'];
                         $paid = $rowdisc['total_products'];
+                        $payment = $params['order']->payment;
+                        
+                        if($payment == 'Pedido gratuito'){
+                            $discount = $paid;
+                        }
                         
                         $porcentaje_desc = 1-($discount / $paid);
                         $paid_total = $discount - $paid;
-                        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+                        
+                        $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants((int)$params['customer']->id);
                         $sponsorships2=array_slice($sponsorships, 1, 15);
 			$reward = new RewardsModel();
 			$reward->id_customer = (int)$params['customer']->id;
 			$reward->id_order = (int)$params['order']->id;
+                        $reward->id_cart = (int)$params['cart']->id;
                         $reward->credits = round($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(count($sponsorships2)+1));
                         
                         if($discount > 0){
                             $reward->credits = round(($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/(count($sponsorships2)+1))*$porcentaje_desc);
                         }
-                        
-                        $qrorder="UPDATE "._DB_PREFIX_."rewards r SET r.id_order=".$reward->id_order." WHERE r.id_customer=".$reward->id_customer." AND r.id_order=0 AND r.id_cart=".$this->context->cart->id.' ORDER BY r.date_add DESC LIMIT 1';
+                         
+                        $qrorder="UPDATE "._DB_PREFIX_."rewards r SET r.id_order=".$reward->id_order." WHERE r.id_customer=".$reward->id_customer." AND r.id_order=0 AND r.id_cart=".$reward->id_cart.' ORDER BY r.date_add DESC LIMIT 1';
                         Db::getInstance()->execute($qrorder);
                         
 			$reward->plugin = $this->name;

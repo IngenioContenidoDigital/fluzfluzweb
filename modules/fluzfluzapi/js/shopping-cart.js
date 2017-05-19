@@ -8,9 +8,9 @@
 $('.action').on('click',function(){
     var pre1 = $('#pre1').val()
     var pre2 = $('#pre2').val()
-    var pre3 = $('#pre3').val()
+    //var pre3 = $('#pre3').val()
     
-    var valor = pre1+pre2+pre3
+    var valor = pre1+pre2//+pre3
     if((valor!="") && (valor.match(/^\d{10}$/))){
         var phone = valor;
         $.ajax({
@@ -23,7 +23,7 @@ $('.action').on('click',function(){
             success:function(response){
                 if(response=="success"){
                     $(".nuevo").val("");
-                    $("<option value='"+phone+"'>( "+phone.substring(0, 3)+' ) '+phone.substring(3, 6)+" - "+phone.substring(6, 10)+"</option>").insertAfter('#noselect');
+                    $("<option value='"+phone+"'>( "+phone.substring(0, 3)+' ) '+phone.substring(3, 10)/*+" - "+phone.substring(6, 10)*/+"</option>").insertAfter('#noselect');
                     $('.numero').first().focus();                        
                 }else{
                     alert(response)
@@ -63,7 +63,8 @@ $('#nextStep').on('click',function(e){
     })
     if(check){
         e.preventDefault();
-        alert("Debes TODOS los numeros a recargar");
+        $("#popup").modal();
+        $(".numero").css('border','solid red 1px');
         $('.numero').first().focus();
     }
 })
@@ -90,18 +91,18 @@ $('#pre1').keyup(function(e){
 });
 
 $('#pre2').keyup(function(e){
-    if($(this).val().length==3){
+    /*if($(this).val().length==3){
         $('#pre3').focus();
-    }
+    }*/
     if((e.keyCode==8 || e.keyCode==46) && ($(this).val()=="")){
         $('#pre1').focus();
     }
 });
-$('#pre3').keyup(function(e){    
+/*$('#pre3').keyup(function(e){    
     if((e.keyCode==8 || e.keyCode==46) && ($(this).val()=="")){
         $('#pre2').focus();
     }
-})
+})*/
 
 
 $('#pre1').focus(function(){

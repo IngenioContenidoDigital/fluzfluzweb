@@ -288,10 +288,10 @@
                                                                         {if $combinations} 
                                                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
                                                                             <div class="title-table-combinations row"> 
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
+                                                                                <div class="col-lg-3 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Valor en tienda'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-s" style="display:none;">{l s='Valor'}</div>
-                                                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title title-none">{l s='% Ahorro'}</div>
+                                                                                <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title title-none">{l s='% Ahorro'}</div>-->
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a recibir'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Price'}</div>
@@ -301,15 +301,15 @@
                                                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$list.price_shop r=$list.price}}
                                                                             <div class="content-table-combinations row"> 
                                                                                 <input type="hidden" value="{$list.id_attribute}" id="{$list.id_product}"/>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
+                                                                                <div class="col-lg-3 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;${$list.price_shop|number_format:0}</div>
-                                                                                {if $list.type_currency == 'COP' && $save_price > 0}
+                                                                                {*if $list.type_currency == 'COP' && $save_price > 0}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
                                                                                 {elseif $list.type_currency == 'USD' && $list.save_dolar > 0}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$list.save_dolar}%</div>
                                                                                 {else}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;"></div>
-                                                                                {/if}    
+                                                                                {/if*}    
                                                                                 {if $logged}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
                                                                                 {else}
@@ -614,11 +614,11 @@
                         <h1>{l s='INSTRUCCIONES BONO'|escape:'html':'UTF-8'}</h1>
                         <div class="border-title"></div>
 			<ul id="more_info_tabs" class="idTabs idTabsShort clearfix">
-				{if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
-                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
-				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
-                                {if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
+				{if $product->description_short}<li><a id="more_info_tab_instructions" href="#idTab20"><span>{l s='Gift Card Instructions'}</span></a></li>{/if}
 				{if $product->description_short && $count_address > 0}<li><a id="more_info_tab_instructions" href="#idTab22"><span>{l s='Direcciones'}</span></a></li>{/if}
+                                {if $product->description}<li class="first"><a id="more_info_tab_more_info" href="#idTab1"><span>{l s='Terms & conditions'}</span></a></li>{/if}
+                                {if $product_manufacturer->description}<li><a id="more_info_tab_manufacturer_info" href="#idTab21"><span>{l s='Manufacturer Information'}</span></a></li>{/if}
+				{*if $features}<li><a id="more_info_tab_data_sheet" href="#idTab2">{l s='Data sheet'}</a></li>{/if*}
                                 {*if $attachments}<li><a id="more_info_tab_attachments" href="#idTab9">{l s='Download'}</a></li>{/if*}
 				{*if isset($product) && $product->customizable}<li><a href="#idTab10">{l s='Product customization'}</a></li>{/if*}
 				{$HOOK_PRODUCT_TAB}
