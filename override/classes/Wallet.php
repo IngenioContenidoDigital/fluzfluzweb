@@ -25,7 +25,7 @@ class WalletCore extends ObjectModel
                         PP.price_shop AS price,
                         ROUND(PP.price) AS price_shop,
                         DATE_FORMAT(PO.date_add, '%d/%m/%Y') AS date,
-                        PP.expiration,
+                        DATE_FORMAT(PP.expiration, '%d/%m/%Y') AS expiration,
                         C.secure_key
                 FROM "._DB_PREFIX_."product_code PC
                 INNER JOIN "._DB_PREFIX_."order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id

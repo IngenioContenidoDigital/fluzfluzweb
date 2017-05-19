@@ -89,7 +89,7 @@ $(document).ready(function() {
 });
 
 function renderViewCard(key, card) {
-    $("#expiration").html( card.card_code );
+    $("#expiration").html( card.expiration );
     $("#value_original").html( "COP $ "+Math.round(card.price) );
     $("#value").html( "COP $ "+Math.round(card.price_shop) );
     $("#date_buy").html( card.date );
