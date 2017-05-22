@@ -288,11 +288,11 @@
                                                                         {if $combinations} 
                                                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$product->price_shop r=$productPrice}}
                                                                             <div class="title-table-combinations row"> 
-                                                                                <div class="col-lg-3 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-3 col-md-3 col-sm-3 item-list-title title-none">{l s='Aliado Fluz Fluz'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Cupo en Tienda'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-s" style="display:none;">{l s='Valor'}</div>
                                                                                 <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title title-none">{l s='% Ahorro'}</div>-->
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a recibir'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a ganar'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Price'}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title"></div>
@@ -301,7 +301,7 @@
                                                                             {assign var='save_price' value= {math equation='round(((p - r) / p)*100)' p=$list.price_shop r=$list.price}}
                                                                             <div class="content-table-combinations row"> 
                                                                                 <input type="hidden" value="{$list.id_attribute}" id="{$list.id_product}"/>
-                                                                                <div class="col-lg-3 col-md-2 col-sm-2 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
+                                                                                <div class="col-lg-3 col-md-3 col-sm-3 img-list title-none"><img src="{$img_manu_dir}{$list.id_manufacturer}.jpg" alt="{$list.name|lower|escape:'htmlall':'UTF-8'}" style="margin-right: 0px; padding-left: 10px;" title="{$list.name|lower|escape:'htmlall':'UTF-8'}" class="img-responsive"/></div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list">{$list.type_currency}&nbsp;${$list.price_shop|number_format:0}</div>
                                                                                 {*if $list.type_currency == 'COP' && $save_price > 0}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;">{$save_price}%</div>
@@ -311,9 +311,9 @@
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;"></div>
                                                                                 {/if*}    
                                                                                 {if $logged}
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
                                                                                 {else}
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/16)|string_format:"%d"}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/16)|string_format:"%d"}</div>
                                                                                 {/if}    
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list" style="color:#ef4136;">-&nbsp;{$list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list detail-style" >
@@ -360,11 +360,11 @@
                                                                         {elseif !$combinations}
                                                                             
                                                                             <div class="title-table-nocombinations row"> 
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Comerciante'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Valor en tienda'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 item-list-title title-none">{l s='Aliado Fluz Fluz'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Cupo en Tienda'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-s" style="display:none;">{l s='Valor'}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title title-none">{l s='% Ahorro'}</div>
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a recibir'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a ganar'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Price'}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title"></div>

@@ -14,12 +14,12 @@
 <div class="container wallet-container">
     <div class="row row1">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <label class="title title-line-bottom">cartera</label>&nbsp;&nbsp;<label class="title">móvil</label>
+            <label class="title title-line-bottom">B&oacute;veda</label>&nbsp;&nbsp;<label class="title">de C&oacute;digos</label>
         </div>
     </div>
     <div class="row row2">
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-            <p class="available-cards">Tarjetas Disponibles - <tt id="available-cards">{$cards|@count}</tt> Total</p>
+            <p class="available-cards">C&oacute;digos - <tt id="available-cards">{$cards|@count}</tt> Total</p>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 filter-view">
             <div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 cardcontainfo">
                     <label class="name-manufacturer">{$cards.0.manufacturer}</label>
-                    <p class="cardinfo">Vencimiento: <span id="expiration"></span></p>
+                    <p id="vencimiento" class="cardinfo">Vencimiento: <span id="expiration"></span></p>
                     <p class="cardinfo">Valor Original: <span id="value_original"></span></p>
                     <p class="cardinfo">Fecha Compra: <span id="date_buy"></span></p>
                 </div>
@@ -135,7 +135,7 @@
         </div>
     </div>
     <div class="row row6">
-        <label>¿No tienes los códigos que deseas? Haz compras en nuestra tienda para encontrar más de nuestros códigos asombrosos.</label>
+        <label>Necesitas m&aacute;s c&oacute;digos para ganar m&aacute;s Fluz?</label>
     </div>
     <div class="row row7 text-center">
         <label id="btnbuy">Comprar</label>
