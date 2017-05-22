@@ -3691,7 +3691,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
   .footer-container #footer h4.active:after { content: "\f056"; } }
 .footer-container #footer h4 a { color: #262A33; }
 .footer-container #footer ul li { padding-bottom: 5px; line-height: 30px; }
-.footer-container #footer ul li a { /*font-weight: 400;*/ font-size: 11.5px; color: #8e8e8e; text-transform: capitalize;  font-family: 'Open Sans' !important;}
+.footer-container #footer ul li a { /*font-weight: 400;*/ font-size: 11.5px; color: #8e8e8e; text-transform: capitalize;  font-family: 'Open Sans' !important; display: block;}
 .footer-container #footer #block_contact_infos { border-left: 1px solid #515151; }
 @media (max-width: 768px) { .footer-container #footer #block_contact_infos { border: none; } }
 .footer-container #footer #block_contact_infos > div { padding: 0 0 0 5px; }
