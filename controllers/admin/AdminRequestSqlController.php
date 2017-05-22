@@ -128,6 +128,7 @@ class AdminRequestSqlControllerCore extends AdminController
         $this->addRowAction('view');
         $this->addRowAction('edit');
         $this->addRowAction('delete');
+        $this->addRowAction('resend');
 
         return parent::renderList();
     }
@@ -288,7 +289,15 @@ class AdminRequestSqlControllerCore extends AdminController
             }
 
             $this->content .= $this->renderForm();
-        } elseif ($this->display == 'view') {
+        } 
+        else if ($this->display == 'resend' || $this->display == 'add') {
+            if (!$this->loadObject(true)) {
+                return;
+            }
+
+            $this->content .= $this->renderForm();
+        } 
+        elseif ($this->display == 'view') {
             // Some controllers use the view action without an object
             if ($this->className) {
                 $this->loadObject(true);

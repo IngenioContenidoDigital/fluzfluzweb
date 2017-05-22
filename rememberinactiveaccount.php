@@ -2,7 +2,8 @@
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
-require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+include_once('./modules/allinone_rewards/models/RewardsModel.php');
+include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 $execute_kickout = false;
 
@@ -59,8 +60,6 @@ foreach ( $customers as $key => &$customer ) {
         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = ".($purchases < 2 ? '1' : '0')." WHERE id_customer = ".$customer['id_customer']);
     }
     
-    
-
     $subject = $message_1 = $message_2 = $message_3 = "";
     $template = 'remember_inactive_account';
     switch ( $customer['days_inactive'] ) {
@@ -137,8 +136,18 @@ foreach ( $customers as $key => &$customer ) {
 
         if ( $customer['days_inactive'] != "NULL" ) {
             
+            $file = _PS_ROOT_DIR_ . '/Flyers-O-s.pdf';
+            $file_attachement[0]['content'] = file_get_contents($file);
+            $file_attachement[0]['name'] = 'Informacion fluzfluz.pdf';
+            $file_attachement[0]['mime'] = 'application/pdf';
+
+            $file = _PS_ROOT_DIR_ . '/guiarapidaFluz-O.pdf';
+            $file_attachement[1]['content'] = file_get_contents($file);
+            $file_attachement[1]['name'] = 'Guia Rapida Fluz Fluz.pdf';
+            $file_attachement[1]['mime'] = 'application/pdf';
+            
             $allinone_rewards = new allinone_rewards();
-            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($subject), $vars, $customer['email'],$customer['username']);
+            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($subject), $vars, $customer['email'],$customer['username'], $file_attachement);
                 
             /*Mail::Send(
                 Context::getContext()->language->id,

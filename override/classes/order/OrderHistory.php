@@ -321,6 +321,7 @@ class OrderHistory extends OrderHistoryCore
 				LEFT JOIN `'._DB_PREFIX_.'order_state` os ON oh.`id_order_state` = os.`id_order_state`
 				LEFT JOIN `'._DB_PREFIX_.'order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = o.`id_lang`)
 			WHERE oh.`id_order_history` = '.(int)$this->id.' AND os.`send_email` = 1');
+        
         if (isset($result['template']) && Validate::isEmail($result['email'])) {
             ShopUrl::cacheMainDomainForShop($order->id_shop);
 
@@ -369,11 +370,25 @@ class OrderHistory extends OrderHistoryCore
                 } else {
                     $file_attachement = null;
                 }
+                if($result['id_order_state']!=8){
+                    if (!Mail::Send((int)$order->id_lang, $result['template'], $topic, $data, $result['email'], $result['firstname'].' '.$result['lastname'],
+                        null, null, $file_attachement, null, _PS_MAIL_DIR_, false, (int)$order->id_shop)) {
+                        return false;
+                    }
+               }
+               else {
+                   
+                   $template = 'payment_error';
+                   $prefix_template = '16-payment_error';
 
-                if (!Mail::Send((int)$order->id_lang, $result['template'], $topic, $data, $result['email'], $result['firstname'].' '.$result['lastname'],
-                    null, null, $file_attachement, null, _PS_MAIL_DIR_, false, (int)$order->id_shop)) {
-                    return false;
-                }
+                   $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                   $row_subject = Db::getInstance()->getRow($query_subject);
+                   $message_subject = $row_subject['subject_mail'];
+
+                   $allinone_rewards = new allinone_rewards();
+                   $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $result['email'], $result['firstname'].' '.$result['lastname']);
+
+               }
             }
 
             ShopUrl::resetMainDomainCache();
