@@ -53,7 +53,7 @@ class stateaccountController extends FrontController {
             '{fech_estado_cuenta}' => $num_orders['fecha_actual'],
             '{fluz_ganada_user}' => round($num_orders['points']),
             '{cop_valor_de_fluz_user}' =>Tools::displayPrice($val_fluz_user, $this->context->currency, false),
-            '{mejor_fluz_ganada}' => $topPoint[0]['points'],
+            '{mejor_fluz_ganada}' => round($topPoint[0]['points']),
             '{mejor_cop_valor_de_fluz}' => Tools::displayPrice($val_fluz_top, $this->context->currency, false),
         );
         
@@ -67,7 +67,7 @@ class stateaccountController extends FrontController {
             $message_subject = $row_subject['subject_mail'];
             
             $allinone_rewards = new allinone_rewards();
-            $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mail_vars, 'daniel.gonzalez@ingeniocontenido.co', $this->context->customer->firstname.' '.$this->context->customer->lastname);
+            $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mail_vars, $email, $this->context->customer->firstname.' '.$this->context->customer->lastname);
         
         }
         $this->setTemplate(_PS_THEME_DIR_.'stateAccount.tpl');
