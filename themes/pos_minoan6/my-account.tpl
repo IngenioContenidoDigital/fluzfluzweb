@@ -53,8 +53,8 @@
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
             <div class="detail-support">
-                <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">Aprende c&oacute;mo redimir tus bonos c&oacute;digos</p></a>
-                <a href="http://reglas.fluzfluz.co"><p><strong style="font-size: 15px;font-family: 'Capitalized';font-weight: bold;">VER LAS REGLAS DE FLUZ FLUZ</strong></p></a>
+                <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">Aprende c&oacute;mo redimir tus c&oacute;digos</p></a>
+                <a class="btn btn-default btn-account" href="http://reglas.fluzfluz.co"><span style="cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;">{l s="Preguntas Frecuentes"}</span></a>
             </div>
         </div>
     </div>
@@ -199,7 +199,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><span class="information">{l s='Fluz Otorgados:'} </span><span class="data">{if $member.points != ""}{$member.points|number_format:0:".":","}{else}0{/if}</span></td>
+                                            <td colspan="2"><span class="information">{l s='Fluz Ganados:'} </span><span class="data">{if $member.points != ""}{$member.points|number_format:0:".":","}{else}0{/if}</span></td>
                                             <td>
                                                 {if $member.pendingsinvitation != 0}
                                                     <span class="data pendingsinvitation">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>
