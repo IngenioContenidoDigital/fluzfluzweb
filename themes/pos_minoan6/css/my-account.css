@@ -361,6 +361,8 @@ display:inline-block;
     .banner-advertencia-awesome p {line-height: 31px;}
     .banner-advertencia-month{height: 35px;}
     .banner-advertencia-month p {line-height: 31px;}
+    .titleFAQ{text-align: center;}
+    .detail-support{text-align: center;}
 }
 
 @media (max-width:425px){

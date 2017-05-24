@@ -86,6 +86,11 @@
             </div>
                     <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga" class="icon-refresh icon-white"></i></button>
         </div>
+        {literal}
+            <style>
+                .fancybox-outer{height: 400px !important;}
+            </style>
+        {/literal}
         <div class="block-messages col-lg-6 col-md-6 col-sm-6">
             <h2>{l s='My Messages'}</h2>
             <input type="text" name="searchmessage" id="searchmessage" class="textsearch" placeholder="{l s='Search member'}" value="{$searchmessage}"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
