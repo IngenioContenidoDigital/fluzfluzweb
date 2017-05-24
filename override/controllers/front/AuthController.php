@@ -25,6 +25,7 @@
 */
 
 require_once(_PS_MODULE_DIR_ . 'bankwire/bankwire.php');
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 
 class AuthController extends AuthControllerCore
 {
@@ -714,21 +715,32 @@ class AuthController extends AuthControllerCore
     protected function sendConfirmationMail(Customer $customer)
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
-            return true;
-        }
-        return Mail::Send(
-            $this->context->language->id,
-            'account',
-            Mail::l('Welcome!'),
-            array(
+        
+        $vars = array(
                 '{username}' => $customer->username,
+                '{password}' => Tools::getValue("passwd"),
                 '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
-                '{email}' => $customer->email,
-                '{passwd}' => Tools::getValue('passwd')),
-            $customer->email,
-            $customer->firstname.' '.$customer->lastname
-        );
+                '{dni}' => $customer->dni,
+                '{birthdate}' => $customer->birthday,
+                '{address}' => Tools::getValue("address1"),
+                '{phone}' => Tools::getValue("phone_mobile"),
+                '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                '{learn_more_url}' => "http://reglas.fluzfluz.co",
+            );
+        
+                $template = 'welcome_fluzfluz';
+                $prefix_template = '16-welcome_fluzfluz';
+
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                $row_subject = Db::getInstance()->getRow($query_subject);
+                $message_subject = $row_subject['subject_mail'];
+
+                $allinone_rewards = new allinone_rewards();
+                $allinone_rewards->sendMail($this->context->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer->email, $customer->firstname.' '.$customer->lastname);
+            }
     }
     
     protected function sendNotificationSponsor( $id_customer )

@@ -919,15 +919,25 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
-
-                        Mail::Send(
+                        
+                        $template = 'welcome_fluzfluz';
+                        $prefix_template = '16-welcome_fluzfluz';
+                        
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
+                        
+                        $allinone_rewards = new allinone_rewards();
+                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer->email, $customer->firstname.' '.$customer->lastname);
+        
+                        /*Mail::Send(
                             Context::getContext()->language->id,
                             'welcome_fluzfluz',
                             'Bienvenido a FluzFluz',
                             $vars,
                             $customer->email,
                             $customer->firstname
-                        );
+                        );*/
                     }
                 }
             }
