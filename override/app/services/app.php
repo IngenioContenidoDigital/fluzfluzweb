@@ -141,6 +141,7 @@ class API extends REST {
     //Instancia de objetos.
     $context = Context::getContext();
     $link = new Link();
+    $model =  new Model();
     
     //Si la busqueda es por tienda, Busqueda 1
     if( $option == 1 ){
@@ -170,11 +171,10 @@ class API extends REST {
     }
     else if ( $option == 3 ){
       $productChild = $search['result'];
-//      error_log("\n*****************************************\n\nsearch: \n\n".print_r($search,true),3,"/tmp/error.log");
       for ($i = 0; $i < count($productChild); $i++){
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
-        $productChild[$i]['c_win_fluz'] = round( ( $productChild[$i]['c_price'] * ( $productChild[$i]['c_price'] / 100 ) )/ 25 );
+        $productChild[$i]['c_win_fluz'] = round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) );
         $productChild[$i]['c_price_fluz'] = round( $productChild[$i]['c_price'] / 25 );
         
       }
@@ -678,56 +678,64 @@ class API extends REST {
     }
 	
 
-    private function costoEnvio()
-    {
-	if ($this->get_request_method() != "GET") {
-		$this->response('', 406);
-	} 
-	$id_city = $this->_request['id_city'];
-
-	$model = new Model();
-
-	return $this->response(json_encode($model->get_costo_envio($id_city)),200);		
+   
+  /**
+   * AddVoucher 
+   */
+  private function cart() {
+    
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
     }
     
-    /**
-     * AddVoucher 
-     */
-    private function cart()
-    {
-      if($this->get_request_method() != "POST") {
-        $this->response('',406);
-      }
+    if (isset($this->_request['option']) && !empty($this->_request['option'])) {
+      $option = $this->_request['option'];
+    }
+    
+    if (isset($this->_request['idCustomer']) && !empty($this->_request['idCustomer'])) {
+      $context->customer = new Customer((int) $this->_request['idCustomer']);
+    }
+    
+    $model = new Model();
+    $link = new Link();
+    
+    error_log("\nEn App: -- Option: ".print_r($option,true),3,"/tmp/error.log");
+    //Agrega al carrito
+    if ( $option == 1 ){
       $requestData = array(
+        'idCart' => 0,
         'idProduct' => 0,
-        'option' => 1
+        'qty' => 1,
+        'op' => 'down'
       );
+    
       foreach ($requestData as $rqd => $value) {
         ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
       }
       
-      error_log("\n\nEsto es lo que recibe: ".print_r($idProduct,true),3,"/tmp/error.log");
-      error_log("\nEsto es lo que recibe: ".print_r($option,true),3,"/tmp/error.log");
-            
-      $this->response($this->json(array(
-        'success' => true,
-        'message' => 'Si estoy llegando, y obtengo: idProduct: '.$idProduct.' option: '.$option
-      )), 200);
-      
-      
-
-      $param['products'] = 		$this->_request['products'];
-      $param['id_customer'] = 	$this->_request['id_customer'];
-      $param['discounts'] = 		$this->_request['discounts'];
-      $param['deleteDiscount'] = 	$this->_request['deleteDiscount'];
-      $param['id_address'] = 		$this->_request['id_address'];
-      $param['msg'] = 			$this->_request['msg'];
-      $param['id_cart'] = 		($this->_request['id_cart'] > 0 ? $this->_request['id_cart'] : NULL);
-      $param['clear'] = 		(!empty($this->_request['clear'])  ? (boolean) $this->_request['clear'] : FALSE);
-
-      $model = new Model();
-      $this->response($this->json($model->cart($param['products'],$param['id_customer'],$param['id_address'],$param['discounts'],$param['deleteDiscount'],$param['msg'],$param['id_cart'],$param['clear'])),200);
+      error_log("\nEn App: -- Option: ".print_r($idCart." - ".$idProduct." - ".$qty." - ".$op,true),3,"/tmp/error.log");
+      $cart = $model->setCart($idCart, $idProduct, $qty, $op);      
     }
+    //Actualiza carrito
+    else if( $option == 2 ){
+      $cartData = $this->_request['cart'];
+      $cart = $model->updateAllProductQty( $cartData );
+    }
+      
+    if (!is_array($cart)) {
+      $this->response($this->json(array(
+        'success' => false,
+        'message' => $cart
+      )), 400);
+    }
+    
+    foreach ($cart['products'] as &$product) {
+      $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
+    }
+    
+    $this->response($this->json($cart), 200);
+  }
+        
     
     /**
      * 

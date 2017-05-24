@@ -3,7 +3,7 @@
 include(dirname(__FILE__) . '/../../../config/config.inc.php');
 include(dirname(__FILE__) . '/../../../init.php');
 
-class Model extends PaymentModule {
+class ModelAas extends PaymentModule {
 
   private $errors = array();
   public $context;
@@ -445,7 +445,7 @@ class Model extends PaymentModule {
    *        opciones: down | up
    * @return boolean | string | array
    */
-  public function setCart($idCart = 0, $idProduct = 0, $qty = 0, $op = 'down') {
+  public function setCartasdasdasdsadsa($idCart = 0, $idProduct = 0, $qty = 0, $op = 'down') {
     $product = new Product($idProduct, true, $this->context->language->id);
     if (!$product->id || !$product->active || !$product->checkAccess($this->context->customer->id)) {
       return Tools::displayError('This product is no longer available');

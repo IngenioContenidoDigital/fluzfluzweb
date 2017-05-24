@@ -1495,4 +1495,160 @@ return $responseObj;
 
 }
 
+
+
+
+
+  /**
+   * Agrega/Actualiza el carrito por producto
+   *
+   * @param idCart number identificador del carrito
+   * @param idProduct number identificador del producto
+   * @param qty number cantidad del producto
+   * @param op string aumenta o resta la cantidad del producto
+   *        opciones: down | up
+   * @return boolean | string | array
+   */
+  public function setCart($idCart = 0, $idProduct = 0, $qty = 0, $op = 'down') {
+    $product = new Product($idProduct, true, $this->context->language->id);
+    if (!$product->id || !$product->active || !$product->checkAccess($this->context->customer->id)) {
+      return Tools::displayError('This product is no longer available');
+    }
+    
+    // Agrega el carrito si no hay ningún carro encontrado
+    if ( !$idCart ) {
+      $this->context->cart = new Cart();
+      $this->context->cart->id_currency = Configuration::get('PS_CURRENCY_DEFAULT');
+      $this->context->cart->add();
+    } else {
+      $this->context->cart = new Cart((int) $idCart);
+    }
+
+    if ($this->context->cart->id){
+      $this->context->cookie->id_cart = (int) $this->context->cart->id;
+    }
+    
+    // Agrga el producto al carrito
+    $update_quantity = $this->context->cart->updateQty($qty, $idProduct);
+//    error_log("\n\nCarro: \n\n".print_r($this->context->cart->getProducts(), true),3,"/tmp/error.log"); 
+    if ($update_quantity < 0) {
+      // If product has attribute, minimal quantity is set with minimal quantity of attribute
+      return Tools::displayError(sprintf('You must add %d minimum quantity', $product->minimal_quantity));
+    } elseif (!$update_quantity) {
+      return Tools::displayError('You already have the maximum quantity available for this product.');
+    }
+
+    CartRule::autoRemoveFromCart();
+    CartRule::autoAddToCart();
+    
+
+    error_log("\nEn Model: -- this->getCart(this->context->cart->id): ".print_r($this->getCart($this->context->cart->id),true),3,"/tmp/error.log");
+    return $this->getCart($this->context->cart->id);
+  }
+  
+  
+  /**
+   * Obtiene el carrito por id
+   *
+   * @param id número identificador del carrito
+   * @return boolean | array
+   */
+  public function getCart($id = 0) {
+    $this->context->cart = new Cart((int) $id);
+    if (empty($this->context->cart->id)) {
+      return false;
+    }
+    $priceDisplay = 0;
+    // Actualiza el carrito con el ID del cliente
+    if ((isset($this->context->customer->id) || !empty($this->context->customer->id)) && empty($this->context->cart->id_customer)) {
+      $this->context->cart->id_customer = (int) $this->context->customer->id;
+      $this->context->cart->update();
+      $priceDisplay = Product::getTaxCalculationMethod((int) $this->context->customer->id);
+    }
+    //error_log("\n\nCarro: \n\n".print_r($this->context->cart, true),3,"/tmp/error.log");
+
+    $priceDisplay = Product::getTaxCalculationMethod((int) $this->context->customer->id);
+    $cart_product_context = Context::getContext()->cloneContext();
+
+    $link = new Link();
+    $products = $this->context->cart->getProducts();
+    $quantity = 0;
+    $total_fluz = 0;
+    for ($i = 0; $i < count($products); $i++) {
+      $cover = Product::getCover($products[$i]['id_product'], $this->context);
+      $products[$i]['id_image'] = (int) $cover['id_image'];
+      $products[$i]['image'] = $link->getImageLink($products[$i]['link_rewrite'], $cover['id_image'], 'medium_default');
+      $products[$i]['format_price'] = Product::convertAndFormatPrice($products[$i]['price']);
+      $products[$i]['format_price_wt'] = Product::convertAndFormatPrice($products[$i]['price_wt']);
+      $products[$i]['format_total'] = Product::convertAndFormatPrice($products[$i]['total']);
+      $products[$i]['format_total_wt'] = Product::convertAndFormatPrice($products[$i]['total_wt']);
+      $products[$i]['price_without_specific_price'] = Product::getPriceStatic(
+      $products[$i]['id_product'], !Product::getTaxCalculationMethod(), $products[$i]['id_product_attribute'], 6, null, false, false, 1, false, null, null, null, $null, true, true, $cart_product_context);
+      $products[$i]['format_price_without_specific_price'] = Product::convertAndFormatPrice($products[$i]['price_without_specific_price']);
+      $products[$i]['points'] = round( $this->getPoints( $products[$i]['id_product'], $products[$i]['price'] ) * $products[$i]['quantity'] );
+      $products[$i]['price_in_points'] = round( $this->getPriceInPoints( $products[$i]['price'] ) * $products[$i]['quantity'] );
+      $product = new Product($products[$i]['id_product']);
+      $products[$i]['price_shop'] = round( $product->price_shop * $products[$i]['quantity'] );
+      $quantity += $products[$i]['cart_quantity'];
+      $total_fluz += $products[$i]['points'];
+      $total_price_in_points += $products[$i]['price_in_points'];
+      $total_price_shop += $products[$i]['price_shop'];
+    }
+
+    return array(
+      'id' => (int) $this->context->cart->id,
+      'date_add' => $this->context->cart->date_add,
+      'date_upd' => $this->context->cart->date_upd,
+      'discounts' => $this->context->cart->getDiscounts(),
+      'total_discounts' => $this->context->cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS),
+      'products' => $products,
+      'quantity' => $quantity,
+      'total_fluz' => $total_fluz,
+      'total_price_shop' => $total_price_shop,
+      'total_savings_in_value' => ( $total_price_shop - $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) ),
+      'total_savings_in_percent' => round( ( ( $total_price_shop - $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS)) * 100 ) / $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) ),
+      'total_price_in_points' => $total_price_in_points,
+      'priceDisplay' => Product::getTaxCalculationMethod((int) $this->context->customer->id),
+      'use_taxes' => (int) Configuration::get('PS_TAX'),
+      'order_total' => $this->context->cart->getOrderTotal(),
+      'format_order_total' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal()),
+      'total_products' => $this->context->cart->getOrderTotal(false, Cart::ONLY_PRODUCTS),
+      'total_products_wt' => $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS),
+      'format_total_products' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal(false, Cart::ONLY_PRODUCTS)),
+      'format_total_products_wt' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS))
+    );
+  }
+
+  
+  public function getPoints( $id_product, $price_product ) {
+    $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+    $price = RewardsProductModel::getProductReward( $id_product, $price_product, 1, $this->context->currency->id );
+    $sponsorships2=array_slice($sponsorships, 1, 15);
+    return round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+  }
+  
+  public function getPriceInPoints( $price ){
+    return ($price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'));
+  }
+  
+  public function updateAllProductQty( $cartData ) {
+    $this->context->cart = new Cart((int) $cartData['id']);
+    error_log("Este es el carro a actualizar: ".print_r($this->context->cart, true),3,"/tmp/error.log");
+    foreach ($cartData['products'] as $product) {
+      $this->context->cart->updateQty(0, $product['id_product'], null, false, 'down');
+      if( $product['quantity'] <= (int)$product['quantity_available'] ){
+        $this->context->cart->updateQty($product['quantity'], $product['id_product']);        
+      }
+      else{
+        $this->context->cart->updateQty((int)$product['quantity_available'], $product['id_product']);      
+      }
+    }
+    
+    return $this->getCart($this->context->cart->id);
+       
+  }
+  
+  
+  
+  
 }
