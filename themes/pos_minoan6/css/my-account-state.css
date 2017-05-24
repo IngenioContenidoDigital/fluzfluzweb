@@ -41,3 +41,15 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+@media (max-width:424px){
+    
+    .item-list-account{text-align: left;}
+    .p-btn{text-align: left;}
+    .t-net{font-size: 12px;}
+    .t-act{font-size: 12px;}
+    .t-second{font-size: 16px;}
+    .data-r{font-size: 12px; padding: 0px;}
+    
+    
+}
