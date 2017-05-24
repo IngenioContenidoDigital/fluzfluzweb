@@ -44,6 +44,10 @@ class Customer extends CustomerCore
     /** @var string autoaddnetwork number */
     public $autoaddnetwork;
     
+    public $date_kick_out;
+
+    public $warning_kick_out;
+    
     public static $definition = array(
         'table' => 'customer',
         'primary' => 'id_customer',
