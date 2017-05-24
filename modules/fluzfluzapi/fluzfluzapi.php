@@ -163,7 +163,14 @@ PRIMARY KEY (`id_webservice_external_log`))";
                         $insert ="INSERT INTO "._DB_PREFIX_."webservice_external_log (id_webservice_external, id_order, id_product, mobile_phone, action, request, response_code, response_message, date_add, date_upd) "
                             . "VALUES ('".$product['id_webservice_external']."', '".$params['id_order']."', '".$product['id_product']."', '".$number['phone_mobile']."', 'http://api.movilway.net/schema/extended/IExtendedAPI/TopUp', '".$sclient->request."', '".(int)$response['responsecode']."', '".$response['responsemessage']."', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."')";
                         if((int)$response['responsecode']==0){
-                            $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$product['id_product']."', '".$number['phone_mobile']."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
+                            $chainsql="SELECT "._DB_PREFIX_."customer.id_customer, "._DB_PREFIX_."customer.secure_key 
+                    FROM "._DB_PREFIX_."webservice_external_log INNER JOIN "._DB_PREFIX_."orders ON "._DB_PREFIX_."webservice_external_log.id_order = "._DB_PREFIX_."orders.id_order INNER JOIN "._DB_PREFIX_."customer ON "._DB_PREFIX_."orders.id_customer = "._DB_PREFIX_."customer.id_customer 
+                        WHERE "._DB_PREFIX_."webservice_external_log.id_order =".$params['id_order'];
+                            $chainrow= Db::getInstance()->getRow($chainsql);
+                            
+                            $chain=Encrypt::encrypt($chainrow['secure_key'] , $number['phone_mobile']);
+                            
+                            $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$product['id_product']."', '".$chain."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
                             Db::getInstance()->execute($code);
                         }
                     }else{

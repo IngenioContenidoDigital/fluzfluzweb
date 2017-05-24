@@ -26,7 +26,17 @@ function executePending(){
                 }
             }
             if((int)$response['responsecode']==0){
-                $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$request['id_product']."', '".$request['phone_mobile']."', '".$request['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
+                
+                $chainsql="SELECT "._DB_PREFIX_."customer.id_customer, "._DB_PREFIX_."customer.secure_key 
+                    FROM "._DB_PREFIX_."webservice_external_log INNER JOIN "._DB_PREFIX_."orders ON "._DB_PREFIX_."webservice_external_log.id_order = "._DB_PREFIX_."orders.id_order INNER JOIN "._DB_PREFIX_."customer ON "._DB_PREFIX_."orders.id_customer = "._DB_PREFIX_."customer.id_customer 
+                        WHERE "._DB_PREFIX_."webservice_external_log.id_order =".$request['id_order'];
+                $chainrow= Db::getInstance()->getRow($chainsql);
+                            
+                $chain=Encrypt::encrypt($chainrow['secure_key'] , $request['mobile_phone']);
+                
+                
+                
+                $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$request['id_product']."', '".$chain."', '".$request['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
                 Db::getInstance()->execute($code);
             }
             $update ="UPDATE "._DB_PREFIX_."webservice_external_log SET response_code='".(int)$response['responsecode']."', response_message='".$response['responsemessage']."', date_upd='".date('Y-m-d H:i:s')."' WHERE id_webservice_external_log=".$request['id_webservice_external_log'];
