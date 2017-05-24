@@ -1,6 +1,6 @@
         
         
-        
+        Estado de Cuenta Mensual
         
          
         
@@ -22,8 +22,8 @@
 
 
 
-
 Hola {username}, 
+
 
 
 
@@ -44,8 +44,9 @@ Explore su estado de cuenta mensual.
 
 
 
+
 &nbsp;
-Tamaño de network:
+Tama&ntilde;o de network:
 &nbsp;
 
 
@@ -239,8 +240,6 @@ Tamaño de network:
 
 
 &nbsp;
- Bonos compradas:
-&nbsp;
 
 
 
@@ -250,7 +249,7 @@ Tamaño de network:
 
 
 &nbsp;
- {bonos_compradas} 
+
 &nbsp;
 
 
@@ -264,12 +263,7 @@ Tamaño de network:
 
 
 
-
-
-
-
- Compare su rendimiento
-
+Compare su rendimiento
 
 
 
@@ -278,20 +272,7 @@ Tamaño de network:
 
 
 
-
-
-	Tu Actuación 
-
-
-
-
-
-
-
-
-
-
-
+Tu Actuaci&oacute;n
 
 
 
@@ -354,21 +335,7 @@ Tamaño de network:
 
 
 
-
-
-
-
-
-
-
-
-
 Mejor rendimiento en toda la network
-
-
-
-
-
 
 
 
@@ -424,6 +391,17 @@ Mejor rendimiento en toda la network
 
 
 
+
+
+COMPRA AHORA
+
+
+
+
+
+
+
+Recomendado&nbsp;BONOS
 
 
 
