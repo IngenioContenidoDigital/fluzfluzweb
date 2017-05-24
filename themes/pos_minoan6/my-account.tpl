@@ -25,7 +25,7 @@
 
 {capture name=path}{l s='My account'}{/capture}
 <div class="row page-heading">
-    <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s='mis bonos'}</h1>
+    <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">mis c&oacute;digos</h1>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-design">
         <a class="btn btn-default btn-account" href="/content/6-categorias">{l s="Comprar"}</a>
     </div>
@@ -43,7 +43,7 @@
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name|truncate:20:"...":true}</span></div>
                     </div>
                     <div class="col-lg-6 col-md-7 col-sm-12 col-xs-6 priceCard">
-                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp;{l s=' Cards'}</span></div>
+                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp; C&oacute;digos</span></div>
                         <div class="col-lg-6 col-md-12 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
                     </div>
                 </div>
@@ -53,8 +53,8 @@
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
             <div class="detail-support">
-                <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">Aprende c&oacute;mo redimir tus bonos digitales</p></a>
-                <a href="http://reglas.fluzfluz.co"><p><strong style="font-size: 15px;font-family: 'Capitalized';font-weight: bold;">VER LAS REGLAS DE FLUZ FLUZ</strong></p></a>
+                <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">Aprende c&oacute;mo redimir tus c&oacute;digos</p></a>
+                <a class="btn btn-default btn-account" href="http://reglas.fluzfluz.co"><span style="cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;">{l s="Preguntas Frecuentes"}</span></a>
             </div>
         </div>
     </div>
@@ -77,18 +77,19 @@
             <li><a href="{$link->getPageLink('order-follow', true)|escape:'html':'UTF-8'}" title="{l s='Merchandise returns'}"><i id="boton-carga" class="icon-refresh"></i><span>{l s='My merchandise returns'}</span></a></li>
         {/if}
         <!--<li><a href="{$link->getPageLink('order-slip', true)|escape:'html':'UTF-8'}" title="{l s='Credit slips'}"><i class="icon-file-o"></i><span>{l s='My credit slips'}</span></a></li>-->
-        <li><a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Orders'}"><img src="{$img_dir}icon/orderList.png" class="imgSponsor" /><span class="spanSponsor">{l s='Order history and details'}</span></a></li>
+        <li><a href="{$link->getPageLink('history', true)|escape:'html':'UTF-8'}" title="{l s='Orders'}"><img src="{$img_dir}icon/orderList.png" class="imgSponsor" /><span class="spanSponsor">{l s='Historial de Compras'}</span></a></li>
         <!--<li><a href="{$link->getPageLink('addresses', true)|escape:'html':'UTF-8'}" title="{l s='Addresses'}"><i class="icon-building"></i><span>{l s='My addresses'}</span></a></li>-->
         <li><a href="{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}" title="{l s='Information'}"><img src="{$img_dir}icon/rewards.png" class="imgSponsor" /><span class="spanSponsor">{l s='My personal information'}</span></a></li>
         {if $grupo == 4}
-        <li><a href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s='Redimir tus Fluz'}</span></a></li>
+        <li><a href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Redimir tus Fluz en efectivo'}</span></a></li>
+        <li><a href="{$link->getPageLink('stateaccount', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/statics.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Estado de Cuenta'}</span></a></li>
         {/if}
         </ul>
     </div>
 {if $voucherAllowed || isset($HOOK_CUSTOMER_ACCOUNT) && $HOOK_CUSTOMER_ACCOUNT !=''}
     <div class="col-xs-12 col-md-4 col-sm-6 col-lg-4 block_b" style="padding-left:0px; padding-right: 0px;">
         <ul class="myaccount-link-list">
-            <li><a href="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" title="{l s='Vouchers'}"><img src="{$img_dir}icon/network.png" class="imgSponsor" /><span class="spanSponsor">{l s='My Network'}</span></a></li>
+            <li><a href="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" title="{l s='Vouchers'}"><img src="{$img_dir}icon/network.png" class="imgSponsor" /><span class="spanSponsor">{l s='Mi Network Completo'}</span></a></li>
             {$HOOK_CUSTOMER_ACCOUNT}
             <li><a href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out'}"><img src="{$img_dir}icon/signOut.png" class="imgSponsor" style="padding:0;"/><span class="spanSponsor">{l s='Sign out'}</span></a></li>
         </ul>
@@ -97,9 +98,9 @@
     <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
         <p class="titleFAQ">{l s='Need Support?'}</p>
         <div class="detail-support">
-            <a href="http://reglas.fluzfluz.co"><p>{l s='Add a Credit or Debit Card'}</p></a>
-            <a href="http://reglas.fluzfluz.co"><p>{l s='Change Email or Password'}</p></a>
-            <a href="http://reglas.fluzfluz.co"><p>{l s='Learn About the Network'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">{l s='Add a Credit or Debit Card'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">{l s='Change Email or Password'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">{l s='Learn About the Network'}</p></a>
         </div>    
     </div>
 </div>
@@ -142,7 +143,7 @@
                                 {/if}
                             </div>
                             <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 pointstitlemnf">
-                                <span style="font-size:11px;">{l s='Fluz Recibidos: '}</span><span class="pointsmnf">&nbsp;{$credits|number_format:0:".":","}</span>
+                                <span style="font-size:11px;">{l s='Fluz Ganados: '}</span><span class="pointsmnf">&nbsp;{$credits|number_format:0:".":","}</span>
                             </div>
                         </div>
                         <div class="row" style="padding: 5px;">
@@ -199,7 +200,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><span class="information">{l s='Fluz Otorgados:'} </span><span class="data">{if $member.points != ""}{$member.points|number_format:0:".":","}{else}0{/if}</span></td>
+                                            <td colspan="2"><span class="information">{l s='Fluz Ganados:'} </span><span class="data">{if $member.points != ""}{$member.points|number_format:0:".":","}{else}0{/if}</span></td>
                                             <td>
                                                 {if $member.pendingsinvitation != 0}
                                                     <span class="data pendingsinvitation">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>

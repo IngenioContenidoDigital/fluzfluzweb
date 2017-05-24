@@ -1,0 +1,55 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
+
+#right_column{display:none;}
+.img-accountstate{width: 100%;}
+.text-title{text-align: center;color: #ef4136;font-size: 30px;margin-top: 60px;}
+.p-state{text-align: center; color: #000; font-size: 14px;}
+.bck-stats{background: #f4f4f4;}
+.item-list-account{font-weight:bold;color:#000;}
+.margin-div{margin-bottom: 50px;}
+.t-second{text-align: center; color: #000;margin: auto;font-family: 'Open Sans', 'Helvetica Neue';font-weight: 400;}
+.t-act{text-align: right;
+    padding-bottom: 0px;
+    padding-right: 15px;
+    color: red;
+    font-weight: 400;
+    margin-bottom: 40px;}
+
+.t-net{text-align: right;
+    padding-bottom: 0px;
+    padding-right: 15px;
+    color: red;
+    font-weight: 400;
+    margin-top: 40px;
+    margin-bottom: 40px;}
+
+.data-r{text-align: center;}
+.btn-state-account{
+    font-size: 12px;
+    font-family: 'Montserrat';
+    font-weight: lighter;
+    letter-spacing: 1px;
+    color: #fff;
+    border: none;
+    background: #ef4136;
+}
+
+.div-btn-mail{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media (max-width:424px){
+    
+    .item-list-account{text-align: left;}
+    .p-btn{text-align: left;}
+    .t-net{font-size: 12px;}
+    .t-act{font-size: 12px;}
+    .t-second{font-size: 16px;}
+    .data-r{font-size: 12px; padding: 0px;}
+    
+    
+}
