@@ -24,7 +24,7 @@
 *}
         <section class="page-product-box blockproductscategory">
                 <div class="divTitleFeatured">
-                    <h1 class="titleFeatured2">{l s="COMERCIOS DESTACADOS"}</h1>
+                    <h1 class="titleFeatured2" style="text-transform:uppercase;">{l s="Aliados Fluz Fluz"}</h1>
                 </div>
 
                 <ul{if isset($id) && $id} id="{$id}"{/if} class="product_list grid row{if isset($class) && $class} {$class}{/if}">

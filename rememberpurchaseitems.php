@@ -1,6 +1,7 @@
 <?php 
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
+include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 $remembers = array();
 

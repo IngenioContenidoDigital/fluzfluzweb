@@ -79,14 +79,14 @@
     <style>
         #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
         
-        @media (max-width:375px){ 
+        @media (max-width:425px){ 
             .title-sponsor{color: red !important;} 
             .fancybox-opened .fancybox-skin{padding: 5px !important;}
             #rewards_sponsorship{margin-left: 0px !important;}
         }
         
         @media (max-width:300px){
-            .rewards{width: 78% !important;}
+            .rewards{width: 100% !important;}
             .fancybox-outer{height: 250px!important;}
             .fancybox-skin{height: 300px !important;}
         }

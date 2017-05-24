@@ -67,14 +67,15 @@
         </table>
     </div>
     <br>
-    <div class="information">Los bonos ser&aacute;n enviados a tu correo electr&oacute;nico.</div>
+    <div class="information">Los c&oacute;digos ser&aacute;n enviados a tu correo electr&oacute;nico 
+                             y tambi&eacute;n los encuentras en tu b&oacute;veda de c&oacute;digos</div>
     <br>
     <table class="products table row">
         <tr class="head">
-            <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Product'}</th>
+            <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Aliado Fluz Fluz'}</th>
             <th class="col-xs-5 col-sm-5 col-md-5 col-lg-5">{l s='Descripton'}</th>
             <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Precio Tienda'}</th>
-            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">{l s='Fluz'}</th>
+            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">{l s='Fluz Ganados'}</th>
             <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{l s='Total'}</th>
         </tr>
         {foreach $order_products as $product}
@@ -92,7 +93,7 @@
                     <!--<span class="number_product">{$product.product_reference}</span>-->
                 </td>
                 <td>{$product.type_currency}&nbsp;${$product.price_shop|number_format:0:".":","}</td>
-                <td>{$product.fluzpoints}</td>
+                <td class="fluz_style">{$product.fluzpoints}</td>
                 <td>{convertPrice price=$product.total_price_tax_incl}</td>
             </tr>
         {/foreach}
@@ -125,5 +126,7 @@
         .fancybox-lock {overflow: auto !important;width: auto;}
         .fancybox-overlay-fixed{display: none !important;}
         .fancybox-skin{display:none;}
+        .fluz_style{color: #ef4136;font-size: 25px !important;font-weight: bold;text-align: center;
+                    padding: 0px !important;}
     </style>
 {/literal}

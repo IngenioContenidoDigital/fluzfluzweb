@@ -23,7 +23,6 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
 /**
  * @property RequestSql $object
  */
@@ -36,7 +35,6 @@ class AdminRequestSqlControllerCore extends AdminController
         array('value' => 1, 'name' => 'utf-8'),
         array('value' => 2, 'name' => 'iso-8859-1')
     );
-
     public function __construct()
     {
         $this->bootstrap = true;
@@ -44,15 +42,12 @@ class AdminRequestSqlControllerCore extends AdminController
         $this->className = 'RequestSql';
         $this->lang = false;
         $this->export = true;
-
         $this->context = Context::getContext();
-
         $this->fields_list = array(
             'id_request_sql' => array('title' => $this->l('ID'), 'class' => 'fixed-width-xs'),
             'name' => array('title' => $this->l('SQL query Name')),
             'sql' => array('title' => $this->l('SQL query'))
         );
-
         $this->fields_options = array(
             'general' => array(
                 'title' =>    $this->l('Settings'),
@@ -69,7 +64,6 @@ class AdminRequestSqlControllerCore extends AdminController
                 'submit' => array('title' => $this->l('Save'))
             )
         );
-
         $this->bulk_actions = array(
             'delete' => array(
                 'text' => $this->l('Delete selected'),
@@ -77,10 +71,8 @@ class AdminRequestSqlControllerCore extends AdminController
                 'icon' => 'icon-trash'
             )
         );
-
         parent::__construct();
     }
-
     public function renderOptions()
     {
         // Set toolbar options
@@ -88,10 +80,8 @@ class AdminRequestSqlControllerCore extends AdminController
         $this->show_toolbar = true;
         $this->toolbar_scroll = true;
         $this->initToolbar();
-
         return parent::renderOptions();
     }
-
     public function initToolbar()
     {
         if ($this->display == 'view' && $id_request = Tools::getValue('id_request_sql')) {
@@ -100,20 +90,16 @@ class AdminRequestSqlControllerCore extends AdminController
                 'desc' => $this->l('Edit this SQL query')
             );
         }
-
         parent::initToolbar();
-
         if ($this->display == 'options') {
             unset($this->toolbar_btn['new']);
         }
     }
-
     public function renderList()
     {
         // Set toolbar options
         $this->display = null;
         $this->initToolbar();
-
         $this->displayWarning($this->l('When saving the query, only the "SELECT" SQL statement is allowed.'));
         $this->displayInformation('
 		<strong>'.$this->l('How do I create a new SQL query?').'</strong><br />
@@ -123,15 +109,12 @@ class AdminRequestSqlControllerCore extends AdminController
 			<li>'.$this->l('You can then view the query results by clicking on the Edit action in the dropdown menu: ').' <i class="icon-pencil"></i></li>
 			<li>'.$this->l('You can also export the query results as a CSV file by clicking on the Export button: ').' <i class="icon-cloud-upload"></i></li>
 		</ul>');
-
         $this->addRowAction('export');
         $this->addRowAction('view');
         $this->addRowAction('edit');
         $this->addRowAction('delete');
-
         return parent::renderList();
     }
-
     public function renderForm()
     {
         $this->fields_form = array(
@@ -160,14 +143,10 @@ class AdminRequestSqlControllerCore extends AdminController
                 'title' => $this->l('Save')
             )
         );
-
         $request = new RequestSql();
         $this->tpl_form_vars = array('tables' => $request->getTables());
-
         return parent::renderForm();
     }
-
-
     public function postProcess()
     {
         /* PrestaShop demo mode */
@@ -177,7 +156,6 @@ class AdminRequestSqlControllerCore extends AdminController
         }
         return parent::postProcess();
     }
-
     /**
      * method call when ajax request is made with the details row action
      * @see AdminController::postProcess()
@@ -200,51 +178,42 @@ class AdminRequestSqlControllerCore extends AdminController
             die(Tools::jsonEncode($attributes));
         }
     }
-
     public function renderView()
     {
         /** @var RequestSql $obj */
         if (!($obj = $this->loadObject(true))) {
             return;
         }
-
         $view = array();
         if ($results = Db::getInstance()->executeS($obj->sql)) {
             foreach (array_keys($results[0]) as $key) {
                 $tab_key[] = $key;
             }
-
             $view['name'] = $obj->name;
             $view['key'] = $tab_key;
             $view['results'] = $results;
-
             $this->toolbar_title = $obj->name;
-
             $request_sql = new RequestSql();
             $view['attributes'] = $request_sql->attributes;
         } else {
             $view['error'] = true;
         }
-
         $this->tpl_view_vars = array(
             'view' => $view
         );
         return parent::renderView();
     }
-
     public function _childValidation()
     {
         if (Tools::getValue('submitAdd'.$this->table) && $sql = Tools::getValue('sql')) {
             $request_sql = new RequestSql();
             $parser = $request_sql->parsingSql($sql);
             $validate = $request_sql->validateParser($parser, false, $sql);
-
             if (!$validate || count($request_sql->error_sql)) {
                 $this->displayError($request_sql->error_sql);
             }
         }
     }
-
     /**
      * Display export action link
      *
@@ -258,15 +227,12 @@ class AdminRequestSqlControllerCore extends AdminController
     public function displayExportLink($token, $id)
     {
         $tpl = $this->createTemplate('list_action_export.tpl');
-
         $tpl->assign(array(
             'href' => self::$currentIndex.'&token='.$this->token.'&'.$this->identifier.'='.$id.'&export'.$this->table.'=1',
             'action' => $this->l('Export')
         ));
-
         return $tpl->fetch();
     }
-
     public function initProcess()
     {
         parent::initProcess();
@@ -275,7 +241,6 @@ class AdminRequestSqlControllerCore extends AdminController
             $this->action = 'export';
         }
     }
-
     public function initContent()
     {
         $this->initTabModuleList();
@@ -286,7 +251,6 @@ class AdminRequestSqlControllerCore extends AdminController
             if (!$this->loadObject(true)) {
                 return;
             }
-
             $this->content .= $this->renderForm();
         } elseif ($this->display == 'view') {
             // Some controllers use the view action without an object
@@ -300,7 +264,6 @@ class AdminRequestSqlControllerCore extends AdminController
             $this->content .= $this->renderList();
             $this->content .= $this->renderOptions();
         }
-
         $this->context->smarty->assign(array(
             'content' => $this->content,
             'url_post' => self::$currentIndex.'&token='.$this->token,
@@ -309,7 +272,6 @@ class AdminRequestSqlControllerCore extends AdminController
             'page_header_toolbar_btn' => $this->page_header_toolbar_btn
         ));
     }
-
     public function initPageHeaderToolbar()
     {
         if (empty($this->display)) {
@@ -319,10 +281,8 @@ class AdminRequestSqlControllerCore extends AdminController
                 'icon' => 'process-icon-new'
             );
         }
-
         parent::initPageHeaderToolbar();
     }
-
     /**
      * Genrating a export file
      */
@@ -336,7 +296,6 @@ class AdminRequestSqlControllerCore extends AdminController
         $file = 'request_sql_'.$id.'.csv';
         if ($csv = fopen($export_dir.$file, 'w')) {
             $sql = RequestSql::getRequestSqlById($id);
-
             if ($sql) {
                 $results = Db::getInstance()->executeS($sql[0]['sql']);
                 foreach (array_keys($results[0]) as $key) {
@@ -358,7 +317,6 @@ class AdminRequestSqlControllerCore extends AdminController
                         } else {
                             $charset = self::$encoding_file[0]['name'];
                         }
-
                         header('Content-Type: text/csv; charset='.$charset);
                         header('Cache-Control: no-store, no-cache');
                         header('Content-Disposition: attachment; filename="'.$file.'"');
@@ -372,7 +330,6 @@ class AdminRequestSqlControllerCore extends AdminController
             }
         }
     }
-
     /**
      * Display all errors
      *
@@ -395,7 +352,6 @@ class AdminRequestSqlControllerCore extends AdminController
                         $this->errors[] = Tools::displayError('Undefined "checkedFrom" error');
                     }
                 break;
-
                 case 'checkedSelect':
                     if (isset($e[$key]['table'])) {
                         $this->errors[] = sprintf(Tools::displayError('The "%s" table does not exist.'), $e[$key]['table']);
@@ -411,7 +367,6 @@ class AdminRequestSqlControllerCore extends AdminController
                         $this->errors[] = Tools::displayError('Undefined "checkedSelect" error');
                     }
                 break;
-
                 case 'checkedWhere':
                     if (isset($e[$key]['operator'])) {
                         $this->errors[] = sprintf(Tools::displayError('The operator "%s" is incorrect.'), $e[$key]['operator']);
@@ -425,7 +380,6 @@ class AdminRequestSqlControllerCore extends AdminController
                         $this->errors[] = Tools::displayError('Undefined "checkedWhere" error');
                     }
                 break;
-
                 case 'checkedHaving':
                     if (isset($e[$key]['operator'])) {
                         $this->errors[] = sprintf(Tools::displayError('The "%s" operator is incorrect.'), $e[$key]['operator']);
@@ -439,7 +393,6 @@ class AdminRequestSqlControllerCore extends AdminController
                         $this->errors[] = Tools::displayError('Undefined "checkedHaving" error');
                     }
                 break;
-
                 case 'checkedOrder':
                     if (isset($e[$key]['attribut'])) {
                         $this->errors[] = sprintf(
@@ -451,7 +404,6 @@ class AdminRequestSqlControllerCore extends AdminController
                         $this->errors[] = Tools::displayError('Undefined "checkedOrder" error');
                     }
                 break;
-
                 case 'checkedGroupBy':
                     if (isset($e[$key]['attribut'])) {
                         $this->errors[] = sprintf(
@@ -463,11 +415,9 @@ class AdminRequestSqlControllerCore extends AdminController
                         $this->errors[] = Tools::displayError('Undefined "checkedGroupBy" error');
                     }
                 break;
-
                 case 'checkedLimit':
                     $this->errors[] = Tools::displayError('The LIMIT clause must contain numeric arguments.');
                 break;
-
                 case 'returnNameTable':
                     if (isset($e[$key]['reference'])) {
                         $this->errors[] = sprintf(
@@ -479,11 +429,9 @@ class AdminRequestSqlControllerCore extends AdminController
                         $this->errors[] = Tools::displayError('When multiple tables are used, each attribute must refer back to a table.');
                     }
                 break;
-
                 case 'testedRequired':
                     $this->errors[] = sprintf(Tools::displayError('%s does not exist.'), $e[$key]);
                 break;
-
                 case 'testedUnauthorized':
                     $this->errors[] = sprintf(Tools::displayError('Is an unauthorized keyword.'), $e[$key]);
                 break;

@@ -370,28 +370,9 @@ class MyAccountController extends MyAccountControllerCore
     public function numberMembers(){
         
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-        $sum=0;
-            foreach ($tree as $valor){
-                $queryTop = 'SELECT COUNT(c.id_customer) as members
-                             FROM '._DB_PREFIX_.'customer c 
-                            WHERE c.id_customer='.$valor['id'].' AND '.$valor['level'].'!=0';
-                
-                $result = Db::getInstance()->executeS($queryTop);
-                
-                if ($result[0]['members'] != "" ) {
-                    $top[] = $result[0];
-                }
-                
-            }
-            
-            usort($top, function($a, $b) {
-                return $b['members'] - $a['members'];
-            });
-            
-            foreach ($top as $x){
-                $sum += $x['members'];
-            }
-            return $sum; 
+        $num_members = (count($tree)-1);
+        
+        return $num_members; 
     }    
         
     public function TopNetworkUnique() {

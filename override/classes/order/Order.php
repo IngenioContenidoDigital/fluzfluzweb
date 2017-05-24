@@ -25,6 +25,7 @@
 */
 
 //include('./classes/codeBar/barcode.class.php');
+include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 class Order extends OrderCore
 {
