@@ -86,7 +86,7 @@
         }
         
         @media (max-width:300px){
-            .rewards{width: 78% !important;}
+            .rewards{width: 100% !important;}
             .fancybox-outer{height: 250px!important;}
             .fancybox-skin{height: 300px !important;}
         }
