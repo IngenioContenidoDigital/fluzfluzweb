@@ -7,6 +7,7 @@
 {/literal}
 
 <script>
+    var url = "{$base_dir}";
     var cards = {$cards|@json_encode};
     var urlWalletController = "{$link->getPageLink('wallet', true)|escape:'html':'UTF-8'}";
 </script>
@@ -113,25 +114,30 @@
                 <input type="hidden" id="card_key" value="" />
             </div>
         </div>
-        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 cardviewupt-instructions">
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#instructions">Instrucciones<i class="icon icon-plus"></i></button>
-            <div id="instructions" class="collapse"></div>
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#terms">Términos<i class="icon icon-plus"></i></button>
-            <div id="terms" class="collapse"></div>
-            {if $addreses_manufacturer}
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#locations">Direcciones<i class="icon icon-plus"></i></button>
-                <div id="locations" class="collapse">
-                    {foreach from=$addreses_manufacturer key=key item=address}
-                        <div class="row address-manufacturer">
-                            <p><label>{$address.firstname}</label></p>
-                            <p>{$address.address1}</p>
-                            <p>{$address.city}</p>
-                        </div>
-                    {/foreach}
-                    <div id="loadMoreAddress"><label class="more-address">{l s="Mostrar mas"}</label></div>
-                    <div id="loadMenosAddress" style='display:none;'><label class="more-address">{l s="Mostrar menos"}</label></div>
-                </div>
-            {/if}
+        <div class="row">
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 text-center">
+                <img src="" id="img-code-bar" class="" />
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 cardviewupt-instructions">
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#instructions">Instrucciones<i class="icon icon-plus"></i></button>
+                <div id="instructions" class="collapse"></div>
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#terms">Términos<i class="icon icon-plus"></i></button>
+                <div id="terms" class="collapse"></div>
+                {if $addreses_manufacturer}
+                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#locations">Direcciones<i class="icon icon-plus"></i></button>
+                    <div id="locations" class="collapse">
+                        {foreach from=$addreses_manufacturer key=key item=address}
+                            <div class="row address-manufacturer">
+                                <p><label>{$address.firstname}</label></p>
+                                <p>{$address.address1}</p>
+                                <p>{$address.city}</p>
+                            </div>
+                        {/foreach}
+                        <div id="loadMoreAddress"><label class="more-address">{l s="Mostrar mas"}</label></div>
+                        <div id="loadMenosAddress" style='display:none;'><label class="more-address">{l s="Mostrar menos"}</label></div>
+                    </div>
+                {/if}
+            </div>
         </div>
     </div>
     <div class="row row6">

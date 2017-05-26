@@ -1,4 +1,5 @@
 <?php
+require_once('./classes/codeBar/barcode.class.php');
 
 class WalletCore extends ObjectModel
 {
@@ -23,6 +24,7 @@ class WalletCore extends ObjectModel
                         PP.id_manufacturer, 
                         M.name manufacturer,
                         PP.price_shop AS price,
+                        PP.codetype,
                         ROUND(PP.price) AS price_shop,
                         DATE_FORMAT(PO.date_add, '%d/%m/%Y') AS date,
                         DATE_FORMAT(PP.expiration, '%d/%m/%Y') AS expiration,
@@ -47,10 +49,22 @@ class WalletCore extends ObjectModel
         $cards = Db::getInstance()->executeS($query);
         
         foreach ($cards as &$card) {
+            $code = str_replace(' ', '', Encrypt::decrypt($card['secure_key'] , $card['card_code']));
+
             $card['card_code_cry'] = $card['card_code'];
-            $card['card_code'] = Encrypt::decrypt($card['secure_key'] , $card['card_code']);
+            $card['code_bar'] = Wallet::getCodebar($card['id_product'] , $code , $card['card_code_cry']);
+
+            $i = 1;
+            $cardcode = "";
+            $code = str_split($code);
+            foreach ( $code as $char ) {
+                $cardcode .= $char;
+                if ( $i % 4 == 0 ) { $cardcode .= " "; }
+                $i++;
+            }
+            $card['card_code'] = $cardcode;
         }
-        
+
         return $cards;
     }
 
@@ -85,5 +99,40 @@ class WalletCore extends ObjectModel
         $setValue = Db::getInstance()->execute($query);
         
         return $setValue;
+    }
+    
+    public static function getCodebar($product,$code,$codeCry)
+    {
+        $codebar = "";
+
+        $codetype = Db::getInstance()->getValue("SELECT codetype
+                                                FROM "._DB_PREFIX_."product
+                                                WHERE id_product = ".$product);
+
+        if ( $code != "" && $codeCry != "" && $codetype != "" ) {
+            $ruta = "./upload/";
+            $archivo = "code-".preg_replace('([^A-Za-z0-9\*\+\=\_\-\.])', '', $codeCry);
+            $extension = ".png";
+
+            // if ( file_exists($ruta.$archivo.$extension) ) { unlink($ruta.$archivo.$extension); }
+
+            $barcode = new BARCODE();
+            switch ($codetype) {
+                case 0:
+                    $algo = $barcode->QRCode_save("text", $code, $archivo, $ruta, $type = "png", $height = 50, $scale = 2, $bgcolor = "#FFFFFF", $barcolor = "#000000", $ECLevel = "L", $margin = true);
+                    $codebar = $ruta.$archivo.$extension;
+                    break;
+                case 1:
+                    $algo = $barcode->_c128Barcode($code, 1, $archivo, $ruta);
+                    $codebar = $ruta.$archivo.$extension;
+                    break;
+                case 3:
+                    $algo = $barcode->_eanBarcode($code, 1, $archivo, $ruta);
+                    $codebar = $ruta.$archivo.$extension;
+                    break;
+            }
+        }
+        
+        return $codebar;
     }
 }
