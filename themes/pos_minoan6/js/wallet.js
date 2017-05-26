@@ -80,9 +80,11 @@ $(document).ready(function() {
         if ( $(this).attr("value") == 1 ) {
             $("#btnupt-value").parent().css("display","block");
             $("#value-used").parent().css("display","block");
+            $("#value-used-available").parent().css("display","block");
         } else {
             $("#btnupt-value").parent().css("display","none");
             $("#value-used").parent().css("display","none");
+            $("#value-used-available").parent().css("display","none");
         }
         markUsed( $("#card_product").val(),$(this).attr("value") );
     });
@@ -129,9 +131,9 @@ function renderViewCard(key, card) {
             $("#value-used-available").parent().css("display","none");
             break;
         case "1":
+            var price_card_used_available = card.price_shop - card.price_card_used;
             $("#used-card").parent().addClass("checked");
             $("#value-used").html( "COP $ "+card.price_card_used );
-            var price_card_used_available = card.price_shop - card.price_card_used;
             $("#value-used-available").html( "COP $ "+price_card_used_available );
             $("#value-used").parent().css("display","block");
             $("#value-used-available").parent().css("display","block");
