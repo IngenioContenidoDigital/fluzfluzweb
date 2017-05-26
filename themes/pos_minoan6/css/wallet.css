@@ -58,6 +58,7 @@ div.radio { margin-right: 10px; }
 .address-manufacturer { margin-bottom: 15px; display: none; }
 .address-manufacturer>p, .address-manufacturer>p>label { margin: 0; }
 #loadMoreAddress>label, #loadMenosAddress>label { text-transform: uppercase; color: #EE152A; font-size: 11px; cursor: pointer; }
+.img-code-bar-0, .img-code-bar-1, .img-code-bar-3 { margin-bottom: 20px; }
 
 @media (max-width:768px) {
     .wallet-container, #columns { padding: 0; }
