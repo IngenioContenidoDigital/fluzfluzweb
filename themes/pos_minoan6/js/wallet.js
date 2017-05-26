@@ -117,18 +117,24 @@ function renderViewCard(key, card) {
     $("#finished-card").parent().removeClass("checked");
     $("#used-card").parent().removeClass("checked");
     $("#value-used").parent().css("display","none");
+    $("#value-used-available").parent().css("display","none");
     $("#btnupt-value").parent().css("display","none");
     $("#value-used").html( "" );
+    $("#value-used-available").html( "" );
     $("#upt-value").val("");
     switch ( card.used ) {
         case "2":
             $("#finished-card").parent().addClass("checked");
             $("#value-used").parent().css("display","none");
+            $("#value-used-available").parent().css("display","none");
             break;
         case "1":
             $("#used-card").parent().addClass("checked");
             $("#value-used").html( "COP $ "+card.price_card_used );
+            var price_card_used_available = card.price_shop - card.price_card_used;
+            $("#value-used-available").html( "COP $ "+price_card_used_available );
             $("#value-used").parent().css("display","block");
+            $("#value-used-available").parent().css("display","block");
             $("#btnupt-value").parent().css("display","block");
             break;
         case "0":
@@ -171,6 +177,8 @@ function setValueUsed(card,value) {
                 cards[key].price_card_used = value;
                 $("#upt-value").val("");
                 $("#value-used").html("COP $ "+value);
+                var price_card_used_available = cards[key].price_shop - value;
+                $("#value-used-available").html( "COP $ "+price_card_used_available );
             } else {
                 alert("Ha ocurrido un error. Por favor intente mas tarde.");
             }

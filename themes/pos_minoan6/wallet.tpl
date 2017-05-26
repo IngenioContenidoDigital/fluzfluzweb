@@ -89,8 +89,11 @@
                 </div>
             </div>
             <div class="row used-value">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                    <p>Valor Usado: <span class="price" id="value-used"></span></p>
+                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 text-center">
+                    <p>Usado: <span class="price price-gray" id="value-used"></span></p>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-center">
+                    <p>Disponible: <span class="price" id="value-used-available"></span></p>
                 </div>
             </div>
             <div class="row cardviewupt-price">
