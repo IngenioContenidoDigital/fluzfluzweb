@@ -195,6 +195,7 @@
                                                 <option value='cashout_approval_notice'>{l s='16-cashout_approval_notice'}</option>
                                                 <option value='payment_error'>{l s='16-payment_error'}</option>
                                                 <option value='monthly-balance-summary'>{l s='16-monthly-balance-summary'}</option>
+                                                <option value='welcome_fluzfluz'>{l s='16-welcome_fluzfluz'}</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-6">
