@@ -89,9 +89,9 @@ $(document).ready(function() {
 });
 
 function renderViewCard(key, card) {
-    if(card.expiration=='00/00/0000'){
+    if ( card.expiration == '00/00/0000' ) {
         $('#vencimiento').hide();
-    }else{
+    } else {
         $("#expiration").html( card.expiration );
         $('#vencimiento').show();
     }
@@ -104,6 +104,16 @@ function renderViewCard(key, card) {
     $("#card_product").val( card.id_product_code );
     $("#card_key").val( key );
     
+    $("#img-code-bar").removeClass("img-code-bar-0 img-code-bar-1 img-code-bar-2 img-code-bar-3");
+    if ( card.code_bar != "" ) {
+        $("#img-code-bar").show();
+        $("#img-code-bar").prop("src",url+card.code_bar);
+        $("#img-code-bar").addClass("img-code-bar-"+card.codetype);
+    } else {
+        $("#img-code-bar").hide();
+        $("#img-code-bar").prop("src","");
+    }
+
     $("#finished-card").parent().removeClass("checked");
     $("#used-card").parent().removeClass("checked");
     $("#value-used").parent().css("display","none");
