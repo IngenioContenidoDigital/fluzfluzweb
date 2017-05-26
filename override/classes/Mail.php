@@ -31,10 +31,30 @@ include_once(_PS_SWIFT_DIR_.'Swift/Plugin/Decorator.php');
 
 class Mail extends MailCore
 {
+    public $vars;
+    
+    public static $definition = array(
+        'table' => 'mail',
+        'primary' => 'id_mail',
+        'fields' => array(
+            'recipient' => array('type' => self::TYPE_STRING, 'validate' => 'isEmail', 'copy_post' => false, 'required' => true, 'size' => 126),
+            'template' => array('type' => self::TYPE_STRING, 'validate' => 'isTplName', 'copy_post' => false, 'required' => true, 'size' => 62),
+            'subject' => array('type' => self::TYPE_STRING, 'validate' => 'isMailSubject', 'copy_post' => false, 'required' => true, 'size' => 254),
+            'id_lang' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'copy_post' => false, 'required' => true),
+            'date_add' => array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false, 'required' => true),
+            'vars' => array(),
+        ),
+    );
+    
     public static function Send($id_lang, $template, $subject, $template_vars, $to,
         $to_name = null, $from = null, $from_name = null, $file_attachment = null, $mode_smtp = null,
         $template_path = _PS_MAIL_DIR_, $die = false, $id_shop = null, $bcc = null, $reply_to = null)
     {
+        
+        if(isset($template_vars['resend'])){
+            $template_vars['resend'] == 0;
+        }
+        
         if (!$id_shop) {
             $id_shop = Context::getContext()->shop->id;
         }
@@ -319,12 +339,13 @@ class Mail extends MailCore
             $swift->disconnect();
 
             ShopUrl::resetMainDomainCache();
-
-            if ($send && Configuration::get('PS_LOG_EMAILS')) {
+            
+            if ($send && Configuration::get('PS_LOG_EMAILS') && $template_vars['resend'] == 0) {
                 $mail = new Mail();
                 $mail->template = substr($template, 0, 62);
                 $mail->subject = substr($subject, 0, 254);
                 $mail->id_lang = (int)$id_lang;
+                $mail->vars = json_encode($template_vars);
                 foreach (array_merge($to_list->getTo(), $to_list->getCc(), $to_list->getBcc()) as $recipient) {
                     /** @var Swift_Address $recipient */
                     $mail->id = null;

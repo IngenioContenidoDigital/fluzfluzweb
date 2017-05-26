@@ -743,7 +743,7 @@ class AuthController extends AuthControllerCore
             }
     }
     
-    protected function sendNotificationSponsor( $id_customer )
+    public static function sendNotificationSponsor( $id_customer )
     {
         $query = "SELECT c.id_customer, c.username, c.email, SUM(r.credits) points
                     FROM "._DB_PREFIX_."rewards_sponsorship rs
@@ -769,15 +769,25 @@ class AuthController extends AuthControllerCore
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id)
         );
+        
+        $template = 'sponsorship-registration';
+        $prefix_template = '16-sponsorship-registration';
 
-        Mail::Send(
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+        $row_subject = Db::getInstance()->getRow($query_subject);
+        $message_subject = $row_subject['subject_mail'];
+        
+        $allinone_rewards = new allinone_rewards();
+        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsor['email'], $sponsor['username']);
+         
+        /*Mail::Send(
             Context::getContext()->language->id,
             'notificationusersponsor',
             'Tu invitado se ha unido al Network',
             $vars,
             $sponsor['email'],
             $sponsor['username']
-        );
+        );*/
     }
 }
 
