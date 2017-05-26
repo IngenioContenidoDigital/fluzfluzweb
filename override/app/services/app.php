@@ -184,70 +184,6 @@ class API extends REST {
     
   }
     
-    
-    
-    
-    
-  private function searchold() {
-    // Validación Cross si el método de la petición es GET de lo contrario volverá estado de "no aceptable"
-    if ($this->get_request_method() != "GET") {
-      $this->response('', 406);
-    }
-
-    $arguments = array();
-    $requestData = array(
-    'expr' => '',
-    'page_number' => 1,
-    'page_size' => 10,
-    'order_by' => "position",
-    'order_way' => "asc"
-    );
-    foreach ($requestData as $rqd => $value) {
-      ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
-    }
-
-    //$model = new Model();
-    //$result = $model->productSearch($this->id_lang_default, $expr, $page_number, $page_size, $order_by,  $order_way);
-
-    $search = Search::find($this->id_lang_default, $expr, $page_number, $page_size, $order_by, $order_way, false, false);
-
-    if (!isset($search['result']) || empty($search['result'])) {
-      $this->response($this->json(array(
-      'success' => false,
-      'message' => ':('
-      )), 400);
-    }
-    
-    $context = Context::getContext();
-    $link = new Link();
-    $search['expr'] = $expr;
-    $search['page_number'] = (int) $page_number;
-    $search['total'] = (int) $search['total'];
-    $search['total_pages'] = ceil($search['total'] / $page_size);
-
-    $products = $search['result'];
-
-    for ($i = 0; $i < count($products); $i++) {
-      $cover = Product::getCover($products[$i]['id_product'], $context);
-      $products[$i]['id_image'] = (int) $cover['id_image'];
-      $products[$i]['image'] = $this->protocol . $link->getImageLink($products[$i]['link_rewrite'], $cover['id_image'], 'large_default');
-      $products[$i]['image_manufacturer'] = $this->protocol . $link->getManufacturerImageLink($products[$i]['id_manufacturer']);
-      $products[$i]['total_format_price'] = Product::convertAndFormatPrice(Product::getPriceStatic($products[$i]['id_product']));
-    }
-
-    $search['result'] = $products;
-
-    if (empty($search)) {
-      // Si no hay registros, estado "Sin contenido"
-      $this->response('', 204);
-    } else {
-      // Si todo sale bien, enviará cabecera de "OK" y la lista de la búsqueda en formato JSON
-      $this->response($this->json($search), 200);
-    }
-  }
-    
-    
-    
     /** 
      * Productos API
      * Consulta de los productos debe ser por método GET
@@ -662,6 +598,7 @@ class API extends REST {
 
 	return $this->response(json_encode($model->get_states($id_country)),200);	
     }
+    
 	
     /**
      * 
@@ -699,7 +636,7 @@ class API extends REST {
     $model = new Model();
     $link = new Link();
     
-    error_log("\nEn App: -- Option: ".print_r($option,true),3,"/tmp/error.log");
+//    error_log("\nEn App: -- Option: ".print_r($option,true),3,"/tmp/error.log");
     //Agrega al carrito
     if ( $option == 1 ){
       $requestData = array(
@@ -713,7 +650,7 @@ class API extends REST {
         ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
       }
       
-      error_log("\nEn App: -- Option: ".print_r($idCart." - ".$idProduct." - ".$qty." - ".$op,true),3,"/tmp/error.log");
+//      error_log("\nEn App: -- Option: ".print_r($idCart." - ".$idProduct." - ".$qty." - ".$op,true),3,"/tmp/error.log");
       $cart = $model->setCart($idCart, $idProduct, $qty, $op);      
     }
     //Actualiza carrito
@@ -728,12 +665,55 @@ class API extends REST {
         'message' => $cart
       )), 400);
     }
-    
-    foreach ($cart['products'] as &$product) {
-      $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
+    if( $cart['success'] ){
+      foreach ($cart['products'] as &$product) {
+        $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
+      }
+      
+      $this->response($this->json($cart), 200);
+    }
+    $this->response($this->json(array(
+      "success" => true, 
+      "message" => "Se elimin� el carrito."
+    )), 204);
+  }
+  
+  private function getBanner(){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    $model = new Model();
+    $link = new Link();
+    $banners = $model->getBannerElements($this->id_lang_default, true);
+    foreach ($banners['result'] as &$banner){
+      $banner['b_img'] = $link->getBannerImageLink((int)$banner['b_id']);
+    }
+    return $this->response(json_encode($banners),200);
+  }
+  
+  private function getCategory(){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
     }
     
-    $this->response($this->json($cart), 200);
+    if (isset($this->_request['option']) && !empty($this->_request['option'])) {
+      $option = $this->_request['option'];
+    }
+    
+    error_log("\n\nEntro a obtener las categoriaas: ",3,"/tmp/error.log");
+    $model = new Model();
+    $link = new Link();
+    if( $option == 1 ){
+      $categories = $model->getCategoriesHome($this->id_lang_default, true, true, true, 3, 5, true);
+    }
+    else if( $option == 2 ){
+      $categories = $model->getCategoriesHome($this->id_lang_default, true, false, true, 6, 0, false);
+      foreach ($categories['result'] as $key => &$category) {
+        $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
+      }
+      error_log("\n\nCategorias de abajo: \n\n". print_r($categories,true),3,"/tmp/error.log");
+    }
+    return $this->response(json_encode($categories),200);
   }
         
     

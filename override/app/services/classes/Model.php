@@ -1574,49 +1574,55 @@ return $responseObj;
     $products = $this->context->cart->getProducts();
     $quantity = 0;
     $total_fluz = 0;
-    for ($i = 0; $i < count($products); $i++) {
-      $cover = Product::getCover($products[$i]['id_product'], $this->context);
-      $products[$i]['id_image'] = (int) $cover['id_image'];
-      $products[$i]['image'] = $link->getImageLink($products[$i]['link_rewrite'], $cover['id_image'], 'medium_default');
-      $products[$i]['format_price'] = Product::convertAndFormatPrice($products[$i]['price']);
-      $products[$i]['format_price_wt'] = Product::convertAndFormatPrice($products[$i]['price_wt']);
-      $products[$i]['format_total'] = Product::convertAndFormatPrice($products[$i]['total']);
-      $products[$i]['format_total_wt'] = Product::convertAndFormatPrice($products[$i]['total_wt']);
-      $products[$i]['price_without_specific_price'] = Product::getPriceStatic(
-      $products[$i]['id_product'], !Product::getTaxCalculationMethod(), $products[$i]['id_product_attribute'], 6, null, false, false, 1, false, null, null, null, $null, true, true, $cart_product_context);
-      $products[$i]['format_price_without_specific_price'] = Product::convertAndFormatPrice($products[$i]['price_without_specific_price']);
-      $products[$i]['points'] = round( $this->getPoints( $products[$i]['id_product'], $products[$i]['price'] ) * $products[$i]['quantity'] );
-      $products[$i]['price_in_points'] = round( $this->getPriceInPoints( $products[$i]['price'] ) * $products[$i]['quantity'] );
-      $product = new Product($products[$i]['id_product']);
-      $products[$i]['price_shop'] = round( $product->price_shop * $products[$i]['quantity'] );
-      $quantity += $products[$i]['cart_quantity'];
-      $total_fluz += $products[$i]['points'];
-      $total_price_in_points += $products[$i]['price_in_points'];
-      $total_price_shop += $products[$i]['price_shop'];
-    }
+    if(count($products) > 0){
+      for ($i = 0; $i < count($products); $i++) {
+        $cover = Product::getCover($products[$i]['id_product'], $this->context);
+        $products[$i]['id_image'] = (int) $cover['id_image'];
+        $products[$i]['image'] = $link->getImageLink($products[$i]['link_rewrite'], $cover['id_image'], 'medium_default');
+        $products[$i]['format_price'] = Product::convertAndFormatPrice($products[$i]['price']);
+        $products[$i]['format_price_wt'] = Product::convertAndFormatPrice($products[$i]['price_wt']);
+        $products[$i]['format_total'] = Product::convertAndFormatPrice($products[$i]['total']);
+        $products[$i]['format_total_wt'] = Product::convertAndFormatPrice($products[$i]['total_wt']);
+        $products[$i]['price_without_specific_price'] = Product::getPriceStatic(
+        $products[$i]['id_product'], !Product::getTaxCalculationMethod(), $products[$i]['id_product_attribute'], 6, null, false, false, 1, false, null, null, null, $null, true, true, $cart_product_context);
+        $products[$i]['format_price_without_specific_price'] = Product::convertAndFormatPrice($products[$i]['price_without_specific_price']);
+        $products[$i]['points'] = round( $this->getPoints( $products[$i]['id_product'], $products[$i]['price'] ) * $products[$i]['quantity'] );
+        $products[$i]['price_in_points'] = round( $this->getPriceInPoints( $products[$i]['price'] ) * $products[$i]['quantity'] );
+        $product = new Product($products[$i]['id_product']);
+        $products[$i]['price_shop'] = round( $product->price_shop * $products[$i]['quantity'] );
+        $quantity += $products[$i]['cart_quantity'];
+        $total_fluz += $products[$i]['points'];
+        $total_price_in_points += $products[$i]['price_in_points'];
+        $total_price_shop += $products[$i]['price_shop'];
+      }
 
-    return array(
-      'id' => (int) $this->context->cart->id,
-      'date_add' => $this->context->cart->date_add,
-      'date_upd' => $this->context->cart->date_upd,
-      'discounts' => $this->context->cart->getDiscounts(),
-      'total_discounts' => $this->context->cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS),
-      'products' => $products,
-      'quantity' => $quantity,
-      'total_fluz' => $total_fluz,
-      'total_price_shop' => $total_price_shop,
-      'total_savings_in_value' => ( $total_price_shop - $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) ),
-      'total_savings_in_percent' => round( ( ( $total_price_shop - $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS)) * 100 ) / $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) ),
-      'total_price_in_points' => $total_price_in_points,
-      'priceDisplay' => Product::getTaxCalculationMethod((int) $this->context->customer->id),
-      'use_taxes' => (int) Configuration::get('PS_TAX'),
-      'order_total' => $this->context->cart->getOrderTotal(),
-      'format_order_total' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal()),
-      'total_products' => $this->context->cart->getOrderTotal(false, Cart::ONLY_PRODUCTS),
-      'total_products_wt' => $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS),
-      'format_total_products' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal(false, Cart::ONLY_PRODUCTS)),
-      'format_total_products_wt' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS))
-    );
+      return array(
+        'success' => true,
+        'id' => (int) $this->context->cart->id,
+        'date_add' => $this->context->cart->date_add,
+        'date_upd' => $this->context->cart->date_upd,
+        'discounts' => $this->context->cart->getDiscounts(),
+        'total_discounts' => $this->context->cart->getOrderTotal(true, Cart::ONLY_DISCOUNTS),
+        'products' => $products,
+        'quantity' => $quantity,
+        'total_fluz' => $total_fluz,
+        'total_price_shop' => $total_price_shop,
+        'total_savings_in_value' => ( $total_price_shop - $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) ),
+        'total_savings_in_percent' => round( ( ( $total_price_shop - $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS)) * 100 ) / $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS) ),
+        'total_price_in_points' => $total_price_in_points,
+        'priceDisplay' => Product::getTaxCalculationMethod((int) $this->context->customer->id),
+        'use_taxes' => (int) Configuration::get('PS_TAX'),
+        'order_total' => $this->context->cart->getOrderTotal(),
+        'format_order_total' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal()),
+        'total_products' => $this->context->cart->getOrderTotal(false, Cart::ONLY_PRODUCTS),
+        'total_products_wt' => $this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS),
+        'format_total_products' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal(false, Cart::ONLY_PRODUCTS)),
+        'format_total_products_wt' => Product::convertAndFormatPrice($this->context->cart->getOrderTotal(true, Cart::ONLY_PRODUCTS))
+      );
+    }
+    else {
+      return array('success' => false,'message'=>'No hay productos');
+    }
   }
 
   
@@ -1648,6 +1654,81 @@ return $responseObj;
        
   }
   
+  
+  public function getBannerElements($id_lang, $active){
+    $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
+    $sql = 'SELECT 
+              psl.id_pos_slideshow AS b_id,
+              psl.link AS b_link,
+              psl.description AS b_name
+            FROM '._DB_PREFIX_.'pos_slideshow AS ps
+            INNER JOIN '._DB_PREFIX_.'pos_slideshow_lang AS psl ON psl.id_pos_slideshow = ps.id_pos_slideshow
+            WHERE psl.id_lang = '.$id_lang.' AND ps.active = '.($active ? 1 : 0).';';
+    
+    $result = $db->executeS($sql);
+    return array('result' => $result);
+  }
+  
+  public function getCategoriesHome($id_lang, $active, $with_father = false, $random_category = false, $limit_category = 0, $limit_father = 0, $random_father = false){
+    $categoryInitial = Category::getRootCategories();
+    $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
+    foreach ( $categories as $key => &$categoryy ) {
+      $categoryy['link'] = $this->context->link->getCategoryLink($categoryy['id_category'], $categoryy['link_rewrite']);
+    }    
+    if ( $random_category ) {
+      if ( isset( $limit_category ) && $limit_category > 0 ) {
+        $categories = $this->array_random($categories, $limit_category);
+      }
+      $categories = $this->array_random($categories, count($categories));
+    }
+    if ( $with_father ){
+      $link = new Link();
+      foreach ( $categories as $key => &$category ) {
+        $category['products'] = $this->getCategories( $id_lang, $category['id_category'], $limit_father, $active, 1, $random_father );
+        foreach ( $category['products'] as $key => &$product ){
+          $product['image'] = $link->getManufacturerImageLink($product['m_id']);
+          $product['pf_points'] = round($product['pf_points']);
+        }
+      }
+    }
+    return array('result' => $categories);
+  }
+  
+  public function array_random($arr, $num = 1) {
+    shuffle($arr);
+    $r = array();
+    for ($i = 0; $i < $num; $i++) {
+      $r[] = $arr[$i];
+    }
+    return $num == 1 ? $r[0] : $r;
+  }
+  
+  public function getCategories($id_lang, $id_category, $limit = 0, $active = 1, $product_parent = 1, $random = false ) {
+    $sql = 'SELECT
+              p.id_manufacturer AS m_id,
+              p.id_product AS pf_id,
+              pl.name AS pf_name,
+              MAX((p2.price * ( rp.value / 100 ) ) / 25 ) AS pf_points
+            FROM ps_category_lang cl
+            INNER JOIN ps_category_product cp ON ( cl.id_category = cp.id_category )
+            INNER JOIN ps_product_lang pl ON ( cp.id_product = pl.id_product )
+            INNER JOIN ps_product p ON ( pl.id_product = p.id_product )
+            INNER JOIN ps_product_attribute pa ON ( p.id_product = pa.id_product )
+            INNER JOIN ps_product p2 ON ( pa.reference = p2.reference AND p2.active = 1 )
+            INNER JOIN ps_rewards_product rp ON ( p2.id_product = rp.id_product )
+            WHERE cl.id_category = '.$id_category.'
+            AND cl.id_lang = '.$id_lang.'
+            AND p.product_parent = '.$product_parent.'
+            AND p.active = '.$active.'
+            GROUP BY p.id_product
+            ';
+    $sql .= ($random) ? 'ORDER BY RAND()' : ' ' ;        
+    $sql .= ($limit > 0) ? ' LIMIT '.$limit.';' : ';' ;
+    
+    //error_log("\n\nSQL Categorias: ". print_r($sql,true),3,"/tmp/error.log");
+    $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
+    return $db->executeS($sql);
+  }
   
   
   
