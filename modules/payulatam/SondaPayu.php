@@ -15,9 +15,9 @@ class SondaPayu extends PayUControllerWS {
     
     if($_SERVER['HTTP_HOST']!='fluzfluz.co'){
     //if(Configuration::get('PAYU_LATAM_TEST') === 'true'){
-        $this->url_reports = 'https://api.payulatam.com/reports-api/4.0/service.cgi';
-    }else{
         $this->url_reports = 'https://sandbox.api.payulatam.com/reports-api/4.0/service.cgi';
+    }else{
+        $this->url_reports = 'https://api.payulatam.com/reports-api/4.0/service.cgi';
     }
   }                      
 
