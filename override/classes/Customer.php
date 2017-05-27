@@ -223,7 +223,7 @@ class Customer extends CustomerCore
                                                     LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
                                                     LEFT JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order )
                                                     WHERE c.email = '".$email."'
-                                                    AND od.product_reference = 'MFLUZ'
+                                                    AND od.product_reference LIKE 'MFLUZ%'
                                                     AND oh.id_order_state = 2");
 
         /*$expulsiones = Db::getInstance()->getValue("SELECT COUNT(*) expulsiones
