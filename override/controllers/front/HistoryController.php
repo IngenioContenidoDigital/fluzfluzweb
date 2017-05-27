@@ -76,7 +76,7 @@ class HistoryController extends HistoryControllerCore
                     LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = a.product_id)
                     LEFT JOIN '._DB_PREFIX_.'manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )    
                     WHERE id_customer = '.$this->context->customer->id.'
-                    AND p.reference != "MFLUZ"
+                    AND p.reference NOT LIKE "MFLUZ%"
                     AND d.id_lang = '.$this->context->language->id.'
                     GROUP BY
                         p.price_shop,

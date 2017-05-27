@@ -26,7 +26,7 @@ class PayuCreditCard extends PayUControllerWS {
         $description = "(Cliente: ".$this->context->customer->username."). Productos: ";
         foreach ($productsCart as $product) {
             $description .= "[".$product['name'].",".$product['cart_quantity']."] ";
-            if ( $product['reference'] == "MFLUZ" ) {
+            if ( substr($product['reference'],0,5) == "MFLUZ" ) {
                 $membership = true;
             }
         }

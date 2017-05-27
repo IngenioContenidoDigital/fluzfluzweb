@@ -447,7 +447,7 @@ class AuthController extends AuthControllerCore
                             $cart->update();
 
                             $valorProduct = ( isset($_POST['valorSlider']) ) ? $_POST['valorSlider'] : 0;
-                            $row = DB::getInstance()->getRow( 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"' );
+                            $row = DB::getInstance()->getRow( 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference LIKE "MFLUZ%"' );
                             $idProduct = $row['id_product'];
                             $this->context->cart = $cart;
                             $this->context->cart->updateQty(1,$idProduct,NULL,FALSE);
