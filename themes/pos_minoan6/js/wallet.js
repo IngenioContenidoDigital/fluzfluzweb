@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $(".state-used1").parent().css("display","none");
+    $(".state-used2").parent().css("display","none");
+    
     $("#sortby>li>a").click(function(){
         var sortby = $(this).attr("id");
         var numCards = 0;
