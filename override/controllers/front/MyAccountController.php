@@ -230,6 +230,12 @@ class MyAccountController extends MyAccountControllerCore
       $userData['fluzTotal'] = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
       $userData['winnerMembers'] = $this->numberMembers();
       $userData['totalSavings'] = $userData['fluzTotal'] * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1');
+      
+      $sql = 'SELECT date_add AS date
+              FROM ps_customer
+              WHERE id_customer = '.$id_customer;
+      $date_add = Db::getInstance()->getValue($sql);
+      $userData['dateAdd'] = substr($date_add, 0, 4);
       //error_log("\nEste es el user data de getUserDataAccount: \n".print_r($userData,true),3,"/tmp/error.log"); 
       return $userData;
     }
