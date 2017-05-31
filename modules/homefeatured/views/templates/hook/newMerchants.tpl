@@ -44,8 +44,10 @@
                                                     </div>    
                                                 </a>
                                                 <div class="name-merchant"> {$merchant.name|truncate:35:'...'|escape:'html':'UTF-8'|upper} </div>
-                                                {if $logged}
+                                                {if $logged && $merchant.reference != 'MFLUZ'}
                                                     <div class="name-merchant" style="color: #ef4136; margin-bottom: 20px;">{l s="GANA HASTA"}&nbsp;{($merchant.value/$sponsor)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
+                                                {else if $logged && $merchant.reference == 'MFLUZ'}
+                                                    <div class="name-merchant" style="color: #ef4136; margin-bottom: 20px;">{l s="GANA HASTA"}&nbsp;{($merchant.value/1)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
                                                 {else}
                                                     <div class="name-merchant" style="color: #ef4136; margin-bottom: 20px;">{l s="GANA HASTA"}&nbsp;{($merchant.value_no_logged/16)|string_format:"%d"}&nbsp;{l s="FLUZ"} </div>
                                                 {/if}    

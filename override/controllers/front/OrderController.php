@@ -81,7 +81,13 @@ class OrderController extends OrderControllerCore
                             WHERE p.reference = '".$product['reference']."' AND pl.`id_lang` = ".(int)$this->context->language->id;
             $x = Db::getInstance()->executeS($queryprueba);
             $price = RewardsProductModel::getProductReward($x[0]['id'],$product['price'],1, $this->context->currency->id);
-            $productP=round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+            $fluz = substr($product['reference'], 0,5);
+            if($fluz != 'MFLUZ'){
+                $productP= floor(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+            }
+            else{
+                $productP= floor(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(1));
+            }
             $productsPoints[$x[0]['reference']] = $productP;
             $shop[$x[0]['reference']] = $x[0]['price_shop'];
             $productsID[$x[0]['reference']] = $x[0]['id'];
