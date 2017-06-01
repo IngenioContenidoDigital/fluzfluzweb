@@ -186,7 +186,7 @@ class AuthController extends AuthControllerCore
                 $this->context->cookie->email = $customer->email;
                 // Add customer to the context
                 $this->context->customer = $customer;
-                if (Configuration::get('PS_CART_FOLLOWING') && (empty($this->context->cookie->id_cart) || Cart::getNbProducts($this->context->cookie->id_cart) == 0) && $id_cart = (int)Cart::lastNoneOrderedCart($this->context->customer->id)) {
+                /*if (Configuration::get('PS_CART_FOLLOWING') && (empty($this->context->cookie->id_cart) || Cart::getNbProducts($this->context->cookie->id_cart) == 0) && $id_cart = (int)Cart::lastNoneOrderedCart($this->context->customer->id)) {
                     $this->context->cart = new Cart($id_cart);
                 } else {
                     $id_carrier = (int)$this->context->cart->id_carrier;
@@ -201,7 +201,7 @@ class AuthController extends AuthControllerCore
                     $delivery_option = array($this->context->cart->id_address_delivery => $id_carrier.',');
                     $this->context->cart->setDeliveryOption($delivery_option);
                 }
-                $this->context->cart->save();
+                $this->context->cart->save();*/
                 $this->context->cookie->id_cart = (int)$this->context->cart->id;
                 $this->context->cookie->write();
                 $this->context->cart->autosetProductAddress();

@@ -51,6 +51,7 @@ class AdminCartsController extends AdminCartsControllerCore
         } else {
             $this->_use_found_rows = false;
         }
+        $this->_group = 'GROUP BY a.id_cart';
         $this->fields_list = array(
             'id_cart' => array(
                 'title' => $this->l('ID'),
