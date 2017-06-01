@@ -297,6 +297,25 @@ class Customer extends CustomerCore
         
         return $addCard;
     }
+    
+    public function mylogout()
+    {
+        $id_cart = Context::getContext()->cookie->id_cart;
+        if(!empty($id_cart)){
+            $sql = 'DELETE FROM '._DB_PREFIX_.'cart WHERE id_cart = '.$id_cart;
+            Db::getInstance()->execute($sql);
+        }
+        
+        Hook::exec('actionCustomerLogoutBefore', array('customer' => $this));
+
+        if (isset(Context::getContext()->cookie)) {
+            Context::getContext()->cookie->mylogout();
+        }
+
+        $this->logged = 0;
+
+        Hook::exec('actionCustomerLogoutAfter', array('customer' => $this));
+    }
 }
 
 ?>
