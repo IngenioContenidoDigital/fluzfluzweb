@@ -9,12 +9,16 @@
 .text-infouser{color: #ef4136; font-size: 14px; font-family: 'Montserrat'; text-align: left;}
 .left-info{font-size: 14px; color: #000; text-align: right;    margin-right: 60px;}
 .btn-sendfluz{float: right;margin-top: 20px;}
-.btn-account {
-    font-size: 12px;
-    font-family: 'Montserrat';
-    font-weight: lighter;
-    letter-spacing: 1px;
-    color: #fff;
-    border: none;
-    background: #ef4136;
+.btn-account {font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;color: #fff;border: none;background: #ef4136;}
+.style-fluz{padding: 20px;}
+.cashout-money{padding-right: 0px;}
+.info-cash{float: right; padding-right: 0px;}
+.cash-point{padding-right: 0px;text-align: right;}
+.searchimg {
+    position: relative;
+    left: -30px;
+    cursor: pointer;
 }
+.form-control{display: inline-block;width: 97%;}
+.result-find{background: white;border: 1px solid #CBCBCB;width: 97%;}
+.resultados{color: #000; border-bottom: 1px solid #CBCBCB;padding: 5px;text-align: center; cursor: pointer;}
