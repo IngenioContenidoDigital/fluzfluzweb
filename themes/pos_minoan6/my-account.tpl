@@ -26,9 +26,14 @@
 {capture name=path}{l s='My account'}{/capture}
 <div class="row page-heading">
     <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">mis c&oacute;digos</h1>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-design">
-        <a class="btn btn-default btn-account" href="/content/6-categorias">{l s="Comprar"}</a>
-    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding-min">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-design">
+            <a class="btn btn-default btn-account" href="/content/6-categorias">Comprar C&oacute;digo</a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-reload">
+            <a class="btn btn-default btn-account btn-design-r" href="/inicio/485-precarga-de-saldo-fluzfluz.html">Recargar Fluz</a>
+        </div>
+    </div>        
 </div>
 <div class="row">
     <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 info-account">{l s='View and Redeem your gift card purchases'}</p>
@@ -287,19 +292,32 @@
                         color: #fff;
                         border: none;
                         background: #ef4136;}
-        .btn-design{padding-left: 130px;}
+        .btn-design{text-align: right;}
         
         @media (max-width:1024px){
-            .btn-design{padding-left: 97px;}
         }
         
         @media (max-width:768px){
             .btn-design{text-align: right;padding-left: 0px;}
         }
         
+        @media(max-width:768px){
+            .btn-design{margin-bottom: 10px;}
+            .btn-account{padding: 10px 18px;}
+        }
+        
+        @media (max-width:425px){
+           .btn-reload{padding-left: 0px; width: 200px !important;}
+           .btn-design-r{width: 166px;}
+        }
+        
         @media (max-width:420px){
             .imgSponsor2 {width: 33% !important; margin-bottom: 5%;}
             .barTop{margin-bottom: 4%;}
+        }
+        
+        @media(max-width:414px){
+            .padding-min{padding-left:0px;}
         }
     </style>
 {/literal}
