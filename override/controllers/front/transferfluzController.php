@@ -29,14 +29,27 @@ class transferfluzController extends FrontController{
                 $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
                 $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
                 $this->context->smarty->assign('pointsAvailable', $pointsAvailable);
-                
-                if(Tools::isSubmit('submitFluz')){
-                    
-                    $point_send = Tools::getValue('pt_parciales');
-                    
-                }
-                
+               
                 $this->setTemplate(_PS_THEME_DIR_.'transferfluz.tpl');
 	}
+        
+    public function postProcess() {
+        switch ( Tools::getValue('action') ) {
+            case 'transferfluz':
+                $point_send = Tools::getValue('point_part');
+                $id_sponsor = Tools::getValue('sponsor_identification');
+                
+                $query_sponsor = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,NULL,'0','0',".-1*$point_send.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                Db::getInstance()->execute($query_sponsor);
+                
+                $query_sponsor = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)"
+                                    . "                          VALUES ('2', ".(int)$id_sponsor.", 0,NULL,'0','0',".$point_send.",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                Db::getInstance()->execute($query_sponsor);
+                break;
+            default:
+                break;
+        }
+    }
         
 }

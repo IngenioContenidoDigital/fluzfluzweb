@@ -20,5 +20,36 @@
     cursor: pointer;
 }
 .form-control{display: inline-block;width: 97%;}
-.result-find{background: white;border: 1px solid #CBCBCB;width: 97%;}
+.result-find{background: white;width: 97%;}
 .resultados{color: #000; border-bottom: 1px solid #CBCBCB;padding: 5px;text-align: center; cursor: pointer;}
+.title_transfer{text-align: center; font-size: 16px; font-weight: bold; color: #ef4136;}
+.t-name{color:#EF4136; font-size: 14px;text-align: right;font-weight: bold;}
+.info-transfer{margin-top: 30px;line-height: 30px;}
+.name_sponsor{color: #000;font-weight: bold;font-size: 14px;padding-left: 40px;}
+.btn_modal_f{cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;}
+.row-btn-modal{ margin-top: 30px;margin-bottom: 30px;}
+.img-responsive{margin: 0 auto;}
+.btn-cancel-modal{text-align: right;}
+
+@media (max-width:1180px){
+    .cashout-money{text-align: left;padding-left: 0px;}
+    .slider-cash{margin-left: 0px;}
+}
+
+@media (max-width:768px){
+    .form-control{width: 95%;}
+}
+
+@media (max-width:767px){
+    .left-info{margin-right: 0px; text-align: center;}
+    .text-infouser{text-align: center;}
+    .cashout-money{text-align: center;}
+    .output-cash{padding: 0px;}
+    #value-cash{font-size: 22px;}
+}
+
+
+
+
+
+

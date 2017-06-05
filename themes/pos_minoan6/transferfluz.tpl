@@ -14,6 +14,10 @@
 
 {capture name=path}<a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">{l s='My account' mod='allinone_rewards'}</a><span class="navigation-pipe">{$navigationPipe|escape:'html':'UTF-8'}</span>{l s='My rewards account' mod='allinone_rewards'}{/capture}
 
+<script>
+    var urlTransferController = "{$link->getPageLink('transferfluz', true)|escape:'html':'UTF-8'}";
+</script>
+
 <div id="rewards_account" class="rewards">
 {if version_compare($smarty.const._PS_VERSION_,'1.6','<')}
     {include file="$tpl_dir./breadcrumb.tpl"}
@@ -23,26 +27,26 @@
 </div>
 <div class="row info-personal">
     <div class="row row-personal">
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <div class="left-info">{l s='Username'}</div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="text-infouser"> {$username} </div>
         </div>
     </div>
     <div class="row row-personal">
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <div class="left-info">{l s='Mis Fluz'}</div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="text-infouser"> {$pointsAvailable} </div>
         </div>
     </div>
     <div class="row row-personal">
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <div class="left-info">{l s='Dinero en Fluz'}</div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="text-infouser"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </div>
         </div>
     </div>    
@@ -51,27 +55,28 @@
     <input type="hidden" id="pt_parciales" name="pt_parciales" value=""/>
     <input type="hidden" id="pto_total" name="pto_total" value=""/>
     <input type="hidden" id="id_customer" name="id_customer" value="{$id_customer}"/>
+    <input type="hidden" id="sponsor_identification" name="sponsor_identification" value=""/>
 
     <div class="row"> 
         <h3 class="title-myinfo"> TRANSFERENCIA FLUZ A FLUZZERS </h3> 
     </div>
     <div class="row info-personal">
         <div class="row row-personal">
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
                     <div class="left-info">{l s='Fluzzer Destino'}</div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                 <div class="text-infouser">             
-                    <input type="text" name="busqueda" id="busqueda" value="" class="is_required validate form-control input-infopersonal textsearch" placeholder="{l s='Search member'}" value="{$searchnetwork}"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
+                    <input type="text" name="busqueda" id="busqueda" value="" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Fluzzer'}" value="{$searchnetwork}" required><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
                     <div id="resultados" class="result-find"></div>
                 </div>
             </div>
         </div>
         <div class="row row-personal">
-            <div class="col-lg-6 style-fluz">
+            <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12 style-fluz">
                     <div class="left-info">{l s='Cantidad de Fluz a enviar'}</div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                 <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="100" min="100" max="{$pointsAvailable}" step="100" data-rangeslider>
                 <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
                         <input class="output-cash col-lg-6 col-md-6 col-sm-6 col-xs-5" type="text" name="valorSlider" id="valorSlider" value=""/>
@@ -80,10 +85,10 @@
             </div>
         </div>
         <div class="row row-personal">
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
                     <div class="left-info">{l s='Dinero en Fluz'}</div>
             </div>
-            <div class="col-lg-6 padding-cash">
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12 padding-cash">
                 <div class="text-infouser">  
                     <span class="cashout-money col-lg-12 col-md-12 col-sm-12 col-xs-12"> {l s ="COP $"}&nbsp;<span id="value-cash"></span></span>
                     <span class="cashout-money col-lg-12" style="display:none;"> {l s ="COP"}&nbsp;<span id="value-money">{(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</span></span>
@@ -93,13 +98,42 @@
     </div>
     <div class="row btn-sendfluz">
         <div class="col-lg-6">
-            <button class="btn btn-default btn-account" type="submit" name="submitFluz" id="submitFluz">
+            <button class="myfancybox btn btn-default btn-account" href="#confirmTransfer" name="submitFluz" id="submitFluz">
                 <span style="cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;">
                     {l s="Enviar Fluz"}
                 </span>
             </button>
         </div>
     </div>
+    <div id="not-shown" style="display:none;">
+        <div id="confirmTransfer" class="myfancybox">
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="">
+                <br>
+                <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 title_transfer"> Confirmaci&oacute;n Envio Fluz </div>
+            <div class="row info-transfer">
+                <div class="col-lg-6 t-name">Fluzzer Destino: </div><div id="name_sponsor" class="col-lg-6 name_sponsor"></div>
+                <div class="col-lg-6 t-name">Fluz a Enviar: </div><div id="fluz_send" class="col-lg-6 name_sponsor"></div>
+            </div>
+            <div class="row row-btn-modal">
+                <div class="col-lg-6 btn-cancel-modal">
+                    <button class="btn btn-default btn-account" id="cancel_modal_fluz" onclick="cancelSubmit()">
+                        <span class="btn_modal_f">
+                            {l s="Cancelar"}
+                        </span>
+                    </button>
+                </div>
+                <div class="col-lg-6">
+                    <button class="btn btn-default btn-account" id="submit_modal_fluz" onclick="sendSubmit()">
+                        <span class="btn_modal_f">
+                            {l s="Confirmar"}
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>    
 </form>
 <!-- END TEMPLATE TRANSFER FLUZ -->
 <!-- SCRIPT -->
@@ -131,6 +165,7 @@
               var value = $(this).val();
               $('#valorSlider').val($(this).val());
               $('#pt_parciales').val(value);
+              $('#fluz_send').html(value);
               var mult = (value * value_money); 
               $("#value-cash").html(mult);
               $("#value-confirmation").html(mult);
@@ -158,7 +193,7 @@
                                 data = jQuery.parseJSON(data);
                                 var content = '';
                                 $.each(data, function (key, id) {
-                                    content += '<div class="resultados" onclick="myFunction()">'+data[key].username+'</div>';
+                                    content += '<div class="resultados" id="id_sponsor" onclick="myFunction(\''+data[key].username+'\',\''+data[key].id+'\')">'+data[key].username+'</div>';
                                 })
 
                                 $("#resultados").html(content);
@@ -176,8 +211,30 @@
         });
     </script>
     <script>
-        function myFunction() {
-            
+        function myFunction(name, id_sponsor) {
+                $('#busqueda').val(name);
+                $('#sponsor_identification').val(id_sponsor);
+                $('#name_sponsor').html(name);
+                $('.resultados').hide();
+        }
+        
+        function sendSubmit(){
+            var point_part = $('#pt_parciales').val();
+            var id_sponsor = $('#sponsor_identification').val();
+            $.ajax({
+                url : urlTransferController,
+                type : 'POST',
+                data : 'action=transferfluz&point_part='+point_part+'&sponsor_identification='+id_sponsor,
+                success : function(response) {
+                    $.fancybox.close();
+                    location.reload();
+                }
+            });
+        }
+        
+        function cancelSubmit(){ 
+            $.fancybox.close();
+            location.reload();
         }
     </script>
 {/literal}
