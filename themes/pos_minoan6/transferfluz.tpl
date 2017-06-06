@@ -265,9 +265,9 @@
 {/literal}
 
 {literal}
-<style>
-    .right_column{display: none;}
-</style>
+    <style>
+        #right_column{display: none;}
+    </style>
 {/literal}
 
 {if $popup}
