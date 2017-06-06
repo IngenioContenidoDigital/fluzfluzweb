@@ -55,7 +55,8 @@
     <input type="hidden" id="pt_parciales" name="pt_parciales" value=""/>
     <input type="hidden" id="pto_total" name="pto_total" value=""/>
     <input type="hidden" id="id_customer" name="id_customer" value="{$id_customer}"/>
-    <input type="hidden" id="sponsor_identification" name="sponsor_identification" value=""/>
+    <input type="hidden" id="sponsor_identification" name="sponsor_identification" value="{if $id_member != ""}{$id_member}{else}{/if}"/>
+    <input type="hidden" id="sponsor_name" name="sponsor_name" value="{if $name_member != ""}{$name_member}{else}{/if}"/>
 
     <div class="row"> 
         <h3 class="title-myinfo"> TRANSFERENCIA FLUZ A FLUZZERS </h3> 
@@ -67,7 +68,7 @@
             </div>
             <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                 <div class="text-infouser">             
-                    <input type="text" name="busqueda" id="busqueda" value="" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Fluzzer'}" value="{$searchnetwork}" required><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
+                    <input type="text" name="busqueda" id="busqueda" value="{if $name_member != ""}{$name_member}{else}{/if}" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Fluzzer'}" required><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
                     <div id="resultados" class="result-find"></div>
                 </div>
             </div>
@@ -105,26 +106,26 @@
             </button>
         </div>
     </div>
-    <div id="not-shown" style="display:none;">
+    <div style="display:none;">
         <div id="confirmTransfer" class="myfancybox">
-            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="">
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                 <br>
                 <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 title_transfer"> Confirmaci&oacute;n Envio Fluz </div>
             <div class="row info-transfer">
-                <div class="col-lg-6 t-name">Fluzzer Destino: </div><div id="name_sponsor" class="col-lg-6 name_sponsor"></div>
-                <div class="col-lg-6 t-name">Fluz a Enviar: </div><div id="fluz_send" class="col-lg-6 name_sponsor"></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluzzer Destino: </div><div id="name_sponsor" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz a Enviar: </div><div id="fluz_send" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
             </div>
             <div class="row row-btn-modal">
-                <div class="col-lg-6 btn-cancel-modal">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-cancel-modal">
                     <button class="btn btn-default btn-account" id="cancel_modal_fluz" onclick="cancelSubmit()">
                         <span class="btn_modal_f">
                             {l s="Cancelar"}
                         </span>
                     </button>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <button class="btn btn-default btn-account" id="submit_modal_fluz" onclick="sendSubmit()">
                         <span class="btn_modal_f">
                             {l s="Confirmar"}
@@ -135,6 +136,7 @@
         </div>
     </div>    
 </form>
+<div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>                        
 <!-- END TEMPLATE TRANSFER FLUZ -->
 <!-- SCRIPT -->
 {literal}
@@ -158,7 +160,7 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function(){
-            document.getElementById( 'valorSlider' ).value=100 ;
+            document.getElementById( 'valorSlider' ).value=0 ;
             var value_money = $('#value-money').text();
             $('#rangeSlider').change(function() 
             {
@@ -214,6 +216,7 @@
         function myFunction(name, id_sponsor) {
                 $('#busqueda').val(name);
                 $('#sponsor_identification').val(id_sponsor);
+                $('#sponsor_name').val(name);
                 $('#name_sponsor').html(name);
                 $('.resultados').hide();
         }
@@ -221,13 +224,15 @@
         function sendSubmit(){
             var point_part = $('#pt_parciales').val();
             var id_sponsor = $('#sponsor_identification').val();
+            var url = document.getElementById("url_fluz").innerHTML;
+            
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=transferfluz&point_part='+point_part+'&sponsor_identification='+id_sponsor,
-                success : function(response) {
+                success : function() {
+                    window.location.replace(""+url+"confirmtransferfluz");
                     $.fancybox.close();
-                    location.reload();
                 }
             });
         }
@@ -238,3 +243,44 @@
         }
     </script>
 {/literal}
+{literal}
+    <script>
+        $('#submitFluz').click(function(e){
+           var name_sponsor = $('#sponsor_name').val();
+           var pto_parcial = $('#pt_parciales').val();
+           if(name_sponsor == ''){
+               alert('Seleccione Fluzzer Destino.')
+               $('#submitFluz').removeClass('myfancybox');
+               location.reload();
+               e.preventDefault();
+           }
+           if(pto_parcial== ''){
+               alert('Seleccione Cantidad de Fluz a enviar.')
+               $('#submitFluz').removeClass('myfancybox');
+               location.reload();
+               e.preventDefault();
+           }
+        });
+    </script>
+{/literal}
+{if $popup}
+    <style>
+        #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
+    </style>
+    <style>
+        .searchimg{ display: none!important; }
+    </style>
+    
+    {literal}
+        <style>
+        @media(max-width:400px){
+            .center_column{width: 95%;}
+            .t-name{font-size: 12px;}
+            }
+        @media(max-width:300px){
+        .center_column{width: 78%;}
+        }
+        </style>
+    {/literal}
+{/if}
+    

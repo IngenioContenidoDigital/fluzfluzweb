@@ -48,7 +48,10 @@
     #value-cash{font-size: 22px;}
 }
 
-
+@media(max-width:320px){
+   .name_sponsor{padding-left: 10px;}
+   .t-name{padding-left: 0px;}
+}
 
 
 
