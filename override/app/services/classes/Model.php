@@ -1542,7 +1542,7 @@ return $responseObj;
     CartRule::autoAddToCart();
     
 
-    error_log("\nEn Model: -- this->getCart(this->context->cart->id): ".print_r($this->getCart($this->context->cart->id),true),3,"/tmp/error.log");
+    //error_log("\nEn Model: -- this->getCart(this->context->cart->id): ".print_r($this->getCart($this->context->cart->id),true),3,"/tmp/error.log");
     return $this->getCart($this->context->cart->id);
   }
   
@@ -1639,7 +1639,7 @@ return $responseObj;
   
   public function updateAllProductQty( $cartData ) {
     $this->context->cart = new Cart((int) $cartData['id']);
-    error_log("Este es el carro a actualizar: ".print_r($this->context->cart, true),3,"/tmp/error.log");
+    //error_log("Este es el carro a actualizar: ".print_r($this->context->cart, true),3,"/tmp/error.log");
     foreach ($cartData['products'] as $product) {
       $this->context->cart->updateQty(0, $product['id_product'], null, false, 'down');
       if( $product['quantity'] <= (int)$product['quantity_available'] ){
@@ -1730,6 +1730,16 @@ return $responseObj;
     return $db->executeS($sql);
   }
   
+  public function getVault($id_customer, $id_lang){
+    $result = MyAccountController::getProductsByManufacturer($id_customer, $id_lang);
+//    error_log("\n\nEstos son los result: ".print_r($result, true),3,"/tmp/error.log");
+    return array('result' => $result);
+  }
   
   
+  public function getVaultByManufacturer($id_customer, $id_manufacturer) {
+    $result = Wallet::getCards($id_customer, $id_manufacturer);
+    error_log("\n\nEstos son los result: ".print_r($result, true),3,"/tmp/error.log");
+    return array('result' => $result);
+  }
 }

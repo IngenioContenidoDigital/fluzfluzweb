@@ -700,7 +700,7 @@ class API extends REST {
       $option = $this->_request['option'];
     }
     
-    error_log("\n\nEntro a obtener las categoriaas: ",3,"/tmp/error.log");
+    //error_log("\n\nEntro a obtener las categoriaas: ",3,"/tmp/error.log");
     $model = new Model();
     $link = new Link();
     if( $option == 1 ){
@@ -711,7 +711,7 @@ class API extends REST {
       foreach ($categories['result'] as $key => &$category) {
         $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
       }
-      error_log("\n\nCategorias de abajo: \n\n". print_r($categories,true),3,"/tmp/error.log");
+      //error_log("\n\nCategorias de abajo: \n\n". print_r($categories,true),3,"/tmp/error.log");
     }
     return $this->response(json_encode($categories),200);
   }
@@ -901,6 +901,41 @@ class API extends REST {
         $images = glob($dir . "*.jpg");
         $this->response(json_encode($images), 200);
     }
+    
+    
+    public function getVaultData(){
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      
+      if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
+        $id_customer = $this->_request['id_customer'];
+        $model = new Model();
+        $link = new Link();
+        
+        if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
+          $id_manufacturer = $this->_request['id_manufacturer'];
+          $purchases = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
+          foreach ($purchases['result'] as &$purchase){
+            $purchase['card_code'] = (int)$purchase['card_code'];            
+            $purchase['price'] = round($purchase['price']);            
+          }
+          return $this->response(json_encode($purchases),200);
+        }
+        
+        $purchases = $model->getVault($id_customer, $this->id_lang_default);
+        foreach ($purchases['result'] as &$purchase){
+          $purchase['total'] = round($purchase['total']);
+          $purchase['m_img'] = $link->getManufacturerImageLink($purchase['id_manufacturer']);
+        }
+        return $this->response(json_encode($purchases),200);
+      }
+      else {
+        $this->response('', 204);
+      }
+
+    }
+    
 
 }
 
