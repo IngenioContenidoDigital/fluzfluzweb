@@ -63,7 +63,12 @@
                                     </div>
                                     <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 containerinfor">        
                                         <div class="containerinforname row">
-                                            <span class="col-lg-4 col-sm-4 col-md-4 col-xs-4 name">{$member.username}</span>
+                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 name">
+                                                <span class="col-lg-12 col-sm-12 col-md-12 col-xs-12">{$member.username}</span>
+                                                <!--<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 transfer-f">
+                                                    <span class="transferfluz fancybox fancybox.iframe" title="Transfer Fluz" href="{$link->getPageLink('transferfluz', true)}?popup=true&name_member={$member.username}&id_member={$member.id}">Transferir Fluz</span>
+                                                </div>-->    
+                                            </div>
                                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 message"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
                                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 message">
                                                 {if $member.pendingsinvitation != 0}
@@ -86,11 +91,6 @@
             </div>
                     <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga" class="icon-refresh icon-white"></i></button>
         </div>
-        {literal}
-            <style>
-                .fancybox-outer{height: 400px !important;}
-            </style>
-        {/literal}
         <div class="block-messages col-lg-6 col-md-6 col-sm-6">
             <h2>{l s='My Messages'}</h2>
             <input type="text" name="searchmessage" id="searchmessage" class="textsearch" placeholder="{l s='Search member'}" value="{$searchmessage}"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
@@ -246,4 +246,11 @@
             });
         });
     </script>
+{/literal}
+{literal}
+    <style>
+        @media (max-width:780px){
+            .fancybox-outer{height: 400px !important;}
+        }
+    </style>
 {/literal}

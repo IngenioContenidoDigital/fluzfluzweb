@@ -88,6 +88,7 @@
         {if $grupo == 4}
         <li><a href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Redimir tus Fluz en efectivo'}</span></a></li>
         <li><a href="{$link->getPageLink('stateaccount', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/statics.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Estado de Cuenta'}</span></a></li>
+        <li><a href="{$link->getPageLink('transferfluz', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Transferencias Fluz a Fluzzer'}</span></a></li>
         {/if}
         </ul>
     </div>
