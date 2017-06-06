@@ -1,22 +1,22 @@
+[/{shop_url}] 
 
-[{shop_url}] 
+Hola {firstname} {lastname}, 
 
-Hi {firstname} {lastname}, 
+sted es parte de nuestros mejores clientes, sin embargo, no han
+ordenado para {days_threshold} días.
 
-You are one of our best customers, however you have not placed an
-order in {days_threshold} days.
+Su carrito ha sido guardado, puede reanudar su solicitud por visitar
+nuestra tienda: {shop_url} [/{shop_url}]
 
-Your cart has been saved, you can resume your order by visiting our
-shop: {shop_url} [HTTP://SAFE.SHELL.LA/{shop_url}]
+Queremos agradecerle su confianza y ¡queremos ofrecerle un descuento
+de {amount}% válido para su próximo pedido! Esta reducción será
+válida durante {days} días, ¡aprovéchela desde ahora! 		 
 
-We wish to thank you for the trust you have placed in us and want to
-give you a discount of {amount}% valid on your next order! This offer
-is valid for {days} days, so do not waste a moment! 
+AQUÍ ESTÁ TU CUPÓN: {voucher_num}
 
-HERE IS YOUR COUPON: {voucher_num}
+Introduzca este código en tu carrito de compras para obtener el
+descuento. 		 
 
-Enter this code in your shopping cart to get your discount. 
-
-{shop_name} [{shop_url}] powered by
-PrestaShop(tm) [http://www.prestashop.com/] 
+{shop_name} [/{shop_url}] creado por PrestaShop(tm)
+[http://www.prestashop.com/] 
 

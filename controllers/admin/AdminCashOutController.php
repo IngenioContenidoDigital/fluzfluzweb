@@ -1,4 +1,5 @@
 <?php
+require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
 
 class AdminCashOutControllerCore extends AdminController
 {
@@ -141,6 +142,8 @@ class AdminCashOutControllerCore extends AdminController
     {   
         if (Tools::isSubmit('submitState')) {
             
+            $estado = Tools::getValue('id_status');
+            
             $qstate="UPDATE "._DB_PREFIX_."rewards_payment SET id_status= ".Tools::getValue('id_status')." WHERE id_rewards_payment=".Tools::getValue('id_payment');
                             Db::getInstance()->execute($qstate);
             
@@ -156,7 +159,41 @@ class AdminCashOutControllerCore extends AdminController
                         Db::getInstance()->execute($query_insert);
             
             $qstate_employee="UPDATE "._DB_PREFIX_."rewards_payment_employee SET id_status= ".Tools::getValue('id_status').", estado='".Tools::getValue('option-sel')."' WHERE id_rewards_payment=".Tools::getValue('id_payment');
-                            Db::getInstance()->execute($qstate_employee);            
+                            Db::getInstance()->execute($qstate_employee);    
+                            
+            if($estado == 3){
+                
+                $id_payment = Tools::getValue('id_payment');
+                
+                $query_vars = 'SELECT * FROM '._DB_PREFIX_.'rewards_payment rp
+                               LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = rp.id_customer)
+                               WHERE id_rewards_payment='.$id_payment;
+                $mailVars = DB::getInstance()->executeS($query_vars);
+                
+                $mail_vars = array(
+                    '{username}'=> $mailVars[0]['username'],
+                    '{nombre_del_solicitante}' => $mailVars[0]['nombre'],
+                    '{numero_de_cuenta}'=> $mailVars[0]['numero_tarjeta'],
+                    '{tipo_de_cuenta}' => $mailVars[0]['tipo_cuenta'],
+                    '{nombre_del_banco}' => $mailVars[0]['banco'],
+                    '{fluz_utilizados}' => $mailVars[0]['points'],
+                    '{Valor_redencion}' => Tools::displayPrice(-7000, 1, false),
+                    '{cantidad_a_pagar}' => Tools::displayPrice($mailVars[0]['credits'], 1, false),
+                    );
+                
+                $email = $mailVars[0]['email'];
+                
+                $template = 'cashout_approval_notice';
+                $prefix_template = '16-cashout_approval_notice';
+
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                $row_subject = Db::getInstance()->getRow($query_subject);
+                $message_subject = $row_subject['subject_mail'];
+
+                $allinone_rewards = new allinone_rewards();
+                $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mail_vars, $email, $mailVars[0]['firstname'].' '.$mailVars[0]['lastname']);
+                
+            }                
                         
             Tools::redirectAdmin(self::$currentIndex.'&id_rewards_payment='.Tools::getValue('id_payment').'&viewrewards_payment&token='.$this->token);
         }

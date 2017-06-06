@@ -5,6 +5,8 @@
  */
 
 $(function() {
+    $(".pendingsinvitation").fancybox();
+
     // search member
     $('.searchimg').click( function() {
         $('#formnetwork').submit();

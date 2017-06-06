@@ -44,6 +44,10 @@ class Customer extends CustomerCore
     /** @var string autoaddnetwork number */
     public $autoaddnetwork;
     
+    public $date_kick_out;
+
+    public $warning_kick_out;
+    
     public static $definition = array(
         'table' => 'customer',
         'primary' => 'id_customer',
@@ -219,7 +223,7 @@ class Customer extends CustomerCore
                                                     LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
                                                     LEFT JOIN "._DB_PREFIX_."order_history oh ON ( o.id_order = oh.id_order )
                                                     WHERE c.email = '".$email."'
-                                                    AND od.product_reference = 'MFLUZ'
+                                                    AND od.product_reference LIKE 'MFLUZ%'
                                                     AND oh.id_order_state = 2");
 
         /*$expulsiones = Db::getInstance()->getValue("SELECT COUNT(*) expulsiones
@@ -292,6 +296,25 @@ class Customer extends CustomerCore
         }
         
         return $addCard;
+    }
+    
+    public function mylogout()
+    {
+        $id_cart = Context::getContext()->cookie->id_cart;
+        if(!empty($id_cart)){
+            $sql = 'DELETE FROM '._DB_PREFIX_.'cart WHERE id_cart = '.$id_cart;
+            Db::getInstance()->execute($sql);
+        }
+        
+        Hook::exec('actionCustomerLogoutBefore', array('customer' => $this));
+
+        if (isset(Context::getContext()->cookie)) {
+            Context::getContext()->cookie->mylogout();
+        }
+
+        $this->logged = 0;
+
+        Hook::exec('actionCustomerLogoutAfter', array('customer' => $this));
     }
 }
 

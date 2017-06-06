@@ -2,6 +2,8 @@
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once('./modules/allinone_rewards/models/RewardsModel.php');
+include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 $execute_kickout = false;
 
@@ -35,7 +37,7 @@ foreach ( $customers as $key => &$customer ) {
     
     $query = "SELECT IFNULL(SUM(od.product_quantity),0) purchases
                 FROM "._DB_PREFIX_."orders o
-                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference != 'MFLUZ' )
+                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
                 WHERE o.current_state = 2
                 AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out_show']." 00:00:00', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out_show']." 23:59:59' )
                 AND id_customer = ".$customer['id_customer'];
@@ -58,8 +60,6 @@ foreach ( $customers as $key => &$customer ) {
         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = ".($purchases < 2 ? '1' : '0')." WHERE id_customer = ".$customer['id_customer']);
     }
     
-    
-
     $subject = $message_1 = $message_2 = $message_3 = "";
     $template = 'remember_inactive_account';
     switch ( $customer['days_inactive'] ) {
@@ -102,7 +102,7 @@ foreach ( $customers as $key => &$customer ) {
             Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."message_sponsor (id_message_sponsor, id_customer_send, id_customer_receive, message, date_send) VALUES ('',".Configuration::get('CUSTOMER_MESSAGES_FLUZ').", ".$customer['id_customer'].", 'Tu cuenta ha estado inactiva por mas de 60 dias. Debido a esto, por desgracia, su cuenta ha sido cancelada.', NOW())");
             Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET kick_out = 1 WHERE id_customer = ".$customer['id_customer']);
             break;
-    }
+    } 
     
     if ( $subject != "" && $template != "cancellation_account" ) {
         if ( $customer['days_inactive'] != "NULL" ) {            
@@ -135,14 +135,28 @@ foreach ( $customers as $key => &$customer ) {
         );
 
         if ( $customer['days_inactive'] != "NULL" ) {
-            Mail::Send(
+            
+            $file = _PS_ROOT_DIR_ . '/Flyers-O-s.pdf';
+            $file_attachement[0]['content'] = file_get_contents($file);
+            $file_attachement[0]['name'] = 'Informacion fluzfluz.pdf';
+            $file_attachement[0]['mime'] = 'application/pdf';
+
+            $file = _PS_ROOT_DIR_ . '/guiarapidaFluz-O.pdf';
+            $file_attachement[1]['content'] = file_get_contents($file);
+            $file_attachement[1]['name'] = 'Guia Rapida Fluz Fluz.pdf';
+            $file_attachement[1]['mime'] = 'application/pdf';
+            
+            $allinone_rewards = new allinone_rewards();
+            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($subject), $vars, $customer['email'],$customer['username'], $file_attachement);
+                
+            /*Mail::Send(
                 Context::getContext()->language->id,
                 $template,
                 $subject,
                 $vars,
                 $customer['email'],
                 $customer['username']
-            );
+            );*/
         }
     }
 }

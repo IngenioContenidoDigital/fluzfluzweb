@@ -1,12 +1,13 @@
-Hola,
+Hello,
 
-Su amigo(a) {firstname} {lastname} le ha apadrinado en la web {shop_name}!.
+Your friend {firstname} {lastname} wants to sponsor you on {shop_url}.
 
-Para acceder al sitio, nada más fácil. Haga clic aquí :
+His message :
+{message}
+
+It's very easy to sign up. Just click on the following link:
 {link}
 
-Su mensaje :
-{message}
 
 
 {shop_name}

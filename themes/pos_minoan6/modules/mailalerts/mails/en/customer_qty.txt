@@ -1,17 +1,14 @@
+[/{shop_url}] 
 
-[{shop_url}] 
+Hola, 
 
-Hi, 
+De hecho, el tema es una vez más en acciones.
 
-{product} is now available. 
+Puede acceder a la página del producto haciendo clic en el enlace
+{product} [/{product_link}]
 
-This item is once again in-stock.
+Puede solicitar ahora mismo en nuestra tienda on-line. 		 
 
-You can access the product page by clicking on the link: {product}
-[HTTP://SAFE.SHELL.LA/{product_link}]
-
-You can order it right now from our online shop. 
-
-{shop_name} [{shop_url}] powered by
-PrestaShop(tm) [http://www.prestashop.com/] 
+{shop_name} [/{shop_url}] creado por PrestaShop(tm)
+[http://www.prestashop.com/] 
 

@@ -4,7 +4,7 @@ global $_LANGMAIL;
 $_LANGMAIL = array();
 $_LANGMAIL['Welcome!'] = '¡Bienvenido!';
 $_LANGMAIL['Process the payment of your order'] = 'Proceso de pago de su pedido';
-$_LANGMAIL['Completa tu pedido'] = '';
+$_LANGMAIL['Pedido Recomendado'] = '';
 $_LANGMAIL['Message from contact form'] = 'Mensaje desde el formulario de contacto';
 $_LANGMAIL['Your message has been correctly sent #ct%1$s #tc%2$s'] = 'Tu mensaje ha sido enviado correctamente #ct%1$s #tc%2$s';
 $_LANGMAIL['Your message has been correctly sent'] = 'Su mensaje se ha enviado correctamente';
@@ -26,7 +26,7 @@ $_LANGMAIL['New voucher for your order #%s'] = 'Nuevo cupón correspondiente a s
 $_LANGMAIL['New voucher for your order %s'] = 'Nuevo cupón correspondiente a su pedido %s';
 $_LANGMAIL['Newsletter confirmation'] = 'Confirmación de Boletín';
 $_LANGMAIL['Email verification'] = 'Verificación de correo';
-$_LANGMAIL['Newsletter voucher'] = 'Voucher boletín de noticias';
+$_LANGMAIL['Newsletter voucher'] = 'A comprar';
 $_LANGMAIL['Your wishlist\\\'s link'] = '';
 $_LANGMAIL['Message from %1$s %2$s'] = 'Mensaje de %1$s %2$s';
 $_LANGMAIL['Your cart and your discount'] = '';

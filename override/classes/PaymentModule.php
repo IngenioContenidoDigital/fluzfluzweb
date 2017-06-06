@@ -346,7 +346,7 @@ abstract class PaymentModule extends PaymentModuleCore
                     $product_var_tpl_list = array();
                     foreach ($order->product_list as $product) {
                         $image_url = "";    
-                        $codeText = 'select code, id_product FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
+                        $codeText = 'select code, id_product, pin_code FROM '._DB_PREFIX_.'product_code WHERE id_order = '.(int)$order->id.' AND id_product = '.$product['id_product'];
                         $rowCode = Db::getInstance()->executeS($codeText);
                         
                         $query = 'SELECT codetype FROM '._DB_PREFIX_.'product WHERE id_product = '.$product['id_product'];
@@ -357,15 +357,20 @@ abstract class PaymentModule extends PaymentModuleCore
                             $customer = new Customer($order->id_customer);
                             $codecrypt = Encrypt::decrypt($customer->secure_key , $code['code']);
                             if ($code2 == 2){
-                                $image_url .=  "<label>".$codecrypt."</label><br>";
+                                if($code['pin_code']==''){
+                                    $image_url .=  "<label>".$codecrypt."</label><br>";
+                                }
+                                else{
+                                    $image_url .=  "<label>".$codecrypt."-".$code['pin_code']."</label><br>";
+                                }
                             }
                             else{
                                 $this->consultcodebar($code['id_product'], $code['code']);
                                 if (isset($_SERVER['HTTPS'])) {
-                                    $image_url .=  "<label>".$codecrypt."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                    $image_url .=  "<label>".$codecrypt."-".$code['pin_code']."</label><br><img src='https://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                                 }
                                 else{
-                                    $image_url .=  "<center><label>".$codecrypt."</label></center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
+                                    $image_url .=  "<center><label>".$codecrypt."</label>-".$code['pin_code']."</center><br><img src='http://".Configuration::get('PS_SHOP_DOMAIN')."/upload/code-".$code['code'].".png'/><br>";
                                 }
                             }
                         }
@@ -562,6 +567,7 @@ abstract class PaymentModule extends PaymentModuleCore
                             'orderStatus' => $order_status
                         ));
                     } else {
+                        
                         Hook::exec('actionValidateOrder2', array(
                             'cart' => $this->context->cart,
                             'order' => $order,
@@ -599,6 +605,25 @@ abstract class PaymentModule extends PaymentModuleCore
                         $delivery = new Address((int)$order->id_address_delivery);
                         $delivery_state = $delivery->id_state ? new State((int)$delivery->id_state) : false;
                         $invoice_state = $invoice->id_state ? new State((int)$invoice->id_state) : false;
+                        
+                        $point_product = '';
+                        $name_product = '';
+                        $expiration_product = '';
+                        
+                        foreach ($order->getProducts() as &$product_cart){
+                            
+                            $point_p = floor($product_cart['points']);
+                            $point_product .=  "<label>".$point_p."</label><br>";
+                            $name_product .= "<label>".$product_cart['product_name']."</label><br>";
+                            
+                            if($product_cart['expiration'] == '0000-00-00'){
+                                $expiration_product = '';
+                            }
+                            else{
+                                $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                            }
+                        }
+                        
                         $data = array(
                         '{username}' => $this->context->customer->username,
                         '{firstname}' => $this->context->customer->firstname,
@@ -645,6 +670,9 @@ abstract class PaymentModule extends PaymentModuleCore
                         '{products}' => $product_list_html,
                         //'{image}'=> $image_url,
                         '{products_txt}' => $product_list_txt,
+                        '{points}' => $point_product,   
+                        '{name_product}' => $name_product, 
+                        '{expiration}' => $expiration_product,     
                         '{discounts}' => $cart_rules_list_html,
                         '{discounts_txt}' => $cart_rules_list_txt,
                         '{total_value}' => $total_value,   
@@ -680,10 +708,18 @@ abstract class PaymentModule extends PaymentModuleCore
                                     $file_attachement[1]['mime'] = 'application/pdf';
                                     
                                     if (Validate::isEmail($this->context->customer->email)) {
+                                        
+                                        foreach ($order->getProducts() as &$product_name){
+                                            $name_product_subject .= " ".$product_name['product_name'].", ";
+                                        }
+                                        
                                         $template = 'order_conf';
-                                        $subject = Mail::l('Order confirmation', (int)$order->id_lang);
+                                        $prefix_template = '16-order_conf';
                                         $cart_rules_order = $this->context->cart->getCartRules();
                                         
+                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                                        $row_subject = Db::getInstance()->getRow($query_subject);
+                                        $message_subject = $row_subject['subject_mail'].' '.''.$name_product_subject.''.' ';
                                         
                                         $query_m = "SELECT p.reference
                                                     FROM "._DB_PREFIX_."cart c
@@ -695,10 +731,17 @@ abstract class PaymentModule extends PaymentModuleCore
 
                                         if ( $payment_method == "Pedido gratuito" && empty($cart_rules_order) && !empty($m_fluz) ) {
                                             $template = 'order_conf_freefluz';
-                                            $subject = 'Confirmacion de carga de Fluz';
                                             $file_attachement = array();
+                                            $prefix_template = '16-order_conf_freefluz';
+                
+                                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                                            $row_subject = Db::getInstance()->getRow($query_subject);
+                                            $message_subject = $row_subject['subject_mail'];
                                         }
-
+                                        
+                                            $allinone_rewards = new allinone_rewards();
+                                            $allinone_rewards->sendMail((int)$order->id_lang, $template, $allinone_rewards->getL($message_subject), $data, $this->context->customer->email, $this->context->customer->firstname.' '.$this->context->customer->lastname,$file_attachement);
+                                        /*
                                         Mail::Send(
                                             (int)$order->id_lang,
                                             $template,
@@ -710,8 +753,8 @@ abstract class PaymentModule extends PaymentModuleCore
                                             null,
                                             $file_attachement,
                                             null, _PS_MAIL_DIR_, false, (int)$order->id_shop
-                                        );
-                                } }   
+                                        );*/
+                                } }
                     }
                     // updates stock in shops
                     if (Configuration::get('PS_ADVANCED_STOCK_MANAGEMENT')) {

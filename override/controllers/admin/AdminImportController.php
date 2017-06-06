@@ -1,5 +1,7 @@
 <?php
 
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+
 class AdminImportController extends AdminImportControllerCore
 {
     public function __construct()
@@ -917,15 +919,27 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
-
-                        Mail::Send(
+                        
+                        AuthController::sendNotificationSponsor($customer->id);
+                        
+                        $template = 'welcome_fluzfluz';
+                        $prefix_template = '16-welcome_fluzfluz';
+                        
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
+                        
+                        $allinone_rewards = new allinone_rewards();
+                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer->email, $customer->firstname.' '.$customer->lastname);
+        
+                        /*Mail::Send(
                             Context::getContext()->language->id,
                             'welcome_fluzfluz',
                             'Bienvenido a FluzFluz',
                             $vars,
                             $customer->email,
                             $customer->firstname
-                        );
+                        );*/
                     }
                 }
             }
@@ -962,10 +976,17 @@ class AdminImportController extends AdminImportControllerCore
         }
         $this->closeCsvFile($handle);
         
-        if ( $number_to_import <= 51 ) {
+        if ( $number_to_import <= 31 ) {
         $handle = $this->openCsvFile();
         // main loop, for each supply orders to import
         for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); ++$current_line) {
+            
+            $name = '';
+            $quantity_p = '';
+            $price_unit = '';
+            $price_total = '';
+            $price_point = '';
+
             // if convert requested
             if ($convert) {
                 $line = $this->utf8EncodeArray($line);
@@ -994,7 +1015,7 @@ class AdminImportController extends AdminImportControllerCore
                     
                     $query_stock = 'SELECT quantity FROM '._DB_PREFIX_.'stock_available WHERE id_product = '.$id_product;
                     $row_stock = Db::getInstance()->getRow($query_stock);
-                    $stock_available = $row_stock['quantity'];
+                    $stock_available = $row_stock['quantity']; 
                     
                     $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$id_product;
                     $m_fluz = Db::getInstance()->executeS($query_m);
@@ -1095,7 +1116,7 @@ class AdminImportController extends AdminImportControllerCore
                         
                         $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants((int)$info['id_customer']);
                         $sponsorships2=array_slice($sponsorships, 1, 15);
-                       
+                        
                         foreach ($cart_normal->getProducts() as &$product_cart){
                             $name .=  "<label>".$product_cart['name']."</label><br>";
                             $quantity_p .=  "<label>".$product_cart['cart_quantity']."</label><br>";
@@ -1123,10 +1144,19 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         );
+                        $template = 'backoffice_order';
+                        $prefix_template = '16-backoffice_order';
                         
-                        Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
+                        
+                        /*Mail::Send((int)$cart_normal->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart_normal->id_lang), $mailVars, $customer->email,
                         $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart_normal->id_shop);
-                        
+                        */
+                        $allinone_rewards = new allinone_rewards();
+                        $allinone_rewards->sendMail((int)$cart_normal->id_lang, $template, $allinone_rewards->getL($message_subject), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname);
+        
                     }
                         // INSERT LOG IMPORT ORDERS
                         $employee = new Employee((int)Context::getContext()->cookie->id_employee);
@@ -1141,7 +1171,7 @@ class AdminImportController extends AdminImportControllerCore
             $this->closeCsvFile($handle);
         }
         else {
-            $this->errors[] = "No es posible importar mas de 50 registros. Por favor validar y reducir la cantidad de registros.";
+            $this->errors[] = "No es posible importar mas de 30 registros. Por favor validar y reducir la cantidad de registros.";
         }
         
     }

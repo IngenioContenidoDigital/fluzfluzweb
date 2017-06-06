@@ -203,7 +203,14 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                                                                 '{Expiration}'=> $send,
 								'{nb_discount}' => $nb_discount,
 								'{discount}' => $discount_gc);
-							$this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
+                                                        
+                                                        $prefix_template = '16-sponsorship-invitation-novoucher';
+
+                                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"'; 
+                                                        $row_subject = Db::getInstance()->getRow($query_subject);
+                                                        $message_subject = $row_subject['subject_mail'];
+                                                        
+							$this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
 							$invitation_sent = true;
 							$nbInvitation++;
 							$activeTab = 'pending';
@@ -308,14 +315,22 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 								'{nb_discount}' => $nb_discount,
 								'{discount}' => $discount_gc
 							);
-                                                Mail::Send(
+                                                
+                                                /*Mail::Send(
                                                     (int)$this->context->language->id,
                                                     'invitationCancel',
                                                     'Invitacion Cancelada',
                                                     $vars,
                                                     $sponsorship->email,
                                                     $sponsorship->firstname.' '.$sponsorship->lastname
-                                                );
+                                                );*/
+                                                $template = 'invitation_cancel';
+                                                $prefix_template = '16-invitation_cancel';
+
+                                                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                                                $row_subject = Db::getInstance()->getRow($query_subject);
+                                                $message_subject = $row_subject['subject_mail'];
+						$this->module->sendMail((int)$this->context->language->id, $template, $this->module->getL($message_subject), $vars, $sponsorship->email, $sponsorship->firstname.' '.$sponsorship->lastname);
                                                 Tools::redirect($this->context->link->getPageLink('cancelinvitation', true, (int)$this->context->language->id));
                                             }
 					}

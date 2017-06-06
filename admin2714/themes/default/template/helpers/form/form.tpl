@@ -412,7 +412,7 @@
 											{/strip}
 										</div>
 										{if isset($value.p) && $value.p}<p class="help-block">{$value.p}</p>{/if}
-									{/foreach}
+									{/foreach} 
 								{elseif $input.type == 'switch'}
 									<span class="switch prestashop-switch fixed-width-lg">
 										{foreach $input.values as $value}

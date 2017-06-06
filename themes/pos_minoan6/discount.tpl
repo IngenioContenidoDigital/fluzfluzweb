@@ -30,61 +30,67 @@
 
 <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
     <div class="row blockcontainer">
-        <div class="block-network col-lg-6 col-md-6 col-sm-6">
+        <div class="block-network col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <h2>{l s='Explore Network'}</h2>
             <input type="text" name="searchnetwork" id="searchnetwork" class="textsearch" placeholder="{l s='Search member'}" value="{$searchnetwork}"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">
             <div class="containtertables">
                 <div class="tablenetwork">
                     {foreach from=$members item=member}
                         <div class="member">
-                            <td>
+                            <div class="spacesavailable">
                                 <table class="tablecontent">
-                                    <tr>
-                                        <td rowspan="4" class="img">
-                                            {assign var="urlimgnet" value=""}
-                                            {if $member.img != ""}
-                                                <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
-                                                {$urlimgnet = $member.img}
-                                            {else}
-                                                <img src="{$img_dir}icon/profile.png" width="55" height="50">
-                                                {$urlimgnet = $img_dir|cat:"icon/profile.png"}
-                                            {/if}
-                                        </td>
-                                    </tr>
-                                    <tr class="spacesavailable">
-                                        <td colspan="2" rowspan="2" class="line colname"><span class="name">{$member.username}</span></td>
-                                        <td colspan="2">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="avalaible-invitation">
                                             {if $member.pendingsinvitation != 0}
-                                                <span>{$member.pendingsinvitation} Espacio(s) Disponible(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <span>{$member.pendingsinvitation} Espacio(s) Disponible(s)</span>
                                             {/if}
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="message line"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></td>
-                                        <td class="message line">
-                                            {if $member.pendingsinvitation != 0}
-                                                <span class="pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">Invitar Amigo</span>
-                                                {*span class="data pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>*}
-                                            {/if}
-                                            &nbsp;
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="colpoints"><span class="information">{l s='Points Contributed:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></td>
-                                        <td><span class="information">{l s='Network Level:'} </span><span class="data">{$member.level}</span></td>
-                                        <td colspan="2"><span class="information">{l s='Date Added:'} </span><span class="data">{$member.dateadd}</span></td>
-                                        <td></td>
-                                    </tr>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="col-xs-2 col-md-2 col-sm-2 col-lg-2 containerimguser">
+                                        <div class="img-center">
+                                            <div class="img">
+                                                {assign var="urlimgnet" value=""}
+                                                {if $member.img != ""}
+                                                    <img src="{$member.img}" width="50" height="50" style="margin-left: 5px;">
+                                                    {$urlimgnet = $member.img}
+                                                {else}
+                                                    <img src="{$img_dir}icon/profile.png" width="55" height="50">
+                                                    {$urlimgnet = $img_dir|cat:"icon/profile.png"}
+                                                {/if}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-10 col-md-10 col-sm-10 col-lg-10 containerinfor">        
+                                        <div class="containerinforname row">
+                                            <span class="col-lg-4 col-sm-4 col-md-4 col-xs-4 name">{$member.username}</span>
+                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 message"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
+                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 message">
+                                                {if $member.pendingsinvitation != 0}
+                                                    <span class="pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">Invitar Amigo</span>
+                                                    {*span class="data pendingsinvitation fancybox fancybox.iframe" title="Invitar Amigo" href="{$link->getPageLink('sponsorshipthird', true)}?user={$member.id}">{$member.pendingsinvitation} Invitacion(es) Pendiente(s)</span>*}
+                                                {/if}
+                                            </div>
+                                        </div>
+                                        <div class="row info-account-fluz">
+                                            <div class="info-net-fluz col-lg-4 col-sm-4 col-md-4 col-xs-4"><span class="information">{l s='Points Contributed:'} </span><span class="data">{if $member.points != ""}{$member.points}{else}0{/if}</span></div>
+                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3"><span class="information">{l s='Network Level:'} </span><span class="data">{$member.level}</span></div>
+                                            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5"><span class="information">{l s='Date Added:'} </span><span class="data">{$member.dateadd}</span></div>
+                                        </div>
+                                    </div>
                                 </table>
-                            </td>
+                            </div>
                         </div>
                     {/foreach}
                 </div>
             </div>
                     <button id="loadMoreMember" class="col-lg-11 btn-moreload"><span class="pmore">{l s="Mostrar mas"}</span><i id="boton-carga" class="icon-refresh icon-white"></i></button>
         </div>
+        {literal}
+            <style>
+                .fancybox-outer{height: 400px !important;}
+            </style>
+        {/literal}
         <div class="block-messages col-lg-6 col-md-6 col-sm-6">
             <h2>{l s='My Messages'}</h2>
             <input type="text" name="searchmessage" id="searchmessage" class="textsearch" placeholder="{l s='Search member'}" value="{$searchmessage}"><img class="searchimg" src="/themes/pos_minoan6/css/modules/blocksearch/search.png" title="Search" alt="Search" height="15" width="15">

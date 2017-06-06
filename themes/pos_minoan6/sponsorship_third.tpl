@@ -1,11 +1,17 @@
 {if $invitation_sent}
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="">
+        <br><br>
+        <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+        <p id="message_confirm" style="border:1px solid #E5E5E5;color:#31B404; text-align: center;">Felicidades tu amigo es ahora un nuevo miembro de Fluz Fluz.</p>
+    </div>
     <script>
-        alert("Su amigo ha sido invitado.");
-        $.fancybox.close();
-        window.top.location.reload();
+        setTimeout( function(){ 
+            $.fancybox.close();
+            window.top.location.reload();
+        }  , 3000 );
+            
     </script>
-{/if}
-
+{else}
 <div id="rewards_sponsorship" class="rewards">
     {if $error}
 	<p class="error">
@@ -74,10 +80,22 @@
         </div>
     </div>   
 </div>
-
+{/if}  
 {literal}
     <style>
         #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
+        
+        @media (max-width:425px){ 
+            .title-sponsor{color: red !important;} 
+            .fancybox-opened .fancybox-skin{padding: 5px !important;}
+            #rewards_sponsorship{margin-left: 0px !important;}
+        }
+        
+        @media (max-width:300px){
+            .rewards{width: 100% !important;}
+            .fancybox-outer{height: 250px!important;}
+            .fancybox-skin{height: 300px !important;}
+        }
     </style>
 {/literal}
-        
+      

@@ -1,39 +1,35 @@
+[/{shop_url}] 
 
-[{shop_url}] 
+Hola, 
 
-Congratulations! 
+Ha recibido una nueva solicitud de devolución de {shop_name}. 
 
-An order was returned to {shop_name} by the following customer:
-{firstname} {lastname} ({email})
+Detalles de devolución 
 
-Order details 
+PEDIDO: {order_name} Efectuado en {date}
 
-ORDER: {order_name} Placed on {date}
+CLIENTE: {firstname} {lastname}, ({email}) 
 
-REFERENCE
+REFERENCIA
 
-PRODUCT
+PRODUCTO
 
-UNIT PRICE
-
-QUANTITY
-
-TOTAL PRICE
+CANTIDAD
 
 {items} 
 
-Delivery address
+Dirección de entrega
 
-{delivery_block_html}
+{delivery_block_html} 		 
 
-Billing address 
+Dirección de facturación
 
 {invoice_block_html} 
 
-Customer message: 
+Mensaje: 
 
 {message} 
 
-{shop_name} [{shop_url}] powered by
-PrestaShop(tm) [http://www.prestashop.com/] 
+{shop_name} [/{shop_url}] creado por PrestaShop(tm)
+[http://www.prestashop.com/] 
 

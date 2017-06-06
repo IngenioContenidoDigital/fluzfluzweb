@@ -72,9 +72,15 @@ foreach ($invitations as $key => &$invitation) {
                     '{Expiration}'=> $sixDays,
                     '{link}' => $sponsorship->getSponsorshipMailLink()
                 );
+        
+        $prefix_template = '16-sponsorship-invitation-novoucher';
 
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+        $row_subject = Db::getInstance()->getRow($query_subject);
+        $message_subject = $row_subject['subject_mail'];
+        
         $allinone_rewards = new allinone_rewards();
-        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
+        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
     }
 
     else if ($days == 5) {
@@ -109,9 +115,14 @@ foreach ($invitations as $key => &$invitation) {
                     '{Expiration}'=> $twoDays,
                     '{link}' => $sponsorship->getSponsorshipMailLink()
                 );
+        $prefix_template = '16-sponsorship-invitation-novoucher';
 
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+        $row_subject = Db::getInstance()->getRow($query_subject);
+        $message_subject = $row_subject['subject_mail'];
+        
         $allinone_rewards = new allinone_rewards();
-        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
+        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
     }
 
     else if ($days == 6) {
@@ -147,8 +158,14 @@ foreach ($invitations as $key => &$invitation) {
                     '{link}' => $sponsorship->getSponsorshipMailLink()
                 );
 
+         $prefix_template = '16-sponsorship-invitation-novoucher';
+
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+        $row_subject = Db::getInstance()->getRow($query_subject);
+        $message_subject = $row_subject['subject_mail'];
+        
         $allinone_rewards = new allinone_rewards();
-        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
+        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
     }
 
     else if ($days == 7) {
@@ -184,8 +201,14 @@ foreach ($invitations as $key => &$invitation) {
                     '{link}' => $sponsorship->getSponsorshipMailLink()
                 );
 
+        $prefix_template = '16-sponsorship-invitation-novoucher';
+
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+        $row_subject = Db::getInstance()->getRow($query_subject);
+        $message_subject = $row_subject['subject_mail'];
+        
         $allinone_rewards = new allinone_rewards();
-        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL('invitation'), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
+        $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
     }
 
     else if ($days > 7) {
@@ -207,7 +230,7 @@ foreach ($invitations as $key => &$invitation) {
         $sponsorship->lastname = $friendLastName;
         $sponsorship->channel = 1;
         $sponsorship->email = $friendEmail;
-
+ 
         $vars = array(
                     '{message}' => "PRUEBA",
                     '{firstname_invited}'=> $sponsorship->firstname,
@@ -221,7 +244,7 @@ foreach ($invitations as $key => &$invitation) {
 
         $prefix_template = '16-invitation_cancel';
 
-        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'subject_mail WHERE name_template_mail ="'.$prefix_template.'"';
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
         $row_subject = Db::getInstance()->getRow($query_subject);
         $message_subject = $row_subject['subject_mail'];
         
