@@ -263,16 +263,20 @@
         });
     </script>
 {/literal}
+
+{literal}
+<style>
+    .right_column{display: none;}
+</style>
+{/literal}
+
 {if $popup}
+    {literal}
     <style>
         #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
-    </style>
-    <style>
         .searchimg{ display: none!important; }
-    </style>
+        .right_column{display: none;}
     
-    {literal}
-        <style>
         @media(max-width:400px){
             .center_column{width: 95%;}
             .t-name{font-size: 12px;}
