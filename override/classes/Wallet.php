@@ -24,6 +24,7 @@ class WalletCore extends ObjectModel
                         PP.is_virtual,
                         M.name manufacturer,
                         PP.price_shop AS price,
+                        PP.codetype,
                         ROUND(PP.price) AS price_shop,
                         DATE_FORMAT(PO.date_add, '%d/%m/%Y') AS date,
                         DATE_FORMAT(PP.expiration, '%d/%m/%Y') AS expiration,
