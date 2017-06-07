@@ -28,7 +28,7 @@
 <div class="row info-personal">
     <div class="row row-personal">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div class="left-info">{l s='Username'}</div>
+                <div class="left-info">{l s='Usuario'}</div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="text-infouser"> {$username} </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="row row-personal">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div class="left-info">{l s='Dinero en Fluz'}</div>
+                <div class="left-info">{l s='Fluz en Dinero'}</div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="text-infouser"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </div>
@@ -76,7 +76,7 @@
         </div>
         <div class="row row-personal">
             <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12 style-fluz">
-                    <div class="left-info">{l s='Cantidad de Fluz a enviar'}</div>
+                    <div class="left-info">{l s='Cantidad de Fluz a Transferir'}</div>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                 <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="100" min="100" max="{$pointsAvailable}" step="100" data-rangeslider>
