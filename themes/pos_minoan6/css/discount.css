@@ -21,6 +21,8 @@
 .colpoints { width: 180px; }
 .message { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: right; }
 .message > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
+.transfer-f { font-size: 8px; color: #EF4136; text-transform: uppercase; text-align: left; margin-top: 5px;}
+.transfer-f > span { border: 1px solid #EF4136; padding: 3px 5px; cursor: pointer; }
 .containtertables { overflow-y: auto; height: 330px; margin: 20px 0; }
 .pendingsinvitation { cursor: pointer; }
 .spacesavailable { border:1px solid #E5E5E5;}
@@ -77,6 +79,7 @@ ul.footer_links{margin-left: 0px;}
 
 @media (max-width:920px){
     .message{padding: 0px;}
+    .transfer-f{padding: 0px;}
 }
 
 @media (max-width:768px){
