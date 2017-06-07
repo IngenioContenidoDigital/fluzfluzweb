@@ -1,0 +1,185 @@
+Hola {username}, 
+
+
+
+
+
+
+
+
+
+Gracias por comprar en Fluz Fluz. Su solicitud de retiro ha sido aprobada y procesada.
+
+
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Nombre del Solicitante: 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {nombre_del_solicitante} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Numero de Cuenta: 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {numero_de_cuenta} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Tipo de Cuenta: 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {tipo_de_cuenta} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Nombre del Banco 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {nombre_del_banco} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Fluz Utilizados: 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {fluz_utilizados} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Cantidad a Pagar 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {cantidad_a_pagar} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+ Comprar 
+ Privacidad de Datos 
+ Aprende M&aacute;s 
+
+
+
+
+
+
+
+

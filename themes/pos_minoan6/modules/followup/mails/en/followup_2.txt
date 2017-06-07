@@ -1,18 +1,18 @@
+[/{shop_url}] 
 
-[{shop_url}] 
+Hola {firstname} {lastname},
 
-Hi {firstname} {lastname},
+Gracias por su orden en {shop_name} 
 
-Thank you for your order at {shop_name}. 
+¡Le enviamos un descuento de {amount}% para su siguiente pedido! Es
+nuestra forma de decirle ¡gracias! Esta oferta es válida durante
+{days} días, ¡puede aprovecharla desde ahora!
 
-As our way of saying thanks, we want to give you a discount of
-{amount}% off your next order! This offer is valid for {days} days, so
-do not waste a moment!
+AQUÍ ESTÁ TU CUPÓN: {voucher_num}
 
-HERE IS YOUR COUPON: {voucher_num}
+Introduzca este código en tu carrito de compras para obtener el
+descuento. 		 
 
-Enter this code in your shopping cart to get your discount. 
-
-{shop_name} [{shop_url}] powered by
-PrestaShop(tm) [http://www.prestashop.com/] 
+{shop_name} [/{shop_url}] creado por PrestaShop(tm)
+[http://www.prestashop.com/] 
 

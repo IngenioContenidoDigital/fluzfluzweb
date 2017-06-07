@@ -1,15 +1,12 @@
+[/{shop_url}] 
 
-[{shop_url}] 
+Hola, 
 
-Hi, 
-
-{product} is almost out of stock. 
-
-The stock cover is now less than the specified minimum of:
+La cobertura de stock es ahora menor que el mínimo especificado en:
 {warning_coverage}.
 
-CURRENT STOCK COVER: {current_coverage} 
+ACTUAL PORTADA EXISTENCIA: {current_coverage} 		 
 
-{shop_name} [{shop_url}] powered by
-PrestaShop(tm) [http://www.prestashop.com/] 
+{shop_name} [/{shop_url}] creado por PrestaShop(tm)
+[http://www.prestashop.com/] 
 

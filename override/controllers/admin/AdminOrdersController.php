@@ -27,6 +27,8 @@
 /**
  * @property Order $object
  */
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+
 class AdminOrdersController extends AdminOrdersControllerCore
 {
     public function initToolbar()
@@ -193,7 +195,7 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         $productos = $row2['productos'];
                         
                         if(($order_state->id == 2 ) && (($orderValidation < $productos))){
-                            Order::updateCodes($order, $order_state);
+                            Order::updateCodes($order, $order_state); 
                         }
                         
                         // Save all changes
@@ -1305,10 +1307,21 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                     );
-                    if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Pedido recomendado', (int)$cart->id_lang), $mailVars, $customer->email,
-                            $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {
+                    $template = 'backoffice_order';
+                    $prefix_template = '16-backoffice_order';
+                        
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+                    $allinone_rewards = new allinone_rewards();
+                    
+                    if ($allinone_rewards->sendMail((int)$cart->id_lang, $template, $allinone_rewards->getL($message_subject), $mailVars, $customer->email, $customer->firstname.' '.$customer->lastname)) {
                         die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
                     }
+                    /*if (Mail::Send((int)$cart->id_lang, 'backoffice_order', Mail::l('Pedido Recomendado', (int)$cart->id_lang), $mailVars, $customer->email,
+                            $customer->firstname.' '.$customer->lastname, null, null, null, null, _PS_MAIL_DIR_, true, $cart->id_shop)) {
+                        die(Tools::jsonEncode(array('errors' => false, 'result' => $this->l('The email was sent to your customer.'))));
+                    }*/
                 }
             }
             $this->content = Tools::jsonEncode(array('errors' => true, 'result' => $this->l('Error in sending the email to your customer.')));

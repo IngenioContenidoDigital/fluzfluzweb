@@ -9,6 +9,7 @@
 .shop-pri{color:#ef4136; margin-left: -5px;}
 .product-heading-h5 { color: #999999; font-weight: 200; margin: 3px 0 8px; font-size: 19px; font-family: "Open Sans", sans-serif; }
 .a-ref{color: #f34222;font-family: 'Open Sans'!important;}
+.point_fluz{color: #ef4136;font-size: 25px !important;font-weight: bold;}
 .box-security .product-heading-h5 { margin: 3px 0 -8px; }
 @media (max-width: 1199px) { .box-security .product-heading-h5 { margin-bottom: 8px; } }
 
@@ -247,11 +248,11 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 }
 .content-table-combinations{background: #fff; height: 80px; border-bottom: 1px solid #E6E6E6;}
 .item-list-title{text-align: center; padding-left: 0px; padding-right: 0px;
-                 font-weight: 700;letter-spacing: 1px;letter-spacing: 1px;
+                 font-weight: 700;letter-spacing: 1px;letter-spacing: 1px; background: transparent;
                  font-size: 11px;color: #7c7c7c;
                  font-family: 'Open Sans';}
 .item-list{text-align: center; margin-top: 30px; color:#121212; font-size: 12px; font-family: 'Open Sans';}
-.img-list{height: 40px; padding: 0px; margin-top: 18px;}
+.img-list{height: 40px; padding: 0px; margin-top: 18px; background: transparent;}
 .img-list img{max-width:80px; margin-left:auto; margin-right:auto !important;}
 .btn-combinations{color: #fff;padding-left: 0px; border: 1px solid #a5957b; background: #c8b79b; font-size: 10px; padding-right: 0px;padding-top: 6px;padding-bottom: 6px;border: none;cursor: pointer; margin-top: 22px;}
 .btn-combinations span{color: #fff; font-size: 11px;font-family: 'Open Sans';}
@@ -324,7 +325,7 @@ table.table-product-discounts tr td, table.table-product-discounts tr th { borde
 
 /* SEND TO FRIEND (pop-in) ##################################################################### */
 #send_friend_form { width: 555px; overflow: hidden; }
-@media (max-width: 767px) { #send_friend_form { width: 280px; } }
+@media (max-width: 767px) { #send_friend_form { width: 280px; } .point_fluz{font-size: 20px !important;}}
 #send_friend_form .product img { margin: 0 0 10px 0; border: 1px solid #e5e5e5; }
 #send_friend_form .product p { padding: 0; color: #252525; }
 #send_friend_form .product p .product_name { font-size: 12px; color: #000; }

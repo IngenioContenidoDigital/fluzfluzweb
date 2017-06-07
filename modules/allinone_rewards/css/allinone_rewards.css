@@ -691,14 +691,14 @@ ul.footer_links{
     .banner-box {height: 212px;}
     .banner-home {height: 170px;}
     .puntoGrap>span{ line-height: 30px;}
-    .rewards{width: 95% !important; margin: 0 auto !important; padding-right: 0px; padding-left: 0;}
+    .rewards{width: 100% !important; margin: 0 auto !important; padding-right: 0px; padding-left: 0;}
     .img-reward{display: none !important;}
     .rewards table.std td{font-size: 10px !important;padding-top: 10px !important;}
     .pNetwork{ font-size: 10px;}
-    .rewards p{font-size: 10px; text-align: center;}
+    .rewards p{font-size: 10px !important; text-align: center !important;}
     .rewards table.std{ margin-left: -10px;}
-    .rewards table.std th{font-size: 10px;}
-    .sponsorshipBlock div{text-align: center;}
+    .rewards table.std th{font-size: 10px !important;}
+    .sponsorshipBlock div{text-align: center !important;}
     .second-item{display:none;}
     .bold{text-align: left !important;}
     .checkbox{text-align: left !important;}

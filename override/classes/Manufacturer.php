@@ -136,6 +136,7 @@ class Manufacturer extends ManufacturerCore
                     m.date_add, 
                     m.date_upd, 
                     p.id_product,
+                    p.reference,
                     pl.link_rewrite,
                     m.category,
                     (SELECT (COUNT(p.id_product)) AS contador

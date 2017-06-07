@@ -1,212 +1,155 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-		<title>Mensaje de {shop_name}</title>
-		
-		
-		<style>	
-		
-		body, h1, h2, h3, h4, h5, p, div, a {
-		font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif;
-		}
-		
-		@media only screen and (max-width: 300px){ 
-				body {
-					width:218px !important;
-					margin:auto !important;
-				}
-				.logo {
-				width:50%;	
-				}
-				.table {width:195px !important;margin:auto !important;}
-				.titleblock, .linkbelow, .box, .footer, .space_footer{width:auto !important;display: block !important;}		
-				span.title{font-size:20px !important;line-height: 23px !important}
-				span.subtitle{font-size: 14px !important;line-height: 18px !important;padding-top:10px !important;display:block !important;}		
-				td.box p{font-size: 12px !important;font-weight: bold !important;}
-				.table-recap table, .table-recap thead, .table-recap tbody, .table-recap th, .table-recap td, .table-recap tr { 
-					display: block !important; 
-				}
-				.table-recap{width: 200px!important;}
-				.table-recap tr td, .conf_body td{text-align:center !important;}	
-				.address{display: block !important;margin-bottom: 10px !important;}
-				.space_address{display: none !important;}	
-			}
-	@media only screen and (min-width: 301px) and (max-width: 500px) { 
-				body {width:308px!important;margin:auto!important;}
-				.table {width:285px!important;margin:auto!important;}	
-				.titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}	
-				.table-recap table, .table-recap thead, .table-recap tbody, .table-recap th, .table-recap td, .table-recap tr { 
-					display: block !important; 
-				}
-				.table-recap{width: 295px !important;}
-				.table-recap tr td, .conf_body td{text-align:center !important;}
-				
-			}
-	@media only screen and (min-width: 501px) and (max-width: 768px) {
-				body {width:478px!important;margin:auto!important;}
-				.table {width:450px!important;margin:auto!important;}	
-				.titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}			
-			}
-	@media only screen and (max-device-width: 480px) { 
-				body {width:308px!important;margin:auto!important;}
-				.table {width:285px;margin:auto!important;}	
-				 .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}
-				
-				.table-recap{width: 295px!important;}
-				.table-recap tr td, .conf_body td{text-align:center!important;}	
-				.address{display: block !important;margin-bottom: 10px !important;}
-				.space_address{display: none !important;}	
-			}
-</style>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <title>Message from {shop_name}</title>
+        <style>	
+            body, h1, h2, h3, h4, h5, p, div, a, th { font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif; }
+        </style>
+    </head>
+    
+    <body style="-webkit-text-size-adjust:none;background-color:#fff;width:650px;font-family:Open Sans, Helvetica, sans-serif;color:#555454;font-size:13px;line-height:18px;margin:auto; border:5px solid #f9f9f9">
+        <!--Header-->
+        <table style="width:100%;">
+            <tr>
+                <td style="width:100%; background:#c6ae93; padding:7px 0;">
+                    <a title="{shop_name}" href="{shop_url}" style="color:#337ff1">
+                        <img class="logo" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/7d5e7fc3-1279-4cbd-90e6-fcd68d88925c.png" alt="fluz fluz" style="margin:10px 0 5px 15px;"/>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/519cd2a8-870f-46e8-8fdb-6942bf2dd5d9.gif" style="margin-top:-3px; width:100%;">
+                </td>
+            </tr>
+            <tr>
+                <td class="space_footer" style="padding:30px!important">&nbsp;</td>
+            </tr>
+        </table>
+    
+        <!--Body Content Start-->
+        <table style="width:100%; text-align: center; font-size: 15px;">
+            <tr>
+                <td><img src="https://s3.amazonaws.com/imagenes-fluzfluz/mails/network_alliance.jpg" width="75%"></td>
+            </tr>
+            <tr>
+                <td style="padding:30px!important">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="color: #EB4136; font-size: 35px; padding: 10px;">Hola {username},</td>
+            </tr>
+            <tr>
+                <td>Tenemos el gusto de informarte que:</td>
+            </tr>
+            <tr>
+                <td style="padding:10px!important">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Uno de tus invitados se ha unido a tu Network y ha aceptado tu invitaci&oacute;n.</td>
+            </tr>
+            <tr>
+                <td style="padding:30px!important">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="font-size: 35px; padding: 10px;">Ahora solo debes relajarte</td>
+            </tr>
+            <tr>
+                <td style="padding:10px!important">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Y prepararte para ver como los Fluz ingresan a tu cuenta Recuerda que pueden enviarse mensajes a trav&eacute;s de tu cuenta en nuestro sitio www.fluzfluz.co Entre m&aacute;s amplia tu red, muchas m&aacute;s posibilidades de generar ganancias por montones.</td>
+            </tr>
+            <tr>
+                <td style="padding:20px!important">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <a title="{shop_name}" href="{shop_url}" style="color: #fff; background-color: #EA4136; padding: 15px 40px; text-decoration: none; letter-spacing: 1px;">
+                        ENVIAR MENSAJE YA!
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:20px!important">&nbsp;</td>
+            </tr>
+            <!--tr>
+                <td>Hoy, <span style="color: #EA4136;">{contributor_count} Fluzzers</span> han contribuido <span style="color: #EA4136;">{points_count} Fluz!</span></td>
+            </tr-->
+            <tr>
+                <td>Actualmente tienes</td>
+            </tr>
+            <tr>
+                <td style="color: #EA4136; font-weight: bold;">{points} Fluz</td>
+            </tr>
+            <tr>
+                <td>en tu cuenta Fluz Fluz</td>
+            </tr>
+        </table>
+    
+        <!--Footer Accent-->
+        <table>
+            <tr>
+                <td class="space_footer" style="padding:30px!important">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/fcf1fce7-d477-4637-93b8-e7a52c04ed72.gif" style="margin-bottom:-7px; width:100%;">
+                </td>
+            </tr>
+        </table>
 
-	</head>
-	<body style="-webkit-text-size-adjust:none;background-color:#fff;width:650px;font-family: Open Sans, Helvetica Neue, Helvetica sans-serif;color:#555454;font-size:13px;line-height:18px;margin:auto;">
-		<table class="table table-mail" style="width:650px; border:5px solid #f9f9f9; margin:0; filter:progid:DXImageTransform.Microsoft.Shadow(color=#afafaf,Direction=134,Strength=5)">
-			<tr>
-				
-				<td align="center">
-					<table class="table" bgcolor="#ffffff" style="width:100%">
-                    
-                    <!--Header-->
-                    
-                    
-						<tr>
-							<td style="width:100%; background:#c6ae93; padding:7px 0;">
-								<a title="{shop_name}" href="{shop_url}" style="color:#337ff1">
-									<img class="logo" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/7d5e7fc3-1279-4cbd-90e6-fcd68d88925c.png" alt="fluz fluz" style="margin:10px 0 5px 15px;"/>
-								</a>
-							</td>
-						</tr>
-                        <tr>
-                        <td>
-                        <img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/519cd2a8-870f-46e8-8fdb-6942bf2dd5d9.gif" style="margin-top:-3px; width:100%;">
-                        </td>
-                        </tr>
-                        
- 
- <tr>
-<td class="space_footer" style="padding:30px!important">&nbsp;</td>
-</tr>
-                    
-<!--Welcome Text-->
-<table style="background:#f9f9f9; width:80%;">
+        <!--Footer Links-->
+        <table style="width:100%; background:#c6ae93;">
+            <tr>
+                <td style="width:25%; text-align:center; padding-top:15px; ">
+                    <a href="" style="color:#fff; text-decoration: none;">
+                        Comprar
+                    </a>
+                </td>
+                <td style="width:25%; text-align:center; padding-top:15px;">
+                    <a href="" style="color:#fff; text-decoration: none;">
+                        Politica de privacidad
+                    </a>
+                </td>
+                <td style="width:25%; text-align:center; padding-top:15px;">
+                    <a href="" style="color:#fff; text-decoration: none;">
+                        Ayuda
+                    </a>
+                </td>
+                <td style="width:25%; text-align:center; padding-top:15px;">
+                    <a href="" style="color:#fff; text-decoration: none;">
+                        Cancelar Suscripci&oacute;n
+                    </a>
+                </td>
+            </tr>
+        </table>
 
-<tr>
-	<td align="center" class="titleblock" style="padding:10% 0 0 0; width:100%;">
-		<font size="2" face="Open-sans, Helvetica Neue" color="#555454">
-			<span class="title" style="font-weight:400;font-size:28px; line-height:33px; color:#ea4136; ">Hola {username}!</span><br/><br/>
-					</font>
-	</td>
-</tr>
-
-<!--Login Info-->
-
-		
-			<tr>
-				<td style="padding:7px 0">
-                      <p data-html-only="1" style="text-align:center;margin:25px auto 5px auto;font-weight:500;font-size:20px;padding-bottom:10px">
-							{invitee_username}				</p>
-						<p style="text-align:center; margin: 0 auto 10% auto; font-size:16px">
-	                       ha aceptado su invitación.
-						</p>
-                        
-                        <p style="text-align:center; margin: 10% auto 30px auto; font-size:16px; color:#555454">
-	                       Quiere enviarle un mensaje?
-						</p>
-                        
-                        <div style="margin:auto; text-align:center;"><a style="background:#ea4136; color:#fff; padding: 13px 50px; letter-spacing:2px; margin-top:15px; text-decoration: none;" href="http://fluzfluz.com/shop">ENVIAR MENSAJE</a></div>
-                        
-
-				</td>
-				
-</tr>
-<tr>
-<td class="space_footer" style="padding:30px!important">&nbsp;</td>
-</tr>
-</table>
-
-
-
-<!--Footer Accent-->
-<table>
-<tr>
-<td class="space_footer" style="padding:50px!important">&nbsp;</td>
-</tr>
-
-<tr>
-<td>
-<img src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/fcf1fce7-d477-4637-93b8-e7a52c04ed72.gif" style="margin-bottom:-7px; width:100%;">
-</td>
-</tr>
-</table>
-
-<!--Footer Links-->
-
-<table style="width:100%; background:#c6ae93;">
-<tr>
-<td style="width:25%; text-align:center; padding-top:15px; ">
-<a href="" style="color:#fff; text-decoration: none;">
-Comprar
-</a>
-</td>
-<td style="width:25%; text-align:center; padding-top:15px;">
-<a href="" style="color:#fff; text-decoration: none;">
-Politica de privacidad
-</a>
-</td>
-<td style="width:25%; text-align:center; padding-top:15px;">
-<a href="" style="color:#fff; text-decoration: none;">
-Ayuda
-</a>
-</td>
-<td style="width:25%; text-align:center; padding-top:15px;">
-<a href="" style="color:#fff; text-decoration: none;">
-Cancelar Suscripcion
-</a>
-</td>
-</tr>
-</table>
-
-<!--Social Footer-->
-
-<table style="width:100%; background:#c6ae93;">
-<tr>
-<td class="space_footer" style="padding:10px!important">&nbsp;</td>
-</tr>
-
-
-<tr>
-<td style="text-align:center; width:35%">
-</td>
-
-<td style="text-align:center;">
-<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/730a0207-ec61-41ea-a870-efe876b67e98.png"></a>
-</td>
-<td style="text-align:center;">
-<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/62c49072-2d47-4943-be64-178cb0531fe2.png"></a>
-</td>
-<td style="text-align:center;">
-<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/22aec251-65b7-491a-a6cc-2d03d5ee8181.png"></a>
-</td>
-<td style="text-align:center;">
-<a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/24400c0c-6958-4bb2-a218-b287271b66f5.png"></a>
-</td>
-
-<td style="text-align:center; width:35%">
-</td>
-</tr>
-
-<tr>
-<td class="space_footer" style="padding:0px!important">&nbsp;</td>
-</tr>
-</table>
-
-<!--Closing Tags-->
-
-</table>
-</td>
-</table>
-</body>
+        <!--Social Footer-->
+        <table style="width:100%; background:#c6ae93;">
+            <tr>
+                <td class="space_footer" style="padding:10px!important">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="text-align:center; width:35%"></td>
+                <td style="text-align:center;">
+                    <a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/730a0207-ec61-41ea-a870-efe876b67e98.png"></a>
+                </td>
+                <td style="text-align:center;">
+                    <a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/62c49072-2d47-4943-be64-178cb0531fe2.png"></a>
+                </td>
+                <td style="text-align:center;">
+                    <a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/22aec251-65b7-491a-a6cc-2d03d5ee8181.png"></a>
+                </td>
+                <td style="text-align:center;">
+                    <a href=""><img width="70%" src="https://gallery.mailchimp.com/e63d3ec47059b6abdf6a36c8f/images/24400c0c-6958-4bb2-a218-b287271b66f5.png"></a>
+                </td>
+                <td style="text-align:center; width:35%"></td>
+            </tr>
+            <tr>
+                <td class="space_footer" style="padding:0px!important">&nbsp;</td>
+            </tr>
+        </table>
+    </body>
 </html>

@@ -115,7 +115,6 @@ PRIMARY KEY (`id_webservice_external_log`))";
     
     public function hookactionOrderStatusUpdate($params){
        if($params['newOrderStatus']->id==2){
-
             $sql="SELECT od.id_order, wep.id_product, 
                 od.product_quantity, od.product_price, wep.id_webservice_external 
                 FROM
@@ -125,6 +124,12 @@ PRIMARY KEY (`id_webservice_external_log`))";
                 WHERE od.id_order=".$params['id_order'];
             $products = Db::getInstance()->executeS($sql);
             $total=Db::getInstance()->numRows();
+            
+            $query_name = 'SELECT c.username as username, c.email as email FROM '._DB_PREFIX_.'orders o
+                           LEFT JOIN '._DB_PREFIX_.'customer c ON (o.id_customer = c.id_customer)
+                           WHERE o.id_order ='.$params['id_order'];
+            $user = Db::getInstance()->executeS($query_name);
+            
             if($total>0){
                 foreach($products as $product){
                     $sclient = new CSoap($product['id_webservice_external']);
@@ -148,7 +153,6 @@ PRIMARY KEY (`id_webservice_external_log`))";
                     $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "Recipient",$number['phone_mobile']);
                     $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "WalletType","Stock");
                     
-                    
                     $response=$sclient->doRequest('http://api.movilway.net/schema/extended/IExtendedAPI/TopUp',$sclient->request);
 
                     if(!is_numeric($response)){
@@ -163,12 +167,47 @@ PRIMARY KEY (`id_webservice_external_log`))";
                         $insert ="INSERT INTO "._DB_PREFIX_."webservice_external_log (id_webservice_external, id_order, id_product, mobile_phone, action, request, response_code, response_message, date_add, date_upd) "
                             . "VALUES ('".$product['id_webservice_external']."', '".$params['id_order']."', '".$product['id_product']."', '".$number['phone_mobile']."', 'http://api.movilway.net/schema/extended/IExtendedAPI/TopUp', '".$sclient->request."', '".(int)$response['responsecode']."', '".$response['responsemessage']."', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."')";
                         if((int)$response['responsecode']==0){
-                            $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$product['id_product']."', '".$number['phone_mobile']."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
+                            $chainsql="SELECT "._DB_PREFIX_."customer.id_customer, "._DB_PREFIX_."customer.secure_key 
+                    FROM "._DB_PREFIX_."webservice_external_log INNER JOIN "._DB_PREFIX_."orders ON "._DB_PREFIX_."webservice_external_log.id_order = "._DB_PREFIX_."orders.id_order INNER JOIN "._DB_PREFIX_."customer ON "._DB_PREFIX_."orders.id_customer = "._DB_PREFIX_."customer.id_customer 
+                        WHERE "._DB_PREFIX_."webservice_external_log.id_order =".$params['id_order'];
+                            $chainrow= Db::getInstance()->getRow($chainsql);
+                            
+                            $chain=Encrypt::encrypt($chainrow['secure_key'] , $number['phone_mobile']);
+                            
+                            $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$product['id_product']."', '".$chain."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
                             Db::getInstance()->execute($code);
+                            
+                            $template = 'order_conf_telco_sucess';
+                            $prefix_template = 'order_conf_telco_sucess';
+
+                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                            $row_subject = Db::getInstance()->getRow($query_subject);
+                            $message_subject = $row_subject['subject_mail'];
+
+                            $vars = array(
+                                    '{username}' => $user[0]['username'],
+                                    '{Recharged}' => $number['phone_mobile']
+                                );
+
+                            Mail::Send(1, $template, $message_subject, $vars, $user[0]['email'], $user[0]['username'], Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),NULL, NULL, dirname(__FILE__).'/mails/', false);
                         }
                     }else{
                         $insert ="INSERT INTO "._DB_PREFIX_."webservice_external_log (id_webservice_external, id_order, id_product, mobile_phone, action, request, response_code, response_message, date_add, date_upd) "
                             . "VALUES ('".$product['id_webservice_external']."', '".$params['id_order']."', '".$product['id_product']."', '".$number['phone_mobile']."', 'http://api.movilway.net/schema/extended/IExtendedAPI/TopUp', '".$sclient->request."', '-1', 'Transaccion sin respuesta luego de 90s', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."')";
+                        
+                        $template = 'order_conf_telco_failed';
+                        $prefix_template = 'order_conf_telco_failed';
+
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
+                        
+                        $vars = array(
+                                '{username}' => $user[0]['username'],
+                                '{Recharged}' => $number['phone_mobile']
+                            );
+                        
+                        Mail::Send(1, $template, $message_subject, $vars, $user[0]['email'], $user[0]['username'], Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),NULL, NULL, dirname(__FILE__).'/mails/', false);
                     }                    
                     Db::getInstance()->execute($insert);
                 }
@@ -322,6 +361,7 @@ PRIMARY KEY (`id_webservice_external_log`))";
             $phones_list=array_unique($phones_list,SORT_REGULAR);
             $this->context->controller->addCSS($this->_path.'/css/shopping-cart.css');
             $this->context->controller->addJS($this->_path.'/js/shopping-cart.js');
+            $this->context->controller->addJS($this->_path.'/js/jquery.cookie.js');
             $this->context->smarty->assign(array(
                 'productlist'=> $productlist,
                 'phones' => $phones_list

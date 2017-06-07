@@ -1,0 +1,5 @@
+id_customer; id_products; payment (pedido gratuito= 1 , tarjeta credito=2)
+3166;480:01:00;1
+5;480:01:00;1
+4468;480:01:00;1
+3467;480:01:00;1

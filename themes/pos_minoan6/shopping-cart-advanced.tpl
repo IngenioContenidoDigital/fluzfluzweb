@@ -197,7 +197,7 @@
                 </tr>
             {/if}
         {/if}
-        <tr class="cart_total_voucher{if $total_discounts == 0} unvisible{/if}">
+        <tr class="cart_total_voucher{*if $total_discounts == 0} unvisible{/if*}" style="display:none;">
             <td colspan="{$col_span_subtotal}" class="text-right">
                 {if $display_tax_label}
                     {if $use_taxes && $priceDisplay == 0}

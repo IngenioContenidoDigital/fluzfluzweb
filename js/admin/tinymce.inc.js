@@ -12,10 +12,11 @@ function tinySetup(config)
     //safari,pagebreak,style,table,advimage,advlink,inlinepopups,media,contextmenu,paste,fullscreen,xhtmlxtras,preview
     default_config = {
         selector: ".rte" ,
-        plugins : "visualblocks, preview searchreplace print insertdatetime, hr charmap colorpicker anchor code link image paste pagebreak table contextmenu filemanager table code media autoresize textcolor emoticons",
+        plugins : "visualblocks, preview shortcodes searchreplace print insertdatetime, hr charmap colorpicker anchor code link image paste pagebreak table contextmenu filemanager table code media autoresize textcolor emoticons",
         toolbar2 : "newdocument,print,|,bold,italic,underline,|,strikethrough,superscript,subscript,|,forecolor,colorpicker,backcolor,|,bullist,numlist,outdent,indent",
         toolbar1 : "styleselect,|,formatselect,|,fontselect,|,fontsizeselect,", 
-        toolbar3 : "code,|,table,|,cut,copy,paste,searchreplace,|,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,emoticons,media,|,inserttime,|,preview ",
+        toolbar3 : "code,|,table,|,cut,copy,paste,searchreplace,|,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,emoticons,media,|,inserttime",
+        toolbar4 : "preview,|,shortcodes,",
         external_filemanager_path: ad+"/filemanager/",
         image_advtab: true,
         filemanager_title: "File manager" ,
@@ -33,7 +34,7 @@ function tinySetup(config)
     	trim_span_elements: false,
         menu: {
             edit: {title: 'Edit', items: 'undo redo | cut copy paste | selectall'},
-            insert: {title: 'Insert', items: 'media image link | pagebreak'},
+            insert: {title: 'Insert', items: 'media image link shortcodes | pagebreak'},
             view: {title: 'View', items: 'visualaid'},
             format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat'},
             table: {title: 'Table', items: 'inserttable tableprops deletetable | cell row column'},

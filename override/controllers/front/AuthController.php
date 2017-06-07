@@ -25,6 +25,7 @@
 */
 
 require_once(_PS_MODULE_DIR_ . 'bankwire/bankwire.php');
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 
 class AuthController extends AuthControllerCore
 {
@@ -185,7 +186,7 @@ class AuthController extends AuthControllerCore
                 $this->context->cookie->email = $customer->email;
                 // Add customer to the context
                 $this->context->customer = $customer;
-                if (Configuration::get('PS_CART_FOLLOWING') && (empty($this->context->cookie->id_cart) || Cart::getNbProducts($this->context->cookie->id_cart) == 0) && $id_cart = (int)Cart::lastNoneOrderedCart($this->context->customer->id)) {
+                /*if (Configuration::get('PS_CART_FOLLOWING') && (empty($this->context->cookie->id_cart) || Cart::getNbProducts($this->context->cookie->id_cart) == 0) && $id_cart = (int)Cart::lastNoneOrderedCart($this->context->customer->id)) {
                     $this->context->cart = new Cart($id_cart);
                 } else {
                     $id_carrier = (int)$this->context->cart->id_carrier;
@@ -200,7 +201,7 @@ class AuthController extends AuthControllerCore
                     $delivery_option = array($this->context->cart->id_address_delivery => $id_carrier.',');
                     $this->context->cart->setDeliveryOption($delivery_option);
                 }
-                $this->context->cart->save();
+                $this->context->cart->save();*/
                 $this->context->cookie->id_cart = (int)$this->context->cart->id;
                 $this->context->cookie->write();
                 $this->context->cart->autosetProductAddress();
@@ -446,7 +447,7 @@ class AuthController extends AuthControllerCore
                             $cart->update();
 
                             $valorProduct = ( isset($_POST['valorSlider']) ) ? $_POST['valorSlider'] : 0;
-                            $row = DB::getInstance()->getRow( 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference = "MFLUZ"' );
+                            $row = DB::getInstance()->getRow( 'SELECT id_product FROM `'._DB_PREFIX_.'product` WHERE `price` = '.(int)$valorProduct.' AND reference LIKE "MFLUZ%"' );
                             $idProduct = $row['id_product'];
                             $this->context->cart = $cart;
                             $this->context->cart->updateQty(1,$idProduct,NULL,FALSE);
@@ -714,24 +715,35 @@ class AuthController extends AuthControllerCore
     protected function sendConfirmationMail(Customer $customer)
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
-            return true;
-        }
-        return Mail::Send(
-            $this->context->language->id,
-            'account',
-            Mail::l('Welcome!'),
-            array(
+        
+        $vars = array(
                 '{username}' => $customer->username,
+                '{password}' => Tools::getValue("passwd"),
                 '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
-                '{email}' => $customer->email,
-                '{passwd}' => Tools::getValue('passwd')),
-            $customer->email,
-            $customer->firstname.' '.$customer->lastname
-        );
+                '{dni}' => $customer->dni,
+                '{birthdate}' => $customer->birthday,
+                '{address}' => Tools::getValue("address1"),
+                '{phone}' => Tools::getValue("phone_mobile"),
+                '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                '{learn_more_url}' => "http://reglas.fluzfluz.co",
+            );
+        
+                $template = 'welcome_fluzfluz';
+                $prefix_template = '16-welcome_fluzfluz';
+
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                $row_subject = Db::getInstance()->getRow($query_subject);
+                $message_subject = $row_subject['subject_mail'];
+
+                $allinone_rewards = new allinone_rewards();
+                $allinone_rewards->sendMail($this->context->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer->email, $customer->firstname.' '.$customer->lastname);
+            }
     }
     
-    protected function sendNotificationSponsor( $id_customer )
+    public static function sendNotificationSponsor( $id_customer )
     {
         $query = "SELECT c.id_customer, c.username, c.email, SUM(r.credits) points
                     FROM "._DB_PREFIX_."rewards_sponsorship rs
@@ -757,15 +769,25 @@ class AuthController extends AuthControllerCore
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id)
         );
+        
+        $template = 'sponsorship-registration';
+        $prefix_template = '16-sponsorship-registration';
 
-        Mail::Send(
+        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+        $row_subject = Db::getInstance()->getRow($query_subject);
+        $message_subject = $row_subject['subject_mail'];
+        
+        $allinone_rewards = new allinone_rewards();
+        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsor['email'], $sponsor['username']);
+         
+        /*Mail::Send(
             Context::getContext()->language->id,
             'notificationusersponsor',
             'Tu invitado se ha unido al Network',
             $vars,
             $sponsor['email'],
             $sponsor['username']
-        );
+        );*/
     }
 }
 

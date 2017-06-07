@@ -42,7 +42,7 @@ class AdminEmailsControllerCore extends AdminController
             $this->list_no_link = true;
             $this->explicitSelect = true;
             $this->addRowAction('delete');
-
+            
             $this->bulk_actions = array(
                 'delete' => array(
                     'text' => $this->l('Delete selected'),

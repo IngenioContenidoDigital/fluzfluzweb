@@ -291,7 +291,7 @@ pre code { padding: 0; font-size: inherit; color: inherit; white-space: pre-wrap
   .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, header .row #header_logo, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11 { float: left; }
   .col-sm-1 { width: 8.33333%; }
   .col-sm-2 { width: 16.66667%; }
-  .col-sm-3 { width: 25%; background:#f9f9f9; }
+  .col-sm-3 { width: 25%; }
   .col-sm-4, header .row #header_logo { width: 33.33333%; }
   .col-sm-5 { width: 41.66667%; }
   .col-sm-6 { width: 50%; }
@@ -3691,7 +3691,7 @@ table#product_comparison .button.lnk_view span, .button.button-small span, .butt
   .footer-container #footer h4.active:after { content: "\f056"; } }
 .footer-container #footer h4 a { color: #262A33; }
 .footer-container #footer ul li { padding-bottom: 5px; line-height: 30px; }
-.footer-container #footer ul li a { /*font-weight: 400;*/ font-size: 11.5px; color: #8e8e8e; text-transform: capitalize;  font-family: 'Open Sans' !important;}
+.footer-container #footer ul li a { /*font-weight: 400;*/ font-size: 11.5px; color: #8e8e8e; text-transform: capitalize;  font-family: 'Open Sans' !important; display: block;}
 .footer-container #footer #block_contact_infos { border-left: 1px solid #515151; }
 @media (max-width: 768px) { .footer-container #footer #block_contact_infos { border: none; } }
 .footer-container #footer #block_contact_infos > div { padding: 0 0 0 5px; }
@@ -4630,14 +4630,19 @@ font-family: 'Open Sans' !important;
 .vdoTube>iframe {padding: 0;height: 222px;}
 }
 @media (min-width:761px) and (max-width:1023px){
+ #address .form-group .form-control, #identity .form-group .form-control, #account-creation_form .form-group .form-control, #new_account_form .form-group .form-control, #opc_account_form .form-group .form-control, #authentication .form-group .form-control{max-width: 75%; margin: 0 auto;}   
+#address .form-group, #identity .form-group, #account-creation_form .form-group, #new_account_form .form-group, #opc_account_form .form-group, #authentication .form-group{text-align: center;margin: 0 auto;}
 .Merchants-banner{min-height:411px;}
+.select-form{margin: 0 auto;}
+.gender-responsive{text-align: center;}
+.container-birth{max-width:40%; margin: 0 auto;}
+#authentication .form-group .form-control{text-align: center;}
 .Merchants-banner2{min-height:350px;}
 .Merchants3 h1{line-height:350px;}
 .breadcrumb{margin-left:10px;}
 .p-auth{text-align:center !important;}
-.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
-.stick>iframe {padding: 0;height: 150px !important;}
 .account_creation>h2{text-align:center;}
+.stick {position:initial !important; width: 100% !important;}
 .finalDeposit {text-align:center;}
 .rangeSelect{text-align:center;}
 .formInfo {text-align: center;margin-bottom: 20px;}

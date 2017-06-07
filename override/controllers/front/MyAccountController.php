@@ -199,7 +199,7 @@ class MyAccountController extends MyAccountControllerCore
                                                 INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
                                                 INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
                                                 INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
-                                                WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." )
+                                                WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
                                                 ORDER BY o.date_add DESC ");
         foreach ($last_shopping_products as &$last_shopping_product) {
             $imgprofile = "";
@@ -232,7 +232,7 @@ class MyAccountController extends MyAccountControllerCore
                 LEFT JOIN '._DB_PREFIX_.'webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
                 WHERE
                 ((OSL.id_order_state = 2) AND
-                (PO.id_customer ='.$id_customer.') AND (PP.reference<>"MFLUZ") AND (OSL.id_lang='.$this->context->language->id.'))
+                (PO.id_customer ='.$id_customer.') AND (PP.reference NOT LIKE "MFLUZ%") AND (OSL.id_lang='.$this->context->language->id.'))
                 GROUP BY
                  id_manufacturer,
                 manufacturer_name
@@ -294,7 +294,7 @@ class MyAccountController extends MyAccountControllerCore
         
         $query = "SELECT IFNULL(SUM(od.product_quantity),0) purchases
                     FROM "._DB_PREFIX_."orders o
-                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference != 'MFLUZ' )
+                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
                     WHERE o.current_state = 2
                     AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out_show']." 00:00:00', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out_show']." 23:59:59' )
                     AND id_customer = ".$customer['id_customer'];
@@ -341,7 +341,7 @@ class MyAccountController extends MyAccountControllerCore
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
                             WHERE n.id_customer='.$id_customer.'    
-                            AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day
+                            AND s.product_reference NOT LIKE "MFLUZ%" AND n.date_add >= curdate() + interval -30 day
                             AND n.id_reward_state = 2 AND n.credits > 0';
                 
                 $result = Db::getInstance()->getRow($queryTop);
@@ -370,28 +370,9 @@ class MyAccountController extends MyAccountControllerCore
     public function numberMembers(){
         
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-        $sum=0;
-            foreach ($tree as $valor){
-                $queryTop = 'SELECT COUNT(c.id_customer) as members
-                             FROM '._DB_PREFIX_.'customer c 
-                            WHERE c.id_customer='.$valor['id'].' AND '.$valor['level'].'!=0';
-                
-                $result = Db::getInstance()->executeS($queryTop);
-                
-                if ($result[0]['members'] != "" ) {
-                    $top[] = $result[0];
-                }
-                
-            }
-            
-            usort($top, function($a, $b) {
-                return $b['members'] - $a['members'];
-            });
-            
-            foreach ($top as $x){
-                $sum += $x['members'];
-            }
-            return $sum; 
+        $num_members = (count($tree)-1);
+        
+        return $num_members; 
     }    
         
     public function TopNetworkUnique() {
@@ -402,7 +383,7 @@ class MyAccountController extends MyAccountControllerCore
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
-                            AND s.product_reference != "MFLUZ" AND n.credits > 0 AND '.$valor['level'].'!=0';
+                            AND s.product_reference NOT LIKE "MFLUZ%" AND n.credits > 0 AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -424,7 +405,7 @@ class MyAccountController extends MyAccountControllerCore
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
-                            AND s.product_reference != "MFLUZ" AND n.credits > 0 AND '.$valor['level'].'!=0';
+                            AND s.product_reference NOT LIKE "MFLUZ%" AND n.credits > 0 AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
