@@ -109,7 +109,6 @@
 
 @media (max-width:425px){
     .spanSponsor{font-size:10px !important; padding-left: 5px !important;} 
-    .nameCard{display: none;}
     .bread-style{width: 100%;padding-left: 15px !important;}
     .block-r{width: 100%;}
     .block-red{width: 100%;}
