@@ -4,6 +4,7 @@
  * File : Rest.inc.php
  * Author : Arun Kumar Sekar
  */
+header("Access-Control-Allow-Origin: *");
 class REST {
 
 	public $_allow = array();
