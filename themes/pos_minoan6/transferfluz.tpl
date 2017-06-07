@@ -57,7 +57,8 @@
     <input type="hidden" id="id_customer" name="id_customer" value="{$id_customer}"/>
     <input type="hidden" id="sponsor_identification" name="sponsor_identification" value="{if $id_member != ""}{$id_member}{else}{/if}"/>
     <input type="hidden" id="sponsor_name" name="sponsor_name" value="{if $name_member != ""}{$name_member}{else}{/if}"/>
-
+    <input type="hidden" id="popup_s" name="popup_s" value="{if $popup != ""}{$popup}{else}false{/if}"/>
+    
     <div class="row"> 
         <h3 class="title-myinfo"> TRANSFERENCIA FLUZ A FLUZZERS </h3> 
     </div>
@@ -136,7 +137,8 @@
         </div>
     </div>    
 </form>
-<div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>                        
+<div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
+
 <!-- END TEMPLATE TRANSFER FLUZ -->
 <!-- SCRIPT -->
 {literal}
@@ -228,13 +230,19 @@
             var point_part = $('#pt_parciales').val();
             var id_sponsor = $('#sponsor_identification').val();
             var url = document.getElementById("url_fluz").innerHTML;
+            var popup = $('#popup_s').val();
             
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=transferfluz&point_part='+point_part+'&sponsor_identification='+id_sponsor,
                 success : function() {
-                    window.location.replace(""+url+"confirmtransferfluz?popup=true");
+                    if(popup == 'false'){
+                        window.location.replace(""+url+"confirmtransferfluz");
+                    }
+                    else{
+                        window.location.replace(""+url+"confirmtransferfluz?popup=true");
+                    }
                     $.fancybox.close();
                 }
             });
