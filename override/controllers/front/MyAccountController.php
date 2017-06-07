@@ -24,6 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsModel.php');
 class MyAccountController extends MyAccountControllerCore
 {
     public function setMedia()
@@ -36,6 +37,7 @@ class MyAccountController extends MyAccountControllerCore
     public function initContent()
     {
         FrontController::initContent();
+        
         
         $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
         $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
@@ -213,32 +215,57 @@ class MyAccountController extends MyAccountControllerCore
         $this->setTemplate(_PS_THEME_DIR_.'my-account.tpl');
     }
     
-    public function getProductsByManufacturer($id_customer){
-        
+    public function getUserDataAccountApp( $id_customer ) {
+      //error_log("\nEntro a getUserDataAccountApp: \n",3,"/tmp/error.log"); 
+      $customer = new Customer($id_customer);
+      $this->context->customer = $customer;
+      $userData = array();
+      $lastPoint = $this->getPointsLastDays((int)$this->context->customer->id);
+      $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
+      //error_log("\nEste es this->context->customer->id)\n".print_r($this->context->customer->id,true),3,"/tmp/error.log"); 
+      //error_log("\nEste es lastPoint \n".print_r($lastPoint,true),3,"/tmp/error.log"); 
+
+      $userData['image'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      $userData['fluzLasted'] = $lastPoint['points'];
+      $userData['fluzTotal'] = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
+      $userData['winnerMembers'] = $this->numberMembers();
+      $userData['totalSavings'] = $userData['fluzTotal'] * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1');
+      
+      $sql = 'SELECT date_add AS date
+              FROM ps_customer
+              WHERE id_customer = '.$id_customer;
+      $date_add = Db::getInstance()->getValue($sql);
+      $userData['dateAdd'] = substr($date_add, 0, 4);
+      //error_log("\nEste es el user data de getUserDataAccount: \n".print_r($userData,true),3,"/tmp/error.log"); 
+      return $userData;
+    }
+    
+    public function getProductsByManufacturer($id_customer, $id_lang = null){
+      
+        $id_lang = $id_lang != null ? $id_lang : $this->context->language->id;
         $query='SELECT
-                PM.id_manufacturer AS id_manufacturer,
-                PM.`name` AS manufacturer_name,
-                PP.id_product AS id_product,
-                SUM(OD.product_quantity) AS products,
-                Count(wp.id_webservice_external_product) as count_m,
-                Sum(PP.price) AS total
+                  PM.id_manufacturer AS id_manufacturer,
+                  PM.`name` AS manufacturer_name,
+                  PP.id_product AS id_product,
+                  SUM(OD.product_quantity) AS products,
+                  Count(wp.id_webservice_external_product) as count_m,
+                  Sum(PP.price) AS total
                 FROM
-                ps_orders AS PO
-                INNER JOIN '._DB_PREFIX_.'order_state_lang AS OSL ON PO.current_state = OSL.id_order_state
-                INNER JOIN '._DB_PREFIX_.'order_detail AS OD ON PO.id_order = OD.id_order
-                INNER JOIN '._DB_PREFIX_.'product AS PP ON OD.product_id = PP.id_product
-                INNER JOIN '._DB_PREFIX_.'supplier AS PS ON PS.id_supplier = PP.id_supplier
-                INNER JOIN '._DB_PREFIX_.'manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
-                LEFT JOIN '._DB_PREFIX_.'webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
+                  ps_orders AS PO
+                  INNER JOIN '._DB_PREFIX_.'order_state_lang AS OSL ON PO.current_state = OSL.id_order_state
+                  INNER JOIN '._DB_PREFIX_.'order_detail AS OD ON PO.id_order = OD.id_order
+                  INNER JOIN '._DB_PREFIX_.'product AS PP ON OD.product_id = PP.id_product
+                  INNER JOIN '._DB_PREFIX_.'supplier AS PS ON PS.id_supplier = PP.id_supplier
+                  INNER JOIN '._DB_PREFIX_.'manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
+                  LEFT JOIN '._DB_PREFIX_.'webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
                 WHERE
-                ((OSL.id_order_state = 2) AND
-                (PO.id_customer ='.$id_customer.') AND (PP.reference NOT LIKE "MFLUZ%") AND (OSL.id_lang='.$this->context->language->id.'))
+                  ((OSL.id_order_state = 2) AND
+                  (PO.id_customer ='.$id_customer.') AND (PP.reference<>"MFLUZ") AND (OSL.id_lang='.$id_lang.'))
                 GROUP BY
                  id_manufacturer,
-                manufacturer_name
+                  manufacturer_name
                 ORDER BY
-                manufacturer_name ASC';
-        
+                  manufacturer_name ASC';
         $supplier = Db::getInstance()->executeS($query);
         
         return $supplier;

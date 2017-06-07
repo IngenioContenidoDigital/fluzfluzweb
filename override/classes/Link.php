@@ -62,6 +62,18 @@ class Link extends LinkCore
         
     }
     
+    public function getManufacturerImageLink($id_manufacturer){
+      return _S3_PATH_.'m/'.$id_manufacturer.'.jpg';
+    }
+    
+    public function getCategoryImageLink($id_category){
+      return _S3_PATH_.'c/'.$id_category.'-category_default.jpg';
+    }
+    
+    public function getBannerImageLink($id_banner){
+      return "http://".Configuration::get('PS_SHOP_DOMAIN_SSL').'/img/blockslideshow/'.$id_banner.'.jpg';
+    }
+    
     public function getCatImageLink($name, $id_category, $type = null)
     {
         if ($this->allow == 1 && $type) {

@@ -51,4 +51,44 @@ class CityCore extends ObjectModel
                                                                     ORDER BY ciudad");
         return $countries;
     }
+    
+    /**
+     * Toma el id del pais y retorna las ciudades de ese pais.
+     * @param int $id_country
+     * @return array     Contiene todas las ciudades del pais.
+     */
+    public static function getCitiesByStateAvailable($id_state)
+    {
+        $q_city_unique='
+        SELECT cit.id_city, cit.city_name
+        FROM `'._DB_PREFIX_.'cities_col` cit
+        INNER JOIN `'._DB_PREFIX_.'carrier_city` car
+        ON (car.id_city_des = cit.id_city)
+        INNER JOIN ps_state s  ON ( s.id_state = cit.id_state AND s.id_country = '.(int)Configuration::get('PS_COUNTRY_DEFAULT').' )
+        WHERE cit.id_state = '. $id_state .'
+        GROUP BY cit.id_city, cit.city_name
+        ORDER BY cit.city_name ASC';
+        
+        //error_log("\n\nEste es el query: \n".print_r($q_city_unique, true),3,"/tmp/error.log");
+        
+        return Db::getInstance()->executeS($q_city_unique);
+    }
+    
+    
+    
+    
+    public static function getPriorityCitiesWithState()
+	{
+		$q_city_unique='
+		SELECT s.id_state as id, CONCAT(cc.ciudad, " - ", s.name) as name, cit.id_city as id_city
+		FROM `'._DB_PREFIX_.'priority_city` cit
+		INNER JOIN `'._DB_PREFIX_.'cities` cc ON (cc.id_cities = cit.id_city)
+		INNER JOIN `'._DB_PREFIX_.'state` s ON (s.id_state = cc.id_state)
+		WHERE cit.in_app = 1
+		ORDER BY cit.order ASC';
+                
+		$result = Db::getInstance()->executeS($q_city_unique);
+                error_log(gettype($result));
+		return $result;
+	}
 }
