@@ -31,7 +31,10 @@ class API extends REST {
      * Método de pruebas
      */
     private function prueba() {
-        
+      $this->response($this->json(array(
+          "success" => true, 
+          "message" => "Se ejecutó el metodo de prueba correctamente."
+        )), 200);    
     }
     
     /**
