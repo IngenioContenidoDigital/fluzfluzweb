@@ -125,7 +125,7 @@
                         </span>
                     </button>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
                     <button class="btn btn-default btn-account" id="submit_modal_fluz" onclick="sendSubmit()">
                         <span class="btn_modal_f">
                             {l s="Confirmar"}
@@ -162,6 +162,8 @@
         $(document).ready(function(){
             document.getElementById( 'valorSlider' ).value=0 ;
             var value_money = $('#value-money').text();
+            var name_sponsor = $('#sponsor_name').val();
+            
             $('#rangeSlider').change(function() 
             {
               var value = $(this).val();
@@ -174,7 +176,8 @@
               var total = mult;
               $("#total-valor").html(total);
             });
-
+            
+            $('#name_sponsor').html(name_sponsor);
         });
     </script>
 {/literal}
@@ -231,7 +234,7 @@
                 type : 'POST',
                 data : 'action=transferfluz&point_part='+point_part+'&sponsor_identification='+id_sponsor,
                 success : function() {
-                    window.location.replace(""+url+"confirmtransferfluz");
+                    window.location.replace(""+url+"confirmtransferfluz?popup=true");
                     $.fancybox.close();
                 }
             });
@@ -271,18 +274,31 @@
 {/literal}
 
 {if $popup}
-    {literal}
+    {literal}   
     <style>
         #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
         .searchimg{ display: none!important; }
         .right_column{display: none;}
     
         @media(max-width:400px){
+            .name_sponsor{padding-left: 10px;}
             .center_column{width: 95%;}
             .t-name{font-size: 12px;}
             }
         @media(max-width:300px){
         .center_column{width: 78%;}
+        .name_sponsor{padding-left: 5px;font-size: 11px;padding-right: 0px;}
+        .t-name {font-size: 10px;padding: 0;text-align: left;}
+        .btn-cancel-modal{padding: 5px;}
+        .btn-account{font-size: 12px;}
+        .btn-confirm-modal{padding: 5px;}
+        .left-info{font-size: 10px;}
+        .text-infouser{font-size: 10px;}
+        .info-cash{padding-left: 0px;}
+        .cash-point{padding-left: 5px;}
+        .title-myinfo{font-size: 10px;}
+        .title_transfer{font-size: 14px;}
+        .btn_modal_f{font-size: 12px;}
         }
         </style>
     {/literal}

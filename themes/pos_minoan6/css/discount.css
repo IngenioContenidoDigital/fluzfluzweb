@@ -83,6 +83,7 @@ ul.footer_links{margin-left: 0px;}
 }
 
 @media (max-width:768px){
+    .username{padding-left: 0px;}
     .information{font-size: 10px;}
     .page-heading{text-align: center;}
     .data{font-size: 10px;}
@@ -96,4 +97,5 @@ ul.footer_links{margin-left: 0px;}
 @media (max-width: 359px){
     span {font-size: 8px;}
     .img {padding-left: 3px;margin-top: 10px;}
+    .transfer-f{width: 85px;}
 }
