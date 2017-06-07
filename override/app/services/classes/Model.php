@@ -1738,6 +1738,7 @@ return $responseObj;
   
   
   public function getVaultByManufacturer($id_customer, $id_manufacturer) {
+    error_log("\n\nEntro con id_manufacturer: ".$id_manufacturer,3,"/tmp/error.log");
     $result = Wallet::getCards($id_customer, $id_manufacturer);
     error_log("\n\nEstos son los result: ".print_r($result, true),3,"/tmp/error.log");
     return array('result' => $result);

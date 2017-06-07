@@ -910,19 +910,20 @@ class API extends REST {
       if ($this->get_request_method() != "GET") {
         $this->response('', 406);
       }
-      
       if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
         $id_customer = $this->_request['id_customer'];
         $model = new Model();
         $link = new Link();
-        
+        $countPurchases = 0;
         if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
           $id_manufacturer = $this->_request['id_manufacturer'];
           $purchases = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
           foreach ($purchases['result'] as &$purchase){
-            $purchase['card_code'] = (int)$purchase['card_code'];            
-            $purchase['price'] = round($purchase['price']);            
+//            $purchase['card_code'] = (int)$purchase['card_code'];            
+            $purchase['price'] = round($purchase['price']);
+            $countPurchases++;
           }
+          $purchases['total'] = $countPurchases;
           return $this->response(json_encode($purchases),200);
         }
         
@@ -930,7 +931,9 @@ class API extends REST {
         foreach ($purchases['result'] as &$purchase){
           $purchase['total'] = round($purchase['total']);
           $purchase['m_img'] = $link->getManufacturerImageLink($purchase['id_manufacturer']);
+          $countPurchases++;
         }
+        $purchases['total'] = $countPurchases;
         return $this->response(json_encode($purchases),200);
       }
       else {

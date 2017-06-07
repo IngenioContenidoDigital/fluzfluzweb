@@ -1,5 +1,7 @@
 <?php
-require_once('./classes/codeBar/barcode.class.php');
+//require_once('./classes/codeBar/barcode.class.php');
+require_once(dirname(__FILE__).'/codeBar/barcode.class.php');
+
 
 class WalletCore extends ObjectModel
 {
