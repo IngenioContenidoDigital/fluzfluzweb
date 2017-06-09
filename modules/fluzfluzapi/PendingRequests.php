@@ -39,7 +39,7 @@ function executePending(){
                             
                 $chain=Encrypt::encrypt($chainrow['secure_key'] , $request['mobile_phone']);
                 
-                $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$request['id_product']."', '".$chain."', '".$request['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
+                $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$request['id_product']."', '".$request['mobile_phone']."', '".$request['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
                 Db::getInstance()->execute($code);
                 
                 $template = 'order_conf_telco_sucess';
