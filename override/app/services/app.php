@@ -170,6 +170,7 @@ class API extends REST {
         $productFather[$i]['prices'] = $price_min." - ".$price_max;
       }
       $search['result'] = $productFather;
+      $search['total'] = count($productFather);
       $this->response($this->json($search), 200);
     }
     else if ( $option == 3 ){
@@ -921,6 +922,7 @@ class API extends REST {
           foreach ($purchases['result'] as &$purchase){
 //            $purchase['card_code'] = (int)$purchase['card_code'];            
             $purchase['price'] = round($purchase['price']);
+            $purchase['showDetails'] = false;
             $countPurchases++;
           }
           $purchases['total'] = $countPurchases;
