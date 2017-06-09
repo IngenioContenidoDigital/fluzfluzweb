@@ -88,7 +88,7 @@
         </div>
         <div class="row row-personal">
             <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
-                    <div class="left-info">{l s='Dinero en Fluz'}</div>
+                    <div class="left-info">{l s='Fluz en Dinero'}</div>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12 padding-cash">
                 <div class="text-infouser">  
@@ -102,7 +102,7 @@
         <div class="col-lg-6">
             <button class="myfancybox btn btn-default btn-account" href="#confirmTransfer" name="submitFluz" id="submitFluz">
                 <span style="cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;">
-                    {l s="Enviar Fluz"}
+                    {l s="Transferir Fluz"}
                 </span>
             </button>
         </div>
