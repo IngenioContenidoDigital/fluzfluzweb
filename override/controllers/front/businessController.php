@@ -52,8 +52,8 @@ class businessController extends FrontController
         $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
         $this->context->smarty->assign('pointsAvailable', $pointsAvailable);
         
-        $distribute_fluz = floor($pointsAvailable / (count($tree)-1));
-        $this->context->smarty->assign('all_fluz', $distribute_fluz);
+        $total_users = (count($tree)-1);
+        $this->context->smarty->assign('all_fluz', $total_users);
         
         foreach ($tree as &$network){
             $sql = 'SELECT id_customer, firstname, lastname, username, email, dni FROM '._DB_PREFIX_.'customer 

@@ -27,7 +27,9 @@
     <span class="title-business" id="title-container"></span>
     <div id="quantity-users"> Cantidad de Empleados</div>
     <div id="available-point" class="title-fluz">{l s="Fluz Totales: "}<span class="available-point">{$pointsAvailable}</span></div>
-    <div id="available-point" class="title-fluz">{l s="Fluz en Dinero: "}<span class="available-point">{$pointsAvailable}</span></div>
+    <div id="available-point" class="title-fluz">{l s="Fluz en Dinero: "}
+        <span class="available-point"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </span>
+    </div>
 </div>
 
 <div class="row panel-employee">
@@ -59,8 +61,8 @@
 </div>
 <div class="row container-info-users" id="container-info-users">
     <div class="row pagination-header">
-        <div class="col-lg-4 pag-style"> Pagination </div>
-        <div class="col-lg-8 btn-save-user">
+        <div class="col-lg-2 pag-style"> Pagination </div>
+        <div class="col-lg-10 btn-save-user">
             <div class="col-lg-8 div-toggle"> 
                 <div class="col-lg-5 button dropdown"> 
                     <select id="select-distribute" name="select-distribute">
@@ -70,11 +72,14 @@
                     </select>
                 </div>
                 <div class="col-lg-7" id="amount-use">
-                    <input type="hidden" value="{$all_fluz}" id="ptosTotalOculto"/>
-                    <div class="col-lg-8">
-                        <input class="col-lg-12" type="number" min="1" max="{$all_fluz}" oninput="if(value>{$all_fluz})value={$all_fluz}" id="use_allfluz" autocomplete="off"/>
+                    <input type="hidden" value="{$pointsAvailable}" id="ptosTotalOculto"/>
+                    <input type="hidden" value="{$all_fluz}" id="total_users"/>
+
+                    <div class="col-lg-6">
+                        <input class="col-lg-12" type="number" min="1" max="{$pointsAvailable}" oninput="if(value>{$pointsAvailable})value={$pointsAvailable}" id="use_allfluz" autocomplete="off"/>
                     </div>
-                    <div class="col-lg-4" id="ptosTotal">{l s=" de "}{$all_fluz}</div>
+                    <div class="col-lg-4" id="ptosTotal">{l s=" Fluz "}</div>
+                    <div class="col-lg-6" id="ptosused"></div>
                 </div>
             </div>
             <div class="col-lg-4 div-btn">
@@ -105,7 +110,7 @@
                 <div class="col-lg-2 content-item-users">{$net.email}</div>
                 <div class="col-lg-1 content-item-users">Phone</div>
                 <div class="col-lg-2 content-item-users">{$net.dni}</div>
-                <div class="col-lg-2 content-item-users">Amount</div>
+                <div class="col-lg-2 content-item-users" id="amount_unit">Amount</div>
             </div>
         {/foreach}
     </div>
@@ -188,14 +193,23 @@
         $("#use_allfluz").on("keyup",function(event){
             var valor1=$('#ptosTotalOculto').val();
             var valor2=$('#use_allfluz').val();
+            var t_user = $('#total_users').val();
             if(valor2>=0){
                 var resultado = calcular(valor1,valor2);
+                var ptoUnit = (Math.round(valor2/t_user))+' '+' Fluz para Cada Fluzzer';
+                var ptoList = (Math.round(valor2/t_user));
                 $('#ptosTotal').html(resultado);
+                $('#ptosused').html(ptoUnit);
+                $('#amount_unit').html(ptoList);
             }else{
                 valor2*=-1;
                 $('#use_allfluz').val(valor2);
                 var resultado = calcular(valor1,valor2);
+                var ptoUnit = (Math.round(valor2/t_user))+' '+' Fluz para Cada Fluzzer';
+                var ptoList = (Math.round(valor2/t_user));
                 $('#ptosTotal').html(resultado);
+                $('#ptosused').html(ptoUnit);
+                $('#amount_unit').html(ptoList);
             }
                 
         }).keydown(function( event ) {

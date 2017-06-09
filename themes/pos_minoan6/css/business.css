@@ -57,6 +57,7 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 #select-distribute{cursor: pointer;background: none;font-family: 'Open Sans';padding: 5px;border: 2px solid #000;font-weight: bold;}
 .disabledbutton {pointer-events: none;opacity: 0.5;}
 #use_allfluz{text-align: center !important;padding: 6px;}
-#ptosTotal{margin-top: 5px;text-align: left;color: #ef4136;padding-left: 0px;}
+#ptosTotal{margin-top: 5px;text-align: left;color: #ef4136;padding-left: 0px; display: none;}
+#ptosused{margin-top: 5px;text-align: left;color: #ef4136;padding-left: 0px;padding-right: 0px;}
 .available-point{color: #ef4136; font-weight: bold; font-size: 14px;}
 .title-fluz{color: #000;}
