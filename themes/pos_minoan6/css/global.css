@@ -3967,7 +3967,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 @media (max-width:420px){
     .Cards{text-align:center;}
     .priceCard{text-align:center;}
-    .nameCard{display:none;}
+    .nameCard{margin-top: -7px;}
     .page-heading{margin-top:15px; margin-left: 5%;}
     .Cards img{    margin-right: 107px; margin-top: -20px;}
     .divHead{display:block !important;margin-left:12% !important; margin-top:5% !important; width:250px !important; vertical-align:top !important;}

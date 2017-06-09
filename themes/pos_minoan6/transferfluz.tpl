@@ -28,7 +28,7 @@
 <div class="row info-personal">
     <div class="row row-personal">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div class="left-info">{l s='Username'}</div>
+                <div class="left-info">{l s='Usuario'}</div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="text-infouser"> {$username} </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="row row-personal">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div class="left-info">{l s='Dinero en Fluz'}</div>
+                <div class="left-info">{l s='Fluz en Dinero'}</div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="text-infouser"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </div>
@@ -57,7 +57,8 @@
     <input type="hidden" id="id_customer" name="id_customer" value="{$id_customer}"/>
     <input type="hidden" id="sponsor_identification" name="sponsor_identification" value="{if $id_member != ""}{$id_member}{else}{/if}"/>
     <input type="hidden" id="sponsor_name" name="sponsor_name" value="{if $name_member != ""}{$name_member}{else}{/if}"/>
-
+    <input type="hidden" id="popup_s" name="popup_s" value="{if $popup != ""}{$popup}{else}false{/if}"/>
+    
     <div class="row"> 
         <h3 class="title-myinfo"> TRANSFERENCIA FLUZ A FLUZZERS </h3> 
     </div>
@@ -75,7 +76,7 @@
         </div>
         <div class="row row-personal">
             <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12 style-fluz">
-                    <div class="left-info">{l s='Cantidad de Fluz a enviar'}</div>
+                    <div class="left-info">{l s='Cantidad de Fluz a Transferir'}</div>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                 <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="100" min="100" max="{$pointsAvailable}" step="100" data-rangeslider>
@@ -125,7 +126,7 @@
                         </span>
                     </button>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
                     <button class="btn btn-default btn-account" id="submit_modal_fluz" onclick="sendSubmit()">
                         <span class="btn_modal_f">
                             {l s="Confirmar"}
@@ -136,7 +137,8 @@
         </div>
     </div>    
 </form>
-<div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>                        
+<div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
+
 <!-- END TEMPLATE TRANSFER FLUZ -->
 <!-- SCRIPT -->
 {literal}
@@ -162,6 +164,8 @@
         $(document).ready(function(){
             document.getElementById( 'valorSlider' ).value=0 ;
             var value_money = $('#value-money').text();
+            var name_sponsor = $('#sponsor_name').val();
+            
             $('#rangeSlider').change(function() 
             {
               var value = $(this).val();
@@ -174,7 +178,8 @@
               var total = mult;
               $("#total-valor").html(total);
             });
-
+            
+            $('#name_sponsor').html(name_sponsor);
         });
     </script>
 {/literal}
@@ -225,13 +230,19 @@
             var point_part = $('#pt_parciales').val();
             var id_sponsor = $('#sponsor_identification').val();
             var url = document.getElementById("url_fluz").innerHTML;
+            var popup = $('#popup_s').val();
             
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=transferfluz&point_part='+point_part+'&sponsor_identification='+id_sponsor,
                 success : function() {
-                    window.location.replace(""+url+"confirmtransferfluz");
+                    if(popup == 'false'){
+                        window.location.replace(""+url+"confirmtransferfluz");
+                    }
+                    else{
+                        window.location.replace(""+url+"confirmtransferfluz?popup=true");
+                    }
                     $.fancybox.close();
                 }
             });
@@ -271,18 +282,31 @@
 {/literal}
 
 {if $popup}
-    {literal}
+    {literal}   
     <style>
         #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
         .searchimg{ display: none!important; }
         .right_column{display: none;}
     
         @media(max-width:400px){
+            .name_sponsor{padding-left: 10px;}
             .center_column{width: 95%;}
             .t-name{font-size: 12px;}
             }
         @media(max-width:300px){
         .center_column{width: 78%;}
+        .name_sponsor{padding-left: 5px;font-size: 11px;padding-right: 0px;}
+        .t-name {font-size: 10px;padding: 0;text-align: left;}
+        .btn-cancel-modal{padding: 5px;}
+        .btn-account{font-size: 12px;}
+        .btn-confirm-modal{padding: 5px;}
+        .left-info{font-size: 10px;}
+        .text-infouser{font-size: 10px;}
+        .info-cash{padding-left: 0px;}
+        .cash-point{padding-left: 5px;}
+        .title-myinfo{font-size: 10px;}
+        .title_transfer{font-size: 14px;}
+        .btn_modal_f{font-size: 12px;}
         }
         </style>
     {/literal}

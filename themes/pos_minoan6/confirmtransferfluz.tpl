@@ -31,3 +31,18 @@
         #left_column{display: none;}
     </style>
 {/literal}
+{if $popup}
+    {literal}   
+        <style>
+            #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
+            .button.button-small{display: none;}
+            .form-cancel {padding-bottom: 0;min-height: auto;margin-top: 0px;}
+        </style> 
+        <script>
+            setTimeout( function(){ 
+                $.fancybox.close();
+                window.top.location.reload();
+            }  , 1000 );
+        </script>
+    {/literal}
+{/if}

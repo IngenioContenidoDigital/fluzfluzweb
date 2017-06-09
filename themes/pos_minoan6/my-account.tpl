@@ -43,13 +43,13 @@
         <div class="col-lg-10 col-md-10 col-sm-12 card-st" id="card-div">
             {foreach from=$manufacturers item=manufacturer}
                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 Cards fancybox fancybox.iframe" title="{$manufacturer.manufacturer_name}" href="{$link->getPageLink('wallet', true, null, "manufacturer={$manufacturer.id_manufacturer}")|escape:'html':'UTF-8'}">
-                    <div class="col-lg-6 col-md-5 col-sm-12 col-xs-6 infoCard">
-                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
-                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name|truncate:20:"...":true}</span></div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 infoCard">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nameCard"><span>{$manufacturer.manufacturer_name|truncate:20:"...":true}</span></div>
                     </div>
-                    <div class="col-lg-6 col-md-7 col-sm-12 col-xs-6 priceCard">
-                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp; C&oacute;digos</span></div>
-                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 priceCard">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp; C&oacute;digos</span></div>
+                        <!--<div class="col-lg-6 col-md-12 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>-->
                     </div>
                 </div>
             {/foreach}
