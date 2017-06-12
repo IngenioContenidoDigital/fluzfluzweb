@@ -189,6 +189,7 @@ class IdentityController extends IdentityControllerCore
                 'sl_day' => $birthday[2],
                 'errors' => $this->errors,
                 'genders' => Gender::getGenders(),
+                'operators' => $this->getOperators(),
             ));
 
         // Call a hook to display more information
@@ -248,6 +249,12 @@ class IdentityController extends IdentityControllerCore
         $this->context->smarty->assign('imgprofile',$imgprofile);
         
         $this->setTemplate(_PS_THEME_DIR_.'identity.tpl');
+    }
+    
+    public function getOperators() {
+        $query = "SELECT name
+                  FROM ps_webservice_external_telco_operator";
+        return Db::getInstance()->executeS($query);
     }
 }
 
