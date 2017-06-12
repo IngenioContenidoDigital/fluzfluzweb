@@ -48,6 +48,15 @@ class Customer extends CustomerCore
 
     public $warning_kick_out;
     
+    public $civil_status;
+    public $occupation_status;
+    public $field_work;
+    public $pet;
+    public $pet_name;
+    public $spouse_name;
+    public $children;
+    public $phone_provider;
+    
     public static $definition = array(
         'table' => 'customer',
         'primary' => 'id_customer',
@@ -90,6 +99,14 @@ class Customer extends CustomerCore
             'days_inactive' =>              array('type' => self::TYPE_INT),
             'date_kick_out' =>              array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
             'warning_kick_out' =>              array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
+            'civil_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'occupation_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'field_work' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'pet' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'pet_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'spouse_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 50),
+            'children' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 5),
+            'phone_provider' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
         ),  
     );
     
@@ -128,6 +145,31 @@ class Customer extends CustomerCore
     {
         $this->birthday = (empty($this->years) ? $this->birthday : (int)$this->years.'-'.(int)$this->months.'-'.(int)$this->days);
         $this->manual_inactivation = (!$this->active) ? 1 : 0;
+        
+        if ( Tools::getValue('civil_status') == "" ) {
+            $this->civil_status = null;
+        }
+        if ( Tools::getValue('occupation_status') == "" ) {
+            $this->occupation_status = null;
+        }
+        if ( Tools::getValue('field_work') == "" ) {
+            $this->field_work = null;
+        }
+        if ( Tools::getValue('pet') == "" ) {
+            $this->pet = null;
+        }
+        if ( Tools::getValue('pet_name') == "" ) {
+            $this->pet_name = null;
+        }
+        if ( Tools::getValue('spouse_name') == "" ) {
+            $this->spouse_name = null;
+        }
+        if ( Tools::getValue('children') == "" ) {
+            $this->children = 0;
+        }
+        if ( Tools::getValue('phone_provider') == "" ) {
+            $this->phone_provider = null;
+        }
 
         if ($this->newsletter && !Validate::isDate($this->newsletter_date_add)) {
             $this->newsletter_date_add = date('Y-m-d H:i:s');
