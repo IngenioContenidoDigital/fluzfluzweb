@@ -1668,7 +1668,7 @@ return $responseObj;
     $result = $db->executeS($sql);
     return array('result' => $result);
   }
-  
+
   public function getCategoriesHome($id_lang, $active, $with_father = false, $random_category = false, $limit_category = 0, $limit_father = 0, $random_father = false){
     $categoryInitial = Category::getRootCategories();
     $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
@@ -1725,22 +1725,18 @@ return $responseObj;
     $sql .= ($random) ? 'ORDER BY RAND()' : ' ' ;        
     $sql .= ($limit > 0) ? ' LIMIT '.$limit.';' : ';' ;
     
-    //error_log("\n\nSQL Categorias: ". print_r($sql,true),3,"/tmp/error.log");
     $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
     return $db->executeS($sql);
   }
   
   public function getVault($id_customer, $id_lang){
     $result = MyAccountController::getProductsByManufacturer($id_customer, $id_lang);
-//    error_log("\n\nEstos son los result: ".print_r($result, true),3,"/tmp/error.log");
     return array('result' => $result);
   }
-  
   
   public function getVaultByManufacturer($id_customer, $id_manufacturer) {
-    error_log("\n\nEntro con id_manufacturer: ".$id_manufacturer,3,"/tmp/error.log");
     $result = Wallet::getCards($id_customer, $id_manufacturer);
-    error_log("\n\nEstos son los result: ".print_r($result, true),3,"/tmp/error.log");
     return array('result' => $result);
   }
+  
 }

@@ -704,18 +704,35 @@ class API extends REST {
       $option = $this->_request['option'];
     }
     
-    //error_log("\n\nEntro a obtener las categoriaas: ",3,"/tmp/error.log");
     $model = new Model();
     $link = new Link();
     if( $option == 1 ){
       $categories = $model->getCategoriesHome($this->id_lang_default, true, true, true, 3, 5, true);
-    }
-    else if( $option == 2 ){
-      $categories = $model->getCategoriesHome($this->id_lang_default, true, false, true, 6, 0, false);
       foreach ($categories['result'] as $key => &$category) {
         $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
       }
-      //error_log("\n\nCategorias de abajo: \n\n". print_r($categories,true),3,"/tmp/error.log");
+    }
+    else if( $option == 2 ){
+      $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
+      $categories = $model->getCategoriesHome($this->id_lang_default, true, false, true, $limit, 0, false);
+      foreach ($categories['result'] as $key => &$category) {
+        $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
+      }
+    }
+    else if( $option == 3 ){
+      error_log("\n\nEntro a opcion 3: ",3,"/tmp/error.log");
+      if (isset($this->_request['id_category']) && !empty($this->_request['id_category'])) {
+        $id_category = $this->_request['id_category'];
+      }
+      else {
+        $this->response('', 206);
+      }
+      
+      $categories['products'] = $model->getCategories( $this->id_lang_default , $id_category, 0, 1, 1, false );
+      foreach ($categories['products'] as $key => &$product) {
+        $product['image'] = $link->getManufacturerImageLink($product['m_id']);
+        $product['pf_points'] = round($product['pf_points']);
+      }
     }
     return $this->response(json_encode($categories),200);
   }
