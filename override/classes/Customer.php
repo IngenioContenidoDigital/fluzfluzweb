@@ -340,6 +340,37 @@ class Customer extends CustomerCore
         return $addCard;
     }
     
+    public static function percentProfileComplete($id_customer) {
+        $fields_complete = 0;
+        $fields_information = 19;
+
+        $customer = new Customer($id_customer); 
+        $address = $customer->getAddresses();
+        $address = $address[0];
+
+        /* 1 */ if ( file_exists(_PS_IMG_DIR_."profile-images/".$customer->id.".png") ) { $fields_complete++; }
+        /* 2 */ if ( $customer->id_gender != "" ) { $fields_complete++; }
+        /* 3 */ if ( $customer->firstname != "" ) { $fields_complete++; }
+        /* 4 */ if ( $customer->lastname != "" ) { $fields_complete++; }
+        /* 5 */ if ( $customer->email != "" ) { $fields_complete++; }
+        /* 6 */ if ( $customer->dni != "" ) { $fields_complete++; }
+        /* 7 */ if ( $customer->birthday != "" ) { $fields_complete++; }
+        /* 8 */ if ( $customer->civil_status != "" ) { $fields_complete++; }
+        /* 9 */ if ( $customer->occupation_status != "" ) { $fields_complete++; }
+        /* 10 */ if ( $customer->field_work != "" ) { $fields_complete++; }
+        /* 11 */ if ( $customer->pet != "" ) { $fields_complete++; }
+        /* 12 */ if ( $customer->pet_name != "" ) { $fields_complete++; }
+        /* 13 */ if ( $customer->spouse_name != "" ) { $fields_complete++; }
+        /* 14 */ if ( $customer->children != "" ) { $fields_complete++; }
+        /* 15 */ if ( $customer->phone_provider != "" ) { $fields_complete++; }
+        /* 16 */ if ( $address['phone'] != "" ) { $fields_complete++; }
+        /* 17 */ if ( $address['address1'] != "" ) { $fields_complete++; }
+        /* 18 */ if ( $address['address2'] != "" ) { $fields_complete++; }
+        /* 19 */ if ( $address['city'] != "" ) { $fields_complete++; }
+
+        return round( ($fields_complete*100)/$fields_information );
+    }
+
     public function mylogout()
     {
         $id_cart = Context::getContext()->cookie->id_cart;
