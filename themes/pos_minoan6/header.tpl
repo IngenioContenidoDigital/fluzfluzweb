@@ -191,6 +191,12 @@
                                             <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "} {$order_lastmonth['total']} {" compras. Necesitaras hacer "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['date']}{") para cubrir tu requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
                                         </div>
                                     {/if}
+                                    
+                                    {if $profile_complete < 100 }
+                                        <div class="col-lg-12 banner-profile-complete">
+                                            <p class="p-advertencia">Tu perfil de usuario está completado en un {$profile_complete}% <progress value="{$profile_complete}" max="100"></progress></p>
+                                        </div>
+                                    {/if}
 
                                     <div class="container-fluid profileCustomer" style="{if $order_lastmonth['alert'] == 0}margin-top:70px{/if};">
                                         <div class="row" style="width:100%;">
