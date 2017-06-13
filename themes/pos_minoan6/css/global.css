@@ -3967,7 +3967,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 @media (max-width:420px){
     .Cards{text-align:center;}
     .priceCard{text-align:center;}
-    .nameCard{display:none;}
+    .nameCard{margin-top: -7px;}
     .page-heading{margin-top:15px; margin-left: 5%;}
     .Cards img{    margin-right: 107px; margin-top: -20px;}
     .divHead{display:block !important;margin-left:12% !important; margin-top:5% !important; width:250px !important; vertical-align:top !important;}
@@ -4630,14 +4630,19 @@ font-family: 'Open Sans' !important;
 .vdoTube>iframe {padding: 0;height: 222px;}
 }
 @media (min-width:761px) and (max-width:1023px){
+ #address .form-group .form-control, #identity .form-group .form-control, #account-creation_form .form-group .form-control, #new_account_form .form-group .form-control, #opc_account_form .form-group .form-control, #authentication .form-group .form-control{max-width: 75%; margin: 0 auto;}   
+#address .form-group, #identity .form-group, #account-creation_form .form-group, #new_account_form .form-group, #opc_account_form .form-group, #authentication .form-group{text-align: center;margin: 0 auto;}
 .Merchants-banner{min-height:411px;}
+.select-form{margin: 0 auto;}
+.gender-responsive{text-align: center;}
+.container-birth{max-width:40%; margin: 0 auto;}
+#authentication .form-group .form-control{text-align: center;}
 .Merchants-banner2{min-height:350px;}
 .Merchants3 h1{line-height:350px;}
 .breadcrumb{margin-left:10px;}
 .p-auth{text-align:center !important;}
-.stick {top: 24px !important; z-index: 1; width: 265px !important;left: 450px;}
-.stick>iframe {padding: 0;height: 150px !important;}
 .account_creation>h2{text-align:center;}
+.stick {position:initial !important; width: 100% !important;}
 .finalDeposit {text-align:center;}
 .rangeSelect{text-align:center;}
 .formInfo {text-align: center;margin-bottom: 20px;}

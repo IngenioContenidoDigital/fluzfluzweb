@@ -26,9 +26,14 @@
 {capture name=path}{l s='My account'}{/capture}
 <div class="row page-heading">
     <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">mis c&oacute;digos</h1>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-design">
-        <a class="btn btn-default btn-account" href="/content/6-categorias">{l s="Comprar"}</a>
-    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding-min">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-design">
+            <a class="btn btn-default btn-account" href="/content/6-categorias">Comprar C&oacute;digo</a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-reload">
+            <a class="btn btn-default btn-account btn-design-r" href="/inicio/485-precarga-de-saldo-fluzfluz.html">Recargar Fluz</a>
+        </div>
+    </div>        
 </div>
 <div class="row">
     <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 info-account">{l s='View and Redeem your gift card purchases'}</p>
@@ -38,13 +43,13 @@
         <div class="col-lg-10 col-md-10 col-sm-12 card-st" id="card-div">
             {foreach from=$manufacturers item=manufacturer}
                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 Cards fancybox fancybox.iframe" title="{$manufacturer.manufacturer_name}" href="{$link->getPageLink('wallet', true, null, "manufacturer={$manufacturer.id_manufacturer}")|escape:'html':'UTF-8'}">
-                    <div class="col-lg-6 col-md-5 col-sm-12 col-xs-6 infoCard">
-                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
-                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 nameCard"><span>{$manufacturer.manufacturer_name|truncate:20:"...":true}</span></div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 infoCard">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style=" padding-right: 0px; padding-left: 0px;"><img src="{$img_manu_dir}{$manufacturer.id_manufacturer}.jpg" alt="{$manufacturer.manufacturer_name|escape:'htmlall':'UTF-8'}"/></div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nameCard"><span>{$manufacturer.manufacturer_name|truncate:20:"...":true}</span></div>
                     </div>
-                    <div class="col-lg-6 col-md-7 col-sm-12 col-xs-6 priceCard">
-                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-5" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp; C&oacute;digos</span></div>
-                        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 priceCard">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" padding-right: 0px; padding-left: 0px;"><span class="num-Card">{$manufacturer.products}&nbsp; C&oacute;digos</span></div>
+                        <!--<div class="col-lg-6 col-md-12 col-sm-6 col-xs-7"  style=" padding-right: 0px; padding-left: 0px;"><span class="priceTotalCard">{displayPrice price=$manufacturer.total}</span></div>-->
                     </div>
                 </div>
             {/foreach}
@@ -83,6 +88,7 @@
         {if $grupo == 4}
         <li><a href="{$link->getPageLink('cashout', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Redimir tus Fluz en efectivo'}</span></a></li>
         <li><a href="{$link->getPageLink('stateaccount', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/statics.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Estado de Cuenta'}</span></a></li>
+        <li><a href="{$link->getPageLink('transferfluz', true)|escape:'html':'UTF-8'}" title="{l s='Cash Out'}"><img src="{$img_dir}icon/exchange.png" class="imgSponsor" /><span class="spanSponsor">{l s=' Transferencias Fluz a Fluzzer'}</span></a></li>
         {/if}
         </ul>
     </div>
@@ -287,19 +293,32 @@
                         color: #fff;
                         border: none;
                         background: #ef4136;}
-        .btn-design{padding-left: 130px;}
+        .btn-design{text-align: right;}
         
         @media (max-width:1024px){
-            .btn-design{padding-left: 97px;}
         }
         
         @media (max-width:768px){
             .btn-design{text-align: right;padding-left: 0px;}
         }
         
+        @media(max-width:768px){
+            .btn-design{margin-bottom: 10px;}
+            .btn-account{padding: 10px 18px;}
+        }
+        
+        @media (max-width:425px){
+           .btn-reload{padding-left: 0px; width: 200px !important;}
+           .btn-design-r{width: 166px;}
+        }
+        
         @media (max-width:420px){
             .imgSponsor2 {width: 33% !important; margin-bottom: 5%;}
             .barTop{margin-bottom: 4%;}
+        }
+        
+        @media(max-width:414px){
+            .padding-min{padding-left:0px;}
         }
     </style>
 {/literal}

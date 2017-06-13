@@ -920,6 +920,8 @@ class AdminImportController extends AdminImportControllerCore
                             '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
                         
+                        AuthController::sendNotificationSponsor($customer->id);
+                        
                         $template = 'welcome_fluzfluz';
                         $prefix_template = '16-welcome_fluzfluz';
                         

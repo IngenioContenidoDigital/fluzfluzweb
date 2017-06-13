@@ -36,11 +36,21 @@ class ProductController extends ProductControllerCore
             if (Pack::isPack((int)$this->product->id) && !Pack::isInStock((int)$this->product->id)) {
                 $this->product->quantity = 0;
             }
-
+            
+            $query_m = 'SELECT reference, id_product FROM ps_product WHERE id_product = '.$this->product->id;
+            $m_fluz = Db::getInstance()->executeS($query_m);
+            $reference = $m_fluz[0]['reference'];
+            $fluz = substr($reference, 0,5);
+            
             $this->product->description = $this->transformDescriptionWithImg($this->product->description);
-            $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
-            $sponsorships2=array_slice($sponsorships, 1, 15);
-            $sponsor = count($sponsorships2)+1;
+            if($fluz != 'MFLUZ'){
+                $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+                $sponsorships2=array_slice($sponsorships, 1, 15);
+                $sponsor = count($sponsorships2)+1;
+            }
+            else{
+                $sponsor = 1;
+            }
             $this->context->smarty->assign('sponsor', $sponsor);
             //$price = (int)$this->product->price - RewardsProductModel::getCostDifference($this->product->id);
             $price = RewardsProductModel::getProductReward($this->product->id,(int)$this->product->price,1, $this->context->currency->id);

@@ -80,7 +80,7 @@ class stateaccountController extends FrontController {
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
                             WHERE n.id_customer='.$id_customer.'    
-                            AND s.product_reference != "MFLUZ" AND n.date_add >= curdate() + interval -30 day
+                            AND s.product_reference NOT LIKE "MFLUZ%" AND n.date_add >= curdate() + interval -30 day
                             AND n.id_reward_state = 2 AND n.credits > 0';
                 
                 $result = Db::getInstance()->getRow($queryTop);
@@ -116,7 +116,7 @@ class stateaccountController extends FrontController {
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'
-                            AND s.product_reference != "MFLUZ" AND n.credits > 0 AND '.$valor['level'].'!=0';
+                            AND s.product_reference NOT LIKE "MFLUZ%" AND n.credits > 0 AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {

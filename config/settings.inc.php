@@ -1,5 +1,5 @@
 <?php
-define('_DB_SERVER_', 'localhost');
+define('_DB_SERVER_', 'localhost:3808');
 define('_DB_NAME_', 'fluzfluz');
 define('_DB_USER_', 'root');
 define('_DB_PASSWD_', '');

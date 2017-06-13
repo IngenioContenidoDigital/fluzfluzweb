@@ -128,9 +128,14 @@ class OrderConfirmationController extends OrderConfirmationControllerCore
             $x = Db::getInstance()->executeS($queryprueba);
             
             $porcentaje_detail = $x[0]['value']/100;
-            
+            $fluz = substr($order_product['reference'], 0,5);
             $sponsorships = array_slice(RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id), 1, 15);
-            $order_product['fluzpoints'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / (count($sponsorships)+1))*$porcentaje_detail);
+            if($fluz != 'MFLUZ'){
+                $order_product['fluzpoints'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / (count($sponsorships)+1))*$porcentaje_detail);
+            }
+            else{
+                $order_product['fluzpoints'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / 1)*$porcentaje_detail);
+            }
         }
 
         $this->context->smarty->assign(array(

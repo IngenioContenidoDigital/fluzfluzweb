@@ -113,6 +113,8 @@ class ParentOrderController extends ParentOrderControllerCore
                     ));
                 } 
                 if (($id_cart_rule = (int)Tools::getValue('deleteDiscount')) && Validate::isUnsignedId($id_cart_rule)) {
+                    
+                    Db::getInstance()->execute('DELETE FROM '._DB_PREFIX_.'rewards WHERE id_cart = '.$this->context->cart->id);
                     $this->context->cart->removeCartRule($id_cart_rule);
                     CartRule::autoAddToCart($this->context);
                     Tools::redirect('index.php?controller=order-opc');

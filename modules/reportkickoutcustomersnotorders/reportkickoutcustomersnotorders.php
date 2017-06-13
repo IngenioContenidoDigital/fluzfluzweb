@@ -74,7 +74,7 @@ class reportkickoutcustomersnotorders extends ModuleGrid
                         LEFT JOIN "._DB_PREFIX_."customer c ON ( ko.id_customer = c.id_customer )
                         LEFT JOIN "._DB_PREFIX_."orders o ON ( ko.id_customer = o.id_customer )
                         LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
-                        WHERE ( od.product_reference != 'MFLUZ' OR o.id_order IS NULL )
+                        WHERE ( od.product_reference NOT LIKE 'MFLUZ%' OR o.id_order IS NULL )
                         AND ko.date_kick_out BETWEEN ".$date_between."
                         GROUP BY ko.id_customer";
 

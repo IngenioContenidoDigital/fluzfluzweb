@@ -233,7 +233,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
                             LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)    
                             LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = s.product_id)
-                            LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits DESC';
+                            LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.id_customer='.$valor['id'].' AND s.product_reference NOT LIKE "MFLUZ%" AND '.$valor['level'].'!=0 ORDER BY n.credits DESC';
                 $result = Db::getInstance()->executeS($queryTop);
                 if ( $result[0]['points'] != "" ) {
                     $top[] = $result[0];
@@ -323,7 +323,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order)
                             LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)    
                             LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = s.product_id)
-                            LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.credits>0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
+                            LEFT JOIN '._DB_PREFIX_.'manufacturer m ON (m.id_manufacturer = p.id_manufacturer) WHERE n.credits>0 AND n.id_customer='.$valor['id'].' AND s.product_reference NOT LIKE "MFLUZ%" AND '.$valor['level'].'!=0 ORDER BY n.credits ASC';
                 $result = Db::getInstance()->executeS($queryTop);
                 if ( $result[0]['points'] != "" ) {
                     $top[] = $result[0];
@@ -383,7 +383,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)        
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND credits > 0 AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].' AND credits > 0 AND s.product_reference NOT LIKE "MFLUZ%" AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -407,7 +407,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON(c.id_customer = rs.id_customer)            
-                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                            LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference NOT LIKE "MFLUZ%" AND '.$valor['level'].'!=0';
                 $result = Db::getInstance()->executeS($queryTop);
                 
                 if ($result[0]['points'] != "" ) {
@@ -432,7 +432,7 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 $queryTop = 'SELECT SUM(n.credits) AS points
                              FROM '._DB_PREFIX_.'rewards n 
                              LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference != "MFLUZ" AND '.$valor['level'].'!=0';
+                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference NOT LIKE "MFLUZ%" AND '.$valor['level'].'!=0';
                 
                 $result = Db::getInstance()->executeS($queryTop);
                 

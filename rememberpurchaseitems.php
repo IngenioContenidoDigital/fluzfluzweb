@@ -53,7 +53,7 @@ $query = "SELECT
                 LIMIT 1) days
         FROM "._DB_PREFIX_."customer c
         LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
-        LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference <> 'MFLUZ' )
+        LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
         WHERE o.date_add IS NOT NULL
         AND DATEDIFF(NOW(), (SELECT date_add
                             FROM "._DB_PREFIX_."orders
