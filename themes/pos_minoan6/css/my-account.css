@@ -392,8 +392,9 @@ display:inline-block;
     .p-advertencia{line-height: 23px;}
     .banner-advertencia-awesome{height: 35px;}
     .banner-advertencia-awesome p {line-height: 31px;}
-    .banner-advertencia-month{height: 35px;}
-    .banner-advertencia-month p {line-height: 31px;}
+    .banner-advertencia-month, .banner-profile-complete {height: 35px;}
+    .banner-advertencia-month p, .banner-profile-complete p {line-height: 31px;}
+    .banner-profile-complete p progress {width: 25%;}
     .titleFAQ{text-align: center;}
     .detail-support{text-align: center;}
 }
@@ -408,6 +409,7 @@ display:inline-block;
     .p-advertencia{line-height: 18px;}
     .banner-advertencia-month{height: 48px;}
     .banner-advertencia-month p {line-height: 21px;}
+    .banner-profile-complete p progress {width: 13%;}
 }
 
 @media (max-width:375px){
