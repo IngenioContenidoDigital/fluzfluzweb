@@ -8,7 +8,6 @@
 .item-search{padding: 0px; cursor: pointer; text-align: right;}
 .btn-default{background: transparent; border: none; padding: 0px;}
 .open .btn-default.dropdown-toggle{background: transparent; border: none; padding: 0px;}
-.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active{background: transparent; border: none; padding: 0px;}
 .back-business{background: #fff !important; color: #000; border: none;}
 .open > .back-business{margin-top: 11px !important;}
 #item-menu-principal{padding: 15px !important; color: #000;}
@@ -22,8 +21,8 @@
 .pag-style{padding: 0;}
 .btn-save-user{padding: 0; text-align: right;}
 .div-btn{padding: 0px;}
-.btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198;}
-.btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;}
+.btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198; border: none;}
+.btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;border: none;}
 .div-toggle{padding: 0px;}
 .content-item-users{padding: 0; color:#aaa; text-align: center; font-weight: bold;}
 .content-info-users{padding: 15px; border-bottom: 1px solid #e5e5e5;}
@@ -61,3 +60,9 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 #ptosused{margin-top: 5px;text-align: left;color: #ef4136;padding-left: 0px;padding-right: 0px;}
 .available-point{color: #ef4136; font-weight: bold; font-size: 14px;}
 .title-fluz{color: #000;}
+.amount_unit{text-align: right; padding-right: 0px; border: none;color: #000;font-weight: bold;}
+.text_fluz{padding-left: 0px; padding-right: 0px; text-align: center;padding-top: 1px;color: #000;font-weight: bold;}
+.edit-btn{padding: 0px;cursor:pointer;padding-top: 2px;background: transparent;border: none;color: #c9b198; font-weight: bold;}
+.amount_edit{background: transparent;border: 1px solid #aaa;text-align: center;padding-right: 0;padding-left: 0;}
+
+

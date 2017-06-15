@@ -18,7 +18,7 @@
     {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
 
-    <form>
+<form method="post" id="addemployeebusiness" class="contenedorEmployeeBusiness" name="addemployeebusiness">
         <div class="row row-form-employee">
             <div class="row required form-group">
                 <label class="col-lg-12 l-form-employee" for="firstname">{l s='First name'}</label>
@@ -47,7 +47,7 @@
         </div>
         <div class="row">        
             <div class="col-lg-6 div-btn">
-                <button class="btn btn-default btn-save-employee" type="button" id="save-info">
+                <button class="btn btn-default btn-save-employee" type="submit" id="add-employee" name="add-employee">
                     <span> ADD EMPLOYEE </span>
                 </button>
             </div>    
