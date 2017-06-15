@@ -48,6 +48,15 @@ class Customer extends CustomerCore
 
     public $warning_kick_out;
     
+    public $civil_status;
+    public $occupation_status;
+    public $field_work;
+    public $pet;
+    public $pet_name;
+    public $spouse_name;
+    public $children;
+    public $phone_provider;
+    
     public static $definition = array(
         'table' => 'customer',
         'primary' => 'id_customer',
@@ -90,6 +99,14 @@ class Customer extends CustomerCore
             'days_inactive' =>              array('type' => self::TYPE_INT),
             'date_kick_out' =>              array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
             'warning_kick_out' =>              array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
+            'civil_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'occupation_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'field_work' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'pet' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'pet_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'spouse_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 50),
+            'children' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 5),
+            'phone_provider' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
         ),  
     );
     
@@ -128,6 +145,31 @@ class Customer extends CustomerCore
     {
         $this->birthday = (empty($this->years) ? $this->birthday : (int)$this->years.'-'.(int)$this->months.'-'.(int)$this->days);
         $this->manual_inactivation = (!$this->active) ? 1 : 0;
+        
+        if ( Tools::getValue('civil_status') == "" ) {
+            $this->civil_status = null;
+        }
+        if ( Tools::getValue('occupation_status') == "" ) {
+            $this->occupation_status = null;
+        }
+        if ( Tools::getValue('field_work') == "" ) {
+            $this->field_work = null;
+        }
+        if ( Tools::getValue('pet') == "" ) {
+            $this->pet = null;
+        }
+        if ( Tools::getValue('pet_name') == "" ) {
+            $this->pet_name = null;
+        }
+        if ( Tools::getValue('spouse_name') == "" ) {
+            $this->spouse_name = null;
+        }
+        if ( Tools::getValue('children') == "" ) {
+            $this->children = 0;
+        }
+        if ( Tools::getValue('phone_provider') == "" ) {
+            $this->phone_provider = null;
+        }
 
         if ($this->newsletter && !Validate::isDate($this->newsletter_date_add)) {
             $this->newsletter_date_add = date('Y-m-d H:i:s');
@@ -298,6 +340,37 @@ class Customer extends CustomerCore
         return $addCard;
     }
     
+    public static function percentProfileComplete($id_customer) {
+        $fields_complete = 0;
+        $fields_information = 19;
+
+        $customer = new Customer($id_customer); 
+        $address = $customer->getAddresses();
+        $address = $address[0];
+
+        /* 1 */ if ( file_exists(_PS_IMG_DIR_."profile-images/".$customer->id.".png") ) { $fields_complete++; }
+        /* 2 */ if ( $customer->id_gender != "" ) { $fields_complete++; }
+        /* 3 */ if ( $customer->firstname != "" ) { $fields_complete++; }
+        /* 4 */ if ( $customer->lastname != "" ) { $fields_complete++; }
+        /* 5 */ if ( $customer->email != "" ) { $fields_complete++; }
+        /* 6 */ if ( $customer->dni != "" ) { $fields_complete++; }
+        /* 7 */ if ( $customer->birthday != "" ) { $fields_complete++; }
+        /* 8 */ if ( $customer->civil_status != "" ) { $fields_complete++; }
+        /* 9 */ if ( $customer->occupation_status != "" ) { $fields_complete++; }
+        /* 10 */ if ( $customer->field_work != "" ) { $fields_complete++; }
+        /* 11 */ if ( $customer->pet != "" ) { $fields_complete++; }
+        /* 12 */ if ( $customer->pet_name != "" ) { $fields_complete++; }
+        /* 13 */ if ( $customer->spouse_name != "" ) { $fields_complete++; }
+        /* 14 */ if ( $customer->children != "" ) { $fields_complete++; }
+        /* 15 */ if ( $customer->phone_provider != "" ) { $fields_complete++; }
+        /* 16 */ if ( $address['phone'] != "" ) { $fields_complete++; }
+        /* 17 */ if ( $address['address1'] != "" ) { $fields_complete++; }
+        /* 18 */ if ( $address['address2'] != "" ) { $fields_complete++; }
+        /* 19 */ if ( $address['city'] != "" ) { $fields_complete++; }
+
+        return round( ($fields_complete*100)/$fields_information );
+    }
+
     public function mylogout()
     {
         $id_cart = Context::getContext()->cookie->id_cart;

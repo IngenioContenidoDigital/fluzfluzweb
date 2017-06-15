@@ -44,6 +44,24 @@ class reportkickoutcustomersnotorders extends ModuleGrid
                 'align' => 'center'
             ),
             array(
+                'id' => 'phone',
+                'header' => $this->l('Telefono'),
+                'dataIndex' => 'phone',
+                'align' => 'center'
+            ),
+            array(
+                'id' => 'phone_mobile',
+                'header' => $this->l('Telefono Movil'),
+                'dataIndex' => 'phone_mobile',
+                'align' => 'center'
+            ),
+            array(
+                'id' => 'points',
+                'header' => $this->l('Puntos'),
+                'dataIndex' => 'points',
+                'align' => 'center'
+            ),
+            array(
                 'id' => 'date_kick_out',
                 'header' => $this->l('Fecha Expulsion'),
                 'dataIndex' => 'date_kick_out',
@@ -69,11 +87,16 @@ class reportkickoutcustomersnotorders extends ModuleGrid
                             c.username,
                             ko.email,
                             CONCAT(ko.firstname,' ',ko.lastname) name,
-                            ko.date_kick_out
+                            ko.date_kick_out,
+                            a.phone,
+                            a.phone_mobile,
+                            SUM(r.credits) points
                         FROM ps_rewards_sponsorship_kick_out ko
                         LEFT JOIN "._DB_PREFIX_."customer c ON ( ko.id_customer = c.id_customer )
                         LEFT JOIN "._DB_PREFIX_."orders o ON ( ko.id_customer = o.id_customer )
                         LEFT JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                        LEFT JOIN "._DB_PREFIX_."address a ON ( ko.id_customer = a.id_customer )
+                        LEFT JOIN "._DB_PREFIX_."rewards r ON ( ko.id_customer = r.id_customer AND r.id_reward_state = 2 )
                         WHERE ( od.product_reference NOT LIKE 'MFLUZ%' OR o.id_order IS NULL )
                         AND ko.date_kick_out BETWEEN ".$date_between."
                         GROUP BY ko.id_customer";
