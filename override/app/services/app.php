@@ -961,6 +961,21 @@ class API extends REST {
 
     }
     
+    public function getActivityNetwork() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      
+      if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
+        $id_customer = $this->_request['id_customer'];
+        $model = new Model();
+        $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer );
+        return $this->response(json_encode($activityNetwork),200);
+      }
+      else {
+        $this->response('', 204);
+      }
+    }
 
 }
 

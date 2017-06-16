@@ -216,14 +216,11 @@ class MyAccountController extends MyAccountControllerCore
     }
     
     public function getUserDataAccountApp( $id_customer ) {
-      //error_log("\nEntro a getUserDataAccountApp: \n",3,"/tmp/error.log"); 
       $customer = new Customer($id_customer);
       $this->context->customer = $customer;
       $userData = array();
       $lastPoint = $this->getPointsLastDays((int)$this->context->customer->id);
       $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
-      //error_log("\nEste es this->context->customer->id)\n".print_r($this->context->customer->id,true),3,"/tmp/error.log"); 
-      //error_log("\nEste es lastPoint \n".print_r($lastPoint,true),3,"/tmp/error.log"); 
 
       $userData['image'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
       $userData['fluzLasted'] = $lastPoint['points'];
@@ -236,7 +233,6 @@ class MyAccountController extends MyAccountControllerCore
               WHERE id_customer = '.$id_customer;
       $date_add = Db::getInstance()->getValue($sql);
       $userData['dateAdd'] = substr($date_add, 0, 4);
-      //error_log("\nEste es el user data de getUserDataAccount: \n".print_r($userData,true),3,"/tmp/error.log"); 
       return $userData;
     }
     
