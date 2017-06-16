@@ -1739,11 +1739,10 @@ return $responseObj;
     return array('result' => $result);
   }
   
-  public function getActivityNetwork($id_lang, $id_customer) {
+  public function getActivityNetwork($id_lang, $id_customer, $limit) {
     $id_customer=4;
     $stringidsponsors = "";
     $tree = RewardsSponsorshipModel::_getTree($id_customer);
-    error_log("\n\nEste es el tree de network: \n\n".print_r($tree,3),3,"/tmp/error.log");
     
     foreach ($tree as $sponsor) {
       $stringidsponsors .= $sponsor['id'].",";
@@ -1770,16 +1769,10 @@ return $responseObj;
             INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$id_lang." )
             INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
             WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
-            ORDER BY o.date_add DESC ";
-    
+            ORDER BY o.date_add ASC "
+            ;
+    $sql .= $limit != 0 ? ' LIMIT '.$limit : '';
     $last_shopping_products = $db->ExecuteS($sql);
-    foreach ($last_shopping_products as &$last_shopping_product) {
-      $imgprofile = "";
-      if ( file_exists(_PS_IMG_DIR_."profile-images/".$last_shopping_product['id_customer'].".png") ) {
-        $imgprofile = _PS_IMG_DIR_."profile-images/".$last_shopping_product['id_customer'].".png";
-      }
-      $last_shopping_product['img'] = $imgprofile;
-    }
     $result = $last_shopping_products;
     return array('result' => $result);
   }

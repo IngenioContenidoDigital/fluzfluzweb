@@ -969,7 +969,13 @@ class API extends REST {
       if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
         $id_customer = $this->_request['id_customer'];
         $model = new Model();
-        $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer );
+        $link = new Link();
+        $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
+        $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
+        foreach ($activityNetwork['result'] as &$activityNetworkk){
+          $activityNetworkk['credits'] = round($activityNetworkk['credits']);
+          $activityNetworkk['img'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+        }
         return $this->response(json_encode($activityNetwork),200);
       }
       else {
