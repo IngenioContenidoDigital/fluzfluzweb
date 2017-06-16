@@ -119,14 +119,14 @@
                 </div>
                 <div class="row border_bottom">
                     <div class="col-xs-3 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Fluz"}</div>
-                    <div class="col-xs-5 col-sm-4 col-md-8 col-lg-8 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Ver Bonos >"}</a></div>
-                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">
+                    <div class="col-xs-5 col-sm-4 col-md-8 col-lg-10 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Ver Bonos >"}</a></div>
+                    <!--<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">
                         {if $product.type_currency == 'COP'}
                             {l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%
                         {else}
                             {l s="You Save: "}{$product.save_dolar}%  
                         {/if} 
-                    </div>
+                    </div>-->
                 </div>
             </div>
             </div>    

@@ -28,7 +28,7 @@
     <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">mis c&oacute;digos</h1>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding-min">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-design">
-            <a class="btn btn-default btn-account" href="/content/6-categorias">Comprar C&oacute;digo</a>
+            <a class="btn btn-default btn-account" href="/content/6-categorias">Comprar C&oacute;digos</a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-reload">
             <a class="btn btn-default btn-account btn-design-r" href="/inicio/485-precarga-de-saldo-fluzfluz.html">Recargar Fluz</a>
