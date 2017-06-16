@@ -82,11 +82,11 @@
                                 <div>{l s='Unit Price'}</div>
                                 <div>
                                     <p>{l s="Value: "}{$product.type_currency}&nbsp;${$product.price_shop|string_format:"%d"}</p>
-                                    {if $product.type_currency == 'COP'}
+                                    {*if $product.type_currency == 'COP'}
                                         <p>{l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%</p>
                                     {else}
                                         <p>{l s="You Save: "}{$product.save_dolar}%</p>    
-                                    {/if}    
+                                    {/if*}    
                                     <p>{l s="Unit Price: "}{$product.type_currency}&nbsp;${$product.precio|string_format:"%d"}</p>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="row border_bottom">
                     <div class="col-xs-3 col-sm-4 col-md-2 col-lg-2 block-points">{$product.points} {l s="Fluz"}</div>
-                    <div class="col-xs-5 col-sm-4 col-md-8 col-lg-10 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Ver Bonos >"}</a></div>
+                    <div class="col-xs-9 col-sm-8 col-md-10 col-lg-10 block-cards"><a  class="btn_history fancybox fancybox.iframe" href="{$link->getPageLink('cardsview', true, NULL, "id_product={$product.idProduct}&id_order={$product.id_order}")|escape:'html':'UTF-8'}" title="{l s='Card View'}">{l s="Ver Bonos >"}</a></div>
                     <!--<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 block-save">
                         {if $product.type_currency == 'COP'}
                             {l s="You Save: "}{math equation='round(((p - r) / p)*100)' p=$product.price_shop r=$product.precio}%
