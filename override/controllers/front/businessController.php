@@ -68,7 +68,7 @@ class businessController extends FrontController
             
         }
         
-        $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, email, dni, username FROM ps_customer WHERE field_work = "ingeniocontenido" AND id_customer !='.$this->context->customer->id);
+        $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, email, dni, username FROM ps_customer WHERE field_work = "'.$this->context->customer->field_work.'" AND id_customer !='.$this->context->customer->id);
         $net_business = array_merge($tree,$employee_b);   
         
         foreach ($net_business as $val) {
@@ -93,13 +93,21 @@ class businessController extends FrontController
             $LastNameEmployee = Tools::getValue('lastname');
             $EmailEmployee = Tools::getValue('email');
             $passwordDni = Tools::getValue('dni');
+            $point_used_add = Tools::getValue('ptosusedhiddenadde');
+
             
             if (empty($FirstNameEmployee) || empty($LastNameEmployee) || !Validate::isName($FirstNameEmployee) || !Validate::isName($LastNameEmployee)) {
                 $error = 'name invalid';
-                //$this->errors[] = Tools::displayError('Name is required.');
-            } elseif (Tools::isSubmit('submitSponsorFriendsThird') && !Validate::isEmail($EmailEmployee) ) {
+            } elseif (Tools::isSubmit('add-employee') && !Validate::isEmail($EmailEmployee) ) {
                 $error = 'email invalid';
-            } elseif (RewardsSponsorshipModel::isEmailExists($EmailEmployee) || Customer::customerExists($EmailEmployee)) {
+            } 
+            elseif(empty ($passwordDni)){
+                $error = 'No se ha ingresado correctamente el campo Cedula';
+            }
+            elseif(empty ($point_used_add)){
+                $error = 'No se ha ingresado correctamente el campo Amount';
+            }
+            elseif (RewardsSponsorshipModel::isEmailExists($EmailEmployee) || Customer::customerExists($EmailEmployee)) {
                 $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM "._DB_PREFIX_."customer WHERE email = '".$EmailEmployee."'");
                 if ( $customerKickOut == 0 ) {
                     $error = 'email exists';
@@ -121,7 +129,6 @@ class businessController extends FrontController
                 $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                 $customer->add();
                 
-                $point_used_add = Tools::getValue('ptosusedhiddenadde');
                 Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."transfers_fluz (id_customer, id_sponsor_received, date_add)
                                             VALUES (".(int)$this->context->customer->id.", 0,'".date("Y-m-d H:i:s")."')");
                 
@@ -228,15 +235,11 @@ class businessController extends FrontController
                         }
                     } 
                 }
+                Tools::redirect($this->context->link->getPageLink('business', true));
             }
-            else 
-               {
-                $error = 'no sponsor';
-               }
-                        
-            Tools::redirect($this->context->link->getPageLink('business', true));
+            $this->context->smarty->assign('error',$error);  
+            //Tools::redirect($this->context->link->getPageLink('business', true));
         }
-        
         switch ( Tools::getValue('action') ) {
             case 'allFLuz':
                 
@@ -252,7 +255,7 @@ class businessController extends FrontController
                 Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                                     . "                          VALUES ('2', ".(int)$this->context->customer->id.", 0,NULL,'0','0',".-1*$point_used.",'loyalty', 'TransferFluz','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."', ".(int)$id_transfer.")");
                 
-                $employee_b = Db::getInstance()->executeS('SELECT id_customer as id, firstname, lastname, email, dni, username FROM ps_customer WHERE field_work = "ingeniocontenido" AND id_customer !='.$this->context->customer->id);
+                $employee_b = Db::getInstance()->executeS('SELECT id_customer as id, firstname, lastname, email, dni, username FROM ps_customer WHERE field_work = "'.$this->context->customer->field_work.'" AND id_customer !='.$this->context->customer->id);
                 $net_business = array_merge($tree,$employee_b);   
 
                 foreach ($net_business as $val) {

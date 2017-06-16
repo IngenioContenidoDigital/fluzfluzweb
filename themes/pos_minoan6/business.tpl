@@ -28,7 +28,19 @@
         <span class="available-point"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </span>
     </div>
 </div>
-
+{if $error}
+    <p class="error">
+        {if $error == 'email invalid'}
+            Direcci&oacute;n de email no es correcta.
+        {elseif $error == 'name invalid'}
+            Nombre o apellido no es correcto.
+        {elseif $error == 'email exists'}
+            Alguien con este email ya ha sido apadrinado
+        {elseif $error == 'no sponsor'}
+            {l s='No hay espacios disponibles en la red.'}
+        {/if}
+    </p>
+{/if}
 <div class="row panel-employee">
     <div class="col-lg-3 item-employee" id="toggle-add-employees">
         <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">

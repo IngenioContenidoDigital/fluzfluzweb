@@ -17,19 +17,6 @@
 {if version_compare($smarty.const._PS_VERSION_,'1.6','<')}
     {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
-{if $error}
-    <p class="error">
-        {if $error == 'email invalid'}
-            Direcci&oacute;n de email no es correcta.
-        {elseif $error == 'name invalid'}
-            Nombre o apellido no es correcto.
-        {elseif $error == 'email exists'}
-            Alguien con este email ya ha sido apadrinado
-        {elseif $error == 'no sponsor'}
-            {l s='No hay espacios disponibles en la red.'}
-        {/if}
-    </p>
-{/if}
 <form method="post" id="addemployeebusiness" class="contenedorEmployeeBusiness" name="addemployeebusiness">
         <input type="hidden" value="" id="ptosusedhiddenadde" name="ptosusedhiddenadde"/>
         <div class="row row-form-employee">
