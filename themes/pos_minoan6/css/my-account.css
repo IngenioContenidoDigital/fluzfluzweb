@@ -428,6 +428,6 @@ display:inline-block;
     .btn-moreload{width: 100%;}
     .nameProfile{padding-right: 0px !important;}
     .banner-advertencia{height: 78px;}
-    .banner-advertencia-month{height: 75px;}
+    .banner-advertencia-month{height: 75px; min-height: 75px;}
     .banner-advertencia-month p {line-height: 16px;}
 }
