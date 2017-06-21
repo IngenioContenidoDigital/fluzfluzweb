@@ -298,10 +298,11 @@ class Customer extends CustomerCore
         }
     }
 
-    public static function dniExists($dni) {
+    public static function dniExists($dni,$email) {
         $users = Db::getInstance()->getValue("SELECT COUNT(*)
                                                 FROM "._DB_PREFIX_."customer
                                                 WHERE dni = ".$dni."
+                                                AND email != '".$email."'
                                                 AND active = 1");  
         if ( $users > 0 ) {
             return true;
