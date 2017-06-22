@@ -67,7 +67,7 @@
 .networkfeed > .container1 > .row > .containerinfor > .row > .message { padding: 10px 0; background: transparent !important;}
 .networkfeed > .page-heading { margin-bottom: 30px; }
 
-.banner-profile-complete { height: 45px; background: #F15E54; color: #fff; }
+.banner-profile-complete { height: 45px; background: #F15E54; color: #fff; cursor: pointer; }
 .banner-profile-complete>.p-advertencia { margin: 0; }
 
 progress {
