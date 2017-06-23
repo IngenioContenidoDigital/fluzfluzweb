@@ -193,7 +193,7 @@
                                     {/if}
                                     
                                     {if $profile_complete < 100 }
-                                        <div class="col-lg-12 banner-profile-complete">
+                                        <div class="col-lg-12 banner-profile-complete" onclick="location.href='{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}';">
                                             <p class="p-advertencia">Tu perfil de usuario está completado en un {$profile_complete}% <progress value="{$profile_complete}" max="100"></progress></p>
                                         </div>
                                     {/if}

@@ -67,7 +67,7 @@
 .networkfeed > .container1 > .row > .containerinfor > .row > .message { padding: 10px 0; background: transparent !important;}
 .networkfeed > .page-heading { margin-bottom: 30px; }
 
-.banner-profile-complete { height: 45px; background: #F15E54; color: #fff; }
+.banner-profile-complete { height: 45px; background: #F15E54; color: #fff; cursor: pointer; }
 .banner-profile-complete>.p-advertencia { margin: 0; }
 
 progress {
@@ -407,7 +407,7 @@ display:inline-block;
     .networkfeed{    margin-top: 20px !important;padding-left: 0px;padding-right: 0px;}
     .banner-advertencia{height: 65px;}
     .p-advertencia{line-height: 18px;}
-    .banner-advertencia-month{height: 48px;}
+    .banner-advertencia-month{height: 70px;}
     .banner-advertencia-month p {line-height: 21px;}
     .banner-profile-complete p progress {width: 13%;}
 }
@@ -428,6 +428,6 @@ display:inline-block;
     .btn-moreload{width: 100%;}
     .nameProfile{padding-right: 0px !important;}
     .banner-advertencia{height: 78px;}
-    .banner-advertencia-month{height: 56px;}
+    .banner-advertencia-month{height: 75px; min-height: 75px;}
     .banner-advertencia-month p {line-height: 16px;}
 }

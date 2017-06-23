@@ -589,7 +589,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
                 $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
             }
             // Validate dni
-            if ( Customer::dniExists( Tools::getValue("dni") ) ) {
+            if ( Customer::dniExists( Tools::getValue("dni"),Tools::getValue('email') ) ) {
                 $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
             }
         }
