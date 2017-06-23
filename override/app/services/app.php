@@ -120,13 +120,19 @@ class API extends REST {
     
     $requestData = array(
       'param' => '',
-      'option' => 0
+      'option' => 0,
+      'limit' => 0,
+      'lastTotal' => 0
     );
     
     //llena las variables de busqueda.
     foreach ($requestData as $rqd => $value) {
       ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
     }
+    error.log('\n\n param'.$param,3,'/tmp/error.log');
+    error.log('\n\n option'.$option,3,'/tmp/error.log');
+    error.log('\n\n limit'.$limit,3,'/tmp/error.log');
+    error.log('\n\n lastTotal'.$lastTotal,3,'/tmp/error.log');
     //Hace la busqueda
     $search = array();
     $search = Search::findApp( $param, $option );
@@ -145,10 +151,15 @@ class API extends REST {
     $context = Context::getContext();
     $link = new Link();
     $model =  new Model();
-    
+    $manufacturer = array();
+    $limit = count( $search['result'] ) < $limit ? count( $search['result'] ) : $limit ;
     //Si la busqueda es por tienda, Busqueda 1
     if( $option == 1 ){
-      $manufacturer = $search['result'];
+      if ( $limit != 0 ){
+        for ( $i = $lastTotal; $i < $limit; $i++ ) {
+          $manufacturer[] = $search['result'][$i];
+        }
+      }
       for ($i = 0; $i < count($manufacturer); $i++) {
         $manufacturer[$i]['image_manufacturer'] = $this->protocol . $link->getManufacturerImageLink($manufacturer[$i]['m_id']);
         $manufacturer[$i]['m_points'] = round($manufacturer[$i]['m_points']);
@@ -961,7 +972,7 @@ class API extends REST {
 
     }
     
-    public function getActivityNetwork() {
+    public function getNetwork() {
       if ($this->get_request_method() != "GET") {
         $this->response('', 406);
       }
@@ -970,13 +981,35 @@ class API extends REST {
         $id_customer = $this->_request['id_customer'];
         $model = new Model();
         $link = new Link();
+        $result = array();
+        $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
         $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
-        $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
-        foreach ($activityNetwork['result'] as &$activityNetworkk){
-          $activityNetworkk['credits'] = round($activityNetworkk['credits']);
-          $activityNetworkk['img'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+        $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
+        
+        if( $option == 1 ){
+          $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
+          foreach ($activityNetwork['result'] as &$activityNetworkk){
+            $activityNetworkk['credits'] = round($activityNetworkk['credits']);
+            $activityNetworkk['img'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+          }
+          if ( $limit != 0 ){
+            for ( $i = $last_total; $i < $limit; $i++ ) {
+              $result[] = $activityNetwork['result'][$i];
+            }
+          }
+          return $this->response(json_encode(array('result' => $result)),200);
         }
-        return $this->response(json_encode($activityNetwork),200);
+        else if ( $option == 2 ){
+          $my_network = $model->getMyNetwork( $this->id_lang_default, $id_customer );
+          $max_limit = count($my_network['result']);
+          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+          if ( $limit != 0 ){
+            for ( $i = $last_total; $i < $limit; $i++ ) {
+              $result[] = $my_network['result'][$i];
+            }
+          }
+          return $this->response(json_encode(array('result' => $result)),200);
+        }
       }
       else {
         $this->response('', 204);
