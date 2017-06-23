@@ -17,6 +17,13 @@
 {if version_compare($smarty.const._PS_VERSION_,'1.6','<')}
     {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
+
+{literal}
+    <script>
+        var listcopy = '';
+    </script>
+{/literal}
+
 <form method="post" enctype="multipart/form-data" id="uploademployeebusiness" class="contenedorEmployeeBusiness" name="uploademployeebusiness">
     <div class="row row-upload">
         <div class="col-lg-12 title-browser">
@@ -65,6 +72,7 @@
 {literal}
     <script>
         var holder = document.getElementById('holder'),
+                
         state = document.getElementById('status');
 
         if (typeof window.FileReader === 'undefined') {
@@ -93,22 +101,37 @@
                 holder.innerText = event.target.result;
                 
                 var array = event.target.result;
-                listcopy = JSON.stringify(array);
-                       
-                $.ajax({
-                     url : urlTransferController,
-                     type : 'POST',
-                     data : 'action=copycustomer&listcopy='+listcopy,
-                     success : function(s) {
-                         console.log(s);
-                     }
-                 });
+                
+                var extractValidString = array.match(/[\w @.]+(?=,?)/g);
+                var noOfCols = 6;
+                var objFields = extractValidString.splice(0,noOfCols);
+                var arr = [];
+                while(extractValidString.length>0) {
+                    var obj = {};
+                    var row = extractValidString.splice(0,noOfCols)
+                    for(var i=0;i<row.length;i++) {
+                        obj[objFields[i]] = row[i].trim()
+                    }
+                    arr.push(obj)
+                }
+                
+                listcopy = JSON.stringify(arr);
             };
-            console.log(file);
             reader.readAsText(file);
 
             return false;
         };
+        
+        $('#upload-copy').click(function(e){
+            $.ajax({
+                url : urlTransferController,
+                type : 'POST',
+                data : 'action=submitcopy&listcopy='+listcopy,
+                success : function(s) {
+                   console.log(s);
+                }
+            });
+        });
     </script>
 {/literal}
 {literal}

@@ -61,9 +61,15 @@
           </li>
         </ul>
     </div>
-    <div class="col-lg-3 item-employee">Allocate Fluz</div>
+    <div class="col-lg-3 item-employee"><a href="/inicio/485-precarga-de-saldo-fluzfluz.html">Allocate Fluz</a></div>
     <div class="col-lg-3 item-employee">Allocation History</div>
-    <div class="col-lg-3 item-search">Buscar</div>
+    <div class="col-lg-3 item-search">
+        <input type="hidden" value="{$id_customer}" id="id_customer"/>
+        <div id="example_filter" class="dataTables_filter">
+            <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Fluzzer'}" required>
+            <div id="resultados" class="result-find"></div>
+        </div>
+    </div>
 </div>
 <form method="post" id="trasnferbusiness" class="contenedorBusiness" name="trasnferbusiness">    
 <div class="row container-info-users" id="container-info-users">
@@ -109,16 +115,17 @@
     </div>
     <div class="row row-container-info" id="container-List-employees">
         {foreach from=$network item=net}
-            <div class="row content-info-users">
+            <div class="row content-info-users" id="content-users">
                 <input type="hidden" id="id_sponsor" value="{$net.id_customer}">
                 <input type="hidden" id="partial_amount-{$net.id_customer}" value="">
+                <input type="hidden" id="email_id" value="{$net.email}">
                 
                 <div class="col-lg-1 content-item-users">
                     <input type="checkbox" id="check-user" value="">
                 </div>
                 <div class="col-lg-2 content-item-users">{$net.firstname}</div>
                 <div class="col-lg-2 content-item-users">{$net.lastname}</div>
-                <div class="col-lg-2 content-item-users">{$net.email}</div>
+                <div class="col-lg-2 content-item-users email-id">{$net.email}</div>
                 <div class="col-lg-1 content-item-users">Phone</div>
                 <div class="col-lg-2 content-item-users">{$net.dni}</div>
                 <div class="col-lg-2 content-item-users" id="amount_unit">
@@ -148,6 +155,27 @@
     <style>
         #right_column{display: none;}
     </style>
+{/literal}
+{literal}
+    <script>
+        $(document).ready(function(e){
+              
+                $("#busqueda").keyup(function(e){
+                    var username = $("#busqueda").val();
+                    
+                    $('#container-List-employees > div').each(function () {
+                        $(this).show();
+                        var email = $(this).find('.email-id').html().toLowerCase();
+                        if (email.indexOf(username.toLowerCase()) != -1){
+
+                        }
+                        else {
+                            $(this).hide();
+                        }
+                    });
+                });
+            });
+    </script>
 {/literal}
 {literal}
     <script>

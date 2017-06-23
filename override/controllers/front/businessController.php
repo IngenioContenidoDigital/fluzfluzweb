@@ -34,7 +34,6 @@ class businessController extends FrontController {
 
     public $auth = true;
     public $ssl = true;
-
     public function setMedia() {
         parent::setMedia();
         $this->addCSS(_THEME_CSS_DIR_ . 'business.css');
@@ -45,6 +44,9 @@ class businessController extends FrontController {
 
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         array_shift($tree);
+        
+        $id_customer = $this->context->customer->id;
+        $this->context->smarty->assign('id_customer',$id_customer);
         
         $totals = RewardsModel::getAllTotalsByCustomer((int) $this->context->customer->id);
         $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float) $totals[RewardsStateModel::getValidationId()] : 0);
@@ -477,16 +479,157 @@ class businessController extends FrontController {
                             . "                          VALUES ('2', " . (int) $network['id_sponsor'] . ", 0,NULL,'0','0'," . $network['amount'] . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
                 }
                 break;
-                
-                case 'copycustomer':
-                    
+            
+            case 'submitcopy':
                 $listcopy = Tools::getValue('listcopy');
-                $list_var = json_decode($listcopy, true);
-                $array_list = explode("\n", $list_var);
+                $list_var_copy = json_decode($listcopy, true);
                 
-                print_r($array_list);
-                die();
-                    
+                foreach($list_var_copy as $datacustomer){
+
+                        $error = "";
+                        
+                        if (empty($datacustomer['First Name']) || empty($datacustomer['Last Name']) || !Validate::isName($datacustomer['Last Name']) || !Validate::isName($datacustomer['Last Name'])) {
+                            $error = 'name invalid';
+                            $this->context->smarty->assign('error', $error);
+                        } 
+                        elseif (Tools::isSubmit('upload-employee') && !Validate::isEmail($datacustomer['Email'])) {
+                            $error = 'email invalid';
+                            $this->context->smarty->assign('error', $error);
+                        } 
+                        elseif (empty($datacustomer['DNI'])) {
+                            $error = 'No se ha ingresado correctamente el campo Cedula';
+                            $this->context->smarty->assign('error', $error);
+                        } 
+                        elseif (RewardsSponsorshipModel::isEmailExists($datacustomer['Email']) || Customer::customerExists($datacustomer['Email'])) {
+                                $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM " . _DB_PREFIX_ . "customer WHERE email = '" . $datacustomer['Email'] . "'");
+                            if ($customerKickOut == 0) {
+                                $error = 'email exists';
+                                $mails_exists[] = $datacustomer['Email'];
+                                $this->context->smarty->assign('email',$datacustomer['Email']);
+                            }
+                        }
+
+                    if ($error == "") {
+
+                        $customer = new Customer();
+                        $customer->firstname = $datacustomer['First Name'];
+                        $customer->lastname = $datacustomer['Last Name'];
+                        //$customer->active = $datacustomer['Active (0/1)'];
+                        $customer->username = $datacustomer['Username'];
+                        //$customer->id_gender = $datacustomer['Titles ID (Mr=1 , Ms=2)'];
+                        $customer->dni = $datacustomer['DNI'];
+                        $customer->email = $datacustomer['Email'];
+                        $customer->passwd = Tools::encrypt($datacustomer['DNI']);
+                        $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+                        //$customer->newsletter = $datacustomer['Newsletter (0/1)'];
+                        //$customer->birthday = $datacustomer['Birthday (yyyy-mm-dd)'];
+                        $customer->id_default_group = $this->context->customer->id_default_group;
+                        $customer->id_lang = $this->context->customer->id_lang;
+                        $customer->field_work = $this->context->customer->field_work;
+
+                        $customer->add();
+
+                        $count_array = count($tree);
+
+                        if ($count_array < 2) {
+
+                            $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                                        FROM " . _DB_PREFIX_ . "customer c
+                                        LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                        WHERE c.id_customer =" . $this->context->customer->id);
+
+                            if (!empty($sponsor)) {
+                                $sponsorship = new RewardsSponsorshipModel();
+                                $sponsorship->id_sponsor = $sponsor['id_customer'];
+                                $sponsorship->id_customer = $customer->id;
+                                $sponsorship->firstname = $datacustomer['First Name'];
+                                $sponsorship->lastname = $datacustomer['Last Name'];
+                                $sponsorship->email = $datacustomer['Email'];
+                                $sponsorship->channel = 1;
+                                $send = "";
+                                if ($sponsorship->save()) {
+                                    $vars = array(
+                                        '{email}' => $sponsor['id_customer'],
+                                        '{firstname_invited}' => $sponsorship->firstname,
+                                        '{inviter_username}' => $sponsor['username'],
+                                        '{username}' => $sponsor['username'],
+                                        '{lastname}' => $sponsor['lastname'],
+                                        '{firstname}' => $sponsor['firstname'],
+                                        '{email_friend}' => $sponsorship->email,
+                                        '{Expiration}' => $send,
+                                        '{link}' => $sponsorship->getSponsorshipMailLink()
+                                    );
+
+                                    $template = 'sponsorship-invitation-novoucher';
+                                    $allinone_rewards = new allinone_rewards();
+                                    $allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
+                                    /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
+                                      VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
+                                    $invitation_sent = true;
+                                }
+                            } 
+                            else 
+                            {
+                                $error = 'no sponsor';
+                            }
+                        }
+                        else {
+
+                            $array_sponsor = array();
+                            foreach ($tree as $network) {
+                                $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                                        FROM " . _DB_PREFIX_ . "customer c
+                                        LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                        WHERE c.id_customer =" . (int) $network['id'] . "
+                                        HAVING sponsoships > 0");
+
+                                array_push($array_sponsor, $sponsor);
+                            }
+                            $sort_array = array_filter($array_sponsor);
+
+                            usort($sort_array, function($a, $b) {
+                                return $a['id_customer'] - $b['id_customer'];
+                            });
+
+                            $sponsor_a = reset($sort_array);
+
+                            if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
+
+                                $sponsorship = new RewardsSponsorshipModel();
+                                $sponsorship->id_sponsor = $sponsor_a['id_customer'];
+                                $sponsorship->id_customer = $customer->id;
+                                $sponsorship->firstname = $datacustomer['First Name'];
+                                $sponsorship->lastname = $datacustomer['Last Name'];
+                                $sponsorship->email = $datacustomer['Email'];
+                                $sponsorship->channel = 1;
+                                $send = "";
+                                if ($sponsorship->save()) {
+                                    $vars = array(
+                                        '{email}' => $sponsor['id_customer'],
+                                        '{firstname_invited}' => $sponsorship->firstname,
+                                        '{inviter_username}' => $sponsor_a['username'],
+                                        '{username}' => $sponsor_a['username'],
+                                        '{lastname}' => $sponsor_a['lastname'],
+                                        '{firstname}' => $sponsor_a['firstname'],
+                                        '{email_friend}' => $sponsorship->email,
+                                        '{Expiration}' => $send,
+                                        '{link}' => $sponsorship->getSponsorshipMailLink()
+                                    );
+
+                                    $template = 'sponsorship-invitation-novoucher';
+                                    $allinone_rewards = new allinone_rewards();
+                                    $allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
+                                    /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
+                                      VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
+                                    $invitation_sent = true;
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            $this->context->smarty->assign('error', $error);
+                        }
+                    }
                 break;
 
             default:
