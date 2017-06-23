@@ -484,7 +484,7 @@ class businessController extends FrontController {
                 $listcopy = Tools::getValue('listcopy');
                 $list_var_copy = json_decode($listcopy, true);
                 
-                foreach($list_var_copy as $datacustomer){
+                foreach($list_var_copy as $datacustomer){ 
 
                         $error = "";
                         
