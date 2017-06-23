@@ -29,15 +29,17 @@
     </div>
 </div>
 {if $error}
-    <p class="error">
+    <p class="error" style="margin-top: 10px;">
         {if $error == 'email invalid'}
             Direcci&oacute;n de email no es correcta.
         {elseif $error == 'name invalid'}
-            Nombre o apellido no es correcto.
+            El campo nombre o apellido no es correcto.
         {elseif $error == 'email exists'}
-            Alguien con este email ya ha sido apadrinado
+            Alguien con este email {$email} ya ha sido apadrinado
         {elseif $error == 'no sponsor'}
             {l s='No hay espacios disponibles en la red.'}
+        {else if $error == 'already exists'}   
+            El achivo {$csv} ya existe. Por favor cambiar el nombre del archivo CSV. 
         {/if}
     </p>
 {/if}

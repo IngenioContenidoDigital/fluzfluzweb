@@ -47,7 +47,7 @@
         </div>
         <div class="row">        
             <div class="col-lg-6 div-btn">
-                <button class="btn btn-default btn-save-employee" type="submit" id="add-employee" autocomplete="off" name="add-employee">
+                <button class="btn btn-default btn-save-employee" type="submit" id="add-employee" name="add-employee">
                     <span> ADD EMPLOYEE </span>
                 </button>
             </div>    

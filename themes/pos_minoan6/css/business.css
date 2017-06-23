@@ -44,7 +44,7 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 .btn-save-employee:hover{padding: 10px 15px;color: white;font-weight: bold;background: #ef4136;}
 
 /* PANEL UPLOAD EMPLOYEES */
-.row-upload{padding: 0px; margin-bottom: 10px;}
+.row-upload{padding: 0px; margin-bottom: 10px; margin-top: 20px;}
 .title-browser{padding-left: 0px;}
 .browse-div{padding-left: 0px;}
 .div-btn-submit{padding: 0px; margin-top: 10px;}
@@ -64,5 +64,17 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 .text_fluz{padding-left: 0px; padding-right: 0px; text-align: center;padding-top: 1px;color: #000;font-weight: bold;}
 .edit-btn{padding: 0px;cursor:pointer;padding-top: 2px;background: transparent;border: none;color: #c9b198; font-weight: bold;}
 .amount_edit{background: transparent;border: 1px solid #aaa;text-align: center;padding-right: 0;padding-left: 0;}
+.bar-info-users-upload{margin-top: 15px;padding: 20px;background: #F2F2F2;}
+#status{display: none;}
+#holder {
+    border: 2px dashed #bbb;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    font: 20pt bold 'Vollkorn';
+    color: #bbb;
+}
 
 
