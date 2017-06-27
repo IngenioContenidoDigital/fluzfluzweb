@@ -359,7 +359,7 @@ class AuthController extends AuthControllerCore
                 }
                 
                 // Validate dni
-                if ( Customer::dniExists( Tools::getValue("gover") ) ) {
+                if ( Customer::dniExists( Tools::getValue("gover"),Tools::getValue('email') ) ) {
                     $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
                 }
                 
