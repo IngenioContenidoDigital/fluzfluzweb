@@ -129,10 +129,6 @@ class API extends REST {
     foreach ($requestData as $rqd => $value) {
       ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
     }
-    error.log('\n\n param'.$param,3,'/tmp/error.log');
-    error.log('\n\n option'.$option,3,'/tmp/error.log');
-    error.log('\n\n limit'.$limit,3,'/tmp/error.log');
-    error.log('\n\n lastTotal'.$lastTotal,3,'/tmp/error.log');
     //Hace la busqueda
     $search = array();
     $search = Search::findApp( $param, $option );
@@ -1014,6 +1010,50 @@ class API extends REST {
       else {
         $this->response('', 204);
       }
+    }
+    
+    public function redemption() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      
+      $requestData = array(
+        'identification' => '',
+        'firts_name' => '',
+        'last_name' => '',
+        'card' => '',
+        'account' => '',
+        'bank' => '',
+        'points' => '',
+        'credits' => ''
+      );
+    
+      //llena las variables de busqueda.
+      foreach ($requestData as $rqd => $value) {
+        ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
+      }
+      
+      $sql = "INSERT INTO 
+                ps_rewards_payment (
+                  nit_cedula,
+                  nombre,
+                  apellido,
+                  numero_tarjeta,
+                  tipo_cuenta,
+                  banco,
+                  points,
+                  credits,
+                  detail,
+                  invoice,
+                  paid
+                )
+              VALUES (
+                ".$identification.", '".$firts_name."', '".$last_name."', ".$card.", '".$account."', '".$bank."', ".$points.", ".$credits.", 0, 0, '-".$credits."'
+              )";
+      
+      $result = Db::getInstance()->ExecuteS($sql);
+      
+      return $this->response(json_encode(array('result' => $result)),200);
     }
 
 }
