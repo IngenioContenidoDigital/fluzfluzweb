@@ -55,6 +55,9 @@ class MyAccountController extends MyAccountControllerCore
         $this->context->smarty->assign('lastPoint', $lastPoint);
         $has_address = $this->context->customer->getAddresses($this->context->language->id);
         $membersCount = $this->numberMembers();
+
+        $profile_complete = Customer::percentProfileComplete($this->context->customer->id);
+        $this->context->smarty->assign('profile_complete', $profile_complete);
         
         $this->context->smarty->assign('membersCount', $membersCount);
         $this->context->smarty->assign(array(

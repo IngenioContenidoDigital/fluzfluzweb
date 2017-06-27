@@ -80,7 +80,7 @@ foreach ($cart_abandonment as $remember){
                 $message_subject = $row_subject['subject_mail'];
 
                 $allinone_rewards = new allinone_rewards();
-                $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mailVars, 'daniel.gonzalez@ingeniocontenido.co', $remember['username']);
+                $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mailVars, $remember['email'], $remember['username']);
 
                 $update_mail_send = 'UPDATE '._DB_PREFIX_.'cart SET remember_cart_abandonment = 1 WHERE id_cart = '.$remember['id_cart'].' AND remember_cart_abandonment = 0';
                 Db::getInstance()->execute($update_mail_send);
