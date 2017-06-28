@@ -1034,7 +1034,7 @@ class API extends REST {
       }
       
       $sql = "INSERT INTO 
-                ps_rewards_payment (
+                "._DB_PREFIX_."rewards_payment (
                   nit_cedula,
                   nombre,
                   apellido,
@@ -1055,6 +1055,21 @@ class API extends REST {
       
       return $this->response(json_encode(array('result' => $result)),200);
     }
+    
+  public function sendMessage() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer_send = $this->_request['id_customer_send'];
+    $id_customer_receive = $this->_request['id_customer_receive'];
+    $message = $this->_request['message'];
+    
+    $query = "INSERT INTO "._DB_PREFIX_."message_sponsor(id_customer_send, id_customer_receive, message, date_send)
+              VALUES (".$id_customer_send.", ".$id_customer_receive.", '".$message."', NOW())";
+    $result = Db::getInstance()->execute($query);
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
 
 }
 
