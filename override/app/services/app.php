@@ -129,6 +129,10 @@ class API extends REST {
     foreach ($requestData as $rqd => $value) {
       ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
     }
+    error.log('\n\n param'.$param,3,'/tmp/error.log');
+    error.log('\n\n option'.$option,3,'/tmp/error.log');
+    error.log('\n\n limit'.$limit,3,'/tmp/error.log');
+    error.log('\n\n lastTotal'.$lastTotal,3,'/tmp/error.log');
     //Hace la busqueda
     $search = array();
     $search = Search::findApp( $param, $option );
