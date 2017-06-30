@@ -979,12 +979,14 @@ class API extends REST {
       
       if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
         $id_customer = $this->_request['id_customer'];
+        $object_inv = $this->_request['obj_inv'];
         $model = new Model();
         $link = new Link();
         $result = array();
         $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
         $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
         $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
+        error_log("\n\n 1- Esto es option que llega: \n\n".print_r($option,true),3,"/tmp/error.log");
         
         if( $option == 1 ){
           $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
@@ -1009,6 +1011,24 @@ class API extends REST {
             }
           }
           return $this->response(json_encode(array('result' => $result)),200);
+        }
+        elseif ( $option == 3 ) {
+          $my_network = $model->getMyInvitation( $this->id_lang_default, $id_customer );
+          $max_limit = count($my_network['result']);
+          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+          if ( $limit != 0 ){
+            for ( $i = $last_total; $i < $limit; $i++ ) {
+              $result[] = $my_network['result'][$i];
+            }
+          }
+          return $this->response(json_encode(array('result' => $result)),200);
+        }
+        elseif ( $option == 5 ) { 
+          
+          $object_inv = json_decode($object_inv, true);  
+          $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
+          
+          return $this->response(json_encode(array('result' => $invitation)),200);
         }
       }
       else {

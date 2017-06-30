@@ -1822,4 +1822,75 @@ return $responseObj;
     return array('result' => $members);
   }
   
-}
+  public function getMyInvitation($id_lang, $id_customer ){
+      
+    $tree = RewardsSponsorshipModel::_getTree( $id_customer );
+    $members = array();
+    $counter = 0;
+    foreach ( $tree as $sponsor ) {
+      if ( $id_customer != $sponsor['id'] && $sponsor['level'] == 1 ) {
+        $customer = new Customer( $sponsor['id'] );
+        $name = strtolower( $customer->firstname." ".$customer->lastname );
+        if ( $customer->firstname != "" ) {
+          $sql = "SELECT SUM(credits) AS points
+                  FROM "._DB_PREFIX_."rewards
+                  WHERE  id_customer = ".$id_customer."
+                  AND plugin = 'sponsorship'
+                  AND id_order IN (
+                    SELECT id_order
+                    FROM "._DB_PREFIX_."rewards
+                    WHERE  id_customer = ".$sponsor['id']."
+                    AND plugin = 'loyalty'
+                  )
+                  GROUP BY id_customer";
+          
+          $members[$counter]['name'] = $name;
+          $members[$counter]['username'] = $customer->username;
+          $members[$counter]['id'] = $sponsor['id'];
+          $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
+          $members[$counter]['level'] = $sponsor['level'];
+          $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+          $points = Db::getInstance()->ExecuteS($sql);
+          $members[$counter]['points'] = round($points[0]['points']);  
+        }
+        $counter++;
+      }
+    }
+    /* ORGANIZAR POR NOMBRE */
+    // asort($members);
+        
+    /* ORGANIZAR POR NIVEL */
+    usort($members, function($a, $b) {
+        return  $a['level'] - $b['level'];
+    });
+    
+    
+    return array('result' => $members);
+      
+  }
+  
+  public function getSendInvitation($id_lang, $id_customer, $obj_inv){
+      
+        if(!empty($id_customer) && !empty($obj_inv)){
+          $friendEmail = $obj_inv['email'];
+          $friendLastName = $obj_inv['lastname'];
+          $friendFirstName = $obj_inv['name'];
+
+          if (empty($friendEmail) || !Validate::isEmail($friendEmail))
+                $error = 'email invalid';
+          elseif (empty($friendFirstName || empty($friendLastName) || !Validate::isName($friendLastName) || !Validate::isName($friendFirstName)))
+                $error = 'name invalid';
+          
+          if (!$error) {
+                error_log("\n\n 4- no hay errores: \n\n".print_r($error,true),3,"/tmp/error.log");
+            }
+          else {
+                error_log("\n\n 5 - error: \n\n".print_r($error,true),3,"/tmp/error.log");
+          }  
+              
+          }
+          return $obj_inv;
+      }
+      
+  }
+  
