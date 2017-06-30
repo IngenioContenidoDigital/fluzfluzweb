@@ -1,6 +1,7 @@
 <?php
 include(dirname(__FILE__).'/../../../../config/config.inc.php');
 include(dirname(__FILE__).'/../../../../init.php');
+include_once(_PS_MODULE_DIR_.'allinone_rewards/allinone_rewards.php');
 
 class Model extends PaymentModule {
 	
@@ -1824,7 +1825,7 @@ return $responseObj;
   
   public function getMyInvitation($id_lang, $id_customer ){
       
-    $tree = RewardsSponsorshipModel::_getTree( $id_customer );
+    /*$tree = RewardsSponsorshipModel::_getTree( $id_customer );
     $members = array();
     $counter = 0;
     foreach ( $tree as $sponsor ) {
@@ -1856,16 +1857,18 @@ return $responseObj;
         $counter++;
       }
     }
-    /* ORGANIZAR POR NOMBRE */
+    /* ORGANIZAR POR NOMBRE 
     // asort($members);
         
-    /* ORGANIZAR POR NIVEL */
     usort($members, function($a, $b) {
         return  $a['level'] - $b['level'];
-    });
+    });*/
     
-    
-    return array('result' => $members);
+    $sponsorship = Db::getInstance()->executeS('SELECT rs.firstname as firstname, rs.lastname as lastname, DATE_FORMAT(rs.date_add, "%M %d %Y") as dateadd
+                    FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+                    WHERE id_sponsor = '.$id_customer);
+      
+    return array('result' => $sponsorship);
       
   }
   
@@ -1876,21 +1879,81 @@ return $responseObj;
           $friendLastName = $obj_inv['lastname'];
           $friendFirstName = $obj_inv['name'];
 
-          if (empty($friendEmail) || !Validate::isEmail($friendEmail))
-                $error = 'email invalid';
-          elseif (empty($friendFirstName || empty($friendLastName) || !Validate::isName($friendLastName) || !Validate::isName($friendFirstName)))
-                $error = 'name invalid';
+          $sponsorship = Db::getInstance()->getRow('SELECT COUNT(rs.id_sponsorship) as contador
+                    FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+                    WHERE id_sponsor = '.$id_customer);
+            
+          $row_cont = $sponsorship['contador'];
           
+          if (empty($friendEmail) && empty($friendLastName) && empty($friendFirstName))
+                            $error = 'Nombre o Apellido Incorrecto';
+
+          if (RewardsSponsorshipModel::isEmailExists($friendEmail) || Customer::customerExists($friendEmail)) {
+                    $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM "._DB_PREFIX_."customer WHERE email = '".$friendEmail."'");
+                    if ( $customerKickOut == 0 ) {
+                        $error = 'Este Mail ya Existe';
+                        $mails_exists[] = $friendEmail;
+                    }
+            }
+          
+          if($row_cont >= 2){
+              $error = 'No puede enviar mas Invitaciones.';
+          }  
+            
           if (!$error) {
-                error_log("\n\n 4- no hay errores: \n\n".print_r($error,true),3,"/tmp/error.log");
+              
+                $customer = new Customer($id_customer);
+                
+                $sponsorship = new RewardsSponsorshipModel();
+                $sponsorship->id_sponsor = (int)$customer->id;
+                $sponsorship->id_customer = $this->generateIdTemporary($friendEmail);
+                $sponsorship->firstname = $friendFirstName;
+                $sponsorship->lastname = $friendLastName;
+                $sponsorship->channel = 1;
+                $sponsorship->email = $friendEmail;
+                $send = "";
+                
+                //$sponsorship->add();
+                if ($sponsorship->save()) {
+                    
+                $vars = array(
+                        '{email}' => $customer->email,
+                        '{firstname_invited}'=> $sponsorship->firstname,
+                        '{inviter_username}' => $customer->username,
+                        '{username}' => $customer->username,
+                        '{lastname}' => $customer->lastname,
+                        '{firstname}' => $customer->firstname,
+                        '{email_friend}' => $friendEmail,
+                        '{Expiration}'=> $send,
+                        '{link}' => $sponsorship->getSponsorshipMailLink());
+		
+                    $template = 'sponsorship-invitation-novoucher';
+                    $prefix_template = '16-sponsorship-invitation-novoucher';
+
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"'; 
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+
+                    $allinone_rewards = new allinone_rewards();
+                    $allinone_rewards->sendMail((int)$id_lang, $template, $allinone_rewards->getL($message_subject), $vars, 'daniel.gonzalez@ingeniocontenido.co', $friendFirstName.' '.$friendLastName);
+                    $message_success = 'Invitacion Enviada Exitosamente';
+                }
+            
             }
           else {
-                error_log("\n\n 5 - error: \n\n".print_r($error,true),3,"/tmp/error.log");
-          }  
-              
+                 $message_success = 'Invitacion Erronea: '.$error;
+            }  
           }
-          return $obj_inv;
+          return $message_success;
       }
+      
+      public function generateIdTemporary($email) {
+            $idTemporary = '1';
+            for ($i = 0; $i < strlen($email); $i++) {
+                $idTemporary .= (string) ord($email[$i]);
+            }
+            return substr($idTemporary, 0, 10);
+        }
       
   }
   
