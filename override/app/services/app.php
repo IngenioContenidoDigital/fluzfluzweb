@@ -1070,6 +1070,66 @@ class API extends REST {
     $result = Db::getInstance()->execute($query);
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  public function getPasscode() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    
+    $sql = 'SELECT id_customer, vault_code 
+            FROM '._DB_PREFIX_.'customer
+            WHERE id_customer = '.$id_customer.';';
+    $result = Db::getInstance()->executeS($sql);
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+  
+  public function setPasscode() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    $passcode = $this->_request['passcode'];
+    
+    $sql = 'UPDATE ps_customer
+            SET vault_code = '.$passcode.'
+            WHERE id_customer = '.$id_customer.';';
+    $result = Db::getInstance()->execute($sql);
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+  
+  public function validatePasscode() {
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    $passcode = $this->_request['passcode'];
+    
+    $sql = 'SELECT vault_code
+            FROM ps_customer
+            WHERE id_customer = '.$id_customer.';';
+    $passcode_db = Db::getInstance()->getValue($sql);
+    $result = ( $passcode_db == $passcode ) ? true : false;
+    
+    if ( $result == true ){
+      $this->response($this->json(array(
+        "success" => true, 
+        "message" => "Todo ok.",
+        "result"  => $result
+      )), 200);
+    }
+    else {
+      $this->response($this->json(array(
+        "success" => false, 
+        "message" => "La contraseña no coincide.",
+        "result"  => $result
+      )), 204);
+    }
+  }
+  
 
 }
 
