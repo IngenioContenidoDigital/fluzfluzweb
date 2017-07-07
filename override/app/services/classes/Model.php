@@ -951,73 +951,86 @@ private function clearCart()
 		$this->context->cart->deleteProduct($product["id_product"]);
 	}
 }	
-/**
- * 
- */
-public function pay($args){
+    /**
+     * 
+     */
+    public function pay($args) {
 
-	$app_cart = $this->cart($args['products'],$args['id_customer'],$args['id_address'],$args['discounts'],NULL,$args['msg'], $args['id_cart']);
-	$this->context = Context::getContext();
-	if (!isset($this->context->cookie->id_cart) && empty($this->context->cookie->id_cart))
-	{ 
-		$this->errors[] = 'No existe un carrito en el contexto.';
-		return $this->errors;
-	}
-	$flg = false;
-	// valida si el pago debe enviarse a una pasarela de pago
-	foreach (PasarelaPagoCore::GetPMediosPsarelas() as $key => $value) {
-		if ($value['nombre'] == $args['payment']['method']) {
-			$flg = true;
-			break;
-		}
-	}
-	// Enviando el pago a una pasarela de pago
-	if($flg){
+        $this->context = Context::getContext();
 
-		$data_payment = array('id_cart' 				=> $this->context->cart->id,
-		                      'total_paid' 				=> $this->context->cart->getOrderTotal(true, Cart::BOTH),
-		                      'id_customer' 			=> $this->context->cart->id_customer,
-		                      'id_order' 				=> 0,
-		                      'id_address_invoice' 		=> $this->context->cart->id_address_invoice,
-		                      'option_pay'				=> $args['payment']['method'],
-		                      'numerot' 				=> $args['payment']['number'],
-		                      'codigot' 				=> $args['payment']['cvc'],
-		                      'date' 					=> $args['payment']['expiry'],
-		                      'nombre' 					=> $args['payment']['name'],
-		                      'cuotas' 					=> $args['payment']['dues'],
-		                      'pse_bank' 				=> $args['payment']['pse_code'],
-		                      'name_bank' 				=> $args['payment']['pse_name'],
-		                      'pse_tipoCliente' 		=> $args['payment']['customer_type'],
-		                      'pse_docType' 			=> $args['payment']['doc_type'],
-		                      'pse_docNumber' 			=> $args['payment']['customer_dni'],
-		                      'token_id'				=> $args['payment']['token_id'],
-		                      'openpay_device_session_id'		=> $args['payment']['device_session_id']);
+        // Cargar datos del carrito
+        $this->context->cart = new Cart((int)$args["id_cart"]);
+        $this->context->cart->id_customer = (int)$args["id_customer"];
+        $this->context->cart->update();
+        if ( !isset($this->context->cart->id) && empty($this->context->cart->id) )
+        {
+            $this->errors[] = 'No existe un carrito en el contexto.';
+            return $this->errors;
+        }
 
-$order_state = PasarelaPagoCore::payOrder($data_payment);
+        // Cargar datos del cliente
+        $this->context->customer = new Customer((int)$args["id_customer"]);
+        if ( !isset($this->context->customer->id) && empty($this->context->customer->id) )
+        {
+            $this->errors[] = 'No existe un cliente en el contexto.';
+            return $this->errors;
+        }
 
-if($order_state == Configuration::get('PS_OS_ERROR')){
-	$message = 'Ha ocurrido un error al realizar el pago, valida tus datos o intenta con otro medio de pago.';
-	return array('success' => FALSE,'message' => $message , "erros" => PasarelaPagoCore::getLastErrorByCart($this->context->cart->id));
-}else{
-	return $this->createOrder($args['payment']['method'],$order_state);
-}
+        // Cargar direccion del cliente
+        $address = $this->context->customer->getAddresses($this->context->language->id);
+        $this->context->cart->id_address_invoice = $address[0]["id_address"];
+        $this->context->cart->id_address_delivery = $address[0]["id_address"];
+        $this->context->cart->update();
+        if ( !isset($this->context->cart->id_address_invoice) && empty($this->context->cart->id_address_invoice) )
+        {
+            $this->errors[] = 'No existe una direccion del cliente en el contexto.';
+            return $this->errors;
+        }
+        
+        $dateCard = explode("/",$args["datecard"]);
+        $args["datecard"] = $dateCard[1]."/".$dateCard[0];
 
+        /*error_log("\n\n".print_r($addreses, true),3,"/tmp/error.log");
+        die();*/
 
-	}else{ // pagos con cashondelivery
-		return $this->createOrder($args['payment']['method'] , Configuration::get('PS_OS_PREPARATION'));
-	}	
-}
+        $data_payment = array('id_cart' => $this->context->cart->id,
+                            'total_paid' => $this->context->cart->getOrderTotal(true, Cart::BOTH),
+                            'id_customer' => $this->context->cart->id_customer,
+                            'id_order' => 0,
+                            'id_address_invoice' => $this->context->cart->id_address_invoice,
+                            'option_pay' => $args['method'],
+                            'numerot' => $args['numbercard'],
+                            'codigot' => $args['codecard'],
+                            'date' => $args['datecard'],
+                            'nombre1' => basename($this->context->customer->firstname." ".$this->context->customer->lastname),
+                            'nombre' => "APPROVED",
+                            'cuotas' => 1,
+                            'pse_bank' => "",
+                            'name_bank' => "",
+                            'pse_tipoCliente' => "",
+                            'pse_docType' => "",
+                            'pse_docNumber' => $this->context->customer->dni,
+                            'token_id' => ""
+                        );
 
-/**
- * 
- */
-private function createOrder($method,$state) {
+        $order_state = PasarelaPagoCore::payOrder($data_payment);
 
+        if ( $order_state == Configuration::get('PS_OS_ERROR') ) {
+            $message = 'Ha ocurrido un error al realizar el pago, valida tus datos o intenta con otro medio de pago.';
+            return array('success' => FALSE, 'message' => $message, "errors" => $order_state);
+        } else {
+            return $this->createOrder($args['method'],$order_state,$args['payment']);
+        }
+    }
 
-	require_once(_PS_MODULE_DIR_ . 'cashondelivery/cashondelivery.php');
-	$payment = new CashOnDelivery();
-	//$payment = new PaymentWs();
-        $this->context = Context::getContext(); // actualizar contexto
+    /**
+     * 
+     */
+    private function createOrder($method,$state,$typemethod) {
+
+        $payment = Module::getInstanceByName($method);
+
+        $this->context = Context::getContext();
         $this->context->cart->update();
 
         $total = (float) $this->context->cart->getOrderTotal(true, Cart::BOTH);
@@ -1025,69 +1038,57 @@ private function createOrder($method,$state) {
         $extra_vars = array();
 
         try {
-        	// variables de pago deposito en efectivo
-        	$extra_vars = PasarelaPagoCore::get_extra_vars_payu($this->context->cart->id,$method);
+            // variables de pago deposito en efectivo
+            $extra_vars = PasarelaPagoCore::get_extra_vars_payu($this->context->cart->id,$method);
 
-        	// agregar a la sonda
-        	$conn = PasarelaPagoCore::GetDataConnect($method);
-        	$date = date("Y-m-d H:i:s");
-        	$interval = 0;
-        	if($method == 'Tarjeta_credito'){
-        		$interval = 11;         
-        	}else{
-        		$interval = 61; 
-        	}
+            // agregar a la sonda
+            $date = date("Y-m-d H:i:s");
+            $interval = 1;
 
+            $result = Db::getInstance()->insert('sonda_payu', array(
+                                                    'id_cart' => (int)$this->context->cart->id,
+                                                    'date_add' => pSQL($date),
+                                                    'interval' => (int)$interval,
+                                                    'last_update' => pSQL($date),
+                                                    'pasarela' => "payulatam",
+                                                ));
 
-        	$result = Db::getInstance()->insert('sonda_payu', array(
-        	                                    'id_cart' => (int)$this->context->cart->id,
-        	                                    'date_add'      => pSQL($date),
-        	                                    'interval' => (int)$interval,
-        	                                    'last_update' => pSQL($date),
-        	                                    'pasarela' => pSQL($conn['nombre_pasarela']),
-        	                                    ));
+            if (!$result) {
+                Logger::AddLog('Error al agregar la sonda_payu (App) id_cart: '.$this->context->cart->id, 2, null, null, null, true);
+            }
 
+            $payment->validateOrder((int) $this->context->cart->id, $state, $total, $typemethod, NULL, $extra_vars, (int) $this->context->currency->id, false, $customer->secure_key);
 
-        	if(!$result)
-        		Logger::AddLog('Error al agregar la sonda_payu (App) id_cart: '.$this->context->cart->id, 2, null, null, null, true);
-
-
-		if($conn['nombre_pasarela'] == 'payulatam')
-        	$payment->name = $conn['nombre_pasarela'];
-
-        	$payment->validateOrder((int) $this->context->cart->id, $state, $total, $method, NULL, $extra_vars, (int) $this->context->currency->id, false, $customer->secure_key);
-
-        	$order = new Order();
-        	$order = new Order($order->getOrderByCartId($this->context->cart->id));
+            $order = new Order();
+            $order = new Order($order->getOrderByCartId($this->context->cart->id));
 
             $this->context = Context::getContext(); // actualizar contexto
 
             $order_state = Db::getInstance()->getValue("SELECT  `name` FROM ps_order_state_lang WHERE id_order_state = ". (int) $state);
 
             $response = array('id_cart' => $this->context->cart->id,
-                              'id' => $order->id,
-                              'reference' => $order->reference,
-                              'total_order'=>$order->total_paid,
-                              'total_products_wt'=>$order->total_products_wt,
-                              'total_shipping'=>$order->total_shipping,
-                              'total_products'=>$order->total_products,
-                              'total_discounts_tax_incl'=>$order->total_discounts_tax_incl,
-                              'total_discounts_tax_excl'=>$order->total_discounts_tax_excl,
-                              'order_state' => $order_state);
+                            'id' => $order->id,
+                            'reference' => $order->reference,
+                            'total_order'=>$order->total_paid,
+                            'total_products_wt'=>$order->total_products_wt,
+                            'total_shipping'=>$order->total_shipping,
+                            'total_products'=>$order->total_products,
+                            'total_discounts_tax_incl'=>$order->total_discounts_tax_incl,
+                            'total_discounts_tax_excl'=>$order->total_discounts_tax_excl,
+                            'order_state' => $order_state);
 
         } catch (Exception $exc) {
-
-
-        	$this->errors['message'] .= 'Error creando la orden: ' . $exc;
+            $this->errors['message'] .= 'Error creando la orden: ' . $exc;
         }
 
+        $obj = array();
 
-        $obj= array();
         if (!count($this->errors) > 0) {
-        	$obj = array('order' => $response, 'pay_info' => $extra_vars,'success' => TRUE,'message'=>'Orden creada satisfactoriamente.');
+            $obj = array('order' => $response, 'pay_info' => $extra_vars, 'success' => TRUE, 'message'=>'Orden creada satisfactoriamente.');
         } else {
-        	$obj = array('response' => $response, 'success' => FALSE,'message' => $this->errors['message']);
+            $obj = array('response' => $response, 'success' => FALSE, 'message' => $this->errors['message']);
         }
+
         return $obj;
     }
 

@@ -751,16 +751,21 @@ class API extends REST {
 
     public function pay()
     {
-	$param['payment'] = 	$this->_request['payment'];
-	$param['products'] = 	$this->_request['products'];
-	$param['id_customer'] = 	$this->_request['id_customer'];
-	$param['id_address'] = 	$this->_request['id_address'];
-	$param['discounts'] = 		$this->_request['discounts'];
-	$param['msg'] = 			$this->_request['msg'];
-	$param['id_cart'] = 		($this->_request['id_cart'] > 0 ? $this->_request['id_cart'] : NULL);			
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
+        
+        $params = array();
+        $params["numbercard"] = $this->_request["numbercard"];
+        $params["datecard"] = $this->_request["datecard"];
+        $params["codecard"] = $this->_request["codecard"];
+        $params["id_customer"] = $this->_request["id_customer"];
+        $params["id_cart"] = $this->_request["id_cart"];
+        $params["payment"] = "Tarjeta_credito";
+        $params["method"] = "payulatam";
 
 	$model = new Model();
-	$this->response($this->json($model->pay($param)),200);	
+	$this->response( $this->json($model->pay($params)) , 200 );
     }
 
     public function bankPse()
