@@ -1823,13 +1823,31 @@ return $responseObj;
     return array('result' => $members);
   }
   
-  public function getMyInvitation($id_lang, $id_customer ){
-      
-    /*$tree = RewardsSponsorshipModel::_getTree( $id_customer );
+  public function getMyNetworkInvitations( $id_lang, $id_customer ) {
+    $tree = RewardsSponsorshipModel::_getTree( $id_customer );
+
     $members = array();
     $counter = 0;
+    $array_sponsor = array();
+
     foreach ( $tree as $sponsor ) {
-      if ( $id_customer != $sponsor['id'] && $sponsor['level'] == 1 ) {
+      
+        $sponsor2 = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                FROM " . _DB_PREFIX_ . "customer c
+                LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                WHERE c.id_customer =" . (int) $sponsor['id'] . "
+                HAVING sponsoships > 0");
+
+        array_push($array_sponsor, $sponsor2);
+        $sort_array = array_filter($array_sponsor);
+
+        usort($sort_array, function($a, $b) {
+            return $a['id_customer'] - $b['id_customer'];
+        });
+
+        $sponsor_a = reset($sort_array);  
+        
+      if ( $id_customer != $sponsor['id'] && ($sponsor_a['sponsoships'] > 0)) {
         $customer = new Customer( $sponsor['id'] );
         $name = strtolower( $customer->firstname." ".$customer->lastname );
         if ( $customer->firstname != "" ) {
@@ -1857,18 +1875,74 @@ return $responseObj;
         $counter++;
       }
     }
-    /* ORGANIZAR POR NOMBRE 
+    /* ORGANIZAR POR NOMBRE */
     // asort($members);
         
+    /* ORGANIZAR POR NIVEL */
     usort($members, function($a, $b) {
         return  $a['level'] - $b['level'];
-    });*/
+    });
     
-    $sponsorship = Db::getInstance()->executeS('SELECT rs.firstname as firstname, rs.lastname as lastname, DATE_FORMAT(rs.date_add, "%M %d %Y") as dateadd
-                    FROM '._DB_PREFIX_.'rewards_sponsorship rs 
-                    WHERE id_sponsor = '.$id_customer);
+    
+    return array('result' => $members);
+  }
+  
+  public function getMyInvitation($id_lang, $id_customer ){
       
-    return array('result' => $sponsorship);
+    $tree = RewardsSponsorshipModel::_getTree( $id_customer );
+    $members = array();
+    $counter = 0;
+    foreach ( $tree as $sponsor ) {
+      if ( $id_customer != $sponsor['id'] && $sponsor['level'] == 1 ) {
+        $customer = new Customer( $sponsor['id'] );
+        $name = strtolower( $customer->firstname." ".$customer->lastname );
+        
+        $sql = "SELECT SUM(credits) AS points
+                FROM "._DB_PREFIX_."rewards
+                WHERE  id_customer = ".$id_customer."
+                AND plugin = 'sponsorship'
+                AND id_order IN (
+                  SELECT id_order
+                  FROM "._DB_PREFIX_."rewards
+                  WHERE  id_customer = ".$sponsor['id']."
+                  AND plugin = 'loyalty'
+                )
+                GROUP BY id_customer";
+        
+        $members[$counter]['username'] = $customer->username;
+        $members[$counter]['id'] = $sponsor['id'];
+        $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
+        $members[$counter]['level'] = $sponsor['level'];
+        $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+        $points = Db::getInstance()->ExecuteS($sql);
+        $members[$counter]['points'] = round($points[0]['points']);  
+        $counter++;
+      }
+    }
+    
+    foreach ($members as &$x){
+        $sponsorship2 = Db::getInstance()->getRow('SELECT (CASE WHEN 
+                                    NOT EXISTS (SELECT c.id_customer FROM ps_customer c WHERE c.id_customer = '.$x['id'].')
+                                    THEN "Pendiente"
+                                    ELSE "Confirmado"
+                                    END) AS "status"
+                                    FROM ps_rewards_sponsorship rs 
+                                    WHERE rs.id_sponsor = '.$id_customer);
+
+        $sponsorship = Db::getInstance()->getRow('SELECT rs.firstname as firstname
+            FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+            WHERE id_customer = '.$x['id']);
+
+        $x['name'] = $sponsorship['firstname'];
+        $x['status'] = $sponsorship2['status'];
+    }
+    
+    usort($members, function($a, $b) {
+        return  $a['level'] - $b['level'];
+    });
+    		//error_log("\n\nEste es el codigo 2: ".print_r($sponsorship, true),3,"/tmp/error.log");
+      
+    return array('result' => $members);
       
   }
   
@@ -1935,7 +2009,7 @@ return $responseObj;
                     $message_subject = $row_subject['subject_mail'];
 
                     $allinone_rewards = new allinone_rewards();
-                    $allinone_rewards->sendMail((int)$id_lang, $template, $allinone_rewards->getL($message_subject), $vars, 'daniel.gonzalez@ingeniocontenido.co', $friendFirstName.' '.$friendLastName);
+                    $allinone_rewards->sendMail((int)$id_lang, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
                     $message_success = 'Invitacion Enviada Exitosamente';
                 }
             

@@ -1023,6 +1023,17 @@ class API extends REST {
           }
           return $this->response(json_encode(array('result' => $result)),200);
         }
+        else if ( $option == 4 ){
+          $my_network = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
+          $max_limit = count($my_network['result']);
+          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+          if ( $limit != 0 ){
+            for ( $i = $last_total; $i < $limit; $i++ ) {
+              $result[] = $my_network['result'][$i];
+            }
+          }
+          return $this->response(json_encode(array('result' => $result)),200);
+        }
         elseif ( $option == 5 ) { 
           
           $object_inv = json_decode($object_inv, true);  
