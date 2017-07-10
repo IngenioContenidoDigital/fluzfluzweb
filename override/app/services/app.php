@@ -129,6 +129,10 @@ class API extends REST {
     foreach ($requestData as $rqd => $value) {
       ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
     }
+    error.log('\n\n param'.$param,3,'/tmp/error.log');
+    error.log('\n\n option'.$option,3,'/tmp/error.log');
+    error.log('\n\n limit'.$limit,3,'/tmp/error.log');
+    error.log('\n\n lastTotal'.$lastTotal,3,'/tmp/error.log');
     //Hace la busqueda
     $search = array();
     $search = Search::findApp( $param, $option );
@@ -757,6 +761,7 @@ class API extends REST {
         }
         
         $params = array();
+        $params["namecard"] = $this->_request["namecard"];
         $params["numbercard"] = $this->_request["numbercard"];
         $params["datecard"] = $this->_request["datecard"];
         $params["codecard"] = $this->_request["codecard"];
@@ -981,12 +986,14 @@ class API extends REST {
       
       if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
         $id_customer = $this->_request['id_customer'];
+        $object_inv = $this->_request['obj_inv'];
         $model = new Model();
         $link = new Link();
         $result = array();
         $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
         $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
         $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
+        error_log("\n\n 1- Esto es option que llega: \n\n".print_r($option,true),3,"/tmp/error.log");
         
         if( $option == 1 ){
           $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
@@ -1011,6 +1018,50 @@ class API extends REST {
             }
           }
           return $this->response(json_encode(array('result' => $result)),200);
+        }
+        elseif ( $option == 3 ) {
+          $my_network = $model->getMyInvitation( $this->id_lang_default, $id_customer );
+          $max_limit = count($my_network['result']);
+          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+          if ( $limit != 0 ){
+            for ( $i = $last_total; $i < $limit; $i++ ) {
+              $result[] = $my_network['result'][$i];
+            }
+            if($max_limit == 1){
+                $result[0]['contador'] = $max_limit;
+            }else{
+                $result[0]['contador'] = $max_limit;
+                $result[1]['contador'] = $max_limit;
+            }
+            
+          }
+          else{
+              $result[] = $my_network['result'][$i];
+              $result[0]['contador'] = $max_limit;
+          }
+          
+          
+          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
+
+          return $this->response(json_encode(array('result' => $result)),200);
+        }
+        else if ( $option == 4 ){
+          $my_network = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
+          $max_limit = count($my_network['result']);
+          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+          if ( $limit != 0 ){
+            for ( $i = $last_total; $i < $limit; $i++ ) {
+              $result[] = $my_network['result'][$i];
+            }
+          }
+          return $this->response(json_encode(array('result' => $result)),200);
+        }
+        elseif ( $option == 5 ) { 
+          
+          $object_inv = json_decode($object_inv, true);  
+          $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
+          
+          return $this->response(json_encode(array('result' => $invitation)),200);
         }
       }
       else {
