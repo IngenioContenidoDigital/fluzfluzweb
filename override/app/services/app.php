@@ -699,6 +699,7 @@ class API extends REST {
     foreach ($banners['result'] as &$banner){
       $banner['b_img'] = $link->getBannerImageLink((int)$banner['b_id']);
     }
+//    error_log("\n\n Esta es la respuesta del banner: ".print_r($banners,true),3,"/tmp/error.log");
     return $this->response(json_encode($banners),200);
   }
   
@@ -727,7 +728,7 @@ class API extends REST {
       }
     }
     else if( $option == 3 ){
-      error_log("\n\nEntro a opcion 3: ",3,"/tmp/error.log");
+//      error_log("\n\nEntro a opcion 3: ",3,"/tmp/error.log");
       if (isset($this->_request['id_category']) && !empty($this->_request['id_category'])) {
         $id_category = $this->_request['id_category'];
       }
