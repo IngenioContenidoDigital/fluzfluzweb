@@ -165,7 +165,7 @@ class PasarelaPagoCore extends PayUControllerWS {
         if (!empty($response['transactionResponse']['state']) && ($response['transactionResponse']['state'] === 'PENDING' || $response['transactionResponse']['state'] === 'APPROVED')){
             $conf->pago_payu($args['id_order'], $args['id_customer'], $data, $response, $args['option_pay'], $response['code'], $args['id_cart'], $args['id_address_invoice']);	
             if($response['transactionResponse']['state'] == 'PENDING')	
-                return (int) Configuration::get('PAYU_WAITING_PAYMENT');
+                return (int) Configuration::get('PAYU_OS_PENDING');
             if($response['transactionResponse']['state'] == 'APPROVED')
                 return (int) Configuration::get('PS_OS_PAYMENT'); 
         } else {
