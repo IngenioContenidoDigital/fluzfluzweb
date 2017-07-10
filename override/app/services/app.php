@@ -1025,7 +1025,22 @@ class API extends REST {
             for ( $i = $last_total; $i < $limit; $i++ ) {
               $result[] = $my_network['result'][$i];
             }
+            if($max_limit == 1){
+                $result[0]['contador'] = $max_limit;
+            }else{
+                $result[0]['contador'] = $max_limit;
+                $result[1]['contador'] = $max_limit;
+            }
+            
           }
+          else{
+              $result[] = $my_network['result'][$i];
+              $result[0]['contador'] = $max_limit;
+          }
+          
+          
+          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
+
           return $this->response(json_encode(array('result' => $result)),200);
         }
         else if ( $option == 4 ){
