@@ -756,6 +756,7 @@ class API extends REST {
         }
         
         $params = array();
+        $params["namecard"] = $this->_request["namecard"];
         $params["numbercard"] = $this->_request["numbercard"];
         $params["datecard"] = $this->_request["datecard"];
         $params["codecard"] = $this->_request["codecard"];
