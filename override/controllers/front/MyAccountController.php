@@ -72,11 +72,13 @@ class MyAccountController extends MyAccountControllerCore
             'returnAllowed' => (int)Configuration::get('PS_ORDER_RETURN')
         ));
         
-        $groupCustomer = 'SELECT id_default_group as afiliado FROM '._DB_PREFIX_.'customer WHERE id_customer = '.$this->context->customer->id;
-        $rowcustomer = Db::getInstance()->getRow($groupCustomer);
-        $grupo = $rowcustomer['afiliado'];
+        $groupCustomer = 'SELECT cg.id_group, gl.`name` FROM '._DB_PREFIX_.'customer_group cg 
+                          LEFT JOIN '._DB_PREFIX_.'group_lang gl ON (cg.id_group = gl.id_group)
+                          WHERE cg.id_customer = '.$this->context->customer->id.' AND gl.id_lang = 1';
         
-        $this->context->smarty->assign('grupo',$grupo);
+        $rowcustomer = Db::getInstance()->executeS($groupCustomer);
+        
+        $this->context->smarty->assign('grupo',$rowcustomer);
 
         $imgprofile = "";
         if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ) {
