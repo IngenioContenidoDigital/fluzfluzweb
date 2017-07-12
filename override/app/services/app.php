@@ -1150,7 +1150,7 @@ class API extends REST {
     $id_customer = $this->_request['id_customer'];
     $passcode = $this->_request['passcode'];
     
-    $sql = 'UPDATE ps_customer
+    $sql = 'UPDATE "._DB_PREFIX_."customer
             SET vault_code = '.$passcode.'
             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($sql);
@@ -1166,7 +1166,7 @@ class API extends REST {
     $passcode = $this->_request['passcode'];
     
     $sql = 'SELECT vault_code
-            FROM ps_customer
+            FROM '._DB_PREFIX_.'customer
             WHERE id_customer = '.$id_customer.';';
     $passcode_db = Db::getInstance()->getValue($sql);
     $result = ( $passcode_db == $passcode ) ? true : false;
@@ -1186,7 +1186,34 @@ class API extends REST {
       )), 204);
     }
   }
-  
+    
+  public function updateBonus() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $card = $this->_request['card'];
+    $used = $this->_request['used'];
+    
+    if( $used == 1 ){
+      $value = $this->_request['price_card_used'];
+      $setValue = Wallet::setValueUsed( $card, $value );
+    }
+    
+    $setUsed = Wallet::setUsedCard( $card , $used );
+    
+    if ( $setUsed ){
+      $sql = "SELECT id_product_code, used
+              FROM "._DB_PREFIX_."product_code
+              WHERE id_product_code = ".$card.";";
+      $result = Db::getInstance()->getRow($sql);
+    }
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+
+
+
+
 
 }
 
