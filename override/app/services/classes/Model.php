@@ -991,29 +991,25 @@ private function clearCart()
         $dateCard = explode("/",$args["datecard"]);
         $args["datecard"] = $dateCard[1]."/".$dateCard[0];
 
-        /*error_log("\n\n".print_r($addreses, true),3,"/tmp/error.log");
-        die();*/
-
         $data_payment = array('id_cart' => $this->context->cart->id,
                             'total_paid' => $this->context->cart->getOrderTotal(true, Cart::BOTH),
                             'id_customer' => $this->context->cart->id_customer,
-                            'id_order' => 0,
                             'id_address_invoice' => $this->context->cart->id_address_invoice,
-                            'option_pay' => $args['method'],
+                            'method' => $args['method'],
+                            'option_pay' => $args['payment'],
                             'numerot' => $args['numbercard'],
                             'codigot' => $args['codecard'],
                             'date' => $args['datecard'],
                             'nombre' => $args['namecard'],
                             'cuotas' => 1,
-                            'pse_bank' => "",
-                            'name_bank' => "",
-                            'pse_tipoCliente' => "",
-                            'pse_docType' => "",
-                            'pse_docNumber' => $this->context->customer->dni,
-                            'token_id' => ""
+                            'pse_bank' => $args['bank'],
+                            'name_bank' => $args['bankname'],
+                            'pse_tipoCliente' => $args['typecustomer'],
+                            'pse_docType' => $args['typedocument'],
+                            'pse_docNumber' => $args['numberdocument']
                         );
 
-        $order_state = PasarelaPagoCore::payOrder($data_payment);
+        $order_state = PasarelaPagoCore::EnviarPagoPayu($data_payment);
 
         if ( $order_state == Configuration::get('PS_OS_ERROR') ) {
             $message = 'Ha ocurrido un error al realizar el pago, valida tus datos o intenta con otro medio de pago.';
@@ -1058,9 +1054,12 @@ private function clearCart()
             }
 
             $payment->validateOrder((int) $this->context->cart->id, $state, $total, $typemethod, NULL, $extra_vars, (int) $this->context->currency->id, false, $customer->secure_key);
+            
 
             $order = new Order();
             $order = new Order($order->getOrderByCartId($this->context->cart->id));
+
+            $extra_vars = PasarelaPagoCore::get_extra_vars_payu($this->context->cart->id,$method,$customer->secure_key,$order->id);
 
             $this->context = Context::getContext(); // actualizar contexto
 
