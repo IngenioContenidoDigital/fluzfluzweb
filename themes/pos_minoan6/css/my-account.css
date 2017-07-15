@@ -67,6 +67,32 @@
 .networkfeed > .container1 > .row > .containerinfor > .row > .message { padding: 10px 0; background: transparent !important;}
 .networkfeed > .page-heading { margin-bottom: 30px; }
 
+.banner-profile-complete { height: 45px; background: #F15E54; color: #fff; cursor: pointer; }
+.banner-profile-complete>.p-advertencia { margin: 0; }
+
+progress {
+    height: 10px;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    border: none;
+}
+progress::-webkit-progress-bar {
+    background: #F37168;
+    border-radius: 50px;
+    padding: 2px;
+    box-shadow: 0 0px 0px 0 rgba(255, 255, 255, 0.2);
+}
+progress::-webkit-progress-value {
+	border-radius: 50px;
+	box-shadow: inset 0 0px 0px 0 rgba(255, 255, 255, 0.4);
+	background:
+		-webkit-linear-gradient(45deg, transparent, transparent 100%, rgba(0, 0, 0, 0.1) 100%, rgba(0, 0, 0, 0.1) 100%, transparent 100%),
+		-webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		-webkit-linear-gradient(left, #fff, #fff);
+	background-size: 25px 14px, 100% 100%, 100% 100%;
+	-webkit-animation: move 5s linear 0 infinite;
+}
+
 /* Div Actualizar Precio Tarjeta */
 .pPrice-used{
     color: #777 !important;
@@ -366,8 +392,9 @@ display:inline-block;
     .p-advertencia{line-height: 23px;}
     .banner-advertencia-awesome{height: 35px;}
     .banner-advertencia-awesome p {line-height: 31px;}
-    .banner-advertencia-month{height: 35px;}
-    .banner-advertencia-month p {line-height: 31px;}
+    .banner-advertencia-month, .banner-profile-complete {height: 35px;}
+    .banner-advertencia-month p, .banner-profile-complete p {line-height: 31px;}
+    .banner-profile-complete p progress {width: 25%;}
     .titleFAQ{text-align: center;}
     .detail-support{text-align: center;}
 }
@@ -380,8 +407,9 @@ display:inline-block;
     .networkfeed{    margin-top: 20px !important;padding-left: 0px;padding-right: 0px;}
     .banner-advertencia{height: 65px;}
     .p-advertencia{line-height: 18px;}
-    .banner-advertencia-month{height: 48px;}
+    .banner-advertencia-month{height: 70px;}
     .banner-advertencia-month p {line-height: 21px;}
+    .banner-profile-complete p progress {width: 13%;}
 }
 
 @media (max-width:375px){
@@ -400,6 +428,6 @@ display:inline-block;
     .btn-moreload{width: 100%;}
     .nameProfile{padding-right: 0px !important;}
     .banner-advertencia{height: 78px;}
-    .banner-advertencia-month{height: 56px;}
+    .banner-advertencia-month{height: 75px; min-height: 75px;}
     .banner-advertencia-month p {line-height: 16px;}
 }

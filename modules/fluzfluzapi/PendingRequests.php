@@ -36,10 +36,11 @@ function executePending(){
                     FROM "._DB_PREFIX_."webservice_external_log INNER JOIN "._DB_PREFIX_."orders ON "._DB_PREFIX_."webservice_external_log.id_order = "._DB_PREFIX_."orders.id_order INNER JOIN "._DB_PREFIX_."customer ON "._DB_PREFIX_."orders.id_customer = "._DB_PREFIX_."customer.id_customer 
                         WHERE "._DB_PREFIX_."webservice_external_log.id_order =".$request['id_order'];
                 $chainrow= Db::getInstance()->getRow($chainsql);
-                            
-                $chain=Encrypt::encrypt($chainrow['secure_key'] , $request['mobile_phone']);
                 
-                $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$request['id_product']."', '".$request['mobile_phone']."', '".$request['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
+                set_time_limit(5000);
+                $chain = Encrypt::encrypt($chainrow['secure_key'] , $request['mobile_phone']);
+                
+                $code = "INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add, encry) VALUES ('".$request['id_product']."', '".$chain."', '".$request['id_order']."', '2', '".date('Y-m-d H:i:s')."', 1)";
                 Db::getInstance()->execute($code);
                 
                 $template = 'order_conf_telco_sucess';

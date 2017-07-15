@@ -135,6 +135,95 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group dateBirth">
+                            <label for="civil_status">
+                                {l s='Estado Civil'}:
+                            </label>
+                            <div class="row dateBirthText">&nbsp;{$smarty.post.civil_status}</div>
+                            <div class="row dateBirthInput">
+                                <select id="civil_status" name="civil_status" class="form-control inputform enabled" disabled>
+                                    <option value="">-</option>
+                                    <option value="Soltero" {if $smarty.post.civil_status == "Soltero"}selected="selected"{/if}>Soltero</option>
+                                    <option value="Casado" {if $smarty.post.civil_status == "Casado"}selected="selected"{/if}>Casado</option>
+                                    <option value="Separado" {if $smarty.post.civil_status == "Separado"}selected="selected"{/if}>Separado</option>
+                                    <option value="Divorciado" {if $smarty.post.civil_status == "Divorciado"}selected="selected"{/if}>Divorciado</option>
+                                    <option value="Viudo" {if $smarty.post.civil_status == "Viudo"}selected="selected"{/if}>Viudo</option>
+                                    <option value="Religioso" {if $smarty.post.civil_status == "Religioso"}selected="selected"{/if}>Religioso</option>
+                                    <option value="Union Libre" {if $smarty.post.civil_status == "Union Libre"}selected="selected"{/if}>Union Libre</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group dateBirth">
+                            <label for="occupation_status">
+                                {l s='Ocupacion'}:
+                            </label>
+                            <div class="row dateBirthText">&nbsp;{$smarty.post.occupation_status}</div>
+                            <div class="row dateBirthInput">
+                                <select id="occupation_status" name="occupation_status" class="form-control inputform enabled" disabled>
+                                    <option value="">-</option>
+                                    <option value="Empleado" {if $smarty.post.occupation_status == "Empleado"}selected="selected"{/if}>Empleado</option>
+                                    <option value="Ama de Casa" {if $smarty.post.occupation_status == "Ama de Casa"}selected="selected"{/if}>Ama de Casa</option>
+                                    <option value="Jubilado" {if $smarty.post.occupation_status == "Jubilado"}selected="selected"{/if}>Jubilado</option>
+                                    <option value="Estudiante" {if $smarty.post.occupation_status == "Estudiante"}selected="selected"{/if}>Estudiante</option>
+                                    <option value="Independente" {if $smarty.post.occupation_status == "Independente"}selected="selected"{/if}>Independente</option>
+                                    <option value="Otra Profesion" {if $smarty.post.occupation_status == "Otra Profesion"}selected="selected"{/if}>Otra Profesion</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="field_work">
+                                {l s='Empresa'}:
+                            </label>
+                            <input class="form-control inputform enabled" disabled data-validate="isName" type="text" id="field_work" name="field_work" value="{$smarty.post.field_work}" />
+                        </div>
+                        <div class="form-group dateBirth">
+                            <label for="pet" >
+                                {l s='Mascota'}:
+                            </label>
+                            <div class="row dateBirthText">&nbsp;{$smarty.post.pet}</div>
+                            <div class="row dateBirthInput">
+                                <select id="pet" name="pet" class="form-control inputform enabled" disabled>
+                                    <option value="">-</option>
+                                    <option value="Perro" {if $smarty.post.pet== "Perro"}selected="selected"{/if}>Perro</option>
+                                    <option value="Gato" {if $smarty.post.pet== "Gato"}selected="selected"{/if}>Gato</option>
+                                    <option value="Pez" {if $smarty.post.pet== "Pez"}selected="selected"{/if}>Pez</option>
+                                    <option value="Otro" {if $smarty.post.pet== "Otro"}selected="selected"{/if}>Otro</option>
+                                    <option value="No" {if $smarty.post.pet== "No"}selected="selected"{/if}>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pet_name">
+                                {l s='Nombre Mascota'}:
+                            </label>
+                            <input class="form-control inputform enabled" disabled data-validate="isName" type="text" id="pet_name" name="pet_name" value="{$smarty.post.pet_name}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="spouse_name">
+                                {l s='Nombre Espos@'}:
+                            </label>
+                            <input class="form-control inputform enabled" disabled data-validate="isName" type="text" id="spouse_name" name="spouse_name" value="{$smarty.post.spouse_name}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="children">
+                                {l s='Numero de Hijos'}:
+                            </label>
+                            <input class="form-control inputform enabled" disabled data-validate="isName" type="text" id="children" name="children" value="{$smarty.post.children}" />
+                        </div>
+                        <div class="form-group dateBirth">
+                            <label for="phone_provider">
+                                {l s='Operador Movil'}:
+                            </label>
+                            <div class="row dateBirthText">&nbsp;{$smarty.post.phone_provider}</div>
+                            <div class="row dateBirthInput">
+                                <select id="phone_provider" name="phone_provider" class="form-control inputform enabled" disabled>
+                                    <option value="">-</option>
+                                    {foreach from=$operators item=operator}
+                                        <option value="{$operator.name}" {if $smarty.post.phone_provider == $operator.name}selected="selected"{/if}>{$operator.name}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
                         <div class="required form-group">
                             <label for="phone" class="required">
                                 {l s='Phone number'}:

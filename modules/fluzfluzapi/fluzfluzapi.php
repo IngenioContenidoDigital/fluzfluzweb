@@ -172,9 +172,10 @@ PRIMARY KEY (`id_webservice_external_log`))";
                         WHERE "._DB_PREFIX_."webservice_external_log.id_order =".$params['id_order'];
                             $chainrow= Db::getInstance()->getRow($chainsql);
                             
-                            $chain=Encrypt::encrypt($chainrow['secure_key'] , $number['phone_mobile']);
+                            set_time_limit(5000);
+                            $chain = Encrypt::encrypt($chainrow['secure_key'] , $number['phone_mobile']);
                             
-                            $code="INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add) VALUES ('".$product['id_product']."', '".$number['phone_mobile']."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."')";
+                            $code = "INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add, encry) VALUES ('".$product['id_product']."', '".$chain."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."', 1)";
                             Db::getInstance()->execute($code);
                             
                             $template = 'order_conf_telco_sucess';

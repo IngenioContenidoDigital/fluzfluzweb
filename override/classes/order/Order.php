@@ -70,12 +70,18 @@ class Order extends OrderCore
                 $codes = Db::getInstance()->executeS($query);
 
                 foreach ( $codes as $code ) {
-                    $codedecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
-                    $codeencrypt = Encrypt::encrypt($code['secure_key'] , $codedecrypt);
-
-                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
-                                                SET code = '".$codeencrypt."'
-                                                WHERE id_product_code = ".$code['id_product_code']);
+                    set_time_limit(5000);
+                    try {
+                        $codedecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
+                        $codeencrypt = Encrypt::encrypt($code['secure_key'] , $codedecrypt);
+                        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
+                                                    SET code = '".$codeencrypt."', encry = 1
+                                                    WHERE id_product_code = ".$code['id_product_code']);
+                    } catch(Exception $e) {
+                        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
+                                                    SET encry = 2
+                                                    WHERE id_product_code = ".$code['id_product_code']);
+                    }
                 }
 
                 $product_list = $order->getProducts();
