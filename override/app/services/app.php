@@ -37,39 +37,6 @@ class API extends REST {
         )), 200);    
     }
     
-    /**
-     * Método de pruebas
-     */
-    private function confirm() {
-      if($this->get_request_method() != "POST") {
-        $this->response('',406);
-      }
-
-      $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
-//      error_log("\n\nEste es el codigo 1: ".print_r($this->_request['confirmNumber'], true),3,"/tmp/error.log");
-//      error_log("\n\nEste es el codigo 2: ".print_r($code, true),3,"/tmp/error.log");
-
-      if( !empty($code) ){
-        if ( $code != 00000 ){
-          $this->response($this->json(array(
-                  "success" => true, 
-                  "message" => "Usuario confirmado"
-                  )), 200);
-        }
-        else {
-          $this->response($this->json(array(
-              "success" => true, 
-              "message" => "El número de verificación no coincide."
-              )), 204);
-        }
-      }
-      else {
-        $this->response($this->json(array(
-          "success" => false, 
-          "message" => "El número de verificación no válido."
-        )), 400);
-      }
-    }
     
     private function myAccountData(){
       if ($this->get_request_method() != "GET") {
@@ -993,7 +960,7 @@ class API extends REST {
         $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
         $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
         $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
-        error_log("\n\n 1- Esto es option que llega: \n\n".print_r($option,true),3,"/tmp/error.log");
+//        error_log("\n\n 1- Esto es option que llega: \n\n".print_r($option,true),3,"/tmp/error.log");
         
         if( $option == 1 ){
           $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
@@ -1041,7 +1008,7 @@ class API extends REST {
           }
           
           
-          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
+//          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
 
           return $this->response(json_encode(array('result' => $result)),200);
         }
@@ -1210,11 +1177,93 @@ class API extends REST {
     }
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  public function getPhoneByIdCustomer() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    
+    $sql = "SELECT id_customer, phone
+            FROM "._DB_PREFIX_."customer
+            WHERE id_customer = ".$id_customer.";";
+    
+    $result = Db::getInstance()->getRow($sql);
+    
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
 
+  public function setPhoneByIdCustomer() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    $phone = $this->_request['phone'];
+//    error_log("n\n Este es el telefono: \n".print_r($phone,true),3,"/tmp/error.log");
+    $sql = 'UPDATE '._DB_PREFIX_.'customer
+            SET phone = '.$phone.'
+            WHERE id_customer = '.$id_customer.';';
+//    error_log("n\n Este es el telefono: \n".print_r($sql,true),3,"/tmp/error.log");
+    $result = Db::getInstance()->execute($sql);
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
 
+  public function sendSMSConfirm() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    
+    $sql = "SELECT phone
+            FROM "._DB_PREFIX_."customer
+            WHERE id_customer = ".$id_customer.";";
+    $phone = Db::getInstance()->getValue($sql);
+    $numberConfirm = rand(100000, 999999);
+    $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
+                            SET app_confirm = '.$numberConfirm.'
+                            WHERE id_customer = '.$id_customer.';';
+    $result = Db::getInstance()->execute($updateNumberConfirm);
+//      $msg = "Tu número de confirmación para FLuzFluz es: ".$numberConfirm;
+    $curl = curl_init();
+    
+    $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
+    
+    curl_setopt($curl, CURLOPT_URL, $url);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    $result = ( $response == 1 ) ? "Se ha enviado el sms." : "No se pudo enviar el sms";
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+  
+  
+  private function confirm() {
+      if($this->get_request_method() != "POST") {
+        $this->response('',406);
+      }
+      $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
+      $id_customer = $this->_request['id_customer'];
+      
+      $sql = "SELECT app_confirm
+            FROM "._DB_PREFIX_."customer
+            WHERE id_customer = ".$id_customer.";";
+      
+      $app_confirm = Db::getInstance()->getValue($sql);
 
-
-
+      if( $code == $app_confirm ){
+        $this->response($this->json(array(
+                  "success" => true, 
+                  "message" => "Usuario confirmado"
+                  )), 200);
+      }
+      else {
+        $this->response($this->json(array(
+            "success" => true, 
+            "message" => "El número de verificación no coincide."
+            )), 204);
+      }
+    }
 }
 
 
