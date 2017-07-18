@@ -21,19 +21,19 @@
         <input type="hidden" value="" id="ptosusedhiddenadde" name="ptosusedhiddenadde"/>
         <div class="row row-form-employee">
             <div class="row required form-group">
-                <label class="col-lg-12 l-form-employee" for="firstname">{l s='First name'}</label>
+                <label class="col-lg-12 l-form-employee" for="firstname">{l s='Nombre'}</label>
                 <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="firstname" name="firstname" value="{if isset($smarty.post.firstname)}{$smarty.post.firstname}{/if}" />
             </div>
             <div class="row required form-group">
-                <label class="col-lg-12 l-form-employee" for="lastname">{l s='Last name'}</label>
+                <label class="col-lg-12 l-form-employee" for="lastname">{l s='Apellido'}</label>
                 <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="lastname" name="lastname" value="{if isset($smarty.post.lastname)}{$smarty.post.lastname}{/if}" />
             </div>
             <div class="row form-group">
-                <label class="col-lg-12 l-form-employee" for="email">{l s='Email address'}</label>
+                <label class="col-lg-12 l-form-employee" for="email">{l s='Email'}</label>
                 <input class="col-lg-6 is_required validate account_input form-employee" data-validate="isEmail" autocomplete="off" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
             </div>
             <div class="row form-group">
-                <label  class="col-lg-12 l-form-employee" for="phone_invoice">{l s='Phone Number'}</label>
+                <label  class="col-lg-12 l-form-employee" for="phone_invoice">Tel&eacute;fono</label>
                 <input type="text" class="col-lg-6 form-employee" name="phone_invoice" id="phone_invoice" autocomplete="off" value="{if isset($smarty.post.phone_invoice) && $smarty.post.phone_invoice}{$smarty.post.phone_invoice}{/if}" />
             </div>
             <div class="row required dni form-group">
@@ -41,14 +41,14 @@
                 <input class="col-lg-6 is_required validate account_input form-employee" type="text" autocomplete="off" name="dni" id="dni" value="{if isset($smarty.post.dni)}{$smarty.post.dni}{/if}" />
             </div>
             <div class="row required form-group">
-                <label class="col-lg-12 l-form-employee" for="Amount">{l s='Amount'}</label>
+                <label class="col-lg-12 l-form-employee" for="Amount">{l s='Monto (Fluz)'}</label>
                 <input class="col-lg-6 is_required validate form-employee" value="" type="number" min="1" max="{$pointsAvailable}" oninput="if(value>{$pointsAvailable})value={$pointsAvailable}" id="use_fluz_employee" autocomplete="off"/>
             </div>
         </div>
         <div class="row">        
             <div class="col-lg-6 div-btn">
                 <button class="btn btn-default btn-save-employee" type="submit" id="add-employee" name="add-employee">
-                    <span> ADD EMPLOYEE </span>
+                    <span> AGREGAR EMPLEADO </span>
                 </button>
             </div>    
         </div>    

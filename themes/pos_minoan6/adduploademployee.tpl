@@ -27,7 +27,7 @@
 <form method="post" enctype="multipart/form-data" id="uploademployeebusiness" class="contenedorEmployeeBusiness" name="uploademployeebusiness">
     <div class="row row-upload">
         <div class="col-lg-12 title-browser">
-            <p class="title-panel-upload"> Import From CSV </p>
+            <p class="title-panel-upload"> Importar desde CSV </p>
         </div>
         <div class="col-lg-12 browse-div">
             <div class="custom-file-upload">
@@ -37,12 +37,12 @@
         </div>
     </div>
     <div class="row">
-        <span> If you're having issues uploading a CSV. please make sure you're spreadsheet is formated correctly. </span>
+        <span> Si tienes problemas para subir un CSV. Aseg&uacute;rese de que su hoja de c&aacute;lculo est&eacute; formateada correctamente. Descargar <a href="../csvcustomer/carga_customer_example.csv" class="link-down">CSV de Ejemplo</a></span>
     </div>
     <div class="row">        
         <div class="col-lg-6 div-btn-submit">
             <button class="btn btn-default btn-save-submit" type="submit" id="upload-employee" name="upload-employee">
-                <span> SUBMIT </span>
+                <span> SUBIR ARCHIVO </span>
             </button>
         </div>    
     </div>
@@ -50,20 +50,20 @@
 <form class="copy-form-csv" method="post" enctype="multipart/form-data" id="uploadcopyemployeebusiness" name="uploadcopyemployeebusiness">
     <div class="row row-upload">
         <div class="col-lg-12 title-browser">
-            <p class="title-panel-upload"> Or Copy/Pasted file </p>
+            <p class="title-panel-upload"> O Arrastre el Archivo CSV</p>
         </div>
     </div>
     <article>
         <div id="holder"></div> 
-        <p id="status">File API & FileReader API not supported</p>
+        <p id="status">API de archivos y API de FileReader no compatibles</p>
     </article>
     <div class="row">
-        <span> If you're having issues uploading a CSV. please make sure you're spreadsheet is formated correctly. </span>
+        <span> Si tienes problemas para subir un CSV. Aseg&uacute;rese de que su hoja de c&aacute;lculo est&eacute; formateada correctamente. Descargar <a href="../csvcustomer/carga_customer_example.csv" class="link-down">CSV de Ejemplo</a> </span>
     </div>
     <div class="row">        
         <div class="col-lg-6 div-btn-submit">
             <button class="btn btn-default btn-save-submit" type="submit" id="upload-copy" name="upload-copy">
-                <span> SUBMIT </span>
+                <span> SUBIR ARCHIVO </span>
             </button>
         </div>    
     </div>
@@ -127,8 +127,9 @@
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=submitcopy&listcopy='+listcopy,
+                
                 success : function(s) {
-                   console.log(s);
+                   alert(s);
                 }
             });
         });
@@ -138,23 +139,4 @@
     <style>
         #left_column{display: none;}
     </style>
-{/literal}
-{literal}
-    <script>
-        $(document).ready(function(){
-            $('#file').change( function(){
-               var file = $(this).val();
-               
-               if(file != ""){
-                   console.log('archivo');
-                   
-               }
-               else{
-                   console.log('archivo vacio');
-                   
-               }
-               
-            });
-        });
-    </script>
 {/literal}

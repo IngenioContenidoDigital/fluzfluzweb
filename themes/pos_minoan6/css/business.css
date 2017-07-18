@@ -24,7 +24,7 @@
 .btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198; border: none;}
 .btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;border: none;}
 .div-toggle{padding: 0px;}
-.content-item-users{padding: 0; color:#aaa; text-align: center; font-weight: bold;}
+.content-item-users{padding: 0; text-align: center; font-weight: bold;}
 .content-info-users{padding: 15px; border-bottom: 1px solid #e5e5e5;}
 div.checker{margin-top: 5px !important; margin-right: 0px;}
 .container-info-users{padding: 0px;}
@@ -76,5 +76,20 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
     font: 20pt bold 'Vollkorn';
     color: #bbb;
 }
+.link-down{color: #ef4136;}
+.item-employee:hover{color: #ef4136;}
+.item-employee > a:hover{color: #ef4136;}
 
+/* CSS Historial */
 
+.buttonAccordionHistory{cursor: pointer; text-align: center;    
+    padding: 10px;
+    color:#aaa; 
+    border: 1px solid #cacaca;
+    background-image: linear-gradient(to bottom, #f7f7f7 0%, #ededed 100%);
+    border-bottom: none;
+    color: #000;
+    text-shadow: 1px 1px white;}
+.clicked{background: #ef4136; color: #fff !important;text-shadow: none;font-weight: bold;}
+.container_history{padding: 10px;}
+.active_btn{color: #ef4136;}
