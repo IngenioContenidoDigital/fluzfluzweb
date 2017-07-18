@@ -37,6 +37,10 @@ class API extends REST {
         )), 200);    
     }
     
+    public function formatPrice($number){
+      return number_format($number, 0, '', '.');
+    }
+    
     
     private function myAccountData(){
       if ($this->get_request_method() != "GET") {
@@ -133,7 +137,7 @@ class API extends REST {
         $prices = explode(",", $manufacturer[$i]['m_prices']);
         $price_min = round($prices[0]);
         $price_max = round($prices[ count($prices) - 1 ]);
-        $manufacturer[$i]['prices'] = $price_min." - ".$price_max;
+        $manufacturer[$i]['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
       }
       $search['result'] = $manufacturer;
       $this->response($this->json($search), 200);
@@ -145,7 +149,7 @@ class API extends REST {
         $prices = explode(",", $productFather[$i]['rango_precio']);
         $price_min = round($prices[0]);
         $price_max = round($prices[ count($prices) - 1 ]);
-        $productFather[$i]['prices'] = $price_min." - ".$price_max;
+        $productFather[$i]['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
       }
       $search['result'] = $productFather;
       $search['total'] = count($productFather);
@@ -157,7 +161,8 @@ class API extends REST {
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
         $productChild[$i]['c_win_fluz'] = round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) );
-        $productChild[$i]['c_price_fluz'] = round( $productChild[$i]['c_price'] / 25 );
+        $productChild[$i]['c_price_fluz'] = $this->formatPrice(round( $productChild[$i]['c_price'] / 25 ));
+        $productChild[$i]['c_price'] = $this->formatPrice(round($productChild[$i]['c_price']));
         
       }
       $search['result'] = $productChild;
@@ -649,9 +654,12 @@ class API extends REST {
     }
     if( $cart['success'] ){
       foreach ($cart['products'] as &$product) {
+        $product['app_price_shop'] = $this->formatPrice($product['price_shop']);
+        $product['app_total'] = $this->formatPrice($product['total']);
+        $product['app_price_in_points'] = $this->formatPrice($product['price_in_points']);
         $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
       }
-      
+      $cart['app_total_price_in_points'] = $this->formatPrice($cart['total_price_in_points']);
       $this->response($this->json($cart), 200);
     }
     $this->response($this->json(array(
