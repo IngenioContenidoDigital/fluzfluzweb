@@ -1018,6 +1018,61 @@ private function clearCart()
             return $this->createOrder($args['method'],$order_state,$args['payment']);
         }
     }
+    
+    public function payFreeOrder($args) {
+        
+        $this->context = Context::getContext();
+
+        // Cargar datos del carrito
+        $this->context->cart = new Cart((int)$args["id_cart"]);
+        $this->context->cart->id_customer = (int)$args["id_customer"];
+        $this->context->cart->update();
+        if ( !isset($this->context->cart->id) && empty($this->context->cart->id) )
+        {
+            $this->errors[] = 'No existe un carrito en el contexto.';
+            return $this->errors;
+        }
+
+        // Cargar datos del cliente
+        $this->context->customer = new Customer((int)$args["id_customer"]);
+        if ( !isset($this->context->customer->id) && empty($this->context->customer->id) )
+        {
+            $this->errors[] = 'No existe un cliente en el contexto.';
+            return $this->errors;
+        }
+
+        // Cargar direccion del cliente
+        $address = $this->context->customer->getAddresses($this->context->language->id);
+        $this->context->cart->id_address_invoice = $address[0]["id_address"];
+        $this->context->cart->id_address_delivery = $address[0]["id_address"];
+        $this->context->cart->update();
+        if ( !isset($this->context->cart->id_address_invoice) && empty($this->context->cart->id_address_invoice) )
+        {
+            $this->errors[] = 'No existe una direccion del cliente en el contexto.';
+            return $this->errors;
+        }
+        
+        $payment_module = Module::getInstanceByName($args["method"]);
+        $response = $payment_module->validateOrder($this->context->cart->id, 2, 0, $args["payment"]);
+        
+        return array('order' => $response, 'success' => TRUE, 'message'=>'Orden creada satisfactoriamente.');
+    }
+
+    public function applyPoints($id_cart, $points) {
+        $reduction_amount = round($points * 25);
+        $code_cart_rule = RewardsModel::createDiscount($reduction_amount);
+
+        if ( $code_cart_rule != "" ) {
+            $id_cart_rule = Db::getInstance()->getValue("SELECT id_cart_rule FROM ps_cart_rule WHERE code = '".$code_cart_rule."'");
+            
+            $cart = new Cart($id_cart);
+            $cart->removeAllCartRules($id_cart_rule);
+            $cart->addCartRule($id_cart_rule);
+            $cart->update();
+        }
+
+        return $this->getCart($cart->id);
+    }
 
     /**
      * 
