@@ -5,9 +5,9 @@ include_once('./modules/allinone_rewards/allinone_rewards.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once('./modules/allinone_rewards/controllers/front/sponsorship.php');
 
-$tree_s = array('435','4797','5115','2106','1390','1583','526','1103','1336','1509',
-                '1349','4351','2621','4237','4891','4789','1031','1527','790','5226',
-                '5843','368','386','4247','2092','1104','2086','4242','4621','1495');
+$tree_s = array('963','5844','991','5850','2091','289','369','4921','4990','236',
+                '5808','123','2093','4790','4587','2506','1428','680','1828','1331',
+                '394','1172','1011','1304','1303','1903','1024','259','2101','779');
 
 $network = array();
 
