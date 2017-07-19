@@ -611,7 +611,7 @@ class API extends REST {
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
-    
+
     if (isset($this->_request['option']) && !empty($this->_request['option'])) {
       $option = $this->_request['option'];
     }
@@ -644,6 +644,12 @@ class API extends REST {
     else if( $option == 2 ){
       $cartData = $this->_request['cart'];
       $cart = $model->updateAllProductQty( $cartData );
+    }
+    //Agrega descuento carrito
+    else if( $option == 3 ){
+      $cartData = $this->_request['cart'];
+      $points = $this->_request["points"];
+      $cart = $model->applyPoints( $cartData["id"],$points );
     }
       
     if (!is_array($cart)) {
@@ -736,22 +742,49 @@ class API extends REST {
         }
         
         $params = array();
+        
+        $params["method"] = "payulatam";
+        $params["payment"] = $this->_request['payment'];
+        $params["id_cart"] = $this->_request["id_cart"];
+        $params["id_customer"] = $this->_request["id_customer"];
+        
+        // Tarjeta Credito
         $params["namecard"] = $this->_request["namecard"];
         $params["numbercard"] = $this->_request["numbercard"];
         $params["datecard"] = $this->_request["datecard"];
         $params["codecard"] = $this->_request["codecard"];
-        $params["id_customer"] = $this->_request["id_customer"];
-        $params["id_cart"] = $this->_request["id_cart"];
-        $params["payment"] = "Tarjeta_credito";
-        $params["method"] = "payulatam";
+        
+        // Tarjeta Debito
+        $params["bank"] = $this->_request["bank"];
+        $params["bankname"] = $this->_request["bankname"];
+        $params["typecustomer"] = $this->_request["typecustomer"];
+        $params["typedocument"] = $this->_request["typedocument"];
+        $params["numberdocument"] = $this->_request["numberdocument"];
 
 	$model = new Model();
 	$this->response( $this->json($model->pay($params)) , 200 );
     }
 
+    public function payFreeOrder()
+    {
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
+        
+        $params = array();
+        
+        $params["method"] = "bankwire";
+        $params["payment"] = "Pedido gratuito";
+        $params["id_cart"] = $this->_request["id_cart"];
+        $params["id_customer"] = $this->_request["id_customer"];
+
+	$model = new Model();
+	$this->response( $this->json($model->payFreeOrder($params)) , 200 );
+    }
+
     public function bankPse()
     {
-	return $this->response($this->json(PasarelaPagoCore::get_bank_pse()),200);	
+	return $this->response( $this->json(PasarelaPagoCore::get_bank_pse()) , 200 );	
     }
 
     public function KeysOpenPay()

@@ -8,17 +8,6 @@ class PasarelaPagoCore extends PayUControllerWS {
 
     /**
     * Envia la solicitud de pago a la pasarela asociada al medio de pago
-    */
-    public static function payOrder($args) {
-        switch ( $args['option_pay'] ) {
-            case 'payulatam':
-                return self::EnviarPagoPayu($args); 
-            break;
-        }
-    }
-
-    /**
-    * Retorna estructura Json 
     */ 
     public static function EnviarPagoPayu($args) {
         $conf = new ConfPayu();
@@ -49,97 +38,171 @@ class PasarelaPagoCore extends PayUControllerWS {
         } else {
             $_deviceSessionId = md5($context->cookie->timestamp);
         }
-
-        $data = '{
-                    "language":"es",
-                    "command":"SUBMIT_TRANSACTION",
-                    "merchant":{
-                        "apiKey":"' . $keysPayu['apiKey'] . '",
-                        "apiLogin":"' . $keysPayu['apiLogin'] . '"
-                    },
-                    "transaction":{
-                        "order":{
-                            "accountId":"' . $keysPayu['accountId'] . '",
-                            "referenceCode":"' . $params[2]['referenceCode'] . '_'.$intentos.'",
-                            "description":"' . $description . '",
-                            "language":"' . $params[10]['lng'] . '",
-                            "notifyUrl":"' . $conf->urlv() . '",
-                            "signature":"' . $conf->sing($params[2]['referenceCode'] . '_'.$intentos.'~' . $params[4]['amount'] . '~'.$currency).'",
-                            "additionalValues":{
-                                "TX_VALUE":{
-                                    "value":' . $params[4]['amount'] . ',
-                                    "currency":"'.$currency.'"
-                                }
+        
+        switch ( $args['option_pay'] ) {
+            case 'Tarjeta_credito':
+                $data = '{
+                            "language":"es",
+                            "command":"SUBMIT_TRANSACTION",
+                            "merchant":{
+                                "apiKey":"' . $keysPayu['apiKey'] . '",
+                                "apiLogin":"' . $keysPayu['apiLogin'] . '"
                             },
-                            "buyer": {
-                                "fullName": "'.$customer->firstname.' '.$customer->lastname.'",
-                                "contactPhone": "'.$address->phone.'",
-                                "emailAddress":"'. $params[5]['buyerEmail'].'",
-                                "dniNumber":"'.$customer->dni.'",   
-                                "shippingAddress": {
-                                    "street1": "",
-                                    "street2":"",    
-                                    "city": "",
-                                    "state": "",
-                                    "country":"'.$context->country->iso_code.'",
-                                    "postalCode": "",
-                                    "phone": ""
-                                }
-                            },      
-                            "shippingAddress":{
-                                "street1":"",
-                                "street2":"",
-                                "city":"",
-                                "state":"",
-                                "country":"'.$context->country->iso_code.'",
-                                "postalCode":"",
-                                "phone":""
+                            "transaction":{
+                                "order":{
+                                    "accountId":"' . $keysPayu['accountId'] . '",
+                                    "referenceCode":"' . $params[2]['referenceCode'] . '_'.$intentos.'",
+                                    "description":"' . $description . '",
+                                    "language":"' . $params[10]['lng'] . '",
+                                    "notifyUrl":"' . $conf->urlv() . '",
+                                    "signature":"' . $conf->sing($params[2]['referenceCode'] . '_'.$intentos.'~' . $params[4]['amount'] . '~'.$currency).'",
+                                    "additionalValues":{
+                                        "TX_VALUE":{
+                                            "value":' . $params[4]['amount'] . ',
+                                            "currency":"'.$currency.'"
+                                        }
+                                    },
+                                    "buyer": {
+                                        "fullName": "'.$customer->firstname.' '.$customer->lastname.'",
+                                        "contactPhone": "'.$address->phone.'",
+                                        "emailAddress":"'. $params[5]['buyerEmail'].'",
+                                        "dniNumber":"'.$customer->dni.'",   
+                                        "shippingAddress": {
+                                            "street1": "",
+                                            "street2":"",    
+                                            "city": "",
+                                            "state": "",
+                                            "country":"'.$context->country->iso_code.'",
+                                            "postalCode": "",
+                                            "phone": ""
+                                        }
+                                    },      
+                                    "shippingAddress":{
+                                        "street1":"",
+                                        "street2":"",
+                                        "city":"",
+                                        "state":"",
+                                        "country":"'.$context->country->iso_code.'",
+                                        "postalCode":"",
+                                        "phone":""
+                                    }
+                                },
+                                "payer":{
+                                    "fullName":"'.$customer->firstname.' '.$customer->lastname.'",
+                                    "emailAddress":"'. $params[5]['buyerEmail'].'",
+                                    "contactPhone":"'.$address->phone.'",
+                                    "dniNumber":"'.$customer->dni.'",
+                                    "billingAddress":{
+                                        "street1":"",
+                                        "street2":"",
+                                        "city":"",
+                                        "state":"",
+                                        "country":"'.$context->country->iso_code.'",
+                                       "postalCode":"",
+                                       "phone":""
+                                    }      
+                                },
+                                "creditCard":{
+                                    "number":"' . $args['numerot'] . '",
+                                    "securityCode":"' . $args['codigot'] . '",
+                                    "expirationDate":"' . $args['date'] . '",
+                                    "name":"';
+                                    $data .= $args['nombre'];
+                                    $data.='"
+                                },
+                                "extraParameters":{
+                                    "INSTALLMENTS_NUMBER":'.$args['cuotas'].'
+                                },
+                                "type":"AUTHORIZATION_AND_CAPTURE",
+                                "paymentMethod":"' . $paymentMethod . '",
+                                "paymentCountry":"';
+                                $data .= $context->country->iso_code;
+                                $data.='",
+                                "deviceSessionId": "'.$_deviceSessionId.'",
+                                "ipAddress": "'.$_SERVER['REMOTE_ADDR'].'",
+                                "userAgent": "'.$_SERVER['HTTP_USER_AGENT'].'",
+                                "cookie": "'.md5($context->cookie->timestamp).'"  
+                            },
+                            "test":';
+                            if ($conf->isTest()) {
+                                $data .= 'true';
+                            } else {
+                                $data .= 'false';
                             }
-                        },
-                        "payer":{
-                            "fullName":"'.$customer->firstname.' '.$customer->lastname.'",
-                            "emailAddress":"'. $params[5]['buyerEmail'].'",
-                            "contactPhone":"'.$address->phone.'",
-                            "dniNumber":"'.$customer->dni.'",
-                            "billingAddress":{
-                                "street1":"",
-                                "street2":"",
-                                "city":"",
-                                "state":"",
-                                "country":"'.$context->country->iso_code.'",
-                               "postalCode":"",
-                               "phone":""
-                            }      
-                        },
-                        "creditCard":{
-                            "number":"' . $args['numerot'] . '",
-                            "securityCode":"' . $args['codigot'] . '",
-                            "expirationDate":"' . $args['date'] . '",
-                            "name":"';
-                            $data .= $args['nombre'];
-                            $data.='"
-                        },
-                        "extraParameters":{
-                            "INSTALLMENTS_NUMBER":'.$args['cuotas'].'
-                        },
-                        "type":"AUTHORIZATION_AND_CAPTURE",
-                        "paymentMethod":"' . $paymentMethod . '",
-                        "paymentCountry":"';
-                        $data .= $context->country->iso_code;
-                        $data.='",
-                        "deviceSessionId": "'.$_deviceSessionId.'",
-                        "ipAddress": "'.$_SERVER['REMOTE_ADDR'].'",
-                        "userAgent": "'.$_SERVER['HTTP_USER_AGENT'].'",
-                        "cookie": "'.md5($context->cookie->timestamp).'"  
-                    },
-                    "test":';
-                    if ($conf->isTest()) {
-                        $data .= 'true';
-                    } else {
-                        $data .= 'false';
-                    }
-                    $data .= '
-                }';
+                            $data .= '
+                        }';
+                break;
+            case 'PSE':
+                $data = '{
+                            "test":false,
+                            "language":"es",
+                            "command":"SUBMIT_TRANSACTION",
+                            "merchant":{
+                                "apiKey":"' . $keysPayu['apiKey'] . '",
+                                "apiLogin":"' . $keysPayu['apiLogin'] . '"
+                            },
+                            "transaction":{
+                                "order":{
+                                    "accountId":"' . $keysPayu['accountId'] . '",
+                                    "referenceCode":"' . $params[2]['referenceCode'] . '_'.$intentos.'",
+                                    "description":"' . $description . '",
+                                    "language":"' . $params[10]['lng'] . '",
+                                    "notifyUrl":"' . $conf->urlv() . '",
+                                    "signature":"' . $conf->sing($params[2]['referenceCode'] . '_'.$intentos.'~' . $params[4]['amount'] . '~'.$currency).'",
+                                    "buyer": {
+                                        "fullName": "'.$customer->firstname.' '.$customer->lastname.'",
+                                        "contactPhone": "'.$address->phone.'",
+                                        "emailAddress":"'. $params[5]['buyerEmail'].'",
+                                        "dniNumber":"'.$customer->dni.'",   
+                                        "shippingAddress": {
+                                            "street1": "",
+                                            "street2":"",    
+                                            "city": "",
+                                            "state": "",
+                                            "country":"'.$context->country->iso_code.'",
+                                            "postalCode": "",
+                                            "phone": ""
+                                        }
+                                    },   
+                                    "additionalValues":{
+                                        "TX_VALUE":{
+                                            "value":' . $params[4]['amount'] . ',
+                                            "currency":"'.$currency.'"
+                                        }
+                                    }
+                                },
+                                "payer":{
+                                    "fullName":"'.$customer->firstname.' '.$customer->lastname.'",
+                                    "emailAddress":"'. $params[5]['buyerEmail'].'",
+                                    "contactPhone":"'.$address->phone.'",
+                                    "dniNumber":"'.$customer->dni.'",
+                                    "billingAddress":{
+                                        "street1":"",
+                                        "street2":"",
+                                        "city":"",
+                                        "state":"",
+                                        "country":"'.$context->country->iso_code.'",
+                                       "postalCode":"",
+                                       "phone":""
+                                    }      
+                                },
+                                "ipAddress": "'.$_SERVER['REMOTE_ADDR'].'",
+                                "userAgent": "'.$_SERVER['HTTP_USER_AGENT'].'",
+                                "cookie": "'.md5($context->cookie->timestamp).'",
+                                "type":"AUTHORIZATION_AND_CAPTURE",
+                                "paymentMethod":"PSE",
+                                "extraParameters":{
+                                    "PSE_REFERENCE1":"' . $_SERVER['REMOTE_ADDR'] . '",
+                                    "FINANCIAL_INSTITUTION_CODE":"' . $args['pse_bank'] . '",
+                                    "FINANCIAL_INSTITUTION_NAME":"' . $args['name_bank'] . '",
+                                    "USER_TYPE":"' . $args['pse_tipoCliente'] . '",
+                                    "PSE_REFERENCE2":"' . $args['pse_docType'] . '",
+                                    "PSE_REFERENCE3":"' . $args['pse_docNumber'] . '"
+                                }
+                            }
+                        }';
+                break;
+        }
                     
         //error_log("\n\n".print_r($data, true),3,"/tmp/error.log");
 
@@ -163,17 +226,20 @@ class PasarelaPagoCore extends PayUControllerWS {
     {
         $conf = new ConfPayu();
         if (!empty($response['transactionResponse']['state']) && ($response['transactionResponse']['state'] === 'PENDING' || $response['transactionResponse']['state'] === 'APPROVED')){
-            $conf->pago_payu($args['id_order'], $args['id_customer'], $data, $response, $args['option_pay'], $response['code'], $args['id_cart'], $args['id_address_invoice']);	
+            $conf->pago_payu($args['id_order'], $args['id_customer'], $data, $response, $args['method'], $response['code'], $args['id_cart'], $args['id_address_invoice']);	
             if($response['transactionResponse']['state'] == 'PENDING')	
                 return (int) Configuration::get('PAYU_OS_PENDING');
             if($response['transactionResponse']['state'] == 'APPROVED')
                 return (int) Configuration::get('PS_OS_PAYMENT'); 
         } else {
-            $conf->error_payu($args['id_order'], $args['id_customer'], $data, $response, $args['option_pay'], $response['code'], $args['id_cart'], $args['id_address_invoice']);
+            $conf->error_payu($args['id_order'], $args['id_customer'], $data, $response, $args['method'], $response['code'], $args['id_cart'], $args['id_address_invoice']);
             return (int) Configuration::get('PS_OS_ERROR');
         }
     }
     
+    /**
+    * Retorna franquicia de la tarjeta de credito
+    */
     public static function getFranquicia($cart_number, $pasarela){
         $arraypaymentMethod =  array("VISA"=>'VISA','DISCOVER'=>'DINERS','AMERICAN EXPRESS'=>'AMEX','MASTERCARD'=>'MASTERCARD');
         $arraypaymentMethod2 =  array("VISA"=>'VISA','DISCOVER'=>'DINERS','AMERICAN EXPRESS'=>'AmEx','MASTERCARD'=>'MasterCard', 'DinersClub'=>'DinersClub','UnionPay'=>'UnionPay');
@@ -198,29 +264,38 @@ class PasarelaPagoCore extends PayUControllerWS {
     /**
     * Retorna variables extras payulatam
     */
-    public static function get_extra_vars_payu($id_cart,$method){
+    public static function get_extra_vars_payu($id_cart,$method,$secure_key="",$order=""){
+        $payulatam = new PayULatam();
         $extra_vars =  array();
+
         $sql = "SELECT json_response 
                 FROM "._DB_PREFIX_."pagos_payu 
                 WHERE id_cart =".(int) $id_cart;
-        if ($rs = Db::getInstance()->getValue($sql)) {
-                $response = json_decode(stripslashes($rs),TRUE);
 
-                if (isset($response['transactionResponse']['extraParameters']['BAR_CODE'])) {
-                    $extra_vars =  array('method'=>$method,
-                                         'cod_pago'=>$response['transactionResponse']['extraParameters']['REFERENCE'],
-                                         'fechaex'=> date('d/m/Y', substr($response['transactionResponse']['extraParameters']['EXPIRATION_DATE'], 0, -3)),
-                                         'bar_code'=>$response['transactionResponse']['extraParameters']['BAR_CODE']);
-                }elseif (isset($response['transactionResponse']['extraParameters']['URL_PAYMENT_RECEIPT_HTML'])) {
-                    $extra_vars =  array('method'=>$method,
-                                         'cod_pago'=>$response['transactionResponse']['extraParameters']['REFERENCE'],
-                                         'fechaex'=> date('d/m/Y', substr($response['transactionResponse']['extraParameters']['EXPIRATION_DATE'], 0, -3)));
-                }
+        if ($rs = Db::getInstance()->getValue($sql)) {
+            $response = json_decode(stripslashes($rs),TRUE);
+
+            if (isset($response['transactionResponse']['extraParameters']['BAR_CODE'])) {
+                $extra_vars =  array('method'=>$method,
+                                     'cod_pago'=>$response['transactionResponse']['extraParameters']['REFERENCE'],
+                                     'fechaex'=> date('d/m/Y', substr($response['transactionResponse']['extraParameters']['EXPIRATION_DATE'], 0, -3)),
+                                     'bar_code'=>$response['transactionResponse']['extraParameters']['BAR_CODE']);
+            }elseif (isset($response['transactionResponse']['extraParameters']['URL_PAYMENT_RECEIPT_HTML'])) {
+                $extra_vars =  array('method'=>$method,
+                                     'cod_pago'=>$response['transactionResponse']['extraParameters']['REFERENCE'],
+                                     'fechaex'=> date('d/m/Y', substr($response['transactionResponse']['extraParameters']['EXPIRATION_DATE'], 0, -3)));
+            }
+
+            $url_pay_pse = $response['transactionResponse']['extraParameters']['BANK_URL'];
+            $extra_vars['url_pay_pse'] = $url_pay_pse;
         }
+
         return $extra_vars;
     }
-    
-    // función que genera una cadena aleatoria
+
+    /**
+    * Retorna una cadena aleatoria
+    */
     public static function randString ($length = 32)
     {  
         $string = "";
@@ -233,5 +308,53 @@ class PasarelaPagoCore extends PayUControllerWS {
             $i++;  
         }  
         return $string;
+    }
+    
+    /**
+    * Retorna lista de bancos disponibles
+    */
+    public static function get_bank_pse()
+    {
+        $conf = new ConfPayu();
+        $keysPayu = $conf->keys();
+        
+        $js_send = '{
+                        "language":"es",
+                        "command":"GET_BANKS_LIST",
+                        "merchant":{
+                            "apiLogin":"'.$keysPayu['apiLogin'].'",
+                            "apiKey":"'.$keysPayu['apiKey'].'"
+                        },
+                        "test":false,
+                        "bankListInformation":{
+                            "paymentMethod":"PSE",
+                            "paymentCountry":"CO"
+                        }
+                    }';
+
+        $xml_send = '<request>
+                        <language>es</language>
+                        <command>GET_BANKS_LIST</command>
+                        <merchant>
+                            <apiLogin>'.$keysPayu['apiLogin'].'</apiLogin>
+                            <apiKey>'.$keysPayu['apiKey'].'</apiKey>
+                        </merchant>
+                        <isTest></isTest>
+                        <bankListInformation>
+                            <paymentMethod>PSE</paymentMethod>
+                            <paymentCountry>CO</paymentCountry>
+                        </bankListInformation>
+                    </request>';
+
+        $bancos = array();
+
+        $PayuBanks = $conf->sendXml($xml_send)['bankListResponse']['banks'][0]['bank'];
+        $array_baks = NULL;
+            
+        foreach ($PayuBanks as $row){
+            $array_baks[] = array('value' => $row['pseCode'], 'name' => $row['description']);	
+        }
+            
+        return $array_baks;
     }
 }
