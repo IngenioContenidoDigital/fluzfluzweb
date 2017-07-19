@@ -16,6 +16,7 @@ if (!defined('_PS_VERSION_'))
 	exit;
 
 require_once(dirname(__FILE__).'/RewardsAccountModel.php');
+require_once(dirname(__FILE__).'/RewardsStateModel.php');
 
 class RewardsModel extends ObjectModel
 {

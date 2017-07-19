@@ -1,3 +1,23 @@
+<<<<<<< HEAD
+
+[{shop_url}] 
+
+Your message to {shop_name} Customer Service 
+
+Your message has been sent successfully.
+
+MESSAGE: {message}
+
+ORDER ID: {order_name}
+
+PRODUCT: {product_name}
+
+ATTACHED FILE: {attached_file} 		 
+
+We will answer as soon as possible. 
+
+{shop_name} [{shop_url}] powered by
+=======
 [{shop_url}] 
 
 Su mensaje al centro de atención al cliente de {shop_name}. 
@@ -15,5 +35,6 @@ ARCHIVO ADJUNTO: {attached_file}
 Le responderemos en el menor tiempo posible 
 
 {shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 

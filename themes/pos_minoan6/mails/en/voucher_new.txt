@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+
+[{shop_url}] 
+
+Hi {firstname} {lastname}, 
+
+Here is the code of your voucher: {voucher_num}
+
+Simply copy/paste this code during the payment process for your next
+order. 		 
+
+{shop_name} [{shop_url}] powered by
+=======
 [{shop_url}] 
 
 Hola {firstname} {lastname}, 
@@ -8,5 +21,6 @@ Copia y pegue este código durante el proceso de pago de su próxima
 orden. 		 
 
 {shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 

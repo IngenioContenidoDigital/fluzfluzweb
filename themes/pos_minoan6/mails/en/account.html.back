@@ -3,7 +3,11 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<<<<<<< HEAD
+		<title>Message from {shop_name}</title>
+=======
 		<title>Mensaje desde {shop_name}</title>
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 		
 		
 		<style>	@media only screen and (max-width: 300px){ 
@@ -70,8 +74,13 @@
 <tr>
 	<td align="center" class="titleblock" style="padding:7px 0">
 		<font size="2" face="Open-sans, sans-serif" color="#555454">
+<<<<<<< HEAD
+			<span class="title" style="font-weight:500;font-size:28px;text-transform:uppercase;line-height:33px">Hi {firstname} {lastname},</span><br/>
+			<span class="subtitle" style="font-weight:500;font-size:16px;text-transform:uppercase;line-height:25px">Thank you for creating a customer account at {shop_name}.</span>
+=======
 			<span class="title" style="font-weight:500;font-size:28px;text-transform:uppercase;line-height:33px">Hola {firstname} {lastname},</span><br/>
 			<span class="subtitle" style="font-weight:500;font-size:16px;text-transform:uppercase;line-height:25px">Gracias por crear una cuenta de cliente en {shop_name}.</span>
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 		</font>
 	</td>
 </tr>
@@ -86,11 +95,19 @@
 				<td style="padding:7px 0">
 					<font size="2" face="Open-sans, sans-serif" color="#555454">
 						<p data-html-only="1" style="border-bottom:1px solid #D6D4D4;margin:3px 0 7px;text-transform:uppercase;font-weight:500;font-size:18px;padding-bottom:10px">
+<<<<<<< HEAD
+							Your {shop_name} login details						</p>
+						<span style="color:#777">
+							Here are your login details:<br /> 
+							<span style="color:#333"><strong>E-mail address: <a href="mailto:{email}" style="color:#337ff1">{email}</a></strong></span><br />
+							<span style="color:#333"><strong>Password:</strong></span> {passwd}
+=======
 							Detalles de su cuenta en {shop_name}						</p>
 						<span style="color:#777">
 							Estos son sus datos de acceso:<br /> 
 							<span style="color:#333"><strong>Dirección email: <a href="mailto:{email}" style="color:#337ff1">{email}</a></strong></span><br />
 							<span style="color:#333"><strong>Contraseña:</strong></span> {passwd}
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 						</span>
 					</font>
 				</td>
@@ -109,12 +126,21 @@
 				<td width="10" style="padding:7px 0">&nbsp;</td>
 				<td style="padding:7px 0">
 					<font size="2" face="Open-sans, sans-serif" color="#555454">
+<<<<<<< HEAD
+						<p style="border-bottom:1px solid #D6D4D4;margin:3px 0 7px;text-transform:uppercase;font-weight:500;font-size:18px;padding-bottom:10px">Important Security Tips:</p>
+						<ol style="margin-bottom:0">
+							<li>Always keep your account details safe.</li>
+							<li>Never disclose your login details to anyone.</li>
+							<li>Change your password regularly.</li>
+							<li>Should you suspect someone is using your account illegally, please notify us immediately.</li>
+=======
 						<p style="border-bottom:1px solid #D6D4D4;margin:3px 0 7px;text-transform:uppercase;font-weight:500;font-size:18px;padding-bottom:10px">Consejos de Seguridad:</p>
 						<ol style="margin-bottom:0">
 							<li>Mantenga los datos de su cuenta en un lugar seguro.</li>
 							<li>No comparta los detalles de su cuenta con otras personas.</li>
 							<li>Cambie su clave regularmente.</li>
 							<li>Si sospecha que alguien está usando ilegalmente su cuenta, avísenos inmediatamente.</li>
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 						</ol>
 					</font>
 				</td>
@@ -129,7 +155,11 @@
 <tr>
 	<td class="linkbelow" style="padding:7px 0">
 		<font size="2" face="Open-sans, sans-serif" color="#555454">
+<<<<<<< HEAD
+			<span>You can now place orders on our shop: <a href="{shop_url}" style="color:#337ff1">{shop_name}</a></span>
+=======
 			<span>Ahora podrá realizar pedidos en nuestra tienda: <a href="{shop_url}" style="color:#337ff1">{shop_name}</a></span>
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 		</font>
 	</td>
 </tr>
@@ -137,11 +167,14 @@
 						<tr>
 							<td class="space_footer" style="padding:0!important">&nbsp;</td>
 						</tr>
+<<<<<<< HEAD
+=======
 						<tr>
 							<td class="footer" style="border-top:4px solid #333333;padding:7px 0">
 								<span><a href="{shop_url}" style="color:#337ff1">{shop_name}</a> creado por <a href="http://www.prestashop.com/" style="color:#337ff1">PrestaShop&trade;</a></span>
 							</td>
 						</tr>
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 					</table>
 				</td>
 				<td class="space" style="width:20px;padding:7px 0">&nbsp;</td>

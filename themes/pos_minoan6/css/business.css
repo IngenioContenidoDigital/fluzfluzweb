@@ -1,0 +1,80 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
+
+.title-business{text-align: left;font-family: 'Open Sans'; font-weight: bold; font-size: 22px;}
+.panel-employee{margin-top: 40px;margin-bottom: 40px;padding: 10px;border-bottom: 1px solid;padding-left: 0;}
+.item-employee{padding: 0px; cursor: pointer;}
+.item-search{padding: 0px; cursor: pointer; text-align: right;}
+.btn-default{background: transparent; border: none; padding: 0px;}
+.open .btn-default.dropdown-toggle{background: transparent; border: none; padding: 0px;}
+.back-business{background: #fff !important; color: #000; border: none;}
+.open > .back-business{margin-top: 11px !important;}
+#item-menu-principal{padding: 15px !important; color: #000;}
+#item-menu-principal:hover{background: transparent !important; color:#c9b198;}
+#item-menu-add{padding: 15px !important; color: #000;}
+#item-menu-add:hover{background: transparent !important; color:#c9b198;}
+#item-menu-upload{padding: 15px !important; color: #000;}
+#item-menu-upload:hover{background: transparent !important; color:#c9b198;}
+.bar-info-users{margin-top: 15px;padding: 20px;background: #414141;}
+.item-users{padding: 0; color:#c9b198; text-align: center; font-weight: bold;}
+.pag-style{padding: 0;}
+.btn-save-user{padding: 0; text-align: right;}
+.div-btn{padding: 0px;}
+.btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198; border: none;}
+.btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;border: none;}
+.div-toggle{padding: 0px;}
+.content-item-users{padding: 0; color:#aaa; text-align: center; font-weight: bold;}
+.content-info-users{padding: 15px; border-bottom: 1px solid #e5e5e5;}
+div.checker{margin-top: 5px !important; margin-right: 0px;}
+.container-info-users{padding: 0px;}
+.title-row-business{margin-top: 40px;}
+
+/* PANEL ADD AN EMPLOYEE */
+.row-form-employee{padding: 0px;}
+.form-employee{padding: 3px 5px;height: 27px;-webkit-box-shadow: none;box-shadow: none;
+    font-size: 13px;
+    line-height: 1.42857;
+    color: #9c9b9b;
+    vertical-align: middle;
+    background-color: white;
+    border: 1px solid #d6d4d4;}
+.l-form-employee{padding: 0px;}
+.btn-save-employee{padding: 10px 15px;color: white;font-weight: bold;background: #c9b198;}
+.btn-save-employee:hover{padding: 10px 15px;color: white;font-weight: bold;background: #ef4136;}
+
+/* PANEL UPLOAD EMPLOYEES */
+.row-upload{padding: 0px; margin-bottom: 10px; margin-top: 20px;}
+.title-browser{padding-left: 0px;}
+.browse-div{padding-left: 0px;}
+.div-btn-submit{padding: 0px; margin-top: 10px;}
+.btn-save-submit{padding: 10px 50px;color: white;font-weight: bold;background: #c9b198;}
+.btn-save-submit:hover{padding: 10px 50px;color: white;font-weight: bold;background: #ef4136;}
+.title-panel-upload{color: #000 !important;font-weight: bold;font-size: 18px !important;margin-bottom: 20px !important;}
+.copy-form-csv{margin-top: 40px;}
+.row-container-info{padding: 0px;max-height: 500px;overflow: auto;}
+#select-distribute{cursor: pointer;background: none;font-family: 'Open Sans';padding: 5px;border: 2px solid #000;font-weight: bold;}
+.disabledbutton {pointer-events: none;opacity: 0.5;}
+#use_allfluz{text-align: center !important;padding: 6px;}
+#ptosTotal{margin-top: 5px;text-align: left;color: #ef4136;padding-left: 0px; display: none;}
+#ptosused{margin-top: 5px;text-align: left;color: #ef4136;padding-left: 0px;padding-right: 0px;}
+.available-point{color: #ef4136; font-weight: bold; font-size: 14px;}
+.title-fluz{color: #000;}
+.amount_unit{text-align: right; padding-right: 0px; border: none;color: #000;font-weight: bold;}
+.text_fluz{padding-left: 0px; padding-right: 0px; text-align: center;padding-top: 1px;color: #000;font-weight: bold;}
+.edit-btn{padding: 0px;cursor:pointer;padding-top: 2px;background: transparent;border: none;color: #c9b198; font-weight: bold;}
+.amount_edit{background: transparent;border: 1px solid #aaa;text-align: center;padding-right: 0;padding-left: 0;}
+.bar-info-users-upload{margin-top: 15px;padding: 20px;background: #F2F2F2;}
+#status{display: none;}
+#holder {
+    border: 2px dashed #bbb;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    font: 20pt bold 'Vollkorn';
+    color: #bbb;
+}
+
+
