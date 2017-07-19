@@ -1015,6 +1015,17 @@ private function clearCart()
             $message = 'Ha ocurrido un error al realizar el pago, valida tus datos o intenta con otro medio de pago.';
             return array('success' => FALSE, 'message' => $message, "errors" => $order_state);
         } else {
+            // Si la orden se paga con fluz se hace el descuento de los mismos
+            $cart_rules = $this->context->cart->getCartRules();
+            if ( !empty($cart_rules) ) {
+                $reward_state = 4;
+                if ( $order_state == 2 ) {
+                    $reward_state = 2;
+                }
+                $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)
+                            VALUES ('".$reward_state."', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".($cart_rules[0]['reduction_amount']/-25).",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+                Db::getInstance()->execute($query1);
+            }
             return $this->createOrder($args['method'],$order_state,$args['payment']);
         }
     }
@@ -1054,6 +1065,15 @@ private function clearCart()
         
         $payment_module = Module::getInstanceByName($args["method"]);
         $response = $payment_module->validateOrder($this->context->cart->id, 2, 0, $args["payment"]);
+        
+        // Si la orden se paga con fluz se hace el descuento de los mismos
+        $cart_rules = $this->context->cart->getCartRules();
+        if ( !empty($cart_rules) ) {
+            $query1 = "INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, date_add, date_upd)
+                        VALUES ('2', ".(int)$this->context->customer->id.", 0,".(int)$this->context->cart->id.",'0','0',".($cart_rules[0]['reduction_amount']/-25).",'loyalty','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."')";
+            Db::getInstance()->execute($query1);
+        }
+        
         
         return array('order' => $response, 'success' => TRUE, 'message'=>'Orden creada satisfactoriamente.');
     }
