@@ -246,10 +246,12 @@ class Search extends SearchCore{
               OR '._DB_PREFIX_.'product_lang.description LIKE \'%'.$param.'%\'
               OR '._DB_PREFIX_.'product_lang.meta_description LIKE \'%'.$param.'%\' ))
               GROUP BY '._DB_PREFIX_.'manufacturer.id_manufacturer';
-           
-        $total = $db->getValue($sql, false);
+//        error_log("\n\n\n\n\n*********************************\n Este es el query de busqueda: \n\n*********************************************\n\n".print_r($sql, true),3,"/tmp/error.log");
         $result = array();
         $result = $db->executeS($sql);
+//        error_log("\n\n\n\n\n*\n Este es el result: \n\n*\n\n".print_r($result, true),3,"/tmp/error.log");
+        $total = count($result);
+//        error_log("\n\n\n\n\n*\n Este es el total: \n\n*\n\n".print_r($total, true),3,"/tmp/error.log");
         return array('total' => $total,'result' => $result);
     }
     //Entra value = manufacturer

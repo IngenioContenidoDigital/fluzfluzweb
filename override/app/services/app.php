@@ -37,39 +37,10 @@ class API extends REST {
         )), 200);    
     }
     
-    /**
-     * Método de pruebas
-     */
-    private function confirm() {
-      if($this->get_request_method() != "POST") {
-        $this->response('',406);
-      }
-
-      $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
-//      error_log("\n\nEste es el codigo 1: ".print_r($this->_request['confirmNumber'], true),3,"/tmp/error.log");
-//      error_log("\n\nEste es el codigo 2: ".print_r($code, true),3,"/tmp/error.log");
-
-      if( !empty($code) ){
-        if ( $code != 00000 ){
-          $this->response($this->json(array(
-                  "success" => true, 
-                  "message" => "Usuario confirmado"
-                  )), 200);
-        }
-        else {
-          $this->response($this->json(array(
-              "success" => true, 
-              "message" => "El número de verificación no coincide."
-              )), 204);
-        }
-      }
-      else {
-        $this->response($this->json(array(
-          "success" => false, 
-          "message" => "El número de verificación no válido."
-        )), 400);
-      }
+    public function formatPrice($number){
+      return number_format($number, 0, '', '.');
     }
+    
     
     private function myAccountData(){
       if ($this->get_request_method() != "GET") {
@@ -129,10 +100,10 @@ class API extends REST {
     foreach ($requestData as $rqd => $value) {
       ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
     }
-    error.log('\n\n param'.$param,3,'/tmp/error.log');
-    error.log('\n\n option'.$option,3,'/tmp/error.log');
-    error.log('\n\n limit'.$limit,3,'/tmp/error.log');
-    error.log('\n\n lastTotal'.$lastTotal,3,'/tmp/error.log');
+//    error.log('\n\n param'.$param,3,'/tmp/error.log');
+//    error.log('\n\n option'.$option,3,'/tmp/error.log');
+//    error.log('\n\n limit'.$limit,3,'/tmp/error.log');
+//    error.log('\n\n lastTotal'.$lastTotal,3,'/tmp/error.log');
     //Hace la busqueda
     $search = array();
     $search = Search::findApp( $param, $option );
@@ -166,7 +137,7 @@ class API extends REST {
         $prices = explode(",", $manufacturer[$i]['m_prices']);
         $price_min = round($prices[0]);
         $price_max = round($prices[ count($prices) - 1 ]);
-        $manufacturer[$i]['prices'] = $price_min." - ".$price_max;
+        $manufacturer[$i]['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
       }
       $search['result'] = $manufacturer;
       $this->response($this->json($search), 200);
@@ -178,7 +149,7 @@ class API extends REST {
         $prices = explode(",", $productFather[$i]['rango_precio']);
         $price_min = round($prices[0]);
         $price_max = round($prices[ count($prices) - 1 ]);
-        $productFather[$i]['prices'] = $price_min." - ".$price_max;
+        $productFather[$i]['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
       }
       $search['result'] = $productFather;
       $search['total'] = count($productFather);
@@ -190,7 +161,8 @@ class API extends REST {
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
         $productChild[$i]['c_win_fluz'] = round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) );
-        $productChild[$i]['c_price_fluz'] = round( $productChild[$i]['c_price'] / 25 );
+        $productChild[$i]['c_price_fluz'] = $this->formatPrice(round( $productChild[$i]['c_price'] / 25 ));
+        $productChild[$i]['c_price'] = $this->formatPrice(round($productChild[$i]['c_price']));
         
       }
       $search['result'] = $productChild;
@@ -639,7 +611,7 @@ class API extends REST {
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
-    
+
     if (isset($this->_request['option']) && !empty($this->_request['option'])) {
       $option = $this->_request['option'];
     }
@@ -673,6 +645,12 @@ class API extends REST {
       $cartData = $this->_request['cart'];
       $cart = $model->updateAllProductQty( $cartData );
     }
+    //Agrega descuento carrito
+    else if( $option == 3 ){
+      $cartData = $this->_request['cart'];
+      $points = $this->_request["points"];
+      $cart = $model->applyPoints( $cartData["id"],$points );
+    }
       
     if (!is_array($cart)) {
       $this->response($this->json(array(
@@ -682,9 +660,12 @@ class API extends REST {
     }
     if( $cart['success'] ){
       foreach ($cart['products'] as &$product) {
+        $product['app_price_shop'] = $this->formatPrice($product['price_shop']);
+        $product['app_total'] = $this->formatPrice($product['total']);
+        $product['app_price_in_points'] = $this->formatPrice($product['price_in_points']);
         $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
       }
-      
+      $cart['app_total_price_in_points'] = $this->formatPrice($cart['total_price_in_points']);
       $this->response($this->json($cart), 200);
     }
     $this->response($this->json(array(
@@ -703,6 +684,7 @@ class API extends REST {
     foreach ($banners['result'] as &$banner){
       $banner['b_img'] = $link->getBannerImageLink((int)$banner['b_id']);
     }
+//    error_log("\n\n Esta es la respuesta del banner: ".print_r($banners,true),3,"/tmp/error.log");
     return $this->response(json_encode($banners),200);
   }
   
@@ -731,7 +713,7 @@ class API extends REST {
       }
     }
     else if( $option == 3 ){
-      error_log("\n\nEntro a opcion 3: ",3,"/tmp/error.log");
+//      error_log("\n\nEntro a opcion 3: ",3,"/tmp/error.log");
       if (isset($this->_request['id_category']) && !empty($this->_request['id_category'])) {
         $id_category = $this->_request['id_category'];
       }
@@ -760,22 +742,49 @@ class API extends REST {
         }
         
         $params = array();
+        
+        $params["method"] = "payulatam";
+        $params["payment"] = $this->_request['payment'];
+        $params["id_cart"] = $this->_request["id_cart"];
+        $params["id_customer"] = $this->_request["id_customer"];
+        
+        // Tarjeta Credito
         $params["namecard"] = $this->_request["namecard"];
         $params["numbercard"] = $this->_request["numbercard"];
         $params["datecard"] = $this->_request["datecard"];
         $params["codecard"] = $this->_request["codecard"];
-        $params["id_customer"] = $this->_request["id_customer"];
-        $params["id_cart"] = $this->_request["id_cart"];
-        $params["payment"] = "Tarjeta_credito";
-        $params["method"] = "payulatam";
+        
+        // Tarjeta Debito
+        $params["bank"] = $this->_request["bank"];
+        $params["bankname"] = $this->_request["bankname"];
+        $params["typecustomer"] = $this->_request["typecustomer"];
+        $params["typedocument"] = $this->_request["typedocument"];
+        $params["numberdocument"] = $this->_request["numberdocument"];
 
 	$model = new Model();
 	$this->response( $this->json($model->pay($params)) , 200 );
     }
 
+    public function payFreeOrder()
+    {
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
+        
+        $params = array();
+        
+        $params["method"] = "bankwire";
+        $params["payment"] = "Pedido gratuito";
+        $params["id_cart"] = $this->_request["id_cart"];
+        $params["id_customer"] = $this->_request["id_customer"];
+
+	$model = new Model();
+	$this->response( $this->json($model->payFreeOrder($params)) , 200 );
+    }
+
     public function bankPse()
     {
-	return $this->response($this->json(PasarelaPagoCore::get_bank_pse()),200);	
+	return $this->response( $this->json(PasarelaPagoCore::get_bank_pse()) , 200 );	
     }
 
     public function KeysOpenPay()
@@ -992,7 +1001,7 @@ class API extends REST {
         $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
         $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
         $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
-        error_log("\n\n 1- Esto es option que llega: \n\n".print_r($option,true),3,"/tmp/error.log");
+//        error_log("\n\n 1- Esto es option que llega: \n\n".print_r($option,true),3,"/tmp/error.log");
         
         if( $option == 1 ){
           $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
@@ -1040,7 +1049,7 @@ class API extends REST {
           }
           
           
-          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
+//          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
 
           return $this->response(json_encode(array('result' => $result)),200);
         }
@@ -1149,7 +1158,7 @@ class API extends REST {
     $id_customer = $this->_request['id_customer'];
     $passcode = $this->_request['passcode'];
     
-    $sql = 'UPDATE ps_customer
+    $sql = 'UPDATE "._DB_PREFIX_."customer
             SET vault_code = '.$passcode.'
             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($sql);
@@ -1165,7 +1174,7 @@ class API extends REST {
     $passcode = $this->_request['passcode'];
     
     $sql = 'SELECT vault_code
-            FROM ps_customer
+            FROM '._DB_PREFIX_.'customer
             WHERE id_customer = '.$id_customer.';';
     $passcode_db = Db::getInstance()->getValue($sql);
     $result = ( $passcode_db == $passcode ) ? true : false;
@@ -1185,8 +1194,117 @@ class API extends REST {
       )), 204);
     }
   }
+    
+  public function updateBonus() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $card = $this->_request['card'];
+    $used = $this->_request['used'];
+    
+    if( $used == 1 ){
+      $value = $this->_request['price_card_used'];
+      $setValue = Wallet::setValueUsed( $card, $value );
+    }
+    
+    $setUsed = Wallet::setUsedCard( $card , $used );
+    
+    if ( $setUsed ){
+      $sql = "SELECT id_product_code, used
+              FROM "._DB_PREFIX_."product_code
+              WHERE id_product_code = ".$card.";";
+      $result = Db::getInstance()->getRow($sql);
+    }
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
   
+  public function getPhoneByIdCustomer() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    
+    $sql = "SELECT id_customer, phone
+            FROM "._DB_PREFIX_."customer
+            WHERE id_customer = ".$id_customer.";";
+    
+    $result = Db::getInstance()->getRow($sql);
+    
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
 
+  public function setPhoneByIdCustomer() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    $phone = $this->_request['phone'];
+//    error_log("n\n Este es el telefono: \n".print_r($phone,true),3,"/tmp/error.log");
+    $sql = 'UPDATE '._DB_PREFIX_.'customer
+            SET phone = '.$phone.'
+            WHERE id_customer = '.$id_customer.';';
+//    error_log("n\n Este es el telefono: \n".print_r($sql,true),3,"/tmp/error.log");
+    $result = Db::getInstance()->execute($sql);
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+
+  public function sendSMSConfirm() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    
+    $sql = "SELECT phone
+            FROM "._DB_PREFIX_."customer
+            WHERE id_customer = ".$id_customer.";";
+    $phone = Db::getInstance()->getValue($sql);
+    $numberConfirm = rand(100000, 999999);
+    $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
+                            SET app_confirm = '.$numberConfirm.'
+                            WHERE id_customer = '.$id_customer.';';
+    $result = Db::getInstance()->execute($updateNumberConfirm);
+//      $msg = "Tu número de confirmación para FLuzFluz es: ".$numberConfirm;
+    $curl = curl_init();
+    
+    $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
+    
+    curl_setopt($curl, CURLOPT_URL, $url);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    $result = ( $response == 1 ) ? "Se ha enviado el sms." : "No se pudo enviar el sms";
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+  
+  
+  private function confirm() {
+      if($this->get_request_method() != "POST") {
+        $this->response('',406);
+      }
+      $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
+      $id_customer = $this->_request['id_customer'];
+      
+      $sql = "SELECT app_confirm
+            FROM "._DB_PREFIX_."customer
+            WHERE id_customer = ".$id_customer.";";
+      
+      $app_confirm = Db::getInstance()->getValue($sql);
+
+      if( $code == $app_confirm ){
+        $this->response($this->json(array(
+                  "success" => true, 
+                  "message" => "Usuario confirmado"
+                  )), 200);
+      }
+      else {
+        $this->response($this->json(array(
+            "success" => true, 
+            "message" => "El número de verificación no coincide."
+            )), 204);
+      }
+    }
 }
 
 

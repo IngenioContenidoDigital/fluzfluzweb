@@ -31,6 +31,12 @@ class Address extends AddressCore
     
     /** @var string Check Digit number */
     public $checkdigit;
+
+    /** @var string Latitude float */
+    public $latitude;
+
+    /** @var string Longitude float */
+    public $longitude;
     
     public static $definition = array(
         'table' => 'address',
@@ -60,6 +66,8 @@ class Address extends AddressCore
             'deleted' =>            array('type' => self::TYPE_BOOL, 'validate' => 'isBool', 'copy_post' => false),
             'date_add' =>            array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
             'date_upd' =>            array('type' => self::TYPE_DATE, 'validate' => 'isDate', 'copy_post' => false),
+            'latitude' =>            array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),
+            'longitude' =>            array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),
         ),
     );
     

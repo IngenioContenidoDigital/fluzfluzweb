@@ -5,7 +5,10 @@ include_once('./modules/allinone_rewards/allinone_rewards.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once('./modules/allinone_rewards/controllers/front/sponsorship.php');
 
-$tree_s = array('1920','1816','2087','1826','1823','532','2100','213','711','249','2145','2112','4145','1147','2279','602','534','436','1126','1522');
+$tree_s = array('1397','4231','350','1074','1140','1019','1114','4256','1089','2277',
+                '315','1407','700','262','1110','476','1821','2551','1039','497',
+                '5177','2356','2088');
+
 $network = array();
 
 foreach($tree_s as $net_k){
@@ -25,7 +28,7 @@ foreach ($list_kick as $x){
                 FROM " . _DB_PREFIX_ . "customer c
                 LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                 LEFT JOIN "._DB_PREFIX_."customer_group cg ON (c.id_customer = cg.id_customer)
-                WHERE c.id_customer =" . (int) $network['id_customer'] . " AND cg.id_group = 4
+                WHERE c.id_customer =" . (int) $network['id_customer'] . " AND cg.id_group = 4 AND c.id_customer != 1
                 HAVING sponsoships > 0");
         
         if ($sponsor['id_customer'] != "" ) {

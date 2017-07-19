@@ -991,29 +991,25 @@ private function clearCart()
         $dateCard = explode("/",$args["datecard"]);
         $args["datecard"] = $dateCard[1]."/".$dateCard[0];
 
-        /*error_log("\n\n".print_r($addreses, true),3,"/tmp/error.log");
-        die();*/
-
         $data_payment = array('id_cart' => $this->context->cart->id,
                             'total_paid' => $this->context->cart->getOrderTotal(true, Cart::BOTH),
                             'id_customer' => $this->context->cart->id_customer,
-                            'id_order' => 0,
                             'id_address_invoice' => $this->context->cart->id_address_invoice,
-                            'option_pay' => $args['method'],
+                            'method' => $args['method'],
+                            'option_pay' => $args['payment'],
                             'numerot' => $args['numbercard'],
                             'codigot' => $args['codecard'],
                             'date' => $args['datecard'],
                             'nombre' => $args['namecard'],
                             'cuotas' => 1,
-                            'pse_bank' => "",
-                            'name_bank' => "",
-                            'pse_tipoCliente' => "",
-                            'pse_docType' => "",
-                            'pse_docNumber' => $this->context->customer->dni,
-                            'token_id' => ""
+                            'pse_bank' => $args['bank'],
+                            'name_bank' => $args['bankname'],
+                            'pse_tipoCliente' => $args['typecustomer'],
+                            'pse_docType' => $args['typedocument'],
+                            'pse_docNumber' => $args['numberdocument']
                         );
 
-        $order_state = PasarelaPagoCore::payOrder($data_payment);
+        $order_state = PasarelaPagoCore::EnviarPagoPayu($data_payment);
 
         if ( $order_state == Configuration::get('PS_OS_ERROR') ) {
             $message = 'Ha ocurrido un error al realizar el pago, valida tus datos o intenta con otro medio de pago.';
@@ -1021,6 +1017,61 @@ private function clearCart()
         } else {
             return $this->createOrder($args['method'],$order_state,$args['payment']);
         }
+    }
+    
+    public function payFreeOrder($args) {
+        
+        $this->context = Context::getContext();
+
+        // Cargar datos del carrito
+        $this->context->cart = new Cart((int)$args["id_cart"]);
+        $this->context->cart->id_customer = (int)$args["id_customer"];
+        $this->context->cart->update();
+        if ( !isset($this->context->cart->id) && empty($this->context->cart->id) )
+        {
+            $this->errors[] = 'No existe un carrito en el contexto.';
+            return $this->errors;
+        }
+
+        // Cargar datos del cliente
+        $this->context->customer = new Customer((int)$args["id_customer"]);
+        if ( !isset($this->context->customer->id) && empty($this->context->customer->id) )
+        {
+            $this->errors[] = 'No existe un cliente en el contexto.';
+            return $this->errors;
+        }
+
+        // Cargar direccion del cliente
+        $address = $this->context->customer->getAddresses($this->context->language->id);
+        $this->context->cart->id_address_invoice = $address[0]["id_address"];
+        $this->context->cart->id_address_delivery = $address[0]["id_address"];
+        $this->context->cart->update();
+        if ( !isset($this->context->cart->id_address_invoice) && empty($this->context->cart->id_address_invoice) )
+        {
+            $this->errors[] = 'No existe una direccion del cliente en el contexto.';
+            return $this->errors;
+        }
+        
+        $payment_module = Module::getInstanceByName($args["method"]);
+        $response = $payment_module->validateOrder($this->context->cart->id, 2, 0, $args["payment"]);
+        
+        return array('order' => $response, 'success' => TRUE, 'message'=>'Orden creada satisfactoriamente.');
+    }
+
+    public function applyPoints($id_cart, $points) {
+        $reduction_amount = round($points * 25);
+        $code_cart_rule = RewardsModel::createDiscount($reduction_amount);
+
+        if ( $code_cart_rule != "" ) {
+            $id_cart_rule = Db::getInstance()->getValue("SELECT id_cart_rule FROM ps_cart_rule WHERE code = '".$code_cart_rule."'");
+            
+            $cart = new Cart($id_cart);
+            $cart->removeAllCartRules($id_cart_rule);
+            $cart->addCartRule($id_cart_rule);
+            $cart->update();
+        }
+
+        return $this->getCart($cart->id);
     }
 
     /**
@@ -1058,9 +1109,12 @@ private function clearCart()
             }
 
             $payment->validateOrder((int) $this->context->cart->id, $state, $total, $typemethod, NULL, $extra_vars, (int) $this->context->currency->id, false, $customer->secure_key);
+            
 
             $order = new Order();
             $order = new Order($order->getOrderByCartId($this->context->cart->id));
+
+            $extra_vars = PasarelaPagoCore::get_extra_vars_payu($this->context->cart->id,$method,$customer->secure_key,$order->id);
 
             $this->context = Context::getContext(); // actualizar contexto
 

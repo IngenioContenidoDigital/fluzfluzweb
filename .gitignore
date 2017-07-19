@@ -3,8 +3,6 @@
 
 nbproject
 nbproject/*
-/config/settings.inc.php
-config/settings.inc.php
 /img/p/*.jpg
 /img/p/*.png
 /img/tmp/*
@@ -53,3 +51,4 @@ index.php
 !/modules/reportkickoutcustomersnotorders/config.xml
 /.vscode/
 admin2714/import/
+/img/
