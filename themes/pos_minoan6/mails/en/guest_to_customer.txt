@@ -1,3 +1,22 @@
+<<<<<<< HEAD
+
+[{shop_url}] 
+
+Hi {firstname} {lastname}, 
+
+Your guest account for {shop_name} was converted to a customer
+account. 
+
+E-MAIL ADDRESS: {email}
+
+PASSWORD: {passwd} 		 
+
+Please be careful when sharing these login details with others. 
+
+You can access your customer account on our shop: {shop_url} 
+
+{shop_name} [{shop_url}] powered by
+=======
 [{shop_url}] 
 
 Hola {firstname} {lastname}, 
@@ -15,5 +34,6 @@ Puede acceder con su cuenta a través de nuestra página web:
 {shop_url} 
 
 {shop_name} [{shop_url}] creado por
+>>>>>>> e7ced6fbbd25cd5121b8b43e8cc5b35fd89551d7
 PrestaShop(tm) [http://www.prestashop.com/] 
 
