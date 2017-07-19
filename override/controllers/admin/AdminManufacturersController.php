@@ -372,6 +372,18 @@ class AdminManufacturersController extends AdminManufacturersControllerCore
             'cols' => 10,
             'col' => 6,
         );
+        $form['input'][] = array(
+            'type' => 'text',
+            'label' => $this->l('Latitud'),
+            'name' => 'latitude',
+            'col' => 4
+        );
+        $form['input'][] = array(
+            'type' => 'text',
+            'label' => $this->l('Longitud'),
+            'name' => 'longitude',
+            'col' => 4
+        );
         $form['submit'] = array(
             'title' => $this->l('Save'),
         );

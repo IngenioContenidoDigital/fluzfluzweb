@@ -1,0 +1,2 @@
+<?php 
+include_once('./config/defines.inc.php');include_once('./config/config.inc.php');

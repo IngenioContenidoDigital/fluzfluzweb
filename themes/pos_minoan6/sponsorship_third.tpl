@@ -2,14 +2,13 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="">
         <br><br>
         <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
-        <p id="message_confirm" style="border:1px solid #E5E5E5;color:#31B404; text-align: center;">Felicidades tu amigo es ahora un nuevo miembro de Fluz Fluz.</p>
+        <p id="message_confirm" style="border:1px solid #E5E5E5;color:#31B404; text-align: center;">Felicidades la invitaci&oacute;n ha sido enviada a tu amigo.</p>
     </div>
     <script>
         setTimeout( function(){ 
             $.fancybox.close();
             window.top.location.reload();
-        }  , 3000 );
-            
+        }  , 3000 );     
     </script>
 {else}
 <div id="rewards_sponsorship" class="rewards">
