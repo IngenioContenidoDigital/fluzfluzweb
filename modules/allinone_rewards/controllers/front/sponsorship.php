@@ -81,12 +81,16 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 		$id_template = (int)MyConf::getIdTemplate('sponsorship', $this->context->customer->id);
 		$popup = Tools::getValue('popup');
                 
-                $groupCustomer = 'SELECT id_default_group as afiliado, username as name FROM '._DB_PREFIX_.'customer WHERE id_customer = '.$this->context->customer->id;
-                $rowcustomer = Db::getInstance()->getRow($groupCustomer);
-                $grupo = $rowcustomer['afiliado'];
-                $name = $rowcustomer['name'];
-
-                $this->context->smarty->assign('grupo',$grupo);
+                $nameCustomer = 'SELECT username as name FROM '._DB_PREFIX_.'customer WHERE id_customer = '.$this->context->customer->id;
+                $rownamecustomer = Db::getInstance()->getRow($nameCustomer);
+                $name = $rownamecustomer['name'];
+                
+                $groupCustomer = 'SELECT cg.id_group, gl.`name` FROM '._DB_PREFIX_.'customer_group cg 
+                          LEFT JOIN '._DB_PREFIX_.'group_lang gl ON (cg.id_group = gl.id_group)
+                          WHERE cg.id_customer = '.$this->context->customer->id.' AND gl.id_lang = 1';
+                $rowcustomer = Db::getInstance()->executeS($groupCustomer);
+        
+                $this->context->smarty->assign('grupo',$rowcustomer);
                 $this->context->smarty->assign('sponsor', $name);
                 
 		if (Tools::getValue('checksponsor')) {

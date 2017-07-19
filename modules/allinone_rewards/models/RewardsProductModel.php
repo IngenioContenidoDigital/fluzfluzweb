@@ -63,7 +63,6 @@ class RewardsProductModel extends ObjectModel
 	{
 		$default_value = (float)MyConf::get('RLOYALTY_DEFAULT_PRODUCT_REWARD', null, $id_template);
 		$default_type = (int)MyConf::get('RLOYALTY_DEFAULT_PRODUCT_TYPE', null, $id_template);
-
 		if (!isset(self::$_cache[$id_product])) {
 			self::$_cache[$id_product] = array();
 
@@ -89,7 +88,7 @@ class RewardsProductModel extends ObjectModel
 	// renvoie la récompense attribuée pour ce produit dans la devise du panier
 	static public function getProductReward($id_product, $price, $quantity, $id_currency, $id_template)
 	{
-		if (self::isProductRewarded($id_product, $id_template)) {
+            	if (self::isProductRewarded($id_product, $id_template)) {
 			$multiplier = (float)MyConf::get('RLOYALTY_MULTIPLIER', null, $id_template);
                         //$costo = RewardsProductModel::getCostDifference($id_product);
 			if (self::$_cache[$id_product]['type']==0)
