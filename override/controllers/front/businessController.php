@@ -100,7 +100,6 @@ class businessController extends FrontController {
         array_shift($tree);
         
         if (Tools::isSubmit('add-employee')) {
-
             $error = "";
             $FirstNameEmployee = Tools::getValue('firstname');
             $LastNameEmployee = Tools::getValue('lastname');
@@ -266,7 +265,7 @@ class businessController extends FrontController {
                         }
                     }
                 }
-                Tools::redirect($this->context->link->getPageLink('business', true));
+                Tools::redirect($this->context->link->getPageLink('confirmtransfercustomer', true));
             }
             $this->context->smarty->assign('error', $error);
             //Tools::redirect($this->context->link->getPageLink('business', true));
@@ -305,7 +304,7 @@ class businessController extends FrontController {
             
             $filename = "csvcustomer/" . $storagename;
             $list_customer = $this->csv_to_array($filename);
-            
+            $process = false;
             foreach($list_customer as $datacustomer){
                 
                 $error = "";
@@ -469,12 +468,16 @@ class businessController extends FrontController {
                             }
                         }
                     }
+                           //Tools::redirect($this->context->link->getPageLink('confirmtransfercustomer', true));
                 }
                 else{
-                            $this->context->smarty->assign('error', $error);
+                           $this->context->smarty->assign('error', $error);
                 }
+                $process = true;
             }
-            //Tools::redirect($this->context->link->getPageLink('business', true));
+                if($process == 'true'){
+                  Tools::redirect($this->context->link->getPageLink('confirmtransfercustomer', true));
+                }
         }
         
         switch (Tools::getValue('action')) {

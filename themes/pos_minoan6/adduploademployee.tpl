@@ -68,11 +68,10 @@
         </div>    
     </div>
 </form>
-
+<div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>
 {literal}
     <script>
         var holder = document.getElementById('holder'),
-                
         state = document.getElementById('status');
 
         if (typeof window.FileReader === 'undefined') {
@@ -123,15 +122,17 @@
         };
         
         $('#upload-copy').click(function(e){
+            var url = document.getElementById("url_fluz").innerHTML;        
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=submitcopy&listcopy='+listcopy,
                 
-                success : function(s) {
-                   alert(s);
+                success : function() {
+                   window.location.replace(""+url+"confirmtransferfluzbusiness");
                 }
             });
+            e.preventDefault();
         });
     </script>
 {/literal}

@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="col-lg-4 div-btn">
-                <button class="btn btn-default btn-save-table" type="submit" id="save-info" name="save-info">
+                <button class="myfancybox btn btn-default btn-save-table" href="#confirmTransfer" id="save-info" name="save-info">
                     <span> TRANSFERIR </span>
                 </button>
             </div>
@@ -140,7 +140,34 @@
             </div>
         {/foreach}
     </div>
-</div>    
+</div>
+<div style="display:none;">
+    <div id="confirmTransfer" class="myfancybox">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <br>
+            <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 title_transfer"> Confirmaci&oacute;n Envio Fluz </div>
+        <div class="row info-transfer">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz a Enviar: </div><div id="fluz_send" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz en Dinero: </div><div id="fluz_send_cash" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
+        </div>
+        <div class="row row-btn-modal">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-cancel-modal">
+                <button class="btn btn-default btn-account" id="cancel_modal_fluz" onclick="cancelSubmit()">
+                    <span class="btn_modal_f">
+                        {l s="Cancelar"}
+                    </span>
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
+                <button class="btn btn-default btn-account" type="submit" id="save-info-process" name="save-info-process">
+                    <span> Confirmar </span>
+                </button>        
+            </div>
+        </div>
+    </div>
+</div>        
 </form>    
 <div id="panel-add-employee" style="display:none;">
     <div class="row">
@@ -162,6 +189,7 @@
         #right_column{display: none;}
     </style>
 {/literal}
+<div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>
 {literal}
     <script>
         $(document).ready(function(e){
@@ -211,40 +239,79 @@
                     $('.r_clase').val(0);
                     $('#use_allfluz').empty();
                     
-                    $('#save-info').unbind("click");
                     $('#save-info').click(function(){
+                        var ptoUsed = $('#ptosusedhidden').val();       
+                        if(ptoUsed == '' || ptoUsed == 0){
+                            alert('Seleccione Cantidad de Fluz a enviar.')
+                            $('#save-info').removeClass('myfancybox');
+                            location.reload();
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    $('#save-info-process').unbind("click");
+                    $('#save-info-process').click(function(){
                        var ptoDistribute = $('#ptosdistributehidden').val();
-                       var ptoUsed = $('#ptosusedhidden').val();        
-                       
+                       var ptoUsed = $('#ptosusedhidden').val();       
+                       var url = document.getElementById("url_fluz").innerHTML;
+                       $(this).prop("disabled",true);
+                       $('#cancel_modal_fluz').prop('disabled',true);
                        $.ajax({
                             url : urlTransferController,
                             type : 'POST',
                             data : 'action=allFLuz&ptoDistribute='+ptoDistribute+'&ptoUsed='+ptoUsed,
-                            success : function(a) {
-                                console.log(a);
+                            success : function() {
+                                window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
                     });
                     
                 }
                 else if(select == 'single-fluz'){
+                    
                     $('#container-List-employees').removeClass("disabledbutton");
                     $('#amount-use').hide();
                     $('#save-info').show();
                     $(".amount_unit").prop('disabled', true);
                     $(".amount_unit").css('background', 'transparent');
                     $(".amount_unit").val(0);
-                    
                     $('#check-user').click(function() {
                         if ($(this).is(':checked')) {
                             //codigo para eliminar usuario de la red
                         }
                     });   
-                    $('#save-info').unbind("click");
+                    
                     $('#save-info').click(function(){
+            
+                        var total_point = 0;            
+                        $( ".amount_edit" ).each(function( index ) {
+
+                            total_point += Number($(this).val());
+
+                        });
+                        var fluz = Math.round((total_point/25));
+                        var cashconvertionfluz='COP'+' '+'$' + Math.round(total_point).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        $('#fluz_send').html(fluz);
+                        $('#fluz_send_cash').html(cashconvertionfluz);
+                        
+                        if(total_point== '' || total_point == 0){
+                            alert('Seleccione Cantidad de Fluz a enviar.')
+                            $('#save-info').removeClass('myfancybox');
+                            location.reload();
+                            e.preventDefault();
+                        }
+
+                    });
+                    
+                    $('#save-info-process').unbind("click");
+                    $('#save-info-process').click(function(){
                     
                     var listEdit = [];  
                     var total_point = 0;
+                    var url = document.getElementById("url_fluz").innerHTML;
+                    $(this).prop("disabled",true);
+                    $('#cancel_modal_fluz').prop('disabled',true);
+                    
                     $( ".amount_edit" ).each(function( index ) {
                         var id_sponsor = $(this).attr("sponsor");
                         var amount_edit = ($( this ).val())/25;
@@ -264,7 +331,7 @@
                             type : 'POST',
                             data : 'action=editFLuz&listEdit='+listEdit+'&ptosTotal='+total_point,
                             success : function() {
-                                
+                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
                     });
@@ -382,9 +449,10 @@
             if(valor2>=0){
                 var resultado = calcular(valor1,valor2);
                 var ptoUnit = (Math.round((valor2/25)/t_user))+' '+' Fluz para Cada Fluzzer';
-                var ptosingle = (Math.round((valor2/25)/t_user));
+                var ptosingle = Math.round((valor2/25));
                 var cashamount = (Math.round((valor2/t_user)*25));
                 var cashconvertion='COP'+' '+'$' + cashamount.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var cashconvertionfluz='COP'+' '+'$' + Math.round(valor2).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var ptoList = (Math.round((valor2/25)/t_user));
                 var result2 = valor1 - (ptoList*t_user);
                 var resultCop = availablecash - valor2;
@@ -393,8 +461,10 @@
                 $('#ptosTotal').html(resultado);
                 $('#ptosused').html(ptoUnit);
                 $('#ptosusedhidden').val(valor2);
+                $('#fluz_send').html(ptosingle);
+                $('#fluz_send_cash').html(cashconvertionfluz);
                 $('#ptosdistributehidden').val(ptoList);
-                $('.amount_unit').val(ptosingle);
+                $('.amount_unit').val(ptoList);
                 $('.amount_unit_cash').html(cashconvertion);
                 $('.text_fluz').html('Fluz');
                 $('#available-point span').html(result2);
@@ -409,7 +479,7 @@
                 $('#ptosTotal').html(resultado);
                 $('#ptosused').html(ptoUnit);
                 $('#ptosdistributehidden').val(ptoList);
-                $('.amount_unit').val(ptosingle);
+                $('.amount_unit').val(ptoList);
                 $('.amount_unit_cash').html(cashconvertion);
                 $('.text_fluz').html('Fluz');
             }
@@ -423,5 +493,29 @@
         {   
             return (valor1-valor2);
         }
+    </script>
+{/literal}
+{literal}
+    <script>
+        function cancelSubmit(){ 
+            $.fancybox.close();
+            location.reload();
+        }
+    </script>
+    <script>
+        /*$('#save-info').click(function(){
+            
+            var total_point = 0;            
+            $( ".amount_edit" ).each(function( index ) {
+                
+                total_point += Number($(this).val());
+                
+            });
+            var fluz = Math.round((total_point/25));
+            var cashconvertionfluz='COP'+' '+'$' + Math.round(total_point).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $('#fluz_send').html(fluz);
+            $('#fluz_send_cash').html(cashconvertionfluz);
+            
+        });*/
     </script>
 {/literal}

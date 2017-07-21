@@ -93,3 +93,15 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 .clicked{background: #ef4136; color: #fff !important;text-shadow: none;font-weight: bold;}
 .container_history{padding: 10px;}
 .active_btn{color: #ef4136;}
+
+/* POPUP CONFIRMACION */
+
+.title_transfer{text-align: center; font-size: 16px; font-weight: bold; color: #ef4136;}
+.t-name{color:#EF4136; font-size: 14px;text-align: right;font-weight: bold;}
+.info-transfer{margin-top: 30px;line-height: 30px;}
+.name_sponsor{color: #000;font-weight: bold;font-size: 14px;padding-left: 40px;}
+.btn_modal_f{cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;}
+.row-btn-modal{ margin-top: 30px;margin-bottom: 30px;}
+.img-responsive{margin: 0 auto;}
+.btn-cancel-modal{text-align: right;}
+.btn-account {padding: 6px 12px;font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;color: #fff;border: none;background: #ef4136;}
