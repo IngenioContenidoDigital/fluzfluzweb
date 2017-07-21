@@ -988,8 +988,8 @@ private function clearCart()
             return $this->errors;
         }
         
-        $dateCard = explode("/",$args["datecard"]);
-        $args["datecard"] = $dateCard[1]."/".$dateCard[0];
+        $dateCard = explode("-",$args["datecard"]);
+        $args["datecard"] = $dateCard[0]."/".$dateCard[1];
 
         $data_payment = array('id_cart' => $this->context->cart->id,
                             'total_paid' => $this->context->cart->getOrderTotal(true, Cart::BOTH),
