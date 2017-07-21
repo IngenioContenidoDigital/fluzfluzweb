@@ -52,9 +52,6 @@ class businessController extends FrontController {
         $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float) $totals[RewardsStateModel::getValidationId()] : 0);
         $this->context->smarty->assign('pointsAvailable', $pointsAvailable);
 
-        $total_users = (count($tree) - 1);
-        $this->context->smarty->assign('all_fluz', $total_users);
-
         foreach ($tree as &$network) {
             $sql = 'SELECT id_customer, firstname, lastname, username, email, dni FROM ' . _DB_PREFIX_ . 'customer 
                     WHERE id_customer =' . $network['id'];
@@ -72,11 +69,28 @@ class businessController extends FrontController {
         $net_business = array_merge($tree, $employee_b);
 
         foreach ($net_business as $val) {
-            $list_business[$val['id_customer']] = $val;
+            if ($val['username'] != "" ) {
+                    $list_business[$val['id_customer']] = $val;
+                }      
         }
         $list_business = array_values($list_business);
-
+        
+        $total_users = (count($list_business));
+        $this->context->smarty->assign('all_fluz', $total_users);
         $this->context->smarty->assign('network', $list_business);
+        
+        /* Funciones Historial de Transferencias */
+        
+        $query_history = 'SELECT tf.id_transfers_fluz, r.id_customer, c.firstname,DATE_FORMAT(tf.date_add, "%M %d %Y") as date_add, 
+                            (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS cont,
+                            c.lastname, r.reason, r.credits 
+                            FROM '._DB_PREFIX_.'transfers_fluz tf
+                            LEFT JOIN '._DB_PREFIX_.'rewards r ON(r.id_transfer_fluz = tf.id_transfers_fluz)
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (r.id_customer = c.id_customer)
+                            WHERE tf.id_customer = '.$this->context->customer->id.' AND r.reason = "TransferFluzBusiness"';
+        $history_transfer = Db::getInstance()->executeS($query_history);
+        $this->context->smarty->assign('history_transfer', $history_transfer);
+        
         $this->setTemplate(_PS_THEME_DIR_ . 'business.tpl');
     }
 
@@ -93,8 +107,8 @@ class businessController extends FrontController {
             $EmailEmployee = Tools::getValue('email');
             $passwordDni = Tools::getValue('dni');
             $point_used_add = Tools::getValue('ptosusedhiddenadde');
-
-
+            $phone_user = Tools::getValue('phone_invoice');
+            
             if (empty($FirstNameEmployee) || empty($LastNameEmployee) || !Validate::isName($FirstNameEmployee) || !Validate::isName($LastNameEmployee)) {
                 $error = 'name invalid';
             } elseif (Tools::isSubmit('add-employee') && !Validate::isEmail($EmailEmployee)) {
@@ -134,13 +148,13 @@ class businessController extends FrontController {
                 $id_transfer = $row_t['id_transfers_fluz'];
 
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
-                        . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $point_used_add . ",'loyalty', 'TransferFluz','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
+                        . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $point_used_add . ",'loyalty', 'TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
 
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                         . "                          VALUES ('2', " . (int) $customer->id . ", 0,NULL,'0','0'," . $point_used_add . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
 
                 $count_array = count($tree);
-
+                
                 if ($count_array < 2) {
                     $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                 FROM " . _DB_PREFIX_ . "customer c
@@ -157,30 +171,40 @@ class businessController extends FrontController {
                         $sponsorship->channel = 1;
                         $send = "";
                         if ($sponsorship->save()) {
-                            $vars = array(
-                                '{email}' => $sponsor['id_customer'],
-                                '{firstname_invited}' => $sponsorship->firstname,
-                                '{inviter_username}' => $sponsor['username'],
-                                '{username}' => $sponsor['username'],
-                                '{lastname}' => $sponsor['lastname'],
-                                '{firstname}' => $sponsor['firstname'],
-                                '{email_friend}' => $sponsorship->email,
-                                '{Expiration}' => $send,
-                                '{link}' => $sponsorship->getSponsorshipMailLink()
+                            
+                                $vars = array(
+                                '{username}' => $customer->username,
+                                '{password}' => $passwordDni,
+                                '{firstname}' => $customer->firstname,
+                                '{lastname}' => $customer->lastname,
+                                '{dni}' => $customer->dni,
+                                '{birthdate}' => $customer->birthday,
+                                '{address}' => 'No Disponible',
+                                '{phone}' => $phone_user,
+                                '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                                '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                '{learn_more_url}' => "http://reglas.fluzfluz.co",
                             );
 
-                            $template = 'sponsorship-invitation-novoucher';
+                            AuthController::sendNotificationSponsor($customer->id);
+
+                            $template = 'welcome_fluzfluz';
+                            $prefix_template = '16-welcome_fluzfluz';
+
+                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                            $row_subject = Db::getInstance()->getRow($query_subject);
+                            $message_subject = $row_subject['subject_mail'];
+
                             $allinone_rewards = new allinone_rewards();
-                            //$allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
-                            /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
-                              VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
+                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+
                             $invitation_sent = true;
                         }
                     } else {
                         $error = 'no sponsor';
                     }
                 } else {
-
                     $array_sponsor = array();
                     foreach ($tree as $network) {
                         $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
@@ -198,7 +222,7 @@ class businessController extends FrontController {
                     });
 
                     $sponsor_a = reset($sort_array);
-
+                    
                     if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
 
                         $sponsorship = new RewardsSponsorshipModel();
@@ -210,24 +234,35 @@ class businessController extends FrontController {
                         $sponsorship->channel = 1;
                         $send = "";
                         if ($sponsorship->save()) {
-                            $vars = array(
-                                '{email}' => $sponsor['id_customer'],
-                                '{firstname_invited}' => $sponsorship->firstname,
-                                '{inviter_username}' => $sponsor_a['username'],
-                                '{username}' => $sponsor_a['username'],
-                                '{lastname}' => $sponsor_a['lastname'],
-                                '{firstname}' => $sponsor_a['firstname'],
-                                '{email_friend}' => $sponsorship->email,
-                                '{Expiration}' => $send,
-                                '{link}' => $sponsorship->getSponsorshipMailLink()
-                            );
-
-                            $template = 'sponsorship-invitation-novoucher';
-                            $allinone_rewards = new allinone_rewards();
-                            //$allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
-                            /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
-                              VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
-                            $invitation_sent = true;
+                        
+                        $vars = array(
+                            '{username}' => $customer->username,
+                            '{password}' => $passwordDni,
+                            '{firstname}' => $customer->firstname,
+                            '{lastname}' => $customer->lastname,
+                            '{dni}' => $customer->dni,
+                            '{birthdate}' => $customer->birthday,
+                            '{address}' => 'No Disponible',
+                            '{phone}' => $phone_user,
+                            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{learn_more_url}' => "http://reglas.fluzfluz.co",
+                        );
+                        
+                        AuthController::sendNotificationSponsor($customer->id);
+                        
+                        $template = 'welcome_fluzfluz';
+                        $prefix_template = '16-welcome_fluzfluz';
+                        
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
+                        
+                        $allinone_rewards = new allinone_rewards();
+                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+                        
+                        $invitation_sent = true;
                         }
                     }
                 }
@@ -315,7 +350,6 @@ class businessController extends FrontController {
                 $customer->field_work = $this->context->customer->field_work;
                 
                 $customer->add();
-                
                 $count_array = count($tree);
                 
                 if ($count_array < 2) {
@@ -336,22 +370,32 @@ class businessController extends FrontController {
                         $send = "";
                         if ($sponsorship->save()) {
                             $vars = array(
-                                '{email}' => $sponsor['id_customer'],
-                                '{firstname_invited}' => $sponsorship->firstname,
-                                '{inviter_username}' => $sponsor['username'],
-                                '{username}' => $sponsor['username'],
-                                '{lastname}' => $sponsor['lastname'],
-                                '{firstname}' => $sponsor['firstname'],
-                                '{email_friend}' => $sponsorship->email,
-                                '{Expiration}' => $send,
-                                '{link}' => $sponsorship->getSponsorshipMailLink()
+                            '{username}' => $customer->username,
+                            '{password}' => $passwordDni,
+                            '{firstname}' => $customer->firstname,
+                            '{lastname}' => $customer->lastname,
+                            '{dni}' => $customer->dni,
+                            '{birthdate}' => $customer->birthday,
+                            '{address}' => 'No Disponible',
+                            '{phone}' => $datacustomer['Phone Mobile'],
+                            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{learn_more_url}' => "http://reglas.fluzfluz.co",
                             );
 
-                            $template = 'sponsorship-invitation-novoucher';
+                            AuthController::sendNotificationSponsor($customer->id);
+
+                            $template = 'welcome_fluzfluz';
+                            $prefix_template = '16-welcome_fluzfluz';
+
+                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                            $row_subject = Db::getInstance()->getRow($query_subject);
+                            $message_subject = $row_subject['subject_mail'];
+
                             $allinone_rewards = new allinone_rewards();
-                            //$allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
-                            /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
-                              VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
+                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+
                             $invitation_sent = true;
                         }
                     } 
@@ -362,6 +406,8 @@ class businessController extends FrontController {
                 }
                 else {
                     
+                    $array_p['id'] = $customer->id;
+                    array_push($tree, $array_p);
                     $array_sponsor = array();
                     foreach ($tree as $network) {
                         $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
@@ -391,23 +437,34 @@ class businessController extends FrontController {
                         $sponsorship->channel = 1;
                         $send = "";
                         if ($sponsorship->save()) {
+                            
                             $vars = array(
-                                '{email}' => $sponsor['id_customer'],
-                                '{firstname_invited}' => $sponsorship->firstname,
-                                '{inviter_username}' => $sponsor_a['username'],
-                                '{username}' => $sponsor_a['username'],
-                                '{lastname}' => $sponsor_a['lastname'],
-                                '{firstname}' => $sponsor_a['firstname'],
-                                '{email_friend}' => $sponsorship->email,
-                                '{Expiration}' => $send,
-                                '{link}' => $sponsorship->getSponsorshipMailLink()
+                            '{username}' => $customer->username,
+                            '{password}' => $passwordDni,
+                            '{firstname}' => $customer->firstname,
+                            '{lastname}' => $customer->lastname,
+                            '{dni}' => $customer->dni,
+                            '{birthdate}' => $customer->birthday,
+                            '{address}' => 'No Disponible',
+                            '{phone}' => $datacustomer['Phone Mobile'],
+                            '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                            '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{learn_more_url}' => "http://reglas.fluzfluz.co",
                             );
 
-                            $template = 'sponsorship-invitation-novoucher';
+                            AuthController::sendNotificationSponsor($customer->id);
+
+                            $template = 'welcome_fluzfluz';
+                            $prefix_template = '16-welcome_fluzfluz';
+
+                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                            $row_subject = Db::getInstance()->getRow($query_subject);
+                            $message_subject = $row_subject['subject_mail'];
+
                             $allinone_rewards = new allinone_rewards();
-                            //$allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
-                            /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
-                              VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
+                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+                            
                             $invitation_sent = true;
                             }
                         }
@@ -422,8 +479,8 @@ class businessController extends FrontController {
         
         switch (Tools::getValue('action')) {
             case 'allFLuz':
-
-                $point_used = Tools::getValue('ptoUsed');
+                $pointUsed = Tools::getValue('ptoUsed');
+                $point_used = RewardsModel::getRewardReadyForDisplay($pointUsed, $this->context->currency->id);
                 $points_distribute = Tools::getValue('ptoDistribute');
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "transfers_fluz (id_customer, id_sponsor_received, date_add)
                                             VALUES (" . (int) $this->context->customer->id . ", 0,'" . date("Y-m-d H:i:s") . "')");
@@ -433,16 +490,18 @@ class businessController extends FrontController {
                 $id_transfer = $row_t['id_transfers_fluz'];
 
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
-                        . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $point_used . ",'loyalty', 'TransferFluz','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
+                        . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $point_used . ",'loyalty', 'TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
 
                 $employee_b = Db::getInstance()->executeS('SELECT id_customer as id, firstname, lastname, email, dni, username FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
                 $net_business = array_merge($tree, $employee_b);
 
                 foreach ($net_business as $val) {
-                    $list_business[$val['id']] = $val;
+                    if(isset($val['username'])){
+                      $list_business[$val['id']] = $val;
+                    }
                 }
                 $list_business = array_values($list_business);
-
+                
                 foreach ($list_business as $network) {
                     $query_t = 'SELECT id_transfers_fluz FROM ' . _DB_PREFIX_ . 'transfers_fluz WHERE id_customer=' . (int) $this->context->customer->id . ' ORDER BY id_transfers_fluz DESC';
                     $row_t = Db::getInstance()->getRow($query_t);
@@ -454,8 +513,9 @@ class businessController extends FrontController {
                 break;
 
             case 'editFLuz':
-                $pointsTotal = Tools::getValue('ptosTotal');
-
+                $pto_total = Tools::getValue('ptosTotal');
+                $pointsTotal = RewardsModel::getRewardReadyForDisplay($pto_total, $this->context->currency->id);
+                
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "transfers_fluz (id_customer, id_sponsor_received, date_add)
                                             VALUES (" . (int) $this->context->customer->id . ", 0,'" . date("Y-m-d H:i:s") . "')");
 
@@ -465,11 +525,10 @@ class businessController extends FrontController {
 
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                         . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $pointsTotal . ",'loyalty', 'TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
-
+                
                 $point_used = Tools::getValue('listEdit');
                 $list_var = json_decode($point_used, true);
-
-
+                
                 foreach ($list_var as $network) {
                     $query_t = 'SELECT id_transfers_fluz FROM ' . _DB_PREFIX_ . 'transfers_fluz WHERE id_customer=' . (int) $this->context->customer->id . ' ORDER BY id_transfers_fluz DESC';
                     $row_t = Db::getInstance()->getRow($query_t);
@@ -574,7 +633,9 @@ class businessController extends FrontController {
                             }
                         }
                         else {
-
+                            $array_p['id'] = $customer->id;
+                            array_push($tree, $array_p);
+                            
                             $array_sponsor = array();
                             foreach ($tree as $network) {
                                 $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
@@ -605,19 +666,24 @@ class businessController extends FrontController {
                                 $send = "";
                                 if ($sponsorship->save()) {
                                     $vars = array(
-                                        '{email}' => $sponsor['id_customer'],
-                                        '{firstname_invited}' => $sponsorship->firstname,
-                                        '{inviter_username}' => $sponsor_a['username'],
-                                        '{username}' => $sponsor_a['username'],
-                                        '{lastname}' => $sponsor_a['lastname'],
-                                        '{firstname}' => $sponsor_a['firstname'],
-                                        '{email_friend}' => $sponsorship->email,
-                                        '{Expiration}' => $send,
-                                        '{link}' => $sponsorship->getSponsorshipMailLink()
+                                    '{username}' => $customer->username,
+                                    '{password}' => $passwordDni,
+                                    '{firstname}' => $customer->firstname,
+                                    '{lastname}' => $customer->lastname,
+                                    '{dni}' => $customer->dni,
+                                    '{birthdate}' => $customer->birthday,
+                                    '{address}' => 'No Disponible',
+                                    '{phone}' => $datacustomer['Phone Mobile'],
+                                    '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                                    '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                    '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                    '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                     );
 
-                                    $template = 'sponsorship-invitation-novoucher';
+                                    $template = 'welcome_fluzfluz';
                                     $allinone_rewards = new allinone_rewards();
+                                    //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+
                                     //$allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
                                     /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
                                       VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
@@ -655,6 +721,7 @@ class businessController extends FrontController {
             }
             fclose($handle);
         }
+        
         return $data;
     }
     

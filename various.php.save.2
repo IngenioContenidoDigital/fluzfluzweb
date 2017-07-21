@@ -1,0 +1,43 @@
+<?php 
+include_once('./config/defines.inc.php');
+include_once('./config/config.inc.php');
+
+//**************************************************************************************************//
+
+$query = "SELECT o.id_order, pc.id_product_code, c.secure_key, cc.value ori_key, pc.code, pc.last_digits, od.product_reference, wb.mobile_phone
+            FROM ps_orders o
+            INNER JOIN ps_order_detail od ON ( o.id_order = od.id_order )
+            INNER JOIN ps_product_code pc ON ( o.id_order = pc.id_order )
+            INNER JOIN ps_customer c ON ( o.id_customer = c.id_customer )
+            INNER JOIN ps_webservice_external_log wb ON ( o.id_order = wb.id_order )
+            INNER JOIN ps_configuration cc
+            WHERE cc.name = 'PS_FLUZ_CODPRO_KEY'
+            AND pc.encry = 0";
+
+$codes = Db::getInstance()->executeS($query);
+// echo '<pre>';print_r($codes); die();
+
+foreach ( $codes as $key => &$code ) {
+    echo $code['id_product_code']."<br>";
+    echo $code['mobile_phone']."<br>";
+    echo substr($code['mobile_phone'],-4)."<br>";
+    
+    // DECRYPT KEY CUSTOMER¡
+    //$carddecrypt = Encrypt::decrypt($code['secure_key'] , $code['code']);
+    //echo $carddecrypt."<hr>";
+    
+    // DECRYPT KEY ORIGINAL
+    //$carddecrypt = Encrypt::decrypt($code['ori_key'] , $code['code']);
+    //echo $carddecrypt."<hr>";
+
+
+
+    // ENCRYPT KEY CUSTOMER
+    $cardencrypt = Encrypt::encrypt($code['secure_key'] , $code['mobile_phone']);
+    echo $cardencrypt."<hr>";
+    
+    // ENCRYPT KEY ORIGINAL
+    //$cardencrypt = Encrypt::encrypt($code['ori_key'] , $carddecrypt);
+
+    //echo $cardencrypt."<hr>";
+}
