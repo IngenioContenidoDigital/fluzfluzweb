@@ -238,6 +238,7 @@ class MyAccountController extends MyAccountControllerCore
               WHERE id_customer = '.$id_customer;
       $date_add = Db::getInstance()->getValue($sql);
       $userData['dateAdd'] = substr($date_add, 0, 4);
+      $userData['dateAddFull'] = substr($date_add, 0, 10);
       return $userData;
     }
     
