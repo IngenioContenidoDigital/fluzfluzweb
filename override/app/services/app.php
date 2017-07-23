@@ -51,6 +51,7 @@ class API extends REST {
       $context = Context::getContext();
       $MyAccountController = new MyAccountController();
       $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
+      $userData['totalMoney'] = $this->formatPrice( $userData['fluzTotal'] * 25 );
       return $this->response($this->json($userData), 200);
     }
 
@@ -1158,7 +1159,7 @@ class API extends REST {
     $id_customer = $this->_request['id_customer'];
     $passcode = $this->_request['passcode'];
     
-    $sql = 'UPDATE "._DB_PREFIX_."customer
+    $sql = 'UPDATE '._DB_PREFIX_.'customer
             SET vault_code = '.$passcode.'
             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($sql);
@@ -1231,7 +1232,7 @@ class API extends REST {
             WHERE id_customer = ".$id_customer.";";
     
     $result = Db::getInstance()->getRow($sql);
-    
+    $result['formatPhone'] = str_repeat("X", (strlen($result['phone']) - 6)).substr($result['phone'], -4);
     return $this->response(json_encode(array('result' => $result)),200);
   }
 
