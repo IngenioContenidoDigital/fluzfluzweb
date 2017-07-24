@@ -198,6 +198,7 @@
                             if(data != ""){
                                 $("#resultados").empty();
                                 data = jQuery.parseJSON(data);
+                                
                                 var content = '';
                                 $.each(data, function (key, id) {
                                     content += '<div class="resultados" id="id_sponsor" onclick="myFunction(\''+data[key].username+'\',\''+data[key].id+'\')">'+data[key].username+'</div>';
