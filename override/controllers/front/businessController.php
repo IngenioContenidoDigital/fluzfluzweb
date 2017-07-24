@@ -196,7 +196,7 @@ class businessController extends FrontController {
                             $message_subject = $row_subject['subject_mail'];
 
                             $allinone_rewards = new allinone_rewards();
-                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                             $invitation_sent = true;
                         }
@@ -393,7 +393,7 @@ class businessController extends FrontController {
                             $message_subject = $row_subject['subject_mail'];
 
                             $allinone_rewards = new allinone_rewards();
-                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                             $invitation_sent = true;
                         }
@@ -462,7 +462,7 @@ class businessController extends FrontController {
                             $message_subject = $row_subject['subject_mail'];
 
                             $allinone_rewards = new allinone_rewards();
-                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
                             
                             $invitation_sent = true;
                             }
