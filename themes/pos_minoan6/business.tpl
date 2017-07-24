@@ -21,12 +21,18 @@
 {/if}
 
 <div class="row title-row-business"> 
-    <span class="title-business" id="title-container"></span>
-    <div id="quantity-users"> Cantidad de Empleados</div>
-    <div id="available-point" class="title-fluz">{l s="Fluz Totales: "}<span class="available-point">{$pointsAvailable}</span></div>
-    <div class="title-fluz" id="title-fluz">{l s="Fluz en Dinero: "}
-        <input type="hidden" value="{$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}" id="cash-available">
-        <span class="available-point"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </span>
+    <div class="col-lg-12"><span class="title-business" id="title-container"></span></div>
+    <div class="col-lg-6 margin-info">
+            <div id="quantity-users" class="col-lg-12"> Cantidad de Empleados: <span class="available-point"> {$all_fluz} </span></div>
+            <div style="padding-left:0px;" id="available-point" class="col-lg-12 title-fluz">{l s="Fluz Totales: "}<span class="available-point">{$pointsAvailable}</span></div>
+            <div style="padding-left:0px;" class="col-lg-12 title-fluz" id="title-fluz">{l s="Fluz en Dinero: "}
+                <input type="hidden" value="{$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}" id="cash-available">
+                <span class="available-point"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </span>
+            </div>
+    </div>
+    <div class="col-lg-6 div-img">
+        <img src="/img/business/{$id_customer}.jpg" class="img-business" />
+        <div class="text-business">{$username}</div>
     </div>
 </div>
 {if $error}
@@ -77,28 +83,28 @@
     <div class="row pagination-header">
         <div class="col-lg-2 pag-style"> Paginaci&oacute;n </div>
         <div class="col-lg-10 btn-save-user">
-            <div class="col-lg-8 div-toggle"> 
-                <div class="col-lg-6 button dropdown"> 
+            <div class="col-lg-10 div-toggle"> 
+                <div class="col-lg-5 button dropdown"> 
                     <select id="select-distribute" name="select-distribute">
                         <option value="select-option">Seleccione M&eacute;todo de Distribucci&oacute;n</option>
                        <option value="single-fluz">Distribucci&oacute;n Simple</option>
                        <option value="all-fluz">Distribucci&oacute;n a Todos</option>
                     </select>
                 </div>
-                <div class="col-lg-6" id="amount-use">
+                <div class="col-lg-7" id="amount-use">
                     <input type="hidden" value="{$pointsAvailable}" id="ptosTotalOculto"/>
                     <input type="hidden" value="{$all_fluz}" id="total_users"/>
                     <input type="hidden" value="" id="ptosusedhidden"/>
                     <input type="hidden" value="" id="ptosdistributehidden"/>
 
-                    <div class="col-lg-6">
-                        <input class="col-lg-12" value="" type="number" min="25" max="{$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}" oninput="if(value>{$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')})value={$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}" id="use_allfluz" autocomplete="off"/>
+                    <div class="col-lg-7">
+                        <div class="col-lg-4" style="padding-left: 0;margin-top: 7px;">COP $</div>
+                        <input class="col-lg-8" value="" type="number" min="25" max="{$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}" oninput="if(value>{$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')})value={$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}" id="use_allfluz" autocomplete="off"/>
                     </div>
-                    <div class="col-lg-4" id="ptosTotal">{l s=" Fluz "}</div>
-                    <div class="col-lg-6" id="ptosused"></div>
+                    <div class="col-lg-5" id="ptosused"></div>
                 </div>
             </div>
-            <div class="col-lg-4 div-btn">
+            <div class="col-lg-2 div-btn">
                 <button class="myfancybox btn btn-default btn-save-table" href="#confirmTransfer" id="save-info" name="save-info">
                     <span> TRANSFERIR </span>
                 </button>

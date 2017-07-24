@@ -209,7 +209,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
         if (!($obj = $this->loadObject(true))) {
             return;
         }
-
+        
         $genders = Gender::getGenders();
         $list_genders = array();
         foreach ($genders as $key => $gender) {
@@ -266,6 +266,14 @@ class AdminCustomersController extends AdminCustomersControllerCore
                             ),
                             'hint' => $this->l('Expulsar al cliente de la red.')
                         );
+        
+        $img_business = array(
+                    'type' => 'file',
+                    'label' => $this->l('Logo Empresa'),
+                    'name' => 'Logo-empresa',
+                    'hint' => $this->l('Upload a Business logo from your computer.')
+                );
+        
         if ( $this->context->employee->id_profile != 1 ) {
             if ( $obj->active == 0 ) {
                 $field_active = array();
@@ -396,6 +404,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
                     'hint' => $this->l('This customer will receive your ads via email.')
                 ),
                 $field_kick_out,
+                $img_business,
             )
         );
 
@@ -578,6 +587,14 @@ class AdminCustomersController extends AdminCustomersControllerCore
     
      public function processSave()
     {
+         
+        if (($id_customer = (int)Tools::getValue('id_customer')) && isset($_FILES) ){
+            
+            $target_path = _PS_IMG_DIR_ . "business/" . basename( $id_customer.".jpg");
+            move_uploaded_file($_FILES["Logo-empresa"]["tmp_name"], $target_path);
+            
+        }
+        
         // Check that default group is selected
         if (!is_array(Tools::getValue('groupBox')) || !in_array(Tools::getValue('id_default_group'), Tools::getValue('groupBox'))) {
             $this->errors[] = Tools::displayError('A default customer group must be selected in group box.');
