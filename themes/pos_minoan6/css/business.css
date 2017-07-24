@@ -105,3 +105,8 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 .img-responsive{margin: 0 auto;}
 .btn-cancel-modal{text-align: right;}
 .btn-account {padding: 6px 12px;font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;color: #fff;border: none;background: #ef4136;}
+#quantity-users{padding-left: 0px;margin-top: 10px;color:#000;}
+.img-business{ border-radius: 20%;height: 100px;width: 100px;}
+.text-business{color: #000; font-size: 16px; margin-right: 12px;}
+.div-img{text-align: right;}
+.margin-info{margin-top: 20px;}

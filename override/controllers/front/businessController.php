@@ -48,6 +48,9 @@ class businessController extends FrontController {
         $id_customer = $this->context->customer->id;
         $this->context->smarty->assign('id_customer',$id_customer);
         
+        $name_customer = $this->context->customer->username;
+        $this->context->smarty->assign('username',$name_customer);
+        
         $totals = RewardsModel::getAllTotalsByCustomer((int) $this->context->customer->id);
         $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float) $totals[RewardsStateModel::getValidationId()] : 0);
         $this->context->smarty->assign('pointsAvailable', $pointsAvailable);
@@ -259,7 +262,7 @@ class businessController extends FrontController {
                         $message_subject = $row_subject['subject_mail'];
                         
                         $allinone_rewards = new allinone_rewards();
-                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
                         
                         $invitation_sent = true;
                         }
@@ -316,7 +319,7 @@ class businessController extends FrontController {
                     $error = 'email invalid';
                     unlink($filename);
                 } 
-                elseif (empty($datacustomer['DNI'])) {
+                elseif (empty($datacustomer['cedula'])) {
                     $error = 'No se ha ingresado correctamente el campo Cedula';
                     unlink($filename);
                 } 
@@ -338,9 +341,9 @@ class businessController extends FrontController {
                 //$customer->active = $datacustomer['Active (0/1)'];
                 $customer->username = $datacustomer['Username'];
                 //$customer->id_gender = $datacustomer['Titles ID (Mr=1 , Ms=2)'];
-                $customer->dni = $datacustomer['DNI'];
+                $customer->dni = $datacustomer['cedula'];
                 $customer->email = $datacustomer['Email'];
-                $customer->passwd = Tools::encrypt($datacustomer['DNI']);
+                $customer->passwd = Tools::encrypt($datacustomer['cedula']);
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 //$customer->newsletter = $datacustomer['Newsletter (0/1)'];
                 $customer->birthday = $datacustomer['Birthday (yyyy-mm-dd)'];
@@ -558,7 +561,7 @@ class businessController extends FrontController {
                             $error = 'email invalid';
                             $this->context->smarty->assign('error', $error);
                         } 
-                        elseif (empty($datacustomer['DNI'])) {
+                        elseif (empty($datacustomer['cedula'])) {
                             $error = 'No se ha ingresado correctamente el campo Cedula';
                             $this->context->smarty->assign('error', $error);
                         } 
@@ -579,9 +582,9 @@ class businessController extends FrontController {
                         //$customer->active = $datacustomer['Active (0/1)'];
                         $customer->username = $datacustomer['Username'];
                         //$customer->id_gender = $datacustomer['Titles ID (Mr=1 , Ms=2)'];
-                        $customer->dni = $datacustomer['DNI'];
+                        $customer->dni = $datacustomer['cedula'];
                         $customer->email = $datacustomer['Email'];
-                        $customer->passwd = Tools::encrypt($datacustomer['DNI']);
+                        $customer->passwd = Tools::encrypt($datacustomer['cedula']);
                         $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                         //$customer->newsletter = $datacustomer['Newsletter (0/1)'];
                         //$customer->birthday = $datacustomer['Birthday (yyyy-mm-dd)'];
