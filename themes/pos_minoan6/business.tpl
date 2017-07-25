@@ -31,7 +31,7 @@
             </div>
     </div>
     <div class="col-lg-6 div-img">
-        <img src="/img/business/{$id_customer}.jpg" class="img-business" />
+        <img src="/img/business/{$id_customer}.png" class="img-business" />
         <div class="text-business">{$username}</div>
     </div>
 </div>
