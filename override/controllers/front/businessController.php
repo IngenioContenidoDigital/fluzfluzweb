@@ -84,14 +84,7 @@ class businessController extends FrontController {
         
         /* Funciones Historial de Transferencias */
         
-        $query_history = 'SELECT tf.id_transfers_fluz, r.id_customer, c.firstname,DATE_FORMAT(tf.date_add, "%M %d %Y") as date_add, 
-                            (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS cont,
-                            c.lastname, r.reason, r.credits 
-                            FROM '._DB_PREFIX_.'transfers_fluz tf
-                            LEFT JOIN '._DB_PREFIX_.'rewards r ON(r.id_transfer_fluz = tf.id_transfers_fluz)
-                            LEFT JOIN '._DB_PREFIX_.'customer c ON (r.id_customer = c.id_customer)
-                            WHERE tf.id_customer = '.$this->context->customer->id.' AND r.reason = "TransferFluzBusiness"';
-        $history_transfer = Db::getInstance()->executeS($query_history);
+        $history_transfer = $this->history_business();
         $this->context->smarty->assign('history_transfer', $history_transfer);
         
         $this->setTemplate(_PS_THEME_DIR_ . 'business.tpl');
@@ -101,6 +94,22 @@ class businessController extends FrontController {
 
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         array_shift($tree);
+        
+        if(Tools::isSubmit('export-excel')){
+            
+            $history_transfer = $this->history_business();
+            header("Content-Disposition: attachment; filename=\"historial.xls\"");
+            header("Content-Type: application/vnd.ms-excel;");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+            $out = fopen("php://output", 'w');
+            foreach ($history_transfer as $data)
+            {
+                fputcsv($out, $data,"\t");
+            }
+            fclose($out);
+            
+        }
         
         if (Tools::isSubmit('add-employee')) {
             $error = "";
@@ -709,6 +718,19 @@ class businessController extends FrontController {
         }
     }
     
+    function  history_business(){
+        $query_history = 'SELECT tf.id_transfers_fluz, r.id_customer, c.firstname,DATE_FORMAT(tf.date_add, "%M %d %Y") as date_add, 
+                            (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS cont,
+                            c.lastname, r.reason, r.credits 
+                            FROM '._DB_PREFIX_.'transfers_fluz tf
+                            LEFT JOIN '._DB_PREFIX_.'rewards r ON(r.id_transfer_fluz = tf.id_transfers_fluz)
+                            LEFT JOIN '._DB_PREFIX_.'customer c ON (r.id_customer = c.id_customer)
+                            WHERE tf.id_customer = '.$this->context->customer->id.' AND r.reason = "TransferFluzBusiness"';
+        $history_transfer = Db::getInstance()->executeS($query_history);
+        
+        return $history_transfer;
+    }
+            
     function csv_to_array($filename='', $delimiter=';')
     {
         if(!file_exists($filename) || !is_readable($filename))

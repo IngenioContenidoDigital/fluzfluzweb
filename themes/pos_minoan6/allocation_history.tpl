@@ -15,7 +15,13 @@
 {if version_compare($smarty.const._PS_VERSION_,'1.6','<')}
     {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
-
+<form method="post" id="history-business" name="history-business">
+    <div class="row" style="text-align: right;">        
+            <button class="btn btn-default btn-save-employee" type="submit" id="export-excel" name="export-excel">
+                <span> EXPORTAR HISTORIAL </span>
+            </button>
+    </div>
+</form>
 <div class="row container-info-users" id="container-info-users">
     <div class="row bar-info-users">
         <div class="col-lg-2 item-users" id="firstname">Nro. Transferencia</div>

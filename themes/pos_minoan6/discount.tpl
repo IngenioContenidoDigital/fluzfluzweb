@@ -66,7 +66,7 @@
                                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 name">
                                                 <span class="col-lg-12 col-sm-12 col-md-12 col-xs-12 username">{$member.username}</span>
                                                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 transfer-f">
-                                                    <span class="transferfluz fancybox fancybox.iframe" title="Transfer Fluz" href="{$link->getPageLink('transferfluz', true)}?popup=true&name_member={$member.username}&id_member={$member.id}">Transferir Fluz</span>
+                                                    <span class="pendingsinvitation fancybox fancybox.iframe" title="Transfer Fluz" href="{$link->getPageLink('transferfluz', true)}?popup=true&name_member={$member.username}&id_member={$member.id}">Transferir Fluz</span>
                                                 </div>    
                                             </div>
                                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 message"><span class="myfancybox" href="#myspecialcontent" send="{$member.id}|{$member.name}|{$urlimgnet}|{$id_customer}">{l s='Mensaje'}</span></div>
