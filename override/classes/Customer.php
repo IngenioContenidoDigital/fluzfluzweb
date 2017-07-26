@@ -56,6 +56,9 @@ class Customer extends CustomerCore
     public $spouse_name;
     public $children;
     public $phone_provider;
+    public $vault_code;
+    public $phone;
+    public $app_confirm;
     
     public static $definition = array(
         'table' => 'customer',
@@ -107,6 +110,9 @@ class Customer extends CustomerCore
             'spouse_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 50),
             'children' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 5),
             'phone_provider' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt', 'size' => 4),
+            'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedInt', 'size' => 15),
+            'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedInt', 'size' => 6),
         ),  
     );
     

@@ -988,8 +988,8 @@ private function clearCart()
             return $this->errors;
         }
         
-        $dateCard = explode("/",$args["datecard"]);
-        $args["datecard"] = $dateCard[1]."/".$dateCard[0];
+        $dateCard = explode("-",$args["datecard"]);
+        $args["datecard"] = $dateCard[0]."/".$dateCard[1];
 
         $data_payment = array('id_cart' => $this->context->cart->id,
                             'total_paid' => $this->context->cart->getOrderTotal(true, Cart::BOTH),
@@ -1844,9 +1844,10 @@ return $responseObj;
             INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$id_lang." )
             INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
             WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
-            ORDER BY o.date_add ASC "
+            ORDER BY o.date_add DESC "
             ;
     $sql .= $limit != 0 ? ' LIMIT '.$limit : '';
+//    error_log("\n\n Este es el SQL: ".print_r($sql,true),3,"/tmp/error.log");
     $last_shopping_products = $db->ExecuteS($sql);
     $result = $last_shopping_products;
     return array('result' => $result);
@@ -1905,48 +1906,56 @@ return $responseObj;
     $array_sponsor = array();
 
     foreach ( $tree as $sponsor ) {
-      
-        $sponsor2 = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+        $query = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                 FROM " . _DB_PREFIX_ . "customer c
                 LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                 WHERE c.id_customer =" . (int) $sponsor['id'] . "
-                HAVING sponsoships > 0");
-
-        array_push($array_sponsor, $sponsor2);
+                HAVING sponsoships > 0";
+        
+        $sponsor2 = Db::getInstance()->getRow($query);
+        
+        if( $sponsor2 != '' && $sponsor2['id_customer'] && $sponsor2['id_customer'] != ''){
+          array_push($array_sponsor, $sponsor2);
+        }
         $sort_array = array_filter($array_sponsor);
-
+        
         usort($sort_array, function($a, $b) {
             return $a['id_customer'] - $b['id_customer'];
         });
 
-        $sponsor_a = reset($sort_array);  
+        $sponsor_a = reset($sort_array);
         
       if ( $id_customer != $sponsor['id'] && ($sponsor_a['sponsoships'] > 0)) {
-        $customer = new Customer( $sponsor['id'] );
-        $name = strtolower( $customer->firstname." ".$customer->lastname );
-        if ( $customer->firstname != "" ) {
-          $sql = "SELECT SUM(credits) AS points
-                  FROM "._DB_PREFIX_."rewards
-                  WHERE  id_customer = ".$id_customer."
-                  AND plugin = 'sponsorship'
-                  AND id_order IN (
-                    SELECT id_order
+        $pendingsinvitation = Db::getInstance()->getValue("SELECT (2 - COUNT(*)) pendingsinvitation
+                              FROM "._DB_PREFIX_."rewards_sponsorship
+                              WHERE id_sponsor = ".$sponsor['id']);
+        if ( $pendingsinvitation != 0){
+          $customer = new Customer( $sponsor['id'] );
+          $name = strtolower( $customer->firstname." ".$customer->lastname );
+          if ( $customer->firstname != "" ) {
+            $sql = "SELECT SUM(credits) AS points
                     FROM "._DB_PREFIX_."rewards
-                    WHERE  id_customer = ".$sponsor['id']."
-                    AND plugin = 'loyalty'
-                  )
-                  GROUP BY id_customer";
-          
-          $members[$counter]['name'] = $name;
-          $members[$counter]['username'] = $customer->username;
-          $members[$counter]['id'] = $sponsor['id'];
-          $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
-          $members[$counter]['level'] = $sponsor['level'];
-          $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
-          $points = Db::getInstance()->ExecuteS($sql);
-          $members[$counter]['points'] = round($points[0]['points']);  
+                    WHERE  id_customer = ".$id_customer."
+                    AND plugin = 'sponsorship'
+                    AND id_order IN (
+                      SELECT id_order
+                      FROM "._DB_PREFIX_."rewards
+                      WHERE  id_customer = ".$sponsor['id']."
+                      AND plugin = 'loyalty'
+                    )
+                    GROUP BY id_customer";
+            //error_log("\n\n Este es el query sql: \n\n".print_r($sql, true),3,"/tmp/error.log");
+            $members[$counter]['name'] = $name;
+            $members[$counter]['username'] = $customer->username;
+            $members[$counter]['id'] = $sponsor['id'];
+            $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
+            $members[$counter]['level'] = $sponsor['level'];
+            $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+            $points = Db::getInstance()->ExecuteS($sql);
+            $members[$counter]['points'] = round($points[0]['points']);  
+          }
+          $counter++;
         }
-        $counter++;
       }
     }
     /* ORGANIZAR POR NOMBRE */
@@ -1958,6 +1967,7 @@ return $responseObj;
     });
     
     
+    error_log("\n\n Este es el query sponsor: \n".print_r($members, true),3,"/tmp/error.log");
     return array('result' => $members);
   }
   
@@ -2096,12 +2106,12 @@ return $responseObj;
       }
       
       public function generateIdTemporary($email) {
-            $idTemporary = '1';
-            for ($i = 0; $i < strlen($email); $i++) {
-                $idTemporary .= (string) ord($email[$i]);
-            }
-            return substr($idTemporary, 0, 10);
+        $idTemporary = '1';
+        for ($i = 0; $i < strlen($email); $i++) {
+          $idTemporary .= (string) ord($email[$i]);
         }
-      
+        return substr($idTemporary, 0, 10);
+      }
+            
   }
   
