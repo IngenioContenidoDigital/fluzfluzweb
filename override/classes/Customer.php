@@ -176,6 +176,14 @@ class Customer extends CustomerCore
         if ( Tools::getValue('phone_provider') == "" ) {
             $this->phone_provider = null;
         }
+        
+        if ( Tools::getValue('phone') == "" ) {
+            $this->phone = null;
+        }
+        
+        if ( Tools::getValue('app_confirm') == "" ) {
+            $this->app_confirm = null;
+        }
 
         if ($this->newsletter && !Validate::isDate($this->newsletter_date_add)) {
             $this->newsletter_date_add = date('Y-m-d H:i:s');
