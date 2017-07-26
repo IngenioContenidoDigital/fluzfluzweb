@@ -1026,6 +1026,9 @@ class API extends REST {
               $result[] = $my_network['result'][$i];
             }
           }
+          else {
+            $result = $my_network['result'];
+          }
           return $this->response(json_encode(array('result' => $result)),200);
         }
         elseif ( $option == 3 ) {
@@ -1281,31 +1284,43 @@ class API extends REST {
   
   
   private function confirm() {
-      if($this->get_request_method() != "POST") {
-        $this->response('',406);
-      }
-      $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
-      $id_customer = $this->_request['id_customer'];
-      
-      $sql = "SELECT app_confirm
-            FROM "._DB_PREFIX_."customer
-            WHERE id_customer = ".$id_customer.";";
-      
-      $app_confirm = Db::getInstance()->getValue($sql);
-
-      if( $code == $app_confirm ){
-        $this->response($this->json(array(
-                  "success" => true, 
-                  "message" => "Usuario confirmado"
-                  )), 200);
-      }
-      else {
-        $this->response($this->json(array(
-            "success" => true, 
-            "message" => "El número de verificación no coincide."
-            )), 204);
-      }
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
     }
+    $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
+    $id_customer = $this->_request['id_customer'];
+
+    $sql = "SELECT app_confirm
+          FROM "._DB_PREFIX_."customer
+          WHERE id_customer = ".$id_customer.";";
+
+    $app_confirm = Db::getInstance()->getValue($sql);
+
+    if( $code == $app_confirm ){
+      $this->response($this->json(array(
+                "success" => true, 
+                "message" => "Usuario confirmado"
+                )), 200);
+    }
+    else {
+      $this->response($this->json(array(
+          "success" => true, 
+          "message" => "El número de verificación no coincide."
+          )), 204);
+    }
+  }
+    
+  private function getAddresMaps() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $sql = "SELECT id_address, id_manufacturer, firstname, address1, city,  latitude, longitude
+            FROM ps_address
+            WHERE latitude is not  NULL";
+    $result = Db::getInstance()->getValue($sql);
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
 }
 
 

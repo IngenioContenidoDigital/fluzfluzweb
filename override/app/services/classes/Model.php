@@ -2106,12 +2106,12 @@ return $responseObj;
       }
       
       public function generateIdTemporary($email) {
-            $idTemporary = '1';
-            for ($i = 0; $i < strlen($email); $i++) {
-                $idTemporary .= (string) ord($email[$i]);
-            }
-            return substr($idTemporary, 0, 10);
+        $idTemporary = '1';
+        for ($i = 0; $i < strlen($email); $i++) {
+          $idTemporary .= (string) ord($email[$i]);
         }
-      
+        return substr($idTemporary, 0, 10);
+      }
+            
   }
   
