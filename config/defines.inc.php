@@ -25,7 +25,7 @@
 */
 
 date_default_timezone_set("America/Bogota");
-@ini_set('max_input_vars', 5000);
+@ini_set('max_input_vars', 10000);
 
 /* Debug only */
 if (!defined('_PS_MODE_DEV_')) {

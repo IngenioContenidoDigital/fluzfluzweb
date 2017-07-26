@@ -176,11 +176,12 @@ class Customer extends CustomerCore
         if ( Tools::getValue('phone_provider') == "" ) {
             $this->phone_provider = null;
         }
-        
+        if ( Tools::getValue('vault_code') == "" ) {
+            $this->vault_code = null;
+        }
         if ( Tools::getValue('phone') == "" ) {
             $this->phone = null;
         }
-        
         if ( Tools::getValue('app_confirm') == "" ) {
             $this->app_confirm = null;
         }
