@@ -111,8 +111,8 @@ class Customer extends CustomerCore
             'children' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 5),
             'phone_provider' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt', 'size' => 4),
-            'phone' =>               array('type' => self::TYPE_DECIMAL, 'size' => 15),
-            'app_confirm' =>               array('type' => self::TYPE_DECIMAL, 'size' => 6),
+            'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 15),
+            'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
         ),  
     );
     
