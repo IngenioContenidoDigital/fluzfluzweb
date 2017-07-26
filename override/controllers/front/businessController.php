@@ -98,15 +98,18 @@ class businessController extends FrontController {
         if(Tools::isSubmit('export-excel')){
             
             $history_transfer = $this->history_business();
-            header("Content-Disposition: attachment; filename=\"historial.xls\"");
             header("Content-Type: application/vnd.ms-excel;");
+            header("Content-Disposition: attachment; filename=historial.xls");
             header("Pragma: no-cache");
             header("Expires: 0");
             $out = fopen("php://output", 'w');
+            fputcsv($out, array_keys($history_transfer[0]));
+
             foreach ($history_transfer as $data)
             {
                 fputcsv($out, $data,"\t");
             }
+            
             fclose($out);
             
         }
@@ -719,9 +722,9 @@ class businessController extends FrontController {
     }
     
     function  history_business(){
-        $query_history = 'SELECT tf.id_transfers_fluz, r.id_customer, c.firstname,DATE_FORMAT(tf.date_add, "%M %d %Y") as date_add, 
-                            (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS cont,
-                            c.lastname, r.reason, r.credits 
+        $query_history = 'SELECT tf.id_transfers_fluz as id_transferencia, r.id_customer as id_cliente, c.firstname as nombre, c.lastname as apellido, DATE_FORMAT(tf.date_add, "%d/%m/%Y") as fecha_transferencia, 
+                            (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS numero_empleados,
+                            r.reason as tipo_transferencia, r.credits as fluz_transferidos 
                             FROM '._DB_PREFIX_.'transfers_fluz tf
                             LEFT JOIN '._DB_PREFIX_.'rewards r ON(r.id_transfer_fluz = tf.id_transfers_fluz)
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (r.id_customer = c.id_customer)
