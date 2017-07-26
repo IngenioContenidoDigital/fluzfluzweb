@@ -201,7 +201,7 @@ class Customer extends CustomerCore
             }
         }
 
-        return parent::update(true);
+        return ObjectModel::update(true);
     }
     
     public function getAddresses($id_lang)
