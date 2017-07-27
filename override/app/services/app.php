@@ -735,6 +735,42 @@ class API extends REST {
      * 
      */
 
+    public function searchFluzzer()
+    {
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
+        
+        $params = array();
+        $params["searchBox"] = $this->_request['searchBox'];
+
+	$model = new Model();
+	$this->response( $this->json($model->searchFluzzer($params)) , 200 );
+    }
+
+    /**
+     * 
+     */
+
+    public function transferFluz()
+    {
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
+        
+        $params = array();
+        $params["user"] = $this->_request['user'];
+        $params["fluzzer"] = $this->_request['fluzzer'];
+        $params["points"] = $this->_request['points'];
+
+	$model = new Model();
+	$this->response( $this->json($model->transferFluz($params)) , 200 );
+    }
+    
+    /**
+     * 
+     */
+
     public function pay()
     {
         if($this->get_request_method() != "POST") {
