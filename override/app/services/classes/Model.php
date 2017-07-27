@@ -2110,7 +2110,8 @@ return $responseObj;
         for ($i = 0; $i < strlen($email); $i++) {
           $idTemporary .= (string) ord($email[$i]);
         }
-        return substr($idTemporary, 0, 10);
+        return substr($idTemporary, 0, 7).rand(100,999);
+
       }
             
   }
