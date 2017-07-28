@@ -51,6 +51,7 @@ class API extends REST {
       $context = Context::getContext();
       $MyAccountController = new MyAccountController();
       $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
+      $userData['totalMoney'] = $this->formatPrice( $userData['fluzTotal'] * 25 );
       return $this->response($this->json($userData), 200);
     }
 
@@ -1061,6 +1062,9 @@ class API extends REST {
               $result[] = $my_network['result'][$i];
             }
           }
+          else {
+            $result = $my_network['result'];
+          }
           return $this->response(json_encode(array('result' => $result)),200);
         }
         elseif ( $option == 3 ) {
@@ -1100,7 +1104,7 @@ class API extends REST {
           }
           return $this->response(json_encode(array('result' => $result)),200);
         }
-        elseif ( $option == 5 ) { 
+        else if ( $option == 5 ) { 
           
           $object_inv = json_decode($object_inv, true);  
           $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
@@ -1194,7 +1198,7 @@ class API extends REST {
     $id_customer = $this->_request['id_customer'];
     $passcode = $this->_request['passcode'];
     
-    $sql = 'UPDATE "._DB_PREFIX_."customer
+    $sql = 'UPDATE '._DB_PREFIX_.'customer
             SET vault_code = '.$passcode.'
             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($sql);
@@ -1267,7 +1271,7 @@ class API extends REST {
             WHERE id_customer = ".$id_customer.";";
     
     $result = Db::getInstance()->getRow($sql);
-    
+    $result['formatPhone'] = str_repeat("X", (strlen($result['phone']) - 6)).substr($result['phone'], -4);
     return $this->response(json_encode(array('result' => $result)),200);
   }
 
@@ -1316,31 +1320,43 @@ class API extends REST {
   
   
   private function confirm() {
-      if($this->get_request_method() != "POST") {
-        $this->response('',406);
-      }
-      $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
-      $id_customer = $this->_request['id_customer'];
-      
-      $sql = "SELECT app_confirm
-            FROM "._DB_PREFIX_."customer
-            WHERE id_customer = ".$id_customer.";";
-      
-      $app_confirm = Db::getInstance()->getValue($sql);
-
-      if( $code == $app_confirm ){
-        $this->response($this->json(array(
-                  "success" => true, 
-                  "message" => "Usuario confirmado"
-                  )), 200);
-      }
-      else {
-        $this->response($this->json(array(
-            "success" => true, 
-            "message" => "El número de verificación no coincide."
-            )), 204);
-      }
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
     }
+    $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
+    $id_customer = $this->_request['id_customer'];
+
+    $sql = "SELECT app_confirm
+          FROM "._DB_PREFIX_."customer
+          WHERE id_customer = ".$id_customer.";";
+
+    $app_confirm = Db::getInstance()->getValue($sql);
+
+    if( $code == $app_confirm ){
+      $this->response($this->json(array(
+                "success" => true, 
+                "message" => "Usuario confirmado"
+                )), 200);
+    }
+    else {
+      $this->response($this->json(array(
+          "success" => true, 
+          "message" => "El número de verificación no coincide."
+          )), 204);
+    }
+  }
+    
+  private function getAddresMaps() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $sql = "SELECT id_address, id_manufacturer, firstname, address1, city,  latitude, longitude
+            FROM ps_address
+            WHERE latitude is not  NULL";
+    $result = Db::getInstance()->getValue($sql);
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
 }
 
 

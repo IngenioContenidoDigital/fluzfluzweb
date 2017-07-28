@@ -73,7 +73,7 @@
     <div class="col-lg-3 item-search">
         <input type="hidden" value="{$id_customer}" id="id_customer"/>
         <div id="example_filter" class="dataTables_filter">
-            <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Fluzzer'}" required>
+            <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Empleado'}" required>
             <div id="resultados" class="result-find"></div>
         </div>
     </div>
@@ -134,7 +134,7 @@
                 <div class="col-lg-2 content-item-users">{$net.lastname}</div>
                 <div class="col-lg-2 content-item-users email-id">{$net.email}</div>
                 <div class="col-lg-1 content-item-users">Phone</div>
-                <div class="col-lg-2 content-item-users">{$net.dni}</div>
+                <div class="col-lg-2 content-item-users dni-id">{$net.dni}</div>
                 <div class="col-lg-2 content-item-users" id="amount_unit">
                     <div class="row">
                         <input class="col-lg-5 r_clase amount_unit" oninput="" sponsor="{$net.id_customer}" id="single-{$net.id_customer}" value="0" type="text" min="25" max="" autocomplete="off"/>
@@ -206,7 +206,11 @@
                     $('#container-List-employees > div').each(function () {
                         $(this).show();
                         var email = $(this).find('.email-id').html().toLowerCase();
+                        var dni = $(this).find('.dni-id').html().toLowerCase();
                         if (email.indexOf(username.toLowerCase()) != -1){
+
+                        }
+                        else if(dni.indexOf(username.toLowerCase()) != -1){
 
                         }
                         else {

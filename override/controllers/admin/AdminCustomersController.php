@@ -588,7 +588,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
      public function processSave()
     {
          
-        if (($id_customer = (int)Tools::getValue('id_customer')) && isset($_FILES) ){
+        if (($id_customer = (int)Tools::getValue('id_customer')) && isset($_FILES) && $_FILES['Logo-empresa']['tmp_name'] != ''){
             
             $typeimg = explode("/", $_FILES["Logo-empresa"]["type"]);
             if ( $typeimg[0] != "image" || $typeimg[1] != "png") {
