@@ -1310,17 +1310,111 @@ class API extends REST {
     }
   }
     
-  private function getAddresMaps() {
+  private function getAddressMaps() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
+    $latitude = $this->_request['latitude'];
+    $longitude = $this->_request['longitude'];
+    $option = $this->_request['option'];
     
-    $sql = "SELECT id_address, id_manufacturer, firstname, address1, city,  latitude, longitude
-            FROM ps_address
-            WHERE latitude is not  NULL";
-    $result = Db::getInstance()->getValue($sql);
+    if ( $option == 2 ){
+      $id_manufacturer = $this->_request['id_manufacturer'];
+    }
+    
+//    error_log("\n\nEstos son los datos\n\n",3,"/tmp/error.log");
+//    error_log("\n\nLatitude ".print_r($latitude,true),3,"/tmp/error.log");
+//    error_log("\n\nLongitude ".print_r($longitude,true),3,"/tmp/error.log");
+//    error_log("\n\nManufacturer ".print_r($id_manufacturer,true),3,"/tmp/error.log");
+    // Unidades de distancia ( Metros )
+    $units = "units=metric";
+    
+    // El origen de donde calcula las distancias:
+    $origins = 'origins='.$latitude.','.$longitude;
+    
+    // Ubicaciones de las ciudades;
+    $cities['latitudes'] = Db::getInstance()->executeS("SELECT latitud_inicial, latitud_final
+                                                      FROM "._DB_PREFIX_."cities
+                                                      WHERE latitud_inicial is not null
+                                                      ORDER BY latitud_inicial");
+    
+    $cities['longitudes'] = Db::getInstance()->executeS("SELECT longitud_inicial, longitud_final
+                                                      FROM "._DB_PREFIX_."cities
+                                                      WHERE latitud_inicial is not null
+                                                      ORDER BY longitud_inicial");
+    
+    // Capturo la ciudad en la que estoy.
+    foreach ($cities['latitudes'] as $latitudes){
+      if ( $latitudes['latitud_inicial'] >= $latitude && $latitude >= $latitudes['latitud_final'] ){
+        $city['latitude'] = $latitudes;
+      }
+    }
+    
+    foreach ($cities['longitudes'] as $longitudes){
+      if ( $longitudes['longitud_inicial'] >= $longitude && $longitude >= $longitudes['longitud_final'] ){
+        $city['longitude'] = $longitudes;
+      }
+    }
+    
+    // Traigo todas las posiciones dentro de mi ciudad ($city)
+    $sql = "SELECT latitude, longitude
+            FROM "._DB_PREFIX_."address
+            WHERE latitude < ".$city['latitude']['latitud_inicial']."
+              and latitude > ".$city['latitude']['latitud_final']." 
+              and longitude < ".$city['longitude']['longitud_inicial']." 
+              and longitude > ".$city['longitude']['longitud_final'];
+    
+    if ($option == 2){
+      if($id_manufacturer != ''){
+        $sql .= ' and id_manufacturer = '.$id_manufacturer.';';
+      }
+      else {
+        return $this->response(json_encode(array('result' => '')),206);
+      }
+    }
+    
+    $positions = Db::getInstance()->executeS($sql);
+    
+    // Destinos
+    foreach($positions as &$pos) {
+      $pos['distance'] = $this->getDistanceToCoords($latitude,$longitude,$pos['latitude'],$pos['longitude']);
+    }
+    usort($positions, function($a, $b) {
+      return str_replace('.', ',', $a['distance']) > str_replace('.', ',', $b['distance']) ? 1:-1 ;
+    });
+    
+    // Mostrar 10 resultados cercanos
+//    for($i = 0; $i <= 10; $i++){
+//      $result[] = $positions[$i];
+//    }
+    
+    foreach ($positions as $pos){
+      if(floatval($pos['distance']) <= 10){
+        $result[] = $pos;
+      }
+    }
+    array_unique($result);
+    
     return $this->response(json_encode(array('result' => $result)),200);
   }
+
+  public function getDistanceToCoords($lat1,$lon1,$lat2,$lon2) {
+    $R = 6371; // Radius of the earth in km
+    $dLat = $this->deg2rad($lat2-$lat1);  // deg2rad below
+    $dLon = $this->deg2rad($lon2-$lon1); 
+    $a = 
+      sin($dLat/2) * sin($dLat/2) +
+      cos($this->deg2rad($lat1)) * cos($this->deg2rad($lat2)) * 
+      sin($dLon/2) * sin($dLon/2); 
+    $c = 2 * atan2(sqrt($a), sqrt(1-$a)); 
+    $d = $R * $c; // Distance in km
+    return $d;
+  }
+  
+  public function deg2rad($deg) {
+    return $deg * (M_PI/180);
+  }
+  
 }
 
 
