@@ -196,7 +196,7 @@
                                                 <option value='payment_error'>{l s='16-payment_error'}</option>
                                                 <option value='monthly-balance-summary'>{l s='16-monthly-balance-summary'}</option>
                                                 <option value='welcome_fluzfluz'>{l s='16-welcome_fluzfluz'}</option>
-                                                <option value='welcome_fluzfluz_business'>{l s='16-welcome_fluzfluz'}</option>
+                                                <option value='welcome_fluzfluz_business'>{l s='16-welcome_fluzfluz_business'}</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-6">
