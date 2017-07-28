@@ -47,8 +47,9 @@ class WalletCore extends ObjectModel
                 )
                 -- AND PO.id_order = 0
                 GROUP BY PC.code, PL.name
-                ORDER BY used ASC";
-
+                ORDER BY used ASC , date DESC";
+        
+//        error_log("\n\n Este es el sql: \n".print_r($query,true),3,"/tmp/error.log");
         $cards = Db::getInstance()->executeS($query);
         
         foreach ($cards as &$card) {
