@@ -955,6 +955,60 @@ private function clearCart()
     /**
      * 
      */
+    public function searchFluzzer($args) {
+        $sql = "SELECT id_customer, username, email, dni
+                FROM ps_customer
+                WHERE active = 1
+                AND kick_out = 0
+                AND id_default_group = 4
+                AND (email LIKE '%".$args['searchBox']."%'
+                OR username LIKE '%".$args['searchBox']."%'
+                OR dni = '".$args['searchBox']."')
+                LIMIT 3";
+        if ($results = Db::getInstance()->ExecuteS($sql) ) {
+            return array('fluzzers' => $results, 'success' => TRUE);
+        } else {
+            return array('success' => false);
+        }
+    }
+
+    /**
+     * 
+     */
+    public function transferFluz($args) {
+        $result = true;
+
+        $id_customer = $args['user'];
+        $id_sponsor = $args['fluzzer'];
+        $point_send = $args['points'];
+
+        $result += Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."transfers_fluz (id_customer, id_sponsor_received, date_add)
+                                                VALUES (".(int)$id_customer.", ".(int)$id_sponsor.",'".date("Y-m-d H:i:s")."')");
+
+        $query_t = 'SELECT id_transfers_fluz FROM '._DB_PREFIX_.'transfers_fluz WHERE id_customer='.(int)$id_customer.' ORDER BY id_transfers_fluz DESC';
+        $row_t = Db::getInstance()->getRow($query_t);
+        $id_transfer = $row_t['id_transfers_fluz'];
+
+        $result += Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)
+                                                VALUES ('2', ".(int)$id_customer.", 0,NULL,'0','0',".-1*$point_send.",'loyalty', 'TransferFluz','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."', ".(int)$id_transfer.")");
+
+        $result += Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)
+                                                VALUES ('2', ".(int)$id_sponsor.", 0,NULL,'0','0',".$point_send.",'loyalty','TransferFluz','".date("Y-m-d H:i:s")."', '".date("Y-m-d H:i:s")."', ".(int)$id_transfer.")");
+        
+        $fluzzer = Db::getInstance()->getValue("SELECT CONCAT(firstname,' ',lastname) name
+                                                FROM "._DB_PREFIX_."customer
+                                                WHERE id_customer = ".(int)$id_sponsor);
+        $data = [];
+        $data['fluzzer'] = $fluzzer;
+        $data['fluz'] = $point_send;
+        $data['fluzmoney'] = Product::convertAndFormatPrice($point_send*25);
+        
+        return array('data' => $data, 'success' => $result);
+    }
+
+    /**
+     * 
+     */
     public function pay($args) {
 
         $this->context = Context::getContext();
@@ -2110,7 +2164,8 @@ return $responseObj;
         for ($i = 0; $i < strlen($email); $i++) {
           $idTemporary .= (string) ord($email[$i]);
         }
-        return substr($idTemporary, 0, 10);
+        return substr($idTemporary, 0, 7).rand(100,999);
+
       }
             
   }

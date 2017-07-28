@@ -110,9 +110,9 @@ class Customer extends CustomerCore
             'spouse_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 50),
             'children' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 5),
             'phone_provider' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
-            'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt', 'size' => 4),
-            'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedInt', 'size' => 15),
-            'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isUnsignedInt', 'size' => 6),
+            'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 4),
+            'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 15),
+            'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
         ),  
     );
     
@@ -176,6 +176,15 @@ class Customer extends CustomerCore
         if ( Tools::getValue('phone_provider') == "" ) {
             $this->phone_provider = null;
         }
+        if ( Tools::getValue('vault_code') == "" ) {
+            $this->vault_code = null;
+        }
+        if ( Tools::getValue('phone') == "" ) {
+            $this->phone = null;
+        }
+        if ( Tools::getValue('app_confirm') == "" ) {
+            $this->app_confirm = null;
+        }
 
         if ($this->newsletter && !Validate::isDate($this->newsletter_date_add)) {
             $this->newsletter_date_add = date('Y-m-d H:i:s');
@@ -192,7 +201,7 @@ class Customer extends CustomerCore
             }
         }
 
-        return parent::update(true);
+        return ObjectModel::update(true);
     }
     
     public function getAddresses($id_lang)
