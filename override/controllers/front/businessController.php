@@ -56,7 +56,8 @@ class businessController extends FrontController {
         $this->context->smarty->assign('pointsAvailable', $pointsAvailable);
 
         foreach ($tree as &$network) {
-            $sql = 'SELECT id_customer, firstname, lastname, username, email, dni FROM ' . _DB_PREFIX_ . 'customer 
+            $sql = 'SELECT id_customer, firstname, lastname, phone, username, email, dni 
+                    FROM ' . _DB_PREFIX_ . 'customer 
                     WHERE id_customer =' . $network['id'];
             $row_sql = Db::getInstance()->getRow($sql);
 
@@ -64,13 +65,15 @@ class businessController extends FrontController {
             $network['firstname'] = $row_sql['firstname'];
             $network['lastname'] = $row_sql['lastname'];
             $network['email'] = $row_sql['email'];
+            $network['phone'] = $row_sql['phone'];
             $network['dni'] = $row_sql['dni'];
             $network['username'] = $row_sql['username'];
         }
 
-        $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, email, dni, username FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
+        $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, phone, email, dni, username FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
+        
         $net_business = array_merge($tree, $employee_b);
-
+        
         foreach ($net_business as $val) {
             if ($val['username'] != "" ) {
                     $list_business[$val['id_customer']] = $val;
@@ -143,6 +146,7 @@ class businessController extends FrontController {
         
         if (Tools::isSubmit('add-employee')) {
             $error = "";
+            $image_url = "";    
             $FirstNameEmployee = Tools::getValue('firstname');
             $LastNameEmployee = Tools::getValue('lastname');
             $EmailEmployee = Tools::getValue('email');
@@ -150,6 +154,13 @@ class businessController extends FrontController {
             $point_used_add = Tools::getValue('ptosusedhiddenadde');
             $phone_user = Tools::getValue('phone_invoice');
             
+            if (isset($_SERVER['HTTPS'])) {
+               $image_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/img/business/'.$this->context->customer->id.'.png'; 
+            }
+            else{
+               $image_url = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/img/business/'.$this->context->customer->id.'.png'; 
+            }
+
             if (empty($FirstNameEmployee) || empty($LastNameEmployee) || !Validate::isName($FirstNameEmployee) || !Validate::isName($LastNameEmployee)) {
                 $error = 'name invalid';
             } elseif (Tools::isSubmit('add-employee') && !Validate::isEmail($EmailEmployee)) {
@@ -222,6 +233,7 @@ class businessController extends FrontController {
                                 '{birthdate}' => $customer->birthday,
                                 '{address}' => 'No Disponible',
                                 '{phone}' => $phone_user,
+                                '{img_business}' => $image_url,    
                                 '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                                 '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                 '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
@@ -230,8 +242,8 @@ class businessController extends FrontController {
 
                             AuthController::sendNotificationSponsor($customer->id);
 
-                            $template = 'welcome_fluzfluz';
-                            $prefix_template = '16-welcome_fluzfluz';
+                            $template = 'welcome_fluzfluz_business';
+                            $prefix_template = '16-welcome_fluzfluz_business';
 
                             $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                             $row_subject = Db::getInstance()->getRow($query_subject);
@@ -285,6 +297,7 @@ class businessController extends FrontController {
                             '{birthdate}' => $customer->birthday,
                             '{address}' => 'No Disponible',
                             '{phone}' => $phone_user,
+                            '{img_business}' => $image_url,
                             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
@@ -293,15 +306,15 @@ class businessController extends FrontController {
                         
                         AuthController::sendNotificationSponsor($customer->id);
                         
-                        $template = 'welcome_fluzfluz';
-                        $prefix_template = '16-welcome_fluzfluz';
+                        $template = 'welcome_fluzfluz_business';
+                        $prefix_template = '16-welcome_fluzfluz_business';
                         
                         $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                         $row_subject = Db::getInstance()->getRow($query_subject);
                         $message_subject = $row_subject['subject_mail'];
                         
                         $allinone_rewards = new allinone_rewards();
-                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
                         
                         $invitation_sent = true;
                         }
@@ -427,8 +440,8 @@ class businessController extends FrontController {
 
                             AuthController::sendNotificationSponsor($customer->id);
 
-                            $template = 'welcome_fluzfluz';
-                            $prefix_template = '16-welcome_fluzfluz';
+                            $template = 'welcome_fluzfluz_business';
+                            $prefix_template = '16-welcome_fluzfluz_business';
 
                             $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
                             $row_subject = Db::getInstance()->getRow($query_subject);
@@ -725,7 +738,7 @@ class businessController extends FrontController {
                                     '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                     );
 
-                                    $template = 'welcome_fluzfluz';
+                                    $template = 'welcome_fluzfluz_business';
                                     $allinone_rewards = new allinone_rewards();
                                     //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
 
