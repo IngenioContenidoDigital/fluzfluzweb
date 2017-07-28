@@ -98,20 +98,47 @@ class businessController extends FrontController {
         if(Tools::isSubmit('export-excel')){
             
             $history_transfer = $this->history_business();
-            header("Content-Type: application/vnd.ms-excel;");
-            header("Content-Disposition: attachment; filename=historial.xls");
-            header("Pragma: no-cache");
-            header("Expires: 0");
-            $out = fopen("php://output", 'w');
-            fputcsv($out, array_keys($history_transfer[0]));
-
+            $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>Id transferencia</th>
+                                        <th>Id cliente</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Fecha de transferencia</th>
+                                        <th>Numero de empleados</th>
+                                        <th>Tipo de transferencia</th>
+                                        <th>Fluz transferidos</th>
+                                        <th>Precio en fluz</th>";
+            
+            $report .= "</tr>";
+            
             foreach ($history_transfer as $data)
-            {
-                fputcsv($out, $data,"\t");
-            }
+                {
+                    $report .= "<tr>
+                            <td>".$data['id_transferencia']."</td>
+                            <td>".$data['id_cliente']."</td>
+                            <td>".$data['nombre']."</td>
+                            <td>".$data['apellido']."</td>
+                            <td>".$data['fecha_transferencia']."</td>
+                            <td>".$data['numero_empleados']."</td>
+                            <td>".$data['tipo_transferencia']."</td>
+                            <td>".$data['fluz_transferidos']."</td>
+                            <td>".$data['precio_fluz']."</td>";
+                }
+            $report .= "         </table>
+                        </body>
+                    </html>";    
             
-            fclose($out);
-            
+            header("Content-Type: application/vnd.ms-excel");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("content-disposition: attachment;filename=history_business.xls");
+            die($report);
         }
         
         if (Tools::isSubmit('add-employee')) {
@@ -724,7 +751,7 @@ class businessController extends FrontController {
     function  history_business(){
         $query_history = 'SELECT tf.id_transfers_fluz as id_transferencia, r.id_customer as id_cliente, c.firstname as nombre, c.lastname as apellido, DATE_FORMAT(tf.date_add, "%d/%m/%Y") as fecha_transferencia, 
                             (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS numero_empleados,
-                            r.reason as tipo_transferencia, r.credits as fluz_transferidos 
+                            r.reason as tipo_transferencia, r.credits as fluz_transferidos , (r.credits * 25) as precio_fluz
                             FROM '._DB_PREFIX_.'transfers_fluz tf
                             LEFT JOIN '._DB_PREFIX_.'rewards r ON(r.id_transfer_fluz = tf.id_transfers_fluz)
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (r.id_customer = c.id_customer)
