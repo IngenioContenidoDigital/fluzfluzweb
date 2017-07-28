@@ -133,7 +133,7 @@
                 <div class="col-lg-2 content-item-users">{$net.firstname}</div>
                 <div class="col-lg-2 content-item-users">{$net.lastname}</div>
                 <div class="col-lg-2 content-item-users email-id">{$net.email}</div>
-                <div class="col-lg-1 content-item-users">Phone</div>
+                <div class="col-lg-1 content-item-users">{$net.phone}</div>
                 <div class="col-lg-2 content-item-users dni-id">{$net.dni}</div>
                 <div class="col-lg-2 content-item-users" id="amount_unit">
                     <div class="row">
@@ -423,7 +423,7 @@
                 var cashconvertion= cashamount +' '+'Fluz';
                 var ptosMax = availablepoint+' '+'Fluz';
                 var calculo = availablepoint - cashamount;
-                var cashconvertion2='COP'+' '+'$' + (Math.round(calculo*25)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var cashconvertion2='COP'+' '+'$' + (Math.round(calculo*25)).toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 
                 $('#available-point span').html(calculo);
                 $('.r_clase').attr('oninput', availablecash);
@@ -460,10 +460,10 @@
                 var resultado = calcular(valor1,valor2);
                 var ptoUnit = (Math.round((valor2/25)/t_user))+' '+' Fluz para Cada Fluzzer';
                 var ptosingle = Math.round((valor2/25));
-                var cashamount = (Math.round((valor2/t_user)*25));
-                var cashconvertion='COP'+' '+'$' + cashamount.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var cashconvertionfluz='COP'+' '+'$' + Math.round(valor2).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var ptoList = (Math.round((valor2/25)/t_user));
+                var cashamount = ptoList * 25;
+                var cashconvertion='COP'+' '+'$' + cashamount.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var result2 = valor1 - (ptoList*t_user);
                 var resultCop = availablecash - valor2;
                 var cashconvertion2='COP'+' '+'$' + (Math.round(resultCop)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");

@@ -24,7 +24,7 @@
 .btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198; border: none;}
 .btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;border: none;}
 .div-toggle{padding: 0px;}
-.content-item-users{padding: 0; text-align: center; font-weight: bold;}
+.content-item-users{padding: 0; text-align: center; font-weight: bold; font-size: 12px;}
 .content-info-users{padding: 15px; border-bottom: 1px solid #e5e5e5;}
 div.checker{margin-top: 5px !important; margin-right: 0px;}
 .container-info-users{padding: 0px;}
@@ -107,6 +107,6 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 .btn-account {padding: 6px 12px;font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;color: #fff;border: none;background: #ef4136;}
 #quantity-users{padding-left: 0px;margin-top: 10px;color:#000;}
 .img-business{ border-radius: 20%; max-height: 100px;min-width: 100px;}
-.text-business{color: #000; font-size: 16px; margin-right: 12px;text-transform: uppercase;font-weight: bold;}
+.text-business{color: #000; font-size: 16px;text-transform: uppercase;font-weight: bold;}
 .div-img{text-align: right;}
 .margin-info{margin-top: 20px;}
