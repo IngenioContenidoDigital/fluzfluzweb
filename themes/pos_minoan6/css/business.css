@@ -23,13 +23,15 @@
 .div-btn{padding: 0px;}
 .btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198; border: none;}
 .btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;border: none;}
+.btn-delete-employee{padding: 7px 35px;color: white;font-weight: bold;background:#ef4136; border: none;}
+.btn-delete-employee:hover{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198;border: none;}
 .div-toggle{padding: 0px;}
 .content-item-users{padding: 0; text-align: center; font-weight: bold; font-size: 12px;}
 .content-info-users{padding: 15px; border-bottom: 1px solid #e5e5e5;}
 div.checker{margin-top: 5px !important; margin-right: 0px;}
 .container-info-users{padding: 0px;}
 .title-row-business{margin-top: 40px;}
-
+.custom-file-upload{padding-left: 0px;}
 /* PANEL ADD AN EMPLOYEE */
 .row-form-employee{padding: 0px;}
 .form-employee{padding: 3px 5px;height: 27px;-webkit-box-shadow: none;box-shadow: none;
@@ -45,6 +47,7 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 
 /* PANEL UPLOAD EMPLOYEES */
 .row-upload{padding: 0px; margin-bottom: 10px; margin-top: 20px;}
+.row-upload-transfer{padding: 0px; margin-bottom: 10px; margin-top: 20px;}
 .title-browser{padding-left: 0px;}
 .browse-div{padding-left: 0px;}
 .div-btn-submit{padding: 0px; margin-top: 10px;}

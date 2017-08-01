@@ -105,12 +105,27 @@
                 </div>
             </div>
             <div class="col-lg-2 div-btn">
+                <!--<button class="myfancybox col-lg-12 btn btn-default btn-delete-employee">
+                    <span> ELIMINAR EMPLEADO </span>
+                </button>-->
                 <button class="myfancybox btn btn-default btn-save-table" href="#confirmTransfer" id="save-info" name="save-info">
                     <span> TRANSFERIR </span>
                 </button>
             </div>
         </div>
     </div>
+    <div class="row row-upload-transfer" id="row-upload-transfer">
+        <div class="row title-browser">
+            <p class="title-panel-upload"> Importar CSV para Transferencia de Fluz </p>
+        </div>
+        <div class="row browse-div">
+            <div class="col-lg-12 custom-file-upload" style="margin-top:5px;">
+                <!--<label for="file">File: </label>--> 
+                <input type="file" name="file" id="file" />
+            </div>
+            <div class="error" id="error"></div>
+        </div>
+    </div>                    
     <div class="row bar-info-users">
         <div class="col-lg-1 item-users"></div>
         <div class="col-lg-2 item-users" id="firstname">Nombre</div>
@@ -128,7 +143,7 @@
                 <input type="hidden" id="email_id" value="{$net.email}">
                 
                 <div class="col-lg-1 content-item-users">
-                    <input type="checkbox" id="check-user" value="">
+                    <input type="checkbox" id="check-user" value="{$net.id_customer}">
                 </div>
                 <div class="col-lg-2 content-item-users">{$net.firstname}</div>
                 <div class="col-lg-2 content-item-users">{$net.lastname}</div>
@@ -230,6 +245,7 @@
             $('#option-list').html(add);
             $('#title-container').html(title);
             $('#amount-use').hide();
+            $('#row-upload-transfer').hide();
             
             var select = $('select[name=select-distribute]').val()
             if(select == 'select-option'){
@@ -243,6 +259,7 @@
                     $('#container-List-employees').addClass("disabledbutton");
                     $('#amount-use').show();
                     $('#save-info').show();
+                    $('#row-upload-transfer').show();
                     
                     $('.r_clase').addClass('amount_unit');
                     $('.r_clase').removeClass('amount_edit');
@@ -281,6 +298,7 @@
                     
                     $('#container-List-employees').removeClass("disabledbutton");
                     $('#amount-use').hide();
+                    $('#row-upload-transfer').hide();
                     $('#save-info').show();
                     $(".amount_unit").prop('disabled', true);
                     $(".amount_unit").css('background', 'transparent');
@@ -288,6 +306,16 @@
                     $('#check-user').click(function() {
                         if ($(this).is(':checked')) {
                             //codigo para eliminar usuario de la red
+                            var check_delete = $('#check-user').val();
+                            
+                            $.ajax({
+                                url : urlTransferController,
+                                type : 'POST',
+                                data : 'action=kickoutemployee&id_employee='+check_delete,
+                                success : function(id) {
+                                     console.log(id);
+                                }
+                            });
                         }
                     });   
                     
@@ -350,6 +378,7 @@
                     $('#container-List-employees').addClass("disabledbutton");
                     $('#amount-use').hide();
                     $('#save-info').hide();
+                    $('#row-upload-transfer').hide();
                 }
             });
             
@@ -513,19 +542,40 @@
         }
     </script>
     <script>
-        /*$('#save-info').click(function(){
-            
-            var total_point = 0;            
-            $( ".amount_edit" ).each(function( index ) {
+        $("#file").change(function(e) {
+            var file = document.getElementById('file').files[0],
+            reader = new FileReader();
+            reader.onload = function(event) {
                 
-                total_point += Number($(this).val());
+                var array = event.target.result;
+                var extractValidString = array.match(/[\w @.]+(?=,?)/g);
+                var noOfCols = 3;
+                var objFields = extractValidString.splice(0,noOfCols);
+                var arr = [];
+                while(extractValidString.length>0) {
+                    var obj = {};
+                    var row = extractValidString.splice(0,noOfCols)
+                    for(var i=0;i<row.length;i++) {
+                        obj[objFields[i]] = row[i].trim()
+                    }
+                    arr.push(obj)
+                }
                 
-            });
-            var fluz = Math.round((total_point/25));
-            var cashconvertionfluz='COP'+' '+'$' + Math.round(total_point).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-            $('#fluz_send').html(fluz);
-            $('#fluz_send_cash').html(cashconvertionfluz);
-            
-        });*/
+                console.log(arr);
+                list_transfer = JSON.stringify(arr);
+                $('.amount_unit').val(10);
+                $.ajax({
+                url : urlTransferController,
+                type : 'POST',
+                data : 'action=uploadtransfers&list_transfer='+list_transfer,
+                
+                    success : function(a) {
+                       $('#error').html(a);
+                       console.log(a);
+                    }
+                });
+            };
+            reader.readAsText(file);
+        });
     </script>
 {/literal}
