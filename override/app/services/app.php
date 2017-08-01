@@ -84,6 +84,39 @@ class API extends REST {
         }
     }
 
+  private function searchByMap() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $position['lat'] =  round($this->_request['lat'], 6);;
+    $position['lng'] =  round($this->_request['lng'], 6);;
+    
+//    error_log("\n\n\n\n\n Esto es lo que recive: \n lat: ".print_r($position['lat'], true)."\n lng: ".print_r($position['lng'], true),3,"/tmp/error.log");
+    $manufacturers = Db::getInstance()->getValue('SELECT GROUP_CONCAT(DISTINCT id_manufacturer)
+                      FROM  '._DB_PREFIX_.'address
+                      WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng'].'
+                      GROUP BY id_manufacturer;');
+    
+//    error_log("\n\n\n\n\n Esto es el query: \n ".print_r($manufacturers, true),3,"/tmp/error.log");
+    
+    $search = Search::findApp( $manufacturers, 4 );
+    
+//    error_log("\n\n\n\n\n Esto es el search: \n ".print_r($search, true),3,"/tmp/error.log");
+    
+    $link = new Link();
+    
+    foreach ($search['result'] as &$result){
+      $result['image_manufacturer'] = $this->protocol . $link->getManufacturerImageLink($result['m_id']);
+      $result['m_points'] = round($result['m_points']);
+      $prices = explode(",", $result['m_prices']);
+      $price_min = round($prices[0]);
+      $price_max = round($prices[ count($prices) - 1 ]);
+      $result['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
+    }
+    
+    $this->response($this->json($search), 200);
+  }
     
   private function search() {
     if ($this->get_request_method() != "GET") {

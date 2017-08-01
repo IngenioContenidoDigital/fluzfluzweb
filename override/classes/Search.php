@@ -298,6 +298,37 @@ class Search extends SearchCore{
       $result = $db->executeS($sql);
       return array('result' => $result);
     }
+    else if ( $option == 4 ){
+      $sql = 'SELECT DISTINCT
+              '._DB_PREFIX_.'manufacturer.id_manufacturer AS m_id,
+              '._DB_PREFIX_.'manufacturer.`name` AS m_name, 
+              GROUP_CONCAT(DISTINCT product_child.price ORDER BY product_child.price SEPARATOR \',\') AS m_prices,
+              MAX(product_child.reward) AS m_points 
+              FROM
+              '._DB_PREFIX_.'manufacturer_lang
+              INNER JOIN '._DB_PREFIX_.'manufacturer ON '._DB_PREFIX_.'manufacturer.id_manufacturer = '._DB_PREFIX_.'manufacturer_lang.id_manufacturer
+              INNER JOIN '._DB_PREFIX_.'product ON '._DB_PREFIX_.'product.id_manufacturer='._DB_PREFIX_.'manufacturer.id_manufacturer
+              INNER JOIN '._DB_PREFIX_.'category_product ON '._DB_PREFIX_.'category_product.id_product='._DB_PREFIX_.'product.id_product
+              INNER JOIN '._DB_PREFIX_.'category_lang ON '._DB_PREFIX_.'category_product.id_category = '._DB_PREFIX_.'category_lang.id_category
+              INNER JOIN '._DB_PREFIX_.'product_lang ON '._DB_PREFIX_.'product_lang.id_product='._DB_PREFIX_.'product.id_product  
+              INNER JOIN (
+               SELECT '._DB_PREFIX_.'product.id_manufacturer, '._DB_PREFIX_.'product.price, (('._DB_PREFIX_.'product.price*('._DB_PREFIX_.'rewards_product.`value`/100)/25)) AS reward
+               FROM '._DB_PREFIX_.'product
+               INNER JOIN ps_rewards_product ON '._DB_PREFIX_.'rewards_product.id_product=ps_product.id_product 
+               WHERE '._DB_PREFIX_.'product.product_parent=0  AND '._DB_PREFIX_.'product.active=1
+              ) AS product_child ON product_child.id_manufacturer='._DB_PREFIX_.'manufacturer.id_manufacturer
+              WHERE
+              ('._DB_PREFIX_.'product.product_parent = 1 AND
+              '._DB_PREFIX_.'manufacturer.active = 1 AND '._DB_PREFIX_.'manufacturer.id_manufacturer in ('.$param.'))
+              GROUP BY '._DB_PREFIX_.'manufacturer.id_manufacturer';
+//        error_log("\n\n\n\n\n*********************************\n Este es el query de busqueda: \n\n*********************************************\n\n".print_r($sql, true),3,"/tmp/error.log");
+        $result = array();
+        $result = $db->executeS($sql);
+//        error_log("\n\n\n\n\n*\n Este es el result: \n\n*\n\n".print_r($result, true),3,"/tmp/error.log");
+        $total = count($result);
+//        error_log("\n\n\n\n\n*\n Este es el total: \n\n*\n\n".print_r($total, true),3,"/tmp/error.log");
+        return array('total' => $total,'result' => $result);
+    }
   }
 }
 ?>
