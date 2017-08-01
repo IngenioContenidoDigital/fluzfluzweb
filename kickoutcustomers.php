@@ -112,7 +112,8 @@ class kickoutCustomers {
     }
 
     public function insertCustomerKickOut($customer) {
-        $numSponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer['id']);
+        //$numSponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer['id']);
+	$numSponsorships = [];
         $level = count( array_slice($numSponsorships, 1, 15) );
         
         // Mover usuario a grupo de clientes
