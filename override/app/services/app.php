@@ -92,13 +92,15 @@ class API extends REST {
     $position['lat'] =  round($this->_request['lat'], 6);;
     $position['lng'] =  round($this->_request['lng'], 6);;
     
-//    error_log("\n\n\n\n\n Esto es lo que recive: \n lat: ".print_r($position['lat'], true)."\n lng: ".print_r($position['lng'], true),3,"/tmp/error.log");
-    $manufacturers = Db::getInstance()->getValue('SELECT GROUP_CONCAT(DISTINCT id_manufacturer)
-                      FROM  '._DB_PREFIX_.'address
-                      WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng'].'
-                      GROUP BY id_manufacturer;');
+//    error_log("\n\n\n\n\n Esto es lo que recibe: \n lat: ".print_r($position['lat'], true)."\n lng: ".print_r($position['lng'], true),3,"/tmp/error.log");
+    $query = 'SELECT GROUP_CONCAT(DISTINCT id_manufacturer)
+              FROM  '._DB_PREFIX_.'address
+              WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng']
+            ;
+//    error_log("\n\n\n\n\n Esto es el query: \n ".print_r($query, true),3,"/tmp/error.log");
+    $manufacturers = Db::getInstance()->getValue($query);
     
-//    error_log("\n\n\n\n\n Esto es el query: \n ".print_r($manufacturers, true),3,"/tmp/error.log");
+//    error_log("\n\n\n\n\n Esto es manufacturers: \n ".print_r($manufacturers, true),3,"/tmp/error.log");
     
     $search = Search::findApp( $manufacturers, 4 );
     
@@ -735,6 +737,8 @@ class API extends REST {
     $link = new Link();
     if( $option == 1 ){
       $categories = $model->getCategoriesHome($this->id_lang_default, true, true, true, 3, 5, true);
+      error_log("\n\nEntro a opcion 1: \n\n Categorias:\n\n".print_r($categories,true),3,"/tmp/error.log");
+      
       foreach ($categories['result'] as $key => &$category) {
         $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
       }
@@ -1035,6 +1039,7 @@ class API extends REST {
           foreach ($purchases['result'] as &$purchase){
 //            $purchase['card_code'] = (int)$purchase['card_code'];            
             $purchase['price'] = round($purchase['price']);
+            $purchase['formatPrice'] = $this->formatPrice($purchase['price']);
             $purchase['showDetails'] = false;
             $countPurchases++;
           }
@@ -1426,13 +1431,17 @@ class API extends REST {
     }
     
     // Traigo todas las posiciones dentro de mi ciudad ($city)
-    $sql = "SELECT latitude, longitude
-            FROM "._DB_PREFIX_."address
-            WHERE latitude < ".$city['latitude']['latitud_inicial']."
-              and latitude > ".$city['latitude']['latitud_final']." 
-              and longitude < ".$city['longitude']['longitud_inicial']." 
-              and longitude > ".$city['longitude']['longitud_final'];
-    
+    $sql = "SELECT a.latitude, a.longitude, count(a.latitude) as size
+            FROM "._DB_PREFIX_."address as a
+            INNER JOIN "._DB_PREFIX_."manufacturer as m on (m.id_manufacturer = a.id_manufacturer)            
+            WHERE a.latitude < ".$city['latitude']['latitud_inicial']."
+            and a.latitude > ".$city['latitude']['latitud_final']." 
+            and a.longitude < ".$city['longitude']['longitud_inicial']." 
+            and a.longitude > ".$city['longitude']['longitud_final']."
+            and m.active = 1
+            and a.active = 1
+            GROUP BY a.latitude, a.longitude";
+        
     if ($option == 2){
       if($id_manufacturer != ''){
         $sql .= ' and id_manufacturer = '.$id_manufacturer.';';
@@ -1441,6 +1450,7 @@ class API extends REST {
         return $this->response(json_encode(array('result' => '')),206);
       }
     }
+//    error_log("\n\n\n Este es el query de posiciones: \n\n".print_r($sql,true),3,'/tmp/error.log');
     
     $positions = Db::getInstance()->executeS($sql);
     
