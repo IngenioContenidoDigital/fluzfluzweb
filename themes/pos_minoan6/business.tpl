@@ -152,7 +152,7 @@
                 <div class="col-lg-2 content-item-users dni-id">{$net.dni}</div>
                 <div class="col-lg-2 content-item-users" id="amount_unit">
                     <div class="row">
-                        <input class="col-lg-5 r_clase amount_unit" oninput="" sponsor="{$net.id_customer}" id="single-{$net.id_customer}" value="0" type="text" min="25" max="" autocomplete="off"/>
+                        <input class="col-lg-5 r_clase amount_unit" oninput="" sponsor="{$net.id_customer}" id="single-{$net.id_customer}" value="0" type="text" min="25" autocomplete="off"/>
                         <div class="col-lg-3 text_fluz">$ COP</div>   
                         <div class="col-lg-4 edit-btn" id="btn-edit" onclick="edit({$net.id_customer})">Editar</div>
                     </div>
@@ -239,6 +239,7 @@
 {literal}
     <script>
         $(document).ready(function(){
+            
             var add = $('#item-menu-principal').text();
             var title = 'PANEL PRINCIPAL';
             $('#save-info').hide();
@@ -278,15 +279,38 @@
                     
                     $('#save-info-process').unbind("click");
                     $('#save-info-process').click(function(){
-                       var ptoDistribute = $('#ptosdistributehidden').val();
+                       //var ptoDistribute = $('#ptosdistributehidden').val();
                        var ptoUsed = $('#ptosusedhidden').val();       
-                       var url = document.getElementById("url_fluz").innerHTML;
                        $(this).prop("disabled",true);
                        $('#cancel_modal_fluz').prop('disabled',true);
+                       var listEdit = [];  
+                       var total_point = 0;
+                       var url = document.getElementById("url_fluz").innerHTML;
+                       
+                       $( ".r_clase" ).each(function( index ) {
+                            var id_sponsor = $(this).attr("sponsor");
+                            var amount_edit = ($( this ).val())/25;
+
+                            if($('#partial_amount-'+id_sponsor).val() !== ''){
+                                amount_edit = $('#partial_amount-'+id_sponsor).val();
+                            }
+                            total_point += Number($(this).val());
+
+                            var item = {}
+                            if(amount_edit != 0){
+                                item ["id_sponsor"] = id_sponsor;
+                                item ["amount"] = amount_edit;
+                            }
+
+                            listEdit.push(item);
+                        });
+                       
+                        listEdit = JSON.stringify(listEdit);
+                       
                        $.ajax({
                             url : urlTransferController,
                             type : 'POST',
-                            data : 'action=allFLuz&ptoDistribute='+ptoDistribute+'&ptoUsed='+ptoUsed,
+                            data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
                             success : function() {
                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
@@ -484,15 +508,16 @@
             var valor2=$('#use_allfluz').val();
             var t_user = $('#total_users').val();
             var availablecash = $('#cash-available').val();
-            
+            $('.custom-file-upload').prop('disabled',true);
             if(valor2>=0){
                 var resultado = calcular(valor1,valor2);
                 var ptoUnit = (Math.round((valor2/25)/t_user))+' '+' Fluz para Cada Fluzzer';
                 var ptosingle = Math.round((valor2/25));
                 var cashconvertionfluz='COP'+' '+'$' + Math.round(valor2).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var ptoListview = (Math.round((valor2/25)/t_user))+' '+'Fluz';
                 var ptoList = (Math.round((valor2/25)/t_user));
                 var cashamount = ptoList * 25;
-                var cashconvertion='COP'+' '+'$' + cashamount.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var cashconvertion= cashamount.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var result2 = valor1 - (ptoList*t_user);
                 var resultCop = availablecash - valor2;
                 var cashconvertion2='COP'+' '+'$' + (Math.round(resultCop)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -503,9 +528,9 @@
                 $('#fluz_send').html(ptosingle);
                 $('#fluz_send_cash').html(cashconvertionfluz);
                 $('#ptosdistributehidden').val(ptoList);
-                $('.amount_unit').val(ptoList);
-                $('.amount_unit_cash').html(cashconvertion);
-                $('.text_fluz').html('Fluz');
+                $('.amount_unit').val(cashconvertion);
+                $('.amount_unit_cash').html(ptoListview);
+                $('.text_fluz').html('$ COP');
                 $('#available-point span').html(result2);
                 $('#title-fluz span').html(cashconvertion2);
                 
@@ -543,6 +568,8 @@
     </script>
     <script>
         $("#file").change(function(e) {
+            $('#use_allfluz').prop('disabled',true);
+            $('#use_allfluz').css('opacity', '0.5')
             var file = document.getElementById('file').files[0],
             reader = new FileReader();
             reader.onload = function(event) {
@@ -561,16 +588,44 @@
                     arr.push(obj)
                 }
                 
-                console.log(arr);
+                //console.log(arr);
+                
+                var sum = 0;
+                $.each(arr, function( index, value ) {
+                            var monto = value.montotransferencia;
+                            var convmonto = monto.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            var monto_fluz_view = value.montotransferencia/25+' '+'Fluz';
+                            var monto_fluz = value.montotransferencia/25;
+                            sum += parseInt(monto);
+                            $('#container-List-employees > div').each(function () {
+                                var email = $(this).find('.email-id').html();
+                                var id_custom = $(this).find('#id_sponsor').val();
+                                if(email == value.email){
+                                    $('#single-'+id_custom).val(convmonto);
+                                    $('#amount_unit_cash-'+id_custom).html(monto_fluz_view);
+                                    $("#partial_amount-"+id_custom).val(monto_fluz);
+                                }
+                            });
+                        });
+                        
+                $('#ptosusedhidden').val(sum);   
+                var fluz = Math.round((sum/25));
+                var cashconvertionfluz='COP'+' '+'$' + Math.round(sum).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                $('#fluz_send').html(fluz);
+                $('#fluz_send_cash').html(cashconvertionfluz);
+                
                 list_transfer = JSON.stringify(arr);
-                $('.amount_unit').val(10);
+                
                 $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=uploadtransfers&list_transfer='+list_transfer,
                 
                     success : function(a) {
-                       $('#error').html(a);
+                       if(a != ''){
+                            $('#error').html(a);
+                            $('#save-info').prop('disabled',true);
+                       } 
                        console.log(a);
                     }
                 });
