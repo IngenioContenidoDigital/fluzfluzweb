@@ -691,8 +691,90 @@ class Model extends PaymentModule {
     /**
      * 
      */ 
-    public function get_cities($id_state){
-        return Address::get_cities_app($id_state);
+    public function get_cities(){
+        $query = "SELECT DISTINCT ciudad AS name
+                    FROM ps_cities
+                    ORDER BY ciudad";
+        return Db::getInstance()->ExecuteS($query);
+    }
+
+    /**
+     * 
+     */ 
+    public function personalinformation($id_customer){
+        $query = "SELECT
+                    c.id_gender,
+                    c.firstname,
+                    c.lastname,
+                    c.email,
+                    c.dni,
+                    c.birthday,
+                    c.civil_status,
+                    c.occupation_status,
+                    c.field_work,
+                    c.pet,
+                    c.pet_name,
+                    c.spouse_name,
+                    c.children,
+                    c.phone_provider,
+                    c.phone,
+                    a.address1,
+                    a.address2,
+                    a.city
+                FROM "._DB_PREFIX_."customer c
+                INNER JOIN "._DB_PREFIX_."address a ON ( c.id_customer = a.id_customer )
+                WHERE c.id_customer = ".$id_customer."
+                GROUP BY c.id_customer";
+        return Db::getInstance()->getRow($query);
+    }
+    
+    public function savepersonalinformation($args) {
+        
+        $customercheckPass = Db::getInstance()->getValue('SELECT `id_customer`
+                                                            FROM `'._DB_PREFIX_.'customer`
+                                                            WHERE `id_customer` = '.(int)$args["id_customer"].'
+                                                            AND `passwd` = \''.pSQL(Tools::encrypt($args["password"])).'\'');
+            
+        if ( $customercheckPass == "" || !isset($customercheckPass) || empty($customercheckPass) ) {
+            return array('success' => false, 'error' => 'Clave Incorrecta.' );
+        } else {
+            $customer = new Customer($args["id_customer"]);
+
+            $customer->id_gender = $args["id_gender"];
+            $customer->firstname = $args["firstname"];
+            $customer->lastname = $args["lastname"];
+            $customer->birthday = $args["birthday"];
+            $customer->civil_status = $args["civil_status"];
+            $customer->occupation_status = $args["occupation_status"];
+            $customer->field_work = $args["field_work"];
+            $customer->pet = $args["pet"];
+            $customer->pet_name = $args["pet_name"];
+            $customer->spouse_name = $args["spouse_name"];
+            $customer->children = $args["children"];
+            $customer->phone_provider = $args["phone_provider"];
+            $customer->phone = $args["phone"];
+            
+            if ( $args["password_new"] != "" && isset($args["password_new"]) && !empty($args["password_new"]) ) {
+                $customer->passwd = Tools::encrypt($args["password_new"]);
+            }
+
+            $addresses = $customer->getAddresses((int)Configuration::get('PS_LANG_DEFAULT'));
+            foreach ($addresses as $address) {
+                $obj = new Address((int)$address['id_address']);
+                $obj->firstname = $args["firstname"];
+                $obj->lastname = $args["lastname"];
+                $obj->address1 = $args["address1"];
+                $obj->address2 = $args["address2"];
+                $obj->city = $args["city"];
+                $obj->update();
+            }
+
+            if ( $customer->update() ) {
+                return array('success' => true, 'error' => false );
+            } else {
+                return array('success' => false, 'error' => 'No pudo ser almacenada la información personal.' );
+            }
+        }
     }
     
     // get_costo_envio
@@ -1423,6 +1505,12 @@ private function clearCart()
     	FROM ps_document 
     	WHERE active = 1";
     	return Db::getInstance()->ExecuteS($sql);
+    }
+    
+    public function phoneProviders() {
+    	$query = "SELECT name
+                  FROM "._DB_PREFIX_."webservice_external_telco_operator";
+        return Db::getInstance()->ExecuteS($query);
     }
 
     public function get_traker_order($id_order){
