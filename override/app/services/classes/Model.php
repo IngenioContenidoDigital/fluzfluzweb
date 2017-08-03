@@ -727,6 +727,16 @@ class Model extends PaymentModule {
                 GROUP BY c.id_customer";
         return Db::getInstance()->getRow($query);
     }
+
+    /**
+     * 
+     */ 
+    public function sevedCreditCard($id_customer){
+        $card = Customer::getCard($id_customer);
+        $dateCard = explode("/",$card["date_expiration"]);
+        $card["date_expiration"] = $dateCard[1]."-".$dateCard[0];
+        return $card;
+    }
     
     public function savepersonalinformation($args) {
         
@@ -1123,9 +1133,14 @@ private function clearCart()
             $this->errors[] = 'No existe una direccion del cliente en el contexto.';
             return $this->errors;
         }
-        
-        $dateCard = explode("-",$args["datecard"]);
-        $args["datecard"] = $dateCard[0]."/".$dateCard[1];
+
+        if ( $args['payment'] == "Tarjeta_credito" ) {
+            $dateCard = explode("-",$args["datecard"]);
+            $args["datecard"] = $dateCard[0]."/".$dateCard[1];
+            if ( $args['checkautorizationcard'] ) {
+                Customer::addCard($this->context->customer->id, $this->context->customer->secure_key, $args['numbercard'], $args['namecard'], "", $dateCard[1]."/".$dateCard[0]);
+            }
+        }
 
         $data_payment = array('id_cart' => $this->context->cart->id,
                             'total_paid' => $this->context->cart->getOrderTotal(true, Cart::BOTH),
@@ -1944,7 +1959,7 @@ return $responseObj;
     $sql .= ($limit > 0) ? ' LIMIT '.$limit.';' : ';' ;
     
     
-    error_log("\n\n\n Este es el query de categorias: \n\n".$sql,3,"/tmp/error.log");
+    //error_log("\n\n\n Este es el query de categorias: \n\n".$sql,3,"/tmp/error.log");
     $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
     return $db->executeS($sql);
   }
