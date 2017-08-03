@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="row">
-        <span> Si tienes problemas para subir un CSV. Aseg&uacute;rese de que su hoja de c&aacute;lculo est&eacute; formateada correctamente. Descargar <a href="../csvcustomer/carga_customer_example.csv" class="link-down">CSV de Ejemplo</a></span>
+        <span> Si tienes problemas para subir tu CSV. Aseg&uacute;rate de que tu hoja de c&aacute;lculo est&eacute; formateada correctamente. Descargar <a href="../csvcustomer/carga_customer_example.csv" class="link-down">CSV de Ejemplo</a></span>
     </div>
     <div class="row">        
         <div class="col-lg-6 div-btn-submit">
@@ -58,7 +58,7 @@
         <p id="status">API de archivos y API de FileReader no compatibles</p>
     </article>
     <div class="row">
-        <span> Si tienes problemas para subir un CSV. Aseg&uacute;rese de que su hoja de c&aacute;lculo est&eacute; formateada correctamente. Descargar <a href="../csvcustomer/carga_customer_example.csv" class="link-down">CSV de Ejemplo</a> </span>
+        <span> Si tienes problemas para subir tu CSV. Aseg&uacute;rate de que tu hoja de c&aacute;lculo est&eacute; formateada correctamente. Descargar <a href="../csvcustomer/carga_customer_example.csv" class="link-down">CSV de Ejemplo</a> </span>
     </div>
     <div class="row">        
         <div class="col-lg-6 div-btn-submit">

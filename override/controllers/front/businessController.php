@@ -748,45 +748,43 @@ class businessController extends FrontController {
                     }
                 break;
             case 'uploadtransfers':
-                    
+                
+                    $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, phone, email, dni, username FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
+                    $net_business = array_merge($tree, $employee_b);
+                
                     $list_transfer = Tools::getValue('list_transfer');
                     $list_var_transfer = json_decode($list_transfer, true);
                     $totals = RewardsModel::getAllTotalsByCustomer((int) $this->context->customer->id);
                     $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float) $totals[RewardsStateModel::getValidationId()] : 0);
                     $pointsAvailablemoney = $pointsAvailable*25;
-                    
                     $sum = 0;
-                    foreach($list_var_transfer as $datacustomer){ 
+                    $error = "";
 
-                        $error = "";
+                    foreach($list_var_transfer as $datacustomer){ 
                         
-                        if (empty($datacustomer['email'])) {
-                            $error = 'email invalid';
-                            $this->context->smarty->assign('error', $error);
-                        } 
-                        elseif (empty($datacustomer['cedula'])) {
-                            $error = 'No se ha ingresado correctamente el campo Cedula';
-                            $this->context->smarty->assign('error', $error);
-                        } 
-                        elseif (empty($datacustomer['montotransferencia'])) {
-                            $error = 'El Campo Monto de transferencia se encuentra Vacio.';
-                            $this->context->smarty->assign('error', $error);
-                        } 
+                        $q_valid = Db::getInstance()->executeS('SELECT id_customer FROM '._DB_PREFIX_.'customer 
+                                    WHERE email = "'.$datacustomer['email'].'" && dni = "'.$datacustomer['cedula'].'"');
+                        
+                        if(empty($q_valid)){
+                            $error = 'Email '.$datacustomer['email'].' o Cedula '.$datacustomer['cedula'].' No Existe en tu red Fluz Fluz Empresa. Por Favor Revisar tu CSV.';
+                        }
                         
                         $sum += $datacustomer['montotransferencia'];
                     }
-                    
                     if($sum > $pointsAvailablemoney){
-                        $error = 'El Dinero disponible no cubre el valor de esta transaccion.';
-                        $this->context->smarty->assign('error', $error);
+                        $error = 'El Dinero disponible no cubre el valor de esta transaccion. Por Favor Revisar tu CSV.';
                     }
-                    
+                    die($error);
                 break;
-            /*case 'kickoutemployee':
+            case 'kickoutemployee':
+                
                     $id_employee = Tools::getValue('id_employee');
-                    print_r($id_employee);
-                    die();
-                break;*/
+                    
+                    $customer = new Customer($id_employee);
+                    $customer->kick_out = 1;
+                    
+                    $customer->update();
+                break;
             default:
                 break;
         }
