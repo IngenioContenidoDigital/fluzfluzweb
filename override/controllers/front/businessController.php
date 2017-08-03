@@ -167,9 +167,8 @@ class businessController extends FrontController {
                 $error = 'email invalid';
             } elseif (empty($passwordDni)) {
                 $error = 'No se ha ingresado correctamente el campo Cedula';
-            } elseif (empty($point_used_add)) {
-                $error = 'No se ha ingresado correctamente el campo Amount';
-            } elseif (RewardsSponsorshipModel::isEmailExists($EmailEmployee) || Customer::customerExists($EmailEmployee)) {
+            } 
+            elseif (RewardsSponsorshipModel::isEmailExists($EmailEmployee) || Customer::customerExists($EmailEmployee)) {
                 $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM " . _DB_PREFIX_ . "customer WHERE email = '" . $EmailEmployee . "'");
                 if ($customerKickOut == 0) {
                     $error = 'email exists';
