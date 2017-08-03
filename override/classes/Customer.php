@@ -151,40 +151,6 @@ class Customer extends CustomerCore
     {
         $this->birthday = (empty($this->years) ? $this->birthday : (int)$this->years.'-'.(int)$this->months.'-'.(int)$this->days);
         $this->manual_inactivation = (!$this->active) ? 1 : 0;
-        
-        if ( Tools::getValue('civil_status') == "" ) {
-            $this->civil_status = null;
-        }
-        if ( Tools::getValue('occupation_status') == "" ) {
-            $this->occupation_status = null;
-        }
-        if ( Tools::getValue('field_work') == "" ) {
-            $this->field_work = null;
-        }
-        if ( Tools::getValue('pet') == "" ) {
-            $this->pet = null;
-        }
-        if ( Tools::getValue('pet_name') == "" ) {
-            $this->pet_name = null;
-        }
-        if ( Tools::getValue('spouse_name') == "" ) {
-            $this->spouse_name = null;
-        }
-        if ( Tools::getValue('children') == "" ) {
-            $this->children = 0;
-        }
-        if ( Tools::getValue('phone_provider') == "" ) {
-            $this->phone_provider = null;
-        }
-        if ( Tools::getValue('vault_code') == "" ) {
-            $this->vault_code = null;
-        }
-        if ( Tools::getValue('phone') == "" ) {
-            $this->phone = null;
-        }
-        if ( Tools::getValue('app_confirm') == "" ) {
-            $this->app_confirm = null;
-        }
 
         if ($this->newsletter && !Validate::isDate($this->newsletter_date_add)) {
             $this->newsletter_date_add = date('Y-m-d H:i:s');
