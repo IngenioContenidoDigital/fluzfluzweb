@@ -207,7 +207,7 @@ class Posslideshow extends Module {
                                 $newSlide = array();
                                  foreach($slideArray as $k => $v) {
                                      if($k=='image'){
-                                         $v = _PS_BASE_URL_.__PS_BASE_URI__.'img/blockslideshow/'.$slideArray['id_pos_slideshow'].'.jpg';
+                                         $v = _S3_PATH_."home/".$slideArray['id_pos_slideshow'].".jpg";
                                      }
                                      $newSlide[$k] = $v;
                                  }
