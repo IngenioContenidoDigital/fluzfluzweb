@@ -15,8 +15,8 @@ class AdminPosslideshowController extends ModuleAdminController
 		$this->context = Context::getContext();
                 
                 $this->fieldImageSettings = array(
- 			'name' => 'image',
- 			'dir' => 'blockslideshow'
+                        'name' => 'image',
+                        'dir' => 'blockslideshow'
  		);
                 $this->imageType = "jpg";
 		
@@ -71,7 +71,8 @@ class AdminPosslideshowController extends ModuleAdminController
            $this->fields_list['image'] = array(
                 'title' => $this->l('Image'),
                 'width' => 70,
-                "image" => $this->fieldImageSettings["dir"]
+                'image' => $this->fieldImageSettings["dir"]
+                //'image_baseurl' => _S3_PATH_."home/3.jpg"
             );
 //            
 
@@ -163,5 +164,14 @@ class AdminPosslideshowController extends ModuleAdminController
         return parent::renderForm();
     }
     
+    public function processSave() {
+        if ( Tools::isSubmit('submitAddpos_slideshow') ) {
+            $awsObj = new Aws();
+            if (!($awsObj->setObjectImage($_FILES['image']['tmp_name'],basename($_POST["id_pos_slideshow"].".jpg"),'home/'))) {
+                $this->errors[] = Tools::displayError('No fue posible cargar la imagen.');
+            }
+        }
+        return parent::processSave();
+    }
 
 }
