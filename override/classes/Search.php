@@ -259,6 +259,7 @@ class Search extends SearchCore{
     else if ( $option == 2 ){
       $sql = 'SELECT 
                 ip.id_manufacturer,
+                ip.online_only,
                 pa.id_product AS id_parent,
                 pl.name AS p_name,
                 GROUP_CONCAT(DISTINCT ip.price ORDER BY ip.price SEPARATOR \',\') AS rango_precio,
@@ -269,10 +270,11 @@ class Search extends SearchCore{
               INNER JOIN '._DB_PREFIX_.'product_lang AS pl ON pl.id_product=pa.id_product
               INNER JOIN '._DB_PREFIX_.'manufacturer as m ON m.id_manufacturer=ip.id_manufacturer
               INNER JOIN '._DB_PREFIX_.'manufacturer_lang AS ml ON ml.id_manufacturer = m.id_manufacturer
-              WHERE m.active=1 AND ip.active=1  AND ip.id_manufacturer = '.$param.'
+              WHERE m.active=1 AND ip.active=1 AND pl.id_lang = '.$id_lang.' AND ip.id_manufacturer = '.$param.'
               GROUP BY id_parent
               ORDER BY id_manufacturer, id_parent';
       
+//      error_log("\n\nEste es el query de opcion ".$option.":\n".print_r($sql, true),3,"/tmp/error.log");
       $result = $db->executeS($sql);
 //      error_log("\n\nEste es el result de opcion ".$option.":\n".print_r($result, true),3,"/tmp/error.log");
       return array('result' => $result);

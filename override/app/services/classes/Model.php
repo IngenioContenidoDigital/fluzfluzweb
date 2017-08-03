@@ -1891,7 +1891,7 @@ return $responseObj;
     $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
     foreach ( $categories as $key => &$categoryy ) {
       $categoryy['link'] = $this->context->link->getCategoryLink($categoryy['id_category'], $categoryy['link_rewrite']);
-    }    
+    }
     if ( $random_category ) {
       if ( isset( $limit_category ) && $limit_category > 0 ) {
         $categories = $this->array_random($categories, $limit_category);
@@ -1924,6 +1924,7 @@ return $responseObj;
     $sql = 'SELECT
               p.id_manufacturer AS m_id,
               p.id_product AS pf_id,
+              p.online_only,
               pl.name AS pf_name,
               MAX((p2.price * ( rp.value / 100 ) ) / 25 ) AS pf_points
             FROM ps_category_lang cl
@@ -1942,6 +1943,8 @@ return $responseObj;
     $sql .= ($random) ? 'ORDER BY RAND()' : ' ' ;        
     $sql .= ($limit > 0) ? ' LIMIT '.$limit.';' : ';' ;
     
+    
+    error_log("\n\n\n Este es el query de categorias: \n\n".$sql,3,"/tmp/error.log");
     $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
     return $db->executeS($sql);
   }
@@ -2109,7 +2112,7 @@ return $responseObj;
     });
     
     
-    error_log("\n\n Este es el query sponsor: \n".print_r($members, true),3,"/tmp/error.log");
+//    error_log("\n\n Este es el query sponsor: \n".print_r($members, true),3,"/tmp/error.log");
     return array('result' => $members);
   }
   
