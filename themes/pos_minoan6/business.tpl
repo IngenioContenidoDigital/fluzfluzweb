@@ -81,14 +81,15 @@
 <form method="post" id="trasnferbusiness" class="contenedorBusiness" name="trasnferbusiness">    
 <div class="row container-info-users" id="container-info-users">
     <div class="row pagination-header">
-        <div class="col-lg-2 pag-style"> Paginaci&oacute;n </div>
-        <div class="col-lg-10 btn-save-user">
+        <div class="col-lg-1 pag-style"> Paginaci&oacute;n </div>
+        <div class="col-lg-11 btn-save-user">
             <div class="col-lg-10 div-toggle"> 
                 <div class="col-lg-5 button dropdown"> 
                     <select id="select-distribute" name="select-distribute">
                         <option value="select-option">Seleccione M&eacute;todo de Distribucci&oacute;n</option>
-                       <option value="single-fluz">Distribucci&oacute;n Simple</option>
-                       <option value="all-fluz">Distribucci&oacute;n a Todos</option>
+                       <option value="single-fluz">Distribucci&oacute;n Uno a Uno</option>
+                       <option value="all-fluz">Distribucci&oacute;n Igualitaria</option>
+                       <option value="all-group">Distribucci&oacute;n por Grupo (csv)</option>
                     </select>
                 </div>
                 <div class="col-lg-7" id="amount-use">
@@ -103,6 +104,23 @@
                     </div>
                     <div class="col-lg-5" id="ptosused"></div>
                 </div>
+                <div class="col-lg-7 row-upload-transfer" id="row-upload-transfer">
+                    <div class="col-lg-5 title-browser">
+                        <div class="col-lg-12 title-panel-upload-transfer"> Importar CSV para Transferencia</div>
+                        <div class="col-lg-12" style="font-size: 10px;"> Descargar <a href="../csvcustomer/carga_transfer_example.csv" class="link-down">CSV de Ejemplo</a></div>
+                    </div>
+                    <div class="col-lg-7 browse-div">
+                        <div class="col-lg-12 custom-file-upload">
+                            <!--<label for="file">File: </label>--> 
+                            <input type="file" name="file" id="file" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 div-btn-delete">
+                    <button class="myfancybox col-lg-6 btn btn-default btn-delete-employee" href="#confirmDelete" id="delete_employee">
+                        <span> ELIMINAR EMPLEADO </span>
+                    </button>
+                </div>   
             </div>
             <div class="col-lg-2 div-btn">
                 <button class="myfancybox btn btn-default btn-save-table" href="#confirmTransfer" id="save-info" name="save-info">
@@ -111,6 +129,8 @@
             </div>
         </div>
     </div>
+    <div class="error" id="error" style="display:none;"></div>  
+    <div class="success" id="success" style="display:none;"></div>  
     <div class="row bar-info-users">
         <div class="col-lg-1 item-users"></div>
         <div class="col-lg-2 item-users" id="firstname">Nombre</div>
@@ -128,16 +148,16 @@
                 <input type="hidden" id="email_id" value="{$net.email}">
                 
                 <div class="col-lg-1 content-item-users">
-                    <input type="checkbox" id="check-user" value="">
+                    <input type="checkbox" id="check-user-{$net.id_customer}" class="check_user" value="{$net.id_customer}">
                 </div>
-                <div class="col-lg-2 content-item-users">{$net.firstname}</div>
-                <div class="col-lg-2 content-item-users">{$net.lastname}</div>
+                <div class="col-lg-2 content-item-users" id="name_employee-{$net.id_customer}">{$net.firstname}</div>
+                <div class="col-lg-2 content-item-users" id="lastname_employee-{$net.id_customer}">{$net.lastname}</div>
                 <div class="col-lg-2 content-item-users email-id">{$net.email}</div>
                 <div class="col-lg-1 content-item-users">{$net.phone}</div>
                 <div class="col-lg-2 content-item-users dni-id">{$net.dni}</div>
                 <div class="col-lg-2 content-item-users" id="amount_unit">
                     <div class="row">
-                        <input class="col-lg-5 r_clase amount_unit" oninput="" sponsor="{$net.id_customer}" id="single-{$net.id_customer}" value="0" type="text" min="25" max="" autocomplete="off"/>
+                        <input class="col-lg-5 r_clase amount_unit" oninput="" sponsor="{$net.id_customer}" id="single-{$net.id_customer}" value="0" type="text" min="25" autocomplete="off"/>
                         <div class="col-lg-3 text_fluz">$ COP</div>   
                         <div class="col-lg-4 edit-btn" id="btn-edit" onclick="edit({$net.id_customer})">Editar</div>
                     </div>
@@ -173,7 +193,34 @@
             </div>
         </div>
     </div>
-</div>        
+</div> 
+<div style="display:none;">
+    <div id="confirmDelete" class="myfancybox">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <br>
+            <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 title_transfer"> Eliminaci&oacute;n de Empleado </div>
+        <div class="row info-transfer">
+            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6 name_sponsor_delete"> Seguro deseas Eliminar al Empleado de tu Red Empresarial ? </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluzzer : </div><div id="user_delete" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
+        </div>
+        <div class="row row-btn-modal">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-cancel-modal">
+                <button class="btn btn-default btn-account" id="cancel_modal_fluz" onclick="cancelSubmit()">
+                    <span class="btn_modal_f">
+                        {l s="Cancelar"}
+                    </span>
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
+                <button class="btn btn-default btn-account" type="submit" id="delete-info-process" name="delete-info-process">
+                    <span> Confirmar </span>
+                </button>        
+            </div>
+        </div>
+    </div>
+</div>                     
 </form>    
 <div id="panel-add-employee" style="display:none;">
     <div class="row">
@@ -224,13 +271,15 @@
 {literal}
     <script>
         $(document).ready(function(){
+            
             var add = $('#item-menu-principal').text();
             var title = 'PANEL PRINCIPAL';
             $('#save-info').hide();
             $('#option-list').html(add);
             $('#title-container').html(title);
             $('#amount-use').hide();
-            
+            $('#row-upload-transfer').hide();
+            $('#delete_employee').hide();
             var select = $('select[name=select-distribute]').val()
             if(select == 'select-option'){
                 $('#container-List-employees').addClass("disabledbutton");
@@ -243,7 +292,10 @@
                     $('#container-List-employees').addClass("disabledbutton");
                     $('#amount-use').show();
                     $('#save-info').show();
-                    
+                    $('#error').css('display','none');
+                    $('#success').css('display','none');
+                    $('#row-upload-transfer').hide();
+                    $('#delete_employee').hide();
                     $('.r_clase').addClass('amount_unit');
                     $('.r_clase').removeClass('amount_edit');
                     $('.r_clase').val(0);
@@ -261,15 +313,38 @@
                     
                     $('#save-info-process').unbind("click");
                     $('#save-info-process').click(function(){
-                       var ptoDistribute = $('#ptosdistributehidden').val();
+                       //var ptoDistribute = $('#ptosdistributehidden').val();
                        var ptoUsed = $('#ptosusedhidden').val();       
-                       var url = document.getElementById("url_fluz").innerHTML;
                        $(this).prop("disabled",true);
                        $('#cancel_modal_fluz').prop('disabled',true);
+                       var listEdit = [];  
+                       var total_point = 0;
+                       var url = document.getElementById("url_fluz").innerHTML;
+                       
+                       $( ".r_clase" ).each(function( index ) {
+                            var id_sponsor = $(this).attr("sponsor");
+                            var amount_edit = ($( this ).val())/25;
+
+                            if($('#partial_amount-'+id_sponsor).val() !== ''){
+                                amount_edit = $('#partial_amount-'+id_sponsor).val();
+                            }
+                            total_point += Number($(this).val());
+
+                            var item = {}
+                            if(amount_edit != 0){
+                                item ["id_sponsor"] = id_sponsor;
+                                item ["amount"] = amount_edit;
+                            }
+
+                            listEdit.push(item);
+                        });
+                       
+                        listEdit = JSON.stringify(listEdit);
+                       
                        $.ajax({
                             url : urlTransferController,
                             type : 'POST',
-                            data : 'action=allFLuz&ptoDistribute='+ptoDistribute+'&ptoUsed='+ptoUsed,
+                            data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
                             success : function() {
                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
@@ -281,13 +356,36 @@
                     
                     $('#container-List-employees').removeClass("disabledbutton");
                     $('#amount-use').hide();
+                    $('#row-upload-transfer').hide();
                     $('#save-info').show();
                     $(".amount_unit").prop('disabled', true);
                     $(".amount_unit").css('background', 'transparent');
                     $(".amount_unit").val(0);
-                    $('#check-user').click(function() {
+                    $('#delete_employee').hide();
+                    $('#error').css('display','none');
+                    $('#success').css('display','none');
+                    $('.check_user').click(function() {
                         if ($(this).is(':checked')) {
                             //codigo para eliminar usuario de la red
+                            var url = document.getElementById("url_fluz").innerHTML;
+                            var check_delete = $(this).val();
+                            var name = $('#name_employee-'+check_delete).html();
+                            var lastname = $('#lastname_employee-'+check_delete).html();
+                            $('#delete_employee').show();
+                            $('#user_delete').html(name+' '+lastname);
+                            $('#delete-info-process').click(function(){
+                                $.ajax({
+                                    url : urlTransferController,
+                                    type : 'POST',
+                                    data : 'action=kickoutemployee&id_employee='+check_delete,
+                                    success : function(id) {
+                                         window.location.replace(""+url+"confirmdeleteusers");
+                                    }
+                                });
+                            });
+                        }
+                        else{
+                            $('#delete_employee').hide();
                         }
                     });   
                     
@@ -346,10 +444,78 @@
                         });
                     });
                 }
+                else if(select == 'all-group'){
+                    $('#container-List-employees').addClass("disabledbutton");
+                    $('#amount-use').hide();
+                    $('#save-info').show();
+                    $('#row-upload-transfer').show();
+                    $('#delete_employee').hide();
+                    $('.r_clase').addClass('amount_unit');
+                    $('.r_clase').removeClass('amount_edit');
+                    $('.r_clase').val(0);
+                    $('#use_allfluz').empty();
+                    
+                    $('#save-info').click(function(){
+                        var ptoUsed = $('#ptosusedhidden').val();       
+                        if(ptoUsed == '' || ptoUsed == 0){
+                            alert('Seleccione Cantidad de Fluz a enviar.')
+                            $('#save-info').removeClass('myfancybox');
+                            location.reload();
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    $('#save-info-process').unbind("click");
+                    $('#save-info-process').click(function(){
+                       //var ptoDistribute = $('#ptosdistributehidden').val();
+                       var ptoUsed = $('#ptosusedhidden').val();       
+                       $(this).prop("disabled",true);
+                       $('#cancel_modal_fluz').prop('disabled',true);
+                       var listEdit = [];  
+                       var total_point = 0;
+                       var url = document.getElementById("url_fluz").innerHTML;
+                       
+                       $( ".r_clase" ).each(function( index ) {
+                            var id_sponsor = $(this).attr("sponsor");
+                            var amount_edit = ($( this ).val())/25;
+
+                            if($('#partial_amount-'+id_sponsor).val() !== ''){
+                                amount_edit = $('#partial_amount-'+id_sponsor).val();
+                            }
+                            total_point += Number($(this).val());
+
+                            var item = {}
+                            if(amount_edit != 0){
+                                item ["id_sponsor"] = id_sponsor;
+                                item ["amount"] = amount_edit;
+                            }
+
+                            listEdit.push(item);
+                        });
+                       
+                        listEdit = JSON.stringify(listEdit);
+                       
+                       $.ajax({
+                            url : urlTransferController,
+                            type : 'POST',
+                            data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
+                            success : function() {
+                                window.location.replace(""+url+"confirmtransferfluzbusiness");
+                            }
+                        });
+                    });
+                }
                 else{
+                    $('#error').css('display','none');
+                    $('#success').css('display','none');
+                    $('#delete_employee').hide();
                     $('#container-List-employees').addClass("disabledbutton");
                     $('#amount-use').hide();
                     $('#save-info').hide();
+                    $('#row-upload-transfer').hide();
+                    $('.r_clase').addClass('amount_unit');
+                    $('.r_clase').removeClass('amount_edit');
+                    $('.r_clase').val(0);
                 }
             });
             
@@ -455,15 +621,16 @@
             var valor2=$('#use_allfluz').val();
             var t_user = $('#total_users').val();
             var availablecash = $('#cash-available').val();
-            
+            $('.custom-file-upload').prop('disabled',true);
             if(valor2>=0){
                 var resultado = calcular(valor1,valor2);
                 var ptoUnit = (Math.round((valor2/25)/t_user))+' '+' Fluz para Cada Fluzzer';
                 var ptosingle = Math.round((valor2/25));
                 var cashconvertionfluz='COP'+' '+'$' + Math.round(valor2).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var ptoListview = (Math.round((valor2/25)/t_user))+' '+'Fluz';
                 var ptoList = (Math.round((valor2/25)/t_user));
                 var cashamount = ptoList * 25;
-                var cashconvertion='COP'+' '+'$' + cashamount.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var cashconvertion= cashamount.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var result2 = valor1 - (ptoList*t_user);
                 var resultCop = availablecash - valor2;
                 var cashconvertion2='COP'+' '+'$' + (Math.round(resultCop)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -474,9 +641,9 @@
                 $('#fluz_send').html(ptosingle);
                 $('#fluz_send_cash').html(cashconvertionfluz);
                 $('#ptosdistributehidden').val(ptoList);
-                $('.amount_unit').val(ptoList);
-                $('.amount_unit_cash').html(cashconvertion);
-                $('.text_fluz').html('Fluz');
+                $('.amount_unit').val(cashconvertion);
+                $('.amount_unit_cash').html(ptoListview);
+                $('.text_fluz').html('$ COP');
                 $('#available-point span').html(result2);
                 $('#title-fluz span').html(cashconvertion2);
                 
@@ -513,19 +680,100 @@
         }
     </script>
     <script>
-        /*$('#save-info').click(function(){
-            
-            var total_point = 0;            
-            $( ".amount_edit" ).each(function( index ) {
+        $("#file").change(function(e) {
+            //$('#use_allfluz').prop('disabled',true);
+            $('#use_allfluz').css('opacity', '0.5');
+            $('#error').css('display','none');
+            $('#success').css('display','none');
+            $('#save-info').prop('disabled',false);
+            var file = document.getElementById('file').files[0],
+            reader = new FileReader();
+            reader.onload = function(event) {
                 
-                total_point += Number($(this).val());
+                var array = event.target.result;
+                var extractValidString = array.match(/[\w @.]+(?=,?)/g);
+                var noOfCols = 3;
+                var objFields = extractValidString.splice(0,noOfCols);
+                var arr = [];
+                var flag = true;
+                while(extractValidString.length>0) {
+                    var obj = {};
+                    var row = extractValidString.splice(0,noOfCols)
+                    if(row.length == 3){
+                        for(var i=0;i<row.length;i++) {
+                            obj[objFields[i]] = row[i].trim();
+                            flag = true;
+                        }
+                        arr.push(obj)
+                    }
+                    else{
+                        flag = false;
+                    }   
+                }
                 
-            });
-            var fluz = Math.round((total_point/25));
-            var cashconvertionfluz='COP'+' '+'$' + Math.round(total_point).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-            $('#fluz_send').html(fluz);
-            $('#fluz_send_cash').html(cashconvertionfluz);
-            
-        });*/
+                var sum = 0;
+                $.each(arr, function( index, value ) {
+                            if(flag == true){
+                                var monto = value.montotransferencia;
+                                var convmonto = monto.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                                var monto_fluz_view = value.montotransferencia/25+' '+'Fluz';
+                                var monto_fluz = value.montotransferencia/25;
+                                sum += parseInt(monto);
+                                $('#container-List-employees > div').each(function () {
+                                    var email = $(this).find('.email-id').html();
+                                    var id_custom = $(this).find('#id_sponsor').val();
+                                    if(email == value.email){
+                                        $('#single-'+id_custom).val(convmonto);
+                                        $('#amount_unit_cash-'+id_custom).html(monto_fluz_view);
+                                        $("#partial_amount-"+id_custom).val(monto_fluz);
+                                    }
+                                });
+                           }
+                        });
+                
+                if(sum != '' && sum != 0){
+                    $('#ptosusedhidden').val(sum);   
+                    var fluz = Math.round((sum/25));
+                    var cashconvertionfluz='COP'+' '+'$' + Math.round(sum).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    $('#fluz_send').html(fluz);
+                    $('#fluz_send_cash').html(cashconvertionfluz);
+                }
+                
+                if(flag == false){
+                    $('#error').css('display','block');
+                    $('#success').css('display','none');
+                    $('#error').append("<b>Tu Archivo CSV contiene errores o Campos Vacios. Por Favor Verificarlo.</b>");;
+                    $('#file').attr({ value: '' });
+                    $('#save-info').prop('disabled',true);
+                }
+                else{
+                    list_transfer = JSON.stringify(arr);
+                    $('#success').text(' ');
+                    $('#error').text(' ');
+                    $.ajax({
+                    url : urlTransferController,
+                    type : 'POST',
+                    data : 'action=uploadtransfers&list_transfer='+list_transfer,
+                        success : function(data) {
+                           console.log(data); 
+                           if(data != ''){ 
+                                $('#error').css('display','block');
+                                $('#success').css('display','none');
+                                $('#error').text(data);
+                                $('#file').attr({ value: '' });
+                                $('#save-info').prop('disabled',true);
+                            }
+                            else{
+                                $('#file').attr({ value: '' });
+                                $('#error').css('display','none');
+                                $('#success').css('display','block');
+                                $('#success').append("<b>Tu Archivo CSV no contiene errores.</b>");;
+                            }
+                        }
+                    });
+                }
+            };
+            reader.readAsText(file);
+        });
     </script>
 {/literal}
