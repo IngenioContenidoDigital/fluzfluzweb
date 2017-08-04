@@ -776,7 +776,7 @@ class API extends REST {
     $link = new Link();
     if( $option == 1 ){
       $categories = $model->getCategoriesHome($this->id_lang_default, true, true, true, 3, 5, true);
-      error_log("\n\nEntro a opcion 1: \n\n Categorias:\n\n".print_r($categories,true),3,"/tmp/error.log");
+//      error_log("\n\nEntro a opcion 1: \n\n Categorias:\n\n".print_r($categories,true),3,"/tmp/error.log");
       
       foreach ($categories['result'] as $key => &$category) {
         $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
@@ -1258,6 +1258,107 @@ class API extends REST {
     $result = Db::getInstance()->execute($query);
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  public function getConversations() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    
+    // Lista de conversaciones
+    $sql = "SELECT CAST(
+                CONCAT(
+                    IF(id_customer_send=".$id_customer.",'',id_customer_send) , IF(id_customer_receive=".$id_customer.",'',id_customer_receive)
+                ) AS INT
+            ) AS customer
+            FROM ps_message_sponsor
+            WHERE (
+                (id_customer_receive=".$id_customer." AND id_customer_send<>".$id_customer.") OR (id_customer_receive<>".$id_customer." AND id_customer_send=".$id_customer.")
+            )
+            GROUP BY customer
+            ORDER BY customer";
+    $conversations = Db::getInstance()->executeS($sql);
+
+    foreach ($conversations as &$conversation) {
+        // Username usuario en conversacion
+        $sql = "SELECT username
+                FROM ps_customer
+                WHERE id_customer = ".$conversation["customer"];
+        $conversation["username"] = Db::getInstance()->getValue($sql);
+
+        // Numero de mensajes sin leer
+        $sql = "SELECT
+                  COUNT(*) unread_messages
+                FROM ps_message_sponsor
+                WHERE (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+                AND `read` = 0";
+        
+        $conversation["unread_messages"] = Db::getInstance()->getValue($sql);
+        
+        // Ultimo mensaje recibido o enviado en conversacion
+        $sql = "SELECT
+                    message,
+                    date_send,
+                    UNIX_TIMESTAMP(date_send) date_send_ts,
+                    IF(
+                        date_send>=DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'),
+                        DATE_FORMAT(date_send, '%H:%i'),
+                        DATE_FORMAT(date_send, '%Y-%m-%d') 
+                    ) date_show
+                FROM ps_message_sponsor
+                WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$conversation["customer"].")
+                OR (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+                ORDER BY date_send DESC
+                LIMIT 1";
+        $message = Db::getInstance()->executeS($sql);
+        $conversation["message"] = $message[0]["message"];
+        $conversation["date_show"] = $message[0]["date_show"];
+        $conversation["date_send"] = $message[0]["date_send"];
+        $conversation["date_send_ts"] = $message[0]["date_send_ts"];
+    }
+
+    // Ordenar conversaciones por fecha DESC
+    usort($conversations, function($a, $b) {
+        return  $b['date_send_ts'] - $a['date_send_ts'];
+    });
+    
+//    error_log("\n\n\n\n Esto es query get messages: \n\n".print_r($sql, true),3,"/tmp/error.log");
+    foreach ($conversations AS $key => &$conversation) {
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $conversation['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
+    }
+    
+    return $this->response(json_encode(array('result' => $conversations)),200);
+  }
+  
+  public function getConversation() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    $id_customer_conversation = $this->_request['id_customer_conversation'];
+    
+    $sql = "SELECT
+                id_customer_send,
+                id_customer_receive,
+                message,
+                `read`,
+                date_send,
+                DATE_FORMAT(date_send, '%Y-%m-%d') date,
+                DATE_FORMAT(date_send, '%H:%i') hour
+            FROM ps_message_sponsor
+            WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$id_customer_conversation.")
+            OR (id_customer_send = ".$id_customer_conversation." AND id_customer_receive = ".$id_customer.")
+            ORDER BY date_send ASC";
+    
+//    error_log("\n\n\n Este es el que trae la conversacion: \n\n".print_r($sql, true),3,"/tmp/error.log");
+    $conversation = Db::getInstance()->executeS($sql);
+    return $this->response(json_encode(array('result' => $conversation)),200);
+  }
+  
   
   public function getPasscode() {
     if ($this->get_request_method() != "GET") {

@@ -1944,7 +1944,7 @@ return $responseObj;
     $sql .= ($limit > 0) ? ' LIMIT '.$limit.';' : ';' ;
     
     
-    error_log("\n\n\n Este es el query de categorias: \n\n".$sql,3,"/tmp/error.log");
+//    error_log("\n\n\n Este es el query de categorias: \n\n".$sql,3,"/tmp/error.log");
     $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
     return $db->executeS($sql);
   }
