@@ -16,20 +16,22 @@
 #item-menu-add:hover{background: transparent !important; color:#c9b198;}
 #item-menu-upload{padding: 15px !important; color: #000;}
 #item-menu-upload:hover{background: transparent !important; color:#c9b198;}
-.bar-info-users{margin-top: 15px;padding: 20px;background: #414141;}
+.bar-info-users{margin-top: 10px;padding: 20px;background: #414141;}
 .item-users{padding: 0; color:#c9b198; text-align: center; font-weight: bold;}
 .pag-style{padding: 0;}
 .btn-save-user{padding: 0; text-align: right;}
 .div-btn{padding: 0px;}
 .btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198; border: none;}
 .btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;border: none;}
+.btn-delete-employee{padding: 7px 35px;float: right;color: white;font-weight: bold;background:#ef4136; border: none;}
+.btn-delete-employee:hover{padding: 7px 35px;float: right;color: white;font-weight: bold;background: #c9b198;border: none;}
 .div-toggle{padding: 0px;}
 .content-item-users{padding: 0; text-align: center; font-weight: bold; font-size: 12px;}
 .content-info-users{padding: 15px; border-bottom: 1px solid #e5e5e5;}
 div.checker{margin-top: 5px !important; margin-right: 0px;}
 .container-info-users{padding: 0px;}
 .title-row-business{margin-top: 40px;}
-
+.custom-file-upload{padding-left: 0px; padding-right: 0px;}
 /* PANEL ADD AN EMPLOYEE */
 .row-form-employee{padding: 0px;}
 .form-employee{padding: 3px 5px;height: 27px;-webkit-box-shadow: none;box-shadow: none;
@@ -40,17 +42,20 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
     background-color: white;
     border: 1px solid #d6d4d4;}
 .l-form-employee{padding: 0px;}
+div.uploader span.action{background: #c9b198 !important;}
 .btn-save-employee{padding: 10px 15px;color: white;font-weight: bold;background: #c9b198;}
 .btn-save-employee:hover{padding: 10px 15px;color: white;font-weight: bold;background: #ef4136;}
 
 /* PANEL UPLOAD EMPLOYEES */
 .row-upload{padding: 0px; margin-bottom: 10px; margin-top: 20px;}
-.title-browser{padding-left: 0px;}
+.row-upload-transfer{padding: 0px; margin-bottom: 10px;}
+.title-browser{padding-left: 0px;text-align: left;}
 .browse-div{padding-left: 0px;}
 .div-btn-submit{padding: 0px; margin-top: 10px;}
 .btn-save-submit{padding: 10px 50px;color: white;font-weight: bold;background: #c9b198;}
 .btn-save-submit:hover{padding: 10px 50px;color: white;font-weight: bold;background: #ef4136;}
 .title-panel-upload{color: #000 !important;font-weight: bold;font-size: 18px !important;margin-bottom: 20px !important;}
+.title-panel-upload-transfer{color: #000 !important;font-weight: bold;font-size: 10px !important;margin-bottom: 0px !important;}
 .copy-form-csv{margin-top: 40px;}
 .row-container-info{padding: 0px;max-height: 500px;overflow: auto;}
 #select-distribute{cursor: pointer;background: none;font-family: 'Open Sans';padding: 5px;border: 2px solid #000;font-weight: bold;}
@@ -110,3 +115,24 @@ div.checker{margin-top: 5px !important; margin-right: 0px;}
 .text-business{color: #000; font-size: 16px;text-transform: uppercase;font-weight: bold;}
 .div-img{text-align: right;}
 .margin-info{margin-top: 20px;}
+
+/* ERRORES */
+
+#error{background: #D27C82; padding: 5px; 
+    margin-top: 4px;
+    color: #fff;
+    font-weight: bold;
+    border-left: solid 3px #eab3b7;}
+
+#success{background: #72C279; padding: 5px; 
+    margin-top: 4px;
+    color: #fff;
+    font-weight: bold;
+    border-left: solid 3px #92d097;}
+
+.div-btn-delete{padding-right: 0px;}
+.name_sponsor_delete{color: #000;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    }

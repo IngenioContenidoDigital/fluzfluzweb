@@ -347,7 +347,6 @@ class businessController extends FrontController {
                        //Store file in directory "upload" with the name of "uploaded_file.txt"
                        $storagename = $_FILES["file"]["name"];
                        move_uploaded_file($_FILES["file"]["tmp_name"], "csvcustomer/" . $storagename);
-                       //echo "Stored in: " . "upload/" . $_FILES["file"]["name"] . "<br />";
                     }
                 }
              } 
@@ -413,6 +412,9 @@ class businessController extends FrontController {
                                 WHERE c.id_customer =" . $this->context->customer->id);
 
                     if (!empty($sponsor)) {
+                        $array_p['id'] = $customer->id;
+                        array_push($tree, $array_p);
+                        
                         $sponsorship = new RewardsSponsorshipModel();
                         $sponsorship->id_sponsor = $sponsor['id_customer'];
                         $sponsorship->id_customer = $customer->id;
@@ -538,7 +540,7 @@ class businessController extends FrontController {
             case 'allFLuz':
                 $pointUsed = Tools::getValue('ptoUsed');
                 $point_used = RewardsModel::getRewardReadyForDisplay($pointUsed, $this->context->currency->id);
-                $points_distribute = Tools::getValue('ptoDistribute');
+                
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "transfers_fluz (id_customer, id_sponsor_received, date_add)
                                             VALUES (" . (int) $this->context->customer->id . ", 0,'" . date("Y-m-d H:i:s") . "')");
 
@@ -549,26 +551,18 @@ class businessController extends FrontController {
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                         . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $point_used . ",'loyalty', 'TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
 
-                $employee_b = Db::getInstance()->executeS('SELECT id_customer as id, firstname, lastname, email, dni, username FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
-                $net_business = array_merge($tree, $employee_b);
-
-                foreach ($net_business as $val) {
-                    if(isset($val['username'])){
-                      $list_business[$val['id']] = $val;
-                    }
-                }
-                $list_business = array_values($list_business);
+                $list_all = Tools::getValue('listEdit');
+                $list_var_all = json_decode($list_all, true);
                 
-                foreach ($list_business as $network) {
+                foreach ($list_var_all as $network) {
                     $query_t = 'SELECT id_transfers_fluz FROM ' . _DB_PREFIX_ . 'transfers_fluz WHERE id_customer=' . (int) $this->context->customer->id . ' ORDER BY id_transfers_fluz DESC';
                     $row_t = Db::getInstance()->getRow($query_t);
                     $id_transfer = $row_t['id_transfers_fluz'];
 
                     Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
-                            . "                          VALUES ('2', " . (int) $network['id'] . ", 0,NULL,'0','0'," . $points_distribute . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
+                            . "                          VALUES ('2', " . (int) $network['id_sponsor'] . ", 0,NULL,'0','0'," . $network['amount'] . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
                 }
-                break;
-
+                break;    
             case 'editFLuz':
                 $pto_total = Tools::getValue('ptosTotal');
                 $pointsTotal = RewardsModel::getRewardReadyForDisplay($pto_total, $this->context->currency->id);
@@ -655,6 +649,10 @@ class businessController extends FrontController {
                                         WHERE c.id_customer =" . $this->context->customer->id);
 
                             if (!empty($sponsor)) {
+                                
+                                $array_p['id'] = $customer->id;
+                                array_push($tree, $array_p);
+                                
                                 $sponsorship = new RewardsSponsorshipModel();
                                 $sponsorship->id_sponsor = $sponsor['id_customer'];
                                 $sponsorship->id_customer = $customer->id;
@@ -754,7 +752,45 @@ class businessController extends FrontController {
                         }
                     }
                 break;
+            case 'uploadtransfers':
+                
+                    $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, phone, email, dni, username FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
+                    $net_business = array_merge($tree, $employee_b);
+                
+                    $list_transfer = Tools::getValue('list_transfer');
+                    $list_var_transfer = json_decode($list_transfer, true);
+                    $totals = RewardsModel::getAllTotalsByCustomer((int) $this->context->customer->id);
+                    $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float) $totals[RewardsStateModel::getValidationId()] : 0);
+                    $pointsAvailablemoney = $pointsAvailable*25;
+                    $sum = 0;
+                    $error = "";
 
+                    foreach($list_var_transfer as $datacustomer){ 
+                        
+                        $q_valid = Db::getInstance()->executeS('SELECT id_customer FROM '._DB_PREFIX_.'customer 
+                                    WHERE email = "'.$datacustomer['email'].'" && dni = "'.$datacustomer['cedula'].'"');
+                        
+                        if(empty($q_valid)){
+                            $error = 'Email '.$datacustomer['email'].' o Cedula '.$datacustomer['cedula'].' No Existe en tu red Fluz Fluz Empresa. Por Favor Revisar tu CSV.';
+                        }
+                        
+                        $sum += $datacustomer['montotransferencia'];
+                    }
+                    if($sum > $pointsAvailablemoney){
+                        $error = 'El Dinero disponible no cubre el valor de esta transaccion. Por Favor Revisar tu CSV.';
+                    }
+                    die($error);
+                break;
+            case 'kickoutemployee':
+                
+                    $id_employee = Tools::getValue('id_employee');
+                    die($id_employee);
+                    /*$customer = new Customer($id_employee);
+                    $customer->kick_out = 1;
+                    $customer->active = 0;
+                    $customer->update();
+                    require_once(_PS_ROOT_DIR_.'/kickoutcustomers.php');*/
+                break;
             default:
                 break;
         }
