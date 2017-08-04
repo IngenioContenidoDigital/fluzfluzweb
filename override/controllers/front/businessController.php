@@ -167,8 +167,6 @@ class businessController extends FrontController {
                 $error = 'email invalid';
             } elseif (empty($passwordDni)) {
                 $error = 'No se ha ingresado correctamente el campo Cedula';
-            } elseif (empty($point_used_add)) {
-                $error = 'No se ha ingresado correctamente el campo Amount';
             } elseif (RewardsSponsorshipModel::isEmailExists($EmailEmployee) || Customer::customerExists($EmailEmployee)) {
                 $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM " . _DB_PREFIX_ . "customer WHERE email = '" . $EmailEmployee . "'");
                 if ($customerKickOut == 0) {
@@ -348,7 +346,6 @@ class businessController extends FrontController {
                        //Store file in directory "upload" with the name of "uploaded_file.txt"
                        $storagename = $_FILES["file"]["name"];
                        move_uploaded_file($_FILES["file"]["tmp_name"], "csvcustomer/" . $storagename);
-                       //echo "Stored in: " . "upload/" . $_FILES["file"]["name"] . "<br />";
                     }
                 }
              } 
@@ -414,6 +411,9 @@ class businessController extends FrontController {
                                 WHERE c.id_customer =" . $this->context->customer->id);
 
                     if (!empty($sponsor)) {
+                        $array_p['id'] = $customer->id;
+                        array_push($tree, $array_p);
+                        
                         $sponsorship = new RewardsSponsorshipModel();
                         $sponsorship->id_sponsor = $sponsor['id_customer'];
                         $sponsorship->id_customer = $customer->id;
@@ -648,6 +648,10 @@ class businessController extends FrontController {
                                         WHERE c.id_customer =" . $this->context->customer->id);
 
                             if (!empty($sponsor)) {
+                                
+                                $array_p['id'] = $customer->id;
+                                array_push($tree, $array_p);
+                                
                                 $sponsorship = new RewardsSponsorshipModel();
                                 $sponsorship->id_sponsor = $sponsor['id_customer'];
                                 $sponsorship->id_customer = $customer->id;
@@ -779,11 +783,12 @@ class businessController extends FrontController {
             case 'kickoutemployee':
                 
                     $id_employee = Tools::getValue('id_employee');
-                    
-                    $customer = new Customer($id_employee);
+                    die($id_employee);
+                    /*$customer = new Customer($id_employee);
                     $customer->kick_out = 1;
-                    
+                    $customer->active = 0;
                     $customer->update();
+                    require_once(_PS_ROOT_DIR_.'/kickoutcustomers.php');*/
                 break;
             default:
                 break;
