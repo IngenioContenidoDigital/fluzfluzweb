@@ -642,6 +642,17 @@ class API extends REST {
 	$model = new Model();
 	return $this->response(json_encode($model->personalinformation($id_customer)),200);
     }
+    
+    /**
+     * 
+     */
+    private function sevedCreditCard()
+    {
+	$id_customer = $this->_request['id_customer'];
+
+	$model = new Model();
+	return $this->response(json_encode($model->sevedCreditCard($id_customer)),200);
+    }
 
     /**
      * 
@@ -776,7 +787,7 @@ class API extends REST {
     $link = new Link();
     if( $option == 1 ){
       $categories = $model->getCategoriesHome($this->id_lang_default, true, true, true, 3, 5, true);
-//      error_log("\n\nEntro a opcion 1: \n\n Categorias:\n\n".print_r($categories,true),3,"/tmp/error.log");
+      //error_log("\n\nEntro a opcion 1: \n\n Categorias:\n\n".print_r($categories,true),3,"/tmp/error.log");
       
       foreach ($categories['result'] as $key => &$category) {
         $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
@@ -872,6 +883,7 @@ class API extends REST {
         $params["numbercard"] = $this->_request["numbercard"];
         $params["datecard"] = $this->_request["datecard"];
         $params["codecard"] = $this->_request["codecard"];
+        $params["checkautorizationcard"] = (bool)$this->_request["checkautorizationcard"];
         
         // Tarjeta Debito
         $params["bank"] = $this->_request["bank"];
