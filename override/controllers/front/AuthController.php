@@ -114,6 +114,7 @@ class AuthController extends AuthControllerCore
 
         // Just set $this->template value here in case it's used by Ajax
         $this->setTemplate(_PS_THEME_DIR_.'authentication.tpl');
+        //$this->setTemplate(_PS_THEME_DIR_.'authentication_business.tpl');
         if ($this->ajax) {
             // Call a hook to display more information on form
             $this->context->smarty->assign(array(
