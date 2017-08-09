@@ -906,7 +906,7 @@ class AdminImportController extends AdminImportControllerCore
                         // Welcome Email
                         $vars = array(
                             '{username}' => $customer->username,
-                            '{password}' => $passwd,
+                            '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{firstname}' => $customer->firstname,
                             '{lastname}' => $customer->lastname,
                             '{dni}' => $customer->dni,
