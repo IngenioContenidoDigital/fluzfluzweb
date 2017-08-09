@@ -23,6 +23,7 @@
 *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
+include_once(_PS_MODULE_DIR_ . 'allinone_rewards/allinone_rewards.php');
 
 class PasswordController extends PasswordControllerCore
 {
@@ -47,7 +48,19 @@ class PasswordController extends PasswordControllerCore
                         '{firstname}' => $customer->firstname,
                         '{url}' => $this->context->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id)
                     );
-                    if (Mail::Send($this->context->language->id, 'password_query', Mail::l('Password query confirmation'), $mail_params, $customer->email, $customer->firstname.' '.$customer->lastname)) {
+                    
+                    $template = 'password_query';
+                    $prefix_template = '16-password_query';
+
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+
+                    $allinone_rewards = new allinone_rewards();
+                    
+                    /*if (Mail::Send($this->context->language->id, 'password_query', Mail::l('Password query confirmation'), $mail_params, $customer->email, $customer->firstname.' '.$customer->lastname))*/ 
+                    if($allinone_rewards->sendMail($this->context->language->id, $template, $allinone_rewards->getL($message_subject),$mail_params, $customer->email, $customer->firstname.' '.$customer->lastname))
+                    {
                         $this->context->smarty->assign(array('confirmation' => 2, 'customer_email' => $customer->email));
                     } else {
                         $this->errors[] = Tools::displayError('An error occurred while sending the email.');
@@ -77,7 +90,19 @@ class PasswordController extends PasswordControllerCore
                             '{firstname}' => $customer->firstname,
                             '{passwd}' => $password
                         );
-                        if (Mail::Send($this->context->language->id, 'password', Mail::l('Your new password'), $mail_params, $customer->email, $customer->firstname.' '.$customer->lastname)) {
+                        
+                        $template = 'password';
+                        $prefix_template = '16-password';
+
+                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                        $row_subject = Db::getInstance()->getRow($query_subject);
+                        $message_subject = $row_subject['subject_mail'];
+
+                        $allinone_rewards = new allinone_rewards();
+                        
+                        //if (Mail::Send($this->context->language->id, 'password', Mail::l('Your new password'), $mail_params, $customer->email, $customer->firstname.' '.$customer->lastname)) {
+                        if($allinone_rewards->sendMail($this->context->language->id, $template, $allinone_rewards->getL($message_subject),$mail_params, $customer->email, $customer->firstname.' '.$customer->lastname))
+                        {
                             $this->context->smarty->assign(array('confirmation' => 1, 'customer_email' => $customer->email));
                         } else {
                             $this->errors[] = Tools::displayError('An error occurred while sending the email.');

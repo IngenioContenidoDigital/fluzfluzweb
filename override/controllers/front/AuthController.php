@@ -113,8 +113,14 @@ class AuthController extends AuthControllerCore
         $this->context->smarty->assign('PS_BUY_MEMBERSHIP', Configuration::get('PS_BUY_MEMBERSHIP'));
 
         // Just set $this->template value here in case it's used by Ajax
-        $this->setTemplate(_PS_THEME_DIR_.'authentication.tpl');
-        //$this->setTemplate(_PS_THEME_DIR_.'authentication_business.tpl');
+        
+        if(Tools::getValue("back") == 'business'){
+            $this->setTemplate(_PS_THEME_DIR_.'authentication_business.tpl');
+        }
+        else{
+            $this->setTemplate(_PS_THEME_DIR_.'authentication.tpl');
+        }
+        
         if ($this->ajax) {
             // Call a hook to display more information on form
             $this->context->smarty->assign(array(
