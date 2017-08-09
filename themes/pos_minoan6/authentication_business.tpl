@@ -62,17 +62,17 @@
                         <div class="line-separator"></div>
                         <div class="form_content clearfix">
                             <div class="form-group">
-                                <input autocomplete='off' placeholder='Email address' class="is_required validate account_input form-control" data-validate="isEmail" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
+                                <input autocomplete='off' placeholder='Correo Electr&oacute;nico' class="is_required validate account_input form-control" data-validate="isEmail" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
                             </div>
                             <div class="form-group">
-                                <input  autocomplete='off' placeholder='Password' class="is_required validate account_input form-control" type="password" data-validate="isPasswd" id="passwd" name="passwd" value="" />
+                                <input  autocomplete='off' placeholder='Contrase&ntilde;a' class="is_required validate account_input form-control" type="password" data-validate="isPasswd" id="passwd" name="passwd" value="" />
                             </div>
                             <p class="submit">
                                 {if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
                                 <button type="submit" id="SubmitLogin" name="SubmitLogin" class="button btn btn-default button-medium">
                                     <span>
                                         <i class="icon-lock left"></i>
-                                        {l s='Sign In'}
+                                        {l s='Log In'}
                                     </span>
                                 </button>
                             </p>
@@ -1327,9 +1327,9 @@
         #left_column{display: none;}
         #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
         .signup-account{padding: 0px;}
-        .sign-account{padding-top: 30%;}
-        .info-box{width: 50%; margin: 0 auto;}
-        .page-subheading{text-align: center; color: #c9b197; }
+        .sign-account{padding-top: 25%;}
+        .info-box{width: 30%; margin: 0 auto;}
+        .page-subheading{text-align: center; color: #c9b197; font-size: 12px;}
         .line-separator{width: 100%;border: 1px solid #e5e5e5;}
         .info-box form{background: #fff;}
         #authentication .form-group .form-control{margin: 0 auto;height: 50px;border: none;border-bottom: 1px solid;
@@ -1349,7 +1349,18 @@
                         margin-top: 10px;}
         #authentication .box{padding-bottom: 0px;}
         #login_form .form-group.lost_password{margin-bottom: 30px;}
-        .footer-sign{margin-top: 10px;}
+        .footer-sign{ margin-top: 25px;margin-bottom: 15px;text-align: center;}
+        
+        @media (max-width:1280px){
+            .sign-account{padding-top: 25%;}
+        }
+        
+        @media (max-width: 1023px){
+            #banner_login {
+                width: 1145px;
+            }
+        }
+        
     </style>
 {/literal}
 {literal}

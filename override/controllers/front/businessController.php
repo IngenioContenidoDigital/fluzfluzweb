@@ -224,7 +224,7 @@ class businessController extends FrontController {
                             
                                 $vars = array(
                                 '{username}' => $customer->username,
-                                '{password}' => $passwordDni,
+                                '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                 '{firstname}' => $customer->firstname,
                                 '{lastname}' => $customer->lastname,
                                 '{dni}' => $customer->dni,
@@ -288,7 +288,7 @@ class businessController extends FrontController {
                         
                         $vars = array(
                             '{username}' => $customer->username,
-                            '{password}' => $passwordDni,
+                            '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{firstname}' => $customer->firstname,
                             '{lastname}' => $customer->lastname,
                             '{dni}' => $customer->dni,
@@ -425,7 +425,7 @@ class businessController extends FrontController {
                         if ($sponsorship->save()) {
                             $vars = array(
                             '{username}' => $customer->username,
-                            '{password}' => $passwordDni,
+                            '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{firstname}' => $customer->firstname,
                             '{lastname}' => $customer->lastname,
                             '{dni}' => $customer->dni,
@@ -494,7 +494,7 @@ class businessController extends FrontController {
                             
                             $vars = array(
                             '{username}' => $customer->username,
-                            '{password}' => $passwordDni,
+                            '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{firstname}' => $customer->firstname,
                             '{lastname}' => $customer->lastname,
                             '{dni}' => $customer->dni,
@@ -721,7 +721,7 @@ class businessController extends FrontController {
                                 if ($sponsorship->save()) {
                                     $vars = array(
                                     '{username}' => $customer->username,
-                                    '{password}' => $passwordDni,
+                                    '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                     '{firstname}' => $customer->firstname,
                                     '{lastname}' => $customer->lastname,
                                     '{dni}' => $customer->dni,

@@ -331,16 +331,28 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                         $row_sponsor = Db::getInstance()->getRow($query_sponsor);
                         $count_sponsor = $row_sponsor['cont_sponsor'];
                         
-                        echo '<pre>';
-                        print_r($params);
-                        die();
+                        $group_business = Db::getInstance()->getRow('SELECT COUNT(*) as cont FROM '._DB_PREFIX_.'customer c 
+                                        INNER JOIN '._DB_PREFIX_.'customer_group cg ON (c.id_customer = cg.id_customer)
+                                        WHERE cg.id_group = 5 AND c.id_customer ='.$customer->id);
+                        
+                        if($group_business['cont'] == 1){
+                                 if (isset($_SERVER['HTTPS'])) {
+                                    $link_login = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=business'; 
+                                 }
+                                 else{
+                                    $link_login = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=business'; 
+                                 }
+                        }else{
+                            $link_login = Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id);
+                        }
                         
                         if($count_sponsor < Configuration::get('RSPONSORSHIP_NB_FRIENDS')){
                             if (Validate::isLoadedObject($new_sponsor)) {
-				if ($this->_createSponsorship($new_sponsor, $customer, true, (bool)Tools::getValue('generate_voucher'), (int)Tools::getValue('generate_currency'))){
+				if ($this->_createSponsorship($new_sponsor, $customer, true, (bool)Tools::getValue('generate_voucher'), (int)Tools::getValue('generate_currency')))
+                                    {
 					$vars = array(
                                         '{username}' => $customer->username,
-                                        '{password}' => $customer->passwd,
+                                        '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                         '{firstname}' => $customer->firstname,
                                         '{lastname}' => $customer->lastname,
                                         '{dni}' => $customer->dni,
@@ -349,7 +361,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                                         '{phone}' => $customer->phone,
                                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                                         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{shop_url_personal}' => $link_login,
                                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
 
