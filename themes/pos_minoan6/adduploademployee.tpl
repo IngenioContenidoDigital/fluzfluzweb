@@ -69,6 +69,10 @@
     </div>
 </form>
 <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>
+<div id="progress" class="myfancybox" style="display:none;">
+    <img src="/img/business/ajax-loader.gif"/>
+    <p>Procesando Archivo</p>
+</div>
 {literal}
     <script>
         var holder = document.getElementById('holder'),
@@ -122,13 +126,15 @@
         };
         
         $('#upload-copy').click(function(e){
-            var url = document.getElementById("url_fluz").innerHTML;        
+            var url = document.getElementById("url_fluz").innerHTML;  
+            $('#progress').css('display','block');
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=submitcopy&listcopy='+listcopy,
                 
                 success : function() {
+                   $('#progress').css('display','none');
                    window.location.replace(""+url+"confirmtransferfluzbusiness");
                 }
             });
