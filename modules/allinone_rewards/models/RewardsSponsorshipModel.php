@@ -949,7 +949,7 @@ class RewardsSponsorshipModel extends ObjectModel
                             FROM '._DB_PREFIX_.'customer AS c
                             LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                             LEFT JOIN '._DB_PREFIX_.'customer_group cg ON (c.id_customer = cg.id_customer)
-                            WHERE c.active = 1 AND c.kick_out=0 AND cg.id_group = 4
+                            WHERE c.active = 1 AND c.kick_out=0 AND cg.id_group = 4 AND c.id_customer != '.$id_customer.'
                             AND (
 				c.`id_customer` = '.(int)$filter.'
 				OR c.`firstname` LIKE "%'.pSQL($filter).'%"
