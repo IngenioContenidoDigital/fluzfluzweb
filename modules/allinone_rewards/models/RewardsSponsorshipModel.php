@@ -919,7 +919,7 @@ class RewardsSponsorshipModel extends ObjectModel
 	// return all customers from the groups allowed to be sponsor, or from active template and which are not in the descendants tree of the customer
 	static public function getAvailableSponsors($id_customer, $filter) {
 		$result = array();
-		$allowed_groups = Configuration::get('RSPONSORSHIP_GROUPS');
+		/*$allowed_groups = Configuration::get('RSPONSORSHIP_GROUPS');
 		$query = '
 			SELECT DISTINCT c.`id_customer`, c.`firstname`, c.`lastname`, c.`email`
 			FROM `'._DB_PREFIX_.'customer` AS c
@@ -944,7 +944,20 @@ class RewardsSponsorshipModel extends ObjectModel
 					JOIN `'._DB_PREFIX_.'rewards_template_config` rtc USING (id_template)
 					WHERE plugin=\'sponsorship\' AND rtc.name=\'RSPONSORSHIP_ACTIVE\' AND rtc.value=1
 				)
-			)';
+			)';*/
+                $query = 'SELECT c.id_customer, c.firstname, c.lastname, c.email, (2-(COUNT(rs.id_sponsorship))) AS total
+                            FROM '._DB_PREFIX_.'customer AS c
+                            LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                            LEFT JOIN '._DB_PREFIX_.'customer_group cg ON (c.id_customer = cg.id_customer)
+                            WHERE c.active = 1 AND c.kick_out=0 AND cg.id_group = 4
+                            AND (
+				c.`id_customer` = '.(int)$filter.'
+				OR c.`firstname` LIKE "%'.pSQL($filter).'%"
+				OR c.`lastname` LIKE "%'.pSQL($filter).'%"
+				OR c.`email` LIKE "%'.pSQL($filter).'%"
+                            )
+                            GROUP BY  c.id_customer, c.firstname, c.lastname, c.email
+                            HAVING  total > 0';
 		$rows = Db::getInstance()->ExecuteS($query);
 		if (is_array($rows)) {
 			$descendants = array();

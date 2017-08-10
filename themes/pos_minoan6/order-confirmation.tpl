@@ -97,10 +97,10 @@
                 <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 left-title">{convertPrice price=$product.total_price_tax_incl}</div>
             </div>
         {/foreach}
-        <div class="row paid-row">
+        <!--<div class="row paid-row">
             <div class="col-lg-10"></div>
             <div class="col-lg-2 left-title">{convertPrice price=$order->total_paid}</div>
-        </div>
+        </div>-->
         <div class="row">
             <div class="col-lg-10"></div>
             <div class="col-lg-2 save left-title">{l s='Total'}: {convertPrice price=$order->total_paid}</div>
