@@ -750,6 +750,8 @@ class API extends REST {
         $product['app_total'] = $this->formatPrice($product['total']);
         $product['app_price_in_points'] = $this->formatPrice($product['price_in_points']);
         $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
+        $sql = "select online_only from "._DB_PREFIX_."product where id_product = ".$product['id_product'];
+        $product['online_only'] = Db::getInstance()->getValue($sql);;
       }
       $cart['app_total_price_in_points'] = $this->formatPrice($cart['total_price_in_points']);
       $this->response($this->json($cart), 200);
