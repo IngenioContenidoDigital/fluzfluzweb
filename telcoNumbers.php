@@ -74,7 +74,7 @@ class telcoNumbers {
         $address = $address[0];
         
         $queryInsert = "INSERT INTO "._DB_PREFIX_."address
-                        VALUES (NULL,".$address['id_country'].", 0, ".$id_customer.", 0, 0, 0, 'Mi Direccion', '', '".$address['lastname']."', '".$address['firstname']."', '".$address['address1']."', '".$address['address2']."', '', '".$address['city']."', '', ".$address['phone'].", ".$number.", '', ".$address['type_document'].", ".$address['dni'].", ".$address['checkdigit'].", NOW(), NOW(), 1, 0, 0)";
+                        VALUES (NULL,".$address['id_country'].", 0, ".$id_customer.", 0, 0, 0, 'Mi Direccion', '', '".$address['lastname']."', '".$address['firstname']."', '".$address['address1']."', '".$address['address2']."', '', '".$address['city']."', '', ".$address['phone'].", ".$number.", '', ".$address['type_document'].", ".$address['dni'].", ".$address['checkdigit'].", NOW(), NOW(), 1, 0, 0, 0, 0)";
         Db::getInstance()->execute($queryInsert);
         return true;
     }
