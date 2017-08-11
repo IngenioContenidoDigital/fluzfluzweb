@@ -36,19 +36,25 @@
     </div>
 </div>
 {if $error}
-    <p class="error" style="margin-top: 10px;">
-        {if $error == 'email invalid'}
-            Direcci&oacute;n de email no es correcta.
-        {elseif $error == 'name invalid'}
-            El campo nombre o apellido no es correcto.
-        {elseif $error == 'email exists'}
-            Alguien con este email {$email} ya ha sido apadrinado
-        {elseif $error == 'no sponsor'}
-            {l s='No hay espacios disponibles en la red.'}
-        {else if $error == 'already exists'}   
-            El achivo {$csv} ya existe. Por favor cambiar el nombre del archivo CSV. 
-        {/if}
-    </p>
+    {foreach from=$error item=errorc}
+        <p class="error" style="margin-top: 10px;">
+            {if $errorc.email == 'email invalid'}
+                Direcci&oacute;n de email no es correcta.
+            {elseif $errorc.name == 'name invalid'}
+                El campo nombre o apellido no es correcto.
+            {elseif $errorc.email_exists == 'email exists'}
+                Alguien con este email {$email} ya ha sido apadrinado
+            {elseif $errorc.dni_exists == 'dni exists'}
+                Esta Cedula ya se encuentra Registrada en Fluz Fluz. Por Favor Revisar tu CSV.
+            {elseif $errorc.valid_username == 'valid username'}
+                Esta Usuario ya se encuentra Registrada en Fluz Fluz. Por Favor Revisar tu CSV.
+            {elseif $errorc.sponsor == 'no sponsor'}
+                {l s='No hay espacios disponibles en la red.'}
+            {else if $errorc.csv == 'already exists'}   
+                El achivo {$csv} ya existe. Por favor cambiar el nombre del archivo CSV. 
+            {/if}
+        </p>
+    {/foreach}
 {/if}
 <div class="row panel-employee">
     <div class="col-lg-3 item-employee" id="toggle-add-employees">

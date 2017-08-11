@@ -145,14 +145,22 @@ class businessController extends FrontController {
         }
         
         if (Tools::isSubmit('add-employee')) {
-            $error = "";
+            
+            $array_error = array();
             $image_url = "";    
             $FirstNameEmployee = Tools::getValue('firstname');
             $LastNameEmployee = Tools::getValue('lastname');
+            $username = Tools::getValue('username');
             $EmailEmployee = Tools::getValue('email');
             $passwordDni = Tools::getValue('dni');
             $point_used_add = Tools::getValue('ptosusedhiddenadde');
             $phone_user = Tools::getValue('phone_invoice');
+            
+            $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
+                                                    FROM '._DB_PREFIX_.'customer WHERE dni = "'.$passwordDni.'" ');
+            
+            $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
+                                                    FROM '._DB_PREFIX_.'customer WHERE username = "'.$username.'" ');
             
             if (isset($_SERVER['HTTPS'])) {
                $image_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/img/business/'.$this->context->customer->id.'.png'; 
@@ -162,21 +170,34 @@ class businessController extends FrontController {
             }
 
             if (empty($FirstNameEmployee) || empty($LastNameEmployee) || !Validate::isName($FirstNameEmployee) || !Validate::isName($LastNameEmployee)) {
-                $error = 'name invalid';
+                $error['name'] = 'name invalid';
             } elseif (Tools::isSubmit('add-employee') && !Validate::isEmail($EmailEmployee)) {
-                $error = 'email invalid';
+                $error['email'] = 'email invalid';
             } elseif (empty($passwordDni)) {
-                $error = 'No se ha ingresado correctamente el campo Cedula';
-            } 
+                $error['dni'] = 'No se ha ingresado correctamente el campo Cedula';
+            }
+            else if($valid_dni['dni'] > 0){
+                $error['dni_exists'] = 'dni exists';
+            }
+            else if($valid_username['username'] > 0){
+                $error['valid_username'] = 'valid username';
+            }
             elseif (RewardsSponsorshipModel::isEmailExists($EmailEmployee) || Customer::customerExists($EmailEmployee)) {
                 $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM " . _DB_PREFIX_ . "customer WHERE email = '" . $EmailEmployee . "'");
                 if ($customerKickOut == 0) {
-                    $error = 'email exists';
+                    $error['email_exists'] = 'email exists';
                     $mails_exists[] = $EmailEmployee;
                 }
             }
-
-            if ($error == "") {
+            
+            array_push($array_error, $error); 
+            $error = $array_error;
+            
+            if($error[0]==''){
+                array_shift($error);
+            }
+            
+            if (empty($error)) {
 
                 $customer = new Customer();
                 $customer->firstname = $FirstNameEmployee;
@@ -184,26 +205,29 @@ class businessController extends FrontController {
                 $customer->email = $EmailEmployee;
                 $customer->passwd = Tools::encrypt($passwordDni);
                 $customer->dni = $passwordDni;
-                $customer->username = "$FirstNameEmployee" . "$LastNameEmployee";
+                $customer->phone = $phone_user;
+                $customer->username = $username;
                 $customer->id_default_group = $this->context->customer->id_default_group;
                 $customer->id_lang = $this->context->customer->id_lang;
                 $customer->field_work = $this->context->customer->field_work;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->add();
+                
+                if($point_used_add != ''){
+                
+                    Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "transfers_fluz (id_customer, id_sponsor_received, date_add)
+                                                VALUES (" . (int) $this->context->customer->id . ", ".$customer->id.",'" . date("Y-m-d H:i:s") . "')");
 
-                Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "transfers_fluz (id_customer, id_sponsor_received, date_add)
-                                            VALUES (" . (int) $this->context->customer->id . ", 0,'" . date("Y-m-d H:i:s") . "')");
+                    $query_t = 'SELECT id_transfers_fluz FROM ' . _DB_PREFIX_ . 'transfers_fluz WHERE id_customer=' . (int) $this->context->customer->id . ' ORDER BY id_transfers_fluz DESC';
+                    $row_t = Db::getInstance()->getRow($query_t);
+                    $id_transfer = $row_t['id_transfers_fluz'];
 
-                $query_t = 'SELECT id_transfers_fluz FROM ' . _DB_PREFIX_ . 'transfers_fluz WHERE id_customer=' . (int) $this->context->customer->id . ' ORDER BY id_transfers_fluz DESC';
-                $row_t = Db::getInstance()->getRow($query_t);
-                $id_transfer = $row_t['id_transfers_fluz'];
+                    Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
+                            . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $point_used_add . ",'loyalty', 'TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
 
-                Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
-                        . "                          VALUES ('2', " . (int) $this->context->customer->id . ", 0,NULL,'0','0'," . -1 * $point_used_add . ",'loyalty', 'TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
-
-                Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
+                    Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                         . "                          VALUES ('2', " . (int) $customer->id . ", 0,NULL,'0','0'," . $point_used_add . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
-
+                }
                 $count_array = count($tree);
                 
                 if ($count_array < 2) {
@@ -254,7 +278,7 @@ class businessController extends FrontController {
                             $invitation_sent = true;
                         }
                     } else {
-                        $error = 'no sponsor';
+                        $error['sponsor'] = 'no sponsor';
                     }
                 } else {
                     $array_sponsor = array();
@@ -322,7 +346,6 @@ class businessController extends FrontController {
                 Tools::redirect($this->context->link->getPageLink('confirmtransfercustomer', true));
             }
             $this->context->smarty->assign('error', $error);
-            //Tools::redirect($this->context->link->getPageLink('business', true));
         }
         
         if (Tools::isSubmit('upload-employee')) {
@@ -331,25 +354,25 @@ class businessController extends FrontController {
                 
                 if ( isset($_FILES["file"])) {
                     
-                //if there was an error uploading the file
-                if ($_FILES["file"]["error"] > 0) {
-                     echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
-                }
-                else {
-
-                     //if file already exists
-                     if (file_exists("csvcustomer/" . $_FILES["file"]["name"])) {
-                       $error = "already exists";
-                       $this->context->smarty->assign('error', $error);
-                       $this->context->smarty->assign('csv', $_FILES["file"]["name"]);
-                     }
-                     else {
-                       //Store file in directory "upload" with the name of "uploaded_file.txt"
-                       $storagename = $_FILES["file"]["name"];
-                       move_uploaded_file($_FILES["file"]["tmp_name"], "csvcustomer/" . $storagename);
+                    //if there was an error uploading the file
+                    if ($_FILES["file"]["error"] > 0) {
+                         echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
                     }
-                }
-             } 
+                    else {
+
+                         //if file already exists
+                         if (file_exists("csvcustomer/" . $_FILES["file"]["name"])) {
+                           $error['csv'] = "already exists";
+                           //$this->context->smarty->assign('error', $error);
+                           $this->context->smarty->assign('csv', $_FILES["file"]["name"]);
+                         }
+                         else {
+                                //Store file in directory "upload" with the name of "uploaded_file.txt"
+                                $storagename = $_FILES["file"]["name"];
+                                move_uploaded_file($_FILES["file"]["tmp_name"], "csvcustomer/" . $storagename);
+                            }
+                        }
+                } 
                 else {
                      echo "No file selected <br />";
                 }
@@ -358,17 +381,35 @@ class businessController extends FrontController {
             $filename = "csvcustomer/" . $storagename;
             $list_customer = $this->csv_to_array($filename);
             $process = false;
+            $array_error = array();
+            array_push($array_error, $error);
+            array_map('current', $array_error);
+            
             foreach($list_customer as $datacustomer){
                 
                 $error = "";
+                $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
+                                                    FROM '._DB_PREFIX_.'customer WHERE dni = "'.$datacustomer['cedula'].'" ');
+            
+                $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
+                                                    FROM '._DB_PREFIX_.'customer WHERE username = "'.$datacustomer['Username'].'" ');
+            
                 if (empty($datacustomer['First Name']) || empty($datacustomer['Last Name']) || !Validate::isName($datacustomer['Last Name']) || !Validate::isName($datacustomer['Last Name'])) {
-                    $error = 'name invalid';
+                    $error['name'] = 'name invalid';
                     unlink($filename);
                 } 
                 elseif (Tools::isSubmit('upload-employee') && !Validate::isEmail($datacustomer['Email'])) {
-                    $error = 'email invalid';
+                    $error['email'] = 'email invalid';
                     unlink($filename);
                 } 
+                else if($valid_dni['cedula'] > 0){
+                    $error['dni_exists'] = 'dni exists';
+                    unlink($filename);
+                }
+                else if($valid_username['username'] > 0){
+                    $error['valid_username'] = 'valid username';
+                    unlink($filename);
+                }
                 elseif (empty($datacustomer['cedula'])) {
                     $error = 'No se ha ingresado correctamente el campo Cedula';
                     unlink($filename);
@@ -376,14 +417,14 @@ class businessController extends FrontController {
                 elseif (RewardsSponsorshipModel::isEmailExists($datacustomer['Email']) || Customer::customerExists($datacustomer['Email'])) {
                         $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM " . _DB_PREFIX_ . "customer WHERE email = '" . $datacustomer['Email'] . "'");
                     if ($customerKickOut == 0) {
-                        $error = 'email exists';
+                        $error['email_exists'] = 'email exists';
                         $mails_exists[] = $datacustomer['Email'];
                         $this->context->smarty->assign('email',$datacustomer['Email']);
                         unlink($filename);
                     }
                 }
-                
-            if ($error == "") {
+               
+            if (empty($error)) {
                 
                 $customer = new Customer();
                 $customer->firstname = $datacustomer['First Name'];
@@ -393,6 +434,7 @@ class businessController extends FrontController {
                 //$customer->id_gender = $datacustomer['Titles ID (Mr=1 , Ms=2)'];
                 $customer->dni = $datacustomer['cedula'];
                 $customer->email = $datacustomer['Email'];
+                $customer->phone = $datacustomer['Phone Mobile'];
                 $customer->passwd = Tools::encrypt($datacustomer['cedula']);
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 //$customer->newsletter = $datacustomer['Newsletter (0/1)'];
@@ -527,13 +569,28 @@ class businessController extends FrontController {
                            //Tools::redirect($this->context->link->getPageLink('confirmtransfercustomer', true));
                 }
                 else{
-                           $this->context->smarty->assign('error', $error);
+                        array_push($array_error, $error); 
+                        //$this->context->smarty->assign('error', $error);
                 }
                 $process = true;
             }
-                if($process == 'true'){
-                  Tools::redirect($this->context->link->getPageLink('confirmtransfercustomer', true));
-                }
+            
+            if($array_error[0]==''){
+                array_shift($array_error);
+            }
+            
+            if($process == true){
+                if(empty($array_error)){
+                         Tools::redirect($this->context->link->getPageLink('confirmtransfercustomer', true));
+                       }
+                else{
+                    $error = $array_error;
+                    $this->context->smarty->assign('error', $error);
+                    /*echo '<pre>';
+                    print_r($array_error);
+                    die();*/
+                }       
+            }
         }
         
         switch (Tools::getValue('action')) {
@@ -599,21 +656,21 @@ class businessController extends FrontController {
                         $error = "";
                         
                         if (empty($datacustomer['First Name']) || empty($datacustomer['Last Name']) || !Validate::isName($datacustomer['Last Name']) || !Validate::isName($datacustomer['Last Name'])) {
-                            $error = 'name invalid';
+                            $error['name'] = 'name invalid';
                             $this->context->smarty->assign('error', $error);
                         } 
                         elseif (Tools::isSubmit('upload-employee') && !Validate::isEmail($datacustomer['Email'])) {
-                            $error = 'email invalid';
+                            $error['email'] = 'email invalid';
                             $this->context->smarty->assign('error', $error);
                         } 
                         elseif (empty($datacustomer['cedula'])) {
-                            $error = 'No se ha ingresado correctamente el campo Cedula';
+                            $error['dni'] = 'No se ha ingresado correctamente el campo Cedula';
                             $this->context->smarty->assign('error', $error);
                         } 
                         elseif (RewardsSponsorshipModel::isEmailExists($datacustomer['Email']) || Customer::customerExists($datacustomer['Email'])) {
                                 $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM " . _DB_PREFIX_ . "customer WHERE email = '" . $datacustomer['Email'] . "'");
                             if ($customerKickOut == 0) {
-                                $error = 'email exists';
+                                $error['email_exists'] = 'email exists';
                                 $mails_exists[] = $datacustomer['Email'];
                                 $this->context->smarty->assign('email',$datacustomer['Email']);
                             }

@@ -28,6 +28,10 @@
                 <label class="col-lg-12 l-form-employee" for="lastname">{l s='Apellido'}</label>
                 <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="lastname" name="lastname" value="{if isset($smarty.post.lastname)}{$smarty.post.lastname}{/if}" />
             </div>
+            <div class="row required form-group">
+                <label class="col-lg-12 l-form-employee" for="username">{l s='Username'}</label>
+                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" />
+            </div>
             <div class="row form-group">
                 <label class="col-lg-12 l-form-employee" for="email">{l s='Email'}</label>
                 <input class="col-lg-6 is_required validate account_input form-employee" data-validate="isEmail" autocomplete="off" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
