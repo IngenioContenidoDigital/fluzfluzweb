@@ -686,7 +686,50 @@ class API extends REST {
 	$model = new Model();
 	$this->response( $this->json($model->savepersonalinformation($params)) , 200 );
     }
-	
+    
+    private function getPhonesCustomer() {
+        $telconumbers = DB::getInstance()->executeS( "SELECT phone_mobile, default_number
+                                                        FROM "._DB_PREFIX_."address
+                                                        WHERE phone_mobile != ''
+                                                        AND id_customer = ".$this->_request['id_customer']."
+                                                        ORDER BY phone_mobile" );
+        $this->response( $this->json($telconumbers) , 200 );
+    }
+
+    private function addPhoneCustomer() {
+        $query = "SELECT *
+                    FROM "._DB_PREFIX_."address
+                    WHERE id_customer = ".$this->_request['id_customer']."
+                    LIMIT 1";
+        $address = Db::getInstance()->executeS($query);
+        $address = $address[0];
+
+        $queryInsert = "INSERT INTO "._DB_PREFIX_."address
+                        VALUES (NULL,".$address['id_country'].", 0, ".$this->_request['id_customer'].", 0, 0, 0, 'Mi Direccion', '', '".$address['lastname']."', '".$address['firstname']."', '".$address['address1']."', '".$address['address2']."', '', '".$address['city']."', '', ".$address['phone'].", ".$this->_request['phone'].", '', ".$address['type_document'].", ".$address['dni'].", ".$address['checkdigit'].", NOW(), NOW(), 1, 0, 0, 0, 0)";
+        
+        $addphone = DB::getInstance()->execute($queryInsert);
+        $this->response( $this->json($addphone) , 200 );
+    }
+
+    private function setPhonesRecharged() {
+        $response = true;
+        $cart = $this->_request['id_cart'];
+        $phones = $this->_request['phones'];
+
+        $queryDelete = "DELETE FROM "._DB_PREFIX_."webservice_external_telco
+                        WHERE id_cart = ".$cart;
+        $response += DB::getInstance()->execute($queryDelete);
+        
+        if ( !empty($phones) ) {
+            foreach ($phones as $product => $phone) {
+                $queryInsert = "INSERT INTO "._DB_PREFIX_."webservice_external_telco(id_cart, id_product, phone_mobile)
+                                VALUES(".$cart.", ".$product.", ".$phone.")";
+                $response += DB::getInstance()->execute($queryInsert);
+            }
+        }
+        
+        $this->response( $this->json($response) , 200 );
+    }
 
    
   /**

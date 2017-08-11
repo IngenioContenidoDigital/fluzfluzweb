@@ -735,6 +735,7 @@ class Model extends PaymentModule {
         $card = Customer::getCard($id_customer);
         $dateCard = explode("/",$card["date_expiration"]);
         $card["date_expiration"] = $dateCard[1]."-".$dateCard[0];
+        $card["name_creditCard"] = $card["name_creditCard"] != "" ? $card["name_creditCard"] : "default";
         return $card;
     }
     
@@ -1138,7 +1139,22 @@ private function clearCart()
             $dateCard = explode("-",$args["datecard"]);
             $args["datecard"] = $dateCard[0]."/".$dateCard[1];
             if ( $args['checkautorizationcard'] ) {
-                Customer::addCard($this->context->customer->id, $this->context->customer->secure_key, $args['numbercard'], $args['namecard'], "", $dateCard[1]."/".$dateCard[0]);
+                // Tomar la franquicia a la que pertenece la tarjeta de credito
+                $franquicia = "";
+                require_once(_PS_MODULE_DIR_ . 'payulatam/creditcards.class.php');
+
+                $arraypaymentMethod = array("VISA"=>'VISA','DISCOVER'=>'DINERS','AMERICAN EXPRESS'=>'AMEX','MASTERCARD'=>'MASTERCARD');
+                $arraypaymentMethod2 = array("VISA"=>'VISA','DISCOVER'=>'DINERS','AMERICAN EXPRESS'=>'AmEx','MASTERCARD'=>'MasterCard', 'DinersClub'=>'DinersClub','UnionPay'=>'UnionPay');
+                
+                $CCV = new CreditCardValidator();
+                $CCV->Validate($args['numbercard']);
+                $key = $CCV->GetCardName($CCV->GetCardInfo()['type']);
+
+                if( $CCV->GetCardInfo()['status'] != 'invalid' ) {
+                    $franquicia = (array_key_exists(strtoupper($key), $arraypaymentMethod)) ? $arraypaymentMethod[strtoupper($key)] : 'N/A';
+                }
+                
+                Customer::addCard($this->context->customer->id, $this->context->customer->secure_key, $args['numbercard'], $args['namecard'], strtolower($franquicia), $dateCard[1]."/".$dateCard[0]);
             }
         }
 
