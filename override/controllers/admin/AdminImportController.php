@@ -609,6 +609,7 @@ class AdminImportController extends AdminImportControllerCore
                             (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
                         FROM "._DB_PREFIX_."customer c
                         LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                        LEFT JOIN "._DB_PREFIX_."customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
                         WHERE c.active = 1
                         AND c.kick_out = 0
                         AND c.autoaddnetwork = 0
