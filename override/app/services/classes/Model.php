@@ -1985,7 +1985,12 @@ return $responseObj;
     return array('result' => $result);
   }
   
-  public function getVaultByManufacturer($id_customer, $id_manufacturer) {
+  public function getNotificationOrder($id_customer){
+    $result = MyAccountController::orderQuantity($id_customer);
+    return array('result' => $result);
+  }
+
+    public function getVaultByManufacturer($id_customer, $id_manufacturer) {
     $result = Wallet::getCards($id_customer, $id_manufacturer);
     return array('result' => $result);
   }

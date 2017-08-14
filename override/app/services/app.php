@@ -1824,6 +1824,18 @@ class API extends REST {
     
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  private function getNotificationBarOrders(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    
+    $model = new Model();
+    $result = $model->getNotificationOrder($id_customer);
+    
+    $this->response($this->json($result), 200);
+  }
 
   public function getDistanceToCoords($lat1,$lon1,$lat2,$lon2) {
     $R = 6371; // Radius of the earth in km
