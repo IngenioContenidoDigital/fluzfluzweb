@@ -84,6 +84,41 @@ class API extends REST {
         }
     }
 
+  private function searchByMap() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $position['lat'] =  round($this->_request['lat'], 6);;
+    $position['lng'] =  round($this->_request['lng'], 6);;
+    
+//    error_log("\n\n\n\n\n Esto es lo que recibe: \n lat: ".print_r($position['lat'], true)."\n lng: ".print_r($position['lng'], true),3,"/tmp/error.log");
+    $query = 'SELECT GROUP_CONCAT(DISTINCT id_manufacturer)
+              FROM  '._DB_PREFIX_.'address
+              WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng']
+            ;
+//    error_log("\n\n\n\n\n Esto es el query: \n ".print_r($query, true),3,"/tmp/error.log");
+    $manufacturers = Db::getInstance()->getValue($query);
+    
+//    error_log("\n\n\n\n\n Esto es manufacturers: \n ".print_r($manufacturers, true),3,"/tmp/error.log");
+    
+    $search = Search::findApp( $manufacturers, 4 );
+    
+//    error_log("\n\n\n\n\n Esto es el search: \n ".print_r($search, true),3,"/tmp/error.log");
+    
+    $link = new Link();
+    
+    foreach ($search['result'] as &$result){
+      $result['image_manufacturer'] = $this->protocol . $link->getManufacturerImageLink($result['m_id']);
+      $result['m_points'] = round($result['m_points']);
+      $prices = explode(",", $result['m_prices']);
+      $price_min = round($prices[0]);
+      $price_max = round($prices[ count($prices) - 1 ]);
+      $result['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
+    }
+    
+    $this->response($this->json($search), 200);
+  }
     
   private function search() {
     if ($this->get_request_method() != "GET") {
@@ -652,150 +687,151 @@ class API extends REST {
 	$this->response( $this->json($model->savepersonalinformation($params)) , 200 );
     }
     
-    private function creationCustomer() {
+    private function createCustomer() {
         if ($this->get_request_method() != "POST") {
-          $this->response('', 406);
+            $this->response('', 406);
         }
         
-        $array_error = array();
+        $complete = false;
+        $message = "";
+        $error = array();
 
-        $firstname = $this->_request['firts_name'];
-        $lastname = $this->_request['last_name'];
-        $email = $this->_request['email'];
-        $phone = $this->_request['phone'];
-        $birthday = $this->_request['date'];
-        $addres1 = $this->_request['address'];
-        $city = $this->_request['city'];
-        $type_dni = $this->_request['type_identification'];
-        $dni = $this->_request['number_identification'];
-        $username = $this->_request['user_name'];
-        $addres2 = $this->_request['address2'];
-        $response = array('success' => true);
-        
+        try {
+            $firstname = $this->_request['firts_name'];
+            $lastname = $this->_request['last_name'];
+            $email = $this->_request['email'];
+            $phone = $this->_request['phone'];
+            $birthday = $this->_request['date'];
+            $addres1 = $this->_request['address'];
+            $city = $this->_request['city'];
+            $type_dni = $this->_request['type_identification'];
+            $dni = $this->_request['number_identification'];
+            $username = $this->_request['user_name'];
+            $addres2 = $this->_request['address2'];        
 
-        $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
-                                                FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
+            $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
+                                                    FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
 
-        $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
-                                                FROM '._DB_PREFIX_.'customer WHERE username = "'.$username.'" ');
+            $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
+                                                         FROM '._DB_PREFIX_.'customer WHERE username = "'.$username.'" ');
 
-        if (empty($firstname) || empty($lastname) || !Validate::isName($firstname) || !Validate::isName($lastname)) {
-            $error['name'] = 'Nombre o apellido invalido.';
-        } elseif (!Validate::isEmail($email)) {
-            $error['email'] = 'El correo electronico es invalido.';
-        } elseif (empty($dni)) {
-            $error['dni'] = 'No se ha ingresado correctamente el campo Cedula.';
-        } elseif ($valid_dni['dni'] > 0) {
-            $error['dni_exists'] = 'El numero de identificacion es invalido.';
-        } elseif ($valid_username['username'] > 0) {
-            $error['valid_username'] = 'El nombre de usuario se encuentra en uso.';
-        } elseif (RewardsSponsorshipModel::isEmailExists($email) || Customer::customerExists($email)) {
-            $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM "._DB_PREFIX_."customer WHERE email = '".$email."'");
-            if ($customerKickOut == 0) {
-                $error['email_exists'] = 'El correo electronico se encuentra en uso.';
+            if (empty($firstname) || empty($lastname) || !Validate::isName($firstname) || !Validate::isName($lastname)) {
+                $error[] = 'Nombre o Apellido invalido.';
+            } elseif (!Validate::isEmail($email)) {
+                $error[] = 'El correo electronico es invalido.';
+            } elseif ( Validate::isIdentification($dni) || empty($dni) ) {
+                $error[] = 'El numero de identificacion es invalido.';
+            } elseif ($valid_dni['dni'] > 0) {
+                $error[] = 'El numero de identificacion se encuentra en uso.';
+            } elseif ($valid_username['username'] > 0) {
+                $error[] = 'El nombre de usuario se encuentra en uso.';
+            } elseif (RewardsSponsorshipModel::isEmailExists($email) || Customer::customerExists($email)) {
+                $error[] = 'El correo electronico se encuentra en uso.';
             }
-        }
 
-        array_push($array_error, $error); 
-        $error = $array_error;
+            if ( empty($error) ) {
+                // Agregar Cliente
+                $customer = new Customer();
+                $customer->firstname = $firstname;
+                $customer->lastname = $lastname;
+                $customer->email = $email;
+                $customer->passwd = Tools::encrypt($dni);
+                $customer->dni = $dni;
+                $customer->username = $username;
+                $customer->birthday = $birthday;
+                $customer->id_default_group = 4;
+                $customer->kick_out = 0;
+                $customer->active = 1;
+                $customer->id_lang = Context::getContext()->language->id;
+                $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+                $saveCustomer = $customer->add();
+                $customer->updateGroup(array("3","4"));
 
-        if ( $error[0] == '' ) {
-            array_shift($error);
-        }
+                // Agregar Direccion
+                $address = new Address();
+                $address->id_country = 69;
+                $address->dni = $customer->dni;
+                $address->id_customer = $customer->id;
+                $address->alias = 'Mi Direccion';
+                $address->firstname = $customer->firstname;
+                $address->lastname = $customer->lastname;
+                $address->address1 = $addres1;
+                $address->address2 = $addres2;
+                $address->city = $city;
+                $address->phone = $phone;
+                $address->phone_mobile = $phone;
+                $address->type_document = $type_dni;
+                $address->active = 1;
+                $saveAddress = $address->add();
 
-        if ( empty($error) ) {
-            $customer = new Customer();
-            $customer->firstname = $firstname;
-            $customer->lastname = $lastname;
-            $customer->email = $email;
-            $customer->passwd = Tools::encrypt($dni);
-            $customer->dni = $dni;
-            $customer->username = $username;
-            $customer->birthday = $birthday;
-            $customer->id_default_group = 4;
-            $customer->kick_out = 0;
-            $customer->active = 1;
-            $customer->id_lang = Context::getContext()->language->id;
-            $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+                // Agregar Sponsor
+                $sponsor = Db::getInstance()->executeS('SELECT
+                                                        c.id_customer,
+                                                        c.username,
+                                                        c.email,
+                                                        (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                                                    FROM '._DB_PREFIX_.'customer c
+                                                    LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                                    LEFT JOIN '._DB_PREFIX_.'customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
+                                                    WHERE c.active = 1
+                                                    AND c.kick_out = 0
+                                                    GROUP BY c.id_customer
+                                                    HAVING pendingsinvitation > 0
+                                                    ORDER BY c.id_customer ASC
+                                                    LIMIT 1');
+                $sponsorship = new RewardsSponsorshipModel();
+                $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                $sponsorship->id_customer = $customer->id;
+                $sponsorship->firstname = $customer->firstname;
+                $sponsorship->lastname = $customer->lastname;
+                $sponsorship->email = $customer->email;
+                $sponsorship->channel = 1;
+                $saveSponsorship = $sponsorship->save();
 
-            if( $customer->add() ){
-              $address = new Address();
-              $address->id_country = 69;
-              $address->dni = $customer->dni;
-              $address->id_customer = $customer->id;
-              $address->alias = 'Mi Direccion';
-              $address->firstname = $customer->firstname;
-              $address->lastname = $customer->lastname;
-              $address->address1 = $addres1;
-              $address->address2 = $addres2;
-              $address->city = $city;
-              $address->phone = $phone;
-              $address->phone_mobile = $phone;
-              $address->type_document = $type_dni;
-              $address->active = 1;
+                if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
+                    $complete = true;
 
-              $query = 'SELECT
-                              c.id_customer,
-                              c.username,
-                              c.email,
-                              (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
-                          FROM '._DB_PREFIX_.'customer c
-                          LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
-                          LEFT JOIN '._DB_PREFIX_.'customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
-                          WHERE c.active = 1
-                          AND c.kick_out = 0
-                          GROUP BY c.id_customer
-                          HAVING pendingsinvitation > 0
-                          ORDER BY c.id_customer ASC
-                          LIMIT 1';
+                    $vars = array(
+                        '{username}' => $customer->username,
+                        '{password}' => $customer->dni,
+                        '{firstname}' => $customer->firstname,
+                        '{lastname}' => $customer->lastname,
+                        '{dni}' => $customer->dni,
+                        '{birthdate}' => $customer->birthday,
+                        '{address}' => $address->address1,
+                        '{phone}' => $address->phone,
+                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        '{learn_more_url}' => "http://reglas.fluzfluz.co",
+                    );
 
-              $sponsor = Db::getInstance()->ExecuteS($query);
-              $sponsor = $sponsor[0];
+                    $template = 'welcome_fluzfluz';
+                    $prefix_template = '16-welcome_fluzfluz';
 
-              if ( !empty($sponsor) && $address->add() ) {
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
 
-                  $sponsorship = new RewardsSponsorshipModel();
-                  $sponsorship->id_sponsor = $sponsor['id_customer'];
-                  $sponsorship->id_customer = $customer->id;
-                  $sponsorship->firstname = $customer->firstname;
-                  $sponsorship->lastname = $customer->lastname;
-                  $sponsorship->email = $customer->email;
-                  $sponsorship->channel = 1;
-
-                  if ($sponsorship->save()) {
-
-                      $vars = array(
-                          '{username}' => $customer->username,
-                          '{password}' => $customer->dni,
-                          '{firstname}' => $customer->firstname,
-                          '{lastname}' => $customer->lastname,
-                          '{dni}' => $customer->dni,
-                          '{birthdate}' => $customer->birthday,
-                          '{address}' => $address->address1,
-                          '{phone}' => $address->phone,
-                          '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
-                          '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                          '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                          '{learn_more_url}' => "http://reglas.fluzfluz.co",
-                      );
-
-                      $template = 'welcome_fluzfluz';
-                      $prefix_template = '16-welcome_fluzfluz';
-
-                      $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                      $row_subject = Db::getInstance()->getRow($query_subject);
-                      $message_subject = $row_subject['subject_mail'];
-
-                      $allinone_rewards = new allinone_rewards();
-                      $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
-
-                  }
-              }
+                    $allinone_rewards = new allinone_rewards();
+                    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                } else {
+                    $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
+                }
             }
-        } else {
-            $response = array('success' => false, 'error' => $error);
+        } catch (Exception $e) {
+            $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
+            $message = $e->getMessage();
         }
         
+        if ( !$complete ) {
+            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".$customer->id);
+            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
+            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."address WHERE id_address = ".$address->id);
+            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_sponsorship = ".$sponsorship->id);
+        }
+        
+        $response = array('success' => $complete, 'error' => $error, 'message' => $message);        
         $this->response( $this->json($response) , 200 );
     }
     
@@ -905,6 +941,8 @@ class API extends REST {
         $product['app_total'] = $this->formatPrice($product['total']);
         $product['app_price_in_points'] = $this->formatPrice($product['price_in_points']);
         $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
+        $sql = "select online_only from "._DB_PREFIX_."product where id_product = ".$product['id_product'];
+        $product['online_only'] = Db::getInstance()->getValue($sql);;
       }
       $cart['app_total_price_in_points'] = $this->formatPrice($cart['total_price_in_points']);
       $this->response($this->json($cart), 200);
@@ -1251,6 +1289,7 @@ class API extends REST {
           foreach ($purchases['result'] as &$purchase){
 //            $purchase['card_code'] = (int)$purchase['card_code'];            
             $purchase['price'] = round($purchase['price']);
+            $purchase['formatPrice'] = $this->formatPrice($purchase['price']);
             $purchase['showDetails'] = false;
             $countPurchases++;
           }
@@ -1354,10 +1393,8 @@ class API extends REST {
           return $this->response(json_encode(array('result' => $result)),200);
         }
         else if ( $option == 5 ) { 
-          
           $object_inv = json_decode($object_inv, true);  
           $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
-          
           return $this->response(json_encode(array('result' => $invitation)),200);
         }
       }
@@ -1424,6 +1461,107 @@ class API extends REST {
     $result = Db::getInstance()->execute($query);
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  public function getConversations() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    
+    // Lista de conversaciones
+    $sql = "SELECT CAST(
+                CONCAT(
+                    IF(id_customer_send=".$id_customer.",'',id_customer_send) , IF(id_customer_receive=".$id_customer.",'',id_customer_receive)
+                ) AS INT
+            ) AS customer
+            FROM ps_message_sponsor
+            WHERE (
+                (id_customer_receive=".$id_customer." AND id_customer_send<>".$id_customer.") OR (id_customer_receive<>".$id_customer." AND id_customer_send=".$id_customer.")
+            )
+            GROUP BY customer
+            ORDER BY customer";
+    $conversations = Db::getInstance()->executeS($sql);
+
+    foreach ($conversations as &$conversation) {
+        // Username usuario en conversacion
+        $sql = "SELECT username
+                FROM ps_customer
+                WHERE id_customer = ".$conversation["customer"];
+        $conversation["username"] = Db::getInstance()->getValue($sql);
+
+        // Numero de mensajes sin leer
+        $sql = "SELECT
+                  COUNT(*) unread_messages
+                FROM ps_message_sponsor
+                WHERE (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+                AND `read` = 0";
+        
+        $conversation["unread_messages"] = Db::getInstance()->getValue($sql);
+        
+        // Ultimo mensaje recibido o enviado en conversacion
+        $sql = "SELECT
+                    message,
+                    date_send,
+                    UNIX_TIMESTAMP(date_send) date_send_ts,
+                    IF(
+                        date_send>=DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'),
+                        DATE_FORMAT(date_send, '%H:%i'),
+                        DATE_FORMAT(date_send, '%Y-%m-%d') 
+                    ) date_show
+                FROM ps_message_sponsor
+                WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$conversation["customer"].")
+                OR (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+                ORDER BY date_send DESC
+                LIMIT 1";
+        $message = Db::getInstance()->executeS($sql);
+        $conversation["message"] = $message[0]["message"];
+        $conversation["date_show"] = $message[0]["date_show"];
+        $conversation["date_send"] = $message[0]["date_send"];
+        $conversation["date_send_ts"] = $message[0]["date_send_ts"];
+    }
+
+    // Ordenar conversaciones por fecha DESC
+    usort($conversations, function($a, $b) {
+        return  $b['date_send_ts'] - $a['date_send_ts'];
+    });
+    
+//    error_log("\n\n\n\n Esto es query get messages: \n\n".print_r($sql, true),3,"/tmp/error.log");
+    foreach ($conversations AS $key => &$conversation) {
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $conversation['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
+    }
+    
+    return $this->response(json_encode(array('result' => $conversations)),200);
+  }
+  
+  public function getConversation() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    $id_customer_conversation = $this->_request['id_customer_conversation'];
+    
+    $sql = "SELECT
+                id_customer_send,
+                id_customer_receive,
+                message,
+                `read`,
+                date_send,
+                DATE_FORMAT(date_send, '%Y-%m-%d') date,
+                DATE_FORMAT(date_send, '%H:%i') hour
+            FROM ps_message_sponsor
+            WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$id_customer_conversation.")
+            OR (id_customer_send = ".$id_customer_conversation." AND id_customer_receive = ".$id_customer.")
+            ORDER BY date_send ASC";
+    
+//    error_log("\n\n\n Este es el que trae la conversacion: \n\n".print_r($sql, true),3,"/tmp/error.log");
+    $conversation = Db::getInstance()->executeS($sql);
+    return $this->response(json_encode(array('result' => $conversation)),200);
+  }
+  
   
   public function getPasscode() {
     if ($this->get_request_method() != "GET") {
@@ -1595,17 +1733,116 @@ class API extends REST {
     }
   }
     
-  private function getAddresMaps() {
+  private function getAddressMaps() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
+    $latitude = $this->_request['latitude'];
+    $longitude = $this->_request['longitude'];
+    $option = $this->_request['option'];
     
-    $sql = "SELECT id_address, id_manufacturer, firstname, address1, city,  latitude, longitude
-            FROM ps_address
-            WHERE latitude is not  NULL";
-    $result = Db::getInstance()->getValue($sql);
+    if ( $option == 2 ){
+      $id_manufacturer = $this->_request['id_manufacturer'];
+    }
+    
+//    error_log("\n\nEstos son los datos\n\n",3,"/tmp/error.log");
+//    error_log("\n\nLatitude ".print_r($latitude,true),3,"/tmp/error.log");
+//    error_log("\n\nLongitude ".print_r($longitude,true),3,"/tmp/error.log");
+//    error_log("\n\nManufacturer ".print_r($id_manufacturer,true),3,"/tmp/error.log");
+    // Unidades de distancia ( Metros )
+    $units = "units=metric";
+    
+    // El origen de donde calcula las distancias:
+    $origins = 'origins='.$latitude.','.$longitude;
+    
+    // Ubicaciones de las ciudades;
+    $cities['latitudes'] = Db::getInstance()->executeS("SELECT latitud_inicial, latitud_final
+                                                      FROM "._DB_PREFIX_."cities
+                                                      WHERE latitud_inicial is not null
+                                                      ORDER BY latitud_inicial");
+    
+    $cities['longitudes'] = Db::getInstance()->executeS("SELECT longitud_inicial, longitud_final
+                                                      FROM "._DB_PREFIX_."cities
+                                                      WHERE latitud_inicial is not null
+                                                      ORDER BY longitud_inicial");
+    
+    // Capturo la ciudad en la que estoy.
+    foreach ($cities['latitudes'] as $latitudes){
+      if ( $latitudes['latitud_inicial'] >= $latitude && $latitude >= $latitudes['latitud_final'] ){
+        $city['latitude'] = $latitudes;
+      }
+    }
+    
+    foreach ($cities['longitudes'] as $longitudes){
+      if ( $longitudes['longitud_inicial'] >= $longitude && $longitude >= $longitudes['longitud_final'] ){
+        $city['longitude'] = $longitudes;
+      }
+    }
+    
+    // Traigo todas las posiciones dentro de mi ciudad ($city)
+    $sql = "SELECT a.latitude, a.longitude, count(a.latitude) as size
+            FROM "._DB_PREFIX_."address as a
+            INNER JOIN "._DB_PREFIX_."manufacturer as m on (m.id_manufacturer = a.id_manufacturer)            
+            WHERE a.latitude < ".$city['latitude']['latitud_inicial']."
+            and a.latitude > ".$city['latitude']['latitud_final']." 
+            and a.longitude < ".$city['longitude']['longitud_inicial']." 
+            and a.longitude > ".$city['longitude']['longitud_final']."
+            and m.active = 1
+            and a.active = 1
+            GROUP BY a.latitude, a.longitude";
+        
+    if ($option == 2){
+      if($id_manufacturer != ''){
+        $sql .= ' and id_manufacturer = '.$id_manufacturer.';';
+      }
+      else {
+        return $this->response(json_encode(array('result' => '')),206);
+      }
+    }
+//    error_log("\n\n\n Este es el query de posiciones: \n\n".print_r($sql,true),3,'/tmp/error.log');
+    
+    $positions = Db::getInstance()->executeS($sql);
+    
+    // Destinos
+    foreach($positions as &$pos) {
+      $pos['distance'] = $this->getDistanceToCoords($latitude,$longitude,$pos['latitude'],$pos['longitude']);
+    }
+    usort($positions, function($a, $b) {
+      return str_replace('.', ',', $a['distance']) > str_replace('.', ',', $b['distance']) ? 1:-1 ;
+    });
+    
+    // Mostrar 10 resultados cercanos
+//    for($i = 0; $i <= 10; $i++){
+//      $result[] = $positions[$i];
+//    }
+    
+    foreach ($positions as $pos){
+      if(floatval($pos['distance']) <= 10){
+        $result[] = $pos;
+      }
+    }
+    array_unique($result);
+    
     return $this->response(json_encode(array('result' => $result)),200);
   }
+
+  public function getDistanceToCoords($lat1,$lon1,$lat2,$lon2) {
+    $R = 6371; // Radius of the earth in km
+    $dLat = $this->deg2rad($lat2-$lat1);  // deg2rad below
+    $dLon = $this->deg2rad($lon2-$lon1); 
+    $a = 
+      sin($dLat/2) * sin($dLat/2) +
+      cos($this->deg2rad($lat1)) * cos($this->deg2rad($lat2)) * 
+      sin($dLon/2) * sin($dLon/2); 
+    $c = 2 * atan2(sqrt($a), sqrt(1-$a)); 
+    $d = $R * $c; // Distance in km
+    return $d;
+  }
+  
+  public function deg2rad($deg) {
+    return $deg * (M_PI/180);
+  }
+  
   
   private function getNotificationBarOrders(){
     if($this->get_request_method() != "GET") {

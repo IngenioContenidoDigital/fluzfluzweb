@@ -71,7 +71,7 @@ class Link extends LinkCore
     }
     
     public function getBannerImageLink($id_banner){
-      return "http://".Configuration::get('PS_SHOP_DOMAIN_SSL').'/img/blockslideshow/'.$id_banner.'.jpg';
+      return _S3_PATH_."home/".$id_banner.".jpg";
     }
     
     public function getCatImageLink($name, $id_category, $type = null)

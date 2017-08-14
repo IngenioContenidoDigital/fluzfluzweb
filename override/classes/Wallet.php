@@ -25,6 +25,7 @@ class WalletCore extends ObjectModel
                         PL.description_short,
                         PP.id_manufacturer,
                         PP.is_virtual,
+                        PP.online_only,
                         M.name manufacturer,
                         PP.price_shop AS price,
                         PP.codetype,

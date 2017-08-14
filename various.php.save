@@ -1,2 +1,28 @@
 <?php 
-include_once('./config/defines.inc.php');include_once('./config/config.inc.php');
+include_once('./config/defines.inc.php');
+include_once('./config/config.inc.php');
+
+$sql = "SELECT id_customer, COUNT(*) repeated, GROUP_CONCAT(email) emails
+	FROM ps_rewards_sponsorship
+	GROUP BY id_customer
+	HAVING COUNT(*) > 1";
+$listsponsorships = Db::getInstance()->executeS($sql);
+// echo "<pre>"; print_r($listsponsorships); die();
+
+foreach ($listsponsorships as $list) {
+	$sponsorships = explode(",",$list["emails"]);
+	//echo $list["id_customer"]."<br><br>";
+	//echo "<pre>"; print_r($sponsorships); echo "<hr>";
+
+	foreach ($sponsorships as $sponsorship) {
+		//echo $sponsorship."<br>";
+		//echo substr($list["id_customer"], 0, 7).rand(100,999)."<br><br>";
+
+		$sql = "UPDATE ps_rewards_sponsorship
+			SET id_customer=".substr($list["id_customer"], 0, 7).rand(100,999)."
+			WHERE email = '".$sponsorship."'";
+		//echo $sql."<br>";
+		//Db::getInstance()->execute($sql);
+	}
+	//echo "<hr>";
+}

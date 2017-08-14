@@ -227,7 +227,10 @@ class MyAccountController extends MyAccountControllerCore
       $lastPoint = $this->getPointsLastDays((int)$this->context->customer->id);
       $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
 
-      $userData['image'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      $userData['image'] = false;
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $userData['image'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
       $userData['fluzLasted'] = $lastPoint['points'];
       $userData['fluzTotal'] = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
       $userData['winnerMembers'] = $this->numberMembers();

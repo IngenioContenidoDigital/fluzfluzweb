@@ -1,0 +1,253 @@
+
+
+    
+    
+    Confirmación de pedido
+    	
+        body, h1, h2, h3, h4, h5, p, div, a, th { font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif; }
+    
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ Hola {username}&iexcl;Gracias por tu compra! &iexcl;Est&aacute;s en camino hacia la riqueza!&nbsp; &nbsp;
+
+
+
+&nbsp;
+
+
+&nbsp;
+
+
+
+
+
+
+
+&nbsp;
+ 
+Detalle del pedido
+ Pedido:  creado el {date}Pago: {payment} 
+&nbsp;
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+BonoDescripci&oacute;nBonos a redimir - PinPrecio&nbsp;BonoCantidadPrecio Total
+
+&nbsp;&nbsp;{products}
+
+
+
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Precio 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {total_products} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Valor de los bonos 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {total_value} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+Fluz Utilizados
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {point_discount} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+ Pagado 
+&nbsp;
+
+
+
+
+
+
+
+
+&nbsp;
+ {total_paid} 
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+ 
+Extractos Fluz
+
+
+
+
+
+    Bono
+    Fluz Recibidos
+    Fecha de Expiraci&oacute;n
+
+
+    {name_product}
+    {points}
+    {expiration}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Comprar 
+ Privacidad de Datos 
+ Aprende M&aacute;s 
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+

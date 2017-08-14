@@ -193,15 +193,15 @@ class Category extends CategoryCore
         $cache_id = 'Category::getChildren_'.(int)$id_parent.'-'.(int)$id_lang.'-'.(bool)$active.'-'.(int)$id_shop;
         if (!Cache::isStored($cache_id)) {
             $query = 'SELECT c.`id_category`, cl.`name`, cl.`link_rewrite`, category_shop.`id_shop`
-			FROM `'._DB_PREFIX_.'category` c
-			LEFT JOIN `'._DB_PREFIX_.'category_lang` cl ON (c.`id_category` = cl.`id_category`'.Shop::addSqlRestrictionOnLang('cl').')
-                        INNER JOIN `'._DB_PREFIX_.'category_product` cp ON (c.`id_category` = cp.`id_category`)
-			'.Shop::addSqlAssociation('category', 'c').'
-			WHERE `id_lang` = '.(int)$id_lang.'
-			AND c.`id_parent` = '.(int)$id_parent.'
-			'.($active ? 'AND `active` = 1' : '').'
-			GROUP BY c.`id_category`
-			ORDER BY category_shop.`position` ASC';
+                      FROM `'._DB_PREFIX_.'category` c
+                      LEFT JOIN `'._DB_PREFIX_.'category_lang` cl ON (c.`id_category` = cl.`id_category`'.Shop::addSqlRestrictionOnLang('cl').')
+                      INNER JOIN `'._DB_PREFIX_.'category_product` cp ON (c.`id_category` = cp.`id_category`)
+                      '.Shop::addSqlAssociation('category', 'c').'
+                      WHERE `id_lang` = '.(int)$id_lang.'
+                      AND c.`id_parent` = '.(int)$id_parent.'
+                      '.($active ? 'AND `active` = 1' : '').'
+                      GROUP BY c.`id_category`
+                      ORDER BY category_shop.`position` ASC';
             $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
             Cache::store($cache_id, $result);
             return $result;

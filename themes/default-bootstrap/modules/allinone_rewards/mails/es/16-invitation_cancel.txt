@@ -1,0 +1,111 @@
+ 
+    
+        
+        
+        titulo 2
+        	
+            body, h1, h2, h3, h4, h5, p, div, a, th { font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif; }
+        
+    
+    
+    
+
+
+
+
+  
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+Hola {firstname},
+
+
+Este es un aviso de cancelaci&oacute;n de cuenta.
+
+
+&nbsp;
+
+
+{username} Ha cancelado tu invitaci&oacute;n.
+
+
+Lo sentimos, pero tu invitaci&oacute;n ha exp&iacute;rado.
+
+
+Nos encantar&iacute;a que te unieras a nuestra
+
+
+network, sin embargo, necesitaras ser
+
+
+invitado de nuevo para unirte.
+
+
+&nbsp;
+
+
+Si estas recibiendo este mensaje por error,
+
+
+por favor comun&iacute;cate con la persona que te invit&oacute; inicialmente.
+
+
+&nbsp;
+
+
+ M&Aacute;S INFORMACI&Oacute;N 
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+ Comprar 
+ Politica de privacidad 
+ Ayuda 
+ Cancelar Suscripci&oacute;n 
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+

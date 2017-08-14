@@ -26,7 +26,8 @@
 
 date_default_timezone_set("America/Bogota");
 @ini_set('max_input_vars', 5000);
-
+@ini_set("memory_limit","-1");
+@ini_set("max_execution_time", 0);
 /* Debug only */
 if (!defined('_PS_MODE_DEV_')) {
 define('_PS_MODE_DEV_',false);
