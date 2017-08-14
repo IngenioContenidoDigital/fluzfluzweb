@@ -1392,10 +1392,8 @@ class API extends REST {
           return $this->response(json_encode(array('result' => $result)),200);
         }
         else if ( $option == 5 ) { 
-          
           $object_inv = json_decode($object_inv, true);  
           $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
-          
           return $this->response(json_encode(array('result' => $invitation)),200);
         }
       }
