@@ -1606,6 +1606,18 @@ class API extends REST {
     $result = Db::getInstance()->getValue($sql);
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  private function getNotificationBarOrders(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    
+    $model = new Model();
+    $result = $model->getNotificationOrder($id_customer);
+    
+    $this->response($this->json($result), 200);
+  }
 }
 
 
