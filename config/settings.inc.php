@@ -1,5 +1,5 @@
-<?php
-define('_DB_SERVER_', 'localhost:3808');
+ <?php
+define('_DB_SERVER_', ' fluzfluz.cbdfboq4limk.sa-east-1.rds.amazonaws.com:3808');
 define('_DB_NAME_', 'fluzfluz');
 define('_DB_USER_', 'fluzfluz');
 define('_DB_PASSWD_', 'X0tr.u21');
