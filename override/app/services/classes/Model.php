@@ -1987,6 +1987,7 @@ return $responseObj;
   
   public function getNotificationOrder($id_customer){
     $result = MyAccountController::orderQuantity($id_customer);
+    $result['profile_complete'] = Customer::percentProfileComplete($id_customer);
     return array('result' => $result);
   }
 
