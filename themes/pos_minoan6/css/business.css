@@ -80,6 +80,8 @@ div.uploader span.action{background: #c9b198 !important;}
     text-align: center;
     font: 20pt bold 'Vollkorn';
     color: #bbb;
+    max-height: 400px;
+    overflow-y: auto;
 }
 .link-down{color: #ef4136;}
 .item-employee:hover{color: #ef4136;}
@@ -104,17 +106,19 @@ div.uploader span.action{background: #c9b198 !important;}
 .title_transfer{text-align: center; font-size: 16px; font-weight: bold; color: #ef4136;}
 .t-name{color:#EF4136; font-size: 14px;text-align: right;font-weight: bold;}
 .info-transfer{margin-top: 30px;line-height: 30px;}
-.name_sponsor{color: #000;font-weight: bold;font-size: 14px;padding-left: 40px;}
+.name_sponsor{color: #000;font-weight: bold;font-size: 14px;padding-left: 15px;}
 .btn_modal_f{cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;}
 .row-btn-modal{ margin-top: 30px;margin-bottom: 30px;}
 .img-responsive{margin: 0 auto;}
-.btn-cancel-modal{text-align: right;}
+.btn-cancel-modal{text-align: left;}
+.btn-confirm-modal{text-align: right;}
 .btn-account {padding: 6px 12px;font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;color: #fff;border: none;background: #ef4136;}
 #quantity-users{padding-left: 0px;margin-top: 10px;color:#000;}
 .img-business{ border-radius: 20%; max-height: 100px;min-width: 100px;}
 .text-business{color: #000; font-size: 16px;text-transform: uppercase;font-weight: bold;}
 .div-img{text-align: right;}
 .margin-info{margin-top: 20px;}
+#user_delete{color: #ef4136;font-weight: bold;font-size: 14px;text-align: center;}
 
 /* ERRORES */
 
@@ -137,8 +141,50 @@ div.uploader span.action{background: #c9b198 !important;}
     text-align: center;
     }
     
-/*PRELOADER FILE CUSTOMER*/
+/*PAGINA ERRORES*/
+.title-error{color: #000; margin-top: 35px; font-size: 36px; font-weight: bold; 
+            font-family: 'Open Sans'; margin-bottom: 10px;}
+.border-report{border-bottom: 1px solid #e5e5e5;}    
+.download-error{margin-top: 60px; text-align: right;}
+#error_page{padding-left: 0px;}
+.container-error{background: #f4f4f4;padding: 25px;
+    overflow-y: auto;
+    max-height: 400px;}
 
+/* Botones error */
+.div-btn-error{text-align: center; margin-top: 30px; margin-bottom: 30px;}
+.form-confirm-business{
+    text-align: center;
+    min-height: 500px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    margin-left: 0px;
+    background: #f7f7fb;
+    border: 1px solid #d6d4d4;
+}
+
+.btn-back-business{
+    background: transparent;
+    text-transform: uppercase;
+    border: 1px solid #000;
+    padding: 10px 15px;
+    font-size: 11px;
+}
+
+.texto-confirm-business{
+    font-family: 'Open Sans';
+    color: #000;
+    font-size: 14px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/*PRELOADER FILE CUSTOMER*/
+.text-loader{text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;}
 .progress-container {
 	left: 50%;
 	position: absolute;
@@ -146,6 +192,7 @@ div.uploader span.action{background: #c9b198 !important;}
 }
 
 .progress {
+        margin-top: 20px;
 	background-color: rgb(229,233,235);
 	height: 0.25em;
 	position: relative;

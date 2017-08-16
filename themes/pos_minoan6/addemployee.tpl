@@ -45,6 +45,14 @@
                 <input class="col-lg-6 is_required validate account_input form-employee" type="text" autocomplete="off" name="dni" id="dni" value="{if isset($smarty.post.dni)}{$smarty.post.dni}{/if}" />
             </div>
             <div class="row required form-group">
+                <label class="col-lg-12 l-form-employee" for="address_customer">Direcci&oacute;n del Empleado</label>
+                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="address_customer" name="address_customer" value="{if isset($smarty.post.address_customer)}{$smarty.post.address_customer}{/if}" />
+            </div>
+            <div class="row required form-group">
+                <label class="col-lg-12 l-form-employee" for="city">Ciudad</label>
+                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="city" name="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />
+            </div>
+            <div class="row required form-group">
                 <label class="col-lg-12 l-form-employee" for="Amount">{l s='Monto (Fluz)'}</label>
                 <input class="col-lg-6 is_required validate form-employee" value="" type="number" min="1" max="{$pointsAvailable}" oninput="if(value>{$pointsAvailable})value={$pointsAvailable}" id="use_fluz_employee" autocomplete="off"/>
             </div>
