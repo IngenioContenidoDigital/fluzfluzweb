@@ -1834,7 +1834,6 @@ class API extends REST {
     
     $model = new Model();
     $result = $model->getNotificationOrder($id_customer);
-    
     $this->response($this->json($result), 200);
   }
 
