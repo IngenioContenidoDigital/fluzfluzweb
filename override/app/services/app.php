@@ -1363,15 +1363,13 @@ class API extends REST {
             $activityNetworkk['credits'] = round($activityNetworkk['credits']);
             $activityNetworkk['img'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
           }
-          $count = 0;
-          foreach ($activityNetwork['result'] as &$activityNetworkk){
-            $count++;
-            if ( $limit != $count  ){
-              $result[] = $activityNetworkk;
-            }
+          $count = count($activityNetwork['result']);
+          $limit = ($limit > $count) ? $count : $limit;
+          for($i = $last_total; $i < $limit; $i++){
+            $result['result'][] = $activityNetwork['result'][$i];
           }
 //          error_log("\n\n Este es el network Activity: \n\n". print_r($result, true),3,"/tmp/error.log");
-//          $result['total'] = count($result);
+          $result['total'] = count($result);
           return $this->response(json_encode(array('result' => $result)),200);
         }
         else if ( $option == 2 ){
