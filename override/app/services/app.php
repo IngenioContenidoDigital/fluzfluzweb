@@ -54,8 +54,37 @@ class API extends REST {
       $userData['totalMoney'] = $this->formatPrice( $userData['fluzTotal'] * 25 );
       return $this->response($this->json($userData), 200);
     }
-
     
+    
+    private function getProfile() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      $id_customer =  trim( $this->_request['id_customer']);
+      $id_profile =  trim( $this->_request['id_profile']);
+      error_log("\n\n Esto es lo que llega: \n".print_r($id_customer."\n".$id_profile,true),3,"/tmp/error.log");
+      $model = new Model();
+      $result=$model->getProfileById($id_customer, $id_profile);
+      error_log("\n\n Esto es lo que retorna: \n".print_r($result,true),3,"/tmp/error.log");
+      return $this->response($this->json($result), 200);
+    }
+    
+    private function getInviteduserForProfile() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      $id_customer =  trim( $this->_request['id_customer']);
+      
+      $model  = new Model();
+      $result = $model->getMyInvitation($id_lang = 1, $id_customer );
+      error_log("\n\n Estos son los invitados del usuario: ".print_r($id_customer,true),3,"/tmp/error.log");
+      $result['total'] = count($result['result']);
+      error_log("\n\n".print_r($result,true),3,"/tmp/error.log");
+      return $this->response($this->json($result), 200);
+    }
+
+
+
 
     /**
      * Recibe el id de cliente, el lenguaje y retorna los números de teléfono de ese cliente.
@@ -1334,11 +1363,13 @@ class API extends REST {
             $activityNetworkk['credits'] = round($activityNetworkk['credits']);
             $activityNetworkk['img'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
           }
-          if ( $limit != 0 ){
-            for ( $i = $last_total; $i < $limit; $i++ ) {
-              $result[] = $activityNetwork['result'][$i];
-            }
+          $count = count($activityNetwork['result']);
+          $limit = ($limit > $count) ? $count : $limit;
+          for($i = $last_total; $i < $limit; $i++){
+            $result['result'][] = $activityNetwork['result'][$i];
           }
+//          error_log("\n\n Este es el network Activity: \n\n". print_r($result, true),3,"/tmp/error.log");
+          $result['total'] = count($result);
           return $this->response(json_encode(array('result' => $result)),200);
         }
         else if ( $option == 2 ){

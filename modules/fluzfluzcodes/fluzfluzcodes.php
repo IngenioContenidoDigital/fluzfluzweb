@@ -199,13 +199,14 @@ class fluzfluzCodes extends Module{
         $state = false;
         $headers = array('Reference #','code', 'pin');
         $handle = fopen($this->location.$this->folder.$this->nuevo_archivo, 'a+');
-
+        $variable_conf = Configuration::get('PS_FLUZ_CODPRO_KEY');
+        
         while (($results = fgetcsv($handle, 1000, ";")) !== FALSE) {
             $query = "SELECT "._DB_PREFIX_."product.id_product, "._DB_PREFIX_."product.reference 
                         FROM "._DB_PREFIX_."product WHERE "._DB_PREFIX_."product.reference = '".$results[0]."'";
             if( $line = Db::getInstance()->getRow($query) ) {
                 
-                $code = Encrypt::encrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $results[1]);
+                $code = Encrypt::encrypt($variable_conf , $results[1]);
                 $lastdigits = substr($results[1], -4);
                 
                 $query1 = "INSERT INTO "._DB_PREFIX_."product_code (id_product,code,last_digits,pin_code,date_add) VALUES ('".$line['id_product']."','".$code."','".$lastdigits."','".$results[2]."',NOW())";
