@@ -575,7 +575,7 @@ class Order extends OrderCore
                         od.total_price_tax_incl total_producto,
                         od.porcentaje porcentaje_producto,
                         od.points puntos_producto,
-                        ps.product_supplier_price_te costo_producto
+                        GROUP_CONCAT(ps.product_supplier_price_te) costo_producto
                 FROM "._DB_PREFIX_."orders o
                 INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
                 INNER JOIN "._DB_PREFIX_."order_state_lang osl ON ( o.current_state = osl.id_order_state AND osl.id_lang = 1 )
@@ -585,6 +585,7 @@ class Order extends OrderCore
                 LEFT JOIN "._DB_PREFIX_."report_orders ro ON ( o.id_order = ro.orden )
                 LEFT JOIN "._DB_PREFIX_."product_supplier ps ON ( od.product_id = ps.id_product )
                 WHERE ro.orden IS NULL
+                GROUP BY o.id_order, od.product_id
                 ORDER BY o.id_order DESC";
 
         $orders = Db::getInstance()->executeS($sql);
