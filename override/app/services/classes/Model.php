@@ -1997,7 +1997,6 @@ return $responseObj;
   }
   
   public function getActivityNetwork($id_lang, $id_customer, $limit) {
-//    $id_customer=4;
     $stringidsponsors = "";
     $tree = RewardsSponsorshipModel::_getTree($id_customer);
     
