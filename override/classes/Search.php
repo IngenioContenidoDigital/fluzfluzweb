@@ -296,7 +296,7 @@ class Search extends SearchCore{
               INNER JOIN '._DB_PREFIX_.'rewards_product AS rp ON rp.id_product = p.id_product
               WHERE p.active = 1 and pa.id_product = '.$param.' AND pl.id_lang = '.$id_lang.'
               GROUP BY pa.id_product_attribute';
-      
+//      error_log('\n\n Esto es el query de busqueda: \n\n'.print_r($sql, true),3,"/tmp/error.log");
       $result = $db->executeS($sql);
       return array('result' => $result);
     }

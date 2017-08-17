@@ -1997,7 +1997,7 @@ return $responseObj;
   }
   
   public function getActivityNetwork($id_lang, $id_customer, $limit) {
-    $id_customer=4;
+//    $id_customer=4;
     $stringidsponsors = "";
     $tree = RewardsSponsorshipModel::_getTree($id_customer);
     
@@ -2063,7 +2063,7 @@ return $responseObj;
           $members[$counter]['level'] = $sponsor['level'];
           $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
           $points = Db::getInstance()->ExecuteS($sql);
-          $members[$counter]['points'] = round($points[0]['points']);  
+          $members[$counter]['points'] = round($points[0]['points']);
         }
         $counter++;
       }
@@ -2078,6 +2078,47 @@ return $responseObj;
     
     
     return array('result' => $members);
+  }
+  
+  
+  public function getProfileById($id_customer, $id_profile){
+    $tree = RewardsSponsorshipModel::_getTree( $id_customer );
+    $members = array();
+    $counter = 0;
+    foreach ( $tree as $sponsor ) {
+      erro.log($sponsor['id']);
+      if( $sponsor['id'] == $id_profile ){
+        if ( $id_customer != $sponsor['id'] ) {
+          $customer = new Customer( $sponsor['id'] );
+          $name = strtolower( $customer->firstname." ".$customer->lastname );
+          if ( $customer->firstname != "" ) {
+            $sql = "SELECT SUM(credits) AS points
+                    FROM "._DB_PREFIX_."rewards
+                    WHERE  id_customer = ".$id_customer."
+                    AND plugin = 'sponsorship'
+                    AND id_order IN (
+                      SELECT id_order
+                      FROM "._DB_PREFIX_."rewards
+                      WHERE  id_customer = ".$sponsor['id']."
+                      AND plugin = 'loyalty'
+                    )
+                    GROUP BY id_customer";
+
+            $profile['name'] = $name;
+            $profile['username'] = $customer->username;
+            $profile['id'] = $sponsor['id'];
+            $profile['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
+            $profile['level'] = $sponsor['level'];
+            $profile['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+            $points = Db::getInstance()->ExecuteS($sql);
+            $profile['points'] = round($points[0]['points']);
+          }
+          $counter++;
+        }
+      }
+    }
+        
+    return array('result' => $profile);
   }
   
   public function getMyNetworkInvitations( $id_lang, $id_customer ) {
