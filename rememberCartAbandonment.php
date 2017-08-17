@@ -46,10 +46,10 @@ foreach ($cart_abandonment as $remember){
                 foreach ($list_product as &$product_cart){
                     $name .=  "<label>".$product_cart['name']."</label><br>";
                     $quantity_p .=  "<label>".$product_cart['quantity']."</label><br>";
-                    $price_unit .=  "<label>".$product_cart['price']."</label><br>";
+                    $price_unit .=  "<label>".floor($product_cart['price'])."</label><br>";
                     $sum = $product_cart['price'];
                     $price_total +=  $sum;
-
+                    
                     $query_value = 'SELECT (rp.`value`/100) as value FROM '._DB_PREFIX_.'rewards_product rp WHERE id_product = '.$product_cart['id_product'];
                     $row_v = Db::getInstance()->getRow($query_value);
                     $value_porc = $row_v['value'];
@@ -66,7 +66,7 @@ foreach ($cart_abandonment as $remember){
                     '{quantity}' => $quantity_p,
                     '{name_product}' => $name,
                     '{points}' => $price_point,
-                    '{price_unit}' => $price_unit,
+                    '{price_unit}' => Tools::displayPrice($price_unit, Context::getContext()->currency, false),
                     '{price_total}' => $price_total,
                     '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                     '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
