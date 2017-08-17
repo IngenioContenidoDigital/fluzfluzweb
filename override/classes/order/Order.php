@@ -652,7 +652,7 @@ class Order extends OrderCore
                                     ".number_format($codes_order[0]['valor_utilizado'], 6, '.', '').",
                                     '".$order['referencia_producto']."',
                                     ".number_format($order['precio_producto'], 6, '.', '').",
-                                    ".number_format($order['costo_producto'], 6, '.', '').",
+                                    ".$order['costo_producto'].",
                                     ".number_format($order['cantidad'], 6, '.', '').",
                                     '".$codes_order[0]['codigos_producto']."'   ,
                                     ".number_format($order['porcentaje_producto'], 6, '.', '').",
