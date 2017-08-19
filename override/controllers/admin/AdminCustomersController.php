@@ -209,7 +209,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
         if (!($obj = $this->loadObject(true))) {
             return;
         }
-
+        
         $genders = Gender::getGenders();
         $list_genders = array();
         foreach ($genders as $key => $gender) {
@@ -266,6 +266,14 @@ class AdminCustomersController extends AdminCustomersControllerCore
                             ),
                             'hint' => $this->l('Expulsar al cliente de la red.')
                         );
+        
+        $img_business = array(
+                    'type' => 'file',
+                    'label' => $this->l('Logo Empresa'),
+                    'name' => 'Logo-empresa',
+                    'hint' => $this->l('Upload a Business logo from your computer.')
+                );
+        
         if ( $this->context->employee->id_profile != 1 ) {
             if ( $obj->active == 0 ) {
                 $field_active = array();
@@ -396,6 +404,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
                     'hint' => $this->l('This customer will receive your ads via email.')
                 ),
                 $field_kick_out,
+                $img_business,
             )
         );
 
@@ -578,6 +587,24 @@ class AdminCustomersController extends AdminCustomersControllerCore
     
      public function processSave()
     {
+         
+        if (($id_customer = (int)Tools::getValue('id_customer')) && isset($_FILES) && $_FILES['Logo-empresa']['tmp_name'] != ''){
+            
+            $typeimg = explode("/", $_FILES["Logo-empresa"]["type"]);
+            if ( $typeimg[0] != "image" || $typeimg[1] != "png") {
+                $this->errors[] = Tools::displayError('El archivo cargado no se encuentra en un formato correcto (PNG).');
+            }
+            
+            $target_path = _PS_IMG_DIR_ . "business/" . basename( $id_customer.".".$typeimg[1] );
+            if ( !move_uploaded_file($_FILES['Logo-empresa']['tmp_name'], $target_path) ) {
+                $this->errors[] = Tools::displayError('No fue posible cargar la imagen de perfil.');
+            }
+
+            /*$target_path = _PS_IMG_DIR_ . "business/" . basename( $id_customer.".png");
+            move_uploaded_file($_FILES["Logo-empresa"]["tmp_name"], $target_path);*/
+            
+        }
+        
         // Check that default group is selected
         if (!is_array(Tools::getValue('groupBox')) || !in_array(Tools::getValue('id_default_group'), Tools::getValue('groupBox'))) {
             $this->errors[] = Tools::displayError('A default customer group must be selected in group box.');

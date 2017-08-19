@@ -51,6 +51,7 @@ class Customer extends CustomerCore
     public $civil_status;
     public $occupation_status;
     public $field_work;
+    public $group_business;
     public $pet;
     public $pet_name;
     public $spouse_name;
@@ -105,6 +106,7 @@ class Customer extends CustomerCore
             'civil_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'occupation_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'field_work' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'group_business' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'pet' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'pet_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'spouse_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 50),

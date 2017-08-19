@@ -715,6 +715,61 @@ class API extends REST {
 	$model = new Model();
 	$this->response( $this->json($model->savepersonalinformation($params)) , 200 );
     }
+
+    /**
+     * 
+     */
+    private function personalinformation()
+    {
+	$id_customer = $this->_request['id_customer'];
+
+	$model = new Model();
+	return $this->response(json_encode($model->personalinformation($id_customer)),200);
+    }
+    
+    /**
+     * 
+     */
+    private function sevedCreditCard()
+    {
+	$id_customer = $this->_request['id_customer'];
+
+	$model = new Model();
+	return $this->response(json_encode($model->sevedCreditCard($id_customer)),200);
+    }
+
+    /**
+     * 
+     */
+    private function savepersonalinformation()
+    {       
+        $params = array();
+
+        $params["id_customer"] = $this->_request['id_customer'];
+        $params["password"] = $this->_request['password'];
+        $params["password_new"] = $this->_request['password_new'];
+        $params["id_gender"] = $this->_request['id_gender'];
+        $params["firstname"] = $this->_request['firstname'];
+        $params["lastname"] = $this->_request['lastname'];
+        $params["email"] = $this->_request['email'];
+        $params["dni"] = $this->_request['dni'];
+        $params["birthday"] = $this->_request['birthday'];
+        $params["civil_status"] = $this->_request['civil_status'];
+        $params["occupation_status"] = $this->_request['occupation_status'];
+        $params["field_work"] = $this->_request['field_work'];
+        $params["pet"] = $this->_request['pet'];
+        $params["pet_name"] = $this->_request['pet_name'];
+        $params["spouse_name"] = $this->_request['spouse_name'];
+        $params["children"] = $this->_request['children'];
+        $params["phone_provider"] = $this->_request['phone_provider'];
+        $params["phone"] = $this->_request['phone'];
+        $params["address1"] = $this->_request['address1'];
+        $params["address2"] = $this->_request['address2'];
+        $params["city"] = $this->_request['city'];
+
+	$model = new Model();
+	$this->response( $this->json($model->savepersonalinformation($params)) , 200 );
+    }
     
     private function createCustomer() {
         if ($this->get_request_method() != "POST") {

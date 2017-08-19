@@ -1,0 +1,127 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&iexcl;Felicitaciones! Acabas de crear una nueva cuenta de Fluz Fluz. Est&aacute;s en camino hac&iacute;a la riqueza.
+
+
+
+
+
+
+
+
+
+Tu nombre de usuario es:
+Nombre: {firstname}  Apellido: {lastname}  Nombre de usuario: {username}  Contrase&ntilde;a: {password}  Cedula: {dni}  Fecha de Nacimiento: {birthdate}  Direcci&oacute;n: {address}  Tel&eacute;fono m&oacute;vil: {phone}
+
+
+
+
+
+
+
+
+
+Haz clic aqu&iacute; para editar la informaci&oacute;n de tu cuenta.
+
+ DETALLES DE LA CUENTA
+
+
+
+
+
+
+
+
+
+Explora algunos de nuestros comercios:
+
+
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMPRA AHORA
+
+
+
+
+Beneficios de Fluz Fluz:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Aprender sobre Fluz Fluz:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Comprar 
+ Privacidad de Datos 
+ Aprende M&aacute;s 
+
+
+
+
+
+
+
+

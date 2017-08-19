@@ -15,7 +15,13 @@
 {if version_compare($smarty.const._PS_VERSION_,'1.6','<')}
     {include file="$tpl_dir./breadcrumb.tpl"}
 {/if}
-
+<form method="post" id="history-business" name="history-business">
+    <div class="row" style="text-align: right;">        
+            <button class="btn btn-default btn-save-employee" type="submit" id="export-excel" name="export-excel">
+                <span> EXPORTAR HISTORIAL </span>
+            </button>
+    </div>
+</form>
 <div class="row container-info-users" id="container-info-users">
     <div class="row bar-info-users">
         <div class="col-lg-2 item-users" id="firstname">Nro. Transferencia</div>
@@ -30,23 +36,23 @@
     
     {foreach from=$history_transfer item=transfer}
         <div class="row content-info" id="content-users">
-            {if $id_customer == $transfer.id_customer}
-                <div id="button_{$transfer.id_transfers_fluz}" class="row buttonAccordionHistory" onclick="accordion_display({$transfer.id_transfers_fluz})">
-                    <div class="col-lg-2 content-item-users">{$transfer.id_transfers_fluz}</div>
-                    <div class="col-lg-2 content-item-users">{($transfer.cont - 1)}</div>
-                    <div class="col-lg-2 content-item-users">{$transfer.firstname}</div>
-                    <div class="col-lg-2 content-item-users">{$transfer.date_add}</div>
-                    <div class="col-lg-2 content-item-users" id="amount_unit">{$transfer.credits} Fluz</div>
-                    <div class="col-lg-2 content-item-users" id="amount_unit">COP $ {$transfer.credits * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</div>
+            {if $id_customer == $transfer.id_cliente}
+                <div id="button_{$transfer.id_transferencia}" class="row buttonAccordionHistory" onclick="accordion_display({$transfer.id_transferencia})">
+                    <div class="col-lg-2 content-item-users">{$transfer.id_transferencia}</div>
+                    <div class="col-lg-2 content-item-users">{($transfer.numero_empleados - 1)}</div>
+                    <div class="col-lg-2 content-item-users">{$transfer.nombre}</div>
+                    <div class="col-lg-2 content-item-users">{$transfer.fecha_transferencia}</div>
+                    <div class="col-lg-2 content-item-users" id="amount_unit">{$transfer.fluz_transferidos} Fluz</div>
+                    <div class="col-lg-2 content-item-users" id="amount_unit">COP $ {$transfer.fluz_transferidos * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</div>
                 </div>
             {else}
-                <div id="container_{$transfer.id_transfers_fluz}" class="row container_history container_{$transfer.id_transfers_fluz}" style="display:none;">
-                    <div class="col-lg-2 content-item-users">{$transfer.id_transfers_fluz}</div>
+                <div id="container_{$transfer.id_transferencia}" class="row container_history container_{$transfer.id_transferencia}" style="display:none;">
+                    <div class="col-lg-2 content-item-users">{$transfer.id_transferencia}</div>
                     <div class="col-lg-2 content-item-users"></div>
-                    <div class="col-lg-2 content-item-users">{$transfer.firstname}</div>
-                    <div class="col-lg-2 content-item-users">{$transfer.date_add}</div>
-                    <div class="col-lg-2 content-item-users" id="amount_unit">{$transfer.credits} Fluz</div>
-                    <div class="col-lg-2 content-item-users" id="amount_unit">COP $ {$transfer.credits * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</div>
+                    <div class="col-lg-2 content-item-users">{$transfer.nombre}</div>
+                    <div class="col-lg-2 content-item-users">{$transfer.fecha_transferencia}</div>
+                    <div class="col-lg-2 content-item-users" id="amount_unit">{$transfer.fluz_transferidos} Fluz</div>
+                    <div class="col-lg-2 content-item-users" id="amount_unit">COP $ {$transfer.fluz_transferidos * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</div>
                 </div>
             {/if}
         </div>
