@@ -223,7 +223,7 @@ class businessController extends FrontController {
                 $customer->dni = $passwordDni;
                 $customer->phone = $phone_user;
                 $customer->username = $username;
-                $customer->id_default_group = $this->context->customer->id_default_group;
+                $customer->id_default_group = 4;
                 $customer->id_lang = $this->context->customer->id_lang;
                 $customer->field_work = $this->context->customer->field_work;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
@@ -501,7 +501,7 @@ class businessController extends FrontController {
                     $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                     //$customer->newsletter = $datacustomer['Newsletter (0/1)'];
                     //$customer->birthday = $datacustomer['Birthday (yyyy-mm-dd)'];
-                    $customer->id_default_group = $this->context->customer->id_default_group;
+                    $customer->id_default_group = 4;
                     $customer->id_lang = $this->context->customer->id_lang;
                     $customer->field_work = $this->context->customer->field_work;
                     $customer->add();
@@ -793,7 +793,7 @@ class businessController extends FrontController {
                             $customer->email = $datacustomer['Email'];
                             $customer->passwd = Tools::encrypt($datacustomer['cedula']);
                             $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
-                            $customer->id_default_group = $this->context->customer->id_default_group;
+                            $customer->id_default_group = 4;
                             $customer->id_lang = $this->context->customer->id_lang;
                             $customer->field_work = $this->context->customer->field_work;
                             $customer->phone = $datacustomer['Telefono Empleado'];
