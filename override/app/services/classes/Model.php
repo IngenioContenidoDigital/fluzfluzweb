@@ -1544,12 +1544,6 @@ private function clearCart()
         return Db::getInstance()->ExecuteS($query);
     }
     
-    public function phoneProviders() {
-    	$query = "SELECT name
-                  FROM "._DB_PREFIX_."webservice_external_telco_operator";
-        return Db::getInstance()->ExecuteS($query);
-    }
-
     public function get_traker_order($id_order){
 
     	$sql = "SELECT ol.id_order_state,
