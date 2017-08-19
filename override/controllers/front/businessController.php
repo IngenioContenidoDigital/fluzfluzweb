@@ -56,7 +56,7 @@ class businessController extends FrontController {
         $this->context->smarty->assign('pointsAvailable', $pointsAvailable);
 
         foreach ($tree as &$network) {
-            $sql = 'SELECT id_customer, firstname, lastname, phone, username, email, dni, field_work
+            $sql = 'SELECT id_customer, firstname, lastname, phone, username, email, dni, field_work, group_business
                     FROM ' . _DB_PREFIX_ . 'customer 
                     WHERE id_customer =' . $network['id'];
             $row_sql = Db::getInstance()->getRow($sql);
@@ -69,15 +69,19 @@ class businessController extends FrontController {
             $network['dni'] = $row_sql['dni'];
             $network['username'] = $row_sql['username'];
             $network['field_work'] = $row_sql['field_work'];
+            $network['group_business'] = $row_sql['group_business'];
         }
         
         $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, phone, email, dni, username, field_work FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
         $net_business = array_merge($tree, $employee_b);
         
         foreach ($net_business as &$val) {
-            if ($val['username'] != "" && $val['field_work'] != "") {
+            if ($val['username'] != "" && $val['group_business'] != "" && $val['group_business'] == $this->context->customer->group_business) {
                     $list_business[$val['id_customer']] = $val;
-                }      
+            }      
+            else if ($val['username'] != "" && $val['field_work'] != "" && $val['field_work'] == $this->context->customer->field_work) {
+                        $list_business[$val['id_customer']] = $val;
+                    }
         }
         
         $list_business = array_values($list_business);
@@ -411,11 +415,26 @@ class businessController extends FrontController {
             $list_customer = $this->csv_to_array($filename);
             
             $array_error = array();
+            $image_url = "";
             array_push($array_error, $error_csv);
             array_map('current', $array_error);
             $number_to_import = COUNT($list_customer);
             
-            if($number_to_import < 141){
+            if($number_to_import < 80){
+                $template = 'welcome_fluzfluz_business';
+                $prefix_template = '16-welcome_fluzfluz_business';
+
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                $row_subject = Db::getInstance()->getRow($query_subject);
+                $message_subject = $row_subject['subject_mail'];
+                
+                if (isset($_SERVER['HTTPS'])) {
+                    $image_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/img/business/'.$this->context->customer->id.'.png'; 
+                 }
+                else{
+                    $image_url = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/img/business/'.$this->context->customer->id.'.png'; 
+                 }
+                 
                 foreach($list_customer as $datacustomer){
 
                     $error_csv = "";
@@ -427,7 +446,7 @@ class businessController extends FrontController {
 
                     $valid_phone = Db::getInstance()->getRow('SELECT COUNT(phone) as phone  
                                                         FROM '._DB_PREFIX_.'customer WHERE phone = "'.$datacustomer['Telefono Empleado'].'" ');
-
+                    
                     if (empty($datacustomer['First Name']) || empty($datacustomer['Last Name']) || !Validate::isName($datacustomer['First Name']) || !Validate::isName($datacustomer['Last Name'])) {
                         $error_csv['name'] = 'name invalid';
                         $error_csv['name_custom'] = $datacustomer['First Name'];
@@ -532,8 +551,9 @@ class businessController extends FrontController {
                                 '{lastname}' => $customer->lastname,
                                 '{dni}' => $customer->dni,
                                 '{birthdate}' => $customer->birthday,
-                                '{address}' => 'No Disponible',
+                                '{address}' => $address->address1,
                                 '{phone}' => $datacustomer['Telefono Empleado'],
+                                '{img_business}' => $image_url,
                                 '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                                 '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                 '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
@@ -542,15 +562,8 @@ class businessController extends FrontController {
 
                                 AuthController::sendNotificationSponsor($customer->id);
 
-                                $template = 'welcome_fluzfluz_business';
-                                $prefix_template = '16-welcome_fluzfluz_business';
-
-                                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                                $row_subject = Db::getInstance()->getRow($query_subject);
-                                $message_subject = $row_subject['subject_mail'];
-
-                                //$allinone_rewards = new allinone_rewards();
-                                //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                                $allinone_rewards = new allinone_rewards();
+                                $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                                 $invitation_sent = true;
                             }
@@ -601,8 +614,9 @@ class businessController extends FrontController {
                                 '{lastname}' => $customer->lastname,
                                 '{dni}' => $customer->dni,
                                 '{birthdate}' => $customer->birthday,
-                                '{address}' => 'No Disponible',
+                                '{address}' => $address->address1,
                                 '{phone}' => $datacustomer['Telefono Empleado'],
+                                '{img_business}' => $image_url,  
                                 '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                                 '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                 '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
@@ -611,15 +625,8 @@ class businessController extends FrontController {
 
                                 AuthController::sendNotificationSponsor($customer->id);
 
-                                $template = 'welcome_fluzfluz';
-                                $prefix_template = '16-welcome_fluzfluz';
-
-                                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                                $row_subject = Db::getInstance()->getRow($query_subject);
-                                $message_subject = $row_subject['subject_mail'];
-
-                                //$allinone_rewards = new allinone_rewards();
-                                //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                                $allinone_rewards = new allinone_rewards();
+                                $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                                 $invitation_sent = true;
                                 }
@@ -715,9 +722,24 @@ class businessController extends FrontController {
                 $list_var_copy = json_decode($listcopy, true);
                 $process = false;
                 $array_error = array();
+                $image_url = "";
                 $number_to_import = COUNT($list_var_copy);
             
-                if($number_to_import < 600){
+                if($number_to_import < 150){
+                    $template = 'welcome_fluzfluz_business';
+                    $prefix_template = '16-welcome_fluzfluz_business';
+
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+                    
+                    if (isset($_SERVER['HTTPS'])) {
+                        $image_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/img/business/'.$this->context->customer->id.'.png'; 
+                     }
+                    else{
+                        $image_url = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/img/business/'.$this->context->customer->id.'.png'; 
+                     }
+
                     foreach($list_var_copy as $datacustomer){ 
                             ini_set('max_execution_time', 0);
                             $error_csv = "";
@@ -815,24 +837,26 @@ class businessController extends FrontController {
                                     $sponsorship->email = $datacustomer['Email'];
                                     $sponsorship->channel = 1;
                                     $send = "";
+                                    
                                     if ($sponsorship->save()) {
                                         $vars = array(
-                                            '{email}' => $sponsor['id_customer'],
-                                            '{firstname_invited}' => $sponsorship->firstname,
-                                            '{inviter_username}' => $sponsor['username'],
-                                            '{username}' => $sponsor['username'],
-                                            '{lastname}' => $sponsor['lastname'],
-                                            '{firstname}' => $sponsor['firstname'],
-                                            '{email_friend}' => $sponsorship->email,
-                                            '{Expiration}' => $send,
-                                            '{link}' => $sponsorship->getSponsorshipMailLink()
+                                        '{username}' => $customer->username,
+                                        '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{firstname}' => $customer->firstname,
+                                        '{lastname}' => $customer->lastname,
+                                        '{dni}' => $customer->dni,
+                                        '{birthdate}' => $customer->birthday,
+                                        '{address}' => 'No Disponible',
+                                        '{phone}' => $datacustomer['Telefono Empleado'],
+                                        '{img_business}' => $image_url,
+                                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
 
-                                        $template = 'sponsorship-invitation-novoucher';
                                         $allinone_rewards = new allinone_rewards();
-                                        //$allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
-                                        /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
-                                          VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
+                                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
                                     }
                                 } 
                                 else 
@@ -882,19 +906,16 @@ class businessController extends FrontController {
                                         '{birthdate}' => $customer->birthday,
                                         '{address}' => 'No Disponible',
                                         '{phone}' => $datacustomer['Telefono Empleado'],
+                                        '{img_business}' => $image_url,
                                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                                         '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                         '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
 
-                                        $template = 'welcome_fluzfluz_business';
                                         $allinone_rewards = new allinone_rewards();
-                                        //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer->firstname.' '.$customer->lastname);
+                                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
-                                        //$allinone_rewards->sendMail((int) $this->context->language->id, $template, 'Invitacion de su amigo', $vars, 'daniel.gonzalez@ingeniocontenido.co', $sponsorship->firstname . ' ' . $sponsorship->lastname);
-                                        /* Db::getInstance()->execute("INSERT INTO "._DB_PREFIX_."rewards_sponsorship_third(id_customer,id_rewards_sponsorship,email_third,date_add)
-                                          VALUES (".$this->context->customer->id.",".$sponsorship->id.",'".$sponsorship->email."',NOW())"); */
                                         }
                                     }
                                 }

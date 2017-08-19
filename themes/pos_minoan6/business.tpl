@@ -70,7 +70,7 @@
                     {else if $errorc.csv == 'already exists'}   
                         <span style="color: #EF4136;">&#33;</span> El achivo <span style="color: #EF4136;">{$errorc.csv_name}</span> ya existe. Por favor cambiar el nombre del archivo CSV. 
                     {else if $errorc.csv_number == 'registro'}
-                        <span style="color: #EF4136;">&#33;</span> No es posible importar mas de 140 registros. Por favor validar y reducir la cantidad de registros.
+                        <span style="color: #EF4136;">&#33;</span> No es posible importar mas de 80 registros. Por favor validar y reducir la cantidad de registros.
                     {/if}
                 </p>
             {/foreach}
@@ -851,7 +851,7 @@
                                 $('#file').attr({ value: '' });
                                 $('#error').css('display','none');
                                 $('#success').css('display','block');
-                                $('#success').append("<b>Tu Archivo CSV no contiene errores.</b>");;
+                                $('#success').append("<b>Tu Archivo CSV se Cargo Correctamente.</b>");;
                             }
                         }
                     });
