@@ -1543,7 +1543,7 @@ private function clearCart()
                   FROM "._DB_PREFIX_."webservice_external_telco_operator";
         return Db::getInstance()->ExecuteS($query);
     }
-
+    
     public function get_traker_order($id_order){
 
     	$sql = "SELECT ol.id_order_state,
@@ -2273,6 +2273,8 @@ return $responseObj;
           $error = 'Este Mail ya Existe';
           $mails_exists[] = $friendEmail;
         }
+        return substr($idTemporary, 0, 7).rand(100,999);
+
       }
 
       if($row_cont >= 2){

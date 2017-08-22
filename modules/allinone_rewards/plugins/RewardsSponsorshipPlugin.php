@@ -321,19 +321,64 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 			} else
 				return $this->instance->displayError(implode('<br />', $this->_errors));
 		} else if (Tools::isSubmit('submitSponsor') && (int)Tools::getValue('new_sponsor')) {
-			$customer = new Customer((int)$params['id_customer']);
+                    
+                        $customer = new Customer((int)$params['id_customer']);
 			$new_sponsor = new Customer((int)Tools::getValue('new_sponsor'));
                         
-                        $query_sponsor = 'SELECT COUNT(rs.id_sponsor) AS cont_sponsor FROM '._DB_PREFIX_.'rewards_sponsorship AS rs WHERE rs.id_sponsor ='.(int)Tools::getValue('new_sponsor');
+                        $query_sponsor = 'SELECT COUNT(rs.id_sponsor) AS cont_sponsor 
+                                 FROM '._DB_PREFIX_.'rewards_sponsorship AS rs
+                                 WHERE rs.id_sponsor ='.(int)Tools::getValue('new_sponsor');
                         $row_sponsor = Db::getInstance()->getRow($query_sponsor);
                         $count_sponsor = $row_sponsor['cont_sponsor'];
+                        
+                        $group_business = Db::getInstance()->getRow('SELECT COUNT(*) as cont FROM '._DB_PREFIX_.'customer c 
+                                        INNER JOIN '._DB_PREFIX_.'customer_group cg ON (c.id_customer = cg.id_customer)
+                                        WHERE cg.id_group = 5 AND c.id_customer ='.$customer->id);
+                        
+                        if($group_business['cont'] == 1){
+                                 if (isset($_SERVER['HTTPS'])) {
+                                    $link_login = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=business'; 
+                                 }
+                                 else{
+                                    $link_login = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=business'; 
+                                 }
+                        }else{
+                            $link_login = Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id);
+                        }
                         
                         if($count_sponsor < Configuration::get('RSPONSORSHIP_NB_FRIENDS')){
                             if (Validate::isLoadedObject($new_sponsor)) {
 				if ($this->_createSponsorship($new_sponsor, $customer, true, (bool)Tools::getValue('generate_voucher'), (int)Tools::getValue('generate_currency')))
-					return $this->instance->displayConfirmation($this->l('The sponsor has been updated.'));
-				else
-					return $this->instance->displayError($this->l('The sponsor update failed.'));
+                                    {
+					$vars = array(
+                                        '{username}' => $customer->username,
+                                        '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{firstname}' => $customer->firstname,
+                                        '{lastname}' => $customer->lastname,
+                                        '{dni}' => $customer->dni,
+                                        '{birthdate}' => $customer->birthday,
+                                        '{address}' => 'No Disponible',
+                                        '{phone}' => $customer->phone,
+                                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{shop_url_personal}' => $link_login,
+                                        '{learn_more_url}' => "http://reglas.fluzfluz.co",
+                                        );
+
+                                        $template = 'welcome_fluzfluz';
+                                        $prefix_template = '16-welcome_fluzfluz';
+
+                                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                                        $row_subject = Db::getInstance()->getRow($query_subject);
+                                        $message_subject = $row_subject['subject_mail'];
+
+                                        $allinone_rewards = new allinone_rewards();
+                                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer->email, $customer->firstname.' '.$customer->lastname);
+                            
+                                        return $this->instance->displayConfirmation($this->l('The sponsor has been updated.'));
+                                    }    
+                               else
+                                    return $this->instance->displayError($this->l('The sponsor update failed.'));
                             }
                         }
                         else{
