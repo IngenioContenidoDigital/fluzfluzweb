@@ -326,7 +326,7 @@ class Customer extends CustomerCore
     
     public static function percentProfileComplete($id_customer) {
         $fields_complete = 0;
-        $fields_information = 19;
+        $fields_information = 18;
 
         $customer = new Customer($id_customer); 
         $address = $customer->getAddresses();
@@ -341,7 +341,7 @@ class Customer extends CustomerCore
         /* 7 */ if ( $customer->birthday != "" ) { $fields_complete++; }
         /* 8 */ if ( $customer->civil_status != "" ) { $fields_complete++; }
         /* 9 */ if ( $customer->occupation_status != "" ) { $fields_complete++; }
-        /* 10 */ if ( $customer->field_work != "" ) { $fields_complete++; }
+        /* 10  if ( $customer->field_work != "" ) { $fields_complete++; }*/
         /* 11 */ if ( $customer->pet != "" ) { $fields_complete++; }
         /* 12 */ if ( $customer->pet_name != "" ) { $fields_complete++; }
         /* 13 */ if ( $customer->spouse_name != "" ) { $fields_complete++; }
@@ -351,7 +351,7 @@ class Customer extends CustomerCore
         /* 17 */ if ( $address['address1'] != "" ) { $fields_complete++; }
         /* 18 */ if ( $address['address2'] != "" ) { $fields_complete++; }
         /* 19 */ if ( $address['city'] != "" ) { $fields_complete++; }
-
+        
         return round( ($fields_complete*100)/$fields_information );
     }
 
