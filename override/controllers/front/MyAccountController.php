@@ -321,9 +321,10 @@ class MyAccountController extends MyAccountControllerCore
                       c.warning_kick_out,
                       c.kick_out
                   FROM "._DB_PREFIX_."customer c
-                  WHERE c.id_customer = ".$id_customer;
+                  WHERE c.id_customer = ".$id_customer." AND c.field_work IS NULL";
       $customer = Db::getInstance()->getRow($query);
-
+      
+    if(!empty($customer)){  
       $query = "SELECT IFNULL(SUM(od.product_quantity),0) purchases
                   FROM "._DB_PREFIX_."orders o
                   INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
@@ -362,7 +363,7 @@ class MyAccountController extends MyAccountControllerCore
       if ( $customer['kick_out'] == 1 ) {
           $alertpurchaseorder['alert'] = 4;
       }
-
+    }
       return $alertpurchaseorder;
     }
     
