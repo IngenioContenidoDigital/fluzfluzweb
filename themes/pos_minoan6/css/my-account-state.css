@@ -5,17 +5,31 @@
 #right_column{display:none;}
 .img-accountstate{width: 100%;}
 .text-title{text-align: center;color: #ef4136;font-size: 30px;margin-top: 60px;}
-.p-state{text-align: center; color: #000; font-size: 14px;}
-.bck-stats{background: #f4f4f4;}
+.p-state{text-align: center; color: #000; font-size: 16px;font-weight: bold;width: 60%;
+            text-align: left;
+            margin: 0 auto;
+            margin-bottom: 15px;}
+.bck-stats{background: #fff;    
+            width: 60%;
+            padding: 10px;
+            margin: 0 auto;
+            border: 1px solid #d3d3d3;
+            border-bottom: 1px solid red;
+            border-bottom-width: 3px;}
 .item-list-account{font-weight:bold;color:#000;}
-.margin-div{margin-bottom: 50px;}
+.margin-div{margin-bottom: 50px;margin-top: 50px;margin-bottom: 0px;text-align: left;}
 .t-second{text-align: center; color: #000;margin: auto;font-family: 'Open Sans', 'Helvetica Neue';font-weight: 400;}
-.t-act{text-align: right;
+.t-act{text-align: left;
     padding-bottom: 0px;
-    padding-right: 15px;
+    padding-right: 0px;
     color: red;
     font-weight: 400;
-    margin-bottom: 40px;}
+    font-size: 12px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    width: 60%;
+}
 
 .t-net{text-align: right;
     padding-bottom: 0px;
@@ -25,8 +39,17 @@
     margin-top: 40px;
     margin-bottom: 40px;}
 
-.data-r{text-align: center;}
+.data-r{text-align: right;}
 .btn-state-account{
+    font-size: 12px;
+    font-family: 'Montserrat';
+    font-weight: lighter;
+    letter-spacing: 1px;
+    color: #fff;
+    border: none;
+    background: #c9b198;
+}
+.btn-state-back{
     font-size: 12px;
     font-family: 'Montserrat';
     font-weight: lighter;
@@ -36,15 +59,42 @@
     background: #ef4136;
 }
 
+.btn-state-account:hover{
+    background: #ef4136;
+}
+.btn-state-back:hover{
+    background: #c9b198;
+}
+
 .div-btn-mail{
-    text-align: center;
+    text-align: right;
+    margin-top: 10px;
+    padding-right: 0px;
+    margin-bottom: 10px;
+}
+
+.div-btn-account{
+    text-align: right;
+    padding: 0px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
+.form-state{width: 60%; margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 20px;}
+.div-send-state{padding-right: 0px;padding-left: 0;}
+
+@media (max-width:768px){
+    .p-state{width: 75%;}
+    .bck-stats{width: 75%;}
+    .form-state{width: 75%;}
+    .t-act{width: 75%;}
+}
+
 @media (max-width:424px){
     
-    .item-list-account{text-align: left;}
+    .item-list-account{text-align: left;padding: 0px;}
     .p-btn{text-align: left;}
     .t-net{font-size: 12px;}
     .t-act{font-size: 12px;}
@@ -52,4 +102,19 @@
     .data-r{font-size: 12px; padding: 0px;}
     
     
+}
+
+@media (max-width:400px){
+    .p-state{font-size: 14px;}
+    .data-r{font-size: 10px; padding: 0px;}
+    .p-btn{font-size: 10px;}
+    .p-state{width: 85%;}
+    .bck-stats{width: 85%;}
+    .form-state{width: 85%;}
+    .t-act{width: 85%;}
+}
+
+@media(max-width:320px){
+    .item-list-account {font-size: 10px;}
+    .p-btn {font-size: 9px;}
 }
