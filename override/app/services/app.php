@@ -1433,7 +1433,48 @@ class API extends REST {
       }
     }
     
-    
+    public function getActivityNetworkProfile(){
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      
+      $id_customer = $this->_request['id_customer'];
+      
+      $sql = "SELECT
+              o.id_order,
+              o.date_add,
+              o.id_customer,
+              c.username name_customer,
+              pl.id_product,
+              i.id_image,
+              m.name name_product,
+              m.id_manufacturer,
+              pl.link_rewrite,
+              p.price,
+              od.points as credits
+            FROM "._DB_PREFIX_."orders o
+            INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = 4 )
+            INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+            INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+            INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
+            INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
+            INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = 1 )
+            INNER JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+            WHERE o.id_customer IN ( ".$id_customer." ) AND o.current_state = 2
+            ORDER BY o.date_add DESC  LIMIT 5";
+      
+      $activity = Db::getInstance()->executeS($sql);
+      $link = new Link();
+      foreach ($activity as &$activityN){
+        $activityN['credits'] = round($activityN['credits']);
+        $activityN['img'] = $link->getManufacturerImageLink($activityN['id_manufacturer']);
+      }
+      $result['result'] = $activity;
+      $result['total'] = count($result['result']);
+      
+//      error_log("\n\n\n\n Esto es result activity profile: \n\n".print_r($result , true),3,"/tmp/error.log");
+      return $this->response($this->json($result), 200);
+    }
     
     public function findInvitation() {
       if ($this->get_request_method() != "GET") {
