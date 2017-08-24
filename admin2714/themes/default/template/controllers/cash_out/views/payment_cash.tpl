@@ -94,6 +94,9 @@
         else if(selected == 'Pagada'){
             $("#select-name").addClass('pagada');
         }
+        else if(selected == 'No Procesada'){
+            $("#select-name").addClass('No_Procesada');
+        }
         
         $('#option-sel').val(selected);
     });
