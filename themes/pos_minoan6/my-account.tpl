@@ -338,6 +338,9 @@
         @media (max-width:768px){
             .fancybox-iframe { height: 75vh!important; }
         }
+        @media (max-width:580px){
+            .btn-account{font-size: 10px;}
+        }
     </style>
 {/literal}
 

@@ -62,10 +62,10 @@ class API extends REST {
       }
       $id_customer =  trim( $this->_request['id_customer']);
       $id_profile =  trim( $this->_request['id_profile']);
-      error_log("\n\n Esto es lo que llega: \n".print_r($id_customer."\n".$id_profile,true),3,"/tmp/error.log");
+//      error_log("\n\n Esto es lo que llega: \n".print_r($id_customer."\n".$id_profile,true),3,"/tmp/error.log");
       $model = new Model();
       $result=$model->getProfileById($id_customer, $id_profile);
-      error_log("\n\n Esto es lo que retorna: \n".print_r($result,true),3,"/tmp/error.log");
+//      error_log("\n\n Esto es lo que retorna: \n".print_r($result,true),3,"/tmp/error.log");
       return $this->response($this->json($result), 200);
     }
     
@@ -77,9 +77,9 @@ class API extends REST {
       
       $model  = new Model();
       $result = $model->getMyInvitation($id_lang = 1, $id_customer );
-      error_log("\n\n Estos son los invitados del usuario: ".print_r($id_customer,true),3,"/tmp/error.log");
+//      error_log("\n\n Estos son los invitados del usuario: ".print_r($id_customer,true),3,"/tmp/error.log");
       $result['total'] = count($result['result']);
-      error_log("\n\n".print_r($result,true),3,"/tmp/error.log");
+//      error_log("\n\n".print_r($result,true),3,"/tmp/error.log");
       return $this->response($this->json($result), 200);
     }
 
@@ -1408,7 +1408,6 @@ class API extends REST {
           }
           
           
-//          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
 
           return $this->response(json_encode(array('result' => $result)),200);
         }
@@ -1432,6 +1431,43 @@ class API extends REST {
       else {
         $this->response('', 204);
       }
+    }
+    
+    
+    
+    public function findInvitation() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      
+      $id_customer = $this->_request['id_customer'];
+      
+      $model = new Model();
+      $results = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
+      
+      $max_limit = count($results['result']);
+      $limit = $max_limit < 4 ? $max_limit : 4;
+      if($max_limit > 0){
+        for( $i = 0 ; $i <= $limit ; $i++ ){
+          $result[$i] = $results['result'][$i];
+        }        
+      }
+      
+      return $this->response(json_encode(array('result' => $result)),200);
+    }
+    
+    public function sendInvitation() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      $id_customer = $this->_request['id_customer'];
+      $invitation_data['email'] = $this->_request['email'];
+      $invitation_data['firtsname'] = $this->_request['firtsname'];
+      $invitation_data['lastname'] = $this->_request['lastname'];
+      
+      $model = new Model();
+      $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data );
+      return $this->response(json_encode(array('result' => $invitation)),200);
     }
     
     public function redemption() {

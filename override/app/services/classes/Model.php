@@ -2056,7 +2056,7 @@ return $responseObj;
                   GROUP BY id_customer";
           
           $members[$counter]['name'] = $name;
-          $members[$counter]['username'] = $customer->username;
+          $members[$counter]['username'] = ($customer->username == null) ? 'Fluzzer' : $customer->username ;
           $members[$counter]['id'] = $sponsor['id'];
           $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
           $members[$counter]['level'] = $sponsor['level'];
@@ -2067,8 +2067,22 @@ return $responseObj;
         $counter++;
       }
     }
-    /* ORGANIZAR POR NOMBRE */
-    // asort($members);
+    
+    foreach ($members as &$x){
+      $sponsorship2 = Db::getInstance()->getRow('SELECT (CASE WHEN 
+                                  NOT EXISTS (SELECT c.id_customer FROM ps_customer c WHERE c.id_customer = '.$x['id'].')
+                                  THEN "Pendiente"
+                                  ELSE "Confirmado"
+                                  END) AS "status"
+                                  FROM ps_rewards_sponsorship rs 
+                                  WHERE rs.id_sponsor = '.$id_customer);
+
+      $sponsorship = Db::getInstance()->getRow('SELECT rs.firstname as firstname
+          FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+          WHERE id_customer = '.$x['id']);
+
+      $x['status'] = $sponsorship2['status'];
+    }
         
     /* ORGANIZAR POR NIVEL */
     usort($members, function($a, $b) {
@@ -2104,8 +2118,18 @@ return $responseObj;
                     GROUP BY id_customer";
 
             $profile['name'] = $name;
-            $profile['username'] = $customer->username;
+            $profile['username'] = ($customer->username == null) ? 'Fluzzer' : $customer->username ;
             $profile['id'] = $sponsor['id'];
+            $profile['autoaddnetwork'] = Db::getInstance()->getValue("SELECT autoaddnetwork
+                            FROM "._DB_PREFIX_."customer
+                            WHERE id_customer = ".$sponsor['id']);
+            $profile['status'] = Db::getInstance()->getValue('SELECT (CASE WHEN 
+                                    NOT EXISTS (SELECT c.id_customer FROM ps_customer c WHERE c.id_customer = '.$x['id'].')
+                                    THEN "Pendiente"
+                                    ELSE "Confirmado"
+                                    END) AS "status"
+                                    FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+                                    WHERE rs.id_sponsor = '.$id_customer);
             $profile['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
             $profile['level'] = $sponsor['level'];
             $profile['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
@@ -2168,7 +2192,7 @@ return $responseObj;
                     GROUP BY id_customer";
             //error_log("\n\n Este es el query sql: \n\n".print_r($sql, true),3,"/tmp/error.log");
             $members[$counter]['name'] = $name;
-            $members[$counter]['username'] = $customer->username;
+            $members[$counter]['username'] = ($customer->username == null) ? 'Fluzzer' : $customer->username ;
             $members[$counter]['id'] = $sponsor['id'];
             $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
             $members[$counter]['level'] = $sponsor['level'];
@@ -2180,9 +2204,23 @@ return $responseObj;
         }
       }
     }
-    /* ORGANIZAR POR NOMBRE */
-    // asort($members);
-        
+    
+    foreach ($members as &$x){
+        $sponsorship2 = Db::getInstance()->getRow('SELECT (CASE WHEN 
+                                    NOT EXISTS (SELECT c.id_customer FROM ps_customer c WHERE c.id_customer = '.$x['id'].')
+                                    THEN "Pendiente"
+                                    ELSE "Confirmado"
+                                    END) AS "status"
+                                    FROM ps_rewards_sponsorship rs 
+                                    WHERE rs.id_sponsor = '.$id_customer);
+
+        $sponsorship = Db::getInstance()->getRow('SELECT rs.firstname as firstname
+            FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+            WHERE id_customer = '.$x['id']);
+
+        $x['status'] = $sponsorship2['status'];
+    }
+    
     /* ORGANIZAR POR NIVEL */
     usort($members, function($a, $b) {
         return  $a['level'] - $b['level'];
@@ -2215,7 +2253,7 @@ return $responseObj;
                 )
                 GROUP BY id_customer";
         
-        $members[$counter]['username'] = $customer->username;
+        $members[$counter]['username'] = ($customer->username == null) ? 'Fluzzer' : $customer->username ;
         $members[$counter]['id'] = $sponsor['id'];
         $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
         $members[$counter]['level'] = $sponsor['level'];
@@ -2252,44 +2290,52 @@ return $responseObj;
       
   }
   
-  public function getSendInvitation($id_lang, $id_customer, $obj_inv){
-    if(!empty($id_customer) && !empty($obj_inv)){
-      $friendEmail = $obj_inv['email'];
-      $friendLastName = $obj_inv['lastname'];
-      $friendFirstName = $obj_inv['name'];
-      $sponsorship = Db::getInstance()->getRow('SELECT COUNT(rs.id_sponsorship) as contador
-                                                FROM '._DB_PREFIX_.'rewards_sponsorship rs 
-                                                WHERE id_sponsor = '.$id_customer);
-
-      $row_cont = $sponsorship['contador'];
-            
-      if (empty($friendEmail) && empty($friendLastName) && empty($friendFirstName)){
-        $error = 'Nombre o Apellido Incorrecto';
+  public function sendInvitation($id_lang, $id_customer, $invitation_data){
+    error_log("\n\n Esto es lo que recibe al intentar invitar: \n\n".print_r($invitation_data,true),3,"/tmp/error.log");
+    if(!empty($id_customer) && !empty($invitation_data)){
+      $friend_email     = $invitation_data['email'];
+      $friend_lastname  = $invitation_data['lastname'];
+      $friend_firstname = $invitation_data['firstname'];
+      
+      $error = '0';
+      $slq = 'SELECT COUNT(rs.id_sponsorship) as contador
+              FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+              WHERE id_sponsor = '.$id_customer;
+      
+      if(Db::getInstance()->getValue($sql) >= 2){
+        $error = '1';
+        $msg = 'No puede enviar mas Invitaciones.';
+        return array('error' => $error, 'msg' => $msg);
+      }
+      
+      // Valida los campos ingresados.
+      if ( empty($friend_email) && empty($friend_lastname) && empty($friend_firstname) ){
+        $error = '2';
+        $msg = 'Nombre o Apellido Incorrecto';
+        return array('error' => $error, 'msg' => $msg);
       }
           
-      if (RewardsSponsorshipModel::isEmailExists($friendEmail) || Customer::customerExists($friendEmail)) {
-        $customerKickOut = Db::getInstance()->getValue("SELECT kick_out FROM "._DB_PREFIX_."customer WHERE email = '".$friendEmail."'");
-        if ( $customerKickOut == 0 ) {
-          $error = 'Este Mail ya Existe';
-          $mails_exists[] = $friendEmail;
+      // Valida que si existe en sposorship y enj customer.
+      if ( RewardsSponsorshipModel::isEmailExists($friend_email) || Customer::customerExists($friend_email) ) {
+        // Valida que este activo en la red, es decir que no haya sido expulsado.
+        $sql = "SELECT kick_out FROM "._DB_PREFIX_."customer WHERE email = '".$friend_email."'";
+        if ( Db::getInstance()->getValue($sql) == 0 ) {
+          $error = '3';
+          $msg = 'El correo ya se encuentra en uso.';
+          return array('error' => $error, 'msg' => $msg);
         }
-        return substr($idTemporary, 0, 7).rand(100,999);
-
       }
 
-      if($row_cont >= 2){
-        $error = 'No puede enviar mas Invitaciones.';
-      }  
           
-      if (!$error) {
+      if ($error == '0') {
         $customer = new Customer($id_customer);
         $sponsorship = new RewardsSponsorshipModel();
         $sponsorship->id_sponsor = (int)$customer->id;
-        $sponsorship->id_customer = $this->generateIdTemporary($friendEmail);
-        $sponsorship->firstname = $friendFirstName;
-        $sponsorship->lastname = $friendLastName;
+        $sponsorship->id_customer = $this->generateIdTemporary($friend_email);
+        $sponsorship->firstname = $friend_firstname;
+        $sponsorship->lastname = $friend_lastname;
         $sponsorship->channel = 1;
-        $sponsorship->email = $friendEmail;
+        $sponsorship->email = $friend_email;
         $send = "";
         //$sponsorship->add();
 
@@ -2313,14 +2359,17 @@ return $responseObj;
 
           $allinone_rewards = new allinone_rewards();
           $allinone_rewards->sendMail((int)$id_lang, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
-          $message_success = 'Invitacion Enviada Exitosamente';
+          $msg = 'Invitacion enviada exitosamente';
         }
       }
       else {
-        $message_success = 'Invitacion Erronea: '.$error;
-      }  
+        $error = '4';
+        $msg = 'Ha ocurrido un error desconocido.';
+        return array('error' => $error, 'msg' => $msg);
+      }
     }
-      return $message_success;
+      
+    return array('error' => $error, 'msg' => $msg);
   }
       
   public function generateIdTemporary($email) {
