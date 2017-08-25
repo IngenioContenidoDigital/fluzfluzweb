@@ -12,11 +12,14 @@ class kickoutCustomers {
     
     public function init() {
         $customers = $this->getCustomersKickOut();
-        foreach ($customers as $customer) {
-            $this->kickOut( $customer );
-            $this->insertCustomerKickOut($customer);
-            $this->deleteCustomerNetwork($customer);
-            $this->finallykickOut();
+        
+        if(!empty($customers)){  
+            foreach ($customers as $customer) {
+                $this->kickOut( $customer );
+                $this->insertCustomerKickOut($customer);
+                $this->deleteCustomerNetwork($customer);
+                $this->finallykickOut();
+            }
         }
     }
 
@@ -24,7 +27,7 @@ class kickoutCustomers {
         $query = "SELECT rs.id_customer id, rs.*
                     FROM "._DB_PREFIX_."customer c
                     INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer)
-                    WHERE c.kick_out = 1";
+                    WHERE c.kick_out = 1 AND c.field_work IS NULL";
         return ( Db::getInstance()->executeS($query) );
     }
 
@@ -112,7 +115,8 @@ class kickoutCustomers {
     }
 
     public function insertCustomerKickOut($customer) {
-        $numSponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer['id']);
+        //$numSponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($customer['id']);
+	$numSponsorships = [];
         $level = count( array_slice($numSponsorships, 1, 15) );
         
         // Mover usuario a grupo de clientes

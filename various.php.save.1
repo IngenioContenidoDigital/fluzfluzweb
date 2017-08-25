@@ -1,7 +1,0 @@
-<?php 
-include_once('./config/defines.inc.php');
-include_once('./config/config.inc.php');
-
-$carddecrypt = Encrypt::decrypt('$carddecrypt = Encrypt::decrypt($code['secure_key'] , $code['code']);
-    echo $carddecrypt."<hr>";' , $code['code']);
-echo $carddecrypt."<hr>";

@@ -21,6 +21,7 @@
 {literal}
     <script>
         var listcopy = '';
+        var list_customer = '';
     </script>
 {/literal}
 
@@ -69,10 +70,105 @@
     </div>
 </form>
 <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>
-<div id="progress" class="myfancybox" style="display:none;">
-    <img src="/img/business/ajax-loader.gif"/>
-    <p>Procesando Archivo</p>
+<div class="progress-container" style="display:none;">
+    <div class="myfancybox">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <br>
+            <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="300" height="94">
+        </div>
+	<div class="progress">
+		<div class="progress-bar">
+			<div class="progress-shadow"></div>
+		</div>
+	</div>
+        <div class="text-loader">Estamos Procesando tu archivo CSV. Por Favor Espera</div>
+    </div>    
 </div>
+{*literal}
+    <script>
+            var fileInput = document.getElementById("file_customer"),
+
+            readFile = function () {
+                
+                var reader = new FileReader();
+                reader.onload = function () {
+                
+                var array = reader.result;
+                var array = event.target.result;
+                var extractValidString = array.split(/[\n;]+/);
+                var noOfCols = 6;
+                var objFields = extractValidString.splice(0,noOfCols);
+                
+                var arr = [];
+                while(extractValidString[0] != '') {
+                    var obj = {};
+                    var row = extractValidString.splice(0,noOfCols)
+                    for(var i=0;i<row.length;i++) {
+                        obj[objFields[i]] = row[i].trim()
+                    }
+                    arr.push(obj);
+                }
+                listcopy = JSON.stringify(arr);
+                console.log(listcopy);
+            };
+                reader.readAsBinaryString(fileInput.files[0]);
+                return false;
+            };
+            fileInput.addEventListener('change', readFile);
+            
+            $('#upload-employee').click(function(e){
+                var url = document.getElementById("url_fluz").innerHTML;  
+                //$('.progress-container').css('display','block');
+                $.ajax({
+                    url : urlTransferController,
+                    type : 'POST',
+                    data : 'action=submitcopy&listcopy='+listcopy,
+
+                    success : function(data) {
+                        if(data == 'true'){
+                            $('.progress-container').css('display','none');
+                            window.location.replace(""+url+"confirmtransferfluzbusiness");
+                       }    
+                       else {
+                            $('#rewards_account').hide();    
+                            $('#error_p').show();
+
+                            data = jQuery.parseJSON(data);
+                            console.log(data);
+                            var content = '';
+                            $.each(data, function (key, id) {
+                                if(data[key].username != '' && data[key].username != undefined){
+                                   content += '<div class="resultados_error" id="resultados_error"><span style="color: #EF4136;">&#33;</span> El Usuario <span style="color:#ef4136;">'+data[key].username+'</span> ya se encuentra Registrado en Fluz Fluz. Por Favor Revisa tu CSV.</div><br>';
+                                }
+                                if(data[key].cedula != '' && data[key].cedula != undefined){
+                                   content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> La Cedula <span style="color:#ef4136;">'+data[key].cedula+'</span> ya se encuentra Registrada en Fluz Fluz. Por Favor Revisa tu CSV.</div><br>';
+                                }
+                                if(data[key].name != '' && data[key].name != undefined){
+                                   content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> El Nombre <span style="color:#ef4136;">'+data[key].name_customer+'</span> no es correcto. Por Favor Revisa tu CSV.</div><br>';
+                                }
+                                if(data[key].email != '' && data[key].email != undefined){
+                                   content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> La Direcci&oacute;n de email <span style="color:#ef4136;">'+data[key].email_customer+'</span> no es correcta. Por Favor Revisa tu CSV.</div><br>';
+                                }
+                            })
+
+                            $("#container-error").html(content);
+                       }
+                    }
+                });
+             });    
+    </script>
+{/literal*}
+{literal}
+    <script>
+        $('#upload-employee').click(function(e){
+             
+            var box = $(".myfancybox");
+            box.fancybox({
+                // API options here
+            }).click();
+        });    
+    </script>
+{/literal}
 {literal}
     <script>
         var holder = document.getElementById('holder'),
@@ -100,24 +196,23 @@
             var file = e.dataTransfer.files[0],
             reader = new FileReader();
             reader.onload = function(event) {
-                console.log(event.target);
+                
                 holder.innerText = event.target.result;
                 
                 var array = event.target.result;
-                
-                var extractValidString = array.match(/[\w @.]+(?=,?)/g);
-                var noOfCols = 6;
+                var extractValidString = array.split(/[\n;]+/);
+                var noOfCols = 8;
                 var objFields = extractValidString.splice(0,noOfCols);
+                
                 var arr = [];
-                while(extractValidString.length>0) {
+                while(extractValidString[0] != '') {
                     var obj = {};
                     var row = extractValidString.splice(0,noOfCols)
                     for(var i=0;i<row.length;i++) {
                         obj[objFields[i]] = row[i].trim()
                     }
-                    arr.push(obj)
+                    arr.push(obj);
                 }
-                
                 listcopy = JSON.stringify(arr);
             };
             reader.readAsText(file);
@@ -127,15 +222,54 @@
         
         $('#upload-copy').click(function(e){
             var url = document.getElementById("url_fluz").innerHTML;  
-            $('#progress').css('display','block');
+            var box = $(".myfancybox");
+            box.fancybox({
+                closeClick: false,
+            }).click();
+            
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=submitcopy&listcopy='+listcopy,
                 
-                success : function() {
-                   $('#progress').css('display','none');
-                   window.location.replace(""+url+"confirmtransferfluzbusiness");
+                success : function(data) {
+                   console.log(data); 
+                   if(data == 'true'){
+                        $('.progress-container').css('display','none');
+                        window.location.replace(""+url+"confirmtransferfluzbusiness");
+                   }    
+                   else {
+                        $('#rewards_account').hide();    
+                        $('#error_p').show();
+                        $('.progress-container').css('display','none');
+                        
+                        setTimeout("$.fancybox.close()", 500);
+                        
+                        data = jQuery.parseJSON(data);
+                        var content = '';
+                        $.each(data, function (key, id) {
+                            if(data[key].username != '' && data[key].username != undefined){
+                               content += '<div class="resultados_error" id="resultados_error"><span style="color: #EF4136;">&#33;</span> El Usuario <span style="color:#ef4136;">'+data[key].username+'</span> ya se encuentra Registrado en Fluz Fluz. Por Favor Revisa tu CSV.</div><br>';
+                            }
+                            if(data[key].cedula != '' && data[key].cedula != undefined){
+                               content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> La Cedula <span style="color:#ef4136;">'+data[key].cedula+'</span> ya se encuentra Registrada en Fluz Fluz. Por Favor Revisa tu CSV.</div><br>';
+                            }
+                            if(data[key].name != '' && data[key].name != undefined){
+                               content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> El Nombre <span style="color:#ef4136;">'+data[key].name_customer+'</span> no es correcto. Por Favor Revisa tu CSV.</div><br>';
+                            }
+                            if(data[key].email != '' && data[key].email != undefined){
+                               content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> La Direcci&oacute;n de email <span style="color:#ef4136;">'+data[key].email_customer+'</span> no es correcta. Por Favor Revisa tu CSV.</div><br>';
+                            }
+                            if(data[key].csv_number != '' && data[key].csv_number != undefined){
+                               content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> No es posible importar mas de 140 registros. Por favor validar y reducir la cantidad de registros.</div><br>';
+                            }
+                            if(data[key].valid_phone != '' && data[key].valid_phone != undefined){
+                               content += '<div class="resultados_error" id="resultados_error" ><span style="color: #EF4136;">&#33;</span> El tel&eacute;fono <span style="color:#ef4136;">'+data[key].phone+'</span> ya se encuentra Registrado en Fluz Fluz. Por Favor Revisa tu CSV.</div><br>';
+                            }
+                        })
+                        
+                        $("#container-error").html(content);
+                   }
                 }
             });
             e.preventDefault();

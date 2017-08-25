@@ -259,6 +259,7 @@ class Search extends SearchCore{
     else if ( $option == 2 ){
       $sql = 'SELECT 
                 ip.id_manufacturer,
+                ip.online_only,
                 pa.id_product AS id_parent,
                 pl.name AS p_name,
                 GROUP_CONCAT(DISTINCT ip.price ORDER BY ip.price SEPARATOR \',\') AS rango_precio,
@@ -269,10 +270,11 @@ class Search extends SearchCore{
               INNER JOIN '._DB_PREFIX_.'product_lang AS pl ON pl.id_product=pa.id_product
               INNER JOIN '._DB_PREFIX_.'manufacturer as m ON m.id_manufacturer=ip.id_manufacturer
               INNER JOIN '._DB_PREFIX_.'manufacturer_lang AS ml ON ml.id_manufacturer = m.id_manufacturer
-              WHERE m.active=1 AND ip.active=1  AND ip.id_manufacturer = '.$param.'
+              WHERE m.active=1 AND ip.active=1 AND pl.id_lang = '.$id_lang.' AND ip.id_manufacturer = '.$param.'
               GROUP BY id_parent
               ORDER BY id_manufacturer, id_parent';
       
+//      error_log("\n\nEste es el query de opcion ".$option.":\n".print_r($sql, true),3,"/tmp/error.log");
       $result = $db->executeS($sql);
 //      error_log("\n\nEste es el result de opcion ".$option.":\n".print_r($result, true),3,"/tmp/error.log");
       return array('result' => $result);
@@ -294,9 +296,40 @@ class Search extends SearchCore{
               INNER JOIN '._DB_PREFIX_.'rewards_product AS rp ON rp.id_product = p.id_product
               WHERE p.active = 1 and pa.id_product = '.$param.' AND pl.id_lang = '.$id_lang.'
               GROUP BY pa.id_product_attribute';
-      
+//      error_log('\n\n Esto es el query de busqueda: \n\n'.print_r($sql, true),3,"/tmp/error.log");
       $result = $db->executeS($sql);
       return array('result' => $result);
+    }
+    else if ( $option == 4 ){
+      $sql = 'SELECT DISTINCT
+              '._DB_PREFIX_.'manufacturer.id_manufacturer AS m_id,
+              '._DB_PREFIX_.'manufacturer.`name` AS m_name, 
+              GROUP_CONCAT(DISTINCT product_child.price ORDER BY product_child.price SEPARATOR \',\') AS m_prices,
+              MAX(product_child.reward) AS m_points 
+              FROM
+              '._DB_PREFIX_.'manufacturer_lang
+              INNER JOIN '._DB_PREFIX_.'manufacturer ON '._DB_PREFIX_.'manufacturer.id_manufacturer = '._DB_PREFIX_.'manufacturer_lang.id_manufacturer
+              INNER JOIN '._DB_PREFIX_.'product ON '._DB_PREFIX_.'product.id_manufacturer='._DB_PREFIX_.'manufacturer.id_manufacturer
+              INNER JOIN '._DB_PREFIX_.'category_product ON '._DB_PREFIX_.'category_product.id_product='._DB_PREFIX_.'product.id_product
+              INNER JOIN '._DB_PREFIX_.'category_lang ON '._DB_PREFIX_.'category_product.id_category = '._DB_PREFIX_.'category_lang.id_category
+              INNER JOIN '._DB_PREFIX_.'product_lang ON '._DB_PREFIX_.'product_lang.id_product='._DB_PREFIX_.'product.id_product  
+              INNER JOIN (
+               SELECT '._DB_PREFIX_.'product.id_manufacturer, '._DB_PREFIX_.'product.price, (('._DB_PREFIX_.'product.price*('._DB_PREFIX_.'rewards_product.`value`/100)/25)) AS reward
+               FROM '._DB_PREFIX_.'product
+               INNER JOIN ps_rewards_product ON '._DB_PREFIX_.'rewards_product.id_product=ps_product.id_product 
+               WHERE '._DB_PREFIX_.'product.product_parent=0  AND '._DB_PREFIX_.'product.active=1
+              ) AS product_child ON product_child.id_manufacturer='._DB_PREFIX_.'manufacturer.id_manufacturer
+              WHERE
+              ('._DB_PREFIX_.'product.product_parent = 1 AND
+              '._DB_PREFIX_.'manufacturer.active = 1 AND '._DB_PREFIX_.'manufacturer.id_manufacturer in ('.$param.'))
+              GROUP BY '._DB_PREFIX_.'manufacturer.id_manufacturer';
+//        error_log("\n\n\n\n\n*********************************\n Este es el query de busqueda: \n\n*********************************************\n\n".print_r($sql, true),3,"/tmp/error.log");
+        $result = array();
+        $result = $db->executeS($sql);
+//        error_log("\n\n\n\n\n*\n Este es el result: \n\n*\n\n".print_r($result, true),3,"/tmp/error.log");
+        $total = count($result);
+//        error_log("\n\n\n\n\n*\n Este es el total: \n\n*\n\n".print_r($total, true),3,"/tmp/error.log");
+        return array('total' => $total,'result' => $result);
     }
   }
 }

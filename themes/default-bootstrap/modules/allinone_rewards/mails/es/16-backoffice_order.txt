@@ -1,0 +1,123 @@
+
+
+
+        
+        
+        Celebración Madres FLUZ FLUZ 
+        
+         
+        
+        body, h1, h2, h3, h4, h5, p, div, a {
+        font-family: Open Sans, Helvetica Neue, Helvetica, sans-serif;color: #000;text-align: center;
+        }
+         
+
+
+
+
+ 
+
+
+
+
+
+
+Hola {username},
+
+
+
+&iexcl;Gracias Mam&aacute;, por regalarnos lo m&aacute;s precioso, la vida!Es por esto, que en &nbsp;esta celebraci&oacute;n tan especial, nos unimos y queremos premiarte por las compras que realices. HOY, compra para REGALAR A MAM&Aacute; 2 bonos LILIPINK de $50.000, y RECIBE para t&iacute; un bono de AMAZON de USD 25 ($74.500).Lili Pink&nbsp;es una marca Colombiana reconocida por sus dise&ntilde;os en ropa interior. Haz click en el siguiente link para que hagas tu compra en un solo paso:
+
+
+&nbsp;
+
+
+&nbsp;
+
+
+Caracter&iacute;sticas del pedido
+
+
+
+
+Nombre de productoCantidadFluz a&nbsp;RecibirPrecio UnitarioPrecio Total
+
+{name_product}
+{quantity}
+{points}
+{price_unit}
+{price_total}
+
+
+
+&nbsp;En el siguiente enlace, podras realizar el pago de tu orden: Completa Tu Pedido Aqu&iacute;&nbsp;
+
+
+
+
+Explora los beneficios que Fluz Fluz ofrece
+
+
+
+
+
+Compra!
+Busca tus necesidades e intereses en Fluz Fluz
+
+
+
+
+
+Ahorra!
+Entre m&aacute;s compras, m&aacute;s ahorras
+
+
+
+
+
+Redime!
+Convierte los fluz en dinero en efectivo!
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+ Comprar 
+ Pol&iacute;tica de privacidad 
+ Ayuda 
+ Cancelar suscripci&oacute;n 
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+
+
+
+
+
+
+&nbsp;
+
+
+
+
+

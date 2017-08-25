@@ -449,6 +449,7 @@
             $(".inputform").is(":disabled") ? $(".dateBirthInput").css('display', "block") : $(".dateBirthInput").css('display', "none");
             $(".inputform").is(":disabled") ? $(".inputform").removeAttr('disabled') : $(".inputform").attr('disabled', 'disabled');
             $(".checker").removeClass('disabled');
+            $('#field_work').attr('disabled','disabled');
             $('.std')[0].reset();
             $(".inputform").is(":disabled") ? $("#old_passwd").val('*****') : $("#old_passwd").val('');
         });

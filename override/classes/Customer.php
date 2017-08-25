@@ -51,6 +51,7 @@ class Customer extends CustomerCore
     public $civil_status;
     public $occupation_status;
     public $field_work;
+    public $group_business;
     public $pet;
     public $pet_name;
     public $spouse_name;
@@ -105,6 +106,7 @@ class Customer extends CustomerCore
             'civil_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'occupation_status' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'field_work' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
+            'group_business' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'pet' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'pet_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'spouse_name' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 50),
@@ -324,7 +326,7 @@ class Customer extends CustomerCore
     
     public static function percentProfileComplete($id_customer) {
         $fields_complete = 0;
-        $fields_information = 19;
+        $fields_information = 18;
 
         $customer = new Customer($id_customer); 
         $address = $customer->getAddresses();
@@ -339,7 +341,7 @@ class Customer extends CustomerCore
         /* 7 */ if ( $customer->birthday != "" ) { $fields_complete++; }
         /* 8 */ if ( $customer->civil_status != "" ) { $fields_complete++; }
         /* 9 */ if ( $customer->occupation_status != "" ) { $fields_complete++; }
-        /* 10 */ if ( $customer->field_work != "" ) { $fields_complete++; }
+        /* 10  if ( $customer->field_work != "" ) { $fields_complete++; }*/
         /* 11 */ if ( $customer->pet != "" ) { $fields_complete++; }
         /* 12 */ if ( $customer->pet_name != "" ) { $fields_complete++; }
         /* 13 */ if ( $customer->spouse_name != "" ) { $fields_complete++; }
@@ -349,7 +351,7 @@ class Customer extends CustomerCore
         /* 17 */ if ( $address['address1'] != "" ) { $fields_complete++; }
         /* 18 */ if ( $address['address2'] != "" ) { $fields_complete++; }
         /* 19 */ if ( $address['city'] != "" ) { $fields_complete++; }
-
+        
         return round( ($fields_complete*100)/$fields_information );
     }
 

@@ -54,8 +54,37 @@ class API extends REST {
       $userData['totalMoney'] = $this->formatPrice( $userData['fluzTotal'] * 25 );
       return $this->response($this->json($userData), 200);
     }
-
     
+    
+    private function getProfile() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      $id_customer =  trim( $this->_request['id_customer']);
+      $id_profile =  trim( $this->_request['id_profile']);
+//      error_log("\n\n Esto es lo que llega: \n".print_r($id_customer."\n".$id_profile,true),3,"/tmp/error.log");
+      $model = new Model();
+      $result=$model->getProfileById($id_customer, $id_profile);
+//      error_log("\n\n Esto es lo que retorna: \n".print_r($result,true),3,"/tmp/error.log");
+      return $this->response($this->json($result), 200);
+    }
+    
+    private function getInviteduserForProfile() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      $id_customer =  trim( $this->_request['id_customer']);
+      
+      $model  = new Model();
+      $result = $model->getMyInvitation($id_lang = 1, $id_customer );
+//      error_log("\n\n Estos son los invitados del usuario: ".print_r($id_customer,true),3,"/tmp/error.log");
+      $result['total'] = count($result['result']);
+//      error_log("\n\n".print_r($result,true),3,"/tmp/error.log");
+      return $this->response($this->json($result), 200);
+    }
+
+
+
 
     /**
      * Recibe el id de cliente, el lenguaje y retorna los números de teléfono de ese cliente.
@@ -84,6 +113,41 @@ class API extends REST {
         }
     }
 
+  private function searchByMap() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $position['lat'] =  round($this->_request['lat'], 6);;
+    $position['lng'] =  round($this->_request['lng'], 6);;
+    
+//    error_log("\n\n\n\n\n Esto es lo que recibe: \n lat: ".print_r($position['lat'], true)."\n lng: ".print_r($position['lng'], true),3,"/tmp/error.log");
+    $query = 'SELECT GROUP_CONCAT(DISTINCT id_manufacturer)
+              FROM  '._DB_PREFIX_.'address
+              WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng']
+            ;
+//    error_log("\n\n\n\n\n Esto es el query: \n ".print_r($query, true),3,"/tmp/error.log");
+    $manufacturers = Db::getInstance()->getValue($query);
+    
+//    error_log("\n\n\n\n\n Esto es manufacturers: \n ".print_r($manufacturers, true),3,"/tmp/error.log");
+    
+    $search = Search::findApp( $manufacturers, 4 );
+    
+//    error_log("\n\n\n\n\n Esto es el search: \n ".print_r($search, true),3,"/tmp/error.log");
+    
+    $link = new Link();
+    
+    foreach ($search['result'] as &$result){
+      $result['image_manufacturer'] = $this->protocol . $link->getManufacturerImageLink($result['m_id']);
+      $result['m_points'] = round($result['m_points']);
+      $prices = explode(",", $result['m_prices']);
+      $price_min = round($prices[0]);
+      $price_max = round($prices[ count($prices) - 1 ]);
+      $result['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
+    }
+    
+    $this->response($this->json($search), 200);
+  }
     
   private function search() {
     if ($this->get_request_method() != "GET") {
@@ -906,6 +970,8 @@ class API extends REST {
         $product['app_total'] = $this->formatPrice($product['total']);
         $product['app_price_in_points'] = $this->formatPrice($product['price_in_points']);
         $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
+        $sql = "select online_only from "._DB_PREFIX_."product where id_product = ".$product['id_product'];
+        $product['online_only'] = Db::getInstance()->getValue($sql);;
       }
       $cart['app_total_price_in_points'] = $this->formatPrice($cart['total_price_in_points']);
       $this->response($this->json($cart), 200);
@@ -1252,6 +1318,7 @@ class API extends REST {
           foreach ($purchases['result'] as &$purchase){
 //            $purchase['card_code'] = (int)$purchase['card_code'];            
             $purchase['price'] = round($purchase['price']);
+            $purchase['formatPrice'] = $this->formatPrice($purchase['price']);
             $purchase['showDetails'] = false;
             $countPurchases++;
           }
@@ -1294,13 +1361,16 @@ class API extends REST {
           $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
           foreach ($activityNetwork['result'] as &$activityNetworkk){
             $activityNetworkk['credits'] = round($activityNetworkk['credits']);
-            $activityNetworkk['img'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+            $activityNetworkk['img_product'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+            $activityNetworkk['img'] = $link->getProfileImageLink($activityNetworkk['id_customer']);
           }
-          if ( $limit != 0 ){
-            for ( $i = $last_total; $i < $limit; $i++ ) {
-              $result[] = $activityNetwork['result'][$i];
-            }
+          $count = count($activityNetwork['result']);
+          $limit = ($limit > $count) ? $count : $limit;
+          for($i = $last_total; $i < $limit; $i++){
+            $result['result'][] = $activityNetwork['result'][$i];
           }
+//          error_log("\n\n Este es el network Activity: \n\n". print_r($result, true),3,"/tmp/error.log");
+          $result['total'] = count($result);
           return $this->response(json_encode(array('result' => $result)),200);
         }
         else if ( $option == 2 ){
@@ -1339,7 +1409,6 @@ class API extends REST {
           }
           
           
-//          error_log("\n\nEste es el codigo 1: ".print_r($result, true),3,"/tmp/error.log");
 
           return $this->response(json_encode(array('result' => $result)),200);
         }
@@ -1355,16 +1424,92 @@ class API extends REST {
           return $this->response(json_encode(array('result' => $result)),200);
         }
         else if ( $option == 5 ) { 
-          
           $object_inv = json_decode($object_inv, true);  
           $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
-          
           return $this->response(json_encode(array('result' => $invitation)),200);
         }
       }
       else {
         $this->response('', 204);
       }
+    }
+    
+    public function getActivityNetworkProfile(){
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      
+      $id_customer = $this->_request['id_customer'];
+      
+      $sql = "SELECT
+              o.id_order,
+              o.date_add,
+              o.id_customer,
+              c.username name_customer,
+              pl.id_product,
+              i.id_image,
+              m.name name_product,
+              m.id_manufacturer,
+              pl.link_rewrite,
+              p.price,
+              od.points as credits
+            FROM "._DB_PREFIX_."orders o
+            INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = 4 )
+            INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+            INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+            INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
+            INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
+            INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = 1 )
+            INNER JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+            WHERE o.id_customer IN ( ".$id_customer." ) AND o.current_state = 2
+            ORDER BY o.date_add DESC  LIMIT 5";
+      
+      $activity = Db::getInstance()->executeS($sql);
+      $link = new Link();
+      foreach ($activity as &$activityN){
+        $activityN['credits'] = round($activityN['credits']);
+        $activityN['img'] = $link->getManufacturerImageLink($activityN['id_manufacturer']);
+      }
+      $result['result'] = $activity;
+      $result['total'] = count($result['result']);
+      
+//      error_log("\n\n\n\n Esto es result activity profile: \n\n".print_r($result , true),3,"/tmp/error.log");
+      return $this->response($this->json($result), 200);
+    }
+    
+    public function findInvitation() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      
+      $id_customer = $this->_request['id_customer'];
+      
+      $model = new Model();
+      $results = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
+      
+      $max_limit = count($results['result']);
+      $limit = $max_limit < 4 ? $max_limit : 4;
+      if($max_limit > 0){
+        for( $i = 0 ; $i <= $limit ; $i++ ){
+          $result[$i] = $results['result'][$i];
+        }        
+      }
+      
+      return $this->response(json_encode(array('result' => $result)),200);
+    }
+    
+    public function sendInvitation() {
+      if ($this->get_request_method() != "GET") {
+        $this->response('', 406);
+      }
+      $id_customer = $this->_request['id_customer'];
+      $invitation_data['email'] = $this->_request['email'];
+      $invitation_data['firtsname'] = $this->_request['firtsname'];
+      $invitation_data['lastname'] = $this->_request['lastname'];
+      
+      $model = new Model();
+      $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data );
+      return $this->response(json_encode(array('result' => $invitation)),200);
     }
     
     public function redemption() {
@@ -1425,6 +1570,107 @@ class API extends REST {
     $result = Db::getInstance()->execute($query);
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  public function getConversations() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    
+    // Lista de conversaciones
+    $sql = "SELECT CAST(
+                CONCAT(
+                    IF(id_customer_send=".$id_customer.",'',id_customer_send) , IF(id_customer_receive=".$id_customer.",'',id_customer_receive)
+                ) AS INT
+            ) AS customer
+            FROM ps_message_sponsor
+            WHERE (
+                (id_customer_receive=".$id_customer." AND id_customer_send<>".$id_customer.") OR (id_customer_receive<>".$id_customer." AND id_customer_send=".$id_customer.")
+            )
+            GROUP BY customer
+            ORDER BY customer";
+    $conversations = Db::getInstance()->executeS($sql);
+
+    foreach ($conversations as &$conversation) {
+        // Username usuario en conversacion
+        $sql = "SELECT username
+                FROM ps_customer
+                WHERE id_customer = ".$conversation["customer"];
+        $conversation["username"] = Db::getInstance()->getValue($sql);
+
+        // Numero de mensajes sin leer
+        $sql = "SELECT
+                  COUNT(*) unread_messages
+                FROM ps_message_sponsor
+                WHERE (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+                AND `read` = 0";
+        
+        $conversation["unread_messages"] = Db::getInstance()->getValue($sql);
+        
+        // Ultimo mensaje recibido o enviado en conversacion
+        $sql = "SELECT
+                    message,
+                    date_send,
+                    UNIX_TIMESTAMP(date_send) date_send_ts,
+                    IF(
+                        date_send>=DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'),
+                        DATE_FORMAT(date_send, '%H:%i'),
+                        DATE_FORMAT(date_send, '%Y-%m-%d') 
+                    ) date_show
+                FROM ps_message_sponsor
+                WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$conversation["customer"].")
+                OR (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+                ORDER BY date_send DESC
+                LIMIT 1";
+        $message = Db::getInstance()->executeS($sql);
+        $conversation["message"] = $message[0]["message"];
+        $conversation["date_show"] = $message[0]["date_show"];
+        $conversation["date_send"] = $message[0]["date_send"];
+        $conversation["date_send_ts"] = $message[0]["date_send_ts"];
+    }
+
+    // Ordenar conversaciones por fecha DESC
+    usort($conversations, function($a, $b) {
+        return  $b['date_send_ts'] - $a['date_send_ts'];
+    });
+    
+//    error_log("\n\n\n\n Esto es query get messages: \n\n".print_r($sql, true),3,"/tmp/error.log");
+    foreach ($conversations AS $key => &$conversation) {
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $conversation['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
+    }
+    
+    return $this->response(json_encode(array('result' => $conversations)),200);
+  }
+  
+  public function getConversation() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    $id_customer_conversation = $this->_request['id_customer_conversation'];
+    
+    $sql = "SELECT
+                id_customer_send,
+                id_customer_receive,
+                message,
+                `read`,
+                date_send,
+                DATE_FORMAT(date_send, '%Y-%m-%d') date,
+                DATE_FORMAT(date_send, '%H:%i') hour
+            FROM ps_message_sponsor
+            WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$id_customer_conversation.")
+            OR (id_customer_send = ".$id_customer_conversation." AND id_customer_receive = ".$id_customer.")
+            ORDER BY date_send ASC";
+    
+//    error_log("\n\n\n Este es el que trae la conversacion: \n\n".print_r($sql, true),3,"/tmp/error.log");
+    $conversation = Db::getInstance()->executeS($sql);
+    return $this->response(json_encode(array('result' => $conversation)),200);
+  }
+  
   
   public function getPasscode() {
     if ($this->get_request_method() != "GET") {
@@ -1596,17 +1842,127 @@ class API extends REST {
     }
   }
     
-  private function getAddresMaps() {
+  private function getAddressMaps() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
+    $latitude = $this->_request['latitude'];
+    $longitude = $this->_request['longitude'];
+    $option = $this->_request['option'];
     
-    $sql = "SELECT id_address, id_manufacturer, firstname, address1, city,  latitude, longitude
-            FROM ps_address
-            WHERE latitude is not  NULL";
-    $result = Db::getInstance()->getValue($sql);
+    if ( $option == 2 ){
+      $id_manufacturer = $this->_request['id_manufacturer'];
+    }
+    
+//    error_log("\n\nEstos son los datos\n\n",3,"/tmp/error.log");
+//    error_log("\n\nLatitude ".print_r($latitude,true),3,"/tmp/error.log");
+//    error_log("\n\nLongitude ".print_r($longitude,true),3,"/tmp/error.log");
+//    error_log("\n\nManufacturer ".print_r($id_manufacturer,true),3,"/tmp/error.log");
+    // Unidades de distancia ( Metros )
+    $units = "units=metric";
+    
+    // El origen de donde calcula las distancias:
+    $origins = 'origins='.$latitude.','.$longitude;
+    
+    // Ubicaciones de las ciudades;
+    $cities['latitudes'] = Db::getInstance()->executeS("SELECT latitud_inicial, latitud_final
+                                                      FROM "._DB_PREFIX_."cities
+                                                      WHERE latitud_inicial is not null
+                                                      ORDER BY latitud_inicial");
+    
+    $cities['longitudes'] = Db::getInstance()->executeS("SELECT longitud_inicial, longitud_final
+                                                      FROM "._DB_PREFIX_."cities
+                                                      WHERE latitud_inicial is not null
+                                                      ORDER BY longitud_inicial");
+    
+    // Capturo la ciudad en la que estoy.
+    foreach ($cities['latitudes'] as $latitudes){
+      if ( $latitudes['latitud_inicial'] >= $latitude && $latitude >= $latitudes['latitud_final'] ){
+        $city['latitude'] = $latitudes;
+      }
+    }
+    
+    foreach ($cities['longitudes'] as $longitudes){
+      if ( $longitudes['longitud_inicial'] >= $longitude && $longitude >= $longitudes['longitud_final'] ){
+        $city['longitude'] = $longitudes;
+      }
+    }
+    
+    // Traigo todas las posiciones dentro de mi ciudad ($city)
+    $sql = "SELECT a.latitude, a.longitude, count(a.latitude) as size
+            FROM "._DB_PREFIX_."address as a
+            INNER JOIN "._DB_PREFIX_."manufacturer as m on (m.id_manufacturer = a.id_manufacturer)            
+            WHERE a.latitude < ".$city['latitude']['latitud_inicial']."
+            and a.latitude > ".$city['latitude']['latitud_final']." 
+            and a.longitude < ".$city['longitude']['longitud_inicial']." 
+            and a.longitude > ".$city['longitude']['longitud_final']."
+            and m.active = 1
+            and a.active = 1
+            GROUP BY a.latitude, a.longitude";
+        
+    if ($option == 2){
+      if($id_manufacturer != ''){
+        $sql .= ' and id_manufacturer = '.$id_manufacturer.';';
+      }
+      else {
+        return $this->response(json_encode(array('result' => '')),206);
+      }
+    }
+//    error_log("\n\n\n Este es el query de posiciones: \n\n".print_r($sql,true),3,'/tmp/error.log');
+    
+    $positions = Db::getInstance()->executeS($sql);
+    
+    // Destinos
+    foreach($positions as &$pos) {
+      $pos['distance'] = $this->getDistanceToCoords($latitude,$longitude,$pos['latitude'],$pos['longitude']);
+    }
+    usort($positions, function($a, $b) {
+      return str_replace('.', ',', $a['distance']) > str_replace('.', ',', $b['distance']) ? 1:-1 ;
+    });
+    
+    // Mostrar 10 resultados cercanos
+//    for($i = 0; $i <= 10; $i++){
+//      $result[] = $positions[$i];
+//    }
+    
+    foreach ($positions as $pos){
+      if(floatval($pos['distance']) <= 10){
+        $result[] = $pos;
+      }
+    }
+    array_unique($result);
+    
     return $this->response(json_encode(array('result' => $result)),200);
   }
+  
+  private function getNotificationBarOrders(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    
+    $model = new Model();
+    $result = $model->getNotificationOrder($id_customer);
+    $this->response($this->json($result), 200);
+  }
+
+  public function getDistanceToCoords($lat1,$lon1,$lat2,$lon2) {
+    $R = 6371; // Radius of the earth in km
+    $dLat = $this->deg2rad($lat2-$lat1);  // deg2rad below
+    $dLon = $this->deg2rad($lon2-$lon1); 
+    $a = 
+      sin($dLat/2) * sin($dLat/2) +
+      cos($this->deg2rad($lat1)) * cos($this->deg2rad($lat2)) * 
+      sin($dLon/2) * sin($dLon/2); 
+    $c = 2 * atan2(sqrt($a), sqrt(1-$a)); 
+    $d = $R * $c; // Distance in km
+    return $d;
+  }
+  
+  public function deg2rad($deg) {
+    return $deg * (M_PI/180);
+  }
+  
 }
 
 

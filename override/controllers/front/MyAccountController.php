@@ -227,7 +227,10 @@ class MyAccountController extends MyAccountControllerCore
       $lastPoint = $this->getPointsLastDays((int)$this->context->customer->id);
       $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
 
-      $userData['image'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      $userData['image'] = false;
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $userData['image'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
       $userData['fluzLasted'] = $lastPoint['points'];
       $userData['fluzTotal'] = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
       $userData['winnerMembers'] = $this->numberMembers();
@@ -309,58 +312,59 @@ class MyAccountController extends MyAccountControllerCore
         return $row;
     }
     
-    public function orderQuantity(){
-        
-        $query = "SELECT
-                        c.id_customer,
-                        c.date_kick_out,
-                        DATE_FORMAT(c.date_kick_out,'%Y-%m-%d') date_kick_out_show,
-                        c.warning_kick_out,
-                        c.kick_out
-                    FROM "._DB_PREFIX_."customer c
-                    WHERE c.id_customer = ".$this->context->customer->id;
-        $customer = Db::getInstance()->getRow($query);
-        
-        $query = "SELECT IFNULL(SUM(od.product_quantity),0) purchases
-                    FROM "._DB_PREFIX_."orders o
-                    INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
-                    WHERE o.current_state = 2
-                    AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out_show']." 00:00:00', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out_show']." 23:59:59' )
-                    AND id_customer = ".$customer['id_customer'];
-        $purchases = Db::getInstance()->getValue($query);
+    public function orderQuantity($id = ''){
+      $id_customer = ( $id == '') ? $this->context->customer->id : $id;
+      $query = "SELECT
+                      c.id_customer,
+                      c.date_kick_out,
+                      DATE_FORMAT(c.date_kick_out,'%Y-%m-%d') date_kick_out_show,
+                      c.warning_kick_out,
+                      c.kick_out
+                  FROM "._DB_PREFIX_."customer c
+                  WHERE c.id_customer = ".$id_customer." AND c.field_work IS NULL";
+      $customer = Db::getInstance()->getRow($query);
+      
+    if(!empty($customer)){  
+      $query = "SELECT IFNULL(SUM(od.product_quantity),0) purchases
+                  FROM "._DB_PREFIX_."orders o
+                  INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
+                  WHERE o.current_state = 2
+                  AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out_show']." 00:00:00', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out_show']." 23:59:59' )
+                  AND id_customer = ".$customer['id_customer'];
+      $purchases = Db::getInstance()->getValue($query);
 
-        $query = "SELECT DATE_FORMAT(DATE_ADD(date_kick_out, INTERVAL ".($customer['warning_kick_out'] == 0 ? '30' : '0')." DAY),'%Y-%m-%d') date
-                    FROM "._DB_PREFIX_."customer
-                    WHERE id_customer = ".$customer['id_customer'];
-        $expiration_date = Db::getInstance()->getValue($query);
-        
-        if ( $customer['warning_kick_out'] == 0 && $purchases < 2 ) {
-            $alertpurchaseorder['alert'] = 1;
-            $alertpurchaseorder['orden'] = $purchases;
-            $alertpurchaseorder['total'] = 2;
-            $alertpurchaseorder['quantity'] = 2 - $purchases;
-            $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
-        }
-        
-        if ( $customer['warning_kick_out'] == 0 && $purchases >= 2 ) {
-            $alertpurchaseorder['alert'] = 2;
-        }
-        
-        if ( $customer['warning_kick_out'] == 1 && $purchases < 4 ) {
-            $alertpurchaseorder['alert'] = 3;
-            $alertpurchaseorder['orden'] = $purchases;
-            $alertpurchaseorder['quantity_max'] = 4;
-            $alertpurchaseorder['total'] = 4;
-            $alertpurchaseorder['quantity'] = 4 - $purchases;
-            $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
-            $alertpurchaseorder['dateCancel'] = $expiration_date;
-        }
-        
-        if ( $customer['kick_out'] == 1 ) {
-            $alertpurchaseorder['alert'] = 4;
-        }
+      $query = "SELECT DATE_FORMAT(DATE_ADD(date_kick_out, INTERVAL ".($customer['warning_kick_out'] == 0 ? '30' : '0')." DAY),'%Y-%m-%d') date
+                  FROM "._DB_PREFIX_."customer
+                  WHERE id_customer = ".$customer['id_customer'];
+      $expiration_date = Db::getInstance()->getValue($query);
 
-        return $alertpurchaseorder;
+      if ( $customer['warning_kick_out'] == 0 && $purchases < 2 ) {
+          $alertpurchaseorder['alert'] = 1;
+          $alertpurchaseorder['orden'] = $purchases;
+          $alertpurchaseorder['total'] = 2;
+          $alertpurchaseorder['quantity'] = 2 - $purchases;
+          $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+      }
+
+      if ( $customer['warning_kick_out'] == 0 && $purchases >= 2 ) {
+          $alertpurchaseorder['alert'] = 2;
+      }
+
+      if ( $customer['warning_kick_out'] == 1 && $purchases < 4 ) {
+          $alertpurchaseorder['alert'] = 3;
+          $alertpurchaseorder['orden'] = $purchases;
+          $alertpurchaseorder['quantity_max'] = 4;
+          $alertpurchaseorder['total'] = 4;
+          $alertpurchaseorder['quantity'] = 4 - $purchases;
+          $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+          $alertpurchaseorder['dateCancel'] = $expiration_date;
+      }
+
+      if ( $customer['kick_out'] == 1 ) {
+          $alertpurchaseorder['alert'] = 4;
+      }
+    }
+      return $alertpurchaseorder;
     }
     
     public function getPointsLastDays($id_customer){

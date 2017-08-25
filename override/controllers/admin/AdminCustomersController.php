@@ -405,6 +405,14 @@ class AdminCustomersController extends AdminCustomersControllerCore
                 ),
                 $field_kick_out,
                 $img_business,
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('Nombre Empresa'),
+                    'name' => 'field_work',
+                    'required' => false,
+                    'col' => '4',
+                    'hint' => $this->l('Invalid characters:').' 0-9!&lt;&gt;,;?=+()@#"°{}_$%:'
+                ),
             )
         );
 
