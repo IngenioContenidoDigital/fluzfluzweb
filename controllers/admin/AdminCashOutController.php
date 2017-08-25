@@ -24,6 +24,7 @@ class AdminCashOutControllerCore extends AdminController
         
         $this->fields_list = array(
             'id_rewards_payment' => array('title' => $this->l('ID Pago'), 'align' => 'center', 'class' => 'fixed-width-xs'),
+            'id_customer' => array('title' => $this->l('id_customer')),
             'nombre' => array('title' => $this->l('Nombre')),
             'apellido' => array('title' => $this->l('Apellido')),
             'numero_tarjeta' => array('title' => $this->l('Numero de Cuenta Bancaria')),
@@ -194,8 +195,8 @@ class AdminCashOutControllerCore extends AdminController
                 $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mail_vars, $email, $mailVars[0]['firstname'].' '.$mailVars[0]['lastname']);
                 
             }                
-                        
-            Tools::redirectAdmin(self::$currentIndex.'&id_rewards_payment='.Tools::getValue('id_payment').'&viewrewards_payment&token='.$this->token);
+                Tools::redirectAdmin(Context::getContext()->link->getAdminLink('AdminCashOut'));            
+            //Tools::redirectAdmin(self::$currentIndex.'&id_rewards_payment='.Tools::getValue('id_payment').'&viewrewards_payment&token='.$this->token);
         }
         
         parent::postProcess();
