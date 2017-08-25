@@ -986,7 +986,7 @@ class businessController extends FrontController {
                     $id_employee = Tools::getValue('id_employee');
                     
                     $expulsion_empresa = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'customer
-                                    SET field_work = ""
+                                    SET field_work = NULL, group_business = NULL
                                     WHERE id_customer='.$id_employee);
                     
                     die($id_employee);
