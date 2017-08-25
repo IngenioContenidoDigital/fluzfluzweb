@@ -1361,7 +1361,8 @@ class API extends REST {
           $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
           foreach ($activityNetwork['result'] as &$activityNetworkk){
             $activityNetworkk['credits'] = round($activityNetworkk['credits']);
-            $activityNetworkk['img'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+            $activityNetworkk['img_product'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+            $activityNetworkk['img'] = $link->getProfileImageLink($activityNetworkk['id_customer']);
           }
           $count = count($activityNetwork['result']);
           $limit = ($limit > $count) ? $count : $limit;

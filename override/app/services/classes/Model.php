@@ -2025,6 +2025,7 @@ return $responseObj;
             INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$id_lang." )
             INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
             WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
+            AND o.date_add BETWEEN ADDDATE(NOW(),-30) AND NOW()
             ORDER BY o.date_add DESC "
             ;
     $sql .= $limit != 0 ? ' LIMIT '.$limit : '';
@@ -2060,7 +2061,7 @@ return $responseObj;
           $members[$counter]['id'] = $sponsor['id'];
           $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
           $members[$counter]['level'] = $sponsor['level'];
-          $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+          $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
           $points = Db::getInstance()->ExecuteS($sql);
           $members[$counter]['points'] = round($points[0]['points']);
         }
@@ -2132,7 +2133,7 @@ return $responseObj;
                                     WHERE rs.id_sponsor = '.$id_customer);
             $profile['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
             $profile['level'] = $sponsor['level'];
-            $profile['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+            $profile['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
             $points = Db::getInstance()->ExecuteS($sql);
             $profile['points'] = round($points[0]['points']);
           }
@@ -2196,7 +2197,7 @@ return $responseObj;
             $members[$counter]['id'] = $sponsor['id'];
             $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
             $members[$counter]['level'] = $sponsor['level'];
-            $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+            $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
             $points = Db::getInstance()->ExecuteS($sql);
             $members[$counter]['points'] = round($points[0]['points']);  
           }
@@ -2257,7 +2258,7 @@ return $responseObj;
         $members[$counter]['id'] = $sponsor['id'];
         $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
         $members[$counter]['level'] = $sponsor['level'];
-        $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png;";
+        $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
         $points = Db::getInstance()->ExecuteS($sql);
         $members[$counter]['points'] = round($points[0]['points']);  
         $counter++;
@@ -2291,7 +2292,7 @@ return $responseObj;
   }
   
   public function sendInvitation($id_lang, $id_customer, $invitation_data){
-    error_log("\n\n Esto es lo que recibe al intentar invitar: \n\n".print_r($invitation_data,true),3,"/tmp/error.log");
+//    error_log("\n\n Esto es lo que recibe al intentar invitar: \n\n".print_r($invitation_data,true),3,"/tmp/error.log");
     if(!empty($id_customer) && !empty($invitation_data)){
       $friend_email     = $invitation_data['email'];
       $friend_lastname  = $invitation_data['lastname'];
