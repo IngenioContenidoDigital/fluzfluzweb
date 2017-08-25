@@ -1,8 +1,11 @@
 <?php 
+ini_set('max_execution_time', 0);
+set_time_limit(0);
 include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
 require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+require_once(_PS_MODULE_DIR_ . 'allinone_rewards/allinone_rewards.php');
 
 $kickoutCustomers = new kickoutCustomers();
 $kickoutCustomers->init();
@@ -223,3 +226,4 @@ class kickoutCustomers {
         $this->updatesNetwork = array();
     }
 }
+
