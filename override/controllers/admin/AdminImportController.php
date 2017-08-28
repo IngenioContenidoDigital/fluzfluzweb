@@ -19,6 +19,7 @@ class AdminImportController extends AdminImportControllerCore
             $this->l('Suppliers'),
             $this->l('Alias'),
             $this->l('Orders'),
+            $this->l('Direcciones Fabricantes'),
         );
 
         // @since 1.5.0
@@ -299,6 +300,41 @@ class AdminImportController extends AdminImportControllerCore
                     'current_state' => '1',
                 );
             break;
+        
+            case $this->entities[$this->l('Direcciones Fabricantes')]:
+                $this->required_fields = array(
+                    'id_manufacturer',
+                    'lastname',
+                    'firstname',
+                    'address1',
+                    'address2',
+                    'city',
+                    'phone',
+                    'phone_mobile',
+                    'latitude',
+                    'longitude'
+                );
+                
+                $this->available_fields = array(
+                    'no' => array('label' => $this->l('Ignore this column')),
+                    'id_manufacturer' => array('label' => $this->l('id_manufacturer')),
+                    'lastname' => array('label' => $this->l('lastname')),
+                    'firstname' => array('label' => $this->l('firstname')),
+                    'address1' => array('label' => $this->l('address1')),
+                    'address2' => array('label' => $this->l('adderss2')),
+                    'city' => array('label' => $this->l('city')),
+                    'phone' => array('label' => $this->l('phone')),
+                    'phone_mobile' => array('label' => $this->l('phone_mobile')),
+                    'latitude' => array('label' => $this->l('latitude')),
+                    'longitude' => array('label' => $this->l('longitude'))
+                );
+
+                self::$default_values = array(
+                    'id_country' => '69',
+                    'alias' => 'manufacturer',
+                    'active' => '1'
+                );
+            break;
 
             case $this->entities[$this->l('Addresses')]:
                 //Overwrite required_fields
@@ -491,6 +527,9 @@ class AdminImportController extends AdminImportControllerCore
                         break;
                     case $this->entities[$import_type = $this->l('Orders')]:
                         $this->ordersImport();
+                        break;
+                    case $this->entities[$import_type = $this->l('Direcciones Fabricantes')]:
+                        $this->addressesManufacturersImport();
                         break;
                     case $this->entities[$import_type = $this->l('Addresses')]:
                         $this->addressImport();
@@ -1175,6 +1214,35 @@ class AdminImportController extends AdminImportControllerCore
             $this->errors[] = "No es posible importar mas de 30 registros. Por favor validar y reducir la cantidad de registros.";
         }
         
+    }
+    
+    public function addressesManufacturersImport() {
+        $this->receiveTab();
+        $handle = $this->openCsvFile();
+        AdminImportController::setLocale();
+
+        for ($current_line = 0; $line = fgetcsv($handle, MAX_LINE_SIZE, $this->separator); $current_line++) {
+            $info = AdminImportController::getMaskedRow($line);
+            AdminImportController::setDefaultValues($info);
+
+            $address = new Address();
+            $address->id_manufacturer = $info['id_manufacturer'];
+            $address->lastname = $info['lastname'];
+            $address->firstname = $info['firstname'];
+            $address->address1 = $info['address1'];
+            $address->address2 = $info['address2'];
+            $address->city = $info['city'];
+            $address->phone = $info['phone'];
+            $address->phone_mobile = $info['phone_mobile'];
+            $address->latitude = $info['latitude'];
+            $address->longitude = $info['longitude'];
+            $address->id_country = $info['id_country'];
+            $address->alias = $info['alias'];
+            $address->active = $info['active'];
+            $address->add();
+        }
+        
+        $this->closeCsvFile($handle);
     }
 
     protected function truncateTables($case)
