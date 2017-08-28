@@ -91,6 +91,45 @@ $(document).ready(function() {
         }
         markUsed( $("#card_product").val(),$(this).attr("value") );
     });
+    
+    $('#btn-gift').click(function(){
+       
+        $('#container-gift').show();
+        
+    });
+    var id_customer = $("#id_customer").val();
+    
+    $("#busqueda").keyup(function(e){
+        var username = $("#busqueda").val();
+        if(username.length >= 3){
+            $.ajax({
+                type:"post",
+                url:"/transferfluzfunction.php",
+                data:'username='+username+'&id_customer='+id_customer,
+                success: function(data){
+                    console.log(data);
+                    if(data != ""){
+                        $("#resultados").empty();
+                        data = jQuery.parseJSON(data);
+
+                        var content = '';
+                        $.each(data, function (key, id) {
+                            content += '<div class="resultados" id="id_sponsor" onclick="myFunction(\''+data[key].username+'\',\''+data[key].id+'\')">'+data[key].username+' - '+data[key].dni+'</div>';
+                        })
+
+                        $("#resultados").html(content);
+                    }
+                    else{
+                        $("#resultados").empty();
+                    }
+                }
+            });
+        }
+        else{
+            $("#resultados").empty();
+        }
+    });
+    
 });
 
 function renderViewCard(key, card) {
@@ -168,6 +207,14 @@ function markUsed(card,used) {
             }
         }
     });
+}
+
+function myFunction(name, id_sponsor) {
+        $('#busqueda').val(name);
+        $('#sponsor_identification').val(id_sponsor);
+        $('#sponsor_name').val(name);
+        $('#name_sponsor').html(name);
+        $('.resultados').hide();
 }
 
 function setValueUsed(card,value) {

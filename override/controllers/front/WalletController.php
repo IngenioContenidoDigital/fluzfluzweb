@@ -4,6 +4,9 @@ class WalletController extends FrontController {
     public function initContent() {
         parent::initContent();
 
+        $id_customer = $this->context->customer->id;
+        $this->context->smarty->assign('id_customer',$id_customer);
+        
         $smarty_values = array(
             's3'=>_S3_PATH_,
             'cards' => Wallet::getCards($this->context->customer->id, Tools::getValue("manufacturer")),

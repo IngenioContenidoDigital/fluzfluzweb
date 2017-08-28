@@ -11,7 +11,7 @@
     var cards = {$cards|@json_encode};
     var urlWalletController = "{$link->getPageLink('wallet', true)|escape:'html':'UTF-8'}";
 </script>
-
+<input type="hidden" id="id_customer" value="{$id_customer}">
 <div class="container wallet-container">
     <div class="row row1">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -140,6 +140,16 @@
                         <div id="loadMenosAddress" style='display:none;'><label class="more-address">{l s="Mostrar menos"}</label></div>
                     </div>
                 {/if}
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 send_gift" id="send_gift">
+                <button type="button" class="btn btn-info btn-gift" id="btn-gift">Obsequiar Como Bono de Regalo<i class="icon icon-th-large"></i></button>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5" id="container-gift" style="display:none;">
+                <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Ingresa Nombre del Fluzzer.'}" required>
+                <div id="resultados" class="result-find"></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div_send_gift">
+                    <button class="btn_send_gift"> Enviar Obsequio </button>
+                </div>
             </div>
         </div>
     </div>
