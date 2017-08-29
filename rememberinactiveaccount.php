@@ -48,11 +48,11 @@ foreach ( $customers as $key => &$customer ) {
                 WHERE id_customer = ".$customer['id_customer'];
     $expiration_date = Db::getInstance()->getValue($query);
     
-    if ( $customer['warning_kick_out'] == 1 && $purchases < 4 && strtotime(date('Y-m-d')) == strtotime(date('Y-m-d',strtotime('+1 day',strtotime($expiration_date)))) ) {
+    if ( $customer['warning_kick_out'] == 1 && $purchases < 4 && strtotime(date('Y-m-d')) == strtotime($expiration_date) ) {
         $customer['days_inactive'] = 90;
     }
     
-    if ( $customer['warning_kick_out'] == 1 && $purchases >= 4 && strtotime(date('Y-m-d')) == strtotime(date('Y-m-d',strtotime('+1 day',strtotime($expiration_date)))) ) {
+    if ( $customer['warning_kick_out'] == 1 && $purchases >= 4 && strtotime(date('Y-m-d')) == strtotime($expiration_date) ) {
         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET date_kick_out = DATE_ADD(date_kick_out, INTERVAL 30 DAY), warning_kick_out = 0 WHERE id_customer = ".$customer['id_customer']);
     }
     
@@ -125,7 +125,7 @@ foreach ( $customers as $key => &$customer ) {
             '{message}' => $message_1,
             '{message2}' => $message_2,
             '{message3}' => $message_3,
-            '{expiration_date}' => $expiration_date,
+            '{expiration_date}' => date('Y-m-d',strtotime('+1 day',strtotime($expiration_date))),
             '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
             '{contributor_count}' => $contributor_count,
             '{points_count}' => round($points_count),
