@@ -394,6 +394,7 @@ class AdminProductsController extends AdminProductsControllerCore
                         rp.value porcentaje_red,
                         m.name fabricante,
                         s.name proveedor,
+                        s.id_select_terms termino_pago,
                         IF(p.active=1,'Activo','Inactivo') estado,
                         (SELECT COUNT(pc1.id_product)
                         FROM "._DB_PREFIX_."product_code pc1
@@ -429,6 +430,7 @@ class AdminProductsController extends AdminProductsControllerCore
                                         <th>porcentaje_red</th>
                                         <th>fabricante</th>
                                         <th>proveedor</th>
+                                        <th>termino_pago</th>
                                         <th>categorias</th>
                                         <th>imagen</th>
                                         <th>Producto Padre</th>
@@ -458,6 +460,7 @@ class AdminProductsController extends AdminProductsControllerCore
                                 <td>".$product['porcentaje_red']."</td>
                                 <td>".$product['fabricante']."</td>
                                 <td>".$product['proveedor']."</td>
+                                <td>".$product['termino_pago']."</td>
                                 <td>".substr($categories, 0, -1)."</td>
                                 <td>".$imageurl."</td>
                                 <td>".$product['product_parent']."</td>
