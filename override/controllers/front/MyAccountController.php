@@ -343,7 +343,7 @@ class MyAccountController extends MyAccountControllerCore
           $alertpurchaseorder['orden'] = $purchases;
           $alertpurchaseorder['total'] = 2;
           $alertpurchaseorder['quantity'] = 2 - $purchases;
-          $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+          $alertpurchaseorder['date'] = date('Y-m-d',strtotime('-1 day',strtotime($customer['date_kick_out_show'])));
       }
 
       if ( $customer['warning_kick_out'] == 0 && $purchases >= 2 ) {
@@ -356,7 +356,7 @@ class MyAccountController extends MyAccountControllerCore
           $alertpurchaseorder['quantity_max'] = 4;
           $alertpurchaseorder['total'] = 4;
           $alertpurchaseorder['quantity'] = 4 - $purchases;
-          $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+          $alertpurchaseorder['date'] = date('Y-m-d',strtotime('-1 day',strtotime($customer['date_kick_out_show'])));
           $alertpurchaseorder['dateCancel'] = $expiration_date;
       }
 
