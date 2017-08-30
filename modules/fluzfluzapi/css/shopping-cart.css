@@ -58,6 +58,11 @@ input::-webkit-inner-spin-button {
     max-width: 25px;
 }
 
+#pre1::-webkit-input-placeholder, #pre2::-webkit-input-placeholder {color: #333333;}
+#pre1::-moz-placeholder, #pre2::-moz-placeholder {color: #333333;}
+#pre1:-ms-input-placeholder, #pre2:-ms-input-placeholder {color: #333333;}
+#pre1:-moz-placeholder, #pre2:-moz-placeholder {color: #333333;}
+
 #pre2{
     min-width: 80px;
     width: 80px;
