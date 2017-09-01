@@ -88,6 +88,9 @@ div.radio { margin-right: 10px; }
     border: 1px solid #ef4136;
     color: #fff;
     font-weight: bold;}
+.p-gift{margin-left: 15px;
+    color: #000;
+    font-weight: bold;}
 
 @media (max-width:768px) {
     .wallet-container, #columns { padding: 0; }

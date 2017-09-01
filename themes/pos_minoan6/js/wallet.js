@@ -49,6 +49,12 @@ $(document).ready(function() {
         $(this).find(".container-card").css("border","1px solid #F15E54");
         renderViewCard( $(this).attr("key"), cards[$(this).attr("key")] );
     });
+    
+    $(".card_gift").click(function(){
+        $(".container-card").css("border","1px solid #E8E8E8");
+        $(this).find(".container-card").css("border","1px solid #F15E54");
+        renderViewCard( $(this).attr("key"), gift_cards[$(this).attr("key")] );
+    });
 
     $("#btnbuy").click(function(){
         window.top.location = "/content/6-categorias";
@@ -115,6 +121,7 @@ $(document).ready(function() {
                         var content = '';
                         $.each(data, function (key, id) {
                             content += '<div class="resultados" id="id_sponsor" onclick="myFunction(\''+data[key].username+'\',\''+data[key].id+'\')">'+data[key].username+' - '+data[key].dni+'</div>';
+                            content += '<input type="hidden" id="id_sponsor_sel" value='+data[key].id+'>'
                         })
 
                         $("#resultados").html(content);
@@ -139,10 +146,20 @@ function renderViewCard(key, card) {
         $("#expiration").html( card.expiration );
         $('#vencimiento').show();
     }
+    
+    if(card.send_gift != 1){
+        $("#code").html( card.card_code );
+        $('#send_gift').show();
+    }
+    else{
+        $("#code").html( 'Bono Obsequiado' );
+        $('#send_gift').hide();
+        $('#container-gift').hide();
+    }
+    
     $("#value_original").html( "COP $ "+Math.round(card.price) );
     $("#value").html( "COP $ "+Math.round(card.price_shop) );
     $("#date_buy").html( card.date );
-    $("#code").html( card.card_code );
     $("#instructions").html( card.description_short );
     $("#terms").html( card.description );
     $("#card_product").val( card.id_product_code );
@@ -215,6 +232,27 @@ function myFunction(name, id_sponsor) {
         $('#sponsor_name').val(name);
         $('#name_sponsor').html(name);
         $('.resultados').hide();
+}
+
+function send_gift(){
+    var $id_customer_receive = $('#id_sponsor_sel').val();
+    var id_customer = $("#id_customer").val();
+    var code_s = $('#code').text();
+    var code_card = code_s.replace(/\s/g, '');
+    var id_product_code = $('#card_product').val();
+    
+    $.ajax({
+        url : urlWalletController,
+        type : 'POST',
+        data : 'action=send_gift_card&$id_customer_receive='+$id_customer_receive+'&id_customer='+id_customer+'&code_card='+code_card+'&id_product_code='+id_product_code,
+        success : function(response) {
+            if ( response != '' ) {
+                window.top.location = "confirmtransfergift";
+            } else {
+                console.log('fallo');
+            }
+        }
+    });
 }
 
 function setValueUsed(card,value) {
