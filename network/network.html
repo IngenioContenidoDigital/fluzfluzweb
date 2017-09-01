@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="vis/dist/vis.css">
+        <script language="javascript" type="text/javascript" src="vis/dist/vis.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="visualization"></div>
+        <script type="text/javascript">
+            
+            $.ajax({
+                method: "GET",
+                data: {},
+                url: 'network.php', 
+                success:function(response) {
+                    var network = jQuery.parseJSON(response);
+                    
+                    var nodes = [];
+                    var edges = [];
+
+                    $.each(network, function(i, item) {
+                        nodes.push( {id: item.id_customer, label: item.id_customer} );
+                        edges.push( {from: item.id_sponsor, to: item.id_customer} );
+                    });
+                    
+                    var options = {
+                        layout: {
+                            hierarchical: {
+                                direction: "UD",
+                                //sortMethod: "directed"
+                                sortMethod: "hubsize"
+                            }
+                        },
+                        interaction: {dragNodes : false},
+                        physics: {
+                            enabled: false
+                        },
+                        configure: {
+                          filter: function (option, path) {
+                              if (path.indexOf('hierarchical') !== -1) {
+                                  return true;
+                              }
+                              return false;
+                          },
+                          showButton:false
+                        }
+                    };
+                    
+
+                    // create a network
+                    var container = document.getElementById('visualization');
+                    var data = {
+                        nodes: nodes,
+                        edges: edges
+                    };
+                    var network = new vis.Network(container, data, options);
+                }
+            });
+
+        </script>
+    </body>
+</html>
