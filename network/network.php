@@ -1,4 +1,5 @@
 <?php 
+/*
 include_once('../config/defines.inc.php');
 include_once('../config/config.inc.php');
 
@@ -7,3 +8,4 @@ $network = Db::getInstance()->ExecuteS("SELECT id_sponsor, id_customer
 
 echo json_encode($network);
 die();
+*/
