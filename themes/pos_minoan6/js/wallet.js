@@ -150,11 +150,13 @@ function renderViewCard(key, card) {
     if(card.send_gift != 1){
         $("#code").html( card.card_code );
         $('#send_gift').show();
+        $('#img-code').show();
     }
     else{
         $("#code").html( 'Bono Obsequiado' );
         $('#send_gift').hide();
         $('#container-gift').hide();
+        $('#img-code').hide();
     }
     
     $("#value_original").html( "COP $ "+Math.round(card.price) );

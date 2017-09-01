@@ -21,7 +21,7 @@
     </div>
     <div class="row row2">
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-            <p class="available-cards">C&oacute;digos - <tt id="available-cards">{$cards|@count}</tt> Total</p>
+            <p class="available-cards">C&oacute;digos - <tt id="available-cards">{$cards|@count+$gift_cards|@count}</tt> Total</p>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 filter-view">
             <div>
@@ -152,7 +152,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 text-center">
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 text-center" id = 'img-code'>
                 <img src="" id="img-code-bar" class="" />
             </div>
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 cardviewupt-instructions">
@@ -177,14 +177,14 @@
             </div>
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 send_gift" id="send_gift">
                 <button type="button" class="btn btn-info btn-gift" id="btn-gift">Obsequiar Como Bono de Regalo<i class="icon icon-th-large"></i></button>
-            </div>
-            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5" id="container-gift" style="display:none;">
-                <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Ingresa Nombre del Fluzzer.'}" required>
-                <div id="resultados" class="result-find"></div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div_send_gift">
-                    <button onclick="send_gift()" class="btn_send_gift" id="send-gift" name="send-gift"> Enviar Obsequio </button>
+                <div id="container-gift" style="display:none;">
+                    <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Ingresa Nombre del Fluzzer.'}" required>
+                    <div id="resultados" class="result-find"></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div_send_gift">
+                        <button onclick="send_gift()" class="btn_send_gift" id="send-gift" name="send-gift"> Enviar Obsequio </button>
+                    </div>
                 </div>
-            </div>
+            </div>    
         </div>
     </div>
     <div class="row row6">
