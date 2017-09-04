@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+First Name;Last Name;Username;Email;Phone Mobile;cedula
+empleado;apellido;usuarioEmpresa;usuarioEmpresa@gmail.com;3114520253;1322362897
+empleado;apellido;usuarioEmpresa2;usuarioEmpresa2@gmail.com;3114520252;1222362897
+empleado;apellido;usuarioEmpresa3;usuarioEmpresa3@gmail.com;3114520254;1322362893
+empleado;apellido;usuarioEmpresa4;usuarioEmpresa4@gmail.com;3114520256;1322362896
+empleado;apellido;usuarioEmpresa5;usuarioEmpresa5@gmail.com;3114520257;1322362877
+=======
 First Name;Last Name;Username;Email;Direccion Empleado;Ciudad;Telefono Empleado;cedula
 Andercol S.A;Andercol S.A;Andercol S.A;andercol@test5.co;Av Centenario 82-67;Bogota;572929494;8909033103
 Inproquim S.A.S;Inproquim S.A.S;Inproquim S.A.S;inproquim@test6.co;Cr 50 97 A Sur-392;Medellin;5743786060;8909380203
+>>>>>>> ebafa47bdd2d21209c67442b6d34ba675406feb8
