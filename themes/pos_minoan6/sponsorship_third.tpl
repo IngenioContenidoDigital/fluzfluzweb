@@ -3,12 +3,18 @@
         <br><br>
         <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
         <p id="message_confirm" style="border:1px solid #E5E5E5;color:#31B404; text-align: center;">Felicidades la invitaci&oacute;n ha sido enviada a tu amigo.</p>
+        <input type="hidden" value="{$urlWhatsapp}" id="urlWhatsapp"/>
     </div>
     <script>
+        var urlWhatsapp = $("#urlWhatsapp").val();
+        if ( urlWhatsapp != "" ) {
+            window.open(urlWhatsapp, "_blank");
+        }
+        
         setTimeout( function(){ 
             $.fancybox.close();
             window.top.location.reload();
-        }  , 3000 );     
+        }  , 3000 );
     </script>
 {else}
 <div id="rewards_sponsorship" class="rewards">
@@ -63,6 +69,17 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <input class="cgv" type="checkbox" name="inviteWhatsapp" id="inviteWhatsapp" />&nbsp;
+                        <label style="color: #777777;line-height: 30px;font-weight: normal;" for="inviteWhatsapp">Enviar invitaci&oacute;n por Whatsapp</label>&nbsp;
+                        <i class="icon icon-whatsapp" style="color: #189D0E;"></i>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 blockPhoneInviteWhatsapp">
+                        <select name="countryPhoneInviteWhatsapp" id="countryPhoneInviteWhatsapp" style="background: #f9f9f9; height: 25px!important;"></select>
+                        <input type="number" class="text" placeholder="Ej: 3001234567" name="phoneInviteWhatsapp" id="phoneInviteWhatsapp" size="20" value="" style="padding-left: 10px; height: 25px!important; background-color: #f9f9f9; border: 1px solid lightgray;" />
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
                         <p class="bold"><span style="color:#ef4136;">Importante: </span>Los datos no se usaran con un prop&oacute;sito diferente a la invitaci&oacute;n.</p>
                         <p style="margin: 0px;padding: 0 !important;border: none;color: #666666;font-family: 'Open sans';line-height: 30px;font-size: 13px;">
@@ -84,6 +101,8 @@
     <style>
         #header, #footer, #launcher, #right_column, .breadcrumb { display: none!important; }
         
+        .blockPhoneInviteWhatsapp { display: none; }
+        
         @media (max-width:425px){ 
             .title-sponsor{color: red !important;} 
             .fancybox-opened .fancybox-skin{padding: 5px !important;}
@@ -96,5 +115,33 @@
             .fancybox-skin{height: 300px !important;}
         }
     </style>
+    
+    <script>
+        $("#inviteWhatsapp").change(function() {
+            $("#phoneInviteWhatsapp").val("");
+            if( $('#inviteWhatsapp').attr('checked') ) {
+                $(".blockPhoneInviteWhatsapp").css("display","block");
+            } else {
+                $(".blockPhoneInviteWhatsapp").css("display","none");
+            }
+        });
+
+        $(function() {
+            $.ajax({
+                method: "GET",
+                data: {},
+                url: 'https://restcountries.eu/rest/v2/all', 
+                success:function(countries) {
+                    $.each(countries, function(i, item) {
+                        $("#countryPhoneInviteWhatsapp").append($('<option>', {
+                            value: item.callingCodes[0],
+                            text: item.alpha3Code+" (+"+item.callingCodes[0]+")"
+                        }));
+                    });
+                }
+            });
+        });
+    </script>
 {/literal}
+
       
