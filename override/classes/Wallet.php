@@ -16,6 +16,7 @@ class WalletCore extends ObjectModel
         $context = Context::getContext();
         $query = "SELECT
                         PC.id_product_code,
+                        PC.send_gift, 
                         PC.id_product, 
                         PC.code AS card_code, 
                         PC.used,
@@ -28,6 +29,7 @@ class WalletCore extends ObjectModel
                         PP.online_only,
                         M.name manufacturer,
                         PP.price_shop AS price,
+                        COUNT(PC.state = 'Disponible' OR PC.state = 'Usada') AS cards_num, 
                         PP.codetype,
                         ROUND(PP.price) AS price_shop,
                         DATE_FORMAT(PO.date_add, '%d/%m/%Y') AS date,
@@ -51,6 +53,7 @@ class WalletCore extends ObjectModel
                 ORDER BY used ASC , date DESC";
         
 //        error_log("\n\n Este es el sql: \n".print_r($query,true),3,"/tmp/error.log");
+        
         $cards = Db::getInstance()->executeS($query);
         
         foreach ($cards as &$card) {
@@ -69,10 +72,76 @@ class WalletCore extends ObjectModel
             }
             $card['card_code'] = $cardcode;
         }
-
         return $cards;
     }
+    
+    public static function getCardsGift($id_customer, $id_manufacturer)
+    {
+        $context = Context::getContext();
+        
+        $query = "SELECT
+                        PC.id_product_code,
+                        PC.send_gift, 
+                        PC.id_product, 
+                        PC.code AS card_code, 
+                        PC.used,
+                        PC.price_card_used,
+                        PL.name AS product_name,
+                        PL.description,
+                        PL.description_short,
+                        PP.id_manufacturer,
+                        PP.is_virtual,
+                        PP.online_only,
+                        M.name manufacturer,
+                        COUNT(PC.state = 'Disponible' OR PC.state = 'Usada') AS cards_num,
+                        PP.price_shop AS price,
+                        PP.codetype,
+                        ROUND(PP.price) AS price_shop,
+                        DATE_FORMAT(PO.date_add, '%d/%m/%Y') AS date,
+                        DATE_FORMAT(PP.expiration, '%d/%m/%Y') AS expiration,
+                        C.secure_key
+                FROM "._DB_PREFIX_."product_code PC
+                LEFT JOIN "._DB_PREFIX_."order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
+                LEFT JOIN "._DB_PREFIX_."orders PO ON POD.id_order = PO.id_order
+                INNER JOIN "._DB_PREFIX_."product PP ON PC.id_product = PP.id_product
+                INNER JOIN "._DB_PREFIX_."product_lang PL ON PP.id_product = PL.id_product
+                LEFT JOIN "._DB_PREFIX_."manufacturer M on PP.id_manufacturer = M.id_manufacturer
+		LEFT JOIN ps_transfer_gift TG ON TG.id_transfer_gift=PC.id_transfer_gift
+                INNER JOIN "._DB_PREFIX_."customer C ON PO.id_customer = C.id_customer OR C.id_customer=TG.id_customer_receive
+                WHERE          
+                C.id_customer = ".$id_customer."
+                AND (PP.id_manufacturer = ".(int)$id_manufacturer.")
+                AND PC.send_gift = 2
+                AND (PO.current_state = 2 OR PC.send_gift = 2)
+                -- AND PO.id_order = 0
+                GROUP BY PC.id_product_code
+                ORDER BY used ASC , date DESC";
+        $cards = Db::getInstance()->executeS($query);
+        
+        foreach ($cards as &$card) {
+            $code = str_replace(' ', '', Encrypt::decrypt($card['secure_key'] , $card['card_code']));
 
+            $card['card_code_cry'] = $card['card_code'];
+            $card['code_bar'] = Wallet::getCodebar($card['id_product'] , $code , $card['card_code_cry']);
+
+            $i = 1;
+            $cardcode = "";
+            $code = str_split($code);
+            foreach ( $code as $char ) {
+                $cardcode .= $char;
+                if ( $i % 4 == 0 ) { $cardcode .= " "; }
+                $i++;
+            }
+            $card['card_code'] = $cardcode;
+        }
+        
+        if(empty($cards)){
+            $cards='vacio';
+        }
+        
+        return $cards;
+    }
+    
     public static function getManufacturerAddress($id_manufacturer)
     {
         $query = "SELECT firstname, address1, city
