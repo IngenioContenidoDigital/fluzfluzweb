@@ -935,7 +935,7 @@ class businessController extends FrontController {
 
                         if($process == true){
                                 if(empty($array_error)){
-                                          die('true');
+                                          die(true);
                                        }
                                 else{
 

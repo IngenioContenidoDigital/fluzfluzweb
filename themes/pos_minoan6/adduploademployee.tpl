@@ -233,10 +233,10 @@
                 data : 'action=submitcopy&listcopy='+listcopy,
                 
                 success : function(data) {
-                   console.log(data); 
-                   if(data == 'true'){
+                    
+                   if(data == 1){
                         $('.progress-container').css('display','none');
-                        window.location.replace(""+url+"confirmtransferfluzbusiness");
+                        window.location.replace(url+"confirmtransfercustomer");
                    }    
                    else {
                         $('#rewards_account').hide();    
