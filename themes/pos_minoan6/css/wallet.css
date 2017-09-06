@@ -61,6 +61,37 @@ div.radio { margin-right: 10px; }
 .img-code-bar-0, .img-code-bar-1, .img-code-bar-3 { margin-bottom: 20px; }
 .price-gray { color: #777777; }
 
+/*GIFT CARD*/
+
+.btn-gift{width: 100%;
+    background: #C9B197;
+    border: 1px solid #C9B197;
+    margin-top: 3px;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;}
+
+.btn-gift:hover{background: #fff;color: #C9B197;font-weight: bold;border: 1px solid #C9B197;}
+.btn-gift:active{background: #fff;color: #C9B197;font-weight: bold;border: 1px solid #C9B197;}
+.send_gift{margin-top: 20px;}
+.btn-gift > .icon-th-large{float: right;margin-top: 3px;}
+.resultados {
+    color: #000;
+    border-bottom: 1px solid #CBCBCB;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+.div_send_gift{text-align: center;margin-top: 15px;}
+#busqueda{text-align: center;}
+.btn_send_gift{background: #ef4136;
+    border: 1px solid #ef4136;
+    color: #fff;
+    font-weight: bold;}
+.p-gift{margin-left: 15px;
+    color: #000;
+    font-weight: bold;}
+
 @media (max-width:768px) {
     .wallet-container, #columns { padding: 0; }
     .col-xs-0 { display: none; }
