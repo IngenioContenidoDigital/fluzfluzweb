@@ -123,7 +123,9 @@
                     <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">
                         <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
                         <div class="line-separator"></div>
-                        <p>Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibir&aacute;s un correo de confirmaci&oacute;n con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. &iquest;No conoces a ning&uacute;n fluzzer activo y quieres ser parte de Fluz Fluz para construir tu red? Escr&iacute;benos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarte.</p>
+                        <!--<p>Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibir&aacute;s un correo de confirmaci&oacute;n con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. &iquest;No conoces a ning&uacute;n fluzzer activo y quieres ser parte de Fluz Fluz para construir tu red? Escr&iacute;benos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarte.</p>-->
+                        <p>Descarga aqu&iacute; nuestras aplicaciones</p>
+                        <p><a href="https://play.google.com/store/apps/details?id=com.ionicframework.fluzfluz141172"><img src="{$img_dir}login/GooglePlay.png" id="google_play" /></a></p>
                         <p>
                             <a href="http://info.fluzfluz.co/miembros/" class="learn-buy">{l s="Aprende como comprar bonos"}</a>
                             <i class="icon icon-chevron-right" style="color:#EF4136;"></i>
