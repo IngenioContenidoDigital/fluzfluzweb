@@ -323,8 +323,9 @@ class businessController extends FrontController {
                                 LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                                 WHERE c.id_customer =" . (int) $network['id'] . "
                                 HAVING sponsoships > 0");
-
-                        array_push($array_sponsor, $sponsor);
+                        if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                            array_push($array_sponsor, $sponsor);
+                        }
                     }
                     $sort_array = array_filter($array_sponsor);
 
@@ -591,7 +592,9 @@ class businessController extends FrontController {
                                     WHERE c.id_customer =" . (int) $network['id'] . "
                                     HAVING sponsoships > 0");
 
-                            array_push($array_sponsor, $sponsor);
+                            if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                                array_push($array_sponsor, $sponsor);
+                            }
                         }
                         $sort_array = array_filter($array_sponsor);
 
@@ -886,17 +889,19 @@ class businessController extends FrontController {
                                             LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                                             WHERE c.id_customer =" . (int) $network['id'] . "
                                             HAVING sponsoships > 0");
-
-                                    array_push($array_sponsor, $sponsor);
+                                    
+                                    if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                                        array_push($array_sponsor, $sponsor);
+                                    }
                                 }
                                 $sort_array = array_filter($array_sponsor);
 
                                 usort($sort_array, function($a, $b) {
                                     return $a['id_customer'] - $b['id_customer'];
                                 });
-
+                                
                                 $sponsor_a = reset($sort_array);
-
+                                
                                 if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
 
                                     $sponsorship = new RewardsSponsorshipModel();
