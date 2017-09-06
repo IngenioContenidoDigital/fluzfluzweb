@@ -81,7 +81,7 @@
                             <p class="lost_password form-group"><a href="{$link->getPageLink('password')|escape:'html':'UTF-8'}" title="{l s='Recover your forgotten password'}" rel="nofollow">{l s='Forgot your password?'}</a></p>
                             <div class='row'>
                             <div class="col-lg-7" style='padding-left:0px;'>    
-                                <p class="submit col-lg-6" style='padding-left:0px;'>
+                                <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='padding-left:0px;'>
                                     {if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
                                     <button type="submit" id="SubmitLogin" name="SubmitLogin" class="button btn btn-default button-medium">
                                         <span>
@@ -90,7 +90,7 @@
                                         </span>
                                     </button>
                                 </p>
-                                <p class="submit col-lg-6" style='text-align:right;padding-left:0px;'>
+                                <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:right;padding-left:0px;'>
                                     <button class="button btn btn-default button-medium-business">
                                         <span>
                                             <i class="icon-briefcase left" style='font-size: 20px;'></i>
