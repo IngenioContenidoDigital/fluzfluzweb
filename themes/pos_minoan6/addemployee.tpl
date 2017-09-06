@@ -28,6 +28,10 @@
                 <label class="col-lg-12 l-form-employee" for="lastname">{l s='Apellido'}</label>
                 <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="lastname" name="lastname" value="{if isset($smarty.post.lastname)}{$smarty.post.lastname}{/if}" />
             </div>
+            <div class="row required form-group">
+                <label class="col-lg-12 l-form-employee" for="username">{l s='Username'}</label>
+                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" />
+            </div>
             <div class="row form-group">
                 <label class="col-lg-12 l-form-employee" for="email">{l s='Email'}</label>
                 <input class="col-lg-6 is_required validate account_input form-employee" data-validate="isEmail" autocomplete="off" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
@@ -39,6 +43,14 @@
             <div class="row required dni form-group">
                 <label class="col-lg-12 l-form-employee" for="dni">{l s='Cedula'}</label>
                 <input class="col-lg-6 is_required validate account_input form-employee" type="text" autocomplete="off" name="dni" id="dni" value="{if isset($smarty.post.dni)}{$smarty.post.dni}{/if}" />
+            </div>
+            <div class="row required form-group">
+                <label class="col-lg-12 l-form-employee" for="address_customer">Direcci&oacute;n del Empleado</label>
+                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="address_customer" name="address_customer" value="{if isset($smarty.post.address_customer)}{$smarty.post.address_customer}{/if}" />
+            </div>
+            <div class="row required form-group">
+                <label class="col-lg-12 l-form-employee" for="city">Ciudad</label>
+                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="city" name="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />
             </div>
             <div class="row required form-group">
                 <label class="col-lg-12 l-form-employee" for="Amount">{l s='Monto (Fluz)'}</label>

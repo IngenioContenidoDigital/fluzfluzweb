@@ -245,7 +245,7 @@ class MyAccountController extends MyAccountControllerCore
       return $userData;
     }
     
-    public function getProductsByManufacturer($id_customer, $id_lang = null){
+    /*public function getProductsByManufacturer($id_customer, $id_lang = null){
       
         $id_lang = $id_lang != null ? $id_lang : $this->context->language->id;
         $query='SELECT
@@ -271,6 +271,48 @@ class MyAccountController extends MyAccountControllerCore
                   manufacturer_name
                 ORDER BY
                   manufacturer_name ASC';
+        $supplier = Db::getInstance()->executeS($query);
+        
+        return $supplier;
+    }*/
+    
+    public function getProductsByManufacturer($id_customer, $id_lang = null){
+      
+        $id_lang = $id_lang != null ? $id_lang : $this->context->language->id;
+        
+        $query = 'SELECT
+                  PM.id_manufacturer AS id_manufacturer,
+                  PM.`name` AS manufacturer_name,
+                  PP.id_product AS id_product,
+                  -- SUM(OD.product_quantity) AS products,
+                  COUNT(MP.id_product) AS products,
+                  Count(wp.id_webservice_external_product) as count_m,
+                  Sum(PP.price) AS total
+                  FROM
+                  '._DB_PREFIX_.'product AS PP 
+                  INNER JOIN 
+                  (SELECT PC.id_product, PC.id_transfer_gift, PC.id_order, PC.send_gift
+                    FROM ps_product_code PC
+                    LEFT JOIN ps_orders O ON O.id_order=PC.id_order
+                    LEFT JOIN ps_transfer_gift TG ON TG.id_transfer_gift=PC.id_transfer_gift
+                    LEFT JOIN ps_customer c ON c.id_customer = O.id_customer OR c.id_customer=TG.id_customer_receive
+                    WHERE (c.id_customer= '.$id_customer.' AND (PC.state = "Disponible" OR PC.state = "Usada"))) AS MP ON PP.id_product=MP.id_product    
+                  LEFT JOIN '._DB_PREFIX_.'orders PO ON PO.id_order = MP.id_order                  
+                  LEFT JOIN '._DB_PREFIX_.'transfer_gift TG ON TG.id_transfer_gift=MP.id_transfer_gift
+                  LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = PO.id_customer OR c.id_customer=TG.id_customer_receive)
+                  INNER JOIN '._DB_PREFIX_.'supplier AS PS ON PS.id_supplier = PP.id_supplier
+                  INNER JOIN '._DB_PREFIX_.'manufacturer AS PM ON PP.id_manufacturer = PM.id_manufacturer
+                  LEFT JOIN '._DB_PREFIX_.'webservice_external_product  AS wp ON (PP.id_product=wp.id_product)
+                  WHERE
+                  ( (c.id_customer = '.$id_customer.') 
+                      AND (PP.reference<>"MFLUZ") 
+                      AND (PO.current_state = 2 OR MP.send_gift = 2))
+                  GROUP BY
+                  id_manufacturer,
+                  manufacturer_name
+                  ORDER BY
+                  manufacturer_name ASC';
+        
         $supplier = Db::getInstance()->executeS($query);
         
         return $supplier;
@@ -321,9 +363,10 @@ class MyAccountController extends MyAccountControllerCore
                       c.warning_kick_out,
                       c.kick_out
                   FROM "._DB_PREFIX_."customer c
-                  WHERE c.id_customer = ".$id_customer;
+                  WHERE c.id_customer = ".$id_customer." AND c.field_work IS NULL";
       $customer = Db::getInstance()->getRow($query);
-
+      
+    if(!empty($customer)){  
       $query = "SELECT IFNULL(SUM(od.product_quantity),0) purchases
                   FROM "._DB_PREFIX_."orders o
                   INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
@@ -342,7 +385,7 @@ class MyAccountController extends MyAccountControllerCore
           $alertpurchaseorder['orden'] = $purchases;
           $alertpurchaseorder['total'] = 2;
           $alertpurchaseorder['quantity'] = 2 - $purchases;
-          $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+          $alertpurchaseorder['date'] = date('Y-m-d',strtotime('-1 day',strtotime($customer['date_kick_out_show'])));
       }
 
       if ( $customer['warning_kick_out'] == 0 && $purchases >= 2 ) {
@@ -355,14 +398,14 @@ class MyAccountController extends MyAccountControllerCore
           $alertpurchaseorder['quantity_max'] = 4;
           $alertpurchaseorder['total'] = 4;
           $alertpurchaseorder['quantity'] = 4 - $purchases;
-          $alertpurchaseorder['date'] = $customer['date_kick_out_show'];
+          $alertpurchaseorder['date'] = date('Y-m-d',strtotime('-1 day',strtotime($customer['date_kick_out_show'])));
           $alertpurchaseorder['dateCancel'] = $expiration_date;
       }
 
       if ( $customer['kick_out'] == 1 ) {
           $alertpurchaseorder['alert'] = 4;
       }
-
+    }
       return $alertpurchaseorder;
     }
     

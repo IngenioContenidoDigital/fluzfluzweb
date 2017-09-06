@@ -168,37 +168,42 @@
                                     </script>
                                 {/literal}   
                                 {if $page_name=='my-account'}
-                                    {if $order_lastmonth['alert'] == 4}
-                                        <div class="col-lg-12 banner-advertencia">
-                                            <p class="p-advertencia">{l s="Tu cuenta se encuentra actualmente cancelada."}</p>
-                                        </div>
-                                    {/if}
+                                    {if $order_lastmonth != ''}
+                                        {if $order_lastmonth['alert'] == 4}
+                                            <div class="col-lg-12 banner-advertencia">
+                                                <p class="p-advertencia">{l s="Tu cuenta se encuentra actualmente cancelada."}</p>
+                                            </div>
+                                        {/if}
 
-                                    {if $order_lastmonth['alert'] == 3}
-                                        <div class="col-lg-12 banner-advertencia">
-                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "}{$order_lastmonth['quantity_max']}{" compras y te estas pasando de la fecha de vencimiento. Si no haces "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['dateCancel']}{") tu cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
-                                        </div>
-                                    {/if}
+                                        {if $order_lastmonth['alert'] == 3}
+                                            <div class="col-lg-12 banner-advertencia">
+                                                <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "}{$order_lastmonth['quantity_max']}{" compras y te estas pasando de la fecha de vencimiento. Si no haces "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['dateCancel']}{") tu cuenta será cancelada!"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia"></i></p>
+                                            </div>
+                                        {/if}
 
-                                    {if $order_lastmonth['alert'] == 2}
-                                        <div class="col-lg-12 banner-advertencia-awesome">
-                                            <p class="p-advertencia">{l s="¡Increíble! Tu compra mensual mínima se ha cumplido. "}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-awesome"></i></p>
-                                        </div>
-                                    {/if}
+                                        {if $order_lastmonth['alert'] == 2}
+                                            <div class="col-lg-12 banner-advertencia-awesome">
+                                                <p class="p-advertencia">{l s="¡Increíble! Tu compra mensual mínima se ha cumplido. "}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-awesome"></i></p>
+                                            </div>
+                                        {/if}
 
-                                    {if $order_lastmonth['alert'] == 1}
-                                        <div class="col-lg-12 banner-advertencia-month blink_me">
-                                            <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "} {$order_lastmonth['total']} {" compras. Necesitaras hacer "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['date']}{") para cubrir tu requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
-                                        </div>
+                                        {if $order_lastmonth['alert'] == 1}
+                                            <div class="col-lg-12 banner-advertencia-month blink_me">
+                                                <p class="p-advertencia">{l s="Has hecho "}{$order_lastmonth['orden']}{" de "} {$order_lastmonth['total']} {" compras. Necesitaras hacer "}{$order_lastmonth['quantity']}{" compras más hasta el ("}{$order_lastmonth['date']}{") para cubrir tu requisito mensual"}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-month"></i></p>
+                                            </div>
+                                        {/if}
                                     {/if}
                                     
                                     {if $profile_complete < 100 }
-                                        <div class="col-lg-12 banner-profile-complete" onclick="location.href='{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}';">
-                                            <p class="p-advertencia">Tu perfil de usuario está completado en un {$profile_complete}% <progress value="{$profile_complete}" max="100"></progress></p>
+                                        <div class="col-lg-12 banner-profile-complete" id="profile-customer" onclick="location.href='{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}';" style="{if $order_lastmonth == ''}margin-top:69px{/if}">
+                                            <p class="p-advertencia">Tu perfil de usuario está completado en un {$profile_complete}% 
+                                                <progress value="{$profile_complete}" max="100"></progress>
+                                                <i class="icon-remove-circle icon-white close-porcentaje"></i>
+                                            </p>
                                         </div>
                                     {/if}
 
-                                    <div class="container-fluid profileCustomer" style="{if $order_lastmonth['alert'] == 0}margin-top:70px{/if};">
+                                    <div class="container-fluid profileCustomer" style="{if $order_lastmonth['alert'] == 0 AND $profile_complete > 99}margin-top:69px{elseif $profile_complete < 100}margin-top:0px{/if};">
                                         <div class="row" style="width:100%;">
                                                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 contProfile">
                                                     {if $imgprofile != ""}
@@ -384,19 +389,26 @@
     <script>
         $('.close-advertencia').click( function() {
             $('.banner-advertencia').toggle("slow");
-            $('.profileCustomer').css('margin-top', '70px');
+            $('.profileCustomer').css('margin-top', '69px');
         });
     </script>
     <script>
         $('.close-advertencia-month').click( function() {
             $('.banner-advertencia-month').toggle("slow");
-            $('.profileCustomer').css('margin-top', '70px');
+            $('.profileCustomer').css('margin-top', '69px');
         });
     </script>
     <script>
         $('.close-advertencia-awesome').click( function() {
             $('.banner-advertencia-awesome').toggle("slow");
-            $('.profileCustomer').css('margin-top', '70px');
+            $('.profileCustomer').css('margin-top', '25px');
+        });
+    </script>
+    <script>
+        $('.close-porcentaje').click( function() {
+            $("#profile-customer").prop('onclick',null).off('click');
+            $('.banner-profile-complete').toggle("slow");
+            $('.profileCustomer').css('margin-top', '69px');
         });
     </script>
 {/literal}

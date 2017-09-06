@@ -66,6 +66,12 @@ class Link extends LinkCore
       return _S3_PATH_.'m/'.$id_manufacturer.'.jpg';
     }
     
+    public function getProfileImageLink($id_customer){
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $userData['image'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
+    }
+    
     public function getCategoryImageLink($id_category){
       return _S3_PATH_.'c/'.$id_category.'-category_default.jpg';
     }

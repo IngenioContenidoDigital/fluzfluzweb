@@ -14,7 +14,79 @@
 <script>
     var urlTransferController = "{$link->getPageLink('business', true)|escape:'html':'UTF-8'}";
 </script>
-
+<div id="error_p" style="display: none;">
+    <div class="row border-report">
+        <div class="col-lg-6 error_page" id="error_page">
+            <h2 class="title-error">Reporte de Errores</h2>
+        </div>
+        <div  class="col-lg-6 download-error">
+            <div><a href="../csvcustomer/carga_customer_example.csv" class="link-down">DESCARGAR</a></div>
+        </div>
+    </div>
+    <div class="row">
+        <p style="margin: 20px 0px;"> Listado de usuarios con errores. Por Favor Verificar la informaci&oacute;n de los empleados.</p>
+    </div>
+    <div class="row">
+        <div class="container-error" id="container-error">
+            
+        </div>
+    </div>
+    <div class="row div-btn-error">
+        <a class="btn btn-default button button-small" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}"><span>{l s='regresar a mi cuenta'}</span></a>
+        <a class="btn btn-default btn-back-business" href="{$link->getPageLink('business', true)|escape:'html':'UTF-8'}"><span>{l s='regresar al panel principal'}</span></a>
+    </div>
+</div>
+{if $error_csv}
+<div id="error_p">
+    <div class="row border-report">
+        <div class="col-lg-6 error_page" id="error_page">
+            <h2 class="title-error">Reporte de Errores</h2>
+        </div>
+        <div  class="col-lg-6 download-error">
+            <div><a href="../csvcustomer/carga_customer_example.csv" class="link-down">DESCARGAR</a></div>
+        </div>
+    </div>
+    <div class="row">
+        <p style="margin: 20px 0px;"> Listado de usuarios con errores. Por Favor Verificar la informaci&oacute;n de los empleados.</p>
+    </div>
+    <div class="row">
+        <div class="container-error">
+            {foreach from=$error_csv item=errorc}
+                <p class="error" style="margin-top: 10px;">
+                    {if $errorc.email == 'email invalid'}
+                        <span style="color: #EF4136;">&#33;</span> Direcci&oacute;n de email no es correcta.
+                    {elseif $errorc.name == 'name invalid'}
+                        <span style="color: #EF4136;">&#33;</span> El campo nombre o apellido <span style="color: #EF4136;">{$errorc.name_custom}</span> no es correcto.
+                    {elseif $errorc.email_exists == 'email exists'}
+                        <span style="color: #EF4136;">&#33;</span> Alguien con este email <span style="color: #EF4136;">{$errorc.email}</span> ya ha sido apadrinado
+                    {elseif $errorc.dni_exists == 'dni exists'}
+                        <span style="color: #EF4136;">&#33;</span> La Cedula <span style="color: #EF4136;">{$errorc.cedula}</span> ya se encuentra Registrada en Fluz Fluz. Por Favor Revisa tu CSV.
+                    {elseif $errorc.valid_phone == 'valid phone'}
+                        <span style="color: #EF4136;">&#33;</span> El Tel&eacute;fono <span style="color: #EF4136;">{$errorc.phone}</span> ya se encuentra Registrado en Fluz Fluz. Por Favor Revisa tu CSV.
+                    {elseif $errorc.valid_username == 'valid username'}
+                        <span style="color: #EF4136;">&#33;</span> El Usuario <span style="color: #EF4136;">{$errorc.username}</span> ya se encuentra Registrado en Fluz Fluz. Por Favor Revisa tu CSV.
+                    {elseif $errorc.sponsor == 'no sponsor'}
+                        {l s='No hay espacios disponibles en la red.'}
+                    {else if $errorc.csv == 'already exists'}   
+                        <span style="color: #EF4136;">&#33;</span> El achivo <span style="color: #EF4136;">{$errorc.csv_name}</span> ya existe. Por favor cambiar el nombre del archivo CSV. 
+                    {else if $errorc.csv_number == 'registro'}
+                        <span style="color: #EF4136;">&#33;</span> No es posible importar mas de 80 registros. Por favor validar y reducir la cantidad de registros.
+                    {/if}
+                </p>
+            {/foreach}
+        </div>
+    </div>
+    <div class="row div-btn-error">
+        <a class="btn btn-default button button-small" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}"><span>{l s='regresar a mi cuenta'}</span></a>
+        <a class="btn btn-default btn-back-business" href="{$link->getPageLink('business', true)|escape:'html':'UTF-8'}"><span>{l s='regresar al panel principal'}</span></a>
+    </div>        
+{literal}
+    <style>
+        #rewards_account{display: none;}
+    </style>
+{/literal}
+</div>
+{/if}
 <div id="rewards_account" class="rewards">
 {if version_compare($smarty.const._PS_VERSION_,'1.6','<')}
     {include file="$tpl_dir./breadcrumb.tpl"}
@@ -36,19 +108,27 @@
     </div>
 </div>
 {if $error}
-    <p class="error" style="margin-top: 10px;">
-        {if $error == 'email invalid'}
-            Direcci&oacute;n de email no es correcta.
-        {elseif $error == 'name invalid'}
-            El campo nombre o apellido no es correcto.
-        {elseif $error == 'email exists'}
-            Alguien con este email {$email} ya ha sido apadrinado
-        {elseif $error == 'no sponsor'}
-            {l s='No hay espacios disponibles en la red.'}
-        {else if $error == 'already exists'}   
-            El achivo {$csv} ya existe. Por favor cambiar el nombre del archivo CSV. 
-        {/if}
-    </p>
+    {foreach from=$error item=errorc}
+        <p class="error" style="margin-top: 10px;">
+            {if $errorc.email == 'email invalid'}
+                Direcci&oacute;n de email no es correcta.
+            {elseif $errorc.name == 'name invalid'}
+                El campo nombre o apellido no es correcto.
+            {elseif $errorc.email_exists == 'email exists'}
+                <span style="color: #EF4136;">&#33;</span> Alguien con este email <span style="color: #EF4136;">{$errorc.email}</span> ya ha sido apadrinado
+            {elseif $errorc.dni_exists == 'dni exists'}
+                <span style="color: #EF4136;">&#33;</span> La Cedula <span style="color: #EF4136;">{$errorc.cedula}</span> ya se encuentra Registrada en Fluz Fluz. Por Favor Revisa tu CSV.
+            {elseif $errorc.valid_phone == 'valid phone'}
+                <span style="color: #EF4136;">&#33;</span> El Tel&eacute;fono <span style="color: #EF4136;">{$errorc.phone}</span> ya se encuentra Registrado en Fluz Fluz. Por Favor Revisa tu CSV.
+            {elseif $errorc.valid_username == 'valid username'}
+                <span style="color: #EF4136;">&#33;</span> El Usuario <span style="color: #EF4136;">{$errorc.username}</span> ya se encuentra Registrado en Fluz Fluz. Por Favor Revisa tu CSV.
+            {elseif $errorc.sponsor == 'no sponsor'}
+                {l s='No hay espacios disponibles en la red.'}
+            {else if $errorc.csv == 'already exists'}   
+                El achivo {$csv} ya existe. Por favor cambiar el nombre del archivo CSV. 
+            {/if}
+        </p>
+    {/foreach}
 {/if}
 <div class="row panel-employee">
     <div class="col-lg-3 item-employee" id="toggle-add-employees">
@@ -179,17 +259,17 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz en Dinero: </div><div id="fluz_send_cash" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
         </div>
         <div class="row row-btn-modal">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
+                <button class="btn btn-default btn-account" type="submit" id="save-info-process" name="save-info-process" style="background:#c9b198;">
+                    <span class="btn_modal_f"> Confirmar </span>
+                </button>        
+            </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-cancel-modal">
                 <button class="btn btn-default btn-account" id="cancel_modal_fluz" onclick="cancelSubmit()">
                     <span class="btn_modal_f">
                         {l s="Cancelar"}
                     </span>
                 </button>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
-                <button class="btn btn-default btn-account" type="submit" id="save-info-process" name="save-info-process">
-                    <span> Confirmar </span>
-                </button>        
             </div>
         </div>
     </div>
@@ -202,21 +282,21 @@
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 title_transfer"> Eliminaci&oacute;n de Empleado </div>
         <div class="row info-transfer">
-            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6 name_sponsor_delete"> Seguro deseas Eliminar al Empleado de tu Red Empresarial ? </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluzzer : </div><div id="user_delete" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 name_sponsor_delete"> Seguro deseas Eliminar al Empleado de tu Red Empresarial ? </div>
+            <div id="user_delete" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 name_sponsor"></div>
         </div>
         <div class="row row-btn-modal">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
+                <button class="btn btn-default btn-account" type="submit" id="delete-info-process" name="delete-info-process" style="background:#c9b198;">
+                    <span class="btn_modal_f"> Confirmar </span>
+                </button>        
+            </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-cancel-modal">
                 <button class="btn btn-default btn-account" id="cancel_modal_fluz" onclick="cancelSubmit()">
                     <span class="btn_modal_f">
                         {l s="Cancelar"}
                     </span>
                 </button>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
-                <button class="btn btn-default btn-account" type="submit" id="delete-info-process" name="delete-info-process">
-                    <span> Confirmar </span>
-                </button>        
             </div>
         </div>
     </div>
@@ -366,11 +446,13 @@
                     $('#success').css('display','none');
                     $('.check_user').click(function() {
                         if ($(this).is(':checked')) {
-                            //codigo para eliminar usuario de la red
+                            //codigo para eliminar usuario de la red+
+                            
                             var url = document.getElementById("url_fluz").innerHTML;
                             var check_delete = $(this).val();
                             var name = $('#name_employee-'+check_delete).html();
                             var lastname = $('#lastname_employee-'+check_delete).html();
+                            
                             $('#delete_employee').show();
                             $('#user_delete').html(name+' '+lastname);
                             $('#delete-info-process').click(function(){
@@ -379,12 +461,14 @@
                                     type : 'POST',
                                     data : 'action=kickoutemployee&id_employee='+check_delete,
                                     success : function(id) {
+                                         console.log(id);
                                          window.location.replace(""+url+"confirmdeleteusers");
                                     }
                                 });
                             });
                         }
                         else{
+                            check_delete = "";
                             $('#delete_employee').hide();
                         }
                     });   
@@ -767,7 +851,7 @@
                                 $('#file').attr({ value: '' });
                                 $('#error').css('display','none');
                                 $('#success').css('display','block');
-                                $('#success').append("<b>Tu Archivo CSV no contiene errores.</b>");;
+                                $('#success').append("<b>Tu Archivo CSV se Cargo Correctamente.</b>");;
                             }
                         }
                     });
