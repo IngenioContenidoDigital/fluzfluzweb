@@ -151,12 +151,14 @@ function renderViewCard(key, card) {
         $("#code").html( card.card_code );
         $('#send_gift').show();
         $('#img-code').show();
+        $('.cardviewupt-used').show();
     }
     else{
         $("#code").html( 'Bono Obsequiado' );
         $('#send_gift').hide();
         $('#container-gift').hide();
         $('#img-code').hide();
+        $('.cardviewupt-used').hide();
     }
     
     $("#value_original").html( "COP $ "+Math.round(card.price) );
@@ -218,9 +220,16 @@ function markUsed(card,used) {
         success : function(response) {
             response = jQuery.parseJSON(response);
             if ( response.success ) {
-                cards[key].used = used;
-                $("div[key='"+key+"']").find(".state-used").removeClass("state-used0 state-used1 state-used2");
-                $("div[key='"+key+"']").find(".state-used").addClass("state-used"+used);
+                if(card == cards[key].id_product_code){
+                  cards[key].used = used;
+                  $("div[key='"+key+"']").find(".state-used").removeClass("state-used0 state-used1 state-used2");
+                  $("div[key='"+key+"']").find(".state-used").addClass("state-used"+used);
+                }
+                else if(card == gift_cards[key].id_product_code){
+                  gift_cards[key].used = used;
+                  $("div[key='"+key+"']").find(".state-used-gift").removeClass("state-used-gift0 state-used-gift1 state-used-gift2");
+                  $("div[key='"+key+"']").find(".state-used-gift").addClass("state-used-gift"+used);  
+                }
             } else {
                 alert("Ha ocurrido un error. Por favor intente mas tarde.");
             }

@@ -23,6 +23,10 @@
 .state-used0 { color: #37B549; }
 .state-used1 { color: #F8C33F; }
 .state-used2 { color: #EE152A; }
+.state-used-gift0, .state-used-gift1, .state-used-gift2 { font-size: 10px; left: 6px; position: relative; top: 18px; z-index: 2; }
+.state-used-gift0 { color: #37B549; }
+.state-used-gift1 { color: #F8C33F; }
+.state-used-gift2 { color: #EE152A; }
 .row4 { text-align: center; }
 .pagination>li>a { background: #fff!important; color: #000; }
 .pagination>li>a:hover, .pagination>li>a:focus { background: #EF4136!important; color: #fff; }
@@ -108,6 +112,7 @@ div.radio { margin-right: 10px; }
     .container-card>.col2 { text-align: center; }
     .img-manufacturer { width: 45%; }
     .state-used0, .state-used1, .state-used2 { top: 38px; left: 24px; font-size: 15px; width: 70%; }
+    .state-used-gift0, .state-used-gift1, .state-used-gift2 { top: 38px; left: 24px; font-size: 15px; width: 70%; }
     .cardview-info>div>.img-manufacturer { width: 100%; }
     .cardview-price>div { text-align: center; }
     .cardview-info, .cardview-price>div:last-child { background-color: #F4F4F4; }
@@ -128,6 +133,7 @@ div.radio { margin-right: 10px; }
 
 @media (max-width:385px) {
     .state-used0, .state-used1, .state-used2 { top: 36px; left: 10px; }
+    .state-used-gift0, .state-used-gift1, .state-used-gift2 { top: 36px; left: 10px; }
     #sortby>li>a { font-size: 12px!important; }
     .img-manufacturer { width: 60%; }
 }
@@ -136,6 +142,7 @@ div.radio { margin-right: 10px; }
     .wallet-container { margin: 0; max-width: 300px; }
     .container-card>.col2>span { font-size: 11px; }
     .state-used0, .state-used1, .state-used2 { top: 37px; left: 10px; }
+    .state-used-gift0, .state-used-gift1, .state-used-gift2 { top: 37px; left: 10px; }
     #btnupt-value { padding: 10px; font-size: 11px; }
     .img-manufacturer { width: 71%; }
     #sortby>li { width: 50%; }
@@ -146,6 +153,7 @@ div.radio { margin-right: 10px; }
 @media (max-width:280px) {
     .wallet-container { margin: 0; max-width: 250px; }
     .state-used0, .state-used1, .state-used2 { top: 38px; left: 7px; font-size: 12px; }
+    .state-used-gift0, .state-used-gift1, .state-used-gift2 { top: 38px; left: 7px; font-size: 12px; }
     .img-manufacturer { margin-top: 5px; }
     #btnupt-value { padding: 2px; }
     .cardviewupt-used>div { padding: 0; }
