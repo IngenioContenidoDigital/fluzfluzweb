@@ -604,11 +604,11 @@
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address1" id="address1" value="{if isset($smarty.post.address1)}{$smarty.post.address1}{/if}" />
                                             <span class="inline-infos">{l s='Street address, P.O. Box, Company name, etc.'}</span>
                                     </div>
-                                    <div class="required form-group">
+                                    {*<div class="required form-group">
                                             <label class="required" for="address2">{l s='Address (Line 2)'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address2" id="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{/if}" />
                                             <span class="inline-infos">{l s='Apartment, suite, unit, building, floor, etc...'}</span>
-                                    </div>
+                                    </div>*}
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
                                         {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}
@@ -1030,11 +1030,11 @@
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address1" id="address1" value="{if isset($smarty.post.address1)}{$smarty.post.address1}{/if}" />
                                             <span class="inline-infos">{l s='Street address, P.O. Box, Company name, etc.'}</span>
                                     </div>
-                                    <div class="required form-group">
+                                    {*<div class="required form-group">
                                             <label class="required" for="address2">{l s='Address (Line 2)'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address2" id="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{/if}" />
                                             <span class="inline-infos">{l s='Apartment, suite, unit, building, floor, etc...'}</span>
-                                    </div>
+                                    </div>*}
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
                                         {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}

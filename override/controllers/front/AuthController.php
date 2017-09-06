@@ -315,9 +315,9 @@ class AuthController extends AuthControllerCore
         if ( Tools::getValue('address1') == "" ) {
             $this->errors[] = Tools::displayError('Direccion es incorrecta');
         }
-        if ( Tools::getValue('address2') == "" ) {
+        /*if ( Tools::getValue('address2') == "" ) {
             $this->errors[] = Tools::displayError('Direccion (Linea 2) es incorrecta');
-        }
+        }*/
         if ( Tools::getValue('city') == "" ) {
             $this->errors[] = Tools::displayError('Ciudad es incorrecta');
         }
@@ -427,7 +427,7 @@ class AuthController extends AuthControllerCore
                             $address->dni = Tools::getValue("gover");
                             $address->checkdigit = ( empty(Tools::getValue("checkdigit")) || Tools::getValue("checkdigit") == "" ) ? "" : Tools::getValue("checkdigit");
                             $address->address1 = Tools::getValue("address1");
-                            $address->address2 = Tools::getValue("address2");
+                            // $address->address2 = Tools::getValue("address2");
                             $address->city = Tools::getValue("city");
                             $address->phone = Tools::getValue("phone_mobile");
 

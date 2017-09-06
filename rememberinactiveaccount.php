@@ -125,7 +125,7 @@ foreach ( $customers as $key => &$customer ) {
             '{message}' => $message_1,
             '{message2}' => $message_2,
             '{message3}' => $message_3,
-            '{expiration_date}' => $expiration_date,
+            '{expiration_date}' => date('Y-m-d',strtotime('-1 day',strtotime($expiration_date))),
             '{points}' => $customer['points'] == "" ? 0 : round($customer['points']),
             '{contributor_count}' => $contributor_count,
             '{points_count}' => round($points_count),

@@ -257,6 +257,17 @@
 		</div>
 	</div>
 
+	<div class="form-group" id="code-pos_id">
+		<label class="control-label col-lg-3" for="pos_id">
+			<span class="label-tooltip" data-toggle="tooltip">
+				{l s='POS ID'}
+			</span>
+		</label>
+		<div class="col-lg-3">
+			<input type="text" id="pos_id" name="pos_id" value="{$product->pos_id|escape:'html':'UTF-8'}" />
+		</div>
+	</div>
+
 	<hr/>
 
 	{* status informations *}
