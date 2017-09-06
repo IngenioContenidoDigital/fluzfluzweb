@@ -4,39 +4,30 @@ include_once('./config/config.inc.php');
 include_once('./modules/allinone_rewards/models/RewardsSponsorshipModel.php');
 require_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
 
-$stringidsponsors = "";
-        $tree = RewardsSponsorshipModel::_getTree(8797);
-        foreach ($tree as $sponsor) {
-            $stringidsponsors .= $sponsor['id'].",";
-        }
-echo "<pre>";
-print_r($tree);
-echo "<hr>";
-//die();
-        $last_shopping_products = Db::getInstance()->ExecuteS("SELECT
-                                                        o.id_order,
-                                                        o.date_add,
-                                                        o.id_customer,
-                                                        c.username name_customer,
-                                                        pl.id_product,
-                                                        i.id_image,
-                                                        m.name name_product,
-                                                        m.id_manufacturer,
-                                                        pl.link_rewrite,
-                                                        p.price,
-                                                        od.points as credits
-                                                FROM "._DB_PREFIX_."orders o
-                                                INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = 8797 )
-                                                INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
-                                                INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
-                                                INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
-                                                INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
-                                                INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = 1 )
-                                                INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
-                                                WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
-                                                ORDER BY o.date_add DESC ");
+$users = Db::getInstance()->ExecuteS("SELECT * FROM ps_rewards_sponsorship_OLD ORDER BY id_customer");
 
-
-echo "<pre>";
-print_r($last_shopping_products);
+foreach ( $users as $user ) {
+    $sponsor = Db::getInstance()->ExecuteS("SELECT
+                                            c.id_customer,
+                                            c.username,
+                                            c.email,
+                                            c.firstname, c.lastname, c.date_add,
+                                            (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                                        FROM ps_customer c
+                                        LEFT JOIN ps_rewards_sponsorship rs2 ON ( c.id_customer = rs2.id_customer )
+                                        LEFT JOIN ps_rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                        LEFT JOIN ps_customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
+                                        WHERE c.active = 1
+                                        AND c.kick_out = 0
+                                        AND rs2.id_sponsorship IS NOT NULL
+                                        GROUP BY c.id_customer
+                                        HAVING pendingsinvitation > 0
+                                        ORDER BY c.id_customer ASC
+                                        LIMIT 1");
+    
+    
+    $users = Db::getInstance()->execute("INSERT INTO ps_rewards_sponsorship(id_sponsor, channel, email, lastname, firstname, id_customer, id_cart_rule, date_end, date_add, date_upd)
+                                        VALUES(".$sponsor[0]['id_customer'].", 1, '".$user['email']."', '".$user['lastname']."', '".$user['firstname']."', '".$user['id_customer']."', 0, '0000-00-00 00:00:00', '".$user['date_add']."', '".$user['date_upd']."')");
+    
+}
 

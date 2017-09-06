@@ -609,6 +609,10 @@
 						{$HOOK_PRODUCT_OOS}
 					</div>
                                         
+                                        <div class="more-info">
+                                            <i class="icon icon-instagram" style="color: #F1030C;"></i> @ACCESSORIZE
+                                        </div>
+                                        
                                         {if !$content_only}
 		<div class="more-info">
                         <h1>{l s='INSTRUCCIONES'|escape:'html':'UTF-8'}</h1>

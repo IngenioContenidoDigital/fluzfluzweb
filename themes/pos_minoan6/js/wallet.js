@@ -49,6 +49,12 @@ $(document).ready(function() {
         $(this).find(".container-card").css("border","1px solid #F15E54");
         renderViewCard( $(this).attr("key"), cards[$(this).attr("key")] );
     });
+    
+    $(".card_gift").click(function(){
+        $(".container-card").css("border","1px solid #E8E8E8");
+        $(this).find(".container-card").css("border","1px solid #F15E54");
+        renderViewCard( $(this).attr("key"), gift_cards[$(this).attr("key")] );
+    });
 
     $("#btnbuy").click(function(){
         window.top.location = "/content/6-categorias";
@@ -91,6 +97,46 @@ $(document).ready(function() {
         }
         markUsed( $("#card_product").val(),$(this).attr("value") );
     });
+    
+    $('#btn-gift').click(function(){
+       
+        $('#container-gift').show();
+        
+    });
+    var id_customer = $("#id_customer").val();
+    
+    $("#busqueda").keyup(function(e){
+        var username = $("#busqueda").val();
+        if(username.length >= 3){
+            $.ajax({
+                type:"post",
+                url:"/transferfluzfunction.php",
+                data:'username='+username+'&id_customer='+id_customer,
+                success: function(data){
+                    console.log(data);
+                    if(data != ""){
+                        $("#resultados").empty();
+                        data = jQuery.parseJSON(data);
+
+                        var content = '';
+                        $.each(data, function (key, id) {
+                            content += '<div class="resultados" id="id_sponsor" onclick="myFunction(\''+data[key].username+'\',\''+data[key].id+'\')">'+data[key].username+' - '+data[key].dni+'</div>';
+                            content += '<input type="hidden" id="id_sponsor_sel" value='+data[key].id+'>'
+                        })
+
+                        $("#resultados").html(content);
+                    }
+                    else{
+                        $("#resultados").empty();
+                    }
+                }
+            });
+        }
+        else{
+            $("#resultados").empty();
+        }
+    });
+    
 });
 
 function renderViewCard(key, card) {
@@ -100,10 +146,24 @@ function renderViewCard(key, card) {
         $("#expiration").html( card.expiration );
         $('#vencimiento').show();
     }
+    
+    if(card.send_gift != 1){
+        $("#code").html( card.card_code );
+        $('#send_gift').show();
+        $('#img-code').show();
+        $('.cardviewupt-used').show();
+    }
+    else{
+        $("#code").html( 'Bono Obsequiado' );
+        $('#send_gift').hide();
+        $('#container-gift').hide();
+        $('#img-code').hide();
+        $('.cardviewupt-used').hide();
+    }
+    
     $("#value_original").html( "COP $ "+Math.round(card.price) );
     $("#value").html( "COP $ "+Math.round(card.price_shop) );
     $("#date_buy").html( card.date );
-    $("#code").html( card.card_code );
     $("#instructions").html( card.description_short );
     $("#terms").html( card.description );
     $("#card_product").val( card.id_product_code );
@@ -160,11 +220,47 @@ function markUsed(card,used) {
         success : function(response) {
             response = jQuery.parseJSON(response);
             if ( response.success ) {
-                cards[key].used = used;
-                $("div[key='"+key+"']").find(".state-used").removeClass("state-used0 state-used1 state-used2");
-                $("div[key='"+key+"']").find(".state-used").addClass("state-used"+used);
+                if(card == cards[key].id_product_code){
+                  cards[key].used = used;
+                  $("div[key='"+key+"']").find(".state-used").removeClass("state-used0 state-used1 state-used2");
+                  $("div[key='"+key+"']").find(".state-used").addClass("state-used"+used);
+                }
+                else if(card == gift_cards[key].id_product_code){
+                  gift_cards[key].used = used;
+                  $("div[key='"+key+"']").find(".state-used-gift").removeClass("state-used-gift0 state-used-gift1 state-used-gift2");
+                  $("div[key='"+key+"']").find(".state-used-gift").addClass("state-used-gift"+used);  
+                }
             } else {
                 alert("Ha ocurrido un error. Por favor intente mas tarde.");
+            }
+        }
+    });
+}
+
+function myFunction(name, id_sponsor) {
+        $('#busqueda').val(name);
+        $('#sponsor_identification').val(id_sponsor);
+        $('#sponsor_name').val(name);
+        $('#name_sponsor').html(name);
+        $('.resultados').hide();
+}
+
+function send_gift(){
+    var $id_customer_receive = $('#id_sponsor_sel').val();
+    var id_customer = $("#id_customer").val();
+    var code_s = $('#code').text();
+    var code_card = code_s.replace(/\s/g, '');
+    var id_product_code = $('#card_product').val();
+    
+    $.ajax({
+        url : urlWalletController,
+        type : 'POST',
+        data : 'action=send_gift_card&$id_customer_receive='+$id_customer_receive+'&id_customer='+id_customer+'&code_card='+code_card+'&id_product_code='+id_product_code,
+        success : function(response) {
+            if ( response != '' ) {
+                window.top.location = "confirmtransfergift";
+            } else {
+                console.log('fallo');
             }
         }
     });

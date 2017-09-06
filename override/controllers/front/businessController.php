@@ -229,6 +229,9 @@ class businessController extends FrontController {
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->add();
                 
+                Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
+                        VALUES ( '.$customer->id.' ,3)');
+                
                 $address = new Address();
                 $address->id_country = 69;
                 $address->dni = $customer->dni;
@@ -505,6 +508,9 @@ class businessController extends FrontController {
                     $customer->id_lang = $this->context->customer->id_lang;
                     $customer->field_work = $this->context->customer->field_work;
                     $customer->add();
+                    
+                    Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
+                        VALUES ( '.$customer->id.' ,3)');
                     
                     $address = new Address();
                     $address->id_country = 69;
@@ -801,6 +807,9 @@ class businessController extends FrontController {
                             $customer->phone = $datacustomer['Telefono Empleado'];
                             $customer->add();
                             
+                            Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
+                            VALUES ( '.$customer->id.' ,3)');
+                            
                             $address = new Address();
                             $address->id_country = 69;
                             $address->dni = $customer->dni;
@@ -935,7 +944,7 @@ class businessController extends FrontController {
 
                         if($process == true){
                                 if(empty($array_error)){
-                                          die('true');
+                                          die(true);
                                        }
                                 else{
 

@@ -692,13 +692,17 @@ class Model extends PaymentModule {
      * 
      */ 
     public function get_cities(){
-        $query = "SELECT DISTINCT ciudad AS name
+        $query1 = 'SELECT DISTINCT ciudad as name
+                  FROM ps_cities
+                  WHERE ciudad IN ("Bogota, D.C.","Barranquilla","Cali","Medellin","Bucaramanga")
+                  ORDER BY ciudad';
+        $result = Db::getInstance()->ExecuteS($query1);
+        $query2 = "SELECT DISTINCT ciudad AS name
                     FROM ps_cities
                     ORDER BY ciudad";
-        return Db::getInstance()->ExecuteS($query);
-    }
-
-    /**
+        $result = array_merge($result, Db::getInstance()->ExecuteS($query2)) ;
+        return $result;
+    }     /**
      * 
      */ 
     public function personalinformation($id_customer){

@@ -9,9 +9,10 @@
 <script>
     var url = "{$base_dir}";
     var cards = {$cards|@json_encode};
+    var gift_cards = {$gift_cards|@json_encode};
     var urlWalletController = "{$link->getPageLink('wallet', true)|escape:'html':'UTF-8'}";
 </script>
-
+<input type="hidden" id="id_customer" value="{$id_customer}">
 <div class="container wallet-container">
     <div class="row row1">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -20,7 +21,7 @@
     </div>
     <div class="row row2">
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-            <p class="available-cards">C&oacute;digos - <tt id="available-cards">{$cards|@count}</tt> Total</p>
+            <p class="available-cards">C&oacute;digos - <tt id="available-cards">{$cards|@count+$gift_cards|@count}</tt> Total</p>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 filter-view">
             <div>
@@ -47,7 +48,11 @@
                     <div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 col2">
                         <span class="name-manufacturer">{$card.manufacturer}</span>
                         <br>
-                        <span class="">{$card.card_code}</span>
+                        {if $card.send_gift != 1}
+                            <span class="">{$card.card_code}</span>
+                        {else}
+                            <span class="">{l s="Bono Obsequiado"}</span>
+                        {/if}
                     </div>
                     <div class="col-xs-0 col-sm-4 col-md-4 col-lg-4 col3">
                         <label class="price">{displayPrice price=$card.price_shop}</label>
@@ -55,6 +60,35 @@
                 </div>
             </div>
         {/foreach}
+    </div>
+    <div class="row row3">
+        {if $gift_cards != "vacio"}
+            <div class="p-gift">Obsequios de Fluzzers</div>
+            {foreach from=$gift_cards key=key item=card}
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 card_gift" key="{$key}">
+                    <div class="row state-used-gift state-used-gift{$card.used}">
+                        <i class="icon icon-circle"></i>
+                    </div>
+                    <div class="row container-card">
+                        <div class="col-xs-5 col-sm-3 col-md-3 col-lg-3 col1">
+                            <img src="{$s3}m/{$card.id_manufacturer}.jpg" class="img-manufacturer"/>
+                        </div>
+                        <div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 col2">
+                            <span class="name-manufacturer">{$card.manufacturer}</span>
+                            <br>
+                            {if $card.send_gift != 1}
+                                <span class="">{$card.card_code}</span>
+                            {else}
+                                <span class="">{l s="Bono Obsequiado"}</span>
+                            {/if}
+                        </div>
+                        <div class="col-xs-0 col-sm-4 col-md-4 col-lg-4 col3">
+                            <label class="price">{displayPrice price=$card.price_shop}</label>
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
+        {/if}
     </div>
     <div class="row row4">
         {*<ul class="pagination">
@@ -118,7 +152,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 text-center">
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 text-center" id = 'img-code'>
                 <img src="" id="img-code-bar" class="" />
             </div>
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 cardviewupt-instructions">
@@ -141,6 +175,16 @@
                     </div>
                 {/if}
             </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 send_gift" id="send_gift">
+                <button type="button" class="btn btn-info btn-gift" id="btn-gift">Obsequiar Como Bono de Regalo<i class="icon icon-th-large"></i></button>
+                <div id="container-gift" style="display:none;">
+                    <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Ingresa Nombre del Fluzzer.'}" required>
+                    <div id="resultados" class="result-find"></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div_send_gift">
+                        <button onclick="send_gift()" class="btn_send_gift" id="send-gift" name="send-gift"> Enviar Obsequio </button>
+                    </div>
+                </div>
+            </div>    
         </div>
     </div>
     <div class="row row6">
