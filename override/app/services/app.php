@@ -1842,6 +1842,26 @@ class API extends REST {
     }
   }
     
+  private function getAddressManufacturer() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_manufacturer = $this->_request['id_manufacturer'];
+    
+    $sql = "SELECT a.firstname, a.address1, a.city
+            FROM "._DB_PREFIX_."address as a
+            INNER JOIN "._DB_PREFIX_."manufacturer as m on (m.id_manufacturer = a.id_manufacturer)
+            WHERE m.active = 1
+              and a.active = 1
+              and a.id_manufacturer = ".$id_manufacturer;
+//    error_log("\n\n\n Este es el query de posiciones: \n\n".print_r($sql,true),3,'/tmp/error.log');
+    
+    $result = Db::getInstance()->executeS($sql);
+    $total = count($result);
+    return $this->response(json_encode(array('result' => $result, 'total' => $total)),200);
+  }
+  
   private function getAddressMaps() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
@@ -1854,10 +1874,6 @@ class API extends REST {
       $id_manufacturer = $this->_request['id_manufacturer'];
     }
     
-//    error_log("\n\nEstos son los datos\n\n",3,"/tmp/error.log");
-//    error_log("\n\nLatitude ".print_r($latitude,true),3,"/tmp/error.log");
-//    error_log("\n\nLongitude ".print_r($longitude,true),3,"/tmp/error.log");
-//    error_log("\n\nManufacturer ".print_r($id_manufacturer,true),3,"/tmp/error.log");
     // Unidades de distancia ( Metros )
     $units = "units=metric";
     

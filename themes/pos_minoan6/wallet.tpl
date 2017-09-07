@@ -66,7 +66,7 @@
             <div class="p-gift">Obsequios de Fluzzers</div>
             {foreach from=$gift_cards key=key item=card}
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 card_gift" key="{$key}">
-                    <div class="row state-used state-used{$card.used}">
+                    <div class="row state-used-gift state-used-gift{$card.used}">
                         <i class="icon icon-circle"></i>
                     </div>
                     <div class="row container-card">

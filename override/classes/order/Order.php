@@ -58,7 +58,7 @@ class Order extends OrderCore
 
                 foreach ($productId as $valor) {
                     for($i=0;$i<$valor['product_quantity'];$i++){
-                        $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.' WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
+                        $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.', PC.state = "Disponible" WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
                     }
                 }
                 

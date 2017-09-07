@@ -339,12 +339,13 @@
 				</a>
                                 
                                 <a class="list-group-item _blank" href="../docs/csv_import/orders_import.csv">
-					{l s='Archivo de ejemplo de Ordenes'}
+					{l s='Archivo de ejemplo de ordenes'}
 				</a>
-				{*
-                                <a class="list-group-item _blank" href="../docs/csv_import/addresses_import.csv">
-					{l s='Sample Addresses file'}
+				
+                                <a class="list-group-item _blank" href="../docs/csv_import/addresses_manufacturer_import.csv">
+					{l s='Archivo de ejemplo de direccion de fabricantes'}
 				</a>
+                                {*
 				<a class="list-group-item _blank" href="../docs/csv_import/manufacturers_import.csv">
 					{l s='Sample Manufacturers file'}
 				</a>

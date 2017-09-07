@@ -81,7 +81,7 @@
                             <p class="lost_password form-group"><a href="{$link->getPageLink('password')|escape:'html':'UTF-8'}" title="{l s='Recover your forgotten password'}" rel="nofollow">{l s='Forgot your password?'}</a></p>
                             <div class='row'>
                             <div class="col-lg-7" style='padding-left:0px;'>    
-                                <p class="submit col-lg-6" style='padding-left:0px;'>
+                                <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='padding-left:0px;'>
                                     {if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'html':'UTF-8'}" />{/if}
                                     <button type="submit" id="SubmitLogin" name="SubmitLogin" class="button btn btn-default button-medium">
                                         <span>
@@ -90,7 +90,7 @@
                                         </span>
                                     </button>
                                 </p>
-                                <p class="submit col-lg-6" style='text-align:right;padding-left:0px;'>
+                                <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:right;padding-left:0px;'>
                                     <button class="button btn btn-default button-medium-business">
                                         <span>
                                             <i class="icon-briefcase left" style='font-size: 20px;'></i>
@@ -123,7 +123,9 @@
                     <form action="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}" method="post" id="login_form" class="box">
                         <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
                         <div class="line-separator"></div>
-                        <p>Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibir&aacute;s un correo de confirmaci&oacute;n con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. &iquest;No conoces a ning&uacute;n fluzzer activo y quieres ser parte de Fluz Fluz para construir tu red? Escr&iacute;benos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarte.</p>
+                        <!--<p>Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibir&aacute;s un correo de confirmaci&oacute;n con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. &iquest;No conoces a ning&uacute;n fluzzer activo y quieres ser parte de Fluz Fluz para construir tu red? Escr&iacute;benos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarte.</p>-->
+                        <p>Descarga aqu&iacute; nuestras aplicaciones</p>
+                        <p><a href="https://play.google.com/store/apps/details?id=com.ionicframework.fluzfluz141172"><img src="{$img_dir}login/GooglePlay.png" id="google_play" /></a></p>
                         <p>
                             <a href="http://info.fluzfluz.co/miembros/" class="learn-buy">{l s="Aprende como comprar bonos"}</a>
                             <i class="icon icon-chevron-right" style="color:#EF4136;"></i>
@@ -604,11 +606,11 @@
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address1" id="address1" value="{if isset($smarty.post.address1)}{$smarty.post.address1}{/if}" />
                                             <span class="inline-infos">{l s='Street address, P.O. Box, Company name, etc.'}</span>
                                     </div>
-                                    <div class="required form-group">
+                                    {*<div class="required form-group">
                                             <label class="required" for="address2">{l s='Address (Line 2)'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address2" id="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{/if}" />
                                             <span class="inline-infos">{l s='Apartment, suite, unit, building, floor, etc...'}</span>
-                                    </div>
+                                    </div>*}
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
                                         {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}
@@ -1030,11 +1032,11 @@
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address1" id="address1" value="{if isset($smarty.post.address1)}{$smarty.post.address1}{/if}" />
                                             <span class="inline-infos">{l s='Street address, P.O. Box, Company name, etc.'}</span>
                                     </div>
-                                    <div class="required form-group">
+                                    {*<div class="required form-group">
                                             <label class="required" for="address2">{l s='Address (Line 2)'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address2" id="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{/if}" />
                                             <span class="inline-infos">{l s='Apartment, suite, unit, building, floor, etc...'}</span>
-                                    </div>
+                                    </div>*}
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
                                         {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}

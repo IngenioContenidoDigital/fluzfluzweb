@@ -181,11 +181,11 @@
                                             </div>
                                         {/if}
 
-                                        {if $order_lastmonth['alert'] == 2}
+                                        {*if $order_lastmonth['alert'] == 2}
                                             <div class="col-lg-12 banner-advertencia-awesome">
                                                 <p class="p-advertencia">{l s="¡Increíble! Tu compra mensual mínima se ha cumplido. "}<a class="btn-advertencia" href="/content/6-categorias">{l s="Comprar"}</a><i class="icon-remove-circle icon-white close-advertencia-awesome"></i></p>
                                             </div>
-                                        {/if}
+                                        {/if*}
 
                                         {if $order_lastmonth['alert'] == 1}
                                             <div class="col-lg-12 banner-advertencia-month blink_me">
@@ -195,7 +195,7 @@
                                     {/if}
                                     
                                     {if $profile_complete < 100 }
-                                        <div class="col-lg-12 banner-profile-complete" id="profile-customer" onclick="location.href='{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}';" style="{if $order_lastmonth == ''}margin-top:69px{/if}">
+                                        <div class="col-lg-12 banner-profile-complete" id="profile-customer" onclick="location.href='{$link->getPageLink('identity', true)|escape:'html':'UTF-8'}';" style="{if $order_lastmonth == '' OR $order_lastmonth['alert'] == 2}margin-top:70px{/if}">
                                             <p class="p-advertencia">Tu perfil de usuario está completado en un {$profile_complete}% 
                                                 <progress value="{$profile_complete}" max="100"></progress>
                                                 <i class="icon-remove-circle icon-white close-porcentaje"></i>
@@ -203,7 +203,7 @@
                                         </div>
                                     {/if}
 
-                                    <div class="container-fluid profileCustomer" style="{if $order_lastmonth['alert'] == 0 AND $profile_complete > 99}margin-top:69px{elseif $profile_complete < 100}margin-top:0px{/if};">
+                                    <div class="container-fluid profileCustomer" style="{if ($order_lastmonth['alert'] == 0 OR $order_lastmonth['alert'] == 2) AND $profile_complete > 99}margin-top:70px{elseif $profile_complete < 100}margin-top:0px{/if};">
                                         <div class="row" style="width:100%;">
                                                 <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 contProfile">
                                                     {if $imgprofile != ""}

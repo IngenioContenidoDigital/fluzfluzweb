@@ -229,6 +229,9 @@ class businessController extends FrontController {
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->add();
                 
+                Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
+                        VALUES ( '.$customer->id.' ,3)');
+                
                 $address = new Address();
                 $address->id_country = 69;
                 $address->dni = $customer->dni;
@@ -320,8 +323,9 @@ class businessController extends FrontController {
                                 LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                                 WHERE c.id_customer =" . (int) $network['id'] . "
                                 HAVING sponsoships > 0");
-
-                        array_push($array_sponsor, $sponsor);
+                        if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                            array_push($array_sponsor, $sponsor);
+                        }
                     }
                     $sort_array = array_filter($array_sponsor);
 
@@ -506,6 +510,9 @@ class businessController extends FrontController {
                     $customer->field_work = $this->context->customer->field_work;
                     $customer->add();
                     
+                    Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
+                        VALUES ( '.$customer->id.' ,3)');
+                    
                     $address = new Address();
                     $address->id_country = 69;
                     $address->dni = $customer->dni;
@@ -585,7 +592,9 @@ class businessController extends FrontController {
                                     WHERE c.id_customer =" . (int) $network['id'] . "
                                     HAVING sponsoships > 0");
 
-                            array_push($array_sponsor, $sponsor);
+                            if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                                array_push($array_sponsor, $sponsor);
+                            }
                         }
                         $sort_array = array_filter($array_sponsor);
 
@@ -801,6 +810,9 @@ class businessController extends FrontController {
                             $customer->phone = $datacustomer['Telefono Empleado'];
                             $customer->add();
                             
+                            Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
+                            VALUES ( '.$customer->id.' ,3)');
+                            
                             $address = new Address();
                             $address->id_country = 69;
                             $address->dni = $customer->dni;
@@ -877,17 +889,19 @@ class businessController extends FrontController {
                                             LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
                                             WHERE c.id_customer =" . (int) $network['id'] . "
                                             HAVING sponsoships > 0");
-
-                                    array_push($array_sponsor, $sponsor);
+                                    
+                                    if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                                        array_push($array_sponsor, $sponsor);
+                                    }
                                 }
                                 $sort_array = array_filter($array_sponsor);
 
                                 usort($sort_array, function($a, $b) {
                                     return $a['id_customer'] - $b['id_customer'];
                                 });
-
+                                
                                 $sponsor_a = reset($sort_array);
-
+                                
                                 if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
 
                                     $sponsorship = new RewardsSponsorshipModel();
@@ -935,7 +949,7 @@ class businessController extends FrontController {
 
                         if($process == true){
                                 if(empty($array_error)){
-                                          die('true');
+                                          die(true);
                                        }
                                 else{
 
