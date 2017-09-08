@@ -63,6 +63,14 @@ class AdminManufacturersController extends AdminManufacturersControllerCore
                     'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}'
                 ),
                 array(
+                    'type' => 'text',
+                    'label' => $this->l('Instagram'),
+                    'name' => 'instagram',
+                    'col' => 4,
+                    'lang' => false,
+                    'hint' => 'Cuenta Oficial Del Fabricante En Minusculas (No incluir @).'
+                ),
+                array(
                     'type' => 'textarea',
                     'label' => $this->l('Short description'),
                     'name' => 'short_description',

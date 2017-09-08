@@ -609,9 +609,20 @@
 						{$HOOK_PRODUCT_OOS}
 					</div>
                                         
-                                        <div class="more-info">
-                                            <i class="icon icon-instagram" style="color: #F1030C;"></i> @ACCESSORIZE
-                                        </div>
+                                        {if $accountInstagram != ""}
+                                            <div class="more-info mediaInstagram">
+                                                <div class="row titleInstagram">
+                                                    <img src="/img/social-networks/instagram.png" width="40px" /> {$accountInstagram}
+                                                </div>
+                                                <div class="row">
+                                                    {foreach from=$mediaInstagram item=instagram}
+                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                                                            <img src="{$instagram['img-small']}" />
+                                                        </div>
+                                                    {/foreach}
+                                                </div>
+                                            </div>
+                                        {/if}
                                         
                                         {if !$content_only}
 		<div class="more-info">
