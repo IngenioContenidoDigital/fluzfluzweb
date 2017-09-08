@@ -29,6 +29,9 @@ class Manufacturer extends ManufacturerCore
     /** @var int Category */
     public $category;
     
+    /** @var varchar Instagram */
+    public $instagram;
+    
     public static $definition = array(
         'table' => 'manufacturer',
         'primary' => 'id_manufacturer',
@@ -46,6 +49,7 @@ class Manufacturer extends ManufacturerCore
             'meta_title' =>        array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isGenericName', 'size' => 128),
             'meta_description' =>    array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isGenericName', 'size' => 255),
             'meta_keywords' =>        array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isGenericName'),
+            'instagram' =>          array('type' => self::TYPE_STRING, 'size' => 50),
         ),
     );
     
@@ -284,6 +288,43 @@ class Manufacturer extends ManufacturerCore
                                             ORDER BY a.city");
     }
     
+    public function getMediaInstagram( $count = 10 ) {
+        $url = 'https://www.instagram.com/'.$this->instagram.'/media/';
+        $json = $this->fetchData($url);
+        $data = json_decode($json);
+        
+        if( !isset($data->items) ) {
+            return array();
+        }
+        
+        $return = array();
+        $i = 0;
+
+        foreach( $data->items as $post ) {
+            $return[] = array(
+                'link' => $post->link,
+                'type' => $post->type,
+                'img-small' => $post->images->thumbnail->url,
+                'img-medium' => $post->images->low_resolution->url,
+                'img-large' => $post->images->standard_resolution->url,
+            );
+            $i++;
+            if( $i >= $count ) {
+                break;
+            }
+        }
+
+        return $return;
+    }
+    
+    private function fetchData($url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);    $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
 }
 
 ?>

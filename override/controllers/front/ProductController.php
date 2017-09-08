@@ -156,6 +156,13 @@ class ProductController extends ProductControllerCore
             $this->context->smarty->assign('imgbanner1', $urlbanner1 );
             $this->context->smarty->assign('imgbanner2', $urlbanner2 );
             
+            $manufacturer = new Manufacturer((int)$this->product->id_manufacturer);
+            $mediaInstagram = $manufacturer->getMediaInstagram(6);
+            $this->context->smarty->assign(array(
+                'accountInstagram' => $manufacturer->instagram,
+                'mediaInstagram' => $mediaInstagram
+            ));
+            
             $count_address = count($this->addressManufacturers());
             
             $this->context->smarty->assign(array(
