@@ -24,8 +24,8 @@
 </form>
 <div class="row container-info-users" id="container-info-users">
     <div class="row bar-info-users">
-        <div class="col-lg-2 item-users" id="firstname">Nro. Transferencia</div>
-        <div class="col-lg-2 item-users" id="firstname">Nro. Fluzzers Destino</div>
+        <div class="col-lg-2 item-users" id="id_transfer">Nro. Transferencia</div>
+        <div class="col-lg-2 item-users" id="lastname">Nro. Fluzzers Destino</div>
         <div class="col-lg-2 item-users" id="firstname">Nombre</div>
         <div class="col-lg-2 item-users" id="date">Fecha de Transferencia</div>
         <div class="col-lg-2 item-users" id="amount">Monto Total en Fluz</div>

@@ -54,41 +54,17 @@ class businessController extends FrontController {
         $totals = RewardsModel::getAllTotalsByCustomer((int) $this->context->customer->id);
         $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float) $totals[RewardsStateModel::getValidationId()] : 0);
         $this->context->smarty->assign('pointsAvailable', $pointsAvailable);
-
-        foreach ($tree as &$network) {
-            $sql = 'SELECT id_customer, firstname, lastname, phone, username, email, dni, field_work, group_business
-                    FROM ' . _DB_PREFIX_ . 'customer 
-                    WHERE id_customer =' . $network['id'];
-            $row_sql = Db::getInstance()->getRow($sql);
-
-            $network['id_customer'] = $row_sql['id_customer'];
-            $network['firstname'] = $row_sql['firstname'];
-            $network['lastname'] = $row_sql['lastname'];
-            $network['email'] = $row_sql['email'];
-            $network['phone'] = $row_sql['phone'];
-            $network['dni'] = $row_sql['dni'];
-            $network['username'] = $row_sql['username'];
-            $network['field_work'] = $row_sql['field_work'];
-            $network['group_business'] = $row_sql['group_business'];
-        }
         
-        $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, phone, email, dni, username, field_work FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
-        $net_business = array_merge($tree, $employee_b);
-        
-        foreach ($net_business as &$val) {
-            if ($val['username'] != "" && $val['group_business'] != "" && $val['group_business'] == $this->context->customer->group_business) {
-                    $list_business[$val['id_customer']] = $val;
-            }      
-            else if ($val['username'] != "" && $val['field_work'] != "" && $val['field_work'] == $this->context->customer->field_work) {
-                        $list_business[$val['id_customer']] = $val;
-                    }
-        }
-        
-        $list_business = array_values($list_business);
+        $list_business = $this->network();
         $total_users = (count($list_business));
         
         $this->context->smarty->assign('all_fluz', $total_users);
         $this->context->smarty->assign('network', $list_business);
+        
+        /* Funciones Historial de Compras */
+        
+        $history_purchase = $this->history_purchase_employee($list_business);
+        $this->context->smarty->assign('history_purchase', $history_purchase);
         
         /* Funciones Historial de Transferencias */
         
@@ -146,6 +122,55 @@ class businessController extends FrontController {
             header("Expires: 0");
             header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
             header("content-disposition: attachment;filename=history_business.xls");
+            die($report);
+        }
+        
+        if(Tools::isSubmit('export-excel-purchase')){
+            
+            $history_purchase = $this->network();
+            $purchase_employee = $this->history_purchase_employee($history_purchase);
+            
+            $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>Id Order</th>
+                                        <th>Id Customer</th>
+                                        <th>Nombre</th>
+                                        <th>Cedula</th>
+                                        <th>Email</th>
+                                        <th>Nombre del producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Valor Total</th>";
+            
+            $report .= "</tr>";
+            
+            foreach ($purchase_employee as $data)
+                {
+                    foreach ($data['details'] as $x){
+                        $report .= "<tr>
+                            <td>".$x['id_order']."</td>
+                            <td>".$data['id_customer']."</td>
+                            <td>".$data['firstname']."</td>
+                            <td>".$data['dni']."</td>
+                            <td>".$data['email']."</td>
+                            <td>".$x['product_name']."</td>
+                            <td>".$x['sum_quantity']."</td>
+                            <td>".$x['sum_total']."</td>";
+                    }
+                    
+                }
+            $report .= "         </table>
+                        </body>
+                    </html>";    
+            
+            header("Content-Type: application/vnd.ms-excel");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("content-disposition: attachment;filename=history_purchase.xls");
             die($report);
         }
         
@@ -1015,6 +1040,45 @@ class businessController extends FrontController {
         }
     }
     
+    function network(){
+        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        array_shift($tree);
+        
+        foreach ($tree as &$network) {
+            $sql = 'SELECT id_customer, firstname, lastname, phone, username, email, dni, field_work, group_business
+                    FROM ' . _DB_PREFIX_ . 'customer 
+                    WHERE id_customer =' . $network['id'];
+            $row_sql = Db::getInstance()->getRow($sql);
+
+            $network['id_customer'] = $row_sql['id_customer'];
+            $network['firstname'] = $row_sql['firstname'];
+            $network['lastname'] = $row_sql['lastname'];
+            $network['email'] = $row_sql['email'];
+            $network['phone'] = $row_sql['phone'];
+            $network['dni'] = $row_sql['dni'];
+            $network['username'] = $row_sql['username'];
+            $network['field_work'] = $row_sql['field_work'];
+            $network['group_business'] = $row_sql['group_business'];
+        }
+        
+        $employee_b = Db::getInstance()->executeS('SELECT id_customer, firstname, lastname, phone, email, dni, username, field_work FROM ps_customer WHERE field_work = "' . $this->context->customer->field_work . '" AND id_customer !=' . $this->context->customer->id);
+        $net_business = array_merge($tree, $employee_b);
+        
+        foreach ($net_business as &$val) {
+            if ($val['username'] != "" && $val['group_business'] != "" && $val['group_business'] == $this->context->customer->group_business) {
+                    $list_business[$val['id_customer']] = $val;
+            }      
+            else if ($val['username'] != "" && $val['field_work'] != "" && $val['field_work'] == $this->context->customer->field_work) {
+                        $list_business[$val['id_customer']] = $val;
+                    }
+        }
+        
+        
+        $list_business = array_values($list_business);
+        
+        return $list_business;
+    }
+    
     function  history_business(){
         $query_history = 'SELECT tf.id_transfers_fluz as id_transferencia, r.id_customer as id_cliente, c.firstname as nombre, c.lastname as apellido, DATE_FORMAT(tf.date_add, "%d/%m/%Y") as fecha_transferencia, 
                             (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS numero_empleados,
@@ -1026,6 +1090,43 @@ class businessController extends FrontController {
         $history_transfer = Db::getInstance()->executeS($query_history);
         
         return $history_transfer;
+    }
+    
+    function history_purchase_employee($list_business){
+        
+        $array_purchase = array();
+        
+        foreach ($list_business as $employee){
+            
+            $array_purchase[ $employee['id_customer'] ] = $employee;
+            
+            $query_purchase = 'SELECT O.id_order,OD.product_price, O.total_paid, OD.product_name, OD.product_quantity, O.date_add,
+                                (SELECT SUM(OD.product_quantity) FROM ps_orders AS O 
+                                        LEFT JOIN ps_order_detail AS OD ON (O.id_order = OD.id_order)  
+                                        LEFT JOIN ps_product p ON (p.id_product = OD.product_id)
+                                        WHERE O.id_customer = '.$employee['id_customer'].' AND O.current_state = 2
+                                        AND p.reference NOT LIKE "MFLUZ%") AS sum_quantity,
+                                (SELECT SUM(O.total_paid) FROM ps_orders AS O 
+                                        LEFT JOIN ps_order_detail AS OD ON (O.id_order = OD.id_order)  
+                                        LEFT JOIN ps_product p ON (p.id_product = OD.product_id)
+                                        WHERE O.id_customer = '.$employee['id_customer'].' AND O.current_state = 2
+                                        AND p.reference NOT LIKE "MFLUZ%") AS sum_total
+                                FROM '._DB_PREFIX_.'orders AS O 
+                                LEFT JOIN '._DB_PREFIX_.'order_detail AS OD ON (O.id_order = OD.id_order)
+                                LEFT JOIN '._DB_PREFIX_.'product p ON (p.id_product = OD.product_id)
+                                WHERE O.id_customer = '.$employee['id_customer'].'
+                                AND O.current_state = 2
+                                AND p.reference NOT LIKE "MFLUZ%"
+                                ORDER BY O.id_order DESC
+                                LIMIT 5';
+            $array_purchase[ $employee['id_customer'] ]['details'] = Db::getInstance()->executeS($query_purchase);
+            
+            if ( empty($array_purchase[ $employee['id_customer'] ]['details']) ) {
+                unset($array_purchase[ $employee['id_customer'] ]);
+            }
+        }
+        
+        return $array_purchase; 
     }
             
     function csv_to_array($filename='', $delimiter=';')
