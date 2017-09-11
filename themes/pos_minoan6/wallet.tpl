@@ -30,7 +30,7 @@
                     <li><a href="#" id="all">Todas<i class="icon icon-bullseye"></i></a></li>
                     <li><a href="#" id="unused">Disponible<i class="icon icon-circle"></i></a></li>
                     <li><a href="#" id="used">Usada<i class="icon icon-circle"></i></a></li>
-                    <li><a href="#" id="finished">Terminada<i class="icon icon-circle"></i></a></li>
+                    <!--<li><a href="#" id="finished">Terminada<i class="icon icon-circle"></i></a></li>-->
                 </ul>
             </div>
         </div>
