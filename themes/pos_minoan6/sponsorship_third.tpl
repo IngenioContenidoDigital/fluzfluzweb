@@ -75,7 +75,10 @@
                         <i class="icon icon-whatsapp" style="color: #189D0E;"></i>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 blockPhoneInviteWhatsapp">
-                        <select name="countryPhoneInviteWhatsapp" id="countryPhoneInviteWhatsapp" style="background: #f9f9f9; height: 25px!important;"></select>
+                        <select name="countryPhoneInviteWhatsapp" id="countryPhoneInviteWhatsapp" style="background: #f9f9f9; height: 25px!important;">
+                           <option value="57">COL (+57)</option>
+                           <option disabled>──────────</option>
+                        </select>
                         <input type="number" class="text" placeholder="Ej: 3001234567" name="phoneInviteWhatsapp" id="phoneInviteWhatsapp" size="20" value="" style="padding-left: 10px; height: 25px!important; background-color: #f9f9f9; border: 1px solid lightgray;" />
                     </div>
                 </div>
