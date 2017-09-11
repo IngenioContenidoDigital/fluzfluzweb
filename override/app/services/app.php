@@ -222,9 +222,11 @@ class API extends REST {
     }
     else if ( $option == 3 ){
       $productChild = $search['result'];
+//      error_log("\n\n\n Este es el product child: \n\n ".print_r($productChild, true),3,"/tmp/error.log");
       for ($i = 0; $i < count($productChild); $i++){
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
+        $productChild[$i]['c_price_shop_format'] = $this->formatPrice(round($productChild[$i]['c_price_shop']));
         $productChild[$i]['c_win_fluz'] = round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) );
         $productChild[$i]['c_price_fluz'] = $this->formatPrice(round( $productChild[$i]['c_price'] / 25 ));
         $productChild[$i]['c_price'] = $this->formatPrice(round($productChild[$i]['c_price']));
@@ -1977,6 +1979,39 @@ class API extends REST {
   
   public function deg2rad($deg) {
     return $deg * (M_PI/180);
+  }
+  
+  
+  public function profileImage() {
+    error_log("\n\nMe ejecutaron Brother\n\n",3,"/tmp/error.log");
+    error_log("\n\nEsto recibo: \n\n".print_r($_FILES, true),3,"/tmp/error.log");
+    error_log("\n\nEsto recibo: \n\n".print_r($this->_request, true),3,"/tmp/error.log");
+//    if($this->get_request_method() != "POST") {
+//      $this->response('',406);
+//    }
+    // subir imagen al servidor
+    $target_path = _PS_IMG_DIR_ . "profile-images/";
+    $target_path = $target_path . basename( $_FILES['file']['name'] );
+ 
+    if ( !move_uploaded_file($_FILES['file']['tmp_name'], $target_path) ) {
+        $this->errors[] = Tools::displayError('No fue posible cargar la imagen de perfil.');
+    }
+
+    // convertir imagen a PNG
+    $patch_grabar = _PS_IMG_DIR_ . "profile-images/" . basename( $_FILES['file']['name'].".png" );
+    $imagen = imagecreatefromjpeg($target_path);
+    $pngquality = floor(($quality - 10) / 10);
+    imagepng($imagen, $patch_grabar, $pngquality);
+
+    // borrar imagen original
+    unlink( $target_path );
+
+    // cambiar tamaño imagen y recortarla en circulo
+    include_once(_PS_ROOT_DIR_.'/classes/Thumb.php');
+    $mythumb = new thumb();
+    $mythumb->loadImage($patch_grabar);
+    $mythumb->crop(400, 400, 'center');
+    $mythumb->save($patch_grabar);
   }
   
 }

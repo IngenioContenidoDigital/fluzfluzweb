@@ -289,7 +289,8 @@ class Search extends SearchCore{
                 p.price_shop AS c_price_shop, 
                 rp.`value` AS c_value,
                 pl.description AS instructions,
-                pl.description_short AS terms
+                pl.description_short AS terms,
+                p.type_currency AS type_currency
               FROM '._DB_PREFIX_.'product AS p
               INNER JOIN '._DB_PREFIX_.'product_attribute AS pa ON pa.reference = p.reference
               INNER JOIN '._DB_PREFIX_.'product_lang AS pl ON pl.id_product = pa.id_product
