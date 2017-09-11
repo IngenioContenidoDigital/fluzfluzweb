@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                         <input class="cgv" type="checkbox" name="inviteWhatsapp" id="inviteWhatsapp" />&nbsp;
-                        <label style="color: #777777;line-height: 30px;font-weight: normal;" for="inviteWhatsapp">Enviar invitaci&oacute;n por Whatsapp</label>&nbsp;
+                        <label style="color: #777777;line-height: 30px;font-weight: normal;" for="inviteWhatsapp">Enviar invitaci&oacute;n tambi&eacute;n v&iacute;a Whatsapp</label>&nbsp;
                         <i class="icon icon-whatsapp" style="color: #189D0E;"></i>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 blockPhoneInviteWhatsapp">
