@@ -413,6 +413,14 @@ class AdminCustomersController extends AdminCustomersControllerCore
                     'col' => '4',
                     'hint' => $this->l('Invalid characters:').' 0-9!&lt;&gt;,;?=+()@#"°{}_$%:'
                 ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('Grupo Empresa'),
+                    'name' => 'group_business',
+                    'required' => false,
+                    'col' => '4',
+                    'hint' => $this->l('Invalid characters:').' 0-9!&lt;&gt;,;?=+()@#"°{}_$%:'
+                ),
             )
         );
 

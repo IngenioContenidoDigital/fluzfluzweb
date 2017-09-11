@@ -47,6 +47,7 @@ class WalletCore extends ObjectModel
                     AND (PO.id_customer = ".(int)$id_customer.")
                     AND (PP.id_manufacturer = ".(int)$id_manufacturer.")
                     AND (PL.id_lang = ".$context->language->id.")
+                    AND (PC.state = 'Disponible' OR PC.state = 'Usada')    
                 )
                 -- AND PO.id_order = 0
                 GROUP BY PC.code, PL.name
@@ -113,6 +114,7 @@ class WalletCore extends ObjectModel
                 AND (PP.id_manufacturer = ".(int)$id_manufacturer.")
                 AND PC.send_gift = 2
                 AND (PO.current_state = 2 OR PC.send_gift = 2)
+                AND (PC.state = 'Disponible' OR PC.state = 'Usada')
                 -- AND PO.id_order = 0
                 GROUP BY PC.id_product_code
                 ORDER BY used ASC , date DESC";

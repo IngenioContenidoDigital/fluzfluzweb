@@ -148,8 +148,9 @@
           </li>
         </ul>
     </div>
-    <div class="col-lg-3 item-employee"><a href="/inicio/485-precarga-de-saldo-fluzfluz.html">Comprar Fluz</a></div>
-    <div class="col-lg-3 item-employee" id="history-transfer">Historial de Transferencia</div>
+    <div class="col-lg-2 item-employee" style='text-align:center;'><a href="/inicio/485-precarga-de-saldo-fluzfluz.html">Comprar Fluz</a></div>
+    <div class="col-lg-2 item-employee" id="history-transfer">Historial de Transferencia</div>
+    <div class="col-lg-2 item-employee" id="history-purchase">Compras de Empleados</div>
     <div class="col-lg-3 item-search">
         <input type="hidden" value="{$id_customer}" id="id_customer"/>
         <div id="example_filter" class="dataTables_filter">
@@ -316,7 +317,12 @@
     <div class="row">
         {include file="./allocation_history.tpl"}
     </div>
-</div>        
+</div> 
+<div id="history_employee" style="display:none;">
+    <div class="row">
+        {include file="./history_purchase.tpl"}
+    </div>
+</div> 
 {literal}
     <style>
         #right_column{display: none;}
@@ -613,7 +619,9 @@
                 $('#container-info-users').show();
                 $('#quantity-users').show();
                 $('#panel-allocation-history').hide();
+                $('#history_employee').hide();
                 $('#history-transfer').removeClass('active_btn');
+                $('#history-purchase').removeClass('active_btn');
             });
             
             $('#item-menu-add').click(function(){
@@ -626,7 +634,9 @@
                 $('#panel-upload-employee').hide();
                 $('#quantity-users').hide();
                 $('#panel-allocation-history').hide();
+                $('#history_employee').hide();
                 $('#history-transfer').removeClass('active_btn');
+                $('#history-purchase').removeClass('active_btn');
             });
             
             $('#item-menu-upload').click(function(){
@@ -639,7 +649,9 @@
                 $('#quantity-users').hide();
                 $('#panel-upload-employee').show();
                 $('#panel-allocation-history').hide();
+                $('#history_employee').hide();
                 $('#history-transfer').removeClass('active_btn');
+                $('#history-purchase').removeClass('active_btn');
             });
             
             $('#history-transfer').click(function(){
@@ -651,8 +663,25 @@
                 $('#panel-upload-employee').hide();
                 $('#container-info-users').hide();
                 $('#panel-allocation-history').show();
+                $('#history_employee').hide();
                 $('#quantity-users').hide();
                 $('#history-transfer').addClass('active_btn');
+                $('#history-purchase').removeClass('active_btn');
+            });
+            
+            $('#history-purchase').click(function(){
+                var add = $('#item-menu-principal').text();
+                var title = 'HISTORIAL DE COMPRAS DE EMPLEADOS';
+                $('#title-container').html(title);
+                $('#option-list').html(add);
+                $('#panel-add-employee').hide();
+                $('#panel-upload-employee').hide();
+                $('#container-info-users').hide();
+                $('#panel-allocation-history').hide();
+                $('#history_employee').show();
+                $('#quantity-users').hide();
+                $('#history-transfer').removeClass('active_btn');
+                $('#history-purchase').addClass('active_btn');
             });
             
         });

@@ -168,6 +168,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 
 				if (!$error) {
 					// 2ème boucle pour envoie des invitations
+                                        $urlWhatsapp = "";
 					foreach ($friendsEmail as $key => $friendEmail)
 					{
 						$friendEmail = $friendEmail;
@@ -195,6 +196,12 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 						$sponsorship->email = $friendEmail;
                                                 $send = "";
 						if ($sponsorship->save()) {
+
+                                                        if ( Tools::getValue('inviteWhatsapp') == "on" && Tools::getValue('phoneInviteWhatsapp') != "" && $urlWhatsapp == "" ) {
+                                                            $phone = Tools::getValue('countryPhoneInviteWhatsapp').Tools::getValue('phoneInviteWhatsapp');
+                                                            $urlWhatsapp = "https://api.whatsapp.com/send?phone=".$phone."&text=Hola ".$friendFirstName.", has sido invitado por ".$this->context->customer->username." a unirte a Fluz Fluz. Ingresa al siguiente link para aceptar la invitacion: ".str_replace("=", "%3D", $sponsorship->getSponsorshipMailLink());
+                                                        }
+                                                        
 							$vars = array(
 								'{message}' => Tools::nl2br(Tools::getValue('message')),
 								'{email}' => $this->context->customer->email,
@@ -416,6 +423,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                     $friendFirstNameThird = Tools::getValue('friendsFirstNameThird');
                     $friendLastNameThird = Tools::getValue('friendsLastNameThird');
                     $friendEmailThird = Tools::getValue('friendsEmailThird');
+                    $urlWhatsapp = "";
 
                     if (empty($friendFirstNameThird) || empty($friendLastNameThird) || !Validate::isName($friendFirstNameThird) || !Validate::isName($friendLastNameThird)) {
                         $error = 'name invalid';
@@ -459,6 +467,12 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                             $sponsorship->channel = 1;
                             $send = "";
                             if ($sponsorship->save()) {
+                                
+                                if ( Tools::getValue('inviteWhatsappThird') == "on" && Tools::getValue('phoneInviteWhatsappThird') != "" && $urlWhatsapp == "" ) {
+                                    $phone = Tools::getValue('countryPhoneInviteWhatsappThird').Tools::getValue('phoneInviteWhatsappThird');
+                                    $urlWhatsapp = "https://api.whatsapp.com/send?phone=".$phone."&text=Hola ".$friendFirstNameThird.", has sido invitado por ".$sponsor['username']." a unirte a Fluz Fluz. Ingresa al siguiente link para aceptar la invitacion: ".str_replace("=", "%3D", $sponsorship->getSponsorshipMailLink());
+                                }
+                                
                                 $vars = array(
                                         '{message}' => Tools::nl2br(Tools::getValue('message')),
                                         '{email}' => $sponsor['id_customer'],
@@ -493,6 +507,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
                     'error' => $error,
                     'invitation_sent' => $invitation_sent,
                     'sponsorshipThird' => $sponsorshipThird,
+                    'urlWhatsapp' => $urlWhatsapp
                 );
                 $this->context->smarty->assign($smarty_values);
                 

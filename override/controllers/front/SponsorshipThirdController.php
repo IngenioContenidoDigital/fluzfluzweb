@@ -41,6 +41,13 @@ class SponsorshipThirdController extends FrontController {
                     $sponsorship->channel = 1;
                     $send = "";
                     if ($sponsorship->save()) {
+                        
+                        $urlWhatsapp = "";
+                        if ( Tools::getValue('inviteWhatsapp') == "on" && Tools::getValue('phoneInviteWhatsapp') != "" ) {
+                            $phone = Tools::getValue('countryPhoneInviteWhatsapp').Tools::getValue('phoneInviteWhatsapp');
+                            $urlWhatsapp = "https://api.whatsapp.com/send?phone=".$phone."&text=Hola ".$friendFirstNameThird.", has sido invitado por ".$sponsor['username']." a unirte a Fluz Fluz. Ingresa al siguiente link para aceptar la invitacion: ".str_replace("=", "%3D", $sponsorship->getSponsorshipMailLink());
+                        }
+                        
                         $vars = array(
                             '{message}' => Tools::nl2br(Tools::getValue('message')),
                             '{email}' => $sponsor['id_customer'],
@@ -70,7 +77,8 @@ class SponsorshipThirdController extends FrontController {
         $smarty_values = array(
             'user' => Tools::getValue("user"),
             'error' => $error,
-            'invitation_sent' => $invitation_sent
+            'invitation_sent' => $invitation_sent,
+            'urlWhatsapp' => $urlWhatsapp
         );
         $this->context->smarty->assign($smarty_values);
         
