@@ -21,11 +21,11 @@ class stateaccountController extends FrontController {
         $tam_network = (count($tree)-1);
         $lastPoint = $this->getPointsLastDays($id_customer);
         $num_orders = $this->numOrders($id_customer);
-        $topPoint = $this->TopNetworkUnique();
+        $topPoint = $this->TopNetworkUnique($id_customer);
         $val_fluz_net = round(RewardsModel::getMoneyReadyForDisplay($lastPoint['points'], (int)$this->context->currency->id));
         $val_fluz_user = round(RewardsModel::getMoneyReadyForDisplay($num_orders['points'], (int)$this->context->currency->id));
         $val_fluz_top = round(RewardsModel::getMoneyReadyForDisplay($topPoint[0]['points'], (int)$this->context->currency->id));
-        $last_num_account = $this->newMembersLastMonth();
+        $last_num_account = $this->newMembersLastMonth($id_customer);
         
         $this->context->smarty->assign(array(
            
@@ -108,9 +108,9 @@ class stateaccountController extends FrontController {
                 
             return $result;    
         }
-    public function TopNetworkUnique() {
+    public function TopNetworkUnique($id_customer) {
             
-            $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+            $tree = RewardsSponsorshipModel::_getTree($id_customer);
             foreach ($tree as $valor){
                 $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
@@ -131,9 +131,9 @@ class stateaccountController extends FrontController {
             
     }
 
-    public function newMembersLastMonth() {
+    public function newMembersLastMonth($id_customer) {
         $ids = "";
-        $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        $tree = RewardsSponsorshipModel::_getTree($id_customer);
         foreach ($tree as $valor){
             $ids .= $valor['id'].",";
         }
@@ -141,7 +141,7 @@ class stateaccountController extends FrontController {
         $queryTop = 'SELECT COUNT(*)
                      FROM '._DB_PREFIX_.'rewards_sponsorship rs 
                      WHERE rs.date_add >= curdate() + interval -30 day  
-                     AND rs.id_customer IN ('.substr($ids, 0, -1).')';
+                     AND rs.id_customer IN ('.substr($ids, 0, -1).') AND rs.id_customer != '.$id_customer;
         $result = Db::getInstance()->getValue($queryTop);
     
         return $result;
