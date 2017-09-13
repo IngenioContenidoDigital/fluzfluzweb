@@ -62,8 +62,8 @@ class businessController extends FrontController {
         $this->context->smarty->assign('network', $list_business);
         
         /* Funciones Historial de Compras */
-        
-        $history_purchase = $this->history_purchase_employee($list_business);
+        $limit = 5;
+        $history_purchase = $this->history_purchase_employee($list_business, $limit);
         $this->context->smarty->assign('history_purchase', $history_purchase);
         
         /* Funciones Historial de Transferencias */
@@ -128,7 +128,8 @@ class businessController extends FrontController {
         if(Tools::isSubmit('export-excel-purchase')){
             
             $history_purchase = $this->network();
-            $purchase_employee = $this->history_purchase_employee($history_purchase);
+            $limit = 10000;
+            $purchase_employee = $this->history_purchase_employee($history_purchase, $limit);
             
             $report = "<html>
                         <head>
@@ -1092,7 +1093,7 @@ class businessController extends FrontController {
         return $history_transfer;
     }
     
-    function history_purchase_employee($list_business){
+    function history_purchase_employee($list_business, $limit){
         
         $array_purchase = array();
         
@@ -1118,7 +1119,7 @@ class businessController extends FrontController {
                                 AND O.current_state = 2
                                 AND p.reference NOT LIKE "MFLUZ%"
                                 ORDER BY O.id_order DESC
-                                LIMIT 5';
+                                LIMIT '.$limit.'';
             $array_purchase[ $employee['id_customer'] ]['details'] = Db::getInstance()->executeS($query_purchase);
             
             if ( empty($array_purchase[ $employee['id_customer'] ]['details']) ) {
