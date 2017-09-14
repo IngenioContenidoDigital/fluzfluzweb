@@ -259,6 +259,14 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz a Enviar: </div><div id="fluz_send" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz en Dinero: </div><div id="fluz_send_cash" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
         </div>
+        <div class="row progress-container" id="progress-bar" style="display:none;">
+            <div class="progress">
+                <div class="progress-bar">
+                        <div class="progress-shadow"></div>
+                </div>
+            </div>
+            <div class="text-loader">Estamos Procesando tu solicitud de Transferencia. Por Favor Espera</div>
+        </div>
         <div class="row row-btn-modal">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
                 <button class="btn btn-default btn-account" type="submit" id="save-info-process" name="save-info-process" style="background:#c9b198;">
@@ -403,6 +411,9 @@
                        var ptoUsed = $('#ptosusedhidden').val();       
                        $(this).prop("disabled",true);
                        $('#cancel_modal_fluz').prop('disabled',true);
+                       $('#progress-bar').show();
+                       $('#progress-bar').css('margin-top','30px');
+                       $('.row-btn-modal').css('margin-top','70px');
                        var listEdit = [];  
                        var total_point = 0;
                        var url = document.getElementById("url_fluz").innerHTML;
@@ -432,6 +443,7 @@
                             type : 'POST',
                             data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
                             success : function() {
+                                $('#progress-bar').hide();
                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
@@ -509,6 +521,9 @@
                     var url = document.getElementById("url_fluz").innerHTML;
                     $(this).prop("disabled",true);
                     $('#cancel_modal_fluz').prop('disabled',true);
+                    $('#progress-bar').show();
+                    $('#progress-bar').css('margin-top','30px');
+                    $('.row-btn-modal').css('margin-top','70px');
                     
                     $( ".amount_edit" ).each(function( index ) {
                         var id_sponsor = $(this).attr("sponsor");
@@ -529,6 +544,7 @@
                             type : 'POST',
                             data : 'action=editFLuz&listEdit='+listEdit+'&ptosTotal='+total_point,
                             success : function() {
+                                 $('#progress-bar').hide();
                                  window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
@@ -561,6 +577,9 @@
                        var ptoUsed = $('#ptosusedhidden').val();       
                        $(this).prop("disabled",true);
                        $('#cancel_modal_fluz').prop('disabled',true);
+                       $('#progress-bar').show();
+                       $('#progress-bar').css('margin-top','30px');
+                       $('.row-btn-modal').css('margin-top','70px');
                        var listEdit = [];  
                        var total_point = 0;
                        var url = document.getElementById("url_fluz").innerHTML;
@@ -589,7 +608,9 @@
                             url : urlTransferController,
                             type : 'POST',
                             data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
-                            success : function() {
+                            success : function(data) {
+                                console.log(data);
+                                $('#progress-bar').hide();
                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
@@ -825,6 +846,7 @@
                 }
                 
                 var sum = 0;
+                
                 $.each(arr, function( index, value ) {
                             if(flag == true){
                                 var monto = value.montotransferencia;
@@ -861,6 +883,7 @@
                 }
                 else{
                     list_transfer = JSON.stringify(arr);
+                    console.log(list_transfer);
                     $('#success').text(' ');
                     $('#error').text(' ');
                     $.ajax({
@@ -869,7 +892,7 @@
                     data : 'action=uploadtransfers&list_transfer='+list_transfer,
                         success : function(data) {
                            console.log(data); 
-                           if(data != ''){ 
+                           if(data != 1){ 
                                 $('#error').css('display','block');
                                 $('#success').css('display','none');
                                 $('#error').text(data);
