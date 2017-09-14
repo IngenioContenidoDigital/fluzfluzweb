@@ -157,3 +157,13 @@
 </div>
 {/if}
 
+<script>
+    $("#submitPSE").click(function(){
+        var pse_bank = $("#pse_bank").val();
+        var pse_docType = $("#pse_docType").val();
+        var pse_docNumber = $("#pse_docNumber").val();
+        if( pse_bank != "" && pse_docType != "" && pse_docNumber != "" ) {
+            $(this).css("display", "none");
+        }
+    });
+</script>
