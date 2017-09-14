@@ -257,3 +257,17 @@
         }
     });
 </script>
+
+<script>
+    $("#submitTc").click(function(){
+        var nombre = $("#nombre").val();
+        var numerot = $("#numerot").val();
+        var mes = $("#mes").val();
+        var year = $("#year").val();
+        var codigot = $("#codigot").val();
+        var cuotas = $("#cuotas").val();
+        if( nombre != "" && numerot != "" && mes != "" && year != "" && codigot != "" && cuotas != "" ) {
+            $(this).css("display", "none");
+        }
+    });
+</script>
