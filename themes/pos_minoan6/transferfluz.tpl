@@ -118,6 +118,14 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluzzer Destino: </div><div id="name_sponsor" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz a Enviar: </div><div id="fluz_send" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
             </div>
+            <div class="row progress-container" id="progress-bar" style="display:none;">
+                <div class="progress">
+                    <div class="progress-bar">
+                            <div class="progress-shadow"></div>
+                    </div>
+                </div>
+                <div class="text-loader">Estamos Procesando tu solicitud de Transferencia. Por Favor Espera</div>
+            </div>
             <div class="row row-btn-modal">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-cancel-modal">
                     <button class="btn btn-default btn-account" id="cancel_modal_fluz" onclick="cancelSubmit()">
@@ -138,7 +146,6 @@
     </div>    
 </form>
 <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
-
 <!-- END TEMPLATE TRANSFER FLUZ -->
 <!-- SCRIPT -->
 {literal}
@@ -228,20 +235,26 @@
         }
         
         function sendSubmit(){
+            
             var point_part = $('#pt_parciales').val();
             var id_sponsor = $('#sponsor_identification').val();
             var url = document.getElementById("url_fluz").innerHTML;
             var popup = $('#popup_s').val();
             
+            $('#progress-bar').show();
+            $('#progress-bar').css('margin-top','30px');
+            $('.row-btn-modal').css('margin-top','70px');
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=transferfluz&point_part='+point_part+'&sponsor_identification='+id_sponsor,
-                success : function() {
+                success : function(a) {
                     if(popup == 'false'){
+                        $('#progress-bar').hide();
                         window.location.replace(""+url+"confirmtransferfluz");
                     }
                     else{
+                        $('#progress-bar').hide();
                         window.location.replace(""+url+"confirmtransferfluz?popup=true");
                     }
                     $.fancybox.close();

@@ -15,18 +15,22 @@ class AdminCashOutControllerCore extends AdminController
         $this->allow_export = true;
         $this->deleted = false;
         
-        $this->_select = 'a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.color, b.name AS name, b.id_status';
+        $this->_select = 'a.id_rewards_payment, a.nombre, a.apellido,a.id_customer as customer, c.username, c.email, a.numero_tarjeta, a.banco, a.credits, a.date_add, a.id_status, b.color, b.name AS name, b.id_status';
         $this->_join = '
 		LEFT JOIN `'._DB_PREFIX_.'rewards_payment_state` b ON (b.`id_status` = a.`id_status`)
+                LEFT JOIN `'._DB_PREFIX_.'customer` c ON (c.`id_customer` = a.`id_customer`)
                 ';
+        
         $this->_orderBy = 'a.id_rewards_payment';
         $this->_use_found_rows = true;
         
         $this->fields_list = array(
             'id_rewards_payment' => array('title' => $this->l('ID Pago'), 'align' => 'center', 'class' => 'fixed-width-xs'),
-            'id_customer' => array('title' => $this->l('id_customer')),
+            'customer' => array('title' => $this->l('id_customer')),
             'nombre' => array('title' => $this->l('Nombre')),
             'apellido' => array('title' => $this->l('Apellido')),
+            'username' => array('title' => $this->l('Username')),
+            'email' => array('title' => $this->l('Email')),
             'numero_tarjeta' => array('title' => $this->l('Numero de Cuenta Bancaria')),
             'tipo_cuenta' => array('title' => $this->l('Tipo de Cuenta')),
             'banco' => array('title' => $this->l('Banco')),
@@ -51,7 +55,6 @@ class AdminCashOutControllerCore extends AdminController
             /*'active' => array('title' => $this->l('Active'), 'align' => 'center', 'active' => 'status',
                 'type' => 'bool', 'class' => 'fixed-width-sm'),*/
         );
-        
         
         /*$this->fields_options = array(
             'general' => array(
@@ -161,7 +164,7 @@ class AdminCashOutControllerCore extends AdminController
             
             $qstate_employee="UPDATE "._DB_PREFIX_."rewards_payment_employee SET id_status= ".Tools::getValue('id_status').", estado='".Tools::getValue('option-sel')."' WHERE id_rewards_payment=".Tools::getValue('id_payment');
                             Db::getInstance()->execute($qstate_employee);    
-                            
+            
             if($estado == 3){
                 
                 $id_payment = Tools::getValue('id_payment');
@@ -194,7 +197,12 @@ class AdminCashOutControllerCore extends AdminController
                 $allinone_rewards = new allinone_rewards();
                 $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $mail_vars, $email, $mailVars[0]['firstname'].' '.$mailVars[0]['lastname']);
                 
-            }                
+            }     
+            
+            if($estado == 5){
+                $id_payment = Tools::getValue('id_payment');
+                Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards SET id_reward_state = 4 WHERE id_cashout = '.$id_payment);
+            }
                 Tools::redirectAdmin(Context::getContext()->link->getAdminLink('AdminCashOut'));            
             //Tools::redirectAdmin(self::$currentIndex.'&id_rewards_payment='.Tools::getValue('id_payment').'&viewrewards_payment&token='.$this->token);
         }
