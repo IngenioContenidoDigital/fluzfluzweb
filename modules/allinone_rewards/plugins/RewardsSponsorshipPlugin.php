@@ -1526,7 +1526,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                         
                         foreach($sponsorships2 as $sponsorship) {
                             
-                            if($sponsorship['id_customer'] != 0 && $paid_total != 0){
+                            if($sponsorship['id_customer'] != 0){
 				// if a sponsorship is over, stop all rewards for the ascendants
 				if ($sponsorship['date_end']!='0000-00-00 00:00:00' && $sponsorship['date_end'] <= date('Y-m-d H:i:s'))
 					break;
@@ -1551,11 +1551,11 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->id_order = (int)$order->id;
                                         $reward->id_cart = $order->id_cart;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
-                                        $price = round($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(count($sponsorships2)+1));
+                                        $price = floor($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(2)/(count($sponsorships2)));
                                         
-                                        if($discount > 0){
-                                            $price = round($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(count($sponsorships2)+1)*$porcentaje_desc);
-                                        }
+                                        /*if($discount > 0){
+                                            $price = floor($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(2)/(count($sponsorships2))*$porcentaje_desc);
+                                        }*/
                                         
 					$extraParams = array();
 					$extraParams['type'] = (int)$this->_configuration['reward_type'][$indice];
@@ -1566,10 +1566,10 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					// if sponsor's reward=0 (only special offers, voucher used, or % set to 0 in BO)
 					if ($reward->credits == 0)
 						continue;
-                                        if($order->payment=='Pedido gratuito'){
+                                        /*if($order->payment=='Pedido gratuito'){
                                             break;
                                             //$reward->id_reward_state = RewardsStateModel::getDiscountedId();
-                                        }
+                                        }*/
 					if ($reward->save()) {
 						RewardsSponsorshipModel::saveDetails($reward->id, (int)$sponsorship['id_sponsorship'], $level+1);
 						$bMail = true;
