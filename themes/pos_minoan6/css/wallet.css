@@ -96,6 +96,9 @@ div.radio { margin-right: 10px; }
     color: #000;
     font-weight: bold;}
 
+.send_motive{padding: 0px; white-space: pre-line;}
+#send_comment{text-align: center;}
+
 @media (max-width:768px) {
     .wallet-container, #columns { padding: 0; }
     .col-xs-0 { display: none; }
