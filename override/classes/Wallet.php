@@ -135,6 +135,7 @@ class WalletCore extends ObjectModel
                 $i++;
             }
             $card['card_code'] = $cardcode;
+            $card['gift'] = true;
         }
         
         if(empty($cards)){

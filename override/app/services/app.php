@@ -227,7 +227,7 @@ class API extends REST {
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
         $productChild[$i]['c_price_shop_format'] = $this->formatPrice(round($productChild[$i]['c_price_shop']));
-        $productChild[$i]['c_win_fluz'] = round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) );
+        $productChild[$i]['c_win_fluz'] = (round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) ))/2;
         $productChild[$i]['c_price_fluz'] = $this->formatPrice(round( $productChild[$i]['c_price'] / 25 ));
         $productChild[$i]['c_price'] = $this->formatPrice(round($productChild[$i]['c_price']));
         
@@ -1316,7 +1316,13 @@ class API extends REST {
         $countPurchases = 0;
         if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
           $id_manufacturer = $this->_request['id_manufacturer'];
-          $purchases = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
+          $bonus = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
+          $gift = $model->getVaultGiftByManufacturer($id_customer, $id_manufacturer);
+          
+          $purchases['result'] = ($gift['result'] !== 'vacio') ? array_merge($bonus['result'], $gift['result']) : $bonus['result'];
+//          $purchases['result'] = !empty($gift['result']) ? array_merge_recursive($bonus['result'], $gift['result']) : ;
+//          error_log("\n\n 1- Esto es purchases: \n\n".print_r($purchases,true),3,"/tmp/error.log");
+          
           foreach ($purchases['result'] as &$purchase){
 //            $purchase['card_code'] = (int)$purchase['card_code'];            
             $purchase['price'] = round($purchase['price']);

@@ -1995,6 +1995,11 @@ return $responseObj;
     return array('result' => $result);
   }
 
+    public function getVaultGiftByManufacturer($id_customer, $id_manufacturer) {
+      $result = Wallet::getCardsGift($id_customer, $id_manufacturer);
+      return array('result' => $result);
+    }
+    
     public function getVaultByManufacturer($id_customer, $id_manufacturer) {
     $result = Wallet::getCards($id_customer, $id_manufacturer);
     return array('result' => $result);

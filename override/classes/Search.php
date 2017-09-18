@@ -218,7 +218,7 @@ class Search extends SearchCore{
               '._DB_PREFIX_.'manufacturer.id_manufacturer AS m_id,
               '._DB_PREFIX_.'manufacturer.`name` AS m_name, 
               GROUP_CONCAT(DISTINCT product_child.price ORDER BY product_child.price SEPARATOR \',\') AS m_prices,
-              MAX(product_child.reward) AS m_points 
+              (MAX(product_child.reward))/2 AS m_points 
               FROM
               '._DB_PREFIX_.'manufacturer_lang
               INNER JOIN '._DB_PREFIX_.'manufacturer ON '._DB_PREFIX_.'manufacturer.id_manufacturer = '._DB_PREFIX_.'manufacturer_lang.id_manufacturer
@@ -263,7 +263,7 @@ class Search extends SearchCore{
                 pa.id_product AS id_parent,
                 pl.name AS p_name,
                 GROUP_CONCAT(DISTINCT ip.price ORDER BY ip.price SEPARATOR \',\') AS rango_precio,
-                MAX((ip.price * ( rp.value / 100 ) ) / 25 ) AS points
+                (MAX((ip.price * ( rp.value / 100 ) ) / 25 ))/2 AS points
               FROM '._DB_PREFIX_.'product_attribute AS pa 
               LEFT JOIN  '._DB_PREFIX_.'product AS ip ON ip.reference = pa.reference
               INNER JOIN '._DB_PREFIX_.'rewards_product AS rp ON rp.id_product = ip.id_product
