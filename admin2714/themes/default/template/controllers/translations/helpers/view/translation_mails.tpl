@@ -198,6 +198,7 @@
                                                 <option value='monthly-balance-summary'>{l s='16-monthly-balance-summary'}</option>
                                                 <option value='welcome_fluzfluz'>{l s='16-welcome_fluzfluz'}</option>
                                                 <option value='welcome_fluzfluz_business'>{l s='16-welcome_fluzfluz_business'}</option>
+                                                <option value='send_gift'>{l s='16-send_gift'}</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-6">

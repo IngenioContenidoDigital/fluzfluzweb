@@ -83,7 +83,7 @@ class OrderController extends OrderControllerCore
             $price = RewardsProductModel::getProductReward($x[0]['id'],$product['price'],1, $this->context->currency->id);
             $fluz = substr($product['reference'], 0,5);
             if($fluz != 'MFLUZ'){
-                $productP= floor(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+                $productP= floor(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(2));
             }
             else{
                 $productP= floor(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(1));
@@ -193,6 +193,7 @@ class OrderController extends OrderControllerCore
                 }
                 
                $this->autoStep();
+               
                 // Bypass payment step if total is 0
                 if (($id_order = $this->_checkFreeOrder()) && $id_order) {
                     if ($this->context->customer->is_guest) {

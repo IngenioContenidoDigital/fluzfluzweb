@@ -246,18 +246,20 @@ function myFunction(name, id_sponsor) {
 }
 
 function send_gift(){
-    var $id_customer_receive = $('#id_sponsor_sel').val();
+    var id_customer_receive = $('#id_sponsor_sel').val();
     var id_customer = $("#id_customer").val();
     var code_s = $('#code').text();
     var code_card = code_s.replace(/\s/g, '');
     var id_product_code = $('#card_product').val();
+    var message = jQuery("textarea#send_comment").val();
     
     $.ajax({
         url : urlWalletController,
         type : 'POST',
-        data : 'action=send_gift_card&$id_customer_receive='+$id_customer_receive+'&id_customer='+id_customer+'&code_card='+code_card+'&id_product_code='+id_product_code,
+        data : 'action=send_gift_card&id_customer_receive='+id_customer_receive+'&id_customer='+id_customer+'&code_card='+code_card+'&id_product_code='+id_product_code+'&message='+message,
         success : function(response) {
             if ( response != '' ) {
+                console.log(response);
                 window.top.location = "confirmtransfergift";
             } else {
                 console.log('fallo');
