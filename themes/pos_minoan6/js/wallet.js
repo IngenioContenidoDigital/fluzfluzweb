@@ -140,14 +140,20 @@ $(document).ready(function() {
 });
 
 function renderViewCard(key, card) {
-    if ( card.expiration == '00/00/0000' ) {
+    if ( card.date_expiration == '00/00/0000' ) {
         $('#vencimiento').hide();
     } else {
-        $("#expiration").html( card.expiration );
+        $("#expiration").html( card.date_expiration );
         $('#vencimiento').show();
     }
-    
-    if(card.send_gift != 1){
+    console.log(card.send_gift);
+    if(card.send_gift == 2){
+        $("#code").html( card.card_code );
+        $('#send_gift').hide();
+        $('#img-code').show();
+        $('.cardviewupt-used').show();
+    }
+    else if(card.send_gift == null){
         $("#code").html( card.card_code );
         $('#send_gift').show();
         $('#img-code').show();
@@ -229,6 +235,7 @@ function markUsed(card,used) {
                   gift_cards[key].used = used;
                   $("div[key='"+key+"']").find(".state-used-gift").removeClass("state-used-gift0 state-used-gift1 state-used-gift2");
                   $("div[key='"+key+"']").find(".state-used-gift").addClass("state-used-gift"+used);  
+                  
                 }
             } else {
                 alert("Ha ocurrido un error. Por favor intente mas tarde.");

@@ -351,9 +351,9 @@
                                                                                 {else}
                                                                                     <div class="text-detail">{l s="- El valor del bono esta expresado segun la tasa de cambio en USD. Como este valor se muestra en pesos colombianos, el precio puede variar segun la fluctuacion de la TRM y la acumulacion de Fluz. Fluz Fluz siempre busca ofrecer un atractivo negocio para el Fluzzer."}</div>
                                                                                 {/if}
-                                                                                {if $list.expiration!='0000-00-00'}
-                                                                                    <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$list.expiration}</span></div>
-                                                                                {/if}
+                                                                                {*if $list.expiration!='0000-00-00'}
+                                                                                    <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$list.date_expiration}</span></div>
+                                                                                {/if*}
                                                                             </div>
                                                                         {/foreach}
                                                                         

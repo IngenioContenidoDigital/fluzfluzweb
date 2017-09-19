@@ -398,11 +398,11 @@
                                                     {l s='Solo un uso'}
                                                 </label>
 					</div>
-                                        <div class="input-group" style="width:50%; margin-top: 30px;">
+                                        <!--<div class="input-group" style="width:50%; margin-top: 30px;">
                                             <span class="input-group-addon">{l s='Fecha de Vencimiento'}</span>
                                             <input type="text" class="datepicker" name="expiration" value="{$product->expiration}" />
                                             <span class="input-group-addon"><i class="icon-calendar-empty"></i></span>
-                                        </div>        
+                                        </div>-->        
 				</div>
 			</div>
 			<div class="form-group">
