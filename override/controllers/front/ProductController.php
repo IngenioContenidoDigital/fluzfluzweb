@@ -391,9 +391,10 @@ class ProductController extends ProductControllerCore
                 
                 $query = 'SELECT p.price_shop, p.price, p.save_dolar, p.id_product, p.online_only as online, 
                           p.single_use, p.type_currency, p.expiration, p.id_manufacturer, pl.link_rewrite, 
-                          pl.name, pa.id_product_attribute, ac.id_attribute,
+                          pl.name, pa.id_product_attribute, ac.id_attribute, pc.date_expiration,
                           (rp.value/100) as value FROM '._DB_PREFIX_.'product p
                           LEFT JOIN '._DB_PREFIX_.'product_lang pl ON (p.id_product = pl.id_product)
+                          LEFT JOIN '._DB_PREFIX_.'product_code pc ON (p.id_product = pc.id_product)
                           LEFT JOIN '._DB_PREFIX_.'rewards_product rp ON (p.id_product = rp.id_product)
                           LEFT JOIN '._DB_PREFIX_.'product_shop ps ON (ps.id_product = p.id_product)        
                           LEFT JOIN '._DB_PREFIX_.'product_attribute pa ON (p.reference = pa.reference)        

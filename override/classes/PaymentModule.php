@@ -277,7 +277,7 @@ abstract class PaymentModule extends PaymentModuleCore
             
             $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
             $sponsorships2=array_slice($sponsorships, 1, 15);
-            $reward = round(RewardsModel::getRewardReadyForDisplay($total_paid, $this->context->currency->id)/(count($sponsorships2)+1));
+            $reward = round(RewardsModel::getRewardReadyForDisplay($total_paid, $this->context->currency->id)/2);
             
             $query_reward = 'SELECT r.credits AS credits, r.id_customer, r.id_cart FROM '._DB_PREFIX_.'rewards r WHERE r.id_customer='.$this->context->customer->id.' AND r.id_cart='.$id_cart.' ORDER BY r.date_add DESC';
             $rowreward = Db::getInstance()->getRow($query_reward);
@@ -615,18 +615,25 @@ abstract class PaymentModule extends PaymentModuleCore
                         $point_product = '';
                         $name_product = '';
                         $expiration_product = '';
-                        
+                       
                         foreach ($order->getProducts() as &$product_cart){
                             
                             $point_p = floor($product_cart['points']);
                             $point_product .=  "<label>".$point_p."</label><br>";
                             $name_product .= "<label>".$product_cart['product_name']."</label><br>";
                             
-                            if($product_cart['expiration'] == '0000-00-00'){
+                        }
+                        
+                        $date_exp = Db::getInstance()->executeS('SELECT pc.date_expiration FROM ps_product_code pc
+                                        LEFT JOIN ps_product p ON (pc.id_product = p.id_product)
+                                        WHERE id_order ='.$order->id);
+                        
+                        foreach ($date_exp as $exp){
+                            if($exp['date_expiration'] == '0000-00-00'){
                                 $expiration_product = '';
                             }
                             else{
-                                $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                                $expiration_product .= "<label>".$exp['date_expiration']."</label><br>";
                             }
                         }
                         
@@ -689,6 +696,7 @@ abstract class PaymentModule extends PaymentModuleCore
                         '{total_shipping}' => Tools::displayPrice($order->total_shipping, $this->context->currency, false),
                         '{total_wrapping}' => Tools::displayPrice($order->total_wrapping, $this->context->currency, false),
                         '{total_tax_paid}' => Tools::displayPrice(($order->total_products_wt - $order->total_products) + ($order->total_shipping_tax_incl - $order->total_shipping_tax_excl), $this->context->currency, false));
+                    
                         if (is_array($extra_vars)) {
                             $data = array_merge($data, $extra_vars);
                         }
