@@ -172,7 +172,9 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 						$send_email_to_customer = ((Configuration::get ('OASL_EMAIL_CUSTOMER_DISABLE') != 1) ? true : false);
 						
 						// Create a new account.
+                                                echo "<h1>entra 0</h1>";
 						$id_customer = oneall_social_login_tools::create_customer_from_data ($data, $send_email_to_admin, $send_email_to_customer);
+                                                echo "<h1>entra 2</h1>";
 						
 						// Login the customer.
 						if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
