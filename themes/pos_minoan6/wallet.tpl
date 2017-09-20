@@ -183,6 +183,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 send_motive">
                         <textarea rows="4" placeholder="Envie mensaje a Fluzzer." class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="send_comment" name="send_comment"></textarea>
                     </div>
+                    <div id="error_busqueda" style="display:none;"></div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div_send_gift">
                         <button onclick="send_gift()" class="btn_send_gift" id="send-gift" name="send-gift"> Enviar Obsequio </button>
                     </div>

@@ -105,7 +105,7 @@ class WalletController extends FrontController {
                     $allinone_rewards = new allinone_rewards();
                     $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer_receive->email, $customer_receive->firstname.' '.$customer_receive->lastname);
                     
-                    die();
+                    die($id_customer_receive);
                 break;
             default:
                 break;

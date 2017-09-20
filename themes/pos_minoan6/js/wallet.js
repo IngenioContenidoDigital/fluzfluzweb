@@ -113,7 +113,6 @@ $(document).ready(function() {
                 url:"/transferfluzfunction.php",
                 data:'username='+username+'&id_customer='+id_customer,
                 success: function(data){
-                    console.log(data);
                     if(data != ""){
                         $("#resultados").empty();
                         data = jQuery.parseJSON(data);
@@ -265,11 +264,11 @@ function send_gift(){
         type : 'POST',
         data : 'action=send_gift_card&id_customer_receive='+id_customer_receive+'&id_customer='+id_customer+'&code_card='+code_card+'&id_product_code='+id_product_code+'&message='+message,
         success : function(response) {
-            if ( response != '' ) {
-                console.log(response);
+            if ( response != '' && response !== ' undefined') {
                 window.top.location = "confirmtransfergift";
             } else {
-                console.log('fallo');
+                $('#error_busqueda').show();
+                $('#error_busqueda').html('El Fluzzer seleccionado no existe.');
             }
         }
     });
