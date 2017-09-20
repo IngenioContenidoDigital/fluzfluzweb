@@ -203,8 +203,8 @@ class OrderController extends OrderControllerCore
                         Tools::redirect('index.php?controller=guest-tracking&id_order='.urlencode($order->reference).'&email='.urlencode($email));
                     } else {
                         
-                        Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards SET id_reward_state=2 WHERE id_customer = '.$this->context->customer->id.' AND id_cart='.$this->context->cart->id);
-                        $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2 WHERE id_customer=".$this->context->customer->id." AND id_order=".$id_order; 
+                        Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards SET id_reward_state=2, id_order='.$id_order.' WHERE id_customer = '.$this->context->customer->id.' AND id_cart='.$this->context->cart->id);
+                        $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2, id_cart = ".$this->context->cart->id." WHERE id_customer=".$this->context->customer->id." AND id_order=".$id_order; 
                         Db::getInstance()->execute($qstate);
                         Tools::redirect($this->context->link->getPageLink('my-account', true));
                     }
