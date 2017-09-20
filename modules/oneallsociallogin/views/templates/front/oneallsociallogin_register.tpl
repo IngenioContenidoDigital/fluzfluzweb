@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group">
                     <label for="oasl_city">Ciudad <sup>*</sup></label>
-                    <select id="oasl_city" name="oasl_city" class="is_required form-control" style="max-width: 100%;">
+                    <select id="oasl_city" name="oasl_city" class="is_required form-control">
                         {foreach from=$cities item=city}
                             <option value="{$city.ciudad}">{$city.ciudad}</option>
                         {/foreach}
@@ -69,7 +69,7 @@
                 </div>
                 <div class="form-group">
                     <label for="oasl_typedni">Tipo identificaci&oacute;n <sup>*</sup></label>
-                    <select class="is_required form-control" id="oasl_typedni" name="oasl_typedni" style="max-width: 100%;">
+                    <select class="is_required form-control" id="oasl_typedni" name="oasl_typedni">
                         <option value="0" selected="selected">Cedula de Ciudadan&iacute;a</option>
                         <option value="1">NIT</option>
                         <option value="2">Cedula de Extranjer&iacute;a</option>
