@@ -1056,12 +1056,14 @@ private function clearCart()
         $sql = "SELECT id_customer, username, email, dni
                 FROM ps_customer
                 WHERE active = 1
+                AND id_customer != ".$args['userId']."
                 AND kick_out = 0
                 AND id_default_group = 4
                 AND (email LIKE '%".$args['searchBox']."%'
                 OR username LIKE '%".$args['searchBox']."%'
                 OR dni = '".$args['searchBox']."')
                 LIMIT 3";
+        error_log("\n\n\n\n Este es el query de busqueda de ususarios: \n\n".print_r($sql,true),3,"/tmp/error.log");
         if ($results = Db::getInstance()->ExecuteS($sql) ) {
             return array('fluzzers' => $results, 'success' => TRUE);
         } else {
