@@ -110,13 +110,12 @@ class oneall_social_login_tools
      */
     public static function create_customer_from_data(array $data, $send_email_to_admin = false, $send_email_to_customer = false)
     {
-        echo "<h1>entra 1</h1>";
         if (is_array($data) && !empty($data['user_token']) && !empty($data['identity_token']))
         {
             $password = Tools::passwdGen();
 
             // Build customer fields.
-            $customer = new CustomerCore();
+            $customer = new Customer();
             $customer->firstname = $data['user_first_name'];
             $customer->lastname = $data['user_last_name'];
             $customer->id_gender = $data['user_gender'];
@@ -164,7 +163,7 @@ class oneall_social_login_tools
                 $customer->email = self::generate_random_email_address();
                 $customer->newsletter = false;
             }
-
+echo "<pre>"; print_r($customer); echo "</pre>";
             // Create a new user account.
             if ($customer->add())
             {
