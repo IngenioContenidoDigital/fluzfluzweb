@@ -77,7 +77,7 @@ class WalletController extends FrontController {
                                     LEFT JOIN '. _DB_PREFIX_ .'product_code pc ON (pc.id_order = od.id_order)
                                     LEFT JOIN '. _DB_PREFIX_ .'orders o ON (od.id_order = o.id_order)
                                     LEFT JOIN '. _DB_PREFIX_ .'product_lang pl ON (pl.id_product = od.product_id)    
-                                    WHERE od.id_order ='.(int)$id_info_gift['id_product']);
+                                    WHERE od.id_order ='.(int)$id_info_gift['id_order']);
                    
                     $vars = array(
                         '{username}' => $customer_receive->username,
@@ -103,7 +103,7 @@ class WalletController extends FrontController {
                     $message_subject = $row_subject['subject_mail'];
                     
                     $allinone_rewards = new allinone_rewards();
-                    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer_receive->email, $customer_receive->firstname.' '.$customer_receive->lastname);
+                    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'daniel.gonzalez@ingeniocontenido.co', $customer_receive->firstname.' '.$customer_receive->lastname);
                     
                     die();
                 break;
