@@ -204,7 +204,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 				// Show our template.
 				$this->setTemplate ('oneallsociallogin_register.tpl');
 			}
-		}
+                } else { die("no hay cookie"); }
 		
 		// We could not extract the data.
 		if ($have_error)
