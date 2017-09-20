@@ -126,6 +126,7 @@ class oneall_social_login_tools
             $customer->is_guest = false;
             $customer->passwd = Tools::encrypt($password);
             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+            $customer->kick_out = 0;
             $customer->warning_kick_out = 0;
             $customer->id_default_group = 4;
 
@@ -181,7 +182,6 @@ echo "<pre>"; print_r($customer); echo "</pre>";
                 $address->phone = $data['user_phone'];
                 $address->phone_mobile = $data['user_phone'];
                 $address->active = 1;
-                $customer->kick_out = 0;
                 $address->add();
 
                 $sponsor = Db::getInstance()->executeS('SELECT
