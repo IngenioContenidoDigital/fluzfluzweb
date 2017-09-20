@@ -120,10 +120,14 @@ class oneall_social_login_tools
             $customer->lastname = $data['user_last_name'];
             $customer->id_gender = $data['user_gender'];
             $customer->birthday = $data['user_birthdate'];
+            $customer->username = $data['user_username'];
             $customer->active = true;
             $customer->deleted = false;
             $customer->is_guest = false;
             $customer->passwd = Tools::encrypt($password);
+            $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+            $customer->warning_kick_out = 0;
+            $customer->id_default_group = 4;
 
             //Opted for the newsletter?
             if (!empty($data['user_newsletter']))
@@ -163,6 +167,47 @@ class oneall_social_login_tools
             // Create a new user account.
             if ($customer->add())
             {
+                $customer->updateGroup(array("3","4"));
+
+                $address->id_customer = $customer->id;
+                $address->id_country = 69;
+                $address->alias = 'Mi Direccion';
+                $address->lastname = $data['user_last_name'];
+                $address->firstname = $data['user_first_name'];
+                $address->type_document = $data['user_typedni'];
+                $address->dni = $data['user_dni'];
+                $address->address1 = $data['user_address'];
+                $address->city = $data['user_city'];
+                $address->phone = $data['user_phone'];
+                $address->phone_mobile = $data['user_phone'];
+                $address->active = 1;
+                $address->add();
+
+                $sponsor = Db::getInstance()->executeS('SELECT
+                                                            c.id_customer,
+                                                            c.username,
+                                                            c.email,
+                                                            (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                                                        FROM '._DB_PREFIX_.'customer c
+                                                        LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs2 ON ( c.id_customer = rs2.id_customer )
+                                                        LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                                        LEFT JOIN '._DB_PREFIX_.'customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
+                                                        WHERE c.active = 1
+                                                        AND c.kick_out = 0
+                                                        AND rs2.id_sponsorship IS NOT NULL
+                                                        GROUP BY c.id_customer
+                                                        HAVING pendingsinvitation > 0
+                                                        ORDER BY c.id_customer ASC
+                                                        LIMIT 1');
+                $sponsorship = new RewardsSponsorshipModel();
+                $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                $sponsorship->id_customer = $customer->id;
+                $sponsorship->firstname = $customer->firstname;
+                $sponsorship->lastname = $customer->lastname;
+                $sponsorship->email = $customer->email;
+                $sponsorship->channel = 1;
+                $saveSponsorship = $sponsorship->save();
+                
                 // Tie the tokens to the newly created member.
                 if (self::link_tokens_to_id_customer($customer->id, $data['user_token'], $data['identity_token'], $data['identity_provider']))
                 {
