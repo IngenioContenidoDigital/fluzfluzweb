@@ -121,14 +121,14 @@ class oneall_social_login_tools
             $customer->id_gender = $data['user_gender'];
             $customer->birthday = $data['user_birthdate'];
             $customer->username = $data['user_username'];
-            $customer->active = true;
-            $customer->deleted = false;
-            $customer->is_guest = false;
+            $customer->dni = $data['user_dni'];
+            $customer->active = 1;
             $customer->passwd = Tools::encrypt($password);
             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
             $customer->kick_out = 0;
             $customer->warning_kick_out = 0;
             $customer->id_default_group = 4;
+            $customer->id_lang = Context::getContext()->language->id;
 
             //Opted for the newsletter?
             if (!empty($data['user_newsletter']))
