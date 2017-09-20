@@ -181,6 +181,7 @@ echo "<pre>"; print_r($customer); echo "</pre>";
                 $address->phone = $data['user_phone'];
                 $address->phone_mobile = $data['user_phone'];
                 $address->active = 1;
+                $customer->kick_out = 0;
                 $address->add();
 
                 $sponsor = Db::getInstance()->executeS('SELECT
