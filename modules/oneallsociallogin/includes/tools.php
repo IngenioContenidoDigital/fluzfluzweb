@@ -170,17 +170,18 @@ class oneall_social_login_tools
             {
                 $customer->updateGroup(array("3","4"));
 
-                $address->id_customer = $customer->id;
+                $address = new Address();
                 $address->id_country = 69;
+                $address->dni = $customer->dni;
+                $address->id_customer = $customer->id;
                 $address->alias = 'Mi Direccion';
-                $address->lastname = $data['user_last_name'];
-                $address->firstname = $data['user_first_name'];
-                $address->type_document = $data['user_typedni'];
-                $address->dni = $data['user_dni'];
+                $address->firstname = $customer->firstname;
+                $address->lastname = $customer->lastname;
                 $address->address1 = $data['user_address'];
                 $address->city = $data['user_city'];
                 $address->phone = $data['user_phone'];
                 $address->phone_mobile = $data['user_phone'];
+                $address->type_document = $data['user_typedni'];
                 $address->active = 1;
                 $address->add();
 
@@ -207,7 +208,7 @@ class oneall_social_login_tools
                 $sponsorship->lastname = $customer->lastname;
                 $sponsorship->email = $customer->email;
                 $sponsorship->channel = 1;
-                $saveSponsorship = $sponsorship->save();
+                $sponsorship->save();
                 
                 // Tie the tokens to the newly created member.
                 if (self::link_tokens_to_id_customer($customer->id, $data['user_token'], $data['identity_token'], $data['identity_provider']))
