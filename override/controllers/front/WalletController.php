@@ -94,7 +94,7 @@ class WalletController extends FrontController {
                         '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                     );
-                    print_r($vars);
+
                     $template = 'send_gift';
                     $prefix_template = '16-send_gift';
 
