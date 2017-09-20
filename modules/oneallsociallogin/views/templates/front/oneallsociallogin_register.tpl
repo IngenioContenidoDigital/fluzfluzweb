@@ -44,16 +44,20 @@
                     <input type="text" class="is_required form-control" id="oasl_lastname" name="oasl_lastname" value="{if isset($smarty.post.oasl_lastname)}{$smarty.post.oasl_lastname|stripslashes}{elseif $oasl_populate == '1'}{$oasl_last_name}{/if}" />
                 </div>
                 <div class="form-group">
-                    <label for="oasl_username">Nombre de Usuario <sup>*</sup></label>
-                    <input type="text" class="is_required form-control" id="oasl_username" name="oasl_username" value="{if isset($smarty.post.oasl_username)}{$smarty.post.oasl_username|stripslashes}{elseif $oasl_populate == '1'}{$oasl_username}{/if}" />
-                </div>
-                <div class="form-group">
                     <label for="oasl_email">Correo electronico <sup>*</sup></label>
                     <input type="text" class="is_required form-control" id="oasl_email" name="oasl_email" value="{if isset($smarty.post.oasl_email)}{$smarty.post.oasl_email|stripslashes}{elseif $oasl_populate == '1'}{$oasl_email}{/if}" />
                 </div>
                 <div class="form-group">
+                    <label for="oasl_username">Nombre de usuario <sup>*</sup></label>
+                    <input type="text" class="is_required form-control" id="oasl_username" name="oasl_username" value="{if isset($smarty.post.oasl_username)}{$smarty.post.oasl_username|stripslashes}{elseif $oasl_populate == '1'}{$oasl_username}{/if}" />
+                </div>
+                <div class="form-group">
                     <label for="oasl_address">Direcci&oacute;n <sup>*</sup></label>
                     <input type="text" class="is_required form-control" id="oasl_address" name="oasl_address" value="{if isset($smarty.post.oasl_address)}{$smarty.post.oasl_address|stripslashes}{elseif $oasl_populate == '1'}{$oasl_address}{/if}" />
+                </div>
+                <div class="form-group">
+                    <label for="oasl_phone">Tel&eacute;fono <sup>*</sup></label>
+                    <input type="text" class="is_required form-control" id="oasl_phone" name="oasl_phone" value="{if isset($smarty.post.oasl_phone)}{$smarty.post.oasl_phone|stripslashes}{elseif $oasl_populate == '1'}{$oasl_phone}{/if}" />
                 </div>
                 <div class="form-group">
                     <label for="oasl_city">Ciudad <sup>*</sup></label>
