@@ -110,6 +110,10 @@ class oneall_social_login_tools
      */
     public static function create_customer_from_data(array $data, $send_email_to_admin = false, $send_email_to_customer = false)
     {
+        echo "<h1>entra 1</h1>";
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
         if (is_array($data) && !empty($data['user_token']) && !empty($data['identity_token']))
         {
             $password = Tools::passwdGen();

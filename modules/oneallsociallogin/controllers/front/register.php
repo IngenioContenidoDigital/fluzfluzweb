@@ -155,7 +155,6 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					// We are good to go.
 					if (count ($this->errors) == 0)
 					{
-                                            echo "<h1>entra 1</h1>";
 						// Store the manually entered email fields.
 						$data ['user_email'] = strtolower ($email);
 						$data ['user_first_name'] = ucwords (strtolower ($firstname));
@@ -186,8 +185,6 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 							$back = (!empty ($back) ? $back : oneall_social_login_tools::get_current_url ());
 							Tools::redirect ($back);
 						}
-                                        } else {
-                                            echo "<h1>entra 2</h1>";
                                         }
 				}
 				// First call of the page.
