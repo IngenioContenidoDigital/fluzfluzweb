@@ -795,6 +795,7 @@
                 $('.amount_unit').val(ptoList);
                 $('.amount_unit_cash').html(cashconvertion);
                 $('.text_fluz').html('Fluz');
+                $('.ptos_all').val(ptoList);
             }
                 
         }).keydown(function( event ) {
