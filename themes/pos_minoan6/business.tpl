@@ -225,7 +225,7 @@
         {foreach from=$network item=net}
             <div class="row content-info-users" id="content-users">
                 <input type="hidden" id="id_sponsor" value="{$net.id_customer}">
-                <input type="hidden" id="partial_amount-{$net.id_customer}" value="">
+                <input type="hidden" class="ptos_all" id="partial_amount-{$net.id_customer}" value="">
                 <input type="hidden" id="email_id" value="{$net.email}">
                 
                 <div class="col-lg-1 content-item-users">
@@ -420,8 +420,8 @@
                        
                        $( ".r_clase" ).each(function( index ) {
                             var id_sponsor = $(this).attr("sponsor");
-                            var amount_edit = ($( this ).val())/25;
-
+                            var amount_edit = ($(this).val())/25;
+                            console.log(amount_edit);
                             if($('#partial_amount-'+id_sponsor).val() !== ''){
                                 amount_edit = $('#partial_amount-'+id_sponsor).val();
                             }
@@ -442,7 +442,8 @@
                             url : urlTransferController,
                             type : 'POST',
                             data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
-                            success : function() {
+                            success : function(data) {
+                                //console.log(data);
                                 $('#progress-bar').hide();
                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
@@ -780,6 +781,7 @@
                 $('.text_fluz').html('$ COP');
                 $('#available-point span').html(result2);
                 $('#title-fluz span').html(cashconvertion2);
+                $('.ptos_all').val(ptoList);
                 
             }else{
                 valor2*=-1;
@@ -793,6 +795,7 @@
                 $('.amount_unit').val(ptoList);
                 $('.amount_unit_cash').html(cashconvertion);
                 $('.text_fluz').html('Fluz');
+                $('.ptos_all').val(ptoList);
             }
                 
         }).keydown(function( event ) {

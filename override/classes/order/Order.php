@@ -160,11 +160,18 @@ class Order extends OrderCore
                     $point_product .=  "<label>".$point_p."</label><br>";
                     $name_product .= "<label>".$product_cart['product_name']."</label><br>";
                     
-                    if($product_cart['expiration'] == '0000-00-00'){
+                }
+                
+                $date_exp = Db::getInstance()->executeS('SELECT pc.date_expiration FROM ps_product_code pc
+                                        LEFT JOIN ps_product p ON (pc.id_product = p.id_product)
+                                        WHERE id_order ='.$order->id);
+                        
+                foreach ($date_exp as $exp){
+                    if($exp['date_expiration'] == '0000-00-00'){
                         $expiration_product = '';
                     }
                     else{
-                        $expiration_product .= "<label>".$product_cart['expiration']."</label><br>";
+                        $expiration_product .= "<label>".$exp['date_expiration']."</label><br>";
                     }
                 }
                 

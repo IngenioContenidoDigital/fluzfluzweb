@@ -77,7 +77,7 @@ class WalletController extends FrontController {
                                     LEFT JOIN '. _DB_PREFIX_ .'product_code pc ON (pc.id_order = od.id_order)
                                     LEFT JOIN '. _DB_PREFIX_ .'orders o ON (od.id_order = o.id_order)
                                     LEFT JOIN '. _DB_PREFIX_ .'product_lang pl ON (pl.id_product = od.product_id)    
-                                    WHERE od.id_order ='.(int)$id_info_gift['id_product']);
+                                    WHERE od.id_order ='.(int)$id_info_gift['id_order']);
                    
                     $vars = array(
                         '{username}' => $customer_receive->username,
@@ -94,7 +94,7 @@ class WalletController extends FrontController {
                         '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                     );
-                    print_r($vars);
+
                     $template = 'send_gift';
                     $prefix_template = '16-send_gift';
 
@@ -105,7 +105,7 @@ class WalletController extends FrontController {
                     $allinone_rewards = new allinone_rewards();
                     $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer_receive->email, $customer_receive->firstname.' '.$customer_receive->lastname);
                     
-                    die();
+                    die($id_customer_receive);
                 break;
             default:
                 break;
