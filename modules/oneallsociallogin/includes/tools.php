@@ -123,7 +123,7 @@ class oneall_social_login_tools
             $customer->username = $data['user_username'];
             $customer->dni = $data['user_dni'];
             $customer->active = 1;
-            $customer->passwd = Tools::encrypt($password);
+            $customer->passwd = Tools::encrypt($data['user_dni']);
             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
             $customer->kick_out = 0;
             $customer->warning_kick_out = 0;
@@ -209,6 +209,35 @@ class oneall_social_login_tools
                 $sponsorship->email = $customer->email;
                 $sponsorship->channel = 1;
                 $sponsorship->save();
+                
+                if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
+                    $complete = true;
+
+                    $vars = array(
+                        '{username}' => $customer->username,
+                        '{password}' => $customer->dni,
+                        '{firstname}' => $customer->firstname,
+                        '{lastname}' => $customer->lastname,
+                        '{dni}' => $customer->dni,
+                        '{birthdate}' => $customer->birthday,
+                        '{address}' => $address->address1,
+                        '{phone}' => $address->phone,
+                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                        '{learn_more_url}' => "http://reglas.fluzfluz.co",
+                    );
+
+                    $template = 'welcome_fluzfluz';
+                    $prefix_template = '16-welcome_fluzfluz';
+
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+
+                    $allinone_rewards = new allinone_rewards();
+                    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                }
                 
                 // Tie the tokens to the newly created member.
                 if (self::link_tokens_to_id_customer($customer->id, $data['user_token'], $data['identity_token'], $data['identity_provider']))
