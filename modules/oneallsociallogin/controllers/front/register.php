@@ -51,17 +51,20 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 		// The cookie is required to proceed.
 		if (isset ($this->context->cookie->oasl_data))
 		{
+                    echo "<h1>entra 1<h1>";
 			// Extract the data.
 			$data = unserialize (base64_decode ($this->context->cookie->oasl_data));
 			
 			// Check data format.
 			if (is_array ($data))
 			{
+                            echo "<h1>entra 2<h1>";
 				$have_error = false;
 				
 				// Submit Button Clicked
 				if (Tools::isSubmit ('submit'))
 				{
+                                    echo "<h1>entra 3<h1>";
 					// Reset Errors.
 					$this->errors = array();
 					
@@ -190,6 +193,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 				// First call of the page.
 				else
 				{
+                                    echo "<h1>entra 5<h1>";
 					$smarty->assign ('oasl_populate', 1);
 					$smarty->assign ('oasl_email', (isset ($data ['user_email']) ? $data ['user_email'] : ''));
 					$smarty->assign ('oasl_first_name', (isset ($data ['user_first_name']) ? $data ['user_first_name'] : ''));
@@ -203,7 +207,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 				
 				// Show our template.
 				$this->setTemplate ('oneallsociallogin_register.tpl');
-			}
+			} else { die("no hay data"); }
                 } else { die("no hay cookie"); }
 		
 		// We could not extract the data.
