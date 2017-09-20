@@ -61,11 +61,19 @@
                 </div>
                 <div class="form-group">
                     <label for="oasl_city">Ciudad <sup>*</sup></label>
-                    <input type="text" class="is_required form-control" id="oasl_city" name="oasl_city" value="{if isset($smarty.post.oasl_city)}{$smarty.post.oasl_city|stripslashes}{elseif $oasl_populate == '1'}{$oasl_city}{/if}" />
+                    <select id="oasl_city" name="oasl_city" class="is_required form-control" style="max-width: 100%;">
+                        {foreach from=$cities item=city}
+                            <option value="{$city.ciudad}">{$city.ciudad}</option>
+                        {/foreach}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="oasl_typedni">Tipo identificaci&oacute;n <sup>*</sup></label>
-                    <input type="text" class="is_required form-control" id="oasl_typedni" name="oasl_typedni" value="{if isset($smarty.post.oasl_typedni)}{$smarty.post.oasl_typedni|stripslashes}{elseif $oasl_populate == '1'}{$oasl_typedni}{/if}" />
+                    <select class="is_required form-control" id="oasl_typedni" name="oasl_typedni" style="max-width: 100%;">
+                        <option value="0" selected="selected">Cedula de Ciudadan&iacute;a</option>
+                        <option value="1">NIT</option>
+                        <option value="2">Cedula de Extranjer&iacute;a</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="oasl_dni">Identificaci&oacute;n <sup>*</sup></label>

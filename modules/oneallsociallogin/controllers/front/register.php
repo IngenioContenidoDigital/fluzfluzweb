@@ -42,6 +42,8 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 		{
 			$this->context->smarty->assign ('back', Tools::safeOutput ($back));
 		}
+                
+                $this->context->smarty->assign('cities', City::getCities());
 		
 		// Did an error occur?
 		$have_error = true;
