@@ -164,7 +164,7 @@ class oneall_social_login_tools
                 $customer->email = self::generate_random_email_address();
                 $customer->newsletter = false;
             }
-echo "<pre>"; print_r($customer); echo "</pre>";
+
             // Create a new user account.
             if ($customer->add())
             {
