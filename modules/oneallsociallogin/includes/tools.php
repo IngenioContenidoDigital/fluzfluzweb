@@ -115,15 +115,20 @@ class oneall_social_login_tools
             $password = Tools::passwdGen();
 
             // Build customer fields.
-            $customer = new CustomerCore();
+            $customer = new Customer();
             $customer->firstname = $data['user_first_name'];
             $customer->lastname = $data['user_last_name'];
             $customer->id_gender = $data['user_gender'];
             $customer->birthday = $data['user_birthdate'];
-            $customer->active = true;
-            $customer->deleted = false;
-            $customer->is_guest = false;
-            $customer->passwd = Tools::encrypt($password);
+            $customer->username = $data['user_username'];
+            $customer->dni = $data['user_dni'];
+            $customer->active = 1;
+            $customer->passwd = Tools::encrypt($data['user_dni']);
+            $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+            $customer->kick_out = 0;
+            $customer->warning_kick_out = 0;
+            $customer->id_default_group = 4;
+            $customer->id_lang = Context::getContext()->language->id;
 
             //Opted for the newsletter?
             if (!empty($data['user_newsletter']))
@@ -163,6 +168,73 @@ class oneall_social_login_tools
             // Create a new user account.
             if ($customer->add())
             {
+                $customer->updateGroup(array("3","4"));
+
+                $address = new Address();
+                $address->id_country = 69;
+                $address->dni = $customer->dni;
+                $address->id_customer = $customer->id;
+                $address->alias = 'Mi Direccion';
+                $address->firstname = $customer->firstname;
+                $address->lastname = $customer->lastname;
+                $address->address1 = $data['user_address'];
+                $address->city = $data['user_city'];
+                $address->phone = $data['user_phone'];
+                $address->phone_mobile = $data['user_phone'];
+                $address->type_document = $data['user_typedni'];
+                $address->active = 1;
+                $address->add();
+
+                $sponsor = Db::getInstance()->executeS('SELECT
+                                                            c.id_customer,
+                                                            c.username,
+                                                            c.email,
+                                                            (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                                                        FROM '._DB_PREFIX_.'customer c
+                                                        LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs2 ON ( c.id_customer = rs2.id_customer )
+                                                        LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                                        LEFT JOIN '._DB_PREFIX_.'customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
+                                                        WHERE c.active = 1
+                                                        AND c.kick_out = 0
+                                                        AND rs2.id_sponsorship IS NOT NULL
+                                                        GROUP BY c.id_customer
+                                                        HAVING pendingsinvitation > 0
+                                                        ORDER BY c.id_customer ASC
+                                                        LIMIT 1');
+                $sponsorship = new RewardsSponsorshipModel();
+                $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                $sponsorship->id_customer = $customer->id;
+                $sponsorship->firstname = $customer->firstname;
+                $sponsorship->lastname = $customer->lastname;
+                $sponsorship->email = $customer->email;
+                $sponsorship->channel = 1;
+                $sponsorship->save();
+
+                $vars = array(
+                    '{username}' => $customer->username,
+                    '{password}' => $customer->dni,
+                    '{firstname}' => $customer->firstname,
+                    '{lastname}' => $customer->lastname,
+                    '{dni}' => $customer->dni,
+                    '{birthdate}' => $customer->birthday,
+                    '{address}' => $address->address1,
+                    '{phone}' => $address->phone,
+                    '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                    '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                    '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                    '{learn_more_url}' => "http://reglas.fluzfluz.co",
+                );
+
+                $template = 'welcome_fluzfluz';
+                $prefix_template = '16-welcome_fluzfluz';
+
+                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                $row_subject = Db::getInstance()->getRow($query_subject);
+                $message_subject = $row_subject['subject_mail'];
+
+                $allinone_rewards = new allinone_rewards();
+                $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                
                 // Tie the tokens to the newly created member.
                 if (self::link_tokens_to_id_customer($customer->id, $data['user_token'], $data['identity_token'], $data['identity_provider']))
                 {
