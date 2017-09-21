@@ -87,6 +87,13 @@ class PayuCreditCard extends PayUControllerWS {
             }
     
             $keysPayu = $conf->keys();
+            
+            if ( $params[4]['amount'] > 30000 ) {
+                $keysPayu['accountId'] = (int)Configuration::get('PAYU_LATAM_ACCOUNT_ID');
+            } else {
+                $keysPayu['accountId'] = (int)Configuration::get('PAYU_LATAM_ACCOUNT_ID_2');
+            }
+
             $address = new Address($this->context->cart->id_address_delivery); 
             $billingAddress = new Address($this->context->cart->id_address_invoice); 
             $id_order = 0;
