@@ -133,7 +133,7 @@ class AdminCashOutControllerCore extends AdminController
     }
     
     public function datos_cash($id_payment){
-        $query = 'SELECT a.id_rewards_payment, a.nombre, a.apellido, a.numero_tarjeta, a.tipo_cuenta, a.banco, a.points, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status
+        $query = 'SELECT a.id_rewards_payment, a.nombre, a.nit_cedula, a.apellido, a.numero_tarjeta, a.tipo_cuenta, a.banco, a.points, a.credits, a.date_add, a.id_status, b.name AS name, b.id_status
                   FROM '._DB_PREFIX_.'rewards_payment a  
                   LEFT JOIN `'._DB_PREFIX_.'rewards_payment_state` b ON (b.`id_status` = a.`id_status`) WHERE id_rewards_payment='.$id_payment;
         

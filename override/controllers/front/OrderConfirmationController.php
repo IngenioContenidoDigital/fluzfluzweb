@@ -68,10 +68,10 @@ class OrderConfirmationController extends OrderConfirmationControllerCore
         if (!Validate::isLoadedObject($order) || $order->id_customer != $this->context->customer->id || $this->secure_key != $order->secure_key) {
             Tools::redirect($redirectLink);
         }
-        $module = Module::getInstanceById((int)($this->id_module));
+        /*$module = Module::getInstanceById((int)($this->id_module));
         if ($order->module != $module->name) {
             Tools::redirect($redirectLink);
-        }
+        }*/
         
         $url_banco2 = Tools::getValue('bankdest2', 0);
         $url_dec_64 = base64_decode(strtr($url_banco2, '-_,', '+/='));
@@ -108,6 +108,7 @@ class OrderConfirmationController extends OrderConfirmationControllerCore
             'HOOK_ORDER_CONFIRMATION' => $this->displayOrderConfirmation(),
             'HOOK_PAYMENT_RETURN' => $this->displayPaymentReturn(),
             'message_payu' => $message_payu,
+            'date_free_order' => Tools::displayDate(date('Y-m-d H:i:s'), null, 1),
             'pse' => $pse
         ));
 
@@ -142,6 +143,7 @@ class OrderConfirmationController extends OrderConfirmationControllerCore
             's3'=> _S3_PATH_,
             'order' => $order,
             'mediumSize' => Image::getSize(ImageType::getFormatedName('medium')),
+            'date_free_order' => Tools::displayDate(date('Y-m-d H:i:s'), null, 1),
             'order_products' => $order_products,
             'state_payment' => $state_payment[0]
         ));
