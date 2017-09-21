@@ -113,7 +113,6 @@ $(document).ready(function() {
                 url:"/transferfluzfunction.php",
                 data:'username='+username+'&id_customer='+id_customer,
                 success: function(data){
-                    console.log(data);
                     if(data != ""){
                         $("#resultados").empty();
                         data = jQuery.parseJSON(data);
@@ -140,14 +139,20 @@ $(document).ready(function() {
 });
 
 function renderViewCard(key, card) {
-    if ( card.expiration == '00/00/0000' ) {
+    if ( card.date_expiration == '00/00/0000' ) {
         $('#vencimiento').hide();
     } else {
-        $("#expiration").html( card.expiration );
+        $("#expiration").html( card.date_expiration );
         $('#vencimiento').show();
     }
-    
-    if(card.send_gift != 1){
+    console.log(card.send_gift);
+    if(card.send_gift == 2){
+        $("#code").html( card.card_code );
+        $('#send_gift').hide();
+        $('#img-code').show();
+        $('.cardviewupt-used').show();
+    }
+    else if(card.send_gift == null){
         $("#code").html( card.card_code );
         $('#send_gift').show();
         $('#img-code').show();
@@ -229,6 +234,7 @@ function markUsed(card,used) {
                   gift_cards[key].used = used;
                   $("div[key='"+key+"']").find(".state-used-gift").removeClass("state-used-gift0 state-used-gift1 state-used-gift2");
                   $("div[key='"+key+"']").find(".state-used-gift").addClass("state-used-gift"+used);  
+                  
                 }
             } else {
                 alert("Ha ocurrido un error. Por favor intente mas tarde.");
@@ -246,21 +252,23 @@ function myFunction(name, id_sponsor) {
 }
 
 function send_gift(){
-    var $id_customer_receive = $('#id_sponsor_sel').val();
+    var id_customer_receive = $('#id_sponsor_sel').val();
     var id_customer = $("#id_customer").val();
     var code_s = $('#code').text();
     var code_card = code_s.replace(/\s/g, '');
     var id_product_code = $('#card_product').val();
+    var message = jQuery("textarea#send_comment").val();
     
     $.ajax({
         url : urlWalletController,
         type : 'POST',
-        data : 'action=send_gift_card&$id_customer_receive='+$id_customer_receive+'&id_customer='+id_customer+'&code_card='+code_card+'&id_product_code='+id_product_code,
+        data : 'action=send_gift_card&id_customer_receive='+id_customer_receive+'&id_customer='+id_customer+'&code_card='+code_card+'&id_product_code='+id_product_code+'&message='+message,
         success : function(response) {
-            if ( response != '' ) {
+            if ( response != '' && response !== ' undefined') {
                 window.top.location = "confirmtransfergift";
             } else {
-                console.log('fallo');
+                $('#error_busqueda').show();
+                $('#error_busqueda').html('El Fluzzer seleccionado no existe.');
             }
         }
     });

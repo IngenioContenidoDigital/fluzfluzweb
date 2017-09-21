@@ -31,6 +31,7 @@ class WalletCore extends ObjectModel
                         PP.price_shop AS price,
                         COUNT(PC.state = 'Disponible' OR PC.state = 'Usada') AS cards_num, 
                         PP.codetype,
+                        DATE_FORMAT(PC.date_expiration, '%d/%m/%Y') AS date_expiration,
                         ROUND(PP.price) AS price_shop,
                         DATE_FORMAT(PO.date_add, '%d/%m/%Y') AS date,
                         DATE_FORMAT(PP.expiration, '%d/%m/%Y') AS expiration,
@@ -97,6 +98,7 @@ class WalletCore extends ObjectModel
                         COUNT(PC.state = 'Disponible' OR PC.state = 'Usada') AS cards_num,
                         PP.price_shop AS price,
                         PP.codetype,
+                        DATE_FORMAT(PC.date_expiration, '%d/%m/%Y') AS date_expiration,
                         ROUND(PP.price) AS price_shop,
                         DATE_FORMAT(PO.date_add, '%d/%m/%Y') AS date,
                         DATE_FORMAT(PP.expiration, '%d/%m/%Y') AS expiration,
@@ -135,6 +137,7 @@ class WalletCore extends ObjectModel
                 $i++;
             }
             $card['card_code'] = $cardcode;
+            $card['gift'] = true;
         }
         
         if(empty($cards)){

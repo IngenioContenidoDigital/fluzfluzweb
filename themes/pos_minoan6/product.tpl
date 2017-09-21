@@ -311,7 +311,7 @@
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;"></div>
                                                                                 {/if*}    
                                                                                 {if $logged}
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/$sponsor)|string_format:"%d"}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/2)|string_format:"%d"}</div>
                                                                                 {else}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/16)|string_format:"%d"}</div>
                                                                                 {/if}    
@@ -351,9 +351,9 @@
                                                                                 {else}
                                                                                     <div class="text-detail">{l s="- El valor del bono esta expresado segun la tasa de cambio en USD. Como este valor se muestra en pesos colombianos, el precio puede variar segun la fluctuacion de la TRM y la acumulacion de Fluz. Fluz Fluz siempre busca ofrecer un atractivo negocio para el Fluzzer."}</div>
                                                                                 {/if}
-                                                                                {if $list.expiration!='0000-00-00'}
-                                                                                    <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$list.expiration}</span></div>
-                                                                                {/if}
+                                                                                {*if $list.expiration!='0000-00-00'}
+                                                                                    <div class="expiration-detail">{l s="Fecha de Vencimiento:"}<span style="margin-left: 10px;">{$list.date_expiration}</span></div>
+                                                                                {/if*}
                                                                             </div>
                                                                         {/foreach}
                                                                         

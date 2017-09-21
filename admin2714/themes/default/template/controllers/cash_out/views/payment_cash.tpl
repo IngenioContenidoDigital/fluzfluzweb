@@ -97,6 +97,9 @@
         else if(selected == 'No Procesada'){
             $("#select-name").addClass('No_Procesada');
         }
+        else if(selected == 'Cancelada'){
+            $("#select-name").addClass('cancel_cash');
+        }
         
         $('#option-sel').val(selected);
     });

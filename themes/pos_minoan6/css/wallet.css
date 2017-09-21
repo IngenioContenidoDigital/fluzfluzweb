@@ -96,6 +96,16 @@ div.radio { margin-right: 10px; }
     color: #000;
     font-weight: bold;}
 
+.send_motive{padding: 0px; white-space: pre-line;}
+#send_comment{text-align: center;}
+#error_busqueda{    
+    padding: 0;
+    background: #ef4136;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2px;}
+
 @media (max-width:768px) {
     .wallet-container, #columns { padding: 0; }
     .col-xs-0 { display: none; }

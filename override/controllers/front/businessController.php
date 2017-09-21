@@ -62,8 +62,8 @@ class businessController extends FrontController {
         $this->context->smarty->assign('network', $list_business);
         
         /* Funciones Historial de Compras */
-        
-        $history_purchase = $this->history_purchase_employee($list_business);
+        $limit = 5;
+        $history_purchase = $this->history_purchase_employee($list_business, $limit);
         $this->context->smarty->assign('history_purchase', $history_purchase);
         
         /* Funciones Historial de Transferencias */
@@ -128,7 +128,8 @@ class businessController extends FrontController {
         if(Tools::isSubmit('export-excel-purchase')){
             
             $history_purchase = $this->network();
-            $purchase_employee = $this->history_purchase_employee($history_purchase);
+            $limit = 10000;
+            $purchase_employee = $this->history_purchase_employee($history_purchase, $limit);
             
             $report = "<html>
                         <head>
@@ -715,13 +716,38 @@ class businessController extends FrontController {
                 $list_var_all = json_decode($list_all, true);
                 
                 foreach ($list_var_all as $network) {
-                    $query_t = 'SELECT id_transfers_fluz FROM ' . _DB_PREFIX_ . 'transfers_fluz WHERE id_customer=' . (int) $this->context->customer->id . ' ORDER BY id_transfers_fluz DESC';
+                    
+                    if (!empty($network)){
+                    
+                    $query_t = 'SELECT id_transfers_fluz, date_add FROM ' . _DB_PREFIX_ . 'transfers_fluz WHERE id_customer=' . (int) $this->context->customer->id . ' ORDER BY id_transfers_fluz DESC';
                     $row_t = Db::getInstance()->getRow($query_t);
                     $id_transfer = $row_t['id_transfers_fluz'];
-
+                    $date_add = $row_t['date_add'];
+                    
                     Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                             . "                          VALUES ('2', " . (int) $network['id_sponsor'] . ", 0,NULL,'0','0'," . $network['amount'] . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
-                
+                    
+                    $customer_send = new Customer($network['id_sponsor']);
+                    $total_paid = round(RewardsModel::getMoneyReadyForDisplay($network['amount'], 1));
+                    
+                    $data = array(
+                    '{username}' => $customer_send->username,
+                    '{username_send}' => $this->context->customer->username,
+                    '{date}' => $date_add,
+                    '{total_points_granted}'=> $network['amount'],
+                    '{total_paid}' => Tools::displayPrice($total_paid,1, false),
+                    );
+
+                    $template = 'send_free_fluz';
+                    $prefix_template = '16-send_free_fluz';
+
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+
+                    $allinone_rewards = new allinone_rewards();
+                    $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $data, 'daniel.gonzalez@ingeniocontenido.co', $customer_send->firstname.' '.$customer_send->lastname);
+                   }
                 }
                 die();
                 break;    
@@ -749,6 +775,27 @@ class businessController extends FrontController {
 
                     Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                             . "                          VALUES ('2', " . (int) $network['id_sponsor'] . ", 0,NULL,'0','0'," . $network['amount'] . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
+                
+                    $customer_send = new Customer($network['id_sponsor']);
+                    $total_paid = round(RewardsModel::getMoneyReadyForDisplay($network['amount'], 1));
+                    
+                    $data = array(
+                    '{username}' => $customer_send->username,
+                    '{username_send}' => $this->context->customer->username,
+                    '{date}' => $date_add,
+                    '{total_points_granted}'=> $network['amount'],
+                    '{total_paid}' => Tools::displayPrice($total_paid,1, false),
+                    );
+
+                    $template = 'send_free_fluz';
+                    $prefix_template = '16-send_free_fluz';
+
+                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                    $row_subject = Db::getInstance()->getRow($query_subject);
+                    $message_subject = $row_subject['subject_mail'];
+
+                    $allinone_rewards = new allinone_rewards();
+                    $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $data, $customer_send->email, $customer_send->firstname.' '.$customer_send->lastname);
                 }
                 break;
             
@@ -1002,7 +1049,7 @@ class businessController extends FrontController {
                     $pointsAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float) $totals[RewardsStateModel::getValidationId()] : 0);
                     $pointsAvailablemoney = $pointsAvailable*25;
                     $sum = 0;
-                    $error = "";
+                    $error = true;
 
                     foreach($list_var_transfer as $datacustomer){ 
                         
@@ -1092,7 +1139,7 @@ class businessController extends FrontController {
         return $history_transfer;
     }
     
-    function history_purchase_employee($list_business){
+    function history_purchase_employee($list_business, $limit){
         
         $array_purchase = array();
         
@@ -1118,7 +1165,7 @@ class businessController extends FrontController {
                                 AND O.current_state = 2
                                 AND p.reference NOT LIKE "MFLUZ%"
                                 ORDER BY O.id_order DESC
-                                LIMIT 5';
+                                LIMIT '.$limit.'';
             $array_purchase[ $employee['id_customer'] ]['details'] = Db::getInstance()->executeS($query_purchase);
             
             if ( empty($array_purchase[ $employee['id_customer'] ]['details']) ) {

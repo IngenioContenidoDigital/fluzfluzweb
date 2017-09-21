@@ -227,7 +227,7 @@ class API extends REST {
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
         $productChild[$i]['c_price_shop_format'] = $this->formatPrice(round($productChild[$i]['c_price_shop']));
-        $productChild[$i]['c_win_fluz'] = round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) );
+        $productChild[$i]['c_win_fluz'] = (round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) ))/2;
         $productChild[$i]['c_price_fluz'] = $this->formatPrice(round( $productChild[$i]['c_price'] / 25 ));
         $productChild[$i]['c_price'] = $this->formatPrice(round($productChild[$i]['c_price']));
         
@@ -1055,15 +1055,17 @@ class API extends REST {
 
     public function searchFluzzer()
     {
-        if($this->get_request_method() != "POST") {
-            $this->response('',406);
-        }
-        
-        $params = array();
-        $params["searchBox"] = $this->_request['searchBox'];
+      if($this->get_request_method() != "POST") {
+          $this->response('',406);
+      }
 
-	$model = new Model();
-	$this->response( $this->json($model->searchFluzzer($params)) , 200 );
+      $params = array();
+      $params["searchBox"] = $this->_request['searchBox'];
+      $params["userId"] = $this->_request['userId'];
+//      error_log("\n\n\n\n this->_request['userId']: \n\n".print_r($this->_request['userId'],true),3,"/tmp/error.log");
+
+      $model = new Model();
+      $this->response( $this->json($model->searchFluzzer($params)) , 200 );
     }
 
     /**
@@ -1316,9 +1318,13 @@ class API extends REST {
         $countPurchases = 0;
         if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
           $id_manufacturer = $this->_request['id_manufacturer'];
-          $purchases = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
+          $bonus = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
+          $gift = $model->getVaultGiftByManufacturer($id_customer, $id_manufacturer);
+          
+          $purchases['result'] = ($gift['result'] !== 'vacio') ? array_merge($bonus['result'], $gift['result']) : $bonus['result'];
+
           foreach ($purchases['result'] as &$purchase){
-//            $purchase['card_code'] = (int)$purchase['card_code'];            
+            $purchase['card_code'] = (string)$purchase['card_code'];            
             $purchase['price'] = round($purchase['price']);
             $purchase['formatPrice'] = $this->formatPrice($purchase['price']);
             $purchase['showDetails'] = false;
@@ -1685,7 +1691,12 @@ class API extends REST {
             FROM '._DB_PREFIX_.'customer
             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->executeS($sql);
-    return $this->response(json_encode(array('result' => $result)),200);
+    if ( isset($result['0']['vault_code']) && !empty($result['0']['vault_code']) && $result['0']['vault_code'] != 0 ){
+      return $this->response(json_encode(array('result' => true)),200);
+    }
+    else {
+      return $this->response(json_encode(array('result' => false)),200);
+    }
   }
   
   public function setPasscode() {
@@ -1700,7 +1711,14 @@ class API extends REST {
             SET vault_code = '.$passcode.'
             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($sql);
-    return $this->response(json_encode(array('result' => $result)),200);
+    
+    if ($result  == 1){
+      return $this->response(json_encode(array('result' => true)),200);
+    }
+    else {  
+      return $this->response(json_encode(array('result' => false)),200);
+    }
+    
   }
   
   public function validatePasscode() {
@@ -1983,9 +2001,9 @@ class API extends REST {
   
   
   public function profileImage() {
-    error_log("\n\nMe ejecutaron Brother\n\n",3,"/tmp/error.log");
-    error_log("\n\nEsto recibo: \n\n".print_r($_FILES, true),3,"/tmp/error.log");
-    error_log("\n\nEsto recibo: \n\n".print_r($this->_request, true),3,"/tmp/error.log");
+//    error_log("\n\nMe ejecutaron Brother\n\n",3,"/tmp/error.log");
+//    error_log("\n\nEsto recibo: \n\n".print_r($_FILES, true),3,"/tmp/error.log");
+//    error_log("\n\nEsto recibo: \n\n".print_r($this->_request, true),3,"/tmp/error.log");
 //    if($this->get_request_method() != "POST") {
 //      $this->response('',406);
 //    }
@@ -2012,6 +2030,120 @@ class API extends REST {
     $mythumb->loadImage($patch_grabar);
     $mythumb->crop(400, 400, 'center');
     $mythumb->save($patch_grabar);
+  }
+  
+  public function sendGiftCard(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    $id_customer_receive = $this->_request['id_customer_receive'];
+    $code = $this->_request['code'];
+    $id_product_code = $this->_request['id_product_code'];
+    $message = $this->_request['message'];
+    $customer_send = $this->_request['customer_send'];
+    $customer_receive = new Customer($id_customer_receive);
+    
+    $error = 0;
+    
+    $id_info_gift = Db::getInstance()->getRow('SELECT pc.id_order as id_order, pc.id_product as id_product, pc.last_digits as last_digits, pc.pin_code as pin_code
+                           FROM '._DB_PREFIX_.'product_code pc WHERE pc.id_product_code = '.$id_product_code);
+    if(!empty($id_info_gift) && isset($id_info_gift) && $id_info_gift['id_order'] != '' && $id_info_gift['id_product'] != ''){
+      $secure_key_sponsor = Db::getInstance()->getValue('SELECT c.secure_key 
+                           FROM '._DB_PREFIX_.'customer c WHERE c.id_customer = '.$id_customer_receive);
+      
+      $code_encrypt_customer = Encrypt::encrypt($secure_key_sponsor, $code);
+      
+      if(!empty($secure_key_sponsor) && isset($secure_key_sponsor) && $secure_key_sponsor != '' &&
+      !empty($code_encrypt_customer) && isset($code_encrypt_customer) && $code_encrypt_customer != ''){
+        $sql_update = 'UPDATE '._DB_PREFIX_.'product_code 
+                      SET send_gift = 1
+                      WHERE id_product_code='.$id_product_code.'
+                        AND id_order = '.$id_info_gift['id_order'];
+        if ( Db::getInstance()->execute($sql_update) == 1 ){
+          $sql_insert = 'INSERT INTO '. _DB_PREFIX_ .'transfer_gift (id_product, id_customer_send, id_customer_receive, message_motive)
+                         VALUES ('.(int)$id_info_gift['id_product'].','.$id_customer.','.$id_customer_receive.',"'.$message.'")';
+          $insert = Db::getInstance()->execute($sql_insert);
+          if ($insert == 1){
+            $id_transfer_gift = Db::getInstance()->getRow('SELECT id_transfer_gift FROM '._DB_PREFIX_.'transfer_gift WHERE id_customer_send='.(int)$id_customer. ' ORDER BY id_transfer_gift DESC');
+            if(!empty($id_transfer_gift) && isset($id_transfer_gift) && $id_transfer_gift['id_transfer_gift'] != ''){
+              $insert2 = Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "product_code (id_product, code, last_digits, pin_code, id_order, used, date_add, state, encry, send_gift, id_transfer_gift)
+              VALUES (" . (int)$id_info_gift['id_product']. ",'".$code_encrypt_customer."','".$id_info_gift['last_digits']."'," . (int)$id_info_gift['pin_code']. ", 0, 0,'" . date("Y-m-d H:i:s") . "','Disponible', 1, 2," .$id_transfer_gift['id_transfer_gift']. ")");
+              if($insert2 == 1){
+                //Preparacion de correo
+                $list_product = Db::getInstance()->getRow('SELECT od.product_name, od.product_quantity, o.total_paid, pl.description_short
+                  FROM '. _DB_PREFIX_ .'order_detail od
+                  LEFT JOIN '. _DB_PREFIX_ .'product_code pc ON (pc.id_order = od.id_order)
+                  LEFT JOIN '. _DB_PREFIX_ .'orders o ON (od.id_order = o.id_order)
+                  LEFT JOIN '. _DB_PREFIX_ .'product_lang pl ON (pl.id_product = od.product_id)    
+                  WHERE od.id_order ='.(int)$id_info_gift['id_order']);
+                if(isset($list_product) && !empty($list_product) && $list_product['product_name'] != ''){
+                  $vars = array(
+                    '{username}' => $customer_receive->username,
+                    '{sender_username}' => $customer_send->username,
+                    '{sender_message}' => $message,
+                    '{name_product}'=> $list_product['product_name'],
+                    '{code_product}'=> $code,
+                    '{quantity}'=> $list_product['product_quantity'],
+                    '{total_products}'=> round($list_product['total_paid']),
+                    '{description}' => $list_product['description_short'],
+                    '{date}' => Tools::displayDate(date('Y-m-d H:i:s'), null, 1),
+                    '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+                    '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                    '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                    '{learn_more_url}' => "http://reglas.fluzfluz.co",
+                  );
+                  $template = 'send_gift';
+                  $prefix_template = '16-send_gift';
+
+                  $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                  $row_subject = Db::getInstance()->getRow($query_subject);
+                  
+                  $message_subject = $row_subject['subject_mail'];
+
+                  $allinone_rewards = new allinone_rewards();
+                  $result = $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer_receive->email, $customer_receive->firstname.' '.$customer_receive->lastname);
+                  
+                  $error = 0;
+                  $msgError = "Se ha transferido con exito.";
+                }
+                else {
+                  $error = 6;
+                  $msgError = "Error al traer los productos para el correo.";
+                }
+              }
+              else{
+                $error = 6;
+                $msgError = "Error al asociar el producto.";
+              }
+            }
+            else{
+              $error = 5;
+              $msgError = "Error al traer informacion de transferencia.";
+            }
+          }
+          else{
+            $error = 4;
+            $msgError = "Error al hacer la transferencia.";
+          }
+          
+        }
+        else{
+          $error = 3;
+          $msgError = "Error al actualizar la información del producto.";
+        }
+      }
+      else {
+        $error = 2;
+        $msgError = "Error al obtener la información del usuario.";        
+      }
+    }
+    else {
+      $error = 1;
+      $msgError = "Error al obtener la información del producto regalo.";
+    }
+    return $this->response(json_encode(array('error' => $error, 'msg' => $msgError)),200);
+    
   }
   
 }

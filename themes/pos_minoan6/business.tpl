@@ -225,7 +225,7 @@
         {foreach from=$network item=net}
             <div class="row content-info-users" id="content-users">
                 <input type="hidden" id="id_sponsor" value="{$net.id_customer}">
-                <input type="hidden" id="partial_amount-{$net.id_customer}" value="">
+                <input type="hidden" class="ptos_all" id="partial_amount-{$net.id_customer}" value="">
                 <input type="hidden" id="email_id" value="{$net.email}">
                 
                 <div class="col-lg-1 content-item-users">
@@ -258,6 +258,14 @@
         <div class="row info-transfer">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz a Enviar: </div><div id="fluz_send" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 t-name">Fluz en Dinero: </div><div id="fluz_send_cash" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 name_sponsor"></div>
+        </div>
+        <div class="row progress-container" id="progress-bar" style="display:none;">
+            <div class="progress">
+                <div class="progress-bar">
+                        <div class="progress-shadow"></div>
+                </div>
+            </div>
+            <div class="text-loader">Estamos Procesando tu solicitud de Transferencia. Por Favor Espera</div>
         </div>
         <div class="row row-btn-modal">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btn-confirm-modal">
@@ -403,14 +411,17 @@
                        var ptoUsed = $('#ptosusedhidden').val();       
                        $(this).prop("disabled",true);
                        $('#cancel_modal_fluz').prop('disabled',true);
+                       $('#progress-bar').show();
+                       $('#progress-bar').css('margin-top','30px');
+                       $('.row-btn-modal').css('margin-top','70px');
                        var listEdit = [];  
                        var total_point = 0;
                        var url = document.getElementById("url_fluz").innerHTML;
                        
                        $( ".r_clase" ).each(function( index ) {
                             var id_sponsor = $(this).attr("sponsor");
-                            var amount_edit = ($( this ).val())/25;
-
+                            var amount_edit = ($(this).val())/25;
+                            console.log(amount_edit);
                             if($('#partial_amount-'+id_sponsor).val() !== ''){
                                 amount_edit = $('#partial_amount-'+id_sponsor).val();
                             }
@@ -431,7 +442,9 @@
                             url : urlTransferController,
                             type : 'POST',
                             data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
-                            success : function() {
+                            success : function(data) {
+                                //console.log(data);
+                                $('#progress-bar').hide();
                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
@@ -509,6 +522,9 @@
                     var url = document.getElementById("url_fluz").innerHTML;
                     $(this).prop("disabled",true);
                     $('#cancel_modal_fluz').prop('disabled',true);
+                    $('#progress-bar').show();
+                    $('#progress-bar').css('margin-top','30px');
+                    $('.row-btn-modal').css('margin-top','70px');
                     
                     $( ".amount_edit" ).each(function( index ) {
                         var id_sponsor = $(this).attr("sponsor");
@@ -529,6 +545,7 @@
                             type : 'POST',
                             data : 'action=editFLuz&listEdit='+listEdit+'&ptosTotal='+total_point,
                             success : function() {
+                                 $('#progress-bar').hide();
                                  window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
@@ -561,6 +578,9 @@
                        var ptoUsed = $('#ptosusedhidden').val();       
                        $(this).prop("disabled",true);
                        $('#cancel_modal_fluz').prop('disabled',true);
+                       $('#progress-bar').show();
+                       $('#progress-bar').css('margin-top','30px');
+                       $('.row-btn-modal').css('margin-top','70px');
                        var listEdit = [];  
                        var total_point = 0;
                        var url = document.getElementById("url_fluz").innerHTML;
@@ -589,7 +609,9 @@
                             url : urlTransferController,
                             type : 'POST',
                             data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
-                            success : function() {
+                            success : function(data) {
+                                console.log(data);
+                                $('#progress-bar').hide();
                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
                             }
                         });
@@ -759,6 +781,7 @@
                 $('.text_fluz').html('$ COP');
                 $('#available-point span').html(result2);
                 $('#title-fluz span').html(cashconvertion2);
+                $('.ptos_all').val(ptoList);
                 
             }else{
                 valor2*=-1;
@@ -772,6 +795,7 @@
                 $('.amount_unit').val(ptoList);
                 $('.amount_unit_cash').html(cashconvertion);
                 $('.text_fluz').html('Fluz');
+                $('.ptos_all').val(ptoList);
             }
                 
         }).keydown(function( event ) {
@@ -825,6 +849,7 @@
                 }
                 
                 var sum = 0;
+                
                 $.each(arr, function( index, value ) {
                             if(flag == true){
                                 var monto = value.montotransferencia;
@@ -861,6 +886,7 @@
                 }
                 else{
                     list_transfer = JSON.stringify(arr);
+                    console.log(list_transfer);
                     $('#success').text(' ');
                     $('#error').text(' ');
                     $.ajax({
@@ -869,7 +895,7 @@
                     data : 'action=uploadtransfers&list_transfer='+list_transfer,
                         success : function(data) {
                            console.log(data); 
-                           if(data != ''){ 
+                           if(data != 1){ 
                                 $('#error').css('display','block');
                                 $('#success').css('display','none');
                                 $('#error').text(data);

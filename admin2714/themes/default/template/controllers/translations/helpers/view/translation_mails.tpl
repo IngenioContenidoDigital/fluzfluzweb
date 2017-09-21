@@ -191,12 +191,14 @@
                                                 <option value='remember_inactive_account'>{l s='16-remember_inactive_account'}</option>
                                                 <option value='rememberinvitenewusers'>{l s='16-rememberinvitenewusers'}</option>
                                                 <option value='sponsorship-invitation-novoucher'>{l s='16-sponsorship-invitation-novoucher'}</option>
+                                                <option value='sponsorship-registration'>{l s='16-sponsorship-registration'}</option>
                                                 <option value='cashout_conf'>{l s='16-cashout_conf'}</option>
                                                 <option value='cashout_approval_notice'>{l s='16-cashout_approval_notice'}</option>
                                                 <option value='payment_error'>{l s='16-payment_error'}</option>
                                                 <option value='monthly-balance-summary'>{l s='16-monthly-balance-summary'}</option>
                                                 <option value='welcome_fluzfluz'>{l s='16-welcome_fluzfluz'}</option>
                                                 <option value='welcome_fluzfluz_business'>{l s='16-welcome_fluzfluz_business'}</option>
+                                                <option value='send_gift'>{l s='16-send_gift'}</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-6">
