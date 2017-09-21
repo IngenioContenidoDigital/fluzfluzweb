@@ -33,6 +33,10 @@
                     <div class="datos-back col-lg-6">{$cashout.nombre}&nbsp;{$cashout.apellido}</div>
                 </div>
                 <div class='style-label row'>
+                    <label class="datos-back col-lg-6">Identificaci&oacute;n del Solicitante: </label>
+                    <div class="datos-back col-lg-6">{$cashout.nit_cedula}</div>
+                </div>
+                <div class='style-label row'>
                     <label class="datos-back col-lg-6">{l s="Numero de Cuenta:"}</label>
                     <div class="datos-back col-lg-6">{$cashout.numero_tarjeta}</div>
                 </div>
