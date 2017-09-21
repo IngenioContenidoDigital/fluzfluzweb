@@ -101,9 +101,6 @@
                                     </button>
                                 </p>
                             </div>
-                            <br><br><br>
-                            <h4 class="page-subheading borde-inf">Iniciar Sesi&oacute;n Con:</h4>
-                            <div id="oneall_social_login"></div>
                             <!--<div class="col-lg-6" style="padding-right:0px; float: right;">
                                 <p class="submit col-lg-12" style='text-align:right;'>
                                     <button class="button btn btn-default button-medium-business">
@@ -116,6 +113,10 @@
                                     </button>
                                 </p>
                             </div>-->
+                            </div>
+                            <div class='row'>
+                                <h4 class="page-subheading borde-inf">Iniciar Sesi&oacute;n Con:</h4>
+                                <div id="oneall_social_login"></div>
                             </div>
                         </div>
                     </form>
