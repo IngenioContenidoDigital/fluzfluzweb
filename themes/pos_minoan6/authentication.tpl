@@ -115,9 +115,10 @@
                             </div>-->
                             </div>
                             <div class='row'>
-                                <br><br>
-                                <h3 class="page-subheading borde-inf">{l s='Already registered?'}</h3>
+                                <br>
+                                <h3 class="page-subheading borde-inf">Inicia Sesi&oacute;n Con:</h3>
                                 <div class="line-separator"></div>
+                                <br>
                                 <div id="oneall_social_login"></div>
                             </div>
                         </div>
@@ -136,9 +137,13 @@
                             <a href="http://info.fluzfluz.co/miembros/" class="learn-buy">{l s="Aprende como comprar bonos"}</a>
                             <i class="icon icon-chevron-right" style="color:#EF4136;"></i>
                         </p>
-                        <br><br><br>
-                        <h4 class="page-subheading borde-inf">Registrarse Con:</h4>
-                        <div id="oneall_social_login"></div>
+                        <div class='row'>
+                            <br>
+                            <h3 class="page-subheading borde-inf">Inicia Sesi&oacute;n Con:</h3>
+                            <div class="line-separator"></div>
+                            <br>
+                            <div id="oneall_social_login"></div>
+                        </div>
                     </form>
                 </div>
             </div>
