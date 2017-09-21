@@ -95,6 +95,14 @@ ul.step li.step_todo span:after{display: none;}
     text-align: center;
     margin-top: 2px;}
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
 @media (max-width:1024px){
     .full-amount{margin-left: 30px; margin-right: 30px;}
     #rangeSlider{margin-left: 5px !important;}
