@@ -115,7 +115,9 @@
                             </div>-->
                             </div>
                             <div class='row'>
-                                <h4 class="page-subheading borde-inf">Iniciar Sesi&oacute;n Con:</h4>
+                                <br><br>
+                                <h3 class="page-subheading borde-inf">{l s='Already registered?'}</h3>
+                                <div class="line-separator"></div>
                                 <div id="oneall_social_login"></div>
                             </div>
                         </div>

@@ -155,4 +155,4 @@ p + .required { font-weight: bold; }
 .button-medium-business:hover{background: #c9b197; color: #fff;}
 .button-medium-business a:hover{color:#fff;}
 
-.plugin .footer { display: none!important; }
+#social_login_frame>.footer { display: none!important; }
