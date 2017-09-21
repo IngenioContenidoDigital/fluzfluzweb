@@ -101,7 +101,8 @@
                                     </button>
                                 </p>
                             </div>
-                            <br><br>
+                            <br><br><br>
+                            <h4 class="page-subheading borde-inf">Iniciar Sesi&oacute;n Con:</h4>
                             <div id="oneall_social_login"></div>
                             <!--<div class="col-lg-6" style="padding-right:0px; float: right;">
                                 <p class="submit col-lg-12" style='text-align:right;'>
@@ -132,6 +133,9 @@
                             <a href="http://info.fluzfluz.co/miembros/" class="learn-buy">{l s="Aprende como comprar bonos"}</a>
                             <i class="icon icon-chevron-right" style="color:#EF4136;"></i>
                         </p>
+                        <br><br><br>
+                        <h4 class="page-subheading borde-inf">Registrarse Con:</h4>
+                        <div id="oneall_social_login"></div>
                     </form>
                 </div>
             </div>
