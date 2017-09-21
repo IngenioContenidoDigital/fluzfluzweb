@@ -42,6 +42,8 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 		{
 			$this->context->smarty->assign ('back', Tools::safeOutput ($back));
 		}
+                
+                $this->context->smarty->assign('cities', City::getCities());
 		
 		// Did an error occur?
 		$have_error = true;
@@ -67,45 +69,88 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$email = trim (Tools::getValue ('oasl_email'));
 					$firstname = trim (Tools::getValue ('oasl_firstname'));
 					$lastname = trim (Tools::getValue ('oasl_lastname'));
-					$newsletter = intval (Tools::getValue ('oasl_newsletter'));
+					$username = trim (Tools::getValue ('oasl_username'));
+					$address = trim (Tools::getValue ('oasl_address'));
+					$phone = trim (Tools::getValue ('oasl_phone'));
+					$city = trim (Tools::getValue ('oasl_city'));
+					$typedni = trim (Tools::getValue ('oasl_typedni'));
+					$dni = trim (Tools::getValue ('oasl_dni'));
+					$newsletter = 1;
 					
 					// Make sure the firstname is not empty.
-					if (strlen ($firstname) == 0)
+					if (strlen ($firstname) == 0 || !Validate::isName($firstname))
 					{
-						$this->errors [] = Tools::displayError ('Please enter your first name');
-					}
-					// Make sure the format of the firstname is correct.
-					elseif (!Validate::isName ($firstname))
-					{
-						$this->errors [] = Tools::displayError ('Please enter a valid first name');
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese un nombre valido.');
 					}
 					
 					// Make sure the lastname is not empty.
-					if (strlen ($lastname) == 0)
+					if (strlen ($lastname) == 0 || !Validate::isName($lastname))
 					{
-						$this->errors [] = Tools::displayError ('Please enter your lastname');
-					}
-					// Make sure the format of the lastname is correct.
-					elseif (!Validate::isName ($lastname))
-					{
-						$this->errors [] = Tools::displayError ('Please enter a valid last name');
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese un apellido valido.');
 					}
 					
 					// Make sure the email address it is not empty.
-					if (strlen ($email) == 0)
+					if (strlen ($email) == 0 || !Validate::isEmail($email))
 					{
-						$this->errors [] = Tools::displayError ('Please enter your email address');
-					}
-					// Make sure the format of the email address is correct.
-					elseif (!Validate::isEmail ($email))
-					{
-						$this->errors [] = Tools::displayError ('Please enter a valid email address');
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese un correo electronico valido.');
 					}
 					// Make sure the email address is not already taken.
-					elseif (oneall_social_login_tools::get_id_customer_for_email_address ($email) !== false)
+					elseif (oneall_social_login_tools::get_id_customer_for_email_address($email) !== false)
 					{
-						$this->errors [] = Tools::displayError ('This email address is already taken');
+                                            $this->errors [] = Tools::displayError ('El correo electronico se encuentra en uso.');
 					}
+                                        
+                                        // Make sure the username is not empty.
+					if (strlen ($username) == 0)
+					{
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese un nombre de usuario valido.');
+					}
+                                        
+                                        // Validate exist username
+                                        if ( Customer::usernameExists($username) ) {
+                                            $this->errors[] = Tools::displayError('El nombre de usuario se encuentra en uso.');
+                                        }
+
+                                        // Make sure the address is not empty.
+					if (strlen ($address) == 0)
+					{
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese una direccion valida.');
+					}
+                                        
+                                        // Make sure the phone is not empty.
+					if (strlen ($phone) == 0)
+					{
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese un telefono valido.');
+					}
+                                        
+                                        // Make sure the city is not empty.
+					if (strlen ($city) == 0)
+					{
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese una ciudad valida.');
+					}
+                                        
+                                        // Make sure the typedni is not empty.
+					if (strlen ($typedni) == 0)
+					{
+                                            $this->errors [] = Tools::displayError ('Por favor ingrese un tipo de identificacion valida.');
+					}
+                                        
+                                        // Make sure the dni is not empty.
+					if ( $typedni == 0 ) {
+                                            if ( Validate::isIdentification($dni) || $dni == "" ) {
+                                                $this->errors [] = Tools::displayError ('Por favor ingrese una identificacion valida.');
+                                            }
+                                        } 
+                                        else if ( $typedni == 2 ){
+                                            if ( Validate::isIdentificationCE($dni) || $dni == "" ) {
+                                                $this->errors [] = Tools::displayError ('Por favor ingrese una identificacion valida.');
+                                            }
+                                        }
+                                        
+                                        // Validate dni
+                                        if ( Customer::dniExists($dni,$email) ) {
+                                            $this->errors [] = Tools::displayError ('El numero de identificacion se encuentra en uso.');
+                                        }
 					
 					// We are good to go.
 					if (count ($this->errors) == 0)
@@ -115,12 +160,18 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 						$data ['user_first_name'] = ucwords (strtolower ($firstname));
 						$data ['user_last_name'] = ucwords (strtolower ($lastname));
 						$data ['user_newsletter'] = ($newsletter == 1 ? 1 : 0);
+                                                $data ['user_username'] = $username;
+                                                $data ['user_address'] = $address;
+                                                $data ['user_phone'] = $phone;
+                                                $data ['user_city'] = $city;
+                                                $data ['user_typedni'] = $typedni;
+                                                $data ['user_dni'] = $dni;
 						
 						// Email flags.
 						$send_email_to_admin = ((Configuration::get ('OASL_EMAIL_ADMIN_DISABLE') != 1) ? true : false);
 						$send_email_to_customer = ((Configuration::get ('OASL_EMAIL_CUSTOMER_DISABLE') != 1) ? true : false);
 						
-						// Create a new account.
+						// Create a new account.                                                
 						$id_customer = oneall_social_login_tools::create_customer_from_data ($data, $send_email_to_admin, $send_email_to_customer);
 						
 						// Login the customer.
@@ -134,7 +185,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 							$back = (!empty ($back) ? $back : oneall_social_login_tools::get_current_url ());
 							Tools::redirect ($back);
 						}
-					}
+                                        }
 				}
 				// First call of the page.
 				else
@@ -153,7 +204,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 				// Show our template.
 				$this->setTemplate ('oneallsociallogin_register.tpl');
 			}
-		}
+                }
 		
 		// We could not extract the data.
 		if ($have_error)

@@ -122,7 +122,7 @@ p + .required { font-weight: bold; }
     box-shadow: 7px 7px 15px -3PX #D3D3D3;
 }
 .info-box form { background-color: #efefef; margin: 0; }
-#login_form { min-height: 335px; }
+#login_form { min-height: 495px; }
 .line-separator { border: 1px solid #EF4136; width: 60px; }
 .borde-inf { padding-bottom: 3px; }
 .container_tips { margin: 35px 0; }
@@ -154,3 +154,5 @@ p + .required { font-weight: bold; }
 .button-medium-business a{color:#fff;}
 .button-medium-business:hover{background: #c9b197; color: #fff;}
 .button-medium-business a:hover{color:#fff;}
+
+#social_login_frame>.footer { display: none!important; }
