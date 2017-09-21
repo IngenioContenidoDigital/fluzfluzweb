@@ -101,8 +101,8 @@
                                     </button>
                                 </p>
                             </div>
+                            <br><br>
                             <div id="oneall_social_login"></div>
-                            <div id="oneall_social_login_box"></div>
                             <!--<div class="col-lg-6" style="padding-right:0px; float: right;">
                                 <p class="submit col-lg-12" style='text-align:right;'>
                                     <button class="button btn btn-default button-medium-business">
