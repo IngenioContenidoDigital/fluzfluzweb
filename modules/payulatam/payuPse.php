@@ -57,6 +57,13 @@ class PayuPse extends PayUControllerWS{
             $params = $this->initParams();
             $conf = new ConfPayu();
             $keysPayu = $conf->keys();
+            
+            if ( $params[4]['amount'] > 30000 ) {
+                $keysPayu['pse-CO'] = (int)Configuration::get('PAYU_LATAM_ACCOUNT_ID');
+            } else {
+                $keysPayu['pse-CO'] = (int)Configuration::get('PAYU_LATAM_ACCOUNT_ID_2');
+            }
+            
             $customer = new Customer((int) $this->context->cart->id_customer);
             $id_cart = $this->context->cart->id;
             $id_address = $this->context->cart->id_address_delivery;
