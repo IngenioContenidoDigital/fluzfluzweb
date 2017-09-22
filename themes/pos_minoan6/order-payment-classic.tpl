@@ -397,10 +397,7 @@
                var points=$('#avail_all').val();
                var use = $('#toUse').val();
                var prueba = document.getElementById("prueba").innerHTML;
-               console.log(use);
-               console.log(totalCart);
-               console.log(credits);
-               console.log(points);
+               
                
                $.ajax({
                     method:"GET",
@@ -423,8 +420,8 @@
                var credits=$('#cavail').val();
                var points=$('#avail').val();
                var use = $('#toUse').val();
-               console.log(use);
                var prueba = document.getElementById("prueba").innerHTML;
+               
                $.ajax({
                     method:"GET",
                     url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
