@@ -70,8 +70,8 @@
                         </td>
                         
                         <td colspan="2"> 
-                            <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
-                            <input type="hidden" id="avail" value="{$totalAvailable}" />
+                            <input type="hidden" id="cavail_all" value="{$totalAvailableCurrency}" />
+                            <input type="hidden" id="avail_all" value="{$totalAvailable}" />
                            {if $voucherAllowed}
                                     <div id="cart_voucher" class="table_block">
                                         {if $voucherAllowed}
@@ -393,10 +393,14 @@
            $('#submitAddDiscount').click(function(){
                $(this).attr("disabled","disabled");
                var totalCart=$('.tprice').attr("data-selenium-total-price");
-               var credits=$('#cavail').val();
-               var points=$('#avail').val();
+               var credits=$('#cavail_all').val();
+               var points=$('#avail_all').val();
                var use = $('#toUse').val();
                var prueba = document.getElementById("prueba").innerHTML;
+               console.log(use);
+               console.log(totalCart);
+               console.log(credits);
+               console.log(points);
                
                $.ajax({
                     method:"GET",
@@ -419,6 +423,7 @@
                var credits=$('#cavail').val();
                var points=$('#avail').val();
                var use = $('#toUse').val();
+               console.log(use);
                var prueba = document.getElementById("prueba").innerHTML;
                $.ajax({
                     method:"GET",
