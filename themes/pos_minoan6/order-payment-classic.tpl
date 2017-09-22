@@ -254,7 +254,7 @@
                         </tr>
                     {/if}
                     </tfoot>
-
+                    <div id="errors_void" style='display:none;'></div>
                     <tbody>
                     {foreach from=$products item=product name=productLoop}
                         {assign var='productId' value=$product.id_product}
@@ -397,10 +397,6 @@
                var points=$('#avail_all').val();
                var use = $('#toUse').val();
                var prueba = document.getElementById("prueba").innerHTML;
-               console.log(use);
-               console.log(totalCart);
-               console.log(credits);
-               console.log(points);
                
                $.ajax({
                     method:"GET",
@@ -423,18 +419,26 @@
                var credits=$('#cavail').val();
                var points=$('#avail').val();
                var use = $('#toUse').val();
-               console.log(use);
                var prueba = document.getElementById("prueba").innerHTML;
-               $.ajax({
-                    method:"GET",
-                    url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
-                    success:function(response){
-                      console.log('entra a respuesta');
-                      $('#discount_name').val(response);
-                      $('input[name="submitDiscount"]').val(response);
-                      $('#voucher').submit();
-                     }
-              });  
+               console.log(use);
+               if(use != ""){
+                    $.ajax({
+                         method:"GET",
+                         url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
+                         success:function(response){
+                           console.log('entra a respuesta');
+                           $('#discount_name').val(response);
+                           $('input[name="submitDiscount"]').val(response);
+                           $('#voucher').submit();
+                          }
+                    });  
+                }
+                else{
+                    $('#submitLabel').prop('disabled',false);
+                    $('#errors_void').show();
+                    $('#errors_void').html('Debes Ingresar un valor para aplicar un descuento en fluz.')
+                    $('#order_step').css('margin-bottom','10px');
+                }
             });
            
     </script>
@@ -465,16 +469,17 @@
         }
     </script>
 {/literal}
-{*literal}
-    <script>
-        $(function() {
-            $(".table-bordered tr:not(.accordion)").hide();
-            $(".table-bordered tr:first-child").show();
-
-            $(".table-bordered tr.accordion").click(function(){
-                $(this).nextAll("tr").fadeToggle(500);
-            }).eq(0).trigger('click');
-          });
-    </script>
-{/literal*}
+{literal}
+    <style>
+        #errors_void{
+            padding: 20px;
+            background-color: #f3515c;
+            border-color: #d4323d;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+{/literal}
 
