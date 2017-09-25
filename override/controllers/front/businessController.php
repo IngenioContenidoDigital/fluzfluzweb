@@ -751,7 +751,7 @@ class businessController extends FrontController {
                     $message_subject = $row_subject['subject_mail'];
 
                     $allinone_rewards = new allinone_rewards();
-                    $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $data, 'daniel.gonzalez@ingeniocontenido.co', $customer_send->firstname.' '.$customer_send->lastname);
+                    $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $data, $customer_send->email, $customer_send->firstname.' '.$customer_send->lastname);
                    }
                   }
                   die('success');
