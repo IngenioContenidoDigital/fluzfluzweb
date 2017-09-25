@@ -702,6 +702,11 @@ class businessController extends FrontController {
                 $pointUsed = Tools::getValue('ptoUsed');
                 $point_used = RewardsModel::getRewardReadyForDisplay($pointUsed, $this->context->currency->id);
                 
+                $query_credits = "SELECT r.id_customer AS id_customer, SUM(r.credits) AS total_credits FROM "._DB_PREFIX_."rewards AS r WHERE r.id_reward_state=2 AND r.id_customer=".(int)$this->context->customer->id." GROUP BY r.id_customer";
+                $row_credits = Db::getInstance()->getRow($query_credits);
+                
+                if($row_credits['total_credits']>=$point_used){
+                
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "transfers_fluz (id_customer, id_sponsor_received, date_add)
                                             VALUES (" . (int) $this->context->customer->id . ", 0,'" . date("Y-m-d H:i:s") . "')");
 
@@ -748,12 +753,19 @@ class businessController extends FrontController {
                     $allinone_rewards = new allinone_rewards();
                     $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $data, 'daniel.gonzalez@ingeniocontenido.co', $customer_send->firstname.' '.$customer_send->lastname);
                    }
+                  }
+                  die('success');
                 }
-                die();
+                die(true);
                 break;    
             case 'editFLuz':
                 $pto_total = Tools::getValue('ptosTotal');
                 $pointsTotal = RewardsModel::getRewardReadyForDisplay($pto_total, $this->context->currency->id);
+                
+                $query_credits = "SELECT r.id_customer AS id_customer, SUM(r.credits) AS total_credits FROM "._DB_PREFIX_."rewards AS r WHERE r.id_reward_state=2 AND r.id_customer=".(int)$this->context->customer->id." GROUP BY r.id_customer";
+                $row_credits = Db::getInstance()->getRow($query_credits);
+                
+                if($row_credits['total_credits']>=$pointsTotal){
                 
                 Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "transfers_fluz (id_customer, id_sponsor_received, date_add)
                                             VALUES (" . (int) $this->context->customer->id . ", 0,'" . date("Y-m-d H:i:s") . "')");
@@ -797,6 +809,9 @@ class businessController extends FrontController {
                     $allinone_rewards = new allinone_rewards();
                     $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $data, $customer_send->email, $customer_send->firstname.' '.$customer_send->lastname);
                 }
+                    die('success');
+                }
+                die(true);
                 break;
             
             case 'submitcopy':
