@@ -2146,6 +2146,55 @@ class API extends REST {
     
   }
   
+  public function getOrderHistory() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    $id_customer = $this->_request['id_customer'];
+//    $id_lang = $this->_request['id_lang'] ? $this->_request['id_lang'] : 1 ;
+    $id_lang = 1 ;
+    $sql = "SELECT o.id_order, os.name, o.payment, o.total_discounts, o.total_paid, DATE_FORMAT(o.date_add , '%Y-%m-%d') as date, osc.color
+            FROM "._DB_PREFIX_."orders o
+            INNER JOIN "._DB_PREFIX_."order_state_lang os ON (os.id_order_state = o.current_state)
+            INNER JOIN "._DB_PREFIX_."order_state osc ON (osc.id_order_state = o.current_state) 
+            WHERE id_customer = ".$id_customer." and os.id_lang = ".$id_lang."
+            ORDER BY date_add DESC
+            LIMIT 10;";
+    $orders = Db::getInstance()->executeS($sql);
+    usort($orders, 'ordenar');
+    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    $d = array();
+
+    foreach ($orders as &$order){
+      if ( !in_array(date('m-Y', strtotime($order['date'])), $d) ){
+        $d[] = date('m-Y', strtotime($order['date']));
+      }
+    }
+
+    foreach ($d as $date) {
+      $dates[]['date'] = $date;
+    }
+    
+    foreach ($dates as $key => &$date){
+      $date['date_to_display'] = $meses[ ((int)substr($date['date'], 0, 2))-1 ]." de ".substr($date['date'], 3, 7);
+      foreach ($orders as &$order){
+        if ( $date['date'] == date('m-Y', strtotime($order['date'])) ) {
+          $order[total_order] = $this->formatPrice($order[total_paid] + $order[total_discounts]);
+          $order[total_discounts] = $this->formatPrice($order[total_discounts]);
+          $order[total_paid] =  $this->formatPrice($order[total_paid]);
+          $dates[$key]['orders'][] = $order;
+        }
+      }
+    }
+
+    $orders['result']= $dates;
+    return $this->response(json_encode($orders),200);
+  }
+  
+  
+  function ordenar( $a, $b ) {
+    return strtotime($a['date']) - strtotime($b['date']);
+  }
 }
 
 
