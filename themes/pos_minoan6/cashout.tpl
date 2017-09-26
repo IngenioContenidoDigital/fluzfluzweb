@@ -57,6 +57,7 @@
 {if $rewards}
     {if $payment_button_allowed}
     <div id="rewards-step1">
+        <input type="hidden" value="{$totalAvailable}" id="total_available">
         <div class="row">    
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Fluz Totales: "}</span>
@@ -85,10 +86,10 @@
                         <span style="margin-left:20px;">{l s="Seleccion Monto Parcial"}</span>
                     </div>
                     <div class="row">
-                        <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="1800" min="1800" max="{$totalAvailable}" step="100" data-rangeslider>
+                        <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="4000" min="4000" max="{$totalAvailable}" step="100" data-rangeslider>
                         <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
                                 <span class="money-cash col-lg-2 col-md-1 col-sm-2 col-xs-2">$</span>
-                                <input class="output-cash col-lg-6 col-md-6 col-sm-6 col-xs-5" type="text" name="valorSlider" id="valorSlider" value=""/>
+                                <input class="output-cash col-lg-6 col-md-6 col-sm-6 col-xs-5" type="number" name="valorSlider" id="valorSlider" value="" style="padding:0px; padding-left: 10px;"/>
                                 <span class="col-lg-3 cash-point col-md-3 col-sm-3 col-xs-4"> &nbsp;{l s="de"}&nbsp;{$totalAvailable}&nbsp;{l s="Pts."}</span>
                         </div>
                                 <span class="cashout-money col-lg-12 col-md-12 col-sm-12 col-xs-12"> {l s ="COP"}&nbsp;<span id="value-cash"></span></span>
@@ -136,13 +137,34 @@
                                   var mult = (result * value_money); 
                                   $("#cash_result").html(mult);
                                 });
+                                
+                             $('#valorSlider').on("keyup",function(event)
+                                {
+                                    var value = $(this).val();
+                                    var total_point = $('#total_available').val();
+                                    if(((parseInt(value)) < 4000) || (parseInt(value)) > (parseInt(total_point))){
+                                      $('#ptos_result').html(0);  
+                                      $('#cash_result').html(0);
+                                    }
+                                    else{  
+                                      $('#nextStep').attr('disabled', false);  
+                                      $("#valorSlider").val(value);
+                                      var result = ((parseInt(total_point))-(parseInt(value)));
+                                      $("#ptos_result").html(result);
+                                      $("#ptos_prueba").html(result);
+                                      $("#points_used").html(value);
+                                      $('#pto_total').val(value);
+                                      var mult = (result * value_money); 
+                                      $("#cash_result").html(mult);
+                                    }
+                                });   
                             }
                             $('#radio').val(val);
                         });
                 </script>
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        document.getElementById( 'valorSlider' ).value=1800 ;
+                        document.getElementById( 'valorSlider' ).value=4000 ;
                         var value_money = $('#value-money').text();
                         $('#rangeSlider').change(function() 
                         {
@@ -154,11 +176,40 @@
                           $("#value-confirmation").html(mult);
                           var total = mult - 7000;
                           $("#total-valor").html(total);
+                          
                         });
                         
                     });
                 </script>
+                <script>
+                    $("#valorSlider").on("keyup",function(event){
+                        var value = $(this).val();
+                        var total_point = $('#total_available').val();
+                        //alert(total_point);
+                        if(((parseInt(value)) < 4000) || ((parseInt(value)) > (parseInt(total_point))) || (value.length < 1)){
+                            console.log(value.length);
+                            $('#nextStep').attr('disabled', true);
+                            $('#value-cash').html(0); 
+                            $('#error_novalidos').show();
+                            $('#error_novalidos').html('No es correcto el valor ingresado para redimir. Por Favor verificar valor.');
+                        }
+                        else{
+                            $('#error_novalidos').hide();
+                            $('#nextStep').attr('disabled', false);
+                            var value_money = $('#value-money').text();
+                            $('#valorSlider').val($(this).val());
+                            $('#pt_parciales').val(value);
+                            var mult = (value * value_money); 
+                            $("#value-cash").html(mult);
+                            $("#value-confirmation").html(mult);
+                            var total = mult - 7000;
+                            $("#total-valor").html(total);
+                            $('#rangeSlider').val(value);
+                        }
+                    });
+                </script>
             {/literal}
+        <div id="error_novalidos" style='display:none;'></div>        
         <div class="row" style="margin-top:40px;">
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Fluz Disponibles despues de Redencion: "}</span>

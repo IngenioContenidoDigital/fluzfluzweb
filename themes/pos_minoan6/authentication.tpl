@@ -114,6 +114,13 @@
                                 </p>
                             </div>-->
                             </div>
+                            <div class='row'>
+                                <br>
+                                <h3 class="page-subheading borde-inf">Inicia Sesi&oacute;n/Registrate Con:</h3>
+                                <div class="line-separator"></div>
+                                <br>
+                                <div id="oneall_social_login"></div>
+                            </div>
                         </div>
                     </form>
                 </div>

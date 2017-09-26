@@ -50,6 +50,18 @@ class reportkickoutcustomers extends ModuleGrid
                 'align' => 'center'
             ),
             array(
+                'id' => 'phone',
+                'header' => $this->l('Telefono'),
+                'dataIndex' => 'phone',
+                'align' => 'center'
+            ),
+            array(
+                'id' => 'phone_mobile',
+                'header' => $this->l('Telefono Movil'),
+                'dataIndex' => 'phone_mobile',
+                'align' => 'center'
+            ),
+            array(
                 'id' => 'date_kick_out',
                 'header' => $this->l('Fecha Expulsion'),
                 'dataIndex' => 'date_kick_out',
@@ -70,9 +82,11 @@ class reportkickoutcustomers extends ModuleGrid
     public function getData()
     {
         $date_between = $this->getDate();
-        $this->query = "SELECT rws.id_customer, rws.firstname, rws.lastname, rws.email, rws.date_kick_out, IFNULL(SUM(r.credits), '0') points
+        $this->query = "SELECT rws.id_customer, rws.firstname, rws.lastname, rws.email, IFNULL(c.phone, a.phone) as phone, a.phone_mobile, rws.date_kick_out, IFNULL(SUM(r.credits), '0') points
                         FROM "._DB_PREFIX_."rewards_sponsorship_kick_out rws
                         LEFT JOIN "._DB_PREFIX_."rewards r ON ( rws.id_customer = r.id_customer )
+                        LEFT JOIN "._DB_PREFIX_."customer c ON ( rws.id_customer = c.id_customer )
+                        LEFT JOIN "._DB_PREFIX_."address a ON ( rws.id_customer = a.id_customer )    
                         WHERE rws.date_kick_out BETWEEN ".$date_between."
                         GROUP BY rws.id_customer";
 

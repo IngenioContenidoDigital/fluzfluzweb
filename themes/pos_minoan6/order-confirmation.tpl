@@ -36,9 +36,11 @@
 {if $pse}
     {assign var="date" value=$smarty.now|date_format:"%d/%m/%Y, %H:%M"}
     {assign var="status" value=$message_payu}
-{else}
+{else if $state_payment.message != ''}
     {assign var="date" value=$state_payment.fecha|date_format:"%d/%m/%Y, %H:%M"}
     {assign var="status" value=$state_payment.message}
+{else}
+    {assign var="status" value='APROBADO'}
 {/if}
 
 <div>
@@ -57,11 +59,19 @@
                 </div>
                 <div class="row border-trans">
                     <div class="title-right col-xs-6 col-sm-6 col-md-6 col-lg-6">{l s='Value'}</div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{convertPrice price=$state_payment.valor}</div>
+                    {if $state_payment.valor != ''}
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{convertPrice price=$state_payment.valor}</div>
+                    {else}
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{l s='Pedido Gratuito'}</div>
+                    {/if}
                 </div>
                 <div class="row border-trans">
                     <div class="title-right col-xs-6 col-sm-6 col-md-6 col-lg-6">{l s='Date'}</div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{$date}</div>
+                    {if $date!=''}
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{$date}</div>
+                    {else}
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{$date_free_order}</div>
+                    {/if}    
                 </div>
             </div>
         </div>
