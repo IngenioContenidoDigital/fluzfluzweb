@@ -2195,6 +2195,32 @@ class API extends REST {
   function ordenar( $a, $b ) {
     return strtotime($a['date']) - strtotime($b['date']);
   }
+  
+  function getOrderDetail() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_order = $this->_request['id_order'];
+    
+    $sql = "SELECT od.product_id, od.product_name, od.product_quantity, od.product_price, od.total_price_tax_incl as product_total, p.id_manufacturer as m_id, m.name as manufacturer
+            FROM ps_order_detail od
+            INNER JOIN ps_product p ON (p.id_product = od.product_id)
+            INNER JOIN ps_manufacturer m ON (p.id_manufacturer = m.id_manufacturer)
+            WHERE od.id_order = ".$id_order;
+    
+    $products = Db::getInstance()->executeS($sql);
+    
+    $link = new Link();
+    foreach($products as &$product){
+      $product['image'] = $link->getManufacturerImageLink($product['m_id']);
+      $product['product_price'] = $this->formatPrice($product['product_price']);
+      $product['product_total'] = $this->formatPrice($product['product_total']);
+    }
+    return $this->response(json_encode(array('result'=>$products)),200);
+  }
+  
+  
 }
 
 
