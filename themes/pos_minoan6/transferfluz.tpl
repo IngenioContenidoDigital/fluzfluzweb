@@ -79,7 +79,7 @@
                     <div class="left-info">{l s='Cantidad de Fluz a Transferir'}</div>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
-                <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="100" min="100" max="{$pointsAvailable}" step="100" data-rangeslider>
+                <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="100" min="100" max="{$pointsAvailable}" step="20" data-rangeslider>
                 <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
                         <input class="output-cash col-lg-6 col-md-6 col-sm-6 col-xs-5" type="text" name="valorSlider" id="valorSlider" value=""/>
                         <span class="col-lg-6 cash-point col-md-3 col-sm-3 col-xs-4"> &nbsp;{l s="de"}&nbsp;{$pointsAvailable}&nbsp;{l s="Fluz."}</span>
