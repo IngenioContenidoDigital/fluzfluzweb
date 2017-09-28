@@ -2236,7 +2236,6 @@ class API extends REST {
     return $this->response(json_encode(array('result'=> $result > 0 ? true : false)),200);
   }
   
-  
 }
 
 
