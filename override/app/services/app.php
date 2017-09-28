@@ -2220,6 +2220,22 @@ class API extends REST {
     return $this->response(json_encode(array('result'=>$products)),200);
   }
   
+  function getStateManufacturer(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_manufacturer = $this->_request['id_manufacturer'];
+    
+    $sql = "SELECT COUNT(DISTINCT id_product)
+            FROM ps_product
+            WHERE id_manufacturer = ".$id_manufacturer." and active = 1 and product_parent = 0";
+    
+    $result = Db::getInstance()->getValue($sql);
+    
+    return $this->response(json_encode(array('result'=> $result > 0 ? true : false)),200);
+  }
+  
   
 }
 

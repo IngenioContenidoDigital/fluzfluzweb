@@ -983,7 +983,7 @@
                                                     <input type="number" class="is_required validate form-control" data-validate="isCheckDigit" id="checkdigit" name="checkdigit" oninput="if(value.length>1)value=value.slice(0,1)" value="{if isset($smarty.post.checkdigit)}{$smarty.post.checkdigit}{/if}"/>
                                             </div>
                                     </div>
-                                    <div class="form-group col-lg-12" style="padding-left:0px;">
+                                    <!--<div class="form-group col-lg-12" style="padding-left:0px;">
                                             <label class="col-lg-12 col-md-12 col-xs-12 required" style="padding-left:0px;">{l s='Date of Birth'}</label>
                                            
                                                     <div class="col-xs-4 col-lg-4">
@@ -1027,7 +1027,7 @@
                                                             </select>
                                                     </div>
                                            
-                                    </div>
+                                    </div>-->
                                     <div class="required form-group">
                                         <p class="{if isset($one_phone_at_least) && $one_phone_at_least}required {/if}form-group">
                                             <br/><label class="required col-lg-12" for="phone_mobile" style="padding:0px; margin-top: 5px;">{l s='Mobile phone'}{if isset($one_phone_at_least) && $one_phone_at_least} {/if}</label>
@@ -1047,18 +1047,29 @@
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
                                         {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}
-                                        <select name="city" id="city" class="form-control">
-                                            {foreach from=$cities item=city}
-                                                <option value="{$city.ciudad}">{$city.ciudad}</option>
-                                            {/foreach}
-                                        </select>
+                                        <div id="container-city">
+                                            <select name="city" id="city" class="form-control">
+                                                <option value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
+                                                <option value="Medellin">Medell&iacute;n</option>
+                                                    <option value="Cali">{l s="Cali"}</option>
+                                                    <option value="Barranquilla">{l s="Barranquilla"}</option>
+                                                    <option value="Bucaramanga">{l s="Bucaramanga"}</option>
+                                                {foreach from=$cities item=city}
+                                                    <option value="{$city.ciudad}">{$city.ciudad}</option>
+                                                {/foreach}
+                                            </select>
+                                        </div>
+                                        <div id="container-city-input">
+                                            <input name="city_input" id="city_input" class="form-control" />
+                                        </div>  
                                     </div>
                                     <div class="required select form-group">
                                         <label class="required" for="id_country">{l s='Country'}</label>
                                         <select name="id_country" id="id_country" class="form-control">
                                                 <option value="">-</option>
+                                                <option value="69" selected="selected">Colombia</option>
                                                 {foreach from=$countries item=v}
-                                                <option value="{$v.id_country}"{if (isset($smarty.post.id_country) AND $smarty.post.id_country == $v.id_country) OR (!isset($smarty.post.id_country) && $sl_country == $v.id_country)} selected="selected"{/if}>{$v.name}</option>
+                                                <option value="{$v.id_country}">{$v.name}</option>
                                                 {/foreach}
                                         </select>
                                     </div>  
