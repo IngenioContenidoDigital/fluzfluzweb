@@ -92,11 +92,21 @@ p + .required { font-weight: bold; }
     background: none;
 }
 
+#apple_store{
+    width: 100%;
+}
+
+#google_play{
+    width: 100%;
+}
+.apple_s{margin-top: 14px !important; margin-left: 15px;}
+
 @media (max-width:990px){
     .first-inscription{display: block;}
     .second-inscription{display: none;}
     .fieldInfo{width: 100%; margin-left: 0px;}
     .radio-inline, .checkbox{text-align: left;}
+    .apple_s{margin-top: 18px !important;}
 }
 
 @media (max-width:760px){
@@ -104,6 +114,7 @@ p + .required { font-weight: bold; }
             width: 100%;
             height: 100%;
     }
+    .learn-buy{ font-size: 12px;}
     .btnInfo{width: 100%;}
     #address .form-group .form-control, #identity .form-group .form-control, #account-creation_form .form-group .form-control, #new_account_form .form-group .form-control, #opc_account_form .form-group .form-control, #authentication .form-group .form-control{max-width: 100%;}
 }
