@@ -62,6 +62,11 @@
                 <div class="form-group">
                     <label for="oasl_city">Ciudad <sup>*</sup></label>
                     <select id="oasl_city" name="oasl_city" class="is_required form-control">
+                        <option value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
+                        <option value="Medellin">Medell&iacute;n</option>
+                        <option value="Cali">{l s="Cali"}</option>
+                        <option value="Barranquilla">{l s="Barranquilla"}</option>
+                        <option value="Bucaramanga">{l s="Bucaramanga"}</option>
                         {foreach from=$cities item=city}
                             <option value="{$city.ciudad}">{$city.ciudad}</option>
                         {/foreach}

@@ -48,6 +48,7 @@ class CityCore extends ObjectModel
     {
         $countries = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS("SELECT ciudad
                                                                     FROM "._DB_PREFIX_."cities
+                                                                    WHERE (id_cities != 1005  AND id_cities !=  149 AND  id_cities != 126 AND id_cities != 1 AND id_cities != 845)    
                                                                     ORDER BY ciudad");
         return $countries;
     }
