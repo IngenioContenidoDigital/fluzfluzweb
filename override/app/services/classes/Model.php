@@ -1881,10 +1881,10 @@ return $responseObj;
 
   
   public function getPoints( $id_product, $price_product ) {
-    $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
+//    $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
     $price = RewardsProductModel::getProductReward( $id_product, $price_product, 1, $this->context->currency->id );
-    $sponsorships2=array_slice($sponsorships, 1, 15);
-    return round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/(count($sponsorships2)+1));
+//    $sponsorships2=array_slice($sponsorships, 1, 15);
+    return round(RewardsModel::getRewardReadyForDisplay($price, $this->context->currency->id)/2);
   }
   
   public function getPriceInPoints( $price ){
