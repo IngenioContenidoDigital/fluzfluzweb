@@ -87,8 +87,9 @@ class transferfluzController extends FrontController{
 
                     $allinone_rewards = new allinone_rewards();
                     $allinone_rewards->sendMail(1, $template, $allinone_rewards->getL($message_subject), $data, $customer_send->email, $customer_send->firstname.' '.$customer_send->lastname);
-                    
-                }                       
+                    die('respuesta');
+                }
+                die(true);
                 break;
             default:
                 break;

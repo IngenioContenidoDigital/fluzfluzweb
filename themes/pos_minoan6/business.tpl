@@ -444,8 +444,15 @@
                             data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
                             success : function(data) {
                                 //console.log(data);
-                                $('#progress-bar').hide();
-                                window.location.replace(""+url+"confirmtransferfluzbusiness");
+                                if(data == 1){
+                                     $('#progress-bar').hide();
+                                     $('#error').show();
+                                     $('#error').html('No es correcto el valor ingresado para redimir. Por Favor verificar valor.');
+                                     $.fancybox.close();
+                                }else{   
+                                    $('#progress-bar').hide();
+                                    window.location.replace(""+url+"confirmtransferfluzbusiness");
+                                }
                             }
                         });
                     });
@@ -479,7 +486,7 @@
                                     url : urlTransferController,
                                     type : 'POST',
                                     data : 'action=kickoutemployee&id_employee='+check_delete,
-                                    success : function(id) {
+                                    success : function(data) {
                                          console.log(id);
                                          window.location.replace(""+url+"confirmdeleteusers");
                                     }
@@ -544,9 +551,16 @@
                             url : urlTransferController,
                             type : 'POST',
                             data : 'action=editFLuz&listEdit='+listEdit+'&ptosTotal='+total_point,
-                            success : function() {
-                                 $('#progress-bar').hide();
-                                 window.location.replace(""+url+"confirmtransferfluzbusiness");
+                            success : function(data) {
+                                if(data == 1){
+                                     $('#progress-bar').hide();
+                                     $('#error').show();
+                                     $('#error').html('No es correcto el valor ingresado para redimir. Por Favor verificar valor.');
+                                     $.fancybox.close();
+                                }else{   
+                                    $('#progress-bar').hide();
+                                    window.location.replace(""+url+"confirmtransferfluzbusiness");
+                                }
                             }
                         });
                     });
@@ -610,9 +624,15 @@
                             type : 'POST',
                             data : 'action=allFLuz&listEdit='+listEdit+'&ptoUsed='+ptoUsed,
                             success : function(data) {
-                                console.log(data);
-                                $('#progress-bar').hide();
-                                window.location.replace(""+url+"confirmtransferfluzbusiness");
+                                if(data == 1){
+                                     $('#progress-bar').hide();
+                                     $('#error').show();
+                                     $('#error').html('No es correcto el valor ingresado para redimir. Por Favor verificar valor.');
+                                     $.fancybox.close();
+                                }else{   
+                                    $('#progress-bar').hide();
+                                    window.location.replace(""+url+"confirmtransferfluzbusiness");
+                                }
                             }
                         });
                     });

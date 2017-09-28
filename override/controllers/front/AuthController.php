@@ -309,9 +309,9 @@ class AuthController extends AuthControllerCore
                 $this->errors[] = Tools::displayError('Codigo de verificacion incorrecto');
             }
         }
-        if ( Tools::getValue('days') == "" || Tools::getValue('months') == "" || Tools::getValue('years') == "" ) {
+        /*if ( Tools::getValue('days') == "" || Tools::getValue('months') == "" || Tools::getValue('years') == "" ) {
             $this->errors[] = Tools::displayError('Fecha de nacimiento incorrecta');
-        }
+        }*/
         if ( Tools::getValue('address1') == "" ) {
             $this->errors[] = Tools::displayError('Direccion es incorrecta');
         }
@@ -353,9 +353,9 @@ class AuthController extends AuthControllerCore
                 $customer->dni = Tools::getValue("gover");
                 $customer->kick_out = 0;
                 $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
-                if (!Validate::isBirthDate($customer->birthday)) {
+                /*if (!Validate::isBirthDate($customer->birthday)) {
                     $this->errors[] = Tools::displayError('Invalid date of birth.');
-                }
+                }*/
                 // New Guest customer
                 $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                 $customer->active = 1;
@@ -419,7 +419,7 @@ class AuthController extends AuthControllerCore
                             }
 
                             $address->id_customer = $customer->id;
-                            $address->id_country = 69;
+                            $address->id_country = Tools::getValue("id_country");
                             $address->alias = 'Mi Direccion';
                             $address->lastname = Tools::getValue("customer_lastname");
                             $address->firstname = Tools::getValue("customer_firstname");
@@ -428,7 +428,12 @@ class AuthController extends AuthControllerCore
                             $address->checkdigit = ( empty(Tools::getValue("checkdigit")) || Tools::getValue("checkdigit") == "" ) ? "" : Tools::getValue("checkdigit");
                             $address->address1 = Tools::getValue("address1");
                             // $address->address2 = Tools::getValue("address2");
-                            $address->city = Tools::getValue("city");
+                            if(Tools::getValue("city_input")!= ''){
+                               $address->city = Tools::getValue("city_input"); 
+                            }
+                            else{
+                               $address->city = Tools::getValue("city");  
+                            }
                             $address->phone = Tools::getValue("phone_mobile");
 
                             if ( $customExists ) {
@@ -594,18 +599,18 @@ class AuthController extends AuthControllerCore
             }
         }
         
-        if (!@checkdate(Tools::getValue('months'), Tools::getValue('days'), Tools::getValue('years')) && !(Tools::getValue('months') == '' && Tools::getValue('days') == '' && Tools::getValue('years') == '')) {
+        /*if (!@checkdate(Tools::getValue('months'), Tools::getValue('days'), Tools::getValue('years')) && !(Tools::getValue('months') == '' && Tools::getValue('days') == '' && Tools::getValue('years') == '')) {
             $this->errors[] = Tools::displayError('Invalid date of birth');
-        }
+        }*/
         if (!count($this->errors)) {
             if (Customer::customerExists(Tools::getValue('email'))) {
                 $this->errors[] = Tools::displayError('An account using this email address has already been registered. Please enter a valid password or request a new one. ', false);
             }
             $this->processCustomerNewsletter($customer);
             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
-            if (!Validate::isBirthDate($customer->birthday)) {
+            /*if (!Validate::isBirthDate($customer->birthday)) {
                 $this->errors[] = Tools::displayError('Invalid date of birth');
-            }
+            }*/
             if (!count($this->errors)) {
                 $customer->active = 1;
                 // New Guest customer

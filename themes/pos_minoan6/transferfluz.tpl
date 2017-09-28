@@ -98,6 +98,7 @@
             </div>
         </div>    
     </div>
+    <div id="error_novalidos" style='display:none;'></div>            
     <div class="row btn-sendfluz">
         <div class="col-lg-6">
             <button class="myfancybox btn btn-default btn-account" href="#confirmTransfer" name="submitFluz" id="submitFluz">
@@ -249,6 +250,7 @@
                 type : 'POST',
                 data : 'action=transferfluz&point_part='+point_part+'&sponsor_identification='+id_sponsor,
                 success : function(a) {
+                    console.log(popup);
                     if(popup == 'false'){
                         $('#progress-bar').hide();
                         window.location.replace(""+url+"confirmtransferfluz");
@@ -273,18 +275,33 @@
         $('#submitFluz').click(function(e){
            var name_sponsor = $('#sponsor_name').val();
            var pto_parcial = $('#pt_parciales').val();
+           var id_sponsor = $('#sponsor_identification').val();
            if(name_sponsor == ''){
-               alert('Seleccione Fluzzer Destino.')
+               $('#error_novalidos').show();
+               $('#error_novalidos').html('El campo fluzzer destino no puede ser vacio. Por favor verificar los datos.');
                $('#submitFluz').removeClass('myfancybox');
-               location.reload();
+               //location.reload();
                e.preventDefault();
            }
            if(pto_parcial== ''){
-               alert('Seleccione Cantidad de Fluz a enviar.')
+               $('#error_novalidos').show();
+               $('#error_novalidos').html('El campo Cantidad de fluz a transferir no puede ser vacio. Por favor verificar los datos.');
                $('#submitFluz').removeClass('myfancybox');
-               location.reload();
+               //location.reload();
                e.preventDefault();
            }
+           
+           $.ajax({
+                url : urlTransferController,
+                type : 'POST',
+                data : 'action=transferfluz&point_part='+pto_parcial+'&sponsor_identification='+id_sponsor,
+                success : function(a) {
+                    if(a == 1){
+                        $('#error_novalidos').show();
+                        $('#error_novalidos').html('No es correcto el valor ingresado para redimir. Por Favor verificar valor.');
+                    }
+                }
+            });
         });
     </script>
 {/literal}

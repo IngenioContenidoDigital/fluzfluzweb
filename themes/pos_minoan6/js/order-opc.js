@@ -682,6 +682,8 @@ function saveAddress(type)
 		params += 'postcode=' + encodeURIComponent($('#postcode' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
 	if ($('#city' + (type == 'invoice' ? '_invoice' : '')).length)
 		params += 'city=' + encodeURIComponent($('#city' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
+	if ($('#city_input' + (type == 'invoice' ? '_invoice' : '')).length)
+		params += 'city=' + encodeURIComponent($('#city_input' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
 	if ($('#id_country' + (type == 'invoice' ? '_invoice' : '')).length)
 		params += 'id_country=' + parseInt($('#id_country' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
 	if ($('#id_state' + (type == 'invoice' ? '_invoice' : '')).length)

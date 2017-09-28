@@ -19,6 +19,13 @@
     left: -30px;
     cursor: pointer;
 }
+#error_novalidos{    
+    padding: 0;
+    background: #ef4136;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2px;}
 .form-control{display: inline-block;width: 97%;}
 .result-find{background: white;width: 97%;}
 .resultados{color: #000; border-bottom: 1px solid #CBCBCB;padding: 5px;text-align: center; cursor: pointer;}

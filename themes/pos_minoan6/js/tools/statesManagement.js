@@ -28,6 +28,7 @@ var countriesNeedZipCode = [];
 var states = [];
 
 $(document).ready(function(){
+        $('#container-city-input').hide();
 	setCountries();
 	bindStateInputAndUpdate();
 	if (typeof bindUniform !=='undefined')
@@ -95,7 +96,9 @@ function bindStateInputAndUpdate()
 	updateZipCode();
 
 	$(document).on('change', '#id_country', function(e)
-	{
+	{       var id_country = $(this).find(':selected').val();
+                
+                loadCity(id_country);
 		updateState();
 		updateNeedIDNumber();
 		updateZipCode();
@@ -122,6 +125,18 @@ function bindStateInputAndUpdate()
 		$('.id_state option[value=' + idSelectedState + ']').prop('selected', true);
 	if (typeof idSelectedStateInvoice !== 'undefined' && idSelectedStateInvoice)
 		$('.id_state_invoice option[value=' + idSelectedStateInvoice + ']').prop('selected', true);
+}
+
+function loadCity(id_country){
+    
+    if(id_country != 69){
+        $('#container-city').hide();
+        $('#container-city-input').show();
+    }
+    else{
+        $('#container-city').show();
+        $('#container-city-input').hide();
+    }
 }
 
 function updateState(suffix)
