@@ -387,6 +387,8 @@ class AuthController extends AuthControllerCore
                         $customer->passwd = Tools::encrypt( Tools::getValue("passwd") );
                         $customer->dni = Tools::getValue("gover");
                         $customer->kick_out = 0;
+                        $customer->active=1;
+                        $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+60 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                         $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                         $customer->update();
                         $customerLoaded = true;
