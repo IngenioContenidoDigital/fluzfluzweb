@@ -137,7 +137,7 @@
                                 <p><a href="https://play.google.com/store/apps/details?id=com.ionicframework.fluzfluz141172"><img src="{$img_dir}login/GooglePlay.png" id="google_play" /></a></p>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                <p class="apple_s"><a href="https://itunes.apple.com/us/app/fluz-fluz/id1086373988?l=es&ls=1&mt=8"><img src="{$img_dir}login/apple-store.png" id="apple_store" /></a></p>
+                                <p class="apple_s"><a href="https://itunes.apple.com/us/app/fluz-fluz/id1086373988"><img src="{$img_dir}login/apple-store.png" id="apple_store" /></a></p>
                             </div>
                         </div>
                         <p>
