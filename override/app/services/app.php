@@ -227,7 +227,7 @@ class API extends REST {
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
         $productChild[$i]['c_price_shop_format'] = $this->formatPrice(round($productChild[$i]['c_price_shop']));
-        $productChild[$i]['c_win_fluz'] = (round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) ))/2;
+        $productChild[$i]['c_win_fluz'] = (round( $model->getPoints( $productChild[$i]['c_id_product'], $productChild[$i]['c_price'] ) ));
         $productChild[$i]['c_price_fluz'] = $this->formatPrice(round( $productChild[$i]['c_price'] / 25 ));
         $productChild[$i]['c_price'] = $this->formatPrice(round($productChild[$i]['c_price']));
         
@@ -2144,6 +2144,96 @@ class API extends REST {
     }
     return $this->response(json_encode(array('error' => $error, 'msg' => $msgError)),200);
     
+  }
+  
+  public function getOrderHistory() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    $id_customer = $this->_request['id_customer'];
+//    $id_lang = $this->_request['id_lang'] ? $this->_request['id_lang'] : 1 ;
+    $id_lang = 1 ;
+    $sql = "SELECT o.id_order, os.name, o.payment, o.total_discounts, o.total_paid, DATE_FORMAT(o.date_add , '%Y-%m-%d') as date, osc.color
+            FROM "._DB_PREFIX_."orders o
+            INNER JOIN "._DB_PREFIX_."order_state_lang os ON (os.id_order_state = o.current_state)
+            INNER JOIN "._DB_PREFIX_."order_state osc ON (osc.id_order_state = o.current_state) 
+            WHERE id_customer = ".$id_customer." and os.id_lang = ".$id_lang."
+            ORDER BY date_add DESC
+            LIMIT 10;";
+    $orders = Db::getInstance()->executeS($sql);
+    usort($orders, 'ordenar');
+    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    $d = array();
+
+    foreach ($orders as &$order){
+      if ( !in_array(date('m-Y', strtotime($order['date'])), $d) ){
+        $d[] = date('m-Y', strtotime($order['date']));
+      }
+    }
+
+    foreach ($d as $date) {
+      $dates[]['date'] = $date;
+    }
+    
+    foreach ($dates as $key => &$date){
+      $date['date_to_display'] = $meses[ ((int)substr($date['date'], 0, 2))-1 ]." de ".substr($date['date'], 3, 7);
+      foreach ($orders as &$order){
+        if ( $date['date'] == date('m-Y', strtotime($order['date'])) ) {
+          $order[total_order] = $this->formatPrice($order[total_paid] + $order[total_discounts]);
+          $order[total_discounts] = $this->formatPrice($order[total_discounts]);
+          $order[total_paid] =  $this->formatPrice($order[total_paid]);
+          $dates[$key]['orders'][] = $order;
+        }
+      }
+    }
+
+    $orders['result']= $dates;
+    return $this->response(json_encode($orders),200);
+  }
+  
+  
+  function ordenar( $a, $b ) {
+    return strtotime($a['date']) - strtotime($b['date']);
+  }
+  
+  function getOrderDetail() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_order = $this->_request['id_order'];
+    
+    $sql = "SELECT od.product_id, od.product_name, od.product_quantity, od.product_price, od.total_price_tax_incl as product_total, p.id_manufacturer as m_id, m.name as manufacturer
+            FROM ps_order_detail od
+            INNER JOIN ps_product p ON (p.id_product = od.product_id)
+            INNER JOIN ps_manufacturer m ON (p.id_manufacturer = m.id_manufacturer)
+            WHERE od.id_order = ".$id_order;
+    
+    $products = Db::getInstance()->executeS($sql);
+    
+    $link = new Link();
+    foreach($products as &$product){
+      $product['image'] = $link->getManufacturerImageLink($product['m_id']);
+      $product['product_price'] = $this->formatPrice($product['product_price']);
+      $product['product_total'] = $this->formatPrice($product['product_total']);
+    }
+    return $this->response(json_encode(array('result'=>$products)),200);
+  }
+  
+  function getStateManufacturer(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_manufacturer = $this->_request['id_manufacturer'];
+    
+    $sql = "SELECT COUNT(DISTINCT id_product)
+            FROM ps_product
+            WHERE id_manufacturer = ".$id_manufacturer." and active = 1 and product_parent = 0";
+    
+    $result = Db::getInstance()->getValue($sql);
+    
+    return $this->response(json_encode(array('result'=> $result > 0 ? true : false)),200);
   }
   
 }

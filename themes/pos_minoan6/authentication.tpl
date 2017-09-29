@@ -131,8 +131,15 @@
                         <h3 class="page-subheading borde-inf">{l s='Not Registered?'}</h3>
                         <div class="line-separator"></div>
                         <!--<p>Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibir&aacute;s un correo de confirmaci&oacute;n con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. &iquest;No conoces a ning&uacute;n fluzzer activo y quieres ser parte de Fluz Fluz para construir tu red? Escr&iacute;benos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarte.</p>-->
-                        <p>Descarga aqu&iacute; nuestras aplicaciones</p>
-                        <p><a href="https://play.google.com/store/apps/details?id=com.ionicframework.fluzfluz141172"><img src="{$img_dir}login/GooglePlay.png" id="google_play" /></a></p>
+                        <div class="row">
+                            <p>Descarga aqu&iacute; nuestras aplicaciones</p>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                <p><a href="https://play.google.com/store/apps/details?id=com.ionicframework.fluzfluz141172"><img src="{$img_dir}login/GooglePlay.png" id="google_play" /></a></p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                <p class="apple_s"><a href="https://itunes.apple.com/us/app/fluz-fluz/id1086373988"><img src="{$img_dir}login/apple-store.png" id="apple_store" /></a></p>
+                            </div>
+                        </div>
                         <p>
                             <a href="http://info.fluzfluz.co/miembros/" class="learn-buy">{l s="Aprende como comprar bonos"}</a>
                             <i class="icon icon-chevron-right" style="color:#EF4136;"></i>
