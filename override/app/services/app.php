@@ -2236,6 +2236,60 @@ class API extends REST {
     return $this->response(json_encode(array('result'=> $result > 0 ? true : false)),200);
   }
   
+  
+  public function getMediaInstagram() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_manufacturer = $this->_request['id_manufacturer'];
+    $count = $this->_request['count'];
+    
+    $sql = "SELECT instagram
+            FROM ps_manufacturer
+            WHERE active = 1 and id_manufacturer = ".$id_manufacturer;
+    $instagram = DB::getInstance()->getValue($sql);
+
+    $url = 'https://www.instagram.com/'.$instagram.'/media/';
+    $json = $this->fetchData($url);
+    $data = json_decode($json);
+    
+    if( !isset($data->items) ) {
+        return array();
+    }
+
+    $return = array();
+    $i = 0;
+
+    foreach( $data->items as $post ) {
+        $return[] = array(
+            'link' => $post->link,
+            'type' => $post->type,
+            'imgsmall' => $post->images->thumbnail->url,
+            'imgmedium' => $post->images->low_resolution->url,
+            'imglarge' => $post->images->standard_resolution->url,
+        );
+        $i++;
+        if( $i >= $count ) {
+            break;
+        }
+    }
+    $result['imageData'] = $return;
+    $result['instagram_profile'] = $instagram;
+    $result['total'] = count($return) ;
+
+    return $this->response(json_encode(array('result'=> $result)),200);
+  }
+  
+  private function fetchData($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+  }
+  
 }
 
 
