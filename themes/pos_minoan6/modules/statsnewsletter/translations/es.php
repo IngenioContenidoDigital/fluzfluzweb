@@ -8,7 +8,6 @@ $_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_61a898af87607e3f4d41c361
 $_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_7fe462207f98012d9ff00cf0e6633c94'] = 'Suscripciones de visitantes';
 $_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_64342cd480b27dfeefb08bace6e82fdc'] = 'ambos:';
 $_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_998e4c5c80f27dec552e99dfed34889a'] = 'Exportar CSV';
-$_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_c01fb34ae495b6157666197caabdc303'] = 'El módulo bloque newsletter debe instalarse.';
 $_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_cf74c2815ab62be1efa55a4a5d3f46a4'] = 'estadísticas de la newsletter';
 $_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_4b6f7d34a58ba399f077685951d06738'] = 'Clientes';
 $_MODULE['<{statsnewsletter}pos_minoan6>statsnewsletter_ae5d01b6efa819cc7a7c05a8c57fcc2c'] = 'Visitantes';
