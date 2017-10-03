@@ -1,0 +1,5 @@
+{
+    "require": {
+        "goaop/parser-reflection": "^1.4"
+    }
+}

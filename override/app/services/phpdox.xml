@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://xml.phpdox.net/config">
+  <project name="API Fluz Fluz" source="/var/www/html/fluzfluzweb/override/app/services" workdir="/home/lfelipeqn/FluzFluzDocs/xml">
+    <collector backend="parser" />
+    <generator output="/home/lfelipeqn/FluzFluzDocs/html">
+      <build engine="html" output="html"/>
+    </generator>
+  </project>
+</phpdox>
