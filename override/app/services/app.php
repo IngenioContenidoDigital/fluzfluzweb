@@ -1524,9 +1524,11 @@ class API extends REST {
       $invitation_data['email'] = $this->_request['email'];
       $invitation_data['firtsname'] = $this->_request['firtsname'];
       $invitation_data['lastname'] = $this->_request['lastname'];
+      $invitation_data['whatsapp'] = $this->_request['whatsapp'];
+      $phone = $this->_request['phone'];
       
       $model = new Model();
-      $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data );
+      $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data, $phone );
       return $this->response(json_encode(array('result' => $invitation)),200);
     }
     
@@ -2307,6 +2309,9 @@ class API extends REST {
     curl_close($ch);
     return $result;
   }
+  
+  
+  
   
 }
 
