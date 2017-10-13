@@ -667,23 +667,23 @@
         <!--<div id="HOOK_PAYMENT">
             {$HOOK_PAYMENT}
         </div>
-        {if $opc}
+        {*if $opc}
             </div> <!-- end opc_payment_methods-content -->
-        {/if}
-    {else}
+        {/if*}
+    {*else}
         <p class="alert alert-warning">{l s='No payment modules have been installed.'}</p>
-    {/if}
+    {/if*}
     <br/>
-    {if !$opc}
-    {*<p class="cart_navigation clearfix">
+    {*if !$opc}
+    {<p class="cart_navigation clearfix">
         <a  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=2&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=3')|escape:'html':'UTF-8'}{/if}" class="btnPayment button btn btn-default standard-checkout button-medium" title="{l s='Confirm Purchase'}">
 				<span>{l s='Confirm Purchase'}</span>
         </a>
-    </p>*}
+    </p>}
     
     {else} 
-</div> <!-- end opc_payment_methods -->
-{/if}
+</div> <!-- end opc_payment_methods 
+{/if*}
 </div> <!-- end HOOK_TOP_PAYMENT -->
 {literal}
     <script type="text/javascript">
