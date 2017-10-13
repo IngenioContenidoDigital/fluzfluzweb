@@ -404,9 +404,6 @@
                     </h1>
                     <div class="border-title"></div>
                     <div class="row" style="padding: 0px;">
-                        <div id="HOOK_PAYMENT">
-                            {$HOOK_PAYMENT}
-                        </div>
                         <div class="panel panel-default" style="margin-top:5px;margin-bottom: 0px;">
                             <div class="panel-heading" style="background:#fff;">
                                 <h4 class="panel-title">
@@ -547,6 +544,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="HOOK_PAYMENT">
+                            {$HOOK_PAYMENT}
+                        </div>            
                     </div>
                 </div>
             </div>
