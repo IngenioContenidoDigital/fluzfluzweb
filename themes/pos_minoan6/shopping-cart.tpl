@@ -354,9 +354,8 @@
                     <h4 class="title-help">Necesitas Ayuda?</h4>
                     <div class="p-help">
                         <p class="parragraph-help"><a href="http://reglas.fluzfluz.co" target="_blank"> - Qu&eacute; m&eacute;todos de pago puedo utilizar? </a></p>
-                        <p class="parragraph-help"><a href="http://reglas.fluzfluz.co" target="_blank"> - C&oacute;mo est&aacute; mi pedido seguro? </a></p>
+                        <p class="parragraph-help"><a href="http://reglas.fluzfluz.co" target="_blank"> - Est&aacute; mi pedido seguro? </a></p>
                         <p class="parragraph-help"><a href="http://reglas.fluzfluz.co" target="_blank"> - C&oacute;mo se aplican mis recompensas? </a></p>
-                        <p class="parragraph-help"><a href="http://reglas.fluzfluz.co" target="_blank"> - Cu&aacute;l es la garant&iacute;a de aumento? </a></p>
                     </div>
                 </div>            
         </div>
