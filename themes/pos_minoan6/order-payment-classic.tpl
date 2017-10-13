@@ -661,9 +661,9 @@
         </div>
         <div id="prueba" style="display:none;">{$base_dir_ssl}</div>
         
-        {if $opc}
+        {*if $opc}
             <div id="opc_payment_methods-content">
-        {/if}
+        {/if*}
         <!--<div id="HOOK_PAYMENT">
             {$HOOK_PAYMENT}
         </div>
