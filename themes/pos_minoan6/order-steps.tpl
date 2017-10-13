@@ -34,7 +34,7 @@
 
 {if !$opc && ((!isset($back) || empty($back)) || (isset($back) && preg_match("/[&?]step=/", $back)))}
 <!-- Steps -->
-<ul class="step clearfix" id="order_step" style="padding-left:0px;">
+<!--<ul class="step clearfix" id="order_step" style="padding-left:0px;">
     <li  class="{if $current_step=='summary'}step_current {elseif $current_step=='login'}step_done_last step_done{else}{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address' || $current_step=='login'}step_done{else}step_todo{/if}{/if} first">
 		{if $current_step=='payment' || $current_step=='shipping' || $current_step=='address' || $current_step=='login'}
 		<a href="{$link->getPageLink('order', true)}">
@@ -70,10 +70,15 @@
 		{else}
 			<span><em>04.</em> {l s='Shipping'}</span>
 		{/if}
-	</li>-->
+	</li>
 	<li id="step_end" class="{if $current_step=='payment'}step_current{else}step_todo{/if} last">
 		<span><em>03.</em> {l s='Payment'}</span>
 	</li>
-</ul>
+</ul>-->
 <!-- /Steps -->
 {/if}
+{literal}
+    <style>
+        #step_end{display: none;}
+    </style>
+{/literal}

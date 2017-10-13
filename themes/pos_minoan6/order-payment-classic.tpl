@@ -29,9 +29,9 @@
     <div id="HOOK_TOP_PAYMENT">{$HOOK_TOP_PAYMENT}</div>
     {if $HOOK_PAYMENT}
         {if !$opc}
-            <div id="order-detail-content" class="table_block table-responsive">
+            <!--<div id="order-detail-content" class="table_block table-responsive">
                 <table id="cart_summary" class="table table-bordered">
-                    <thead>
+                    <!--<thead>
                         <tr>
                             <th class="cart_product first_item">{l s='Product'}</th>
                             <th class="cart_description item">{l s='Description'}</th>
@@ -266,7 +266,7 @@
 
                         {* Display the product line *}
                         
-                        {include file="$tpl_dir./shopping-cart-product-line.tpl"}
+                        {*include file="$tpl_dir./shopping-cart-product-line.tpl"*}
                         {* Then the customized datas ones*}
                         {if isset($customizedDatas.$productId.$productAttributeId)}
                             {foreach from=$customizedDatas.$productId.$productAttributeId[$product.id_address_delivery] key='id_customization' item='customization'}
@@ -359,17 +359,314 @@
                         </tbody>
                     {/if}
                 </table>
-            </div> <!-- end order-detail-content -->
+            </div> --><!-- end order-detail-content -->
         {/if}
-        
+        <div class="row" style="padding:0px;">
+            <div class="col-lg-11 col-sm-12 col-md-12 col-xs-12" style="padding:0px; text-align: center;">
+                <img class="logo logo_cart" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz">
+            </div>
+        </div>
+        <div>
+            <div class="container third-step">
+                    <div class="row bs-wizard" style="border-bottom:0;">
+
+                        <div class="col-xs-4 bs-wizard-step complete">
+                          <div class="progress"><div class="progress-bar"></div></div>
+                          <a href="{$link->getPageLink('order', true)}" class="bs-wizard-dot"></a>
+                          <div class="bs-wizard-info text-center">Resumen Carrito</div>
+                        </div>
+
+                        <div class="col-xs-4 bs-wizard-step complete"><!-- complete -->
+                            <div class="progress" style="left:50%;"><div class="progress-bar" style=" background: #FFF;"></div></div>
+                          <a href="#" class="bs-wizard-dot bs-wizard-dot-second"></a>
+                          <div class="bs-wizard-info text-center">Pago Seguro</div>
+                        </div>
+
+                        <div class="col-xs-4 bs-wizard-step active"><!-- complete -->
+                          <a href="#" class="bs-wizard-dot bs-wizard-dot-third"></a>
+                          <div class="bs-wizard-info text-center" style="margin-top: 47px;">Confirmaci&oacute;n</div>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+        <div class="row continue_shop">
+            <a href="/content/6-categorias">
+                <i class="icon-chevron-left" style="color:#EF4136;"></i>
+                Continuar Comprando
+            </a>
+        </div>  
+        <div class="row" style="padding: 0px">
+            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="padding: 0px">
+                <div class="col-lg-12" style="padding: 0px">
+                    <h1 id="cart_title" class="page-heading" style="font-weight: bold;margin-top:0px; margin-bottom: 0px; padding-bottom: 0px; border-bottom: none; ">
+                        {l s='Pago Seguro'}
+                    </h1>
+                    <div class="border-title"></div>
+                    <div class="row" style="padding: 0px;">
+                        <div id="HOOK_PAYMENT">
+                            {$HOOK_PAYMENT}
+                        </div>
+                        <div class="panel panel-default" style="margin-top:5px;margin-bottom: 0px;">
+                            <div class="panel-heading" style="background:#fff;">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTree">Pago Total con Fluz</a>
+                                </h4>
+                            </div>
+                            <div id="collapseTree" class="panel-collapse collapse">
+                                <div class="panel-body" style="background: #F9F9F8;">
+                                    <div class="alternate_item">
+                                        <div  class="row history_method bold pto-disponible" style="text-align:center;">
+                                            <input type="hidden" value="{$totalAvailable}" id="ptosTotalOculto"/>
+                                            <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pto-totaltext-left">{l s='Tus Fluz Totales:'}</p>
+                                            <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pto-total-left">{$totalAvailable}</p>
+                                        </div>
+                                        <div class="row" style="text-align: right;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding hook_fluz">{l s='Precio Total:'}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding text_p_fluz" id="total_product" style="text-align:right;">{displayPrice price=$total_products}</div>
+                                        </div>
+                                        <div class="row price_in_fluz_left">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding price_total_fluz">{l s='Precio Total en Fluz:'}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding text_price_total" id="total_product_fluz" style="text-align:right;">- {$total_products/25|string_format:"%d"} Fluz.</div>
+                                        </div> 
+                                        <div class="row fluz_left">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding">{l s='Fluz Restantes:'}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding" id="total_product_fluz" style="text-align:right;padding-right: 0px;">{if ($totalAvailable < ($total_products/25))}0{else}{($totalAvailable - ($total_products/25))|string_format:"%d"}{/if} Fluz.</div>
+                                        </div>
+                                        <td colspan="2"> 
+                                            <input type="hidden" id="cavail_all" value="{$totalAvailableCurrency}" />
+                                            <input type="hidden" id="avail_all" value="{$totalAvailable}" />
+                                            <div class="cart_total_price" style="display:none;">
+                                                <div colspan="3" class="price" id="total_price_container">
+                                                    <input type="hidden" id="total_price" class="tprice" data-selenium-total-price="{$total_price}">{displayPrice price=$total_price}</span>
+                                                </div>
+                                            </div>
+                                            {if $voucherAllowed}
+                                                    <div id="cart_voucher" class="table_block">
+                                                        {if $voucherAllowed}
+
+                                                            <form action="{if $opc}{$link->getPageLink('order-opc', true)}{/if}" method="post" id="voucher" name="voucher">
+                                                                <fieldset>
+                                                                    <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
+                                                                    <input type="hidden" name="submitDiscount" />
+                                                                    {if count($discounts)}
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">
+                                                                            <button type="button" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
+                                                                        </div>
+                                                                    {else}
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">
+                                                                            <button type="button" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
+                                                                        </div>
+                                                                    {/if}    
+                                                                </fieldset>
+                                                            </form>
+                                                        {/if}
+                                                    </div>
+                                            {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="panel panel-default" style="margin-top:5px;margin-bottom: 0px;">
+                            <div class="panel-heading" style="background:#fff;">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Pago Parcial con Fluz</a>
+                                </h4>
+                            </div>
+                            <div id="collapseFour" class="panel-collapse collapse">
+                                <div class="panel-body" style="background: #F9F9F8;">
+                                    <div class="alternate_item">
+                                        <div class="row">
+                                            <input class="slider-cash col-lg-6 col-md-5 col-sm-5 col-xs-5" type="range" id="rangeSlider" value="40" min="40" max="{$totalAvailable}" step="100" data-rangeslider>
+                                            <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
+                                                    <span class="money-cash col-lg-2 col-md-1 col-sm-2 col-xs-2">$</span>
+                                                    <input class="output-cash col-lg-6 col-md-6 col-sm-6 col-xs-5" type="number" name="valorSlider" id="valorSlider" value="" style="padding:0px; padding-left: 10px;height: 35px;margin-top: -5px;"/>
+                                                    <span class="col-lg-3 cash-point col-md-3 col-sm-3 col-xs-4" style="padding: 0px;padding-left: 36px;"> &nbsp;{l s="de"}&nbsp;{$totalAvailable}&nbsp;{l s="Pts."}</span>
+                                            </div>
+                                                    <span class="cashout-money col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display:none;> {l s ="COP"}&nbsp;<span id="value-cash"></span></span>
+                                                    <span class="cashout-money col-lg-12" style="display:none;"> {l s ="COP"}&nbsp;<span id="value-money">{(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')}</span></span>
+                                        </div>
+                                        <div  class="row history_method bold pto-disponible" style="text-align:center;">
+                                            <input type="hidden" value="{$totalAvailable}" id="ptosTotalOculto"/>
+                                            <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pto-totaltext-left">{l s='Tus Fluz Totales:'}</p>
+                                            <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pto-total-left">{$totalAvailable}</p>
+                                        </div>
+                                        <div class="row" style="text-align: right;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding hook_fluz">{l s='Precio Total:'}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding text_p_fluz" id="total_product" style="text-align:right;">{displayPrice price=$total_products}</div>
+                                        </div>
+                                        <div class="row" style="text-align: right;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding hook_fluz">{l s='Precio en Puntos:'}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding text_p_fluz" id="total_product_fluz_p" style="text-align:right;">- {$total_products/25|string_format:"%d"} Fluz.</div>
+                                        </div>
+                                        <div class="row price_in_fluz_left">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding price_total_fluz">{l s='Puntos Aplicados:'}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  price text_left_padding text_price_total" id="total_product_fluz_partial_f" style="text-align:right;">- {$total_products/25|string_format:"%d"} Fluz.</div>
+                                        </div> 
+                                        <div class="row fluz_left">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding">{l s='Fluz Restantes:'}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding" id="total_product_fluz_partial" style="text-align:right;padding-right: 0px;"></div>
+                                        </div>
+                                        <td colspan="2"> 
+                                            <input type="hidden" id="cavail_all" value="{$totalAvailableCurrency}" />
+                                            <input type="hidden" id="avail_all" value="{$totalAvailable}" />
+                                            <div class="cart_total_price" style="display:none;">
+                                                <div colspan="3" class="price" id="total_price_container">
+                                                    <input type="hidden" id="total_price" class="tprice" data-selenium-total-price="{$total_price}">{displayPrice price=$total_price}</span>
+                                                </div>
+                                            </div>
+                                            <div style="font-size: 10px;"> 
+                                            <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
+                                            <input type="hidden" id="avail" value="{$totalAvailable}" />
+                                            {if $voucherAllowed}
+                                                    <div id="cart_voucher" class="table_block">
+                                                        {if $voucherAllowed}
+
+                                                            <form action="{if $opc}{$link->getPageLink('order-opc', true)}{/if}" method="post" id="voucher" name="voucher">
+                                                                <fieldset>
+                                                                    <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
+                                                                    <input type="hidden" name="submitDiscount" />
+                                                                            {if count($discounts)}
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">    
+                                                                                <input type="hidden" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off" disabled/>
+                                                                                <button type="button" name="submitLabel" id="submitLabel" class="btn-cart" disabled><span>{l s='Aplicar'}</span></button>
+                                                                            </div>
+                                                                            {else}
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">    
+                                                                                <input type="hidden" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off"/>
+                                                                                <button type="button" name="submitLabel" id="submitLabel" class="btn-cart"><span>{l s='Aplicar'}</span></button>
+                                                                            </div>
+                                                                            {/if}
+                                                                </fieldset>
+                                                            </form>
+                                                        {/if}
+                                                    </div>
+                                            {/if}
+                                    </div>       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 cart_total_summary" id="cart_total_summary">
+            <div class="col-lg-12 col-ms-12 col-sm-12 col-xs-12 title-summary">
+                <h1 id="cart_title" class="page-heading" style="font-weight: bold;margin-top:0px; margin-bottom: 0px; padding-bottom: 0px; border-bottom: none; ">
+                    {l s='Resumen de Orden'}
+                </h1>
+            <div class="border-title"></div>
+            <div class="row" style="padding:0px;margin-bottom: 25px;">
+                <div class="row r-summary">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 0px; text-align: left;"> Comerciante </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;"> Valor </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;"> Cantidad </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 0px; text-align: right;"> Precio en Fluz </div>
+                </div>
+                
+                {foreach from=$products item=product}
+                <div class="row r-content-summary">    
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 font-merchant" style="padding: 0px; text-align: left; padding-left: 5px; text-transform: uppercase;">{$product.manufacturer_name}</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;">{$product.price}</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;">{$product.quantity}</div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 0px; text-align: right; color: #ef4136; font-weight: bold;">{$product.price / 25}</div>
+                </div>
+                {/foreach}
+            </div>
+            <div class="row" style="text-align: right;">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding">{l s='Subtotal'}</div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding" id="total_product" style="text-align:right;">{displayPrice price=$total_products}</div>
+            </div>
+            <div class="row" style="text-align: right;">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding">{l s='Impuestos'}</div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding" id="total_product" style="text-align:right;">{displayPrice price=$total_tax}</div>
+            </div>
+                {if sizeof($discounts)}
+                    <div class="row" style="padding:0px;">
+                            {foreach $discounts as $discount}
+                            {if ((float)$discount.value_real == 0 && $discount.free_shipping != 1) || ((float)$discount.value_real == 0 && $discount.code == '')}
+                                    {continue}
+                            {/if}
+                                    <div class="row cart_discount {if $discount@last}last_item{elseif $discount@first}first_item{else}item{/if}" id="cart_discount_{$discount.id_discount}">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cart_discount_name text_left_padding">{l s="Descuento en Fluz"}</div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 cart_discount_price text_left_padding">
+                                                    <span class="price-discount price">{if !$priceDisplay}{displayPrice price=$discount.value_real*-1}{else}{displayPrice price=$discount.value_tax_exc*-1}{/if}</span>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 price_discount_del text-center" style="padding:0px;">
+                                                    {if strlen($discount.code)}
+                                                            <a href="{if $opc}{$link->getPageLink('order-opc', true)}{else}{$link->getPageLink('order', true)}{/if}?deleteDiscount={$discount.id_discount}"
+                                                                    class="price_discount_delete"
+                                                                    title="{l s='Delete'}" style="font-size: 14px;color:#EF4136;font-family: 'Open-Sans';">
+                                                                    Eliminar
+                                                                    <!--<i class="icon-trash"></i>-->
+                                                            </a>
+                                                    {/if}
+                                            </div>
+                                    </div>
+                            {/foreach}
+                    </div>
+                {/if}
+                <div class="row cart_total_price">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 total_price_container text_left_padding">
+                                <span>{l s='Total'}</span>
+                                <div class="hookDisplayProductPriceBlock-price">
+                                    {hook h="displayCartTotalPriceLabel"}
+                                </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding" style="text-align:right;">       
+                            {if $use_taxes}
+                                    <div colspan="5" class="price price_summary" id="total_price_container">
+                                            <span id="total_price">{displayPrice price=$total_price}</span>
+                                    </div>
+                            {else}
+                                    <div colspan="5" class="price price_summary" id="total_price_container">
+                                            <span id="total_price">{displayPrice price=$total_price_without_tax}</span>
+                                    </div>
+                            {/if}
+                        </div>
+                </div>
+                <div class="row price_in_fluz">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding">{l s='Precio Total en Fluz'}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price text_left_padding" id="total_product_fluz" style="text-align:right;">{$total_products/25|string_format:"%d"}</div>
+                </div> 
+                <div class="row fluz_receive">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_receive_fluz text_left_padding">{l s='Fluz Total a Obtener'}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 price price_fluz text_left_padding" id="total_fluz_earned" style="text-align:right;">{$total_fluz}</div>
+                </div>
+                <div class="row" style="display:none;">
+                    
+                            {if !$opc}
+                                <a style="width:100%; text-align: center;padding: 15px 15px;margin-top: 20px;"  href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" id="nextStep" title="{l s='Next Step'}">
+                                            <span>{l s='NEXT STEP'}<i class="icon-chevron-right right"></i></span>
+                                    </a>   
+                            {/if}
+                            {if $total_price == 0}
+                                    <a style="width:100%; text-align: center;padding: 15px 15px;margin-top: 20px;" href="{if $back}{$link->getPageLink('order', true, NULL, 'step=1&amp;back={$back}')|escape:'html':'UTF-8'}{else}{$link->getPageLink('order', true, NULL, 'step=1')|escape:'html':'UTF-8'}{/if}" class="button btn btn-default standard-checkout button-medium" title="{l s='Next Step'}">
+                                            <span>{l s='Finalizar Compra'}<i class="icon-chevron-right right"></i></span>
+                                    </a>
+                                    {literal}
+                                    <style>
+                                        #nextStep{display: none !important;}
+                                    </style>
+                                    {/literal}
+                            {/if}
+
+                            <!--<a href="{if (isset($smarty.server.HTTP_REFERER) && ($smarty.server.HTTP_REFERER == $link->getPageLink('order', true) || $smarty.server.HTTP_REFERER == $link->getPageLink('order-opc', true) || strstr($smarty.server.HTTP_REFERER, 'step='))) || !isset($smarty.server.HTTP_REFERER)}{$link->getPageLink('index')}{else}{$smarty.server.HTTP_REFERER|escape:'html':'UTF-8'|secureReferrer}{/if}" class="button-exclusive btn btn-default" title="{l s='Continue shopping'}">
+                                    <i class="icon-chevron-left"></i>{l s='Continue shopping'}
+                            </a>-->
+                            <p style="text-align:center;margin-top: 0px; color: #BDBDBD;"><i class="icon-lock"></i> Tu transacci&oacute;n es segura.</p>
+                </div>
+            </div>
+            </div>                
+        </div>
         <div id="prueba" style="display:none;">{$base_dir_ssl}</div>
         
         {if $opc}
             <div id="opc_payment_methods-content">
         {/if}
-        <div id="HOOK_PAYMENT">
+        <!--<div id="HOOK_PAYMENT">
             {$HOOK_PAYMENT}
-        </div>
+        </div>-->
         {if $opc}
             </div> <!-- end opc_payment_methods-content -->
         {/if}
@@ -389,6 +686,38 @@
 {/if}
 </div> <!-- end HOOK_TOP_PAYMENT -->
 {literal}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var pto_inicial_slider = document.getElementById( 'valorSlider' ).value=40 ;
+            var value_money = $('#value-money').text();
+            var total_p = $('#ptosTotalOculto').val();
+            $('#total_product_fluz_partial_f').html(pto_inicial_slider);
+            
+            $('#rangeSlider').change(function() 
+            {
+              var value = $(this).val();
+              var total_partial = (parseInt(total_p) - parseInt(value));
+              $('#valorSlider').val($(this).val());
+              $('#pt_parciales').val(value);
+              var mult = (value * value_money); 
+              $("#value-cash").html(mult);
+              $("#value-confirmation").html(mult);
+              var total = mult - 7000;
+              $("#total-valor").html(total);
+              $('#toUse').val(value);
+              $('#total_product_fluz_partial_f').html(value);
+              
+              if(value > total_p){
+                  $('#total_product_fluz_partial').html(0+' Fluz.');
+              }
+              else{
+                  $('#total_product_fluz_partial').html(total_partial+' Fluz.');
+              }
+              
+            });
+
+        });
+    </script>
     <script>
            $('#submitAddDiscount').click(function(){
                $(this).attr("disabled","disabled");
@@ -397,7 +726,11 @@
                var points=$('#avail_all').val();
                var use = $('#toUse').val();
                var prueba = document.getElementById("prueba").innerHTML;
-               
+               console.log(totalCart);
+               console.log(credits);
+               console.log(points);
+               console.log(use);
+               console.log(prueba);
                $.ajax({
                     method:"GET",
                     url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
@@ -445,17 +778,20 @@
 {/literal}
 {literal}
     <script>       
-        $("#toUse").on("keyup",function(event){
+        $("#valorSlider").on("keyup",function(event){
             var valor1=$('#ptosTotalOculto').val();
-            var valor2=$('#toUse').val();
+            var valor2=$('#valorSlider').val();
+            console.log(valor2);
             if(valor2>=0){
                 var resultado = calcular(valor1,valor2);
                 $('#ptosTotal').html(resultado);
+                $('#toUse').val(valor2);
             }else{
                 valor2*=-1;
-                $('#toUse').val(valor2);
+                $('#valorSlider').val(valor2);
                 var resultado = calcular(valor1,valor2);
                 $('#ptosTotal').html(resultado);
+                $('#toUse').val(valor2);
             }
                 
         }).keydown(function( event ) {
@@ -482,4 +818,34 @@
         }
     </style>
 {/literal}
-
+{literal}
+    <style>
+        /*Form Wizard*/
+        .bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 0px 0;}
+        .bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
+        .bs-wizard > .bs-wizard-step + .bs-wizard-step {}
+        .bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px;}
+        .bs-wizard > .bs-wizard-step .bs-wizard-info {color: #fff; font-weight: bold; font-size: 12px; line-height: 0px;}
+        .bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 16px; height: 16px; display: block; background: #C9B197; top: 30px; left: 50%; margin-top: -15px; margin-left: -10px; border-radius: 50%;} 
+        .bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 12px; height: 12px; background: #C9B197; border-radius: 50px; position: absolute; top: 2px; left: 2px; } 
+        .bs-wizard > .bs-wizard-step > .bs-wizard-dot-second {position: absolute; width: 16px; height: 16px; display: block; background: #C9B197; top: 30px; left: 50%; margin-top: -15px; margin-left: -10px; border-radius: 50%;} 
+        .bs-wizard > .bs-wizard-step > .bs-wizard-dot-second:after {content: ' '; width: 12px; height: 12px; background: #fff; border-radius: 50px; position: absolute; top: 2px; left: 2px; } 
+        .bs-wizard > .bs-wizard-step > .bs-wizard-dot-third {position: absolute; width: 16px; height: 16px; display: block; background: #fff; top: 30px; left: 50%; margin-top: -15px; margin-left: -10px; border-radius: 50%;} 
+        .bs-wizard > .bs-wizard-step > .bs-wizard-dot-third:after {content: ' '; width: 12px; height: 12px; background: #fff; border-radius: 50px; position: absolute; top: 2px; left: 2px; } 
+        .bs-wizard > .bs-wizard-step > .bs-wizard-dot-first:after {content: ' '; width: 14px; height: 14px; background: #fff; border-radius: 50px; position: absolute; top: 3px; left: 3px; } 
+        .bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 2px; box-shadow: none; margin: 22px 0;}
+        .bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #C9B197;}
+        .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
+        .bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:50%;}
+        .bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {width:0%;}
+        .bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {width: 100%;}
+        .bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {background-color: #f5f5f5;}
+        .bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {opacity: 0;}
+        .bs-wizard > .bs-wizard-step:first-child  > .progress {left: 50%; width: 100%;}
+        .bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
+        .bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
+        .menu-pay-disabled{display: none;}
+        .footer-container{display: none;}
+        .breadcrumb{display: none;}
+    </style>
+{/literal}

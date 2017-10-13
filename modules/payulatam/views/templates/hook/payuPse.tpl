@@ -81,7 +81,7 @@
 
 <div class="container">      
     <div class="row">
-         <div class="col-xs-12 col-sm-10 col-md-7"> 
+         <div class="col-lg-10 col-xs-12 col-sm-10 col-md-7"> 
             <form  method="POST" class="form-horizontal" action="{$base_dir|regex_replace:"/[http://]/":""|escape:'htmlall':'UTF-8'}/modules/payulatam/payuPse.php" id="formPayUPse" name="formPayUPse" autocomplete="off" >
          
                      <div class="form-group">
@@ -137,7 +137,7 @@
                 
                    <div class="form-group btnpayment">
                         <label for="submitPSE" class="control-label hidden-xs col-sm-6 " style="text-align: left;"></label>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-12 div-button-pay pse-pay">
                             <button btn btn-default standard-checkout button-medium type="submit" id="submitPSE" class="button btn btn-default standard-checkout button-medium">
                                 <span> Pagar Ahora
                                     <i class="icon-chevron-right right"></i>

@@ -102,7 +102,7 @@
 					{/if}
 					<div class="header-middle">
                                             <div class="container-fluid">
-                                                <div class="row">
+                                                <div class="row menu-pay-disabled">
                                                     <div class="pos_logo col-xs-4 col-sm-4 col-md-3 col-lg-3">
                                                             {if $logged}
                                                             <a href="{$link->getPageLink('my-account', true)|escape:'html'}" title="{$shop_name|escape:'html':'UTF-8'}">    
