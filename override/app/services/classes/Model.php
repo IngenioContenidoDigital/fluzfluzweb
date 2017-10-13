@@ -2302,12 +2302,13 @@ return $responseObj;
       
   }
   
-  public function sendInvitation($id_lang, $id_customer, $invitation_data){
+  public function sendInvitation($id_lang, $id_customer, $invitation_data, $phone){
 //    error_log("\n\n Esto es lo que recibe al intentar invitar: \n\n".print_r($invitation_data,true),3,"/tmp/error.log");
     if(!empty($id_customer) && !empty($invitation_data)){
       $friend_email     = $invitation_data['email'];
       $friend_lastname  = $invitation_data['lastname'];
       $friend_firstname = $invitation_data['firstname'];
+      $whatsapp         = $invitation_data['whatsapp'];
       
       $error = '0';
       $slq = 'SELECT COUNT(rs.id_sponsorship) as contador
@@ -2350,7 +2351,7 @@ return $responseObj;
         $sponsorship->email = $friend_email;
         $send = "";
         //$sponsorship->add();
-
+        
         if ($sponsorship->save()) {
           $vars = array(
             '{email}' => $customer->email,
@@ -2371,7 +2372,17 @@ return $responseObj;
 
           $allinone_rewards = new allinone_rewards();
           $allinone_rewards->sendMail((int)$id_lang, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
-          $msg = 'Invitacion enviada exitosamente';
+          
+          
+          $urlWhatsapp = "No hay whatsapp";
+          error_log("\n\n\n Esto es lo que esta llegando: \n Whatsapp: ".print_r($whatsapp, true),3,"/tmp/error.log");
+          error_log("\n phone: ".print_r($phone, true),3,"/tmp/error.log");
+          if ( $whatsapp && $phone != "" ) {
+            $urlWhatsapp = "https://api.whatsapp.com/send?phone=".$phone."&text=Hola ".$friend_firstname." ".$friend_lastname.", has sido invitado por ".$customer->username." a unirte a Fluz Fluz. Ingresa al siguiente link para aceptar la invitacion: ".str_replace("=", "%3D", $sponsorship->getSponsorshipMailLink());
+          }
+          
+          $msg = 'Invitacion enviada exitosamente   '
+                  ;
         }
       }
       else {
@@ -2381,7 +2392,17 @@ return $responseObj;
       }
     }
       
-    return array('error' => $error, 'msg' => $msg);
+    return array('error' => $error, 'msg' => $msg, 'url' => $urlWhatsapp);
+  }
+  
+  private function fetchData($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
   }
       
   public function generateIdTemporary($email) {

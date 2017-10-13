@@ -824,7 +824,7 @@ class API extends REST {
 
                     $vars = array(
                         '{username}' => $customer->username,
-                        '{password}' => $customer->dni,
+                        '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                         '{firstname}' => $customer->firstname,
                         '{lastname}' => $customer->lastname,
                         '{dni}' => $customer->dni,
@@ -1074,17 +1074,27 @@ class API extends REST {
 
     public function transferFluz()
     {
-        if($this->get_request_method() != "POST") {
-            $this->response('',406);
-        }
+      if($this->get_request_method() != "POST") {
+        $this->response('',406);
+      }
         
-        $params = array();
-        $params["user"] = $this->_request['user'];
-        $params["fluzzer"] = $this->_request['fluzzer'];
-        $params["points"] = $this->_request['points'];
-
-	$model = new Model();
-	$this->response( $this->json($model->transferFluz($params)) , 200 );
+      $params = array();
+      $params["user"] = $this->_request['user'];
+      $params["fluzzer"] = $this->_request['fluzzer'];
+      $params["points"] = $this->_request['points'];
+      
+      $MyAccountController = new MyAccountController();
+      $userData = $MyAccountController->getUserDataAccountApp( $params["user"] );
+      $userData['fluzTotal'];
+      
+      $model = new Model();
+      
+      if( $params["points"] < $userData['fluzTotal'] || $params["points"] == $userData['fluzTotal'] ){
+        $this->response( $this->json($model->transferFluz($params)) , 200 );
+      }
+      else {
+        $this->response( $this->json('error: Nop tiene los puntos suficientes'), 206);
+      }
     }
     
     /**
@@ -1514,9 +1524,11 @@ class API extends REST {
       $invitation_data['email'] = $this->_request['email'];
       $invitation_data['firtsname'] = $this->_request['firtsname'];
       $invitation_data['lastname'] = $this->_request['lastname'];
+      $invitation_data['whatsapp'] = $this->_request['whatsapp'];
+      $phone = $this->_request['phone'];
       
       $model = new Model();
-      $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data );
+      $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data, $phone );
       return $this->response(json_encode(array('result' => $invitation)),200);
     }
     
@@ -1526,6 +1538,7 @@ class API extends REST {
       }
       
       $requestData = array(
+        'id_customer' => '',
         'identification' => '',
         'firts_name' => '',
         'last_name' => '',
@@ -1535,10 +1548,17 @@ class API extends REST {
         'points' => '',
         'credits' => ''
       );
-    
+      
       //llena las variables de busqueda.
       foreach ($requestData as $rqd => $value) {
         ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
+        error_log("\n\n Esto es ".${$rqd},3,"/tmp/error.log");
+      }
+    
+      $MyAccountController = new MyAccountController();
+      $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
+      if( $userData['fluzTotal'] < $points ){
+        return $this->response(json_encode(array('result' => 'error')),206);
       }
       
       $sql = "INSERT INTO 
@@ -2235,6 +2255,63 @@ class API extends REST {
     
     return $this->response(json_encode(array('result'=> $result > 0 ? true : false)),200);
   }
+  
+  
+  public function getMediaInstagram() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_manufacturer = $this->_request['id_manufacturer'];
+    $count = $this->_request['count'];
+    
+    $sql = "SELECT instagram
+            FROM ps_manufacturer
+            WHERE active = 1 and id_manufacturer = ".$id_manufacturer;
+    $instagram = DB::getInstance()->getValue($sql);
+
+    $url = 'https://www.instagram.com/'.$instagram.'/media/';
+    $json = $this->fetchData($url);
+    $data = json_decode($json);
+    
+    if( !isset($data->items) ) {
+        return array();
+    }
+
+    $return = array();
+    $i = 0;
+
+    foreach( $data->items as $post ) {
+        $return[] = array(
+            'link' => $post->link,
+            'type' => $post->type,
+            'imgsmall' => $post->images->thumbnail->url,
+            'imgmedium' => $post->images->low_resolution->url,
+            'imglarge' => $post->images->standard_resolution->url,
+        );
+        $i++;
+        if( $i >= $count ) {
+            break;
+        }
+    }
+    $result['imageData'] = $return;
+    $result['instagram_profile'] = $instagram;
+    $result['total'] = count($return) ;
+
+    return $this->response(json_encode(array('result'=> $result)),200);
+  }
+  
+  private function fetchData($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+  }
+  
+  
+  
   
 }
 
