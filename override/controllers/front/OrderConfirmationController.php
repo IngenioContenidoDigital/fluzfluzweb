@@ -121,14 +121,21 @@ class OrderConfirmationController extends OrderConfirmationControllerCore
         $order_products = $order->getProducts();
         foreach ( $order_products as &$order_product ) {
             
-            $queryprueba = "SELECT p.id_product AS id, p.id_manufacturer, p.type_currency, rp.value as value FROM "._DB_PREFIX_."product p
+            $queryprueba = "SELECT p.id_product AS id, pl.description_short, pl.description, od.product_quantity, m.name as manufacturer_name, p.id_manufacturer, p.type_currency, rp.value as value FROM "._DB_PREFIX_."product p
                             LEFT JOIN "._DB_PREFIX_."product_attribute pa ON (pa.reference = p.reference)
                             LEFT JOIN "._DB_PREFIX_."product_lang pl ON (p.id_product = pl.id_product)
                             LEFT JOIN "._DB_PREFIX_."rewards_product rp ON (rp.id_product = p.id_product)
+                            LEFT JOIN "._DB_PREFIX_."order_detail od ON (od.product_id = p.id_product)
+                            LEFT JOIN "._DB_PREFIX_."manufacturer m ON (m.id_manufacturer = p.id_manufacturer)
                             WHERE p.reference = '".$order_product['reference']."' AND pl.`id_lang` = ".(int)$this->context->language->id;
             $x = Db::getInstance()->executeS($queryprueba);
             
+            $order_product['description_short'] = $x[0]['description_short'];
+            $order_product['description'] = $x[0]['description'];
+            $order_product['manufacturer_name'] = $x[0]['manufacturer_name'];
             $porcentaje_detail = $x[0]['value']/100;
+            $order_product['fluzpoints_sum'] += round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / 2)*$porcentaje_detail);
+            
             $fluz = substr($order_product['reference'], 0,5);
             $sponsorships = array_slice(RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id), 1, 15);
             if($fluz != 'MFLUZ'){
@@ -138,7 +145,7 @@ class OrderConfirmationController extends OrderConfirmationControllerCore
                 $order_product['fluzpoints'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / 1)*$porcentaje_detail);
             }
         }
-
+        
         $this->context->smarty->assign(array(
             's3'=> _S3_PATH_,
             'order' => $order,
