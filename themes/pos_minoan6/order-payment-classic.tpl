@@ -654,7 +654,7 @@
                             <!--<a href="{if (isset($smarty.server.HTTP_REFERER) && ($smarty.server.HTTP_REFERER == $link->getPageLink('order', true) || $smarty.server.HTTP_REFERER == $link->getPageLink('order-opc', true) || strstr($smarty.server.HTTP_REFERER, 'step='))) || !isset($smarty.server.HTTP_REFERER)}{$link->getPageLink('index')}{else}{$smarty.server.HTTP_REFERER|escape:'html':'UTF-8'|secureReferrer}{/if}" class="button-exclusive btn btn-default" title="{l s='Continue shopping'}">
                                     <i class="icon-chevron-left"></i>{l s='Continue shopping'}
                             </a>-->
-                            <p style="text-align:center;margin-top: 0px; color: green;"><i class="icon-lock"></i> Tu transacci&oacute;n es segura.</p>
+                            <p style="text-align:center;margin-top: 0px; color: #008000;"><i class="icon-lock"></i> Tu transacci&oacute;n es segura.</p>
                 </div>
             </div>
             </div>                
