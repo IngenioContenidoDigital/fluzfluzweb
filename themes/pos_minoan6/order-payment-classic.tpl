@@ -666,7 +666,7 @@
         {/if}
         <!--<div id="HOOK_PAYMENT">
             {$HOOK_PAYMENT}
-        </div>-->
+        </div>
         {if $opc}
             </div> <!-- end opc_payment_methods-content -->
         {/if}
