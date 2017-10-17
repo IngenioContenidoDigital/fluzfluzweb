@@ -404,9 +404,6 @@
                     </h1>
                     <div class="border-title"></div>
                     <div class="row" style="padding: 0px;">
-                        <div id="HOOK_PAYMENT">
-                            {$HOOK_PAYMENT}
-                        </div>
                         <div class="panel panel-default" style="margin-top:5px;margin-bottom: 0px;">
                             <div class="panel-heading" style="background:#fff;">
                                 <h4 class="panel-title">
@@ -547,6 +544,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="HOOK_PAYMENT">
+                            {$HOOK_PAYMENT}
+                        </div>            
                     </div>
                 </div>
             </div>
@@ -654,22 +654,22 @@
                             <!--<a href="{if (isset($smarty.server.HTTP_REFERER) && ($smarty.server.HTTP_REFERER == $link->getPageLink('order', true) || $smarty.server.HTTP_REFERER == $link->getPageLink('order-opc', true) || strstr($smarty.server.HTTP_REFERER, 'step='))) || !isset($smarty.server.HTTP_REFERER)}{$link->getPageLink('index')}{else}{$smarty.server.HTTP_REFERER|escape:'html':'UTF-8'|secureReferrer}{/if}" class="button-exclusive btn btn-default" title="{l s='Continue shopping'}">
                                     <i class="icon-chevron-left"></i>{l s='Continue shopping'}
                             </a>-->
-                            <p style="text-align:center;margin-top: 0px; color: #BDBDBD;"><i class="icon-lock"></i> Tu transacci&oacute;n es segura.</p>
+                            <p style="text-align:center;margin-top: 0px; color: #008000;"><i class="icon-lock"></i> Tu transacci&oacute;n es segura.</p>
                 </div>
             </div>
             </div>                
         </div>
         <div id="prueba" style="display:none;">{$base_dir_ssl}</div>
         
-        {if $opc}
+        {*if $opc}
             <div id="opc_payment_methods-content">
-        {/if}
+        {/if*}
         <!--<div id="HOOK_PAYMENT">
-            {$HOOK_PAYMENT}
-        </div>-->
-        {if $opc}
+            {*$HOOK_PAYMENT*}
+        </div>
+        {*if $opc}
             </div> <!-- end opc_payment_methods-content -->
-        {/if}
+        {/if*}
     {else}
         <p class="alert alert-warning">{l s='No payment modules have been installed.'}</p>
     {/if}

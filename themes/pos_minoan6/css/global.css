@@ -4002,13 +4002,14 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
   .content_sortPagiBar .sortPagiBar .nbrItemPage { margin-top: 20px; }
   .more-info ul { width: 100%; }
   .nameProfile {margin-top: 0px !important;}
-  .barTop{margin-top:0px !important;margin-bottom: 8px;}
+  .barTop{margin-top:0px !important;margin-bottom: 8px; text-align: right!important;}
+  .point-querie{text-align: left !important;}
   .more-info ul li { width: 100%; }
   .more-info ul li a.selected, .more-info ul li a:hover { border-bottom: 1px solid #e5e5e5; }
   .sds_blog_post .blog_content { overflow: visible !important; clear: both; padding: 20px !important; } }
 
 /* Estilo Perfil Cliente mi Cuenta */
-.nameProfile{font-size:14px; padding-left:0px; margin-top:12px;}
+.nameProfile{font-size:14px; padding-left:0px; margin-top:12px;color: #000;font-weight: bold;}
 .profileCustomer{ background: #f4f4f4; font-size:12px; text-transform:uppercase; color:#838383; padding:.5%; margin-bottom:2%; -ms-display: flex; display: flex; align-items: center; min-height: 95px;}
 .ptoCustomer{color:#000; font-size:15px; margin-right:10px;}
 
@@ -7565,7 +7566,7 @@ font-family: 'Open Sans' !important;
 @media only screen and (max-width: 768px) {
     
     .btn-shop{width:35%;}
-    .nameProfile{margin-top: 30px;}
+    .nameProfile{margin-top: 18px;}
     .ptoCustomer{font-size:16px;}
     .Cards{padding:5px; margin-left:0px !important;}
     .infoCard{text-align:center;}
@@ -10735,8 +10736,10 @@ font-family: 'Open Sans' !important;
 
 .barTop{
     line-height:20px;
-    text-align:left;
+    text-align:center;
     margin-top:8px;
+    color: #000;
+    font-weight: bold;
 }
 
 .num-Card{
