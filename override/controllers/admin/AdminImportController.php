@@ -1040,10 +1040,13 @@ class AdminImportController extends AdminImportControllerCore
             
             if (array_key_exists('id_customer', $info) && (int)$info['id_customer'] && Customer::customerIdExistsStatic((int)$info['id_customer'])) {
                 
-                $query_secure = 'SELECT secure_key FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$info['id_customer'];
+                $query_secure = 'SELECT secure_key FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$info['id_customer'].' AND kick_out!=1';
                 $row = Db::getInstance()->getRow($query_secure);
                 $key = $row['secure_key'];
                 
+                if(empty($key)){
+                  $this->errors[] = Tools::displayError('No se puede cargar el archivo porque el Fluzzer se encuentra expulsado de Fluz Fluz.');
+                }
                 $product_fluz = array();
                 $products_normal = array();
                 $products = explode(",", $info['id_products']);
