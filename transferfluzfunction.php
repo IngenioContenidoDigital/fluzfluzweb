@@ -12,7 +12,7 @@ error_reporting(E_ALL);
     
     $tree = Db::getInstance()->executeS('SELECT c.id_customer as id FROM '._DB_PREFIX_.'customer  c
             LEFT JOIN '._DB_PREFIX_.'customer_group cg ON (c.id_customer = cg.id_customer)
-            WHERE c.active = 1 AND cg.id_group = 4 AND c.id_customer !='.$id_customer);
+            WHERE c.active = 1 AND cg.id_group = 4 AND c.kick_out!=1 AND c.id_customer !='.$id_customer);
     
     foreach ($tree as &$network){
         $sql = 'SELECT username, email, dni FROM '._DB_PREFIX_.'customer 
