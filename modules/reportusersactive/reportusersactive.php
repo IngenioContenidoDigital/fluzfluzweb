@@ -107,7 +107,7 @@ class reportusersactive extends ModuleGrid
                         FROM "._DB_PREFIX_."customer c
                         INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer )
                         INNER JOIN "._DB_PREFIX_."address a ON ( c.id_customer = a.id_customer )
-                        INNER JOIN "._DB_PREFIX_."gender_lang gl ON ( c.id_gender = gl.id_gender AND gl.id_lang = 1 )
+                        LEFT JOIN "._DB_PREFIX_."gender_lang gl ON ( c.id_gender = gl.id_gender AND gl.id_lang = 1 )
                         WHERE c.active = 1
                         AND c.kick_out = 0
                         GROUP BY c.id_customer";
