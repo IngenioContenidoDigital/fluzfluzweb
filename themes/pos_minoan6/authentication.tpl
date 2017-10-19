@@ -104,7 +104,7 @@
                                     <button class="button btn btn-default button-medium-business">
                                         <span>
                                             <i class="icon-briefcase left" style='font-size: 20px;'></i>
-                                            <a href="{$link->getPageLink('inicio-sesion?create_account', true)|escape:'html':'UTF-8'}">
+                                            <a href="{$link->getPageLink('authentication', true, NULL, "create_account=1")|escape:'html':'UTF-8'}">
                                                 {l s='Log In Codigo'}
                                             </a>    
                                         </span>
