@@ -53,25 +53,25 @@
     <div class="col-xs-12" style="padding-left: 0px;padding-right: 0px;">
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background:#fff;">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Pagar con tarjeta de crédito</a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse">
-                    <div class="panel-body">
+                    <div class="panel-body" style="background: #F9F9F8;">
                         {include file="$tpl_dir../../modules/payulatam/views/templates/hook/credit_card.tpl"}
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background:#fff;">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Transacción bancaria PSE</a>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
+                    <div class="panel-body" style="background: #F9F9F8;">
                         {include file="$tpl_dir../../modules/payulatam/views/templates/hook/payuPse.tpl"}
                     </div>
                 </div>

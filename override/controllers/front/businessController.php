@@ -324,7 +324,7 @@ class businessController extends FrontController {
                                 '{learn_more_url}' => "http://reglas.fluzfluz.co",
                             );
 
-                            AuthController::sendNotificationSponsor($customer->id);
+                            //AuthController::sendNotificationSponsor($customer->id);
 
                             $template = 'welcome_fluzfluz_business';
                             $prefix_template = '16-welcome_fluzfluz_business';
@@ -333,8 +333,8 @@ class businessController extends FrontController {
                             $row_subject = Db::getInstance()->getRow($query_subject);
                             $message_subject = $row_subject['subject_mail'];
 
-                            $allinone_rewards = new allinone_rewards();
-                            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                            //$allinone_rewards = new allinone_rewards();
+                            //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                             $invitation_sent = true;
                         }
@@ -389,7 +389,7 @@ class businessController extends FrontController {
                             '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
                         
-                        AuthController::sendNotificationSponsor($customer->id);
+                        //AuthController::sendNotificationSponsor($customer->id);
                         
                         $template = 'welcome_fluzfluz_business';
                         $prefix_template = '16-welcome_fluzfluz_business';
@@ -398,8 +398,8 @@ class businessController extends FrontController {
                         $row_subject = Db::getInstance()->getRow($query_subject);
                         $message_subject = $row_subject['subject_mail'];
                         
-                        $allinone_rewards = new allinone_rewards();
-                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                        //$allinone_rewards = new allinone_rewards();
+                        //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
                         
                         $invitation_sent = true;
                         }
@@ -593,10 +593,10 @@ class businessController extends FrontController {
                                 '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                 );
 
-                                AuthController::sendNotificationSponsor($customer->id);
+                                //AuthController::sendNotificationSponsor($customer->id);
 
-                                $allinone_rewards = new allinone_rewards();
-                                $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                                //$allinone_rewards = new allinone_rewards();
+                                //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                                 $invitation_sent = true;
                             }
@@ -658,10 +658,10 @@ class businessController extends FrontController {
                                 '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                 );
 
-                                AuthController::sendNotificationSponsor($customer->id);
+                                //AuthController::sendNotificationSponsor($customer->id);
 
-                                $allinone_rewards = new allinone_rewards();
-                                $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                                //$allinone_rewards = new allinone_rewards();
+                                //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                                 $invitation_sent = true;
                                 }
@@ -956,8 +956,8 @@ class businessController extends FrontController {
                                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
 
-                                        $allinone_rewards = new allinone_rewards();
-                                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                                        //$allinone_rewards = new allinone_rewards();
+                                        //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
                                     }
                                 } 
                                 else 
@@ -1016,8 +1016,8 @@ class businessController extends FrontController {
                                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
 
-                                        $allinone_rewards = new allinone_rewards();
-                                        $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+                                        //$allinone_rewards = new allinone_rewards();
+                                        //$allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 
                                         }
                                     }

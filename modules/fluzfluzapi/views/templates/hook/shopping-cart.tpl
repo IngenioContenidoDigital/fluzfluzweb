@@ -1,7 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"></div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding-left:0px;">
         <div class="form-group marco">
             <div class="row">
                 <form>
@@ -45,18 +44,21 @@
         </div>
     </div>
     </div>
-    <div id="popup" class="modal fade" role="dialog" data-target="#popup">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Elije T&eacute;fono a Recargar</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Debes elegir el tel&eacute;fono a recargar desde la lista <strong>"Elegir tel&eacute;fono"</strong> o ingresar un nuevo n&uacute;mero y luego dar clic en el bot&oacute;n <strong>"<img class="action" src="/modules/fluzfluzapi/images/button-add.png" width="16px"/> a&ntilde;adir nuevo"</strong> y seleccionarlo en la lista posteriormente continuar.</p>
+        <div id="popup" class="modal fade" role="dialog" data-target="#popup">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Elije T&eacute;fono a Recargar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Debes elegir el tel&eacute;fono a recargar desde la lista <strong>"Elegir tel&eacute;fono"</strong> o ingresar un nuevo n&uacute;mero y luego dar clic en el bot&oacute;n <strong>"<img class="action" src="/modules/fluzfluzapi/images/button-add.png" width="16px"/> a&ntilde;adir nuevo"</strong> y seleccionarlo en la lista posteriormente continuar.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"></div>            
+</div>
 </div>
     

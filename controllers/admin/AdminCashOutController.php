@@ -173,7 +173,8 @@ class AdminCashOutControllerCore extends AdminController
                                LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = rp.id_customer)
                                WHERE id_rewards_payment='.$id_payment;
                 $mailVars = DB::getInstance()->executeS($query_vars);
-                
+                Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards SET id_reward_state = 2 WHERE id_cashout = '.$id_payment);
+
                 $mail_vars = array(
                     '{username}'=> $mailVars[0]['username'],
                     '{nombre_del_solicitante}' => $mailVars[0]['nombre'],
