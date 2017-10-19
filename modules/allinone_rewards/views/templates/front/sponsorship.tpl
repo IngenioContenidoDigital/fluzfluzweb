@@ -130,16 +130,16 @@
 
 		{if $canSendInvitations || isset($popup)}
 			<div id="sponsorship_form"  {if isset($popup) && !$afterSubmit}style="display: none"{/if}>
-				<div>
+				<!--<div>
 				{*l s='Sponsorship is quick and easy. You can invite your friends in different ways :' mod='allinone_rewards'*}
 				<ul>
-					<!--<li>{l s='Propose your sponsorship on the social networks, by clicking the following links' mod='allinone_rewards'}<br>
+					<li>{l s='Propose your sponsorship on the social networks, by clicking the following links' mod='allinone_rewards'}<br>
 						&nbsp;<a href="http://www.facebook.com/sharer.php?u={$link_sponsorship_fb|escape:'html':'UTF-8'}" target="_blank" title="{l s='Facebook' mod='allinone_rewards'}"><img src='{$rewards_path|escape:'html':'UTF-8'}img/facebook.png' height='20'></a>
 						&nbsp;<a href="http://twitter.com/share?url={$link_sponsorship_twitter|escape:'html':'UTF-8'}" target="_blank" title="{l s='Twitter' mod='allinone_rewards'}"><img src='{$rewards_path|escape:'html':'UTF-8'}img/twitter.png' height='20'></a>
 						&nbsp;<a href="https://plus.google.com/share?url={$link_sponsorship_google|escape:'html':'UTF-8'}" target="_blank" title="{l s='Google+' mod='allinone_rewards'}"><img src="{$rewards_path|escape:'html':'UTF-8'}img/google.png"></a>
 					</li>
 					<li>{l s='Give this sponsorship link to your friends, or post it on internet (forums, blog...)' mod='allinone_rewards'}<br>{$link_sponsorship|escape:'htmlall':'UTF-8'}</li>
-					-->
+					
                                         <li>{l s='Give them your mail' mod='allinone_rewards'} <b>{$email|escape:'html':'UTF-8'}</b> {l s='or your sponsor code' mod='allinone_rewards'} <b>{$code|escape:'html':'UTF-8'}</b> {l s='to enter in the registration form.' mod='allinone_rewards'}</li>
 			{if $sms}
 					<li>
@@ -150,7 +150,7 @@
 			{/if}
 					<li>{l s='Fill in the following form and they will receive an mail.' mod='allinone_rewards'}</li>
 				</ul>
-				</div>
+				</div>-->
 				<div>
 					<form id="list_contacts_form" method="post" action="{$link->getModuleLink('allinone_rewards', 'sponsorship', [], true)|escape:'html':'UTF-8'}">
                                             <div class="row">

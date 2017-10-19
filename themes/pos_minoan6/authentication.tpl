@@ -100,16 +100,6 @@
                                         </span>
                                     </button>
                                 </p>
-                                <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:right;padding-left:0px;'>
-                                    <button class="button btn btn-default button-medium-business">
-                                        <span>
-                                            <i class="icon-briefcase left" style='font-size: 20px;'></i>
-                                            <a href="{$link->getPageLink('inicio-sesion?create_account', true)|escape:'html':'UTF-8'}">
-                                                {l s='Log In Codigo'}
-                                            </a>    
-                                        </span>
-                                    </button>
-                                </p>
                             </div>
                             <!--<div class="col-lg-6" style="padding-right:0px; float: right;">
                                 <p class="submit col-lg-12" style='text-align:right;'>

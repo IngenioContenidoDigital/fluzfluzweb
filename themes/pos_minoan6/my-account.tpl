@@ -72,7 +72,6 @@
 	</p>
 {/if}
 <p class="col-lg-6 info-account">{l s='Welcome to your account. Here you can manage all of your personal information and orders.'}</p>
-<p class="col-lg-6 info-account my-code-info">Mi c&oacute;digo network: {$code}</p>
 <div class="row addresses-lists modAccount">
     <div class="col-xs-12 col-md-4 col-sm-5 col-lg-4 account-responsive" style=" padding-left: 0px; padding-right: 0px;">
         <ul class="myaccount-link-list">
