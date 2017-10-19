@@ -2310,7 +2310,15 @@ class API extends REST {
     return $result;
   }
   
-  
+  public function getNetworkGUser(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    $id_customer = $this->_request['id_customer'];
+    $model = new Model();
+    $my_network = $model->getMyNetwork( $this->id_lang_default, $id_customer );
+    return $this->response(json_encode($my_network),200);
+  }
   
   
 }

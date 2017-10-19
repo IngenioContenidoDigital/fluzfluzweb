@@ -2072,7 +2072,12 @@ return $responseObj;
           $members[$counter]['id'] = $sponsor['id'];
           $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
           $members[$counter]['level'] = $sponsor['level'];
-          $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+          if( file_exists(_PS_IMG_DIR_."profile-images/".(string)$sponsor['id'].".png") ){
+            $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+          }
+          else {
+            $members[$counter]['img'] = false;
+          }
           $points = Db::getInstance()->ExecuteS($sql);
           $members[$counter]['points'] = round($points[0]['points']);
         }
@@ -2144,7 +2149,12 @@ return $responseObj;
                                     WHERE rs.id_sponsor = '.$id_customer);
             $profile['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
             $profile['level'] = $sponsor['level'];
-            $profile['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+            if( file_exists(_PS_IMG_DIR_."profile-images/".(string)$sponsor['id'].".png") ){
+              $profile['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+            }
+            else {
+              $profile['img']="false";
+            }
             $points = Db::getInstance()->ExecuteS($sql);
             $profile['points'] = round($points[0]['points']);
           }
@@ -2269,7 +2279,12 @@ return $responseObj;
         $members[$counter]['id'] = $sponsor['id'];
         $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
         $members[$counter]['level'] = $sponsor['level'];
-        $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+        if( file_exists(_PS_IMG_DIR_."profile-images/".(string)$sponsor['id'].".png") ){
+          $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+        }
+        else {
+          $members[$counter]['img'] = false;
+        }
         $points = Db::getInstance()->ExecuteS($sql);
         $members[$counter]['points'] = round($points[0]['points']);  
         $counter++;
