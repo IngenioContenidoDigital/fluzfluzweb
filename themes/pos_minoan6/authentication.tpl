@@ -104,9 +104,9 @@
                                     <button class="button btn btn-default button-medium-business">
                                         <span>
                                             <i class="icon-briefcase left" style='font-size: 20px;'></i>
-                                            <a href="{$link->getPageLink('authentication', true, NULL, "create_account=1")|escape:'html':'UTF-8'}">
+                                            <a href="{$link->getPageLink('authentication', true, false, 'create_account=2')|escape:'html':'UTF-8'}">
                                                 {l s='Log In Codigo'}
-                                            </a>    
+                                            </a> 
                                         </span>
                                     </button>
                                 </p>
@@ -958,6 +958,16 @@
                                                     </div>
                                             {/foreach}
                                     </div>
+                                    <input type="hidden" value="{$login_guest}" id="login_code" name="login_code">
+                                    {if $login_guest != ''}
+                                    <div class="required form-group">
+                                        <p class="required form-group">
+                                            <br/><label class="required col-lg-12" for="code_sponsor" style="padding:0px; margin-top: 5px;">C&oacute;digo de Patrocinio</label>
+                                            <input type="number" class="is_required validate form-control" data-validate="isCode_sponsor" name="code_sponsor" id="code_sponsor" value="{if isset($smarty.post.code_sponsor)}{$smarty.post.code_sponsor}{/if}" />
+                                        </p>
+                                    </div>
+                                    {else}
+                                    {/if}    
                                     <div class="required form-group">
                                             <label class="required" for="username">{l s='Username'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isUsername" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" title="{l s='Enter only letters and numbers'}" />
@@ -971,10 +981,17 @@
                                             <label class="required" for="customer_lastname">{l s='Last name'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isName" id="customer_lastname" name="customer_lastname" value="{if isset($smarty.post.customer_lastname)}{$smarty.post.customer_lastname}{/if}" />
                                     </div>
-                                    <div class="required form-group">
+                                    {if $login_guest != ''}
+                                        <div class="required form-group">
                                             <label class="required" for="email">{l s='Email'}</label>
-                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
-                                    </div>
+                                            <input type="email" class="is_required  form-control" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}"/>
+                                        </div>
+                                    {else}
+                                        <div class="required form-group">
+                                                <label class="required" for="email">{l s='Email'}</label>
+                                                <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
+                                        </div>
+                                    {/if}    
                                     <div class="required password form-group">
                                             <label class="required" for="passwd">{l s='Password'} </label>
                                             <input type="password" class="is_required validate form-control" data-validate="isPasswd" name="passwd" id="passwd" />

@@ -71,6 +71,15 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
             //return substr($idTemporary, 0, 10);
             return substr($idTemporary, 0, 7).rand(100,999);
         }
+        
+        public function generateIdCodeSponsorship($email) {
+            $idTemporary = '1';
+            for ($i = 0; $i < strlen($email); $i++) {
+                $idTemporary .= (string) ord($email[$i]);
+            }
+            //return substr($idTemporary, 0, 10);
+            return substr($idTemporary, 0, 3).rand(100,999);
+        }
 
         /**
 	 * @see FrontController::initContent()
