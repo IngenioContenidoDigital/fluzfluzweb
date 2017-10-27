@@ -138,6 +138,10 @@ a:focus { outline: thin dotted #333; outline: 5px auto -webkit-focus-ring-color;
 
 img { vertical-align: middle; }
 
+.code-ref-style{text-align: center;font-weight: bold;color: #000;}
+
+.p-ref{margin-top: 5px;}
+
 .img-responsive { display: block; max-width: 100%; height: auto; }
 
 .footable-first-column { width: 20%; }
@@ -157,7 +161,7 @@ hr { margin-top: 18px; margin-bottom: 18px; border: 0; border-top: 1px solid #ee
 .toggle-footer{display: block !important;}
 
 .lead { margin-bottom: 18px; font-size: 14.95px; font-weight: 200; line-height: 1.4; }
-@media (min-width: 768px) { .lead { font-size: 19.5px; } }
+@media (min-width: 768px) { .lead { font-size: 19.5px; } .code-ref-style{padding: 0px !important;}}
 
 small { font-size: 85%; }
 
@@ -478,6 +482,7 @@ table td[class*="col-"], table th[class*="col-"] { float: none; display: table-c
 .table-hover > tbody > tr > td.warning:hover, .table-hover > tbody > tr > th.warning:hover, .table-hover > tbody > tr.warning:hover > td { background-color: #fe840d; border-color: #da681c; }
 
 @media (max-width: 768px) { .table-responsive { width: 100%; margin-bottom: 15px; overflow-y: hidden; overflow-x: scroll; border: 1px solid #d6d4d4; }
+  .p-ref{font-size: 12px;text-align: left;}
   .table-responsive > .table { margin-bottom: 0; background-color: #fff; }
   .table-responsive > .table > thead > tr > th, .table-responsive > .table > thead > tr > td, .table-responsive > .table > tbody > tr > th, .table-responsive > .table > tbody > tr > td, .table-responsive > .table > tfoot > tr > th, .table-responsive > .table > tfoot > tr > td { white-space: nowrap; }
   .table-responsive > .table-bordered { border: 0; }

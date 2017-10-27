@@ -247,12 +247,11 @@ class AuthController extends AuthControllerCore
     protected function processSubmitAccount()
     {
         $login_guest = Tools::getValue('login_code');
-        $email_key = Tools::getValue('email');
-        $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($email_key);
+        $user_key = Tools::getValue('username');
+        $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($user_key);
         
         if($login_guest==2)
         {
-            
             $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue('code_sponsor'));
             
             if ( Tools::getValue('code_sponsor') == "" || empty($id_sponsor)) {
@@ -315,6 +314,12 @@ class AuthController extends AuthControllerCore
             if ($error_phone) {
                 $this->errors[] = Tools::displayError('You must register at least one phone number.');
             }
+            
+            if (count($this->errors)) {
+                if (!Tools::getValue('is_new_customer')) {
+                    unset($_POST['passwd']);
+                }
+            }
                 
             if(!empty($id_sponsor) && empty($this->errors))
             {
@@ -373,37 +378,20 @@ class AuthController extends AuthControllerCore
                                 $send = "";
                                 if ($sponsorship->save()) {
 
-                                        $vars = array(
-                                        '{username}' => $customer->username,
-                                        '{password}' => Tools::getValue('passwd'),
-                                        '{firstname}' => $customer->firstname,
-                                        '{lastname}' => $customer->lastname,
-                                        '{dni}' => $customer->dni,
-                                        '{birthdate}' => $customer->birthday,
-                                        '{address}' => Tools::getValue('address1'),
-                                        '{phone}' => Tools::getValue('phone_mobile'),
-                                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
-                                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                                        '{learn_more_url}' => "http://reglas.fluzfluz.co",
-                                    );
-                                        
+                                    $this->sendConfirmationMail($customer);
+                                    
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                                VALUES ('.$customer->id.', '.$code_generate.')');    
+                                                                VALUES ('.$customer->id.', "'.$code_generate.'")');    
 
                                     //AuthController::sendNotificationSponsor($customer->id);
-                                    /*    
-                                    $template = 'welcome_fluzfluz_business';
-                                    $prefix_template = '16-welcome_fluzfluz_business';
-
-                                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                                    $row_subject = Db::getInstance()->getRow($query_subject);
-                                    $message_subject = $row_subject['subject_mail'];
-
-                                    $allinone_rewards = new allinone_rewards();
-                                    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
-                                    */
+                                   
                                     }
+                                
+                                $this->create_account = true;
+                                $this->context->smarty->assign('email_create', 1);
+
+                                $this->updateContext($customer);
+                                $this->processSubmitLogin();    
 
                         } else {
                             $this->errors[] = 'no sponsor';
@@ -442,39 +430,20 @@ class AuthController extends AuthControllerCore
 
                                 if ($sponsorship->save()) {
 
-                                        $vars = array(
-                                        '{username}' => $customer->username,
-                                        '{password}' => Tools::getValue('passwd'),
-                                        '{firstname}' => $customer->firstname,
-                                        '{lastname}' => $customer->lastname,
-                                        '{dni}' => $customer->dni,
-                                        '{birthdate}' => $customer->birthday,
-                                        '{address}' => Tools::getValue('address1'),
-                                        '{phone}' => Tools::getValue('phone_mobile'),
-                                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
-                                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                                        '{learn_more_url}' => "http://reglas.fluzfluz.co",
-                                    );
+                                    $this->sendConfirmationMail($customer);
                                     
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                                VALUES ('.$customer->id.', '.$code_generate.')');
+                                                                VALUES ('.$customer->id.', "'.$code_generate.'")');
                                     
                                     //AuthController::sendNotificationSponsor($customer->id);
-                                    /*    
-                                    $template = 'welcome_fluzfluz_business';
-                                    $prefix_template = '16-welcome_fluzfluz_business';
-
-                                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                                    $row_subject = Db::getInstance()->getRow($query_subject);
-                                    $message_subject = $row_subject['subject_mail'];
-
-                                    $allinone_rewards = new allinone_rewards();
-                                    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
-                                    */
-                                    }
                                     
-                                    Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : "my-account"));
+                                    }
+                                    $this->create_account = true;
+                                    $this->context->smarty->assign('email_create', 1);
+                                    
+                                    $this->updateContext($customer);
+                                    $this->processSubmitLogin();
+                                    //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : "my-account"));
                             }
                             else 
                             {
@@ -483,7 +452,7 @@ class AuthController extends AuthControllerCore
                         }
                     }
                 }
-            
+                
                 else{
                     $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                 }    
@@ -738,7 +707,7 @@ class AuthController extends AuthControllerCore
                                     
                                     
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                           VALUES ('.$customer->id.', '.$code_generate.')');
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
                                     
                                     $this->sendNotificationSponsor($customer->id);
                                     Tools::redirect($this->context->link->getPageLink('my-account', true));
@@ -979,8 +948,8 @@ class AuthController extends AuthControllerCore
                     $this->ajaxDie(Tools::jsonEncode($return));
                 }
                     $this->context->smarty->assign('account_error', $this->errors);
-                }
             }
+        }
     }
     protected function sendConfirmationMail(Customer $customer)
     {
