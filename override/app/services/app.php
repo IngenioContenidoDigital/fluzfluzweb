@@ -739,6 +739,7 @@ class API extends REST {
             $dni = $this->_request['number_identification'];
             $username = $this->_request['user_name'];
             $addres2 = $this->_request['address2'];        
+            $cod_refer = $this->_request['cod_refer'];        
 
             $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
                                                     FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
@@ -1329,10 +1330,12 @@ class API extends REST {
         if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
           $id_manufacturer = $this->_request['id_manufacturer'];
           $bonus = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
+//          error_log("\n\n bonus: ".print_r($bonus,true),3,"/tmp/error.log");
           $gift = $model->getVaultGiftByManufacturer($id_customer, $id_manufacturer);
+//          error_log("\n\n gift: ".print_r($gift,true),3,"/tmp/error.log");
           
           $purchases['result'] = ($gift['result'] !== 'vacio') ? array_merge($bonus['result'], $gift['result']) : $bonus['result'];
-
+          
           foreach ($purchases['result'] as &$purchase){
             $purchase['card_code'] = (string)$purchase['card_code'];            
             $purchase['price'] = round($purchase['price']);
@@ -1552,7 +1555,6 @@ class API extends REST {
       //llena las variables de busqueda.
       foreach ($requestData as $rqd => $value) {
         ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
-        error_log("\n\n Esto es ".${$rqd},3,"/tmp/error.log");
       }
     
       $MyAccountController = new MyAccountController();
@@ -2318,6 +2320,21 @@ class API extends REST {
     $model = new Model();
     $my_network = $model->getMyNetwork( $this->id_lang_default, $id_customer );
     return $this->response(json_encode($my_network),200);
+  }
+  
+  public function getBitPay(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    
+    error_log("\n\n\n\n Entro y recivo esto: ". print_r($this->_request['id_cart'],true),3,"/tmp/error.log");
+    
+    $id_cart = $this->_request['id_cart'];
+    
+    $cart = new Cart($id_cart);
+    $model = new Model();
+    $return = $model->getObjectBitPay($cart);
+    $this->response(json_encode($return),200);
   }
   
   

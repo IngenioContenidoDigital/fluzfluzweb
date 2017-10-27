@@ -1063,7 +1063,6 @@ private function clearCart()
                 OR username LIKE '%".$args['searchBox']."%'
                 OR dni = '".$args['searchBox']."')
                 LIMIT 3";
-        error_log("\n\n\n\n Este es el query de busqueda de ususarios: \n\n".print_r($sql,true),3,"/tmp/error.log");
         if ($results = Db::getInstance()->ExecuteS($sql) ) {
             return array('fluzzers' => $results, 'success' => TRUE);
         } else {
@@ -1335,7 +1334,7 @@ private function clearCart()
         } else {
             $obj = array('response' => $response, 'success' => FALSE, 'message' => $this->errors['message']);
         }
-
+        
         return $obj;
     }
 
@@ -2390,8 +2389,6 @@ return $responseObj;
           
           
           $urlWhatsapp = "No hay whatsapp";
-          error_log("\n\n\n Esto es lo que esta llegando: \n Whatsapp: ".print_r($whatsapp, true),3,"/tmp/error.log");
-          error_log("\n phone: ".print_r($phone, true),3,"/tmp/error.log");
           if ( $whatsapp && $phone != "" ) {
             $urlWhatsapp = "https://api.whatsapp.com/send?phone=".$phone."&text=Hola ".$friend_firstname." ".$friend_lastname.", has sido invitado por ".$customer->username." a unirte a Fluz Fluz. Ingresa al siguiente link para aceptar la invitacion: ".str_replace("=", "%3D", $sponsorship->getSponsorshipMailLink());
           }
@@ -2426,7 +2423,97 @@ return $responseObj;
       $idTemporary .= (string) ord($email[$i]);
     }
     return substr($idTemporary, 0, 7).rand(100,999);
+  }
+  
+  public function getObjectBitPay($cart){
+    $currency                    = Currency::getCurrencyInstance((int)$cart->id_currency);
+    $options                     = $_POST;
+    $options['transactionSpeed'] = Configuration::get('bitpay_TXSPEED');
+    $options['currency']         = $currency->iso_code;
+    $total                       = $cart->getOrderTotal(true);
 
+    $options['notificationURL']  = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://').htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT, 'UTF-8').__PS_BASE_URI__.'modules/'.$this->name.'/ipn.php';
+    if (_PS_VERSION_ <= '1.5')
+      $options['redirectURL']    = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://').htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT, 'UTF-8').__PS_BASE_URI__.'order-confirmation.php?id_cart='.$cart->id.'&id_module='.$this->id.'&id_order='.$this->currentOrder;
+    else
+      $options['redirectURL']    = Context::getContext()->link->getModuleLink('bitpay', 'validation');
+
+    $options['posData']          = '{"cart_id": "' . $cart->id . '"';
+    $options['posData']         .= ', "hash": "' . crypt($cart->id, Configuration::get('bitpay_APIKEY')) . '"';
+
+    $this->key                   = $this->context->customer->secure_key;
+
+    $options['posData']         .= ', "key": "' . $this->key . '"}';
+    $options['orderID']          = $cart->id;
+    $options['price']            = $total;
+    $options['fullNotifications'] = true;
+
+    $postOptions                 = array('orderID', 'itemDesc', 'itemCode', 
+                                           'notificationEmail', 'notificationURL', 'redirectURL', 
+                                           'posData', 'price', 'currency', 'physical', 'fullNotifications',
+                                           'transactionSpeed', 'buyerName', 'buyerAddress1', 
+                                           'buyerAddress2', 'buyerCity', 'buyerState', 'buyerZip', 
+                                           'buyerEmail', 'buyerPhone');
+    
+    foreach($postOptions as $o) {
+      if (array_key_exists($o, $options))
+        $post[$o] = $options[$o];
+    }
+
+    if(function_exists('json_encode'))
+      $post = json_encode($post);
+    else
+      $post = rmJSONencode($post);
+
+    // Call BitPay
+    $curl = curl_init('https://bitpay.com/api/invoice/');
+    $length = 0;
+
+    if ($post) {
+      curl_setopt($curl, CURLOPT_POST, 1);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
+
+      $length = strlen($post);
+    }
+
+    $uname  = base64_encode(Configuration::get('bitpay_APIKEY'));
+    $header = array(
+                    'Content-Type: application/json',
+                    'Content-Length: ' . $length,
+                    'Authorization: Basic ' . $uname,
+                    'X-BitPay-Plugin-Info: prestashop0.4',
+                   );
+
+    curl_setopt($curl, CURLINFO_HEADER_OUT, true);
+    curl_setopt($curl, CURLOPT_PORT, 443);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC ) ;
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->verifypeer); // verify certificate (1)
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, $this->verifyhost); // check existence of CN and verify that it matches hostname (2)
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+    curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
+
+
+    $responseString = curl_exec($curl);
+
+    if(!$responseString) {
+      $response = curl_error($curl);
+
+      die(Tools::displayError("Error: no data returned from API server!"));
+
+    } else {
+
+      if(function_exists('json_decode'))
+        $response = json_decode($responseString, true);
+      else
+        $response = rmJSONdecode($responseString);
+    }
+
+    curl_close($curl);
+
+    return $response;
   }
             
 }
