@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 <?php
 define('_DB_SERVER_','localhost:3808');
 define('_DB_NAME_', 'fluzfluz-dev');
-=======
- <?php
-define('_DB_SERVER_','fluzfluz.cbdfboq4limk.sa-east-1.rds.amazonaws.com:3808');
-define('_DB_NAME_', 'fluzfluz');
->>>>>>> c1dc80df6bd1af799814c29cd0f24aa0df7de280
 define('_DB_USER_', 'fluzfluz');
 define('_DB_PASSWD_', 'X0tr.u21');
 define('_DB_PREFIX_', 'ps_');
