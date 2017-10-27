@@ -132,6 +132,19 @@
                         <div class="line-separator"></div>
                         <!--<p>Para realizar el registro, debes ser invitado por un miembro actual de Fluz Fluz. Una vez haz sido invitado por un Fluzzer, recibir&aacute;s un correo de confirmaci&oacute;n con instrucciones detalladas para finalizar el proceso de registro y maximizar los beneficios de Fluz Fluz. &iquest;No conoces a ning&uacute;n fluzzer activo y quieres ser parte de Fluz Fluz para construir tu red? Escr&iacute;benos un correo a info@fluzfluz.com y haremos todo lo posible para ayudarte.</p>-->
                         <div class="row">
+                            <p>Si tienes un c&oacute;digo de Referido, Ingresa Aqu&iacute;</p>
+                            <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:left;padding-left:0px;'>
+                                <button class="button btn btn-default button-medium-business">
+                                    <span>
+                                        <i class="icon-briefcase left" style='font-size: 20px;'></i>
+                                        <a href="{$link->getPageLink('authentication', true, false, 'create_account=2')|escape:'html':'UTF-8'}">
+                                            {l s='Registro Referidos'}
+                                        </a> 
+                                    </span>
+                                </button>
+                            </p>
+                        </div>
+                        <div class="row">
                             <p>Descarga aqu&iacute; nuestras aplicaciones</p>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                 <p><a href="https://play.google.com/store/apps/details?id=com.ionicframework.fluzfluz141172"><img src="{$img_dir}login/GooglePlay.png" id="google_play" /></a></p>
@@ -521,6 +534,16 @@
                                                     </div>
                                             {/foreach}
                                     </div>
+                                    <input type="hidden" value="{$login_guest}" id="login_code" name="login_code">
+                                    {if $login_guest != ''}
+                                    <div class="required form-group">
+                                        <p class="required form-group">
+                                            <br/><label class="required col-lg-12" for="code_sponsor" style="padding:0px; margin-top: 5px;">C&oacute;digo de Patrocinio</label>
+                                            <input type="text" class="is_required validate form-control" data-validate="isCode_sponsor" name="code_sponsor" id="code_sponsor" value="{if isset($smarty.post.code_sponsor)}{$smarty.post.code_sponsor}{/if}" />
+                                        </p>
+                                    </div>
+                                    {else}
+                                    {/if}
                                     <div class="required form-group">
                                             <label class="required" for="username">{l s='Username'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isUsername" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" title="{l s='Enter only letters and numbers'}" />
@@ -534,10 +557,17 @@
                                             <label class="required" for="customer_lastname">{l s='Last name'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isName" id="customer_lastname" name="customer_lastname" value="{if isset($smarty.post.customer_lastname)}{$smarty.post.customer_lastname}{/if}" />
                                     </div>
-                                    <div class="required form-group">
+                                    {if $login_guest != ''}
+                                        <div class="required form-group">
                                             <label class="required" for="email">{l s='Email'}</label>
-                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
-                                    </div>
+                                            <input type="email" class="is_required  form-control" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}"/>
+                                        </div>
+                                    {else}
+                                        <div class="required form-group">
+                                                <label class="required" for="email">{l s='Email'}</label>
+                                                <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
+                                        </div>
+                                    {/if} 
                                     <div class="required password form-group">
                                             <label class="required" for="passwd">{l s='Password'} </label>
                                             <input type="password" class="is_required validate form-control" data-validate="isPasswd" name="passwd" id="passwd" />
@@ -948,6 +978,16 @@
                                                     </div>
                                             {/foreach}
                                     </div>
+                                    <input type="hidden" value="{$login_guest}" id="login_code" name="login_code">
+                                    {if $login_guest != ''}
+                                    <div class="required form-group">
+                                        <p class="required form-group">
+                                            <br/><label class="required col-lg-12" for="code_sponsor" style="padding:0px; margin-top: 5px;">C&oacute;digo de Patrocinio</label>
+                                            <input type="text" class="is_required validate form-control" data-validate="isCode_sponsor" name="code_sponsor" id="code_sponsor" value="{if isset($smarty.post.code_sponsor)}{$smarty.post.code_sponsor}{/if}" />
+                                        </p>
+                                    </div>
+                                    {else}
+                                    {/if}    
                                     <div class="required form-group">
                                             <label class="required" for="username">{l s='Username'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isUsername" id="username" name="username" value="{if isset($smarty.post.username)}{$smarty.post.username}{/if}" title="{l s='Enter only letters and numbers'}" />
@@ -961,10 +1001,17 @@
                                             <label class="required" for="customer_lastname">{l s='Last name'}</label>
                                             <input type="text" class="is_required validate form-control" data-validate="isName" id="customer_lastname" name="customer_lastname" value="{if isset($smarty.post.customer_lastname)}{$smarty.post.customer_lastname}{/if}" />
                                     </div>
-                                    <div class="required form-group">
+                                    {if $login_guest != ''}
+                                        <div class="required form-group">
                                             <label class="required" for="email">{l s='Email'}</label>
-                                            <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
-                                    </div>
+                                            <input type="email" class="is_required  form-control" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}"/>
+                                        </div>
+                                    {else}
+                                        <div class="required form-group">
+                                                <label class="required" for="email">{l s='Email'}</label>
+                                                <input type="email" class="is_required validate form-control" data-validate="isEmail" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email}{/if}" OnFocus="this.blur()"/>
+                                        </div>
+                                    {/if}    
                                     <div class="required password form-group">
                                             <label class="required" for="passwd">{l s='Password'} </label>
                                             <input type="password" class="is_required validate form-control" data-validate="isPasswd" name="passwd" id="passwd" />
@@ -1400,6 +1447,12 @@
         text-transform: uppercase;
        }
        
+       .alert-danger{
+        margin-top: 35px !important;
+        width: 127.5% !important;
+        margin-left: -14% !important;
+       }
+       
        div.account_creation {
         padding-top:  20px;
         }
@@ -1419,6 +1472,31 @@
         margin-top:10px;
         font-weight:400;
         }
+        
+        @media (max-width:1440px){
+            .alert-danger {
+                margin-top: 35px !important;
+                width: 107.5% !important;
+                margin-left: -4% !important;
+            }
+        }
+        
+         @media (max-width:1024px){
+            .alert-danger {
+                margin-top: 35px !important;
+                width: 112.5% !important;
+                margin-left: -4% !important;
+            }
+        }
+        
+        @media (max-width: 768px){
+        .alert-danger {
+                margin-top: 35px !important;
+                width: 100% !important;
+                margin-left: 0% !important;
+            }
+        }
+        
     </style>
 {/literal}
 {literal}

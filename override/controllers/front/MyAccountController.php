@@ -60,7 +60,7 @@ class MyAccountController extends MyAccountControllerCore
 
         $profile_complete = Customer::percentProfileComplete($this->context->customer->id);
         $this->context->smarty->assign('profile_complete', $profile_complete);
-        $code = RewardsSponsorshipModel::getSponsorshipCode($this->context->customer, true);
+        $code = RewardsSponsorshipCodeModel::getCodeSponsorById($this->context->customer->id);
 
         $this->context->smarty->assign('membersCount', $membersCount);
         $this->context->smarty->assign(array(

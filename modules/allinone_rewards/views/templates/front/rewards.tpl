@@ -26,11 +26,11 @@
                     <br/><p class="pNetwork">{l s='Your Total Points' mod='allinone_rewards'}</p>
                 </h1>
             </div>
-            <div class="divNetwork">
+            <!--<div class="divNetwork">
                 <h1 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 titleNetwork">+{$totalpointNetwork|number_format:0}
                     <br/><p class="pNetwork">{l s="Total Network Points" mod='allinone_rewards'}</p>
                 </h1>
-            </div>
+            </div>-->
             </div>
     </div>
 </div>
