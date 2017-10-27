@@ -29,6 +29,8 @@ include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once(_PS_MODULE_DIR_ . 'allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 
 class businessController extends FrontController {
 
@@ -239,6 +241,8 @@ class businessController extends FrontController {
                 array_shift($error);
             }
             
+            $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
+            
             if (empty($error)) {
 
                 $customer = new Customer();
@@ -323,9 +327,12 @@ class businessController extends FrontController {
                                 '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                 '{learn_more_url}' => "http://reglas.fluzfluz.co",
                             );
-
+                            
+                            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');    
+                                
                             AuthController::sendNotificationSponsor($customer->id);
-
+                            
                             $template = 'welcome_fluzfluz_business';
                             $prefix_template = '16-welcome_fluzfluz_business';
 
@@ -388,6 +395,9 @@ class businessController extends FrontController {
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
+                        
+                        Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
                         
                         AuthController::sendNotificationSponsor($customer->id);
                         
@@ -515,7 +525,9 @@ class businessController extends FrontController {
                             unlink($filename);
                         }
                     }
-                       
+                    
+                $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($datacustomer['Username']);
+                   
                 if (empty($error_csv)) {
 
                     $customer = new Customer();
@@ -592,7 +604,10 @@ class businessController extends FrontController {
                                 '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                 '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                 );
-
+                                
+                                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
+                                
                                 AuthController::sendNotificationSponsor($customer->id);
 
                                 $allinone_rewards = new allinone_rewards();
@@ -657,7 +672,10 @@ class businessController extends FrontController {
                                 '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                 '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                 );
-
+                                
+                                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
+                                
                                 AuthController::sendNotificationSponsor($customer->id);
 
                                 $allinone_rewards = new allinone_rewards();
@@ -880,7 +898,9 @@ class businessController extends FrontController {
                                     $error_csv['email_exists_customer'] = $datacustomer['Email'];
                                 }
                             }
-
+                        
+                        $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($datacustomer['Username']);
+    
                         if ($error_csv == "") {
 
                             $customer = new Customer();
@@ -947,7 +967,7 @@ class businessController extends FrontController {
                                         '{lastname}' => $customer->lastname,
                                         '{dni}' => $customer->dni,
                                         '{birthdate}' => $customer->birthday,
-                                        '{address}' => 'No Disponible',
+                                        '{address}' => $address->address1,
                                         '{phone}' => $datacustomer['Telefono Empleado'],
                                         '{img_business}' => $image_url,
                                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
@@ -955,6 +975,9 @@ class businessController extends FrontController {
                                         '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
+                                        
+                                        Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
 
                                         $allinone_rewards = new allinone_rewards();
                                         $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
@@ -1007,7 +1030,7 @@ class businessController extends FrontController {
                                         '{lastname}' => $customer->lastname,
                                         '{dni}' => $customer->dni,
                                         '{birthdate}' => $customer->birthday,
-                                        '{address}' => 'No Disponible',
+                                        '{address}' => $address->address1,
                                         '{phone}' => $datacustomer['Telefono Empleado'],
                                         '{img_business}' => $image_url,
                                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
@@ -1015,7 +1038,10 @@ class businessController extends FrontController {
                                         '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
-
+                                        
+                                        Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
+                                        
                                         $allinone_rewards = new allinone_rewards();
                                         $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
 

@@ -434,7 +434,8 @@ class Allinone_rewardsRewardsModuleFrontController extends ModuleFrontController
                 $queryTop = 'SELECT SUM(n.credits) AS points
                              FROM '._DB_PREFIX_.'rewards n 
                              LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
-                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE credits > 0 AND n.id_customer='.$valor['id'].' AND s.product_reference NOT LIKE "MFLUZ%" AND '.$valor['level'].'!=0';
+                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
+                             WHERE n.credits > 0 AND n.id_reward_state=2 AND n.id_customer='.$valor['id'].' AND s.product_reference NOT LIKE "MFLUZ%" AND '.$valor['level'].'!=0';
                 
                 $result = Db::getInstance()->executeS($queryTop);
                 

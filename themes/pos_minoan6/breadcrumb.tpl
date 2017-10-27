@@ -64,6 +64,13 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-filter" id="city_filter"></div>
         </div>    
     {/if}
+    {if $page_name =='my-account'}
+            <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 code-ref-style">
+                <div class="col-lg-12 col-xs-12" style="padding-left:0px;">
+                    <p class="p-ref">C&oacute;digo para Referidos: {$code}</p>
+                </div>
+            </div>
+    {/if}
 {literal}
     <script>
         $('.ocultar').click(function(e){

@@ -31,6 +31,15 @@ class RewardsSponsorshipCodeModel extends ObjectModel
 
 	public static function getIdSponsorByCode($code)
 	{
-		return Db::getInstance()->getValue("SELECT `id_sponsor` FROM `"._DB_PREFIX_."rewards_sponsorship_code` WHERE code='".pSQL($code)."'");
+		return Db::getInstance()->getValue("SELECT rsc.id_sponsor FROM "._DB_PREFIX_."rewards_sponsorship_code rsc 
+                                                    INNER JOIN "._DB_PREFIX_."customer c ON (rsc.id_sponsor = c.id_customer)
+                                                    WHERE c.active=1 AND c.kick_out=0 AND rsc.code='".pSQL($code)."'");
+	}
+        
+        public static function getCodeSponsorById($id_customer)
+	{
+		return Db::getInstance()->getValue("SELECT rsc.code FROM "._DB_PREFIX_."rewards_sponsorship_code rsc
+                                                    INNER JOIN "._DB_PREFIX_."customer c ON (rsc.id_sponsor = c.id_customer)
+                                                    WHERE c.active=1 AND c.kick_out=0 AND rsc.id_sponsor=".pSQL($id_customer));
 	}
 }

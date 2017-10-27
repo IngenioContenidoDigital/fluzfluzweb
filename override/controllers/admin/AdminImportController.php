@@ -1,6 +1,9 @@
 <?php
 
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 
 class AdminImportController extends AdminImportControllerCore
 {
@@ -854,6 +857,11 @@ class AdminImportController extends AdminImportControllerCore
                         $this->errors[] = ($field_error !== true ? $field_error : '').(isset($lang_field_error) && $lang_field_error !== true ? $lang_field_error : '').
                             Db::getInstance()->getMsgError();
                     } else {
+                        
+                        //codigo de patrocinio aleatorio
+                        
+                        $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($customer->username);
+
                         // Assing Sponsor
                         $sponsorship = new RewardsSponsorshipModel();
                         $sponsorship->id_sponsor = $sponsor['id_customer'];
@@ -959,6 +967,9 @@ class AdminImportController extends AdminImportControllerCore
                             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
                             '{learn_more_url}' => "http://reglas.fluzfluz.co",
                         );
+                        
+                        Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
                         
                         AuthController::sendNotificationSponsor($customer->id);
                         

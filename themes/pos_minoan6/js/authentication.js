@@ -27,8 +27,8 @@ $(document).ready(function(){
 		e.preventDefault();
 		submitFunction();
 	});
-        $("#submitAccount").attr('disabled', true);
-        $("#submitAccount").css('background', "#fff").css("color", "#c9b197");
+        //$("#submitAccount").attr('disabled', true);
+        //$("#submitAccount").css('background', "#fff").css("color", "#c9b197");
         $('#acceptterms').change(function() {
             if($(this).is(":checked")) {
                 $("#submitAccount").attr('disabled', false);
