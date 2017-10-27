@@ -1,6 +1,9 @@
 <?php
 require_once('classes/Rest.inc.php');
 require_once('classes/Model.php');
+require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 
 class API extends REST {
 
@@ -719,85 +722,168 @@ class API extends REST {
     }
     
     private function createCustomer() {
-        if ($this->get_request_method() != "POST") {
-            $this->response('', 406);
-        }
+      if ($this->get_request_method() != "POST") {
+        $this->response('', 406);
+      }
         
-        $complete = false;
-        $message = "";
-        $error = array();
+      $complete = false;
+      $message = "";
+      $error = array();
 
-        try {
-            $firstname = $this->_request['firts_name'];
-            $lastname = $this->_request['last_name'];
-            $email = $this->_request['email'];
-            $phone = $this->_request['phone'];
-            $birthday = $this->_request['date'];
-            $addres1 = $this->_request['address'];
-            $city = $this->_request['city'];
-            $type_dni = $this->_request['type_identification'];
-            $dni = $this->_request['number_identification'];
-            $username = $this->_request['user_name'];
-            $addres2 = $this->_request['address2'];        
-            $cod_refer = $this->_request['cod_refer'];        
+      try {
+        $firstname = $this->_request['firts_name'];
+        $lastname = $this->_request['last_name'];
+        $email = $this->_request['email'];
+        $phone = $this->_request['phone'];
+        $birthday = $this->_request['date'];
+        $addres1 = $this->_request['address'];
+        $city = $this->_request['city'];
+        $type_dni = $this->_request['type_identification'];
+        $dni = $this->_request['number_identification'];
+        $username = $this->_request['user_name'];
+        $addres2 = $this->_request['address2'];        
+        $cod_refer = $this->_request['cod_refer'];
 
-            $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
-                                                    FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
+        $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
+                                                FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
 
-            $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
-                                                         FROM '._DB_PREFIX_.'customer WHERE username = "'.$username.'" ');
+        $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
+                                                     FROM '._DB_PREFIX_.'customer WHERE username = "'.$username.'" ');
 
-            if (empty($firstname) || empty($lastname) || !Validate::isName($firstname) || !Validate::isName($lastname)) {
-                $error[] = 'Nombre o Apellido invalido.';
-            } elseif (!Validate::isEmail($email)) {
-                $error[] = 'El correo electronico es invalido.';
-            } elseif ( Validate::isIdentification($dni) || empty($dni) ) {
-                $error[] = 'El numero de identificacion es invalido.';
-            } elseif ($valid_dni['dni'] > 0) {
-                $error[] = 'El numero de identificacion se encuentra en uso.';
-            } elseif ($valid_username['username'] > 0) {
-                $error[] = 'El nombre de usuario se encuentra en uso.';
-            } elseif (RewardsSponsorshipModel::isEmailExists($email) || Customer::customerExists($email)) {
-                $error[] = 'El correo electronico se encuentra en uso.';
+        if (empty($firstname) || empty($lastname) || !Validate::isName($firstname) || !Validate::isName($lastname)) {
+            $error[] = 'Nombre o Apellido invalido.';
+        } elseif (!Validate::isEmail($email)) {
+            $error[] = 'El correo electronico es invalido.';
+        } elseif ( Validate::isIdentification($dni) || empty($dni) ) {
+            $error[] = 'El numero de identificacion es invalido.';
+        } elseif ($valid_dni['dni'] > 0) {
+            $error[] = 'El numero de identificacion se encuentra en uso.';
+        } elseif ($valid_username['username'] > 0) {
+            $error[] = 'El nombre de usuario se encuentra en uso.';
+        } elseif (RewardsSponsorshipModel::isEmailExists($email) || Customer::customerExists($email)) {
+            $error[] = 'El correo electronico se encuentra en uso.';
+        }
+            
+        $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($user_key);
+            
+        if ( empty($error) ) {
+          // Agregar Cliente
+          $customer = new Customer();
+          $customer->firstname = $firstname;
+          $customer->lastname = $lastname;
+          $customer->email = $email;
+          $customer->passwd = Tools::encrypt($dni);
+          $customer->dni = $dni;
+          $customer->username = $username;
+          $customer->birthday = $birthday;
+          $customer->id_default_group = 4;
+          $customer->kick_out = 0;
+          $customer->active = 1;
+          $customer->id_lang = Context::getContext()->language->id;
+          $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+          $saveCustomer = $customer->add();
+          $customer->updateGroup(array("3","4"));
+
+          // Agregar Direccion
+          $address = new Address();
+          $address->id_country = 69;
+          $address->dni = $customer->dni;
+          $address->id_customer = $customer->id;
+          $address->alias = 'Mi Direccion';
+          $address->firstname = $customer->firstname;
+          $address->lastname = $customer->lastname;
+          $address->address1 = $addres1;
+          $address->address2 = $addres2;
+          $address->city = $city;
+          $address->phone = $phone;
+          $address->phone_mobile = $phone;
+          $address->type_document = $type_dni;
+          $address->active = 1;
+          $saveAddress = $address->add();
+
+          if(!empty($cod_refer) && $cod_refer != '' && $cod_refer != NULL ){
+            // Busca el sponsor.
+            $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode($cod_refer);
+            $tree = RewardsSponsorshipModel::_getTree($id_sponsor);
+            array_shift($tree);
+            $count_array = count($tree);
+
+            if ($count_array < 2){
+              $sql_sponsor = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                              FROM " . _DB_PREFIX_ . "customer c
+                              LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                              WHERE c.id_customer =".$id_sponsor;
+
+              $sponsor = Db::getInstance()->getRow($sql_sponsor);
+
+              if (!empty($sponsor)) {
+                $sponsorship = new RewardsSponsorshipModel();
+                $sponsorship->id_sponsor = $sponsor['id_customer'];
+                $sponsorship->id_customer = $customer->id;
+                $sponsorship->firstname = $customer->firstname;
+                $sponsorship->lastname = $customer->lastname;
+                $sponsorship->email = $customer->email;
+                $sponsorship->channel = 1;
+                $send = "";
+
+                if ($sponsorship->save()) {
+                  $complete = true;
+                  $this->sendMailCofirmCreateAccount($customer, $address);
+                  Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                              VALUES ('.$customer->id.', "'.$code_generate.'")');
+                  error_log("\n\n\n\n Todo salio ok: 1",3,"/tmp/error.log");
+                }
+              }
+              else {
+                $error[] = 'El referido no es correcto.';
+              }
             }
+            else {
+              $array_sponsor = array();
+              foreach ($tree as $network) {
+                $sql_sponsor = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                                FROM " . _DB_PREFIX_ . "customer c
+                                LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                WHERE c.id_customer =" . (int) $network['id'] . "
+                                HAVING sponsoships > 0";
+                $sponsor = Db::getInstance()->getRow($sql_sponsor);
 
-            if ( empty($error) ) {
-                // Agregar Cliente
-                $customer = new Customer();
-                $customer->firstname = $firstname;
-                $customer->lastname = $lastname;
-                $customer->email = $email;
-                $customer->passwd = Tools::encrypt($dni);
-                $customer->dni = $dni;
-                $customer->username = $username;
-                $customer->birthday = $birthday;
-                $customer->id_default_group = 4;
-                $customer->kick_out = 0;
-                $customer->active = 1;
-                $customer->id_lang = Context::getContext()->language->id;
-                $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
-                $saveCustomer = $customer->add();
-                $customer->updateGroup(array("3","4"));
+                if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                  array_push($array_sponsor, $sponsor);
+                }
+              }
+              $sort_array = array_filter($array_sponsor);
 
-                // Agregar Direccion
-                $address = new Address();
-                $address->id_country = 69;
-                $address->dni = $customer->dni;
-                $address->id_customer = $customer->id;
-                $address->alias = 'Mi Direccion';
-                $address->firstname = $customer->firstname;
-                $address->lastname = $customer->lastname;
-                $address->address1 = $addres1;
-                $address->address2 = $addres2;
-                $address->city = $city;
-                $address->phone = $phone;
-                $address->phone_mobile = $phone;
-                $address->type_document = $type_dni;
-                $address->active = 1;
-                $saveAddress = $address->add();
+              usort($sort_array, function($a, $b) {
+                return $a['id_customer'] - $b['id_customer'];
+              });
 
-                // Agregar Sponsor
-                $sponsor = Db::getInstance()->executeS('SELECT
+              $sponsor_a = reset($sort_array);
+
+              if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
+                $sponsorship = new RewardsSponsorshipModel();
+                $sponsorship->id_sponsor = $sponsor['id_customer'];
+                $sponsorship->id_customer = $customer->id;
+                $sponsorship->firstname = $customer->firstname;
+                $sponsorship->lastname = $customer->lastname;
+                $sponsorship->email = $customer->email;
+                $sponsorship->channel = 1;
+
+                if ($sponsorship->save()) {
+                  $complete = true;
+                  $this->sendMailCofirmCreateAccount($customer, $address);
+                  Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                              VALUES ('.$customer->id.', "'.$code_generate.'")');
+                }
+              }
+              else {
+                $error[] = 'El referido no es correcto.';
+              } 
+            }
+          }
+          else {
+            // Agregar Sponsor
+            $sponsor = Db::getInstance()->executeS('SELECT
                                                         c.id_customer,
                                                         c.username,
                                                         c.email,
@@ -811,62 +897,72 @@ class API extends REST {
                                                     HAVING pendingsinvitation > 0
                                                     ORDER BY c.id_customer ASC
                                                     LIMIT 1');
-                $sponsorship = new RewardsSponsorshipModel();
-                $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
-                $sponsorship->id_customer = $customer->id;
-                $sponsorship->firstname = $customer->firstname;
-                $sponsorship->lastname = $customer->lastname;
-                $sponsorship->email = $customer->email;
-                $sponsorship->channel = 1;
-                $saveSponsorship = $sponsorship->save();
+            $sponsorship = new RewardsSponsorshipModel();
+            $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+            $sponsorship->id_customer = $customer->id;
+            $sponsorship->firstname = $customer->firstname;
+            $sponsorship->lastname = $customer->lastname;
+            $sponsorship->email = $customer->email;
+            $sponsorship->channel = 1;
+            $saveSponsorship = $sponsorship->save();
 
-                if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
-                    $complete = true;
+            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                        VALUES ('.$customer->id.', "'.$code_generate.'")');
 
-                    $vars = array(
-                        '{username}' => $customer->username,
-                        '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                        '{firstname}' => $customer->firstname,
-                        '{lastname}' => $customer->lastname,
-                        '{dni}' => $customer->dni,
-                        '{birthdate}' => $customer->birthday,
-                        '{address}' => $address->address1,
-                        '{phone}' => $address->phone,
-                        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
-                        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-                        '{learn_more_url}' => "http://reglas.fluzfluz.co",
-                    );
-
-                    $template = 'welcome_fluzfluz';
-                    $prefix_template = '16-welcome_fluzfluz';
-
-                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                    $row_subject = Db::getInstance()->getRow($query_subject);
-                    $message_subject = $row_subject['subject_mail'];
-
-                    $allinone_rewards = new allinone_rewards();
-                    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
-                } else {
-                    $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
-                }
+            if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
+              $complete = true;
+              $this->sendMailCofirmCreateAccount($customer, $address);
+            } else {
+              $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
             }
-        } catch (Exception $e) {
-            $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
-            $message = $e->getMessage();
+          }
         }
+      }
+      catch (Exception $e) {
+        $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
+        $message = $e->getMessage();
+      }
         
-        if ( !$complete ) {
-            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".$customer->id);
-            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
-            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."address WHERE id_address = ".$address->id);
-            DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_sponsorship = ".$sponsorship->id);
-        }
+      if ( !$complete ) {
+        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".$customer->id);
+        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
+        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."address WHERE id_address = ".$address->id);
+        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_sponsorship = ".$sponsorship->id);
+        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship_code WHERE id_sponsor = ".$sponsorship->id);
+      }
         
-        $response = array('success' => $complete, 'error' => $error, 'message' => $message);        
-        $this->response( $this->json($response) , 200 );
+      $response = array('success' => $complete, 'error' => $error, 'message' => $message);        
+      $this->response( $this->json($response) , 200 );
     }
     
+    public function sendMailCofirmCreateAccount($customer, $address){
+      $vars = array(
+        '{username}' => $customer->username,
+        '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+        '{firstname}' => $customer->firstname,
+        '{lastname}' => $customer->lastname,
+        '{dni}' => $customer->dni,
+        '{birthdate}' => $customer->birthday,
+        '{address}' => $address->address1,
+        '{phone}' => $address->phone,
+        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+        '{learn_more_url}' => "http://reglas.fluzfluz.co",
+      );
+
+      $template = 'welcome_fluzfluz';
+      $prefix_template = '16-welcome_fluzfluz';
+
+      $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+      $row_subject = Db::getInstance()->getRow($query_subject);
+      $message_subject = $row_subject['subject_mail'];
+
+      $allinone_rewards = new allinone_rewards();
+      $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+    }
+
+
     private function getPhonesCustomer() {
         $telconumbers = DB::getInstance()->executeS( "SELECT phone_mobile, default_number
                                                         FROM "._DB_PREFIX_."address
