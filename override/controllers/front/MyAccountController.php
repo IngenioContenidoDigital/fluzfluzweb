@@ -25,6 +25,8 @@
 */
 
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+
 class MyAccountController extends MyAccountControllerCore
 {
     public function setMedia()
@@ -58,7 +60,8 @@ class MyAccountController extends MyAccountControllerCore
 
         $profile_complete = Customer::percentProfileComplete($this->context->customer->id);
         $this->context->smarty->assign('profile_complete', $profile_complete);
-        
+        $code = RewardsSponsorshipCodeModel::getCodeSponsorById($this->context->customer->id);
+
         $this->context->smarty->assign('membersCount', $membersCount);
         $this->context->smarty->assign(array(
             's3'=> _S3_PATH_,
@@ -66,6 +69,7 @@ class MyAccountController extends MyAccountControllerCore
             'pin_code' => $this->pinCodeProduct(),
             'has_customer_an_address' => empty($has_address),
             'voucherAllowed' => (int)CartRule::isFeatureActive(),
+            'code'=>$code,
             'order_lastmonth' => $this->orderQuantity(),
             'topPoint'=> $this->TopNetworkUnique(),
             'worstPoint'=> $this->WorstNetworkUnique(),

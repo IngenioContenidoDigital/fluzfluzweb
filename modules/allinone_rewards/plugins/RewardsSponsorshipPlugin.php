@@ -16,6 +16,9 @@ if (!defined('_PS_VERSION_'))
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/plugins/RewardsGenericPlugin.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsModel.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
+
 class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 {
 	public $name = 'sponsorship';
@@ -325,6 +328,8 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                         $customer = new Customer((int)$params['id_customer']);
 			$new_sponsor = new Customer((int)Tools::getValue('new_sponsor'));
                         
+                        $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($customer->username);
+                        
                         $query_sponsor = 'SELECT COUNT(rs.id_sponsor) AS cont_sponsor 
                                  FROM '._DB_PREFIX_.'rewards_sponsorship AS rs
                                  WHERE rs.id_sponsor ='.(int)Tools::getValue('new_sponsor');
@@ -334,6 +339,9 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                         $group_business = Db::getInstance()->getRow('SELECT COUNT(*) as cont FROM '._DB_PREFIX_.'customer c 
                                         INNER JOIN '._DB_PREFIX_.'customer_group cg ON (c.id_customer = cg.id_customer)
                                         WHERE cg.id_group = 5 AND c.id_customer ='.$customer->id);
+                        
+                        Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                           VALUES ('.$customer->id.', "'.$code_generate.'")'); 
                         
                         if($group_business['cont'] == 1){
                                  if (isset($_SERVER['HTTPS'])) {
@@ -364,7 +372,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
                                         '{shop_url_personal}' => $link_login,
                                         '{learn_more_url}' => "http://reglas.fluzfluz.co",
                                         );
-
+                                        
                                         $template = 'welcome_fluzfluz';
                                         $prefix_template = '16-welcome_fluzfluz';
 
@@ -1873,7 +1881,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 		$stats = RewardsSponsorshipModel::getAdminStatistics((int)$customer->id);
 		$customerStats = $stats['sponsors'][(int)$customer->id];
 		$friends = $stats['sponsored'][(int)$customer->id];
-		$code_sponsorship = RewardsSponsorshipModel::getSponsorshipCode($customer);
+		$code_sponsorship = RewardsSponsorshipCodeModel::getCodeSponsorById($customer->id);
 		$link_sponsorship = RewardsSponsorshipModel::getSponsorshipLink($customer);
 		$rewards_sponsorship_code = new RewardsSponsorshipCodeModel((int)$customer->id);
 		$sponsorship_template_id = (int)MyConf::getIdTemplate('sponsorship', $this->context->customer->id);
