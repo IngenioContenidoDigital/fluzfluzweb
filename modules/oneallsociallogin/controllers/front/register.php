@@ -22,6 +22,11 @@
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  */
+
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
+
 class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontController
 {
 	public $auth = false;
@@ -76,7 +81,8 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$typedni = trim (Tools::getValue ('oasl_typedni'));
 					$dni = trim (Tools::getValue ('oasl_dni'));
 					$newsletter = 1;
-					
+					$code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
+
 					// Make sure the firstname is not empty.
 					if (strlen ($firstname) == 0 || !Validate::isName($firstname))
 					{
@@ -174,6 +180,9 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 						// Create a new account.                                                
 						$id_customer = oneall_social_login_tools::create_customer_from_data ($data, $send_email_to_admin, $send_email_to_customer);
 						
+                                                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                                                VALUES ('.$id_customer.', "'.$code_generate.'")');
+                                                
 						// Login the customer.
 						if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
 						{
