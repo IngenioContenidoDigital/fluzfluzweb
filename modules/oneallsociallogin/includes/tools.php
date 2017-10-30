@@ -202,7 +202,11 @@ class oneall_social_login_tools
                                                         ORDER BY c.id_customer ASC
                                                         LIMIT 1');
                 $sponsorship = new RewardsSponsorshipModel();
-                $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                if(empty($data['user_sponsor_id'])){
+                    $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                }else{
+                    $sponsorship->id_sponsor = $data['user_sponsor_id'];
+                }
                 $sponsorship->id_customer = $customer->id;
                 $sponsorship->firstname = $customer->firstname;
                 $sponsorship->lastname = $customer->lastname;
