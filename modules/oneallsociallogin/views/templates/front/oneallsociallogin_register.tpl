@@ -37,7 +37,7 @@
             <div class="form_content clearfix">
                 <div class="form-group">
                     <label for="oasl_code_sponsor">C&oacute;digo de Patrocinio <sup>*</sup></label> 
-                    <input type="text" class="form-control" id="oasl_code_sponsor" name="oasl_code_sponsor" value="{if isset($smarty.post.oasl_code_sponsor)}{$smarty.post.oasl_code_sponsor|stripslashes}{elseif $oasl_populate == '1'}{$oasl_first_name}{/if}" />
+                    <input type="text" class="form-control" id="oasl_code_sponsor" name="oasl_code_sponsor" value="" />
                 </div>
                 <div class="form-group">
                     <label for="oasl_firstname">Nombre <sup>*</sup></label> 

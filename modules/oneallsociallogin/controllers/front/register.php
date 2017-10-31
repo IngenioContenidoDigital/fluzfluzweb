@@ -85,7 +85,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
                                         
                                         // Validate Id Sponsor
-                                        $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode($code_generate);
+                                        $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue ('oasl_code_sponsor'));
                                         if ( $code_sponsor == "" || empty($id_sponsor)) {
                                             $id_sponsor = "";
                                         }

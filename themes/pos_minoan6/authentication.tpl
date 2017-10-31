@@ -1128,7 +1128,7 @@
                                         </select>
                                     </div>  
                                     <div>
-                                        <a href="http://reglas.fluzfluz.co/terminos-y-condiciones" target="_blank" id="acceptterms" for="acceptterms">Acepto los t&eacute;rminos y condiciones de Fluz Fluz</a>    
+                                        <a href="http://reglas.fluzfluz.co/terminos-y-condiciones" target="_blank" id="acceptterms" for="acceptterms">T&eacute;rminos y condiciones de Fluz Fluz</a>    
                                     </div>
                                     <br/>
                                     {if isset($newsletter) && $newsletter}
