@@ -96,9 +96,7 @@ class MyAccountController extends MyAccountControllerCore
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();
         $searchnetwork = strtolower(Tools::getValue('searchnetwork'));
-        echo '<pre>';
-        print_r($tree);
-        die();
+        
         foreach ($tree as $sponsor) {
             if ( $this->context->customer->id != $sponsor['id'] ) {
                 $customer = new Customer($sponsor['id']);
