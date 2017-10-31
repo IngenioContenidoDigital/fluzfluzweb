@@ -1323,10 +1323,10 @@
                         <div style="display:none;">{$HOOK_CREATE_ACCOUNT_FORM}</div>
                     <div class="formInfo submit clearfix">
 			<input type="hidden" name="email_create" value="1" />
-                        <!--<div class="checkbox">
+                        <div class="checkbox">
                                 <input type="checkbox" name="acceptterms" id="acceptterms" value="1"/>
                                 <label for="acceptterms">Acepto los t&eacute;rminos y condiciones de Fluz Fluz</label>
-                        </div>-->
+                        </div>
                         <button class="btnInfo" type="submit" name="submitAccount" id="submitAccount"/>
 				<span>Registro Gratis<i class="icon-chevron-right right"></i></span>
 			</button>
