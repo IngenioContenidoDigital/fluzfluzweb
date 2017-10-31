@@ -37,7 +37,7 @@
 <div id="rewards_account" class="rewards">	
 <h1 class="page-heading">{l s='My rewards account' mod='allinone_rewards'}</h1>
 
-<div id="container" class="col-lg-6 col-md-6 col-sm-12 graphicStat"></div>
+<!--<div id="container" class="col-lg-6 col-md-6 col-sm-12 graphicStat"></div>-->
 <div id="container2" class="col-lg-6 col-md-6 col-sm-12 graphicStat">
     <h4 class="titleStats">{l s="Performance Summary" mod='allinone_rewards'}</h4>
     <ul class="ul-graph">
