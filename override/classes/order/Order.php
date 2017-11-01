@@ -370,6 +370,7 @@ class Order extends OrderCore
                                         <th>referencia</th> 
                                         <th>fecha</th>
                                         <!--th>cliente</th-->
+                                        <th>Orden_Id_Payu</th>
                                         <th>usuario</th>
                                         <th>email</th>
                                         <th>nivel</th>
@@ -414,6 +415,7 @@ class Order extends OrderCore
                             <td>".$order['orden']."</td>
                             <td>".$order['referencia']."</td>
                             <td>".$order['fecha']."</td>
+                            <td>".$order['id_reference_payu']."</td>
                             <td>".$order['usuario']."</td>
                             <td>".$order['email']."</td>
                             <td>".$order['nivel']."</td>
@@ -568,6 +570,7 @@ class Order extends OrderCore
                         c.id_customer,
                         CONCAT(c.firstname,' ',c.lastname) cliente,
                         c.username,
+                        pp.orderIdPayu AS id_payu,
                         c.email,
                         osl.name estado,
                         o.payment pago,
@@ -590,13 +593,14 @@ class Order extends OrderCore
                 LEFT JOIN "._DB_PREFIX_."order_cart_rule ocr ON ( o.id_order = ocr.id_order )
                 LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )
                 LEFT JOIN "._DB_PREFIX_."report_orders ro ON ( o.id_order = ro.orden )
+                INNER JOIN "._DB_PREFIX_."pagos_payu pp ON ( pp.id_cart = o.id_cart )    
                 LEFT JOIN "._DB_PREFIX_."product_supplier ps ON ( od.product_id = ps.id_product )
                 WHERE ro.orden IS NULL
                 GROUP BY o.id_order, od.product_id
                 ORDER BY o.id_order DESC";
 
         $orders = Db::getInstance()->executeS($sql);
-
+        
         foreach ( $orders as $order ) {
             // NIVEL USUARIO
             $sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($order['id_customer']);
@@ -640,11 +644,12 @@ class Order extends OrderCore
             });
 
             $queryInsertReport = "";
-            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, estado_tarjeta, valor_utilizado, referencia_producto, precio_producto, costo_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, recompensa_total_pesos, recompensa_total_puntos, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
+            $queryInsertReport = "INSERT INTO "._DB_PREFIX_."report_orders (orden, referencia, fecha, id_reference_payu, usuario, email, nivel, estado, pago, total, pago_pesos, pago_puntos, puntos_utilizados, nombre_producto, estado_tarjeta, valor_utilizado, referencia_producto, precio_producto, costo_producto, cantidad, codigos_producto, recompensa_porcentaje_producto, recompensa_pesos_compra, recompensa_puntos_compra, recompensa_pesos_red, recompensa_puntos_red, recompensa_total_pesos, recompensa_total_puntos, usuario_nivel_0, recompensa_pesos_nivel_0, recompensa_puntos_nivel_0, usuario_nivel_1, recompensa_pesos_nivel_1, recompensa_puntos_nivel_1, usuario_nivel_2, recompensa_pesos_nivel_2, recompensa_puntos_nivel_2, usuario_nivel_3, recompensa_pesos_nivel_3, recompensa_puntos_nivel_3, usuario_nivel_4, recompensa_pesos_nivel_4, recompensa_puntos_nivel_4, usuario_nivel_5, recompensa_pesos_nivel_5, recompensa_puntos_nivel_5, usuario_nivel_6, recompensa_pesos_nivel_6, recompensa_puntos_nivel_6, usuario_nivel_7, recompensa_pesos_nivel_7, recompensa_puntos_nivel_7, usuario_nivel_8, recompensa_pesos_nivel_8, recompensa_puntos_nivel_8, usuario_nivel_9, recompensa_pesos_nivel_9, recompensa_puntos_nivel_9, usuario_nivel_10, recompensa_pesos_nivel_10, recompensa_puntos_nivel_10, usuario_nivel_11, recompensa_pesos_nivel_11, recompensa_puntos_nivel_11, usuario_nivel_12, recompensa_pesos_nivel_12, recompensa_puntos_nivel_12, usuario_nivel_13, recompensa_pesos_nivel_13, recompensa_puntos_nivel_13, usuario_nivel_14, recompensa_pesos_nivel_14, recompensa_puntos_nivel_14, usuario_nivel_15, recompensa_pesos_nivel_15, recompensa_puntos_nivel_15)
                                   VALUES (
                                     ".$order['orden'].",
                                     '".$order['referencia']."',
                                     '".$order['fecha']."',
+                                    ".$order['id_payu'].",    
                                     '".$order['username']."',
                                     '".$order['email']."',
                                     ".$nivel.",
