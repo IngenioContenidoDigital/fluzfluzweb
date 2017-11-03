@@ -281,98 +281,81 @@ class API extends REST {
      * email : <Correo eléctronico>
      * pwd : <Contraseña>
      */
-    private function login($email_sl = NULL,$passwd_sl = NULL)
-    {
-        // Validación Cross si el método de la petición es POST de lo contrario volverá estado de "no aceptable"
-        if($this->get_request_method() != "POST") {
-            $this->response('',406);
-        }
-
-        $email = strtolower(trim( $email_sl != NULL ? $email_sl : $this->_request['email']) );
-        $password =  trim( $passwd_sl != NULL ? $passwd_sl : $this->_request['pwd']);
+    private function login(){
+      if($this->get_request_method() != "POST") {
+        $this->response('',406);
+      }
+        
+      $email    = strtolower( trim( $this->_request['email'] ) );
+      $password = trim( $this->_request['pwd'] );
                 
-        // Validaciones de entrada
-        if(!empty($email) and !empty($password)) {
-            if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $customer = new Customer();
-                $authentication = $customer->getByEmail($email, $password);
-                //error_log("\n\nEste es el customer:\n".print_r($customer, true),3,"/tmp/error.log");
+      // Validaciones de entrada
+      if(!empty($email) and !empty($password)) {
+        if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          $customer = new Customer();
+          $authentication = $customer->getByEmail($email, $password);
+          if (!$authentication || !$customer->id) {
+            $this->response(array('success'=>FALSE), 204);	// Si no hay registros, estado "No Content"
+          }
+          else {
+            $context = Context::getContext();
+            $context->cookie->id_compare = isset($context->cookie->id_compare) 
+            ? $context->cookie->id_compare
+            : CompareProduct::getIdCompareByIdCustomer($customer->id);
+            $context->cookie->id_customer = (int)($customer->id);
+            $context->cookie->customer_lastname = $customer->lastname;
+            $context->cookie->customer_firstname = $customer->firstname;
+            $context->cookie->logged = 1;
+            $customer->logged = 1;
+            $context->cookie->is_guest = $customer->isGuest();
+            $context->cookie->passwd = $customer->passwd;
+            $context->cookie->email = $customer->email;
+            $context->cookie->active = $customer->active;  
+            $context->cookie->kick_out = $customer->kick_out;  
+            $context->cookie->manual_inactivation = $customer->manual_inactivation;  
+            $context->cookie->days_inactive = $customer->days_inactive;  
+            $context->cookie->autoaddnetwork = $customer->autoaddnetwork;
+            $context->cookie->dni = $customer->dni;
+            $context->cookie->phone = $customer->phone;                    
 
-                // Login social meadia
-                if($email_sl != NULL && $passwd_sl != NULL && Customer::customerExists($email_sl)){
-                    $authentication = $customer->getByEmailSM($email);
-                }
-				
-                if (!$authentication || !$customer->id) {
-                    // Error de autenticación
-                    $this->response(array('success'=>FALSE), 204);	// Si no hay registros, estado "No Content"
-                } else {
-                    $context = Context::getContext();
-//                    error_log("\n\n\n\nEste es el contexto cuando loguea:\n\n\n\n".print_r(Context::getContext(),true),3,"/tmp/error.log");
-                    $context->cookie->id_compare = isset($context->cookie->id_compare) 
-                    ? $context->cookie->id_compare
-                    : CompareProduct::getIdCompareByIdCustomer($customer->id);
-                    $context->cookie->id_customer = (int)($customer->id);
-                    $context->cookie->customer_lastname = $customer->lastname;
-                    $context->cookie->customer_firstname = $customer->firstname;
-                    $context->cookie->logged = 1;
-                    $customer->logged = 1;
-                    $context->cookie->is_guest = $customer->isGuest();
-                    $context->cookie->passwd = $customer->passwd;
-                    $context->cookie->email = $customer->email;
-                    $context->cookie->active = $customer->active;  
-                    $context->cookie->kick_out = $customer->kick_out;  
-                    $context->cookie->manual_inactivation = $customer->manual_inactivation;  
-                    $context->cookie->days_inactive = $customer->days_inactive;  
-                    $context->cookie->autoaddnetwork = $customer->autoaddnetwork;
-                    $context->cookie->dni = $customer->dni;
-                    
-                    $addresses = $customer->getAddresses((int)Configuration::get('PS_LANG_DEFAULT'));
-                    $data = array();
-                    foreach ($addresses as $key => $address) {
-                        $data[] = $address['phone_mobile'];
-                    }
-                    //$phones = $this->json($data);
-                    $phones = implode(",", $data);
-                    $context->cookie->phone = $phones;                    
-                    
-                    // Agrega el cliente a el contexto
-                    $context->customer = $customer;
-//                    error_log("Estye es el customer del login: ".print_r($context->customer, true),3,"/tmp/error.log");
-                                        
-                    // Si todo sale bien, enviará cabecera de "OK" y los detalles del usuario en formato JSON
+            // Agrega el cliente a el contexto
+            $context->customer = $customer;
 
-                    unset($customer->passwd, $customer->last_passwd_gen);
-                    $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
-                    $this->response($this->json(array(
-                        'id' => (int) $customer->id,
-                        'lastname' => $customer->lastname,
-                        'firstname' => $customer->firstname,
-                        'email' => $customer->email,
-                        'newsletter' => (bool)$customer->newsletter,
-                        'dni' => $customer->identification,
-                        'gender' => $gender,
-                        'id_type' => (int)$customer->id_type,
-                        'birthday' => $customer->birthday,
-                        'website' => $customer->website,
-                        'company' => $customer->company,
-                        'active' => $customer->active,
-                        'kick_out' => $customer->kick_out,
-                        'manual_inactivation' => $customer->manual_inactivation,
-                        'days_inactive' => $customer->days_inactive,
-                        'autoaddnetwork' => $customer->autoaddnetwork,
-                        'dni' => $customer->dni,
-                        'phone' => $phones,
-                        'success' => TRUE)), 200);
-                }
-            }
+            // Si todo sale bien, enviará cabecera de "OK" y los detalles del usuario en formato JSON
+            unset($customer->passwd, $customer->last_passwd_gen);
+            $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
+
+            $array = array(
+                'id' => (int) $customer->id,
+                'lastname' => $customer->lastname,
+                'firstname' => $customer->firstname,
+                'email' => $customer->email,
+                'newsletter' => (bool)$customer->newsletter,
+                'dni' => $customer->identification,
+                'gender' => $gender,
+                'id_type' => (int)$customer->id_type,
+                'birthday' => $customer->birthday,
+                'website' => $customer->website,
+                'company' => $customer->company,
+                'active' => $customer->active,
+                'kick_out' => $customer->kick_out,
+                'manual_inactivation' => $customer->manual_inactivation,
+                'days_inactive' => $customer->days_inactive,
+                'autoaddnetwork' => $customer->autoaddnetwork,
+                'dni' => $customer->dni,
+                'phone' => $customer->phone,
+                'success' => TRUE);
+
+            $this->response($this->json($array), 200);
+          }
         }
+      }
 
-        // Si las entradas son inválidas, mensaje de estado "Bad Request" y la razón
-        $this->response($this->json(array(
-                "success" => false, 
-                "message" => "Dirección de correo electrónico o contraseña no válidos"
-                )), 400);
+      // Si las entradas son inválidas, mensaje de estado "Bad Request" y la razón
+      $this->response($this->json(array(
+        "success" => false, 
+        "message" => "Dirección de correo electrónico o contraseña no válidos"
+      )), 400);
     }
 
     private function logout()
@@ -473,31 +456,6 @@ class API extends REST {
         return $this->response(json_encode($model->manufacturers()),200);
     }
 		
-
-    private function socialLogin()
-    {
-        $arguments['firstname']	= $this->_request['firstname'];
-        $arguments['lastname']		= $this->_request['lastname'];
-        $arguments['email']			= $this->_request['email'];
-        $arguments['id']		= $this->_request['id'];
-        $arguments['passwd'] = NULL;
-        $arguments['gender'] 			=  substr($this->_request['gender'], 0,1);
-
-        if (Validate::isEmail($arguments['email']) && !empty($arguments['id']) && !empty($arguments['firstname']) ){
-
-            $tem_data = explode("@", $arguments['email']);
-            $arguments['passwd'] = md5($tem_data[1].$arguments['id'].$tem_data[0]);
-            if(!Customer::customerExists($arguments['email'])){
-                $model = new Model();
-                if($customer = $model->setAccount($arguments)) {
-                    $this->response($this->json( $customer ),200);
-                }
-            }else{
-                $this->login($arguments['email'],$arguments['passwd']);
-            } 
-        }
-    }
-
     private function createAccount($update = false)
     {
         // Validación Cross si el método de la petición es POST de lo contrario volverá estado de "no aceptable"
@@ -2423,8 +2381,6 @@ class API extends REST {
       $this->response('',406);
     }
     
-    error_log("\n\n\n\n Entro y recivo esto: ". print_r($this->_request['id_cart'],true),3,"/tmp/error.log");
-    
     $id_cart = $this->_request['id_cart'];
     
     $cart = new Cart($id_cart);
@@ -2433,6 +2389,111 @@ class API extends REST {
     $this->response(json_encode($return),200);
   }
   
+//  private function getEmailSocialMedia(){
+//    if($this->get_request_method() != "GET") {
+//      $this->response('',406);
+//    }
+//    
+//    $arguments['firstname']	= $this->_request['firstname'];
+//    $arguments['lastname']	= $this->_request['lastname'];
+//    $arguments['email']			= $this->_request['email'];
+//    $arguments['id']		    = $this->_request['id'];
+//    $arguments['passwd']    = NULL;
+//    $arguments['gender'] 		= substr($this->_request['gender'], 0,1);
+//    
+//    $sql = "SELECT email, passwd, active
+//            FROM ps_customer
+//            WHERE email = '".$email."'";
+//    $result = Db::getInstance()->getRow($sql);
+//    
+//    if($result != '' || $result != NULL){
+//       if($result['active'] == 1){
+//        $this->login($arguments['email']);
+//      }
+//      else {
+//        $error = 2;
+//        $msg = 'El ususario no esta activo.';
+//      }
+//    }
+//    else {
+//      $error = 1;
+//      $msg = 'No hay ningu usuario registrado con este correo.';
+//    }
+//    
+//    
+//    if (Validate::isEmail($arguments['email'])){
+//      if(!Customer::customerExists($arguments['email'])){
+////        $model = new Model();
+////        if($customer = $model->setAccount($arguments)) {
+////          $this->response($this->json( $customer ),200);
+////        }
+//        $error = 1;
+//        $msg = 'No hay ningun usuario registrado con este correo.';
+//      }
+//      else {
+//        $this->login($arguments['email']);
+//      } 
+//    }
+//  }
+  
+  public function getEmailSocialMedia() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $email = $this->_request['email'];
+    
+    $sql = "SELECT email, passwd, active
+            FROM ps_customer
+            WHERE email = '".$email."'";
+    
+    $result = Db::getInstance()->getRow($sql);
+    
+    $error = 0;
+    $msg = '';
+    if($result != '' || $result != NULL){
+      if($result['active'] == 1){
+        $id_customer = Customer::getCustomersByEmail($email);
+        $customer = new Customer($id_customer['0']['id_customer']);
+        error_log("\n\n\n Esto es el customer: ".print_r($customer,true),3,"/tmp/error.log");
+        $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
+        $result = array(
+          'id' => (int) $customer->id,
+          'lastname' => $customer->lastname,
+          'firstname' => $customer->firstname,
+          'email' => $customer->email,
+          'newsletter' => (bool)$customer->newsletter,
+          'dni' => $customer->identification,
+          'gender' => $gender,
+          'id_type' => (int)$customer->id_type,
+          'birthday' => $customer->birthday,
+          'website' => $customer->website,
+          'company' => $customer->company,
+          'active' => $customer->active,
+          'kick_out' => $customer->kick_out,
+          'manual_inactivation' => $customer->manual_inactivation,
+          'days_inactive' => $customer->days_inactive,
+          'autoaddnetwork' => $customer->autoaddnetwork,
+          'dni' => $customer->dni,
+          'phone' => $customer->phone,
+          'success' => TRUE);
+      }
+      else {
+        $error = 2;
+        $msg = 'El ususario no esta activo.';
+      }
+    }
+    else {
+      $error = 1;
+      $msg = 'No hay ningun usuario registrado con este correo.';
+    }
+    
+    $return['error'] = $error;
+    $return['msg'] = $msg;
+    $return['result'] = ( $error != 0 ) ? '' : $result;
+    
+    return $this->response(json_encode($return),200);
+  }
   
 }
 
