@@ -264,29 +264,36 @@
 						{* Include document template *}
 						{include file='controllers/orders/_documents.tpl'}
 					</div>
-                                        <div class="tab-pane" id="codes">
-                                       
-                                            <div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr>
-									<th><span class="title_box ">{l s='Producto Id'}</span></th>
-									<th><span class="title_box ">{l s='Nombre'}</span></th>
-									<th><span class="title_box ">{l s='Codigo Producto'}</span></th>
-									<th></th>
-								</tr>
-							</thead>
-                                                        {foreach from=$codesAssign item=code}
-                                                        <tbody>
-                                                            <td>{$code.id_product}</td>
-                                                            <td>{$code.product_name}</td>
-                                                            <td>{$code.code}</td>
-                                                        </tbody>
-                                                        {/foreach}
-                                                        
-                                                </table>
-                                            </div>    
-					</div>
+                                            <div class="tab-pane" id="codes">
+
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                            <thead>
+                                                                    <tr>
+                                                                            <th><span class="title_box ">{l s='Producto Id'}</span></th>
+                                                                            <th><span class="title_box ">{l s='Nombre'}</span></th>
+                                                                            <th><span class="title_box ">{l s='Codigo Producto'}</span></th>
+                                                                            <th></th>
+                                                                    </tr>
+                                                            </thead>
+                                                            {foreach from=$codesAssign item=code}
+                                                            <tbody>
+                                                                <td>{$code.id_product}</td>
+                                                                <td>{$code.product_name}</td>
+                                                                <td>{$code.code}</td>
+                                                            </tbody>
+                                                            {/foreach}
+
+                                                    </table>
+                                                    <div class="row" style="text-align:right;">
+                                                        <form method="post" class="form-horizontal well hidden-print">
+                                                            <button class="btn btn-primary" type="submit" id="submitUpdateCodes" name="submitUpdateCodes">
+                                                                 {l s='Asignar Faltantes'}
+                                                            </button>
+                                                        </form>                
+                                                    </div>        
+                                                </div>    
+                                            </div>
 				</div>
 				<script>
 					$('#tabOrder a').click(function (e) {
