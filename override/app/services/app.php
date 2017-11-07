@@ -789,7 +789,7 @@ class API extends REST {
                   $this->sendMailCofirmCreateAccount($customer, $address);
                   Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
                                               VALUES ('.$customer->id.', "'.$code_generate.'")');
-                  error_log("\n\n\n\n Todo salio ok: 1",3,"/tmp/error.log");
+//                  error_log("\n\n\n\n Todo salio ok: 1",3,"/tmp/error.log");
                 }
               }
               else {
@@ -1204,10 +1204,9 @@ class API extends REST {
 	$this->response( $this->json($model->payFreeOrder($params)) , 200 );
     }
 
-    public function bankPse()
-    {
-	return $this->response( $this->json(PasarelaPagoCore::get_bank_pse()) , 200 );	
-    }
+  public function bankPse(){
+    return $this->response( $this->json(PasarelaPagoCore::get_bank_pse()) , 200 );	
+  }
 
     public function KeysOpenPay()
     {
@@ -2455,7 +2454,7 @@ class API extends REST {
       if($result['active'] == 1){
         $id_customer = Customer::getCustomersByEmail($email);
         $customer = new Customer($id_customer['0']['id_customer']);
-        error_log("\n\n\n Esto es el customer: ".print_r($customer,true),3,"/tmp/error.log");
+//        error_log("\n\n\n Esto es el customer: ".print_r($customer,true),3,"/tmp/error.log");
         $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
         $result = array(
           'id' => (int) $customer->id,

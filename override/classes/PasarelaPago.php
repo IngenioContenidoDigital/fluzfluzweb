@@ -345,14 +345,21 @@ class PasarelaPagoCore extends PayUControllerWS {
                             <paymentCountry>CO</paymentCountry>
                         </bankListInformation>
                     </request>';
-
+        
         $bancos = array();
 
-        $PayuBanks = $conf->sendXml($xml_send)['bankListResponse']['banks'][0]['bank'];
+//        $PayuBanks = $conf->sendXml($js_send)['bankListResponse']['banks'][0]['bank'];
+        $response = $conf->sendXml($xml_send);
+        
         $array_baks = NULL;
-            
-        foreach ($PayuBanks as $row){
+        if(!empty($response['paymentResponse']['error'])){
+          return array('error' => 1, 'description' => $response['paymentResponse']['error']);
+        }
+        else {
+          $PayuBanks = $response['bankListResponse']['banks'][0]['bank'];
+          foreach ($PayuBanks as $row){
             $array_baks[] = array('value' => $row['pseCode'], 'name' => $row['description']);	
+          }
         }
             
         return $array_baks;
