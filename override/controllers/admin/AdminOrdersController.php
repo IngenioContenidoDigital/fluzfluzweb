@@ -157,7 +157,23 @@ class AdminOrdersController extends AdminOrdersControllerCore
         elseif ( isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "exportreport" ) {
             Order::exportOrders();
         }
+        
+        /* ReAsignar codigos de pedidos incompletos, o codigos no asignados */
+        elseif (Tools::isSubmit('submitUpdateCodes') && isset($order)){
+            $queryValidation = 'SELECT COUNT(code) AS total FROM '._DB_PREFIX_.'product_code WHERE id_order='.$order->id;
+            $row = Db::getInstance()->getRow($queryValidation);
+            $orderValidation = $row['total'];
 
+            $quantityProducts = 'SELECT SUM(product_quantity) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$order->id;
+            $row2 = Db::getInstance()->getRow($quantityProducts);
+            $productos = $row2['productos'];
+            
+            if(($order->current_state == 2 ) && (($orderValidation < $productos))){
+                Order::updateCodes($order, $orderValidation); 
+            }
+            
+        }
+        
         /* Change order status, add a new entry in order history and send an e-mail to the customer if needed */
         elseif (Tools::isSubmit('submitState') && isset($order)) {
             if ($this->tabAccess['edit'] === '1') {
@@ -189,13 +205,13 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         $row = Db::getInstance()->getRow($queryValidation);
                         $orderValidation = $row['total'];
                         
-                        $quantityProducts = 'SELECT COUNT(product_id) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$order->id;
+                        $quantityProducts = 'SELECT SUM(product_quantity) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$order->id;
                         
                         $row2 = Db::getInstance()->getRow($quantityProducts);
                         $productos = $row2['productos'];
                         
                         if(($order_state->id == 2 ) && (($orderValidation < $productos))){
-                            Order::updateCodes($order, $order_state); 
+                            Order::updateCodes($order, $orderValidation); 
                         }
                         
                         // Save all changes

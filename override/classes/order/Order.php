@@ -41,7 +41,7 @@ class Order extends OrderCore
             return $rowCode['COUNT(code)'];    
     }
     
-    public static function updateCodes($order){
+    public static function updateCodes($order, $quantity_p){
         
             $context = Context::getContext();
             $invoice = new Address((int)$order->id_address_invoice);
@@ -57,7 +57,7 @@ class Order extends OrderCore
             Db::getInstance()->execute($qstate); 
 
                 foreach ($productId as $valor) {
-                    for($i=0;$i<$valor['product_quantity'];$i++){
+                    for($i=0;$i< ($valor['product_quantity'] - $quantity_p);$i++){
                         $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.', PC.state = "Disponible" WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
                     }
                 }
@@ -68,15 +68,15 @@ class Order extends OrderCore
                             INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
                             AND pc.id_order = ".(int)$order->id;
                 $codes = Db::getInstance()->executeS($query);
-
+                
                 foreach ( $codes as $code ) {
-                    set_time_limit(5000);
+                    set_time_limit(7000);
                     try {
                         $codedecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
                         $codeencrypt = Encrypt::encrypt($code['secure_key'] , $codedecrypt);
                         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
                                                     SET code = '".$codeencrypt."', encry = 1
-                                                    WHERE id_product_code = ".$code['id_product_code']);
+                                                    WHERE encry = 0 AND id_product_code = ".$code['id_product_code']);
                     } catch(Exception $e) {
                         Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
                                                     SET encry = 2
