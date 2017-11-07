@@ -943,7 +943,7 @@
             </div>
         </div>
             <div class="side-nav vdoTube row">
-                <iframe class="vdo-auth" height="315" src="https://www.youtube.com/embed/bVmfZ-Iu-UY?rel=0&controls=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>    
+                <iframe class="vdo-auth" height="315" src="https://www.youtube.com/embed/5dZYtCO0igk" frameborder="0" allowfullscreen="allowfullscreen"></iframe>    
                 <div class="row bulletins">
                     <div class="col-sm-4 text-center style_prevu_kit">
                         <a target="_blank" href="http://www.economiaynegocios.co/index.php/negocios/item/3621-fluz-fluz-llega-a-colombia"><img src="https://s3.amazonaws.com/imagenes-fluzfluz/dev/admin/economia-y-negocios.png"/></a>
@@ -1127,6 +1127,9 @@
                                                 {/foreach}
                                         </select>
                                     </div>  
+                                    <div>
+                                        <a href="http://reglas.fluzfluz.co/terminos-y-condiciones" target="_blank" id="acceptterms" for="acceptterms">T&eacute;rminos y condiciones de Fluz Fluz</a>    
+                                    </div>
                                     <br/>
                                     {if isset($newsletter) && $newsletter}
                                             <div class="col-lg-12 col-md-12 checkbox">

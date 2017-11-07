@@ -71,6 +71,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$this->errors = array();
 					
 					// Read fields.
+                                        $code_sponsor = trim (Tools::getValue ('oasl_code_sponsor'));
 					$email = trim (Tools::getValue ('oasl_email'));
 					$firstname = trim (Tools::getValue ('oasl_firstname'));
 					$lastname = trim (Tools::getValue ('oasl_lastname'));
@@ -82,7 +83,13 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$dni = trim (Tools::getValue ('oasl_dni'));
 					$newsletter = 1;
 					$code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
-
+                                        
+                                        // Validate Id Sponsor
+                                        $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue ('oasl_code_sponsor'));
+                                        if ( $code_sponsor == "" || empty($id_sponsor)) {
+                                            $id_sponsor = "";
+                                        }
+                                        
 					// Make sure the firstname is not empty.
 					if (strlen ($firstname) == 0 || !Validate::isName($firstname))
 					{
@@ -162,6 +169,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					if (count ($this->errors) == 0)
 					{
 						// Store the manually entered email fields.
+                                                $data ['user_sponsor_id'] = $id_sponsor;
 						$data ['user_email'] = strtolower ($email);
 						$data ['user_first_name'] = ucwords (strtolower ($firstname));
 						$data ['user_last_name'] = ucwords (strtolower ($lastname));

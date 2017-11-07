@@ -202,7 +202,49 @@ class oneall_social_login_tools
                                                         ORDER BY c.id_customer ASC
                                                         LIMIT 1');
                 $sponsorship = new RewardsSponsorshipModel();
-                $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                if(empty($data['user_sponsor_id'])){
+                    $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                }else{
+                    $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
+                    array_shift($tree);
+                    $count_array = count($tree);
+                    if ($count_array < 2)
+                    {
+                        $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                                        FROM " . _DB_PREFIX_ . "customer c
+                                        LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                        WHERE c.id_customer =".$data['user_sponsor_id']);
+
+                        if (!empty($sponsor)) {
+                            $sponsorship->id_sponsor = $sponsor['id_customer'];
+                        }
+                    }
+                    else{
+                        $array_sponsor = array();
+                            foreach ($tree as $network) {
+                                $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                                        FROM " . _DB_PREFIX_ . "customer c
+                                        LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                        WHERE c.id_customer =" . (int) $network['id'] . "
+                                        HAVING sponsoships > 0");
+
+                                if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                                    array_push($array_sponsor, $sponsor);
+                                }
+                            }
+                            $sort_array = array_filter($array_sponsor);
+
+                            usort($sort_array, function($a, $b) {
+                                return $a['id_customer'] - $b['id_customer'];
+                            });
+
+                            $sponsor_a = reset($sort_array);
+
+                            if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
+                                $sponsorship->id_sponsor = $sponsor['id_customer'];
+                            }
+                    }
+                }
                 $sponsorship->id_customer = $customer->id;
                 $sponsorship->firstname = $customer->firstname;
                 $sponsorship->lastname = $customer->lastname;
