@@ -324,7 +324,11 @@ class API extends REST {
             // Si todo sale bien, enviará cabecera de "OK" y los detalles del usuario en formato JSON
             unset($customer->passwd, $customer->last_passwd_gen);
             $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
-
+            $sql = "SELECT code
+                FROM ps_rewards_sponsorship_code
+                WHERE id_sponsor = ".$customer->id;
+        
+            $refer_code = DB::getInstance()->getValue($sql);
             $array = array(
                 'id' => (int) $customer->id,
                 'lastname' => $customer->lastname,
@@ -344,6 +348,7 @@ class API extends REST {
                 'autoaddnetwork' => $customer->autoaddnetwork,
                 'dni' => $customer->dni,
                 'phone' => $customer->phone,
+                'refer_code' => $refer_code,
                 'success' => TRUE);
 
             $this->response($this->json($array), 200);
@@ -2325,24 +2330,19 @@ class API extends REST {
             WHERE active = 1 and id_manufacturer = ".$id_manufacturer;
     $instagram = DB::getInstance()->getValue($sql);
 
-    $url = 'https://www.instagram.com/'.$instagram.'/media/';
+    $url = 'https://www.instagram.com/'.$instagram.'/?__a=1';
     $json = $this->fetchData($url);
-    $data = json_decode($json);
+    $data = json_decode($json, true);
     
-    if( !isset($data->items) ) {
-        return array();
-    }
-
     $return = array();
     $i = 0;
 
-    foreach( $data->items as $post ) {
+    foreach( $data['user']['media']['nodes'] as $post ) {
         $return[] = array(
-            'link' => $post->link,
-            'type' => $post->type,
-            'imgsmall' => $post->images->thumbnail->url,
-            'imgmedium' => $post->images->low_resolution->url,
-            'imglarge' => $post->images->standard_resolution->url,
+            'link' => 'https://www.instagram.com/'.$instagram,
+            'imgsmall' => $post['thumbnail_resources']['0'],
+            'imgmedium' => $post['thumbnail_resources']['1'],
+            'imglarge' => $post['thumbnail_resources']['4'],
         );
         $i++;
         if( $i >= $count ) {
@@ -2352,7 +2352,7 @@ class API extends REST {
     $result['imageData'] = $return;
     $result['instagram_profile'] = $instagram;
     $result['total'] = count($return) ;
-
+    
     return $this->response(json_encode(array('result'=> $result)),200);
   }
   
@@ -2388,53 +2388,6 @@ class API extends REST {
     $this->response(json_encode($return),200);
   }
   
-//  private function getEmailSocialMedia(){
-//    if($this->get_request_method() != "GET") {
-//      $this->response('',406);
-//    }
-//    
-//    $arguments['firstname']	= $this->_request['firstname'];
-//    $arguments['lastname']	= $this->_request['lastname'];
-//    $arguments['email']			= $this->_request['email'];
-//    $arguments['id']		    = $this->_request['id'];
-//    $arguments['passwd']    = NULL;
-//    $arguments['gender'] 		= substr($this->_request['gender'], 0,1);
-//    
-//    $sql = "SELECT email, passwd, active
-//            FROM ps_customer
-//            WHERE email = '".$email."'";
-//    $result = Db::getInstance()->getRow($sql);
-//    
-//    if($result != '' || $result != NULL){
-//       if($result['active'] == 1){
-//        $this->login($arguments['email']);
-//      }
-//      else {
-//        $error = 2;
-//        $msg = 'El ususario no esta activo.';
-//      }
-//    }
-//    else {
-//      $error = 1;
-//      $msg = 'No hay ningu usuario registrado con este correo.';
-//    }
-//    
-//    
-//    if (Validate::isEmail($arguments['email'])){
-//      if(!Customer::customerExists($arguments['email'])){
-////        $model = new Model();
-////        if($customer = $model->setAccount($arguments)) {
-////          $this->response($this->json( $customer ),200);
-////        }
-//        $error = 1;
-//        $msg = 'No hay ningun usuario registrado con este correo.';
-//      }
-//      else {
-//        $this->login($arguments['email']);
-//      } 
-//    }
-//  }
-  
   public function getEmailSocialMedia() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
@@ -2454,6 +2407,12 @@ class API extends REST {
       if($result['active'] == 1){
         $id_customer = Customer::getCustomersByEmail($email);
         $customer = new Customer($id_customer['0']['id_customer']);
+        $sql = "SELECT code
+                FROM ps_rewards_sponsorship_code
+                WHERE id_sponsor = ".$customer->id;
+        
+        $refer_code = DB::getInstance()->getValue($sql);
+        
 //        error_log("\n\n\n Esto es el customer: ".print_r($customer,true),3,"/tmp/error.log");
         $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
         $result = array(
@@ -2475,6 +2434,7 @@ class API extends REST {
           'autoaddnetwork' => $customer->autoaddnetwork,
           'dni' => $customer->dni,
           'phone' => $customer->phone,
+          'refer_code' => $refer_code,
           'success' => TRUE);
       }
       else {
