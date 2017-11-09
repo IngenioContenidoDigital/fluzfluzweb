@@ -295,9 +295,10 @@ class Search extends SearchCore{
               INNER JOIN '._DB_PREFIX_.'product_attribute AS pa ON pa.reference = p.reference
               INNER JOIN '._DB_PREFIX_.'product_lang AS pl ON pl.id_product = pa.id_product
               INNER JOIN '._DB_PREFIX_.'rewards_product AS rp ON rp.id_product = p.id_product
-              WHERE p.active = 1 and pa.id_product = '.$param.' AND pl.id_lang = '.$id_lang.'
+              INNER JOIN '._DB_PREFIX_.'stock_available AS sa ON sa.id_product = p.id_product
+              WHERE p.active = 1 and pa.id_product = '.$param.' AND pl.id_lang = '.$id_lang.' AND sa.quantity > 0
               GROUP BY pa.id_product_attribute';
-//      error_log('\n\n Esto es el query de busqueda: \n\n'.print_r($sql, true),3,"/tmp/error.log");
+//      error_log("\n\n Esto es el query de busqueda: \n\n".print_r($sql, true),3,"/tmp/error.log");
       $result = $db->executeS($sql);
       return array('result' => $result);
     }
