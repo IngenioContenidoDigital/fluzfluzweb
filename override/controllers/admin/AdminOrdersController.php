@@ -169,7 +169,7 @@ class AdminOrdersController extends AdminOrdersControllerCore
             $productos = $row2['productos'];
             
             if(($order->current_state == 2 ) && (($orderValidation < $productos))){
-                Order::updateCodes($order, $orderValidation); 
+                Order::updateCodes($order, $method = 1); 
             }
             
         }
@@ -206,12 +206,11 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         $orderValidation = $row['total'];
                         
                         $quantityProducts = 'SELECT SUM(product_quantity) AS productos FROM '._DB_PREFIX_.'order_detail WHERE id_order ='.$order->id;
-                        
                         $row2 = Db::getInstance()->getRow($quantityProducts);
                         $productos = $row2['productos'];
                         
                         if(($order_state->id == 2 ) && (($orderValidation < $productos))){
-                            Order::updateCodes($order, $orderValidation); 
+                            Order::updateCodes($order, $method=2); 
                         }
                         
                         // Save all changes

@@ -289,24 +289,24 @@ class Manufacturer extends ManufacturerCore
     }
     
     public function getMediaInstagram( $count = 10 ) {
-        $url = 'https://www.instagram.com/'.$this->instagram.'/media/';
+        $url = 'https://www.instagram.com/'.$this->instagram.'/?__a=1';
         $json = $this->fetchData($url);
-        $data = json_decode($json);
+        $data = json_decode($json, true);
         
-        if( !isset($data->items) ) {
+        if( !isset($data['user']['media']['nodes']) ) {
             return array();
         }
         
         $return = array();
         $i = 0;
-
-        foreach( $data->items as $post ) {
+        
+        foreach( $data['user']['media']['nodes'] as $post ) {
             $return[] = array(
-                'link' => $post->link,
-                'type' => $post->type,
-                'img-small' => $post->images->thumbnail->url,
-                'img-medium' => $post->images->low_resolution->url,
-                'img-large' => $post->images->standard_resolution->url,
+                'link' => 'https://www.instagram.com/'.$this->instagram,
+                'type' => $post['__typename'],
+                'img-small' => $post['thumbnail_resources'][0]['src'],
+                'img-medium' => $post['thumbnail_resources'][1]['src'],
+                'img-large' => $post['thumbnail_resources'][4]['src'],
             );
             $i++;
             if( $i >= $count ) {
