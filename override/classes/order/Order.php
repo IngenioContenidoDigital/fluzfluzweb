@@ -41,7 +41,7 @@ class Order extends OrderCore
             return $rowCode['COUNT(code)'];    
     }
     
-    public static function updateCodes($order, $quantity_p){
+    public static function updateCodes($order, $method){
         
             $context = Context::getContext();
             $invoice = new Address((int)$order->id_address_invoice);
@@ -55,33 +55,53 @@ class Order extends OrderCore
             
             $qstate="UPDATE "._DB_PREFIX_."rewards AS r SET r.id_reward_state= 2 WHERE r.id_order=".$order->id;
             Db::getInstance()->execute($qstate); 
-
+            
+            if ($method == 2){
                 foreach ($productId as $valor) {
-                    for($i=0;$i< ($valor['product_quantity'] - $quantity_p);$i++){
+                    for($i=0;$i<$valor['product_quantity'];$i++){
                         $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.', PC.state = "Disponible" WHERE PC.id_product = '.(int)$valor['product_id'].' AND PC.id_order = 0 LIMIT 1');
                     }
                 }
+            }
+            else {
                 
-                $query = "SELECT pc.id_product_code, pc.code, pc.id_order, c.id_customer, c.secure_key
-                            FROM "._DB_PREFIX_."product_code pc
-                            INNER JOIN "._DB_PREFIX_."orders o ON ( pc.id_order = o.id_order )
-                            INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
-                            AND pc.id_order = ".(int)$order->id;
-                $codes = Db::getInstance()->executeS($query);
-                
-                foreach ( $codes as $code ) {
-                    set_time_limit(7000);
-                    try {
-                        $codedecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
-                        $codeencrypt = Encrypt::encrypt($code['secure_key'] , $codedecrypt);
-                        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
-                                                    SET code = '".$codeencrypt."', encry = 1
-                                                    WHERE encry = 0 AND id_product_code = ".$code['id_product_code']);
-                    } catch(Exception $e) {
-                        Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
-                                                    SET encry = 2
-                                                    WHERE id_product_code = ".$code['id_product_code']);
+                foreach ($productId as $valor){
+                    $qvalidate = 'SELECT od.product_id, (od.product_quantity - (SELECT COUNT(pc.id_product) 
+                                  FROM ps_product_code pc WHERE pc.id_order = '.(int)$order->id.' AND pc.id_product = '.(int)$valor['product_id'].') ) as  quantity 
+                                  FROM ps_order_detail od
+                                  WHERE od.id_order = '.(int)$order->id.' AND od.product_id = '.(int)$valor['product_id'].'
+                                  GROUP BY od.product_id';
+                    
+                    $result_valid = Db::getInstance()->getRow($qvalidate);
+                    
+                    if($result_valid['quantity'] > 0){
+                        for($i=0;$i<$result_valid['quantity'];$i++){
+                            $query1=Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'product_code AS PC SET PC.id_order='.(int)$order->id.', PC.state = "Disponible" WHERE PC.id_product = '.(int)$result_valid['product_id'].' AND PC.id_order = 0 LIMIT 1');
+                        }
                     }
+                }
+            }
+            
+            $query = "SELECT pc.id_product_code, pc.code, pc.id_order, c.id_customer, c.secure_key
+                        FROM "._DB_PREFIX_."product_code pc
+                        INNER JOIN "._DB_PREFIX_."orders o ON ( pc.id_order = o.id_order )
+                        INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
+                        AND pc.id_order = ".(int)$order->id;
+            $codes = Db::getInstance()->executeS($query);
+
+            foreach ( $codes as $code ) {
+                set_time_limit(7000);
+                try {
+                    $codedecrypt = Encrypt::decrypt(Configuration::get('PS_FLUZ_CODPRO_KEY') , $code['code']);
+                    $codeencrypt = Encrypt::encrypt($code['secure_key'] , $codedecrypt);
+                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
+                                                SET code = '".$codeencrypt."', encry = 1
+                                                WHERE encry = 0 AND id_product_code = ".$code['id_product_code']);
+                } catch(Exception $e) {
+                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."product_code
+                                                SET encry = 2
+                                                WHERE id_product_code = ".$code['id_product_code']);
+                }
                 }
 
                 $product_list = $order->getProducts();
