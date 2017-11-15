@@ -18,6 +18,8 @@ table { border-collapse: collapse; border-spacing: 0; }
     margin-bottom: 20px;
     width: 45px;
 }
+.img-navigator{text-align: center; margin-bottom: 30px;}
+.p-advert-ie{font-weight: bold; text-align: center; font-size: 12px;}
 caption, th, td { text-align: left; font-weight: normal; vertical-align: middle; }
 
 q, blockquote { quotes: none; }
