@@ -310,8 +310,10 @@
                                                                                 {else}
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list title-none" style="color:#ef4136;"></div>
                                                                                 {/if*}    
-                                                                                {if $logged}
+                                                                                {if $logged AND $list.reference|substr:0:5 != 'MFLUZ'}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/2)|string_format:"%d"}</div>
+                                                                                {elseif $logged AND $list.reference|substr:0:5 == 'MFLUZ'}
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value))|string_format:"%d"}</div>
                                                                                 {else}
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list point_fluz" style="color:#ef4136;">+&nbsp;{((($list.price/(int)Configuration::get('REWARDS_VIRTUAL_VALUE_1'))*$list.value)/16)|string_format:"%d"}</div>
                                                                                 {/if}    
