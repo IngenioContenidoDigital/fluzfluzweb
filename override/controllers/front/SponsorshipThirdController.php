@@ -29,8 +29,9 @@ class SponsorshipThirdController extends FrontController {
                 $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                                         FROM "._DB_PREFIX_."customer c
                                                         LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
-                                                        WHERE c.id_customer = ".Tools::getValue("user"));
-
+                                                        WHERE c.id_customer = ".Tools::getValue("user")." 
+                                                        HAVING sponsoships > 0");
+                
                 if ( !empty($sponsor) ) {
                     $sponsorship = new RewardsSponsorshipModel();
                     $sponsorship->id_sponsor = $sponsor['id_customer'];
