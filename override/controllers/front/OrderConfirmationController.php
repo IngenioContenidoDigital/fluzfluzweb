@@ -139,10 +139,10 @@ class OrderConfirmationController extends OrderConfirmationControllerCore
             $fluz = substr($order_product['reference'], 0,5);
             $sponsorships = array_slice(RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id), 1, 15);
             if($fluz != 'MFLUZ'){
-                $order_product['fluzpoints'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / 2)*$porcentaje_detail);
+                $order_product['fluzpoints_sum'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / 2)*$porcentaje_detail);
             }
             else{
-                $order_product['fluzpoints'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / 1)*$porcentaje_detail);
+                $order_product['fluzpoints_sum'] = round( (RewardsModel::getRewardReadyForDisplay($order_product["price"], $this->context->currency->id) / 1)*$porcentaje_detail);
             }
         }
         
