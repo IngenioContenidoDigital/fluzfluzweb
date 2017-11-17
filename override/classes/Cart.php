@@ -315,9 +315,14 @@ class Cart extends CartCore
 				$reduction = (!Product::getTaxCalculationMethod() ? (float)$product['price_wt'] : (float)$product['price']) - (float)$product['price_without_quantity_discount'];
                 $product['reduction_formatted'] = Tools::displayPrice($reduction);
             }
-            
+            $fluz = substr($product['reference'], 0,5);
             $mult = Db::getInstance()->getValue('SELECT value FROM '._DB_PREFIX_.'rewards_product WHERE id_product='.$product['id_product']);
-            $total_fluz += floor((RewardsModel::getRewardReadyForDisplay($product['price'], $currency->id)/(2))*($mult/100));
+            if($fluz != 'MFLUZ'){
+                $total_fluz += floor((RewardsModel::getRewardReadyForDisplay($product['price'], $currency->id)/(2))*($mult/100));
+            }
+            else{
+                $total_fluz += floor((RewardsModel::getRewardReadyForDisplay($product['price'], $currency->id))*($mult/100));
+            }
         }
         
         $gift_products = array();
