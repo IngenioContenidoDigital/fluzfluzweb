@@ -87,7 +87,7 @@
 		<div class="col-md-4 col-lg-3" id="hookDashboardZoneOne">
 			{$hookDashboardZoneOne}
 		</div>
-		<div class="col-md-8 col-lg-7" id="hookDashboardZoneTwo">
+		<div class="col-md-8 col-lg-9" id="hookDashboardZoneTwo">
 			{$hookDashboardZoneTwo}
 			<div id="dashaddons" class="row-margin-bottom">
 				<a href="http://addons.prestashop.com/en/209-dashboards?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">
@@ -95,7 +95,7 @@
 				</a>
 			</div>
 		</div>
-		<div class="col-md-12 col-lg-2">
+		<!--<div class="col-md-12 col-lg-2">
 			<section class="dash_news panel">
 				<h3><i class="icon-rss"></i> {l s='PrestaShop News'}</h3>
 				<div class="dash_news_content"></div>
@@ -127,6 +127,11 @@
 						<dd></dd>
 					</dl>
 			</section>
-		</div>
+		</div>-->
 	</div>
 </div>
+{literal}
+    <style>
+        .bootstrap #dashboard #dashtrends dd span{font-size: 14px;}
+    </style>
+{/literal}
