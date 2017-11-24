@@ -32,6 +32,24 @@
 .containerinforname{border-bottom: 1px solid #e5e5e5; padding: 0px;}
 .info-account-fluz{margin-top: 10px;margin-bottom: 10px;}
 .avalaible-invitation{    float: right;font-size: 9px;padding: 0;color: #EF4136;padding-right: 15px;}
+
+/* Estilos Canvas */
+
+.canvas-net{
+    margin: 0 auto;
+    text-align: center; 
+    height: 500px;
+    display: block;
+    overflow: auto;
+}
+
+.title-canvas{    
+    margin: 0px;
+    font-size: 17px;
+    letter-spacing: 0;
+    font-weight: bold;
+}
+
 /* popup */
 #myspecialcontent > div { margin-bottom: 15px; }
 .blockbutton { text-align: center; }
@@ -92,10 +110,18 @@ ul.footer_links{margin-left: 0px;}
 @media (max-width:600px){
     .img {padding-left: 10px;}
     .avalaible-invitation{padding-left: 0px;}
+    .canvas-net{height: 340px;}
+    #myCanvasNet{height: 750px;}
+    
+}
+
+@media (max-width: 375px){
+    .canvas-net{height: 290px !important;}
 }
 
 @media (max-width: 359px){
     span {font-size: 8px;}
     .img {padding-left: 3px;margin-top: 10px;}
     .transfer-f{width: 85px;}
+    .canvas-net{height: 230px !important;}
 }

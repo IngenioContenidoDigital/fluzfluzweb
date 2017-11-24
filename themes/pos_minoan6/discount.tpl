@@ -27,7 +27,19 @@
 <h1 class="page-heading">
     {l s='Explore Network'}
 </h1>
-
+<div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h3 class="title-canvas">{l s='Grafico de mi Network'}</h3>
+    <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12 canvas-net" id="canvas-net">
+        <canvas class="col-lg-12 col-md-12 col-sm-12" id="myCanvasNet" onclick="clickCricle()"></canvas>
+    </div>    
+    <img src="{$profile.img}" id="profileimg" name="profileimg" style="display:none;">
+    <img src="{$img_dir}imgred/user-red.png" id="img1" name="img1" style="display:none;">
+    <img src="{$img_dir}imgred/quadrant-1.png" id="img2" name="img2" style="display:none;">
+    <img src="{$img_dir}imgred/quadrant-2.png" id="img3" name="img3" style="display:none;">
+    <img src="{$img_dir}imgred/quadrant-3.png" id="img4" name="img4" style="display:none;">
+    <img src="{$img_dir}imgred/quadrant-4.png" id="img5" name="img5" style="display:none;">
+</div>
+<div style='display:none;' id="netview" name="netview">{$netview}</div>    
 <form action="{$link->getPageLink('discount', true)|escape:'html':'UTF-8'}" method="post" id="formnetwork">
     <div class="row blockcontainer">
         <div class="block-network col-lg-6 col-md-6 col-sm-6 col-xs-12">

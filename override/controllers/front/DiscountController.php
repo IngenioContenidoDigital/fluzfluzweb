@@ -108,6 +108,19 @@ class DiscountController extends DiscountControllerCore
         usort($members, function($a, $b) {
             return  $a['level'] - $b['level'];
         });
+        
+        $net = $this->getMyNetwork(1, $this->context->customer->id);
+        $netview =  json_encode($net);
+        
+        if( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ){
+            $profile['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".$this->context->customer->id.".png";
+        }
+        else {
+            $profile['img'] = "false";
+        }
+        
+        $this->context->smarty->assign('profile', $profile);
+        $this->context->smarty->assign('netview', $netview);
         $this->context->smarty->assign('members', $members);
         $this->context->smarty->assign('searchnetwork', $searchnetwork);
         
@@ -146,6 +159,70 @@ class DiscountController extends DiscountControllerCore
         $this->addCSS(_THEME_CSS_DIR_.'discount.css');
         $this->setTemplate(_PS_THEME_DIR_.'discount.tpl');
     }
+    
+    public function getMyNetwork( $id_lang, $id_customer ) {
+    $tree = RewardsSponsorshipModel::_getTree( $id_customer );
+    $members = array();
+    $counter = 0;
+    foreach ( $tree as $sponsor ) {
+      if ( $id_customer != $sponsor['id'] ) {
+        $customer = new Customer( $sponsor['id'] );
+        $name = strtolower( $customer->firstname." ".$customer->lastname );
+        if ( $customer->firstname != "" ) {
+          $sql = "SELECT SUM(credits) AS points
+                  FROM "._DB_PREFIX_."rewards
+                  WHERE  id_customer = ".$id_customer."
+                  AND plugin = 'sponsorship'
+                  AND id_order IN (
+                    SELECT id_order
+                    FROM "._DB_PREFIX_."rewards
+                    WHERE  id_customer = ".$sponsor['id']."
+                    AND plugin = 'loyalty'
+                  )
+                  GROUP BY id_customer";
+          
+          $members[$counter]['name'] = $name;
+          $members[$counter]['username'] = ($customer->username == null) ? 'Fluzzer' : $customer->username ;
+          $members[$counter]['id'] = $sponsor['id'];
+          $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
+          $members[$counter]['level'] = $sponsor['level'];
+          if( file_exists(_PS_IMG_DIR_."profile-images/".(string)$sponsor['id'].".png") ){
+            $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+          }
+          else {
+            $members[$counter]['img'] = false;
+          }
+          $points = Db::getInstance()->ExecuteS($sql);
+          $members[$counter]['points'] = round($points[0]['points']);
+        }
+        $counter++;
+      }
+    }
+    
+    foreach ($members as &$x){
+      $sponsorship2 = Db::getInstance()->getRow('SELECT (CASE WHEN 
+                                  NOT EXISTS (SELECT c.id_customer FROM ps_customer c WHERE c.id_customer = '.$x['id'].')
+                                  THEN "Pendiente"
+                                  ELSE "Confirmado"
+                                  END) AS "status"
+                                  FROM ps_rewards_sponsorship rs 
+                                  WHERE rs.id_sponsor = '.$id_customer);
+
+      $sponsorship = Db::getInstance()->getRow('SELECT rs.firstname as firstname
+          FROM '._DB_PREFIX_.'rewards_sponsorship rs 
+          WHERE id_customer = '.$x['id']);
+
+      $x['status'] = $sponsorship2['status'];
+    }
+        
+    /* ORGANIZAR POR NIVEL */
+    usort($members, function($a, $b) {
+        return  $a['level'] - $b['level'];
+    });
+    
+    
+    return array('result' => $members);
+  }
 
 }
 
