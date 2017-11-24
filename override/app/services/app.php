@@ -2454,6 +2454,46 @@ class API extends REST {
     return $this->response(json_encode($return),200);
   }
   
+  public function sendSupport(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    
+    $data['id_customer'] = $this->_request['id_customer'];
+    $data['name'] = $this->_request['name'];
+    $data['email'] = $this->_request['email'];
+    $data['issue'] = $this->_request['issue'];
+    $data['problem'] = $this->_request['problem'];
+    
+    $vars = array(
+      '{username}' => $data['name'],
+      '{id_customer}' => $data['id_customer'],
+      '{email}' => $data['email'],
+      '{issue}'=> $data['issue'],
+      '{problem}'=> $data['problem']
+    );
+    $template = 'support-email';
+    $prefix_template = '16-support-email';
+
+    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+    $row_subject = Db::getInstance()->getRow($query_subject);
+
+    $message_subject = $row_subject['subject_mail'];
+
+    $allinone_rewards = new allinone_rewards();
+    $result = $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'info@fluzfluz.com', '');
+    
+    if($result == 1){
+      $this->response($this->json(array("success" => true )), 200);
+    }
+    else {
+      $this->response($this->json(array(
+        "success" => false, 
+        "message" => "Ha ocurrido un error."
+      )), 400);
+    }
+  }
+  
 }
 
 
