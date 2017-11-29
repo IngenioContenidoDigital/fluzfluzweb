@@ -950,25 +950,36 @@ class API extends REST {
         $this->response( $this->json($addphone) , 200 );
     }
 
-    private function setPhonesRecharged() {
-        $response = true;
-        $cart = $this->_request['id_cart'];
-        $phones = $this->_request['phones'];
-
-        $queryDelete = "DELETE FROM "._DB_PREFIX_."webservice_external_telco
-                        WHERE id_cart = ".$cart;
-        $response += DB::getInstance()->execute($queryDelete);
-        
-        if ( !empty($phones) ) {
-            foreach ($phones as $product => $phone) {
-                $queryInsert = "INSERT INTO "._DB_PREFIX_."webservice_external_telco(id_cart, id_product, phone_mobile)
-                                VALUES(".$cart.", ".$product.", ".$phone.")";
-                $response += DB::getInstance()->execute($queryInsert);
-            }
-        }
-        
-        $this->response( $this->json($response) , 200 );
+  private function setPhonesRecharged() {
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
     }
+    
+    if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
+      $context->customer = new Customer((int) $this->_request['id_customer']);
+    }
+    else{
+      $this->response('',406);
+    }
+    
+    $response = true;
+    $cart = $this->_request['id_cart'];
+    $phones = $this->_request['phones'];
+
+    $queryDelete = "DELETE FROM "._DB_PREFIX_."webservice_external_telco
+                        WHERE id_cart = ".$cart;
+    $response += DB::getInstance()->execute($queryDelete);
+        
+    if ( !empty($phones) ) {
+      foreach ($phones as $product => $phone) {
+        $queryInsert = "INSERT INTO "._DB_PREFIX_."webservice_external_telco(id_cart, id_product, phone_mobile)
+                        VALUES(".$cart.", ".$product.", ".$phone.")";
+        $response += DB::getInstance()->execute($queryInsert);
+      }
+    }
+        
+    $this->response( $this->json($response) , 200 );
+  }
 
    
   /**
@@ -984,14 +995,16 @@ class API extends REST {
       $option = $this->_request['option'];
     }
     
-    if (isset($this->_request['idCustomer']) && !empty($this->_request['idCustomer'])) {
-      $context->customer = new Customer((int) $this->_request['idCustomer']);
+    if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
+      $context->customer = new Customer((int) $this->_request['id_customer']);
+    }
+    else{
+      $this->response('',406);
     }
     
     $model = new Model();
     $link = new Link();
     
-//    error_log("\nEn App: -- Option: ".print_r($option,true),3,"/tmp/error.log");
     //Agrega al carrito
     if ( $option == 1 ){
       $requestData = array(
@@ -1005,7 +1018,6 @@ class API extends REST {
         ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
       }
       
-//      error_log("\nEn App: -- Option: ".print_r($idCart." - ".$idProduct." - ".$qty." - ".$op,true),3,"/tmp/error.log");
       $cart = $model->setCart($idCart, $idProduct, $qty, $op);      
     }
     //Actualiza carrito
