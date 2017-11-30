@@ -258,8 +258,9 @@ class bitpay extends PaymentModule {
 
     }
 
-    public function execPayment($cart) {
+    public function execPayment($cart, $order) {
       // Create invoice
+      
       $currency                    = Currency::getCurrencyInstance((int)$cart->id_currency);
       $options                     = $_POST;
       $options['transactionSpeed'] = Configuration::get('bitpay_TXSPEED');
@@ -278,7 +279,8 @@ class bitpay extends PaymentModule {
       $this->key                   = $this->context->customer->secure_key;
       
       $options['posData']         .= ', "key": "' . $this->key . '"}';
-      $options['orderID']          = $cart->id;
+      //$options['orderID']          = $cart->id;
+      $options['orderID']          = $order->id;
       $options['price']            = $total;
       $options['fullNotifications'] = true;
 
