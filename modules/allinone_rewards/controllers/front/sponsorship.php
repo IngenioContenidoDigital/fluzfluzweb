@@ -145,12 +145,13 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
 
 			if (Tools::getValue('friendsEmail') && sizeof($friendsEmail = Tools::getValue('friendsEmail')) >= 1)
 			{
+                           
 				$activeTab = 'sponsor';
-
+                                $friendsEmail = Tools::getValue('friendsEmail');
 				$friendsLastName = Tools::getValue('friendsLastName');
 				$friendsFirstName = Tools::getValue('friendsFirstName');
 				$mails_exists = array();
-
+                                
                                 /*if ( !Customer::customerPurchaseLicense($this->context->customer->email) ) {
                                     $error = 'purchase incomplete';
                                 }*/
