@@ -2425,7 +2425,7 @@ return $responseObj;
     return substr($idTemporary, 0, 7).rand(100,999);
   }
   
-  public function getObjectBitPay($cart){
+  public function getObjectBitPay($cart, $order){
     $currency                    = Currency::getCurrencyInstance((int)$cart->id_currency);
     $options                     = $_POST;
     $options['transactionSpeed'] = Configuration::get('bitpay_TXSPEED');
@@ -2444,7 +2444,8 @@ return $responseObj;
     $this->key                   = $this->context->customer->secure_key;
 
     $options['posData']         .= ', "key": "' . $this->key . '"}';
-    $options['orderID']          = $cart->id;
+    $options['orderID']          = $order->id;
+    //$options['orderID']          = $cart->id;
     $options['price']            = $total;
     $options['fullNotifications'] = true;
 

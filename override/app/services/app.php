@@ -1,6 +1,7 @@
 <?php
 require_once('classes/Rest.inc.php');
 require_once('classes/Model.php');
+include_once('classes/order/Order.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
@@ -2394,10 +2395,46 @@ class API extends REST {
     }
     
     $id_cart = $this->_request['id_cart'];
-    
     $cart = new Cart($id_cart);
+    $reference = Order::generateReference();
+    $products = $cart->getProducts();
+    
+    foreach ($products as $p){
+        $total_paid_real += $p['total_wt'];
+        $total_products += $p['total'];
+    }
+    
+    $order = new Order();
+    $order->id_address_delivery = $cart->id_address_delivery;
+    $order->id_address_invoice = $cart->id_address_invoice;
+    $order->id_shop_group = $cart->id_shop_group;
+    $order->id_shop = $cart->id_shop;
+    $order->id_cart = $cart->id;
+    $order->id_currency = $cart->id_currency;
+    $order->id_lang = $cart->id_lang;
+    $order->id_customer = $cart->id_customer;
+    $order->id_carrier = $cart->id_carrier;
+    $order->secure_key = $cart->secure_key;
+    $order->payment = 'bitpay';
+    $order->date_add = $cart->date_add;
+    $order->date_upd = $cart->date_upd;
+    $order->module = 'bitpay';
+    $order->total_paid = $total_products;
+    $order->total_paid_real = $total_paid_real;
+    $order->total_products = $total_products;
+    $order->total_products_wt = $total_paid_real;
+    $order->total_paid_tax_incl = $total_products;
+    $order->total_paid_tax_excl = $total_paid_real;
+    $order->current_state = 15;
+    $order->conversion_rate = 1;
+    $order->reference = $reference;
+    $order->add();
+    
+    $order_detail = new OrderDetail();
+    $order_detail->createList($order, $cart, $order->getCurrentOrderState(), $cart->getProducts(), 0, true, 0);
+    
     $model = new Model();
-    $return = $model->getObjectBitPay($cart);
+    $return = $model->getObjectBitPay($cart, $order);
     $this->response(json_encode($return),200);
   }
   
