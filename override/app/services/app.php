@@ -1,6 +1,7 @@
 <?php
 require_once('classes/Rest.inc.php');
 require_once('classes/Model.php');
+include_once('classes/order/Order.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
