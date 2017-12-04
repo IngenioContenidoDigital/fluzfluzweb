@@ -3,7 +3,7 @@ include_once('./config/defines.inc.php');
 include_once('./config/config.inc.php');
 include_once(_PS_CORE_DIR_.'/classes/order/Order.php');
 
-$id_cart = 19530;
+$id_cart = 19895;
 $cart = new Cart($id_cart);
 $reference = Order::generateReference();
 $products = $cart->getProducts();
