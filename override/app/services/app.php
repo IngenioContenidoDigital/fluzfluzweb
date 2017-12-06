@@ -959,9 +959,9 @@ class API extends REST {
     if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
       $context->customer = new Customer((int) $this->_request['id_customer']);
     }
-//    else{
-//      $this->response('',406);
-//    }
+    else{
+      $this->response('',406);
+    }
     
     $response = true;
     $cart = $this->_request['id_cart'];
@@ -999,9 +999,9 @@ class API extends REST {
     if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
       $context->customer = new Customer((int) $this->_request['id_customer']);
     }
-//    else{
-//      $this->response('',406);
-//    }
+    else{
+      $this->response('',406);
+    }
     
     
     $model = new Model();
