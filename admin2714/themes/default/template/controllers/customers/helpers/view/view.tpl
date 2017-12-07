@@ -554,7 +554,7 @@
 				<div class="panel-heading col-lg-6">
 					<i class="icon-group"></i>
 					{l s='Estado de Cuenta'}
-					<span class="badge">{count($groups)}</span>
+					<span class="badge">{count($reward_fluz)}</span>
 				</div>
                                 <div class="panel-heading col-lg-6">
                                     {l s='Fluz Totales:'} {$totalAvailable}
