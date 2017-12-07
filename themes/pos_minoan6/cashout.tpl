@@ -310,80 +310,115 @@
             <fieldset class="cheque-style">
                 <div id="alert2" class="alert-validation2" style="display:none;">{l s="Ingrese sus Datos Completos"}</div>
                 <div class="row cheque-row" style="margin-top:40px;">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <label class="col-lg-12 required label-cheque" for="gover">{l s='Cedula o Nit'}</label>
-                        <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="typedocument" name="typedocument" class="col-lg-12 input-background" required>
-                                        <option value="" selected="selected">Seleccione tipo de Documento</option>
-                                        <option value="0">CC</option>
-                                        <option value="1">NIT</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-12 required label-cheque" for="gover">{l s='Cedula o Nit'}</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="typedocument" name="typedocument" class="col-lg-12 input-background" required>
+                                            <option value="" selected="selected">Seleccione tipo de Documento</option>
+                                            <option value="0">CC</option>
+                                            <option value="1">NIT</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 required" style="padding: 0;">
+                                <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">N&uacute;mero de Identificaci&oacute;n{*l s='N&uacute;mero de Identificaci&oacute;n'*}</label>
+                                <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
+                        </div>
+                        <div class="form-group required col-lg-3 col-md-3 col-xs-3 blockcheckdigit" style="display: none;">
+                                <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">{l s='Digito de Verificacion'}</label>
+                                <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isCheckDigit" id="checkdigit" name="checkdigit" oninput="if(value.length>1)value=value.slice(0,1)" value="{if isset($smarty.post.checkdigit)}{$smarty.post.checkdigit}{/if}"/>
+                        </div>    
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
+                            <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 required">
+                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
+                            <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 required" style="padding: 0;">
-                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">N&uacute;mero de Identificaci&oacute;n{*l s='N&uacute;mero de Identificaci&oacute;n'*}</label>
-                            <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
+                    <div class="row select_check_type">
+                        <div class='col-lg-10 label-cheque'>
+                            <input type="checkbox" name="banco" value="0" checked> Pago en Efectivo
+                        </div>
+                        <div class='col-lg-10 label-cheque'>
+                            <input type="checkbox" name="bitcoin" value="1"> Pago Moneda Virtual
+                        </div>    
                     </div>
-                    <div class="form-group required col-lg-3 col-md-3 col-xs-3 blockcheckdigit" style="display: none;">
-                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">{l s='Digito de Verificacion'}</label>
-                            <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isCheckDigit" id="checkdigit" name="checkdigit" oninput="if(value.length>1)value=value.slice(0,1)" value="{if isset($smarty.post.checkdigit)}{$smarty.post.checkdigit}{/if}"/>
-                    </div>    
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
-                        <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 required">
-                        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
-                        <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                        <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
-                        <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                        <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
-                        <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="pse_bank" name="pse_bank" onchange="bank();" class="col-lg-12 input-background" required>
-                                <option value="">Seleccione una entidad</option>
-                                <option value="BA">BANCO AGRARIO</option>
-                                <option value="BCS">BANCO CAJA SOCIAL</option>
-                                <option value="BCSD">BANCO CAJA SOCIAL DESARROLLO</option>
-                                <option value="BC">BANCO COLPATRIA UAT</option>
-                                <option value="BCAV">BANCO COMERCIAL AV VILLAS S.A.</option>
-                                <option value="BD">BANCO DAVIVIENDA</option>
-                                <option value="BB">BANCO BOGOTA</option>
-                                <option value="BBA">BANCO BANCOLOMBIA</option>
-                                <option value="BP">BANCO POPULAR</option>
-                                <option value="BBVA">BANCO BBVA COLOMBIA S.A.</option>
-                                <option value="BBVA">BANCO COOPERATIVO COOPCENTRAL</option>
-                                <option value="BBVA">BANCO COOMEVA S.A.</option>
-                                <option value="BBVA">BANCO CORPBANCA</option>
-                                <option value="BBVA">BANCO FALABELLA</option>
-                                <option value="BBVA">BANCO PSE</option>
-                                <option value="BBVA">BANCO PICHINCHA S.A.</option>
-                                <option value="BBVA">BANCO TEQUENDAMA</option>
-                                <option value="BBVA">BANCO PROCEDIT COLOMBIA</option>
-                                <option value="BBVA">BANCO GNB SUDAMERIS</option>
-                                <option value="BBVA">BANCO M A P G</option>
-                                <option value="BBVA">BANCO GNB COLOMBIA</option>
-                                <option value="BBVA">BANCO NVO_WLSD</option>
-                            </select> 
-                            <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                    <div class="row">    
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="name_paid">
+                            <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
+                            <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="select_bank">
+                            <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank" name="pse_bank" onchange="bank();" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione una entidad</option>
+                                    <option value="BA">BANCO AGRARIO</option>
+                                    <option value="BCS">BANCO CAJA SOCIAL</option>
+                                    <option value="BCSD">BANCO CAJA SOCIAL DESARROLLO</option>
+                                    <option value="BC">BANCO COLPATRIA UAT</option>
+                                    <option value="BCAV">BANCO COMERCIAL AV VILLAS S.A.</option>
+                                    <option value="BD">BANCO DAVIVIENDA</option>
+                                    <option value="BB">BANCO BOGOTA</option>
+                                    <option value="BBA">BANCO BANCOLOMBIA</option>
+                                    <option value="BP">BANCO POPULAR</option>
+                                    <option value="BBVA">BANCO BBVA COLOMBIA S.A.</option>
+                                    <option value="BBVA">BANCO COOPERATIVO COOPCENTRAL</option>
+                                    <option value="BBVA">BANCO COOMEVA S.A.</option>
+                                    <option value="BBVA">BANCO CORPBANCA</option>
+                                    <option value="BBVA">BANCO FALABELLA</option>
+                                    <option value="BBVA">BANCO PSE</option>
+                                    <option value="BBVA">BANCO PICHINCHA S.A.</option>
+                                    <option value="BBVA">BANCO TEQUENDAMA</option>
+                                    <option value="BBVA">BANCO PROCEDIT COLOMBIA</option>
+                                    <option value="BBVA">BANCO GNB SUDAMERIS</option>
+                                    <option value="BBVA">BANCO M A P G</option>
+                                    <option value="BBVA">BANCO GNB COLOMBIA</option>
+                                    <option value="BBVA">BANCO NVO_WLSD</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="cta_bank">
+                            <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione una entidad</option>
+                                    <option value="Cuenta Ahorros">CUENTA AHORROS</option>
+                                    <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                        <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
-                        <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
-                                <option value="">Seleccione una entidad</option>
-                                <option value="Cuenta Ahorros">CUENTA AHORROS</option>
-                                <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
-                            </select> 
-                            <input type="hidden" value="" name="name_bank" id="name_bank"/>
-                        </div>
+                    <div class='row' id="select_bank_bit" style="display:none;">        
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
+                            <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank" name="pse_bank" onchange="bank();" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione Tipo de Moneda Virtual</option>
+                                    <option value="BITCOIN">BITCOIN</option>
+                                    <option value="ETHE">ETHEREUM</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                            </div>
+                        </div>    
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="cta_bit">
+                            <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione una entidad</option>
+                                    <option value="Cuenta Ahorros">CUENTA AHORROS</option>
+                                    <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                            </div>
+                        </div>    
                     </div>
-                    
-        </div>    
+            </div>    
             </fieldset>
             <div class="col-lg-6" id="stepBack">
                 <a class="btn-order2 col-lg-6" id="step-back" name="step-back" style="float:left;">
