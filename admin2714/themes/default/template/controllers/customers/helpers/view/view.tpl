@@ -550,6 +550,44 @@
 				</table>
 				{/if}
 			</div>
+                        <div class="panel" style='height: 450px !important; overflow-y: auto !important;'>
+				<div class="panel-heading col-lg-6">
+					<i class="icon-group"></i>
+					{l s='Estado de Cuenta'}
+					<span class="badge">{count($groups)}</span>
+				</div>
+                                <div class="panel-heading col-lg-6">
+                                    {l s='Fluz Totales:'} {$totalAvailable}
+                                </div>
+				{if count($reward_fluz)}
+                                            <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                            <th><span class="title_box">{l s='Id Orden'}</span></th>
+                                                            <th><span class="title_box">{l s='Fluz Utilizado'}</span></th>
+                                                            <th><span class="title_box">{l s='Pago'}</span></th>
+                                                            <th><span class="title_box">{l s='Fecha'}</span></th>
+                                                            <th><span class="title_box">{l s='Tipo Recompensa'}</span></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {foreach $reward_fluz as $reward}
+                                                            <tr>
+                                                                    <td>{$reward['id_order']}</td>
+                                                                    <td>{$reward['credits']}</td>
+                                                                    {if $reward['credits'] < 0}
+                                                                    <td>{l s='Debito'}</td>
+                                                                    {else}
+                                                                    <td>{l s='Credito'}</td>    
+                                                                    {/if}
+                                                                    <td>{{dateFormat date=$reward['date_add'] full=0}}</td>
+                                                                    <td>{$reward['plugin']}</td>
+                                                            </tr>
+                                                    {/foreach}
+                                                    </tbody>
+                                            </table>
+                                {/if}
+			</div>
 		</div>
 	</div>
 

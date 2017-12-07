@@ -280,6 +280,17 @@ class Customer extends CustomerCore
             return false;
         }
     }
+    
+    public function getStatisticsReward()
+    {
+        if (!$this->id) {
+            return array();
+        }
+        return Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
+		SELECT r.id_order, r.credits, r.date_add, r.`plugin` 
+                FROM ps_rewards r 
+                WHERE r.id_customer = '.(int)$this->id.' AND id_reward_state = 2');
+    }
 
     public static function dniExists($dni,$email) {
         $users = Db::getInstance()->getValue("SELECT COUNT(*)
