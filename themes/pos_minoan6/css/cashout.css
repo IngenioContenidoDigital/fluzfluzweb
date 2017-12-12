@@ -38,6 +38,10 @@ ul.step li.step_todo span:after{display: none;}
 .paid-btn{margin-top: 30px;}
 .btn-cash{text-align: center;}
 
+/*SELECT TYPE*/
+
+.select_check_type{margin-top: 15px;}
+
 /* CASHOUT BACKOFFICE */
 .cash-table{padding: 19px;
     background-color: #FFF;
