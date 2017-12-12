@@ -339,14 +339,14 @@
                         </div>
                     </div>
                     <div class="row select_check_type">
-                        <div class='col-lg-10 label-cheque'>
-                            <input type="checkbox" name="banco" value="0" checked> Pago en Efectivo
+                        <div class='col-lg-10'>
+                            <input type="radio" id="banco" name="banco" value="0" checked> Pago en Efectivo
                         </div>
-                        <div class='col-lg-10 label-cheque'>
-                            <input type="checkbox" name="bitcoin" value="1"> Pago Moneda Virtual
+                        <div class='col-lg-10'>
+                            <input type="radio" id="bitcoin" name="banco" value="1"> Pago Moneda Virtual
                         </div>    
                     </div>
-                    <div class="row">    
+                    <div class="row" id="select_bank_account">    
                         <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="name_paid">
                             <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
                             <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
@@ -382,7 +382,7 @@
                                 <input type="hidden" value="" name="name_bank" id="name_bank"/>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="cta_bank">
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
                             <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
                             <div class="col-lg-12"  style="padding-left:0px;">
                                 <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
@@ -394,7 +394,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class='row' id="select_bank_bit" style="display:none;">        
+                    <div class='row' id="select_bank_bit" style="display:none;"> 
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="name_paid">
+                            <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
+                            <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
+                        </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
                             <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
                             <div class="col-lg-12"  style="padding-left:0px;">
@@ -406,13 +410,13 @@
                                 <input type="hidden" value="" name="name_bank" id="name_bank"/>
                             </div>
                         </div>    
-                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="cta_bit">
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
                             <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
                             <div class="col-lg-12"  style="padding-left:0px;">
                                 <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
                                     <option value="">Seleccione una entidad</option>
-                                    <option value="Cuenta Ahorros">CUENTA AHORROS</option>
-                                    <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
+                                    <option value="BITCOIN">BITCOIN</option>
+                                    <option value="ETHE">ETHEREUM</option>
                                 </select> 
                                 <input type="hidden" value="" name="name_bank" id="name_bank"/>
                             </div>
@@ -531,6 +535,30 @@
         .page-heading{margin:0;}
         .breadcrumb{margin-left: 11%; font-size:12px;}
     </style>
+{/literal}
+{literal}
+    <script>
+        $(document).ready(function() {
+            //set initial state.
+            $("input:radio").change(function() {
+                var ischecked= $(this).is(':checked');
+                var val = $(this).val();
+                if(ischecked){
+                  if(val == 1){
+                      var a = $("#pse_bank_account option:selected").text();
+                      console.log(a);
+                      $('#select_bank_account').hide();
+                      $('#select_bank_bit').show();
+                  }
+                  else
+                  {
+                      $('#select_bank_account').show();
+                      $('#select_bank_bit').hide();
+                  }    
+                }
+            });
+        });
+    </script>
 {/literal}
 {literal}
     <script>
