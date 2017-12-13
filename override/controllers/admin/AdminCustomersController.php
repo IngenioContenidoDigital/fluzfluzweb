@@ -790,6 +790,18 @@ class AdminCustomersController extends AdminCustomersControllerCore
         $customer->warning_kick_out = 0;
     }
     
+    public function ajaxProcessUpdateCustomerCode()
+    {
+            $customer = new Customer((int)Tools::getValue('id_customer'));
+            $update_code = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'customer
+                                            SET vault_code = NULL
+                                            WHERE id_customer='.$customer->id);
+            
+            if($update_code){
+                die('ok');
+            }
+    }
+    
      public function processSave()
     {
          

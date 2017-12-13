@@ -396,11 +396,11 @@
                     </div>
                     <div class='row' id="select_bank_bit" style="display:none;"> 
                         <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="name_paid">
-                            <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Virtual'}</label>
+                            <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">Direcci&oacute;n de la Billetera</label>
                             <input type="text" name="numeroCardBit" id="numeroCardBit" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                            <label for="pse_bank_bit" class="required col-lg-12 label-cheque">Banco</label>
+                            <label for="pse_bank_bit" class="required col-lg-12 label-cheque">Nombre de billetera</label>
                             <div class="col-lg-12"  style="padding-left:0px;">
                                 <select id="pse_bank_bit" name="pse_bank_bit" class="col-lg-12 input-background" required>
                                     <option value="">Seleccione Tipo de Moneda Virtual</option>
@@ -411,7 +411,7 @@
                             </div>
                         </div>    
                         <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                            <label for="pse_bank_account_bit" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
+                            <label for="pse_bank_account_bit" class="required col-lg-12 label-cheque">Criptomoneda</label>
                             <div class="col-lg-12"  style="padding-left:0px;">
                                 <select id="pse_bank_account_bit" name="pse_bank_account_bit" class="col-lg-12 input-background" required>
                                     <option value="">Seleccione una entidad</option>
