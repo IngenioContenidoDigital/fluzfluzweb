@@ -1503,6 +1503,23 @@ function saveCustomerNote(customerId){
 	});
 }
 
+function saveCustomerCode(customerId){
+        
+	var data = 'token=' + token_admin_customers + '&tab=AdminCustomers&ajax=1&action=updateCustomerCode&id_customer=' + customerId;
+	$.ajax({
+		type: "POST",
+		url: "index.php",
+		data: data,
+		async : true,
+		success: function(r) {
+                        console.log(r);
+			if (r == 'ok') {
+                            showSuccessMessage(update_success_msg);
+			}
+		}
+	});
+}
+
 function isCleanHtml(content)
 {
 	var events = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange';
