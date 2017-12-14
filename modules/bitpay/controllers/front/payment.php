@@ -46,7 +46,7 @@ class bitpayPaymentModuleFrontController extends ModuleFrontController
     $order->current_state = 15;
     $order->conversion_rate = 1;
     $order->reference = $reference;
-    $order->add();
+    $order->add(); 
     
     $order_detail = new OrderDetail();
     $order_detail->createList($order, $cart, $order->getCurrentOrderState(), $cart->getProducts(), 0, true, 0);
