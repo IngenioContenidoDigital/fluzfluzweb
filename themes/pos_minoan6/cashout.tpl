@@ -470,15 +470,20 @@
                     <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3"><span id="total-valor"></span></span>
                 </div>
             </div>
-            <div class="col-lg-6" id="step2" style="display:none;">
-                <a class="btn-order2 col-lg-6" id="step2" name="step2" style="float:left;">
-                   <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
-                </a>
-            </div> 
-            <div class="col-lg-6 paid-btn">    
-                <input class="col-lg-6 button btn-cash" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment" style="float:right;">   
+            <div class="row">
+                <div class="col-lg-6" id="step2" style="display:none;">
+                    <a class="btn-order2 col-lg-6" id="step2" name="step2" style="float:left;">
+                       <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
+                    </a>
+                </div> 
+                <div class="col-lg-6 paid-btn">    
+                    <input class="col-lg-6 button btn-cash" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment" style="float:right;">   
+                </div>
             </div>
         </form>
+        <div class="row text-certified">
+            "Para finalizar el proceso de redenci&oacute;n de tu dinero, debes enviar un correo a <span style="font-weight: bold; font-size: 14px; color: #ef4136;">info@fluzfluz.com</span> con asunto: Solicitud de redenci&oacute;n de dinero. All&iacute; debes adjuntar el certificado bancario de la cuenta a la que se realizar&aacute; el pago, nombre y c&eacute;dula del titular de la cuenta bancaria y nombre y c&eacute;dula del titular de la cuenta de Fluz Fluz. Esta informaci&oacute;n es necesaria para proceder con el pago."
+        </div>    
     </div>
     <!--<div id="payment" style="display:none;">
             <a onClick="$('#payment_form').toggle()">{l s='Payment of your available rewards'} <span>{displayPrice price=$pago currency=$payment_currency}</span></a>
