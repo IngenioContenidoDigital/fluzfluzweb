@@ -39,7 +39,7 @@ ul.step li.step_todo span:after{display: none;}
 .btn-cash{text-align: center;}
 
 /*SELECT TYPE*/
-
+.text-certified{ margin: 0px 50px;text-align: center;font-weight: bold; color:#000;}
 .select_check_type{margin-top: 15px;}
 
 /* CASHOUT BACKOFFICE */
