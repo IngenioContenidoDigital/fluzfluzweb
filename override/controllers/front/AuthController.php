@@ -28,6 +28,7 @@ require_once(_PS_MODULE_DIR_ . 'bankwire/bankwire.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipCodeModel.php');
 
 class AuthController extends AuthControllerCore
 {
@@ -417,11 +418,11 @@ class AuthController extends AuthControllerCore
                             });
 
                             $sponsor_a = reset($sort_array);
-
+                            
                             if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
 
                                 $sponsorship = new RewardsSponsorshipModel();
-                                $sponsorship->id_sponsor = $sponsor['id_customer'];
+                                $sponsorship->id_sponsor = $sponsor_a['id_customer'];
                                 $sponsorship->id_customer = $customer->id;
                                 $sponsorship->firstname = $customer->firstname;
                                 $sponsorship->lastname = $customer->lastname;
