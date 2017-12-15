@@ -58,7 +58,7 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                 array(
                     'type' => 'date',
                     'label' => $this->l('From'),
-                    'name' => 'date_from',
+                    'name' => 'date_from_ex',
                     'maxlength' => 10,
                     'required' => true,
                     'hint' => $this->l('Format: 2011-12-31 (inclusive).')
@@ -66,7 +66,7 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                 array(
                     'type' => 'date',
                     'label' => $this->l('To'),
-                    'name' => 'date_to',
+                    'name' => 'date_to_ex',
                     'maxlength' => 10,
                     'required' => true,
                     'hint' => $this->l('Format: 2012-12-31 (inclusive).')
@@ -80,8 +80,8 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
         );
         
         $this->fields_value = array(
-            'date_from' => date('Y-m-d'),
-            'date_to' => date('Y-m-d')
+            'date_from_ex' => date('Y-m-d'),
+            'date_to_ex' => date('Y-m-d')
         );
 
         $this->show_toolbar = false;
@@ -110,8 +110,8 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
         } 
         elseif (Tools::isSubmit('submitAddinvoice')) {
             
-            $date_from = Tools::getValue('date_from');
-            $date_to = Tools::getValue('date_to');
+            $date_from = Tools::getValue('date_from_ex');
+            $date_to = Tools::getValue('date_to_ex');
             
             $query_excel = 'SELECT
                             -- o.id_order,

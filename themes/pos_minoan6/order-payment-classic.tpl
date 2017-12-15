@@ -405,7 +405,7 @@
                     <div class="border-title"></div>
                     <div class="row" style="padding: 0px;">
                         <div class="panel panel-default" style="margin-top:5px;margin-bottom: 0px;">
-                            <div class="panel-heading" style="background:#fff;">
+                            <div class="panel-heading" style="background:#fff;" id="paid_total_fluz">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseTree">Pago Total con Fluz</a>
                                 </h4>
@@ -464,7 +464,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="panel panel-default" style="margin-top:5px;margin-bottom: 0px;">
+                         <div class="panel panel-default" id="paid_partial_fluz" style="margin-top:5px;margin-bottom: 0px;">
                             <div class="panel-heading" style="background:#fff;">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Pago Parcial con Fluz</a>
@@ -556,7 +556,7 @@
                     {l s='Resumen de Orden'}
                 </h1>
             <div class="border-title"></div>
-            <div class="row" style="padding:0px;margin-bottom: 25px;">
+            <div class="row div_products" style="padding:0px;margin-bottom: 25px;" id="div_products">
                 <div class="row r-summary">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 0px; text-align: left;"> Comerciante </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;"> Valor </div>
@@ -565,7 +565,8 @@
                 </div>
                 
                 {foreach from=$products item=product}
-                <div class="row r-content-summary">    
+                <div class="row r-content-summary" id="r-content-summary">    
+                    <input type="hidden" class="validation_fluz" id="validation_fluz" name="validation_fluz" value="{$product.reference}">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 font-merchant" style="padding: 0px; text-align: left; padding-left: 5px; text-transform: uppercase;">{$product.manufacturer_name}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;">{$product.price}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;">{$product.quantity}</div>
@@ -685,6 +686,25 @@
 </div> <!-- end opc_payment_methods -->
 {/if}
 </div> <!-- end HOOK_TOP_PAYMENT -->
+{literal}
+    <script>
+        $(document).ready(function(){
+            $('.div_products').children('.r-content-summary').each(function (){
+                var reference = $('.validation_fluz').val();
+                var r_st = reference.substring(0,5);
+                var a = $('.r-content-summary').find(".validation_fluz").length;
+
+                if(r_st === 'MFLUZ' && a < 2){
+                    $('#paid_total_fluz').css('pointer-events', 'none');
+                    $('#paid_total_fluz').css('opacity', '0.4');
+                    $('#paid_partial_fluz').css('pointer-events', 'none');
+                    $('#paid_partial_fluz').css('opacity', '0.4');
+                }
+            });
+        });
+        
+    </script>
+{/literal}
 {literal}
     <script type="text/javascript">
         $(document).ready(function(){

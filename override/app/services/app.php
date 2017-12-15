@@ -2249,8 +2249,19 @@ class API extends REST {
     $order->reference = $reference;
     $order->add();
     
+    $customer = new Customer($order->id_customer);
+    $currency = new Currency($order->id_currency);
     $order_detail = new OrderDetail();
     $order_detail->createList($order, $cart, $order->getCurrentOrderState(), $cart->getProducts(), 0, true, 0);
+    $order_status = new OrderState((int)$order->current_state, (int)$order->id_lang);
+    
+    Hook::exec('actionValidateOrder', array(
+                'cart' => $cart,
+                'order' => $order,
+                'customer' => $customer,
+                'currency' => $currency,
+                'orderStatus' => $order_status
+            ));
     
     $model = new Model();
     $return = $model->getObjectBitPay($cart, $order);
