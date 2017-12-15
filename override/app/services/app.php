@@ -8,115 +8,121 @@ include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.ph
 
 class API extends REST {
 
-    public $id_lang_default = 0;
+  public $id_lang_default = 0;
 
-    public function __construct() 
-    {
-        parent::__construct(); // Init parent contructor
-        $this->id_lang_default = (int)Configuration::get('PS_LANG_DEFAULT');
+  public function __construct(){
+    parent::__construct(); // Init parent contructor
+    $this->id_lang_default = (int)Configuration::get('PS_LANG_DEFAULT');
+  }
+
+  /**
+   * Método público para el acceso a la API.
+   * Este método llama dinámicamente el método basado en la cadena de consulta
+   *
+   */
+  public function processApi(){
+    $func = strtolower(trim(str_replace("/","",$_REQUEST['rquest'])));
+    if((int)method_exists($this,$func) > 0)
+      $this->$func();
+    else
+      $this->response('No funciona',404); // If the method not exist with in this class, response would be "Page not found".
+  }
+  
+  /**
+   * Método privado para dar formato a los precios.
+   * @param int $number
+   * @return string
+   */
+  private function formatPrice($number){
+    return number_format($number, 0, '', '.');
+  }
+  
+  /**
+   * Método privado para obtener los datos de la cuenta.
+   * @param string $id_customer Id de usuario.
+   * @return json $userData Todos los datos de la cuenta de usuario.
+   */  
+  private function myAccountData(){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
     }
 
-    /**
-     * MÃ©todo pÃºblico para el acceso a la API.
-     * Este mÃ©todo llama dinÃ¡micamente el mÃ©todo basado en la cadena de consulta
-     *
-     */
-    public function processApi()
-    {
-        $func = strtolower(trim(str_replace("/","",$_REQUEST['rquest'])));
-        if((int)method_exists($this,$func) > 0)
-            $this->$func();
-        else
-            $this->response('No funciona',404); // If the method not exist with in this class, response would be "Page not found".
-    }
-        
-        
-    /**
-     * Método de pruebas
-     */
-    private function prueba() {
-      $this->response($this->json(array(
-          "success" => true, 
-          "message" => "Se ejecutó el metodo de prueba correctamente."
-        )), 200);    
+    $id_customer =  trim( $this->_request['userId']);
+    $context = Context::getContext();
+    $MyAccountController = new MyAccountController();
+    $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
+    $userData['totalMoney'] = $this->formatPrice( $userData['fluzTotal'] * 25 );
+    return $this->response($this->json($userData), 200);
+  }
+    
+  /**
+   * Método privado para obtener la informacion del perfil del cualquier usuario en la red del cliente.
+   * @param int $id_customer Id de usurio.
+   * @param int $id_profile Id de usuario del perfil a obtener.
+   * @return json Perfil de usuario.
+   */  
+  private function getProfile(){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
     }
     
-    public function formatPrice($number){
-      return number_format($number, 0, '', '.');
-    }
-    
-    
-    private function myAccountData(){
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
-      
-      $id_customer =  trim( $this->_request['userId']);
-      $context = Context::getContext();
-      $MyAccountController = new MyAccountController();
-      $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
-      $userData['totalMoney'] = $this->formatPrice( $userData['fluzTotal'] * 25 );
-      return $this->response($this->json($userData), 200);
-    }
-    
-    
-    private function getProfile() {
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
-      $id_customer =  trim( $this->_request['id_customer']);
-      $id_profile =  trim( $this->_request['id_profile']);
-//      error_log("\n\n Esto es lo que llega: \n".print_r($id_customer."\n".$id_profile,true),3,"/tmp/error.log");
-      $model = new Model();
-      $result=$model->getProfileById($id_customer, $id_profile);
-//      error_log("\n\n Esto es lo que retorna: \n".print_r($result,true),3,"/tmp/error.log");
-      return $this->response($this->json($result), 200);
-    }
-    
-    private function getInviteduserForProfile() {
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
-      $id_customer =  trim( $this->_request['id_customer']);
-      
-      $model  = new Model();
-      $result = $model->getMyInvitation($id_lang = 1, $id_customer );
-//      error_log("\n\n Estos son los invitados del usuario: ".print_r($id_customer,true),3,"/tmp/error.log");
-      $result['total'] = count($result['result']);
-//      error_log("\n\n".print_r($result,true),3,"/tmp/error.log");
-      return $this->response($this->json($result), 200);
+    $id_customer = trim( $this->_request['id_customer']);
+    $id_profile = trim( $this->_request['id_profile']);
+    $model = new Model();
+    $result = $model->getProfileById($id_customer, $id_profile);
+    return $this->response($this->json($result), 200);
+  }
+  
+  /**
+   * Método privado que obtiene los usuarios invitados con su estado a partir de un id de usuario.
+   * @param int $id_customer Id de usurio
+   * @return json Usuarios invitados y el total de usuarios.
+   */
+  private function getInviteduserForProfile() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
     }
 
-
-
-
-    /**
-     * Recibe el id de cliente, el lenguaje y retorna los números de teléfono de ese cliente.
-     * @param int $id_customer
-     * @param int $id_lang
-     * @return Array $phone
-     */
-    private function getTelephoneByCustomer($id_customer, $id_lang = 1) {
-        $customer = new Customer($id_customer);
-        $addresses = $customer->getAddresses($id_lang);
-        $phone = array();
-        foreach ($addreses as $key => $address) {
-            $phone[$key] =  $address['phone_mobile'];
-        }
-        //error_log("\n\n\nEsto son las direcciones: ".print_r($phone,true),3,"/tmp/error.log");    
-        return $phone;
+    $id_customer =  trim( $this->_request['id_customer']);
+    $model  = new Model();
+    $result = $model->getMyInvitation($id_lang = 1, $id_customer );
+    $result['total'] = count($result['result']);
+    return $this->response($this->json($result), 200);
+  }
+  
+  /**
+   * Método privado que recibe el id de cliente, el lenguaje y retorna los números de teléfono de ese cliente.
+   * @param int $id_customer Id de usuario
+   * @param int $id_lang Id de idioma
+   * @return Array $phone Teléfonos.
+   */
+  private function getTelephoneByCustomer($id_customer, $id_lang = 1) {
+    $customer = new Customer($id_customer);
+    $addresses = $customer->getAddresses($id_lang);
+    $phone = array();
+    foreach ($addreses as $key => $address) {
+      $phone[$key] =  $address['phone_mobile'];
     }
+    return $phone;
+  }
 
-    /**
-     * Codifica el array en un JSON
-     */
-    private function json($data)
-    {
-        if(is_array($data)){
-            return json_encode($data);
-        }
+  /**
+   * Método privado que Codifica el array en un JSON
+   * @param array $data Arreglo de datos
+   * @return json Arreglo en formato json
+   */
+  private function json($data){
+    if(is_array($data)){
+      return json_encode($data);
     }
-
+  }
+  
+  /**
+   * Método privado que busca comercios segun la ubicación en el mapa con su ubicación.
+   * @param string $position['lat'] Latitud
+   * @param string $position['lng'] Longitud
+   * @return json Resultado de la busqueda de comercios.
+   */
   private function searchByMap() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
@@ -124,21 +130,11 @@ class API extends REST {
     
     $position['lat'] =  round($this->_request['lat'], 6);;
     $position['lng'] =  round($this->_request['lng'], 6);;
-    
-//    error_log("\n\n\n\n\n Esto es lo que recibe: \n lat: ".print_r($position['lat'], true)."\n lng: ".print_r($position['lng'], true),3,"/tmp/error.log");
     $query = 'SELECT GROUP_CONCAT(DISTINCT id_manufacturer)
               FROM  '._DB_PREFIX_.'address
-              WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng']
-            ;
-//    error_log("\n\n\n\n\n Esto es el query: \n ".print_r($query, true),3,"/tmp/error.log");
+              WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng'];
     $manufacturers = Db::getInstance()->getValue($query);
-    
-//    error_log("\n\n\n\n\n Esto es manufacturers: \n ".print_r($manufacturers, true),3,"/tmp/error.log");
-    
     $search = Search::findApp( $manufacturers, 4 );
-    
-//    error_log("\n\n\n\n\n Esto es el search: \n ".print_r($search, true),3,"/tmp/error.log");
-    
     $link = new Link();
     
     foreach ($search['result'] as &$result){
@@ -149,10 +145,21 @@ class API extends REST {
       $price_max = round($prices[ count($prices) - 1 ]);
       $result['prices'] = $this->formatPrice($price_min)." - ".$this->formatPrice($price_max);
     }
-    
     $this->response($this->json($search), 200);
   }
-    
+  
+  /*
+   * Método privado que busca segun la opcion que reciba.
+   * @param string $param Parametro o término de búsqueda.
+   * @param int $option Opcion de busqueda:
+   *                      1- Busca el $param por comercios.
+   *                      2- Busca los productos padre de un comercio.
+   *                      3- Busca los productos hijos de un producto padre.
+   * @param int $limit Número que limita la cantidad de resultados a retornar.
+   * @param int $lastTotal Número que indica la cantida de resultados ya retornados, para omitirlos y tomar los siguientes
+   *                       n números como indique $limit.
+   * @return json El resultado de la búsqueda.
+   */
   private function search() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
@@ -169,15 +176,10 @@ class API extends REST {
     foreach ($requestData as $rqd => $value) {
       ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
     }
-//    error.log('\n\n param'.$param,3,'/tmp/error.log');
-//    error.log('\n\n option'.$option,3,'/tmp/error.log');
-//    error.log('\n\n limit'.$limit,3,'/tmp/error.log');
-//    error.log('\n\n lastTotal'.$lastTotal,3,'/tmp/error.log');
+    
     //Hace la busqueda
     $search = array();
     $search = Search::findApp( $param, $option );
-    
-//    error_log("\n\nsearch: ".print_r($search,true),3,"/tmp/error.log");
     
     //Valida el resultado de la busqueda
     if (!isset($search['result']) || empty($search['result'])) {
@@ -193,7 +195,8 @@ class API extends REST {
     $model =  new Model();
     $manufacturer = array();
     $limit = count( $search['result'] ) < $limit ? count( $search['result'] ) : $limit ;
-    //Si la busqueda es por tienda, Busqueda 1
+    
+    //Si la busqueda es por comercio, Busqueda 1
     if( $option == 1 ){
       if ( $limit != 0 ){
         for ( $i = $lastTotal; $i < $limit; $i++ ) {
@@ -211,6 +214,7 @@ class API extends REST {
       $search['result'] = $manufacturer;
       $this->response($this->json($search), 200);
     }
+    //Si la busqueda es por producto padre, Búsqueda 2
     else if ( $option == 2 ){
       $productFather = $search['result'];
       for ($i = 0; $i < count($productFather); $i++){
@@ -224,9 +228,9 @@ class API extends REST {
       $search['total'] = count($productFather);
       $this->response($this->json($search), 200);
     }
+    //Si la busqueda es por producto hijo, Búsqueda 3
     else if ( $option == 3 ){
       $productChild = $search['result'];
-//      error_log("\n\n\n Este es el product child: \n\n ".print_r($productChild, true),3,"/tmp/error.log");
       for ($i = 0; $i < count($productChild); $i++){
         $productChild[$i]['c_price'] = round($productChild[$i]['c_price']);
         $productChild[$i]['c_percent_save'] = round( ( ( $productChild[$i]['c_price_shop'] - $productChild[$i]['c_price'] )/ $productChild[$i]['c_price_shop'] ) * 100 );
@@ -241,96 +245,62 @@ class API extends REST {
     }
     
   }
-    
-    /** 
-     * Productos API
-     * Consulta de los productos debe ser por mÃ©todo GET
-     * expr : <Nombre del producto o referencia>
-     * page_number : <NÃºmero de pÃ¡gina>
-     * page_size : <Filas por pÃ¡gina>
-     * order_by : <Ordenar por ascendente Ã³ descendente>
-     * order_way : <Ordenar por campo>
-     */
-//    private function search()
-//    {
-//        // ValidaciÃ³n Cross si el mÃ©todo de la peticiÃ³n es GET de lo contrario volverÃ¡ estado de "no aceptable"
-//        if ($this->get_request_method() != "GET") {
-//            $this->response('', 406);
-//        }
-//
-//        $expr        = $this->_request['expr'];
-//        $page_number = $this->_request['page_number'];
-//        $page_size   = $this->_request['page_size'];
-//        $order_by    = $this->_request['order_by'];
-//        $order_way   = $this->_request['order_way'];
-//
-//        $model = new Model();
-//        $result = $model->productSearch($this->id_lang_default, $expr, $page_number, $page_size, $order_by, $order_way);
-//
-//        if (empty($result)) {
-//            // Si no hay registros, estado "Sin contenido"
-//            $this->response('Sin registros', 204);
-//        } else {
-//            // Si todo sale bien, enviará cabecera de "OK" y la lista de la búsqueda en formato JSON
-//            $this->response($this->json($result), 200);
-//        }
-//    }
-
-    /** 
-     * Inicio de sesiÃ³n
-     * VÃ¡lida credenciales de usuario, si todo sale bien agrega el usuario al contexto
-     * email : <Correo elÃ©ctronico>
-     * pwd : <ContraseÃ±a>
-     */
-    private function login(){
-      if($this->get_request_method() != "POST") {
-        $this->response('',406);
-      }
+  
+  /**
+   *  Método privado que autentica a un usuario en la aplicación.
+   * @param string $email Correo electronico del usuario
+   * @param string $password Contraseña del usuario
+   * @return json Informacion del usuario
+   */
+  private function login(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
         
-      $email    = strtolower( trim( $this->_request['email'] ) );
-      $password = trim( $this->_request['pwd'] );
+    $email    = strtolower( trim( $this->_request['email'] ) );
+    $password = trim( $this->_request['pwd'] );
                 
-      // Validaciones de entrada
-      if(!empty($email) and !empty($password)) {
-        if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-          $customer = new Customer();
-          $authentication = $customer->getByEmail($email, $password);
-          if (!$authentication || !$customer->id) {
-            $this->response(array('success'=>FALSE), 204);	// Si no hay registros, estado "No Content"
-          }
-          else {
-            $context = Context::getContext();
-            $context->cookie->id_compare = isset($context->cookie->id_compare) 
-            ? $context->cookie->id_compare
-            : CompareProduct::getIdCompareByIdCustomer($customer->id);
-            $context->cookie->id_customer = (int)($customer->id);
-            $context->cookie->customer_lastname = $customer->lastname;
-            $context->cookie->customer_firstname = $customer->firstname;
-            $context->cookie->logged = 1;
-            $customer->logged = 1;
-            $context->cookie->is_guest = $customer->isGuest();
-            $context->cookie->passwd = $customer->passwd;
-            $context->cookie->email = $customer->email;
-            $context->cookie->active = $customer->active;  
-            $context->cookie->kick_out = $customer->kick_out;  
-            $context->cookie->manual_inactivation = $customer->manual_inactivation;  
-            $context->cookie->days_inactive = $customer->days_inactive;  
-            $context->cookie->autoaddnetwork = $customer->autoaddnetwork;
-            $context->cookie->dni = $customer->dni;
-            $context->cookie->phone = $customer->phone;                    
+    // Validaciones de entrada
+    if(!empty($email) and !empty($password)) {
+      if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $customer = new Customer();
+        $authentication = $customer->getByEmail($email, $password);
+        if (!$authentication || !$customer->id) {
+          $this->response(array('success'=>FALSE), 204);	// Si no hay registros, estado "No Content"
+        }
+        else {
+          $context = Context::getContext();
+          $context->cookie->id_compare = isset($context->cookie->id_compare) 
+          ? $context->cookie->id_compare
+          : CompareProduct::getIdCompareByIdCustomer($customer->id);
+          $context->cookie->id_customer = (int)($customer->id);
+          $context->cookie->customer_lastname = $customer->lastname;
+          $context->cookie->customer_firstname = $customer->firstname;
+          $context->cookie->logged = 1;
+          $customer->logged = 1;
+          $context->cookie->is_guest = $customer->isGuest();
+          $context->cookie->passwd = $customer->passwd;
+          $context->cookie->email = $customer->email;
+          $context->cookie->active = $customer->active;  
+          $context->cookie->kick_out = $customer->kick_out;  
+          $context->cookie->manual_inactivation = $customer->manual_inactivation;  
+          $context->cookie->days_inactive = $customer->days_inactive;  
+          $context->cookie->autoaddnetwork = $customer->autoaddnetwork;
+          $context->cookie->dni = $customer->dni;
+          $context->cookie->phone = $customer->phone;                    
 
-            // Agrega el cliente a el contexto
-            $context->customer = $customer;
+          // Agrega el cliente a el contexto
+          $context->customer = $customer;
 
-            // Si todo sale bien, enviarÃ¡ cabecera de "OK" y los detalles del usuario en formato JSON
-            unset($customer->passwd, $customer->last_passwd_gen);
-            $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
-            $sql = "SELECT code
-                FROM ps_rewards_sponsorship_code
-                WHERE id_sponsor = ".$customer->id;
+          // Si todo sale bien, enviarÃ¡ cabecera de "OK" y los detalles del usuario en formato JSON
+          unset($customer->passwd, $customer->last_passwd_gen);
+          $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
+          $sql = "SELECT code
+                  FROM ps_rewards_sponsorship_code
+                  WHERE id_sponsor = ".$customer->id;
         
-            $refer_code = DB::getInstance()->getValue($sql);
-            $array = array(
+          $refer_code = DB::getInstance()->getValue($sql);
+          $array = array(
                 'id' => (int) $customer->id,
                 'lastname' => $customer->lastname,
                 'firstname' => $customer->firstname,
@@ -352,536 +322,328 @@ class API extends REST {
                 'refer_code' => $refer_code,
                 'success' => TRUE);
 
-            $this->response($this->json($array), 200);
-          }
+          $this->response($this->json($array), 200);
         }
       }
-
-      // Si las entradas son invÃ¡lidas, mensaje de estado "Bad Request" y la razÃ³n
-      $this->response($this->json(array(
-        "success" => false, 
-        "message" => "DirecciÃ³n de correo electrÃ³nico o contraseÃ±a no vÃ¡lidos"
-      )), 400);
     }
 
-    private function logout()
-    {
-        $context = Context::getContext();
-        $context->customer->mylogout();
-        $this->response(true, 200);
+    // Si las entradas son inválidas, mensaje de estado "Bad Request" y la razon
+    $this->response($this->json(array(
+      "success" => false, 
+      "message" => "DirecciÃ³n de correo electrÃ³nico o contraseÃ±a no vÃ¡lidos"
+    )), 400);
+  }
+  
+  /**
+   * Método privado que cierra la sesion del usuario.
+   * @return boolean Verdadero o falso.
+   */
+  private function logout(){
+    $context = Context::getContext();
+    $context->customer->mylogout();
+    $this->response(true, 200);
+  }
+  
+  /**
+   * Método privado que retorna las ciudades.
+   * @return json Ciudades
+   */
+  private function cities(){
+    $model = new Model();
+    return $this->response(json_encode($model->get_cities()),200);	
+  }
+
+  /**
+   * Método privado que retorna la información personal del usuario por id de cliente.
+   * @param int $id_cliente
+   * @return json Informacion personal del id de cliente.
+   */
+  private function personalInformation(){
+    $id_customer = $this->_request['id_customer'];
+    $model = new Model();
+    return $this->response(json_encode($model->personalinformation($id_customer)),200);
+  }
+    
+  /**
+   * Método privado que retorna la tarjeta de credito almacenada.
+   * @param int $id_customer Id de usuario
+   * @return json Informacion de la tarjeta de crédito
+   */
+  private function sevedCreditCard(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
     }
+    
+    $id_customer = $this->_request['id_customer'];
+    $model = new Model();
+    return $this->response(json_encode($model->sevedCreditCard($id_customer)),200);
+  }
 
-    private function test()
-    {
-        $context = Context::getContext();
-        $this->response($this->json((array) $context->customer), 200);
+  /**
+   * Método privado que Guarda la informacion personal.
+   * @params int id_customer 
+   * @params int password
+   * @params int password_new
+   * @params int id_gender
+   * @params string firstname
+   * @params string lastname
+   * @params string email
+   * @params int dni
+   * @params string birthday
+   * @params int civil_status
+   * @params string occupation_status
+   * @params string field_work
+   * @params string pet
+   * @params string pet_name
+   * @params string spouse_name
+   * @params string children
+   * @params string phone_provider
+   * @params int phone
+   * @params string address1
+   * @params string address2
+   * @params string city
+   * @return json Resultado de la actualizacion de datos.
+   */
+  private function savePersonalInformation(){       
+    $params = array();
+    $params["id_customer"] = $this->_request['id_customer'];
+    $params["password"] = $this->_request['password'];
+    $params["password_new"] = $this->_request['password_new'];
+    $params["id_gender"] = $this->_request['id_gender'];
+    $params["firstname"] = $this->_request['firstname'];
+    $params["lastname"] = $this->_request['lastname'];
+    $params["email"] = $this->_request['email'];
+    $params["dni"] = $this->_request['dni'];
+    $params["birthday"] = $this->_request['birthday'];
+    $params["civil_status"] = $this->_request['civil_status'];
+    $params["occupation_status"] = $this->_request['occupation_status'];
+    $params["field_work"] = $this->_request['field_work'];
+    $params["pet"] = $this->_request['pet'];
+    $params["pet_name"] = $this->_request['pet_name'];
+    $params["spouse_name"] = $this->_request['spouse_name'];
+    $params["children"] = $this->_request['children'];
+    $params["phone_provider"] = $this->_request['phone_provider'];
+    $params["phone"] = $this->_request['phone'];
+    $params["address1"] = $this->_request['address1'];
+    $params["address2"] = $this->_request['address2'];
+    $params["city"] = $this->_request['city'];
+
+    $model = new Model();
+    $this->response( $this->json($model->savepersonalinformation($params)) , 200 );
+  }
+  
+  /**
+   * Metodo privado que crea un usuario
+   * @params string firts_name
+   * @params string last_name
+   * @params string email
+   * @params int phone
+   * @params string date
+   * @params string address
+   * @params string city
+   * @params string type_identification
+   * @params int number_identification
+   * @params string user_name
+   * @params string address2
+   * @params int cod_refer
+   * @return json Responde el estado de la creación de la cuenta.
+   */
+  private function createCustomer() {
+    if ($this->get_request_method() != "POST") {
+      $this->response('', 406);
     }
-
-    private function isLogin()
-    {
-        $context = Context::getContext();
-        $this->response(json_encode($context->customer->isLogged()), 200);
-    }
-
-    private function categories($params)
-    {
-        $model = new Model();
-        $this->response(json_encode($model->get_category(2,3)),200);
-    }
-
-
-    public function prodCategories() 
-    {
-        // ValidaciÃ³n Cross si el mÃ©todo de la peticiÃ³n es GET de lo contrario volverÃ¡ estado de "no aceptable"
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        }    
-
-        $ids         = $this->_request['ids'];
-        $page_number = $this->_request['page_number'];
-        $page_size   = $this->_request['page_size'];
-        $order_by    = $this->_request['order_by'];
-        $order_way   = $this->_request['order_way'];
-
-        $ids_cats = explode(",", $ids);
-        if(!is_array($ids_cats))
-            $ids_cats[] = array((int)$ids_cats);
-
-        $model = new Model();
-
-        $result = $model->getProdCategories($ids_cats, $page_number,$page_size, $order_way,$order_by);
-
-        if (empty($result)) {
-            // Si no hay registros, estado "Sin contenido"
-            $this->response('', 204);
-        } else {
-            // Si todo sale bien, enviarÃ¡ cabecera de "OK" y la lista de la bÃºsqueda en formato JSON
-            $this->response($this->json($result), 200);
-        }
-
-        //return $this->response($this->json($mugre), 200);
-        //return $this->response(json_encode($model->getProdCategories($ids_cats, $page_number,$page_size, $order_way,$order_by)),200);
-    }  
-
-    private function header()
-    {
-
-    }
-
-    private function myAccount()
-    {
-
-    }	
-    private function orderHistory()
-    {
-
-    }
-
-    private function footer()
-    {
-
-    }
-
-    private function product() 
-    {
-
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        }
-
-        $id_prod = $this->_request['id'];
-
-        $model = new Model();
-        //return $this->response(json_encode("XD"),200);
-        return $this->response(json_encode($model->getProduct($id_prod)),200);
-    }
-
-    private function manufacturers()
-    {
-        $model = new Model();
-        return $this->response(json_encode($model->manufacturers()),200);
-    }
-		
-    private function createAccount($update = false)
-    {
-        // ValidaciÃ³n Cross si el mÃ©todo de la peticiÃ³n es POST de lo contrario volverÃ¡ estado de "no aceptable"
-        if ($this->get_request_method() != "POST") {
-            $this->response('', 406);
-        } 
-        $arguments = array();
-        $arguments['email']	= $this->_request['email'];      //Correo
-        $arguments['gender'] 	= $this->_request['gender'];     //Genero
-        $arguments['firstname'] = $this->_request['firstname'];  //Nombre
-        $arguments['lastname']	= $this->_request['lastname'];   //Apellido
-        $arguments['passwd']	= $this->_request['passwd'];     //Contraseña
-        $arguments['birthday']	= $this->_request['birthday'];   //Fecha Nacimiento
-        $arguments['news']	= $this->_request['news'];       //Boletín
-        $arguments['dni']	= $this->_request['dni'];        //cédula
-        $arguments['signon']	= $this->_request['signon'];	 //de donde inicia sesión
-        $arguments['website']	= $this->_request['website'];    //Sitio Web
-        $arguments['company']	= $this->_request['company'];    //Compañia
-        $arguments['id_type']	= $this->_request['id_type'];    // NOAPPLY
-        $arguments['update']	= $this->_request['update'];	 //Bandera de actualizar
-        $arguments['cellphone']	= $this->_request['cellphone'];	 //Teléfono celular
-        $arguments['phone']	= $this->_request['phone'];	 //Teléfono fijo
         
-        //Valida que ingrese email, y que sea valido.
-        if (Validate::isEmail($arguments['email']) && !empty($arguments['email'])){
-            if(!$update){
-                if(Customer::customerExists($arguments['email'])){
-                    // Si las entradas son invÃ¡lidas, mensaje de estado "Bad Request" y la razÃ³n
-                    $this->response($this->json(array(
-                        "success" => false, 
-                        "message" => "No se pudo crear la cuenta, el (".$arguments['email']." ) email ya esta registrado"
-                    )), 400);
-                }
-            }
-        } else {
-            $this->response($this->json(array(
-                "success" => false, 
-                "message" => "se requiere un correo valido (".$arguments['email'].' )' 
-            )), 400);
-        }
-        
-        if (!Validate::isPasswd($arguments['passwd']) && isset($arguments['update']) && empty($arguments['update']))
-            $this->response($this->json(array(
-                "success" => false, 
-                "message" => "La contraseÃ±a no es valida, utiliza una contraseÃ±a con una longitud mÃ­nima de 5 caracteres." 
-            )), 400);	
+    $complete = false;
+    $message = "";
+    $error = array();
 
-        $model = new Model();
-        if($customer = $model->setAccount($arguments)) {
-            $this->response($this->json( $customer ),200);
-        }
+    try {
+      $firstname = $this->_request['firts_name'];
+      $lastname = $this->_request['last_name'];
+      $email = $this->_request['email'];
+      $phone = $this->_request['phone'];
+      $birthday = $this->_request['date'];
+      $addres1 = $this->_request['address'];
+      $city = $this->_request['city'];
+      $type_dni = $this->_request['type_identification'];
+      $dni = $this->_request['number_identification'];
+      $username = $this->_request['user_name'];
+      $addres2 = $this->_request['address2'];        
+      $cod_refer = $this->_request['cod_refer'];
 
-        $this->response($this->json(array(
-            "success" => false, 
-            "message" => "Error creando la cuenta."
-        )), 400);
-    }
+      $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
+                                              FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
 
+      $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
+                                                   FROM '._DB_PREFIX_.'customer WHERE username = "'.$username.'" ');
 
-    private function updateAccount()
-    {
-        $this->createAccount(TRUE);
-    }
-
-    private function addresses()
-    {
-        // ValidaciÃ³n Cross si el mÃ©todo de la peticiÃ³n es GET de lo contrario volverÃ¡ estado de "no aceptable"
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        } 
-
-        $id_customer	= $this->_request['id_customer'];
-        //$id_address	= $this->_request['id_address'];
-        $model = new Model();		
-        return $this->response(json_encode($model->get_address($id_customer,$id_address)),200);	
-    } 			
-
-    private function setAddress()
-    {        
-        // ValidaciÃ³n Cross si el mÃ©todo de la peticiÃ³n es GET de lo contrario volverÃ¡ estado de "no aceptable"
-        if ($this->get_request_method() != "POST") {
-            $this->response('', 406);
-        } 
-
-        $arg = array();
-
-        $arg['id_customer'] = $this->_request['id_customer'];
-        $arg['id_country'] = $this->_request['id_country'];
-        $arg['id_state'] = $this->_request['id_state'];
-        $arg['alias'] = $this->_request['alias'];
-        $arg['lastname'] = $this->_request['lastname'];
-        $arg['firstname'] = $this->_request['firstname'];
-        $arg['address1'] = $this->_request['address1'];
-        $arg['address2'] = $this->_request['address2'];
-        $arg['city'] = $this->_request['city'];
-        $arg['phone'] = $this->_request['phone'];
-        $arg['mobile'] = $this->_request['mobile'];
-        $arg['dni'] = $this->_request['dni'];
-        $arg['postcode'] = $this->_request['postcode'];	
-        $arg['id_colonia'] = $this->_request['id_colonia'];
-        $arg['is_rfc'] = $this->_request['is_rfc'];
-        $arg['id_city'] = $this->_request['id_city'];
-        $arg['id'] = $this->_request['id'];
-
-        $model = new Model();		
-        return $this->response(json_encode($model->set_address($arg)),200);
-    }
-
-    private function getPostCodeInfo() 
-    {
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        } 
-
-        $postcode	= $this->_request['postcode'];
-        $model = new Model();
-
-        return $this->response(json_encode($model->get_fromPostcode($postcode)),200);	
-    }	
-
-    private function getColoniaByIdCity() 
-    {
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        } 
-
-        $id_city	= $this->_request['id_city'];
-        $model = new Model();
-
-        return $this->response(json_encode($model->get_colonia_fromid_city($id_city)),200);	
-    }
-
-    private function countries() 
-    {
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        } 
-
-        $model = new Model();
-
-        return $this->response(json_encode($model->get_countries()),200);	
-    }
-    
-    /**
-     * 
-     */
-    private function states()
-    {
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-	} 
-	$id_country = 	$this->_request['id_country'];
-
-	$model = new Model();
-
-	return $this->response(json_encode($model->get_states($id_country)),200);	
-    }
-    
-	
-    /**
-     * 
-     */
-    private function cities()
-    {
-        $model = new Model();
-	return $this->response(json_encode($model->get_cities()),200);	
-    }
-
-    /**
-     * 
-     */
-    private function personalinformation()
-    {
-	$id_customer = $this->_request['id_customer'];
-
-	$model = new Model();
-	return $this->response(json_encode($model->personalinformation($id_customer)),200);
-    }
-    
-    /**
-     * 
-     */
-    private function sevedCreditCard()
-    {
-	$id_customer = $this->_request['id_customer'];
-
-	$model = new Model();
-	return $this->response(json_encode($model->sevedCreditCard($id_customer)),200);
-    }
-
-    /**
-     * 
-     */
-    private function savepersonalinformation()
-    {       
-        $params = array();
-
-        $params["id_customer"] = $this->_request['id_customer'];
-        $params["password"] = $this->_request['password'];
-        $params["password_new"] = $this->_request['password_new'];
-        $params["id_gender"] = $this->_request['id_gender'];
-        $params["firstname"] = $this->_request['firstname'];
-        $params["lastname"] = $this->_request['lastname'];
-        $params["email"] = $this->_request['email'];
-        $params["dni"] = $this->_request['dni'];
-        $params["birthday"] = $this->_request['birthday'];
-        $params["civil_status"] = $this->_request['civil_status'];
-        $params["occupation_status"] = $this->_request['occupation_status'];
-        $params["field_work"] = $this->_request['field_work'];
-        $params["pet"] = $this->_request['pet'];
-        $params["pet_name"] = $this->_request['pet_name'];
-        $params["spouse_name"] = $this->_request['spouse_name'];
-        $params["children"] = $this->_request['children'];
-        $params["phone_provider"] = $this->_request['phone_provider'];
-        $params["phone"] = $this->_request['phone'];
-        $params["address1"] = $this->_request['address1'];
-        $params["address2"] = $this->_request['address2'];
-        $params["city"] = $this->_request['city'];
-
-	$model = new Model();
-	$this->response( $this->json($model->savepersonalinformation($params)) , 200 );
-    }
-    
-    private function createCustomer() {
-      if ($this->get_request_method() != "POST") {
-        $this->response('', 406);
+      if (empty($firstname) || empty($lastname) || !Validate::isName($firstname) || !Validate::isName($lastname)) {
+        $error[] = 'Nombre o Apellido invalido.';
+      } elseif (!Validate::isEmail($email)) {
+        $error[] = 'El correo electronico es invalido.';
+      } elseif ( Validate::isIdentification($dni) || empty($dni) ) {
+        $error[] = 'El numero de identificacion es invalido.';
+      } elseif ($valid_dni['dni'] > 0) {
+        $error[] = 'El numero de identificacion se encuentra en uso.';
+      } elseif ($valid_username['username'] > 0) {
+        $error[] = 'El nombre de usuario se encuentra en uso.';
+      } elseif (RewardsSponsorshipModel::isEmailExists($email) || Customer::customerExists($email)) {
+        $error[] = 'El correo electronico se encuentra en uso.';
       }
-        
-      $complete = false;
-      $message = "";
-      $error = array();
-
-      try {
-        $firstname = $this->_request['firts_name'];
-        $lastname = $this->_request['last_name'];
-        $email = $this->_request['email'];
-        $phone = $this->_request['phone'];
-        $birthday = $this->_request['date'];
-        $addres1 = $this->_request['address'];
-        $city = $this->_request['city'];
-        $type_dni = $this->_request['type_identification'];
-        $dni = $this->_request['number_identification'];
-        $username = $this->_request['user_name'];
-        $addres2 = $this->_request['address2'];        
-        $cod_refer = $this->_request['cod_refer'];
-
-        $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
-                                                FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
-
-        $valid_username = Db::getInstance()->getRow('SELECT COUNT(username)  as username 
-                                                     FROM '._DB_PREFIX_.'customer WHERE username = "'.$username.'" ');
-
-        if (empty($firstname) || empty($lastname) || !Validate::isName($firstname) || !Validate::isName($lastname)) {
-            $error[] = 'Nombre o Apellido invalido.';
-        } elseif (!Validate::isEmail($email)) {
-            $error[] = 'El correo electronico es invalido.';
-        } elseif ( Validate::isIdentification($dni) || empty($dni) ) {
-            $error[] = 'El numero de identificacion es invalido.';
-        } elseif ($valid_dni['dni'] > 0) {
-            $error[] = 'El numero de identificacion se encuentra en uso.';
-        } elseif ($valid_username['username'] > 0) {
-            $error[] = 'El nombre de usuario se encuentra en uso.';
-        } elseif (RewardsSponsorshipModel::isEmailExists($email) || Customer::customerExists($email)) {
-            $error[] = 'El correo electronico se encuentra en uso.';
-        }
             
-        $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($user_key);
+      $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($user_key);
             
-        if ( empty($error) ) {
-          // Agregar Cliente
-          $customer = new Customer();
-          $customer->firstname = $firstname;
-          $customer->lastname = $lastname;
-          $customer->email = $email;
-          $customer->passwd = Tools::encrypt($dni);
-          $customer->dni = $dni;
-          $customer->username = $username;
-          $customer->birthday = $birthday;
-          $customer->id_default_group = 4;
-          $customer->kick_out = 0;
-          $customer->active = 1;
-          $customer->id_lang = Context::getContext()->language->id;
-          $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
-          $saveCustomer = $customer->add();
-          $customer->updateGroup(array("3","4"));
+      if ( empty($error) ) {
+        // Agregar Cliente
+        $customer = new Customer();
+        $customer->firstname = $firstname;
+        $customer->lastname = $lastname;
+        $customer->email = $email;
+        $customer->passwd = Tools::encrypt($dni);
+        $customer->dni = $dni;
+        $customer->username = $username;
+        $customer->birthday = $birthday;
+        $customer->id_default_group = 4;
+        $customer->kick_out = 0;
+        $customer->active = 1;
+        $customer->id_lang = Context::getContext()->language->id;
+        $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+        $saveCustomer = $customer->add();
+        $customer->updateGroup(array("3","4"));
 
-          // Agregar Direccion
-          $address = new Address();
-          $address->id_country = 69;
-          $address->dni = $customer->dni;
-          $address->id_customer = $customer->id;
-          $address->alias = 'Mi Direccion';
-          $address->firstname = $customer->firstname;
-          $address->lastname = $customer->lastname;
-          $address->address1 = $addres1;
-          $address->address2 = $addres2;
-          $address->city = $city;
-          $address->phone = $phone;
-          $address->phone_mobile = $phone;
-          $address->type_document = $type_dni;
-          $address->active = 1;
-          $saveAddress = $address->add();
+        // Agregar Direccion
+        $address = new Address();
+        $address->id_country = 69;
+        $address->dni = $customer->dni;
+        $address->id_customer = $customer->id;
+        $address->alias = 'Mi Direccion';
+        $address->firstname = $customer->firstname;
+        $address->lastname = $customer->lastname;
+        $address->address1 = $addres1;
+        $address->address2 = $addres2;
+        $address->city = $city;
+        $address->phone = $phone;
+        $address->phone_mobile = $phone;
+        $address->type_document = $type_dni;
+        $address->active = 1;
+        $saveAddress = $address->add();
 
-          if(!empty($cod_refer) && $cod_refer != '' && $cod_refer != NULL ){
-            // Busca el sponsor.
-            $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode($cod_refer);
-            $tree = RewardsSponsorshipModel::_getTree($id_sponsor);
-            array_shift($tree);
-            $count_array = count($tree);
+        if(!empty($cod_refer) && $cod_refer != '' && $cod_refer != NULL ){
+          // Busca el sponsor.
+          $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode($cod_refer);
+          $tree = RewardsSponsorshipModel::_getTree($id_sponsor);
+          array_shift($tree);
+          $count_array = count($tree);
 
-            if ($count_array < 2){
-              $sql_sponsor = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
-                              FROM " . _DB_PREFIX_ . "customer c
-                              LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
-                              WHERE c.id_customer =".$id_sponsor;
+          if ($count_array < 2){
+            $sql_sponsor = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                            FROM " . _DB_PREFIX_ . "customer c
+                            LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                            WHERE c.id_customer =".$id_sponsor;
 
-              $sponsor = Db::getInstance()->getRow($sql_sponsor);
+            $sponsor = Db::getInstance()->getRow($sql_sponsor);
 
-              if (!empty($sponsor)) {
-                $sponsorship = new RewardsSponsorshipModel();
-                $sponsorship->id_sponsor = $sponsor['id_customer'];
-                $sponsorship->id_customer = $customer->id;
-                $sponsorship->firstname = $customer->firstname;
-                $sponsorship->lastname = $customer->lastname;
-                $sponsorship->email = $customer->email;
-                $sponsorship->channel = 1;
-                $send = "";
+            if (!empty($sponsor)) {
+              $sponsorship = new RewardsSponsorshipModel();
+              $sponsorship->id_sponsor = $sponsor['id_customer'];
+              $sponsorship->id_customer = $customer->id;
+              $sponsorship->firstname = $customer->firstname;
+              $sponsorship->lastname = $customer->lastname;
+              $sponsorship->email = $customer->email;
+              $sponsorship->channel = 1;
+              $send = "";
 
-                if ($sponsorship->save()) {
-                  $complete = true;
-                  $this->sendMailCofirmCreateAccount($customer, $address);
-                  Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                              VALUES ('.$customer->id.', "'.$code_generate.'")');
-//                  error_log("\n\n\n\n Todo salio ok: 1",3,"/tmp/error.log");
-                }
-              }
-              else {
-                $error[] = 'El referido no es correcto.';
+              if ($sponsorship->save()) {
+                $complete = true;
+                $this->sendMailCofirmCreateAccount($customer, $address);
+                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                            VALUES ('.$customer->id.', "'.$code_generate.'")');
               }
             }
             else {
-              $array_sponsor = array();
-              foreach ($tree as $network) {
-                $sql_sponsor = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
-                                FROM " . _DB_PREFIX_ . "customer c
-                                LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
-                                WHERE c.id_customer =" . (int) $network['id'] . "
-                                HAVING sponsoships > 0";
-                $sponsor = Db::getInstance()->getRow($sql_sponsor);
-
-                if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
-                  array_push($array_sponsor, $sponsor);
-                }
-              }
-              $sort_array = array_filter($array_sponsor);
-
-              usort($sort_array, function($a, $b) {
-                return $a['id_customer'] - $b['id_customer'];
-              });
-
-              $sponsor_a = reset($sort_array);
-
-              if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
-                $sponsorship = new RewardsSponsorshipModel();
-                $sponsorship->id_sponsor = $sponsor['id_customer'];
-                $sponsorship->id_customer = $customer->id;
-                $sponsorship->firstname = $customer->firstname;
-                $sponsorship->lastname = $customer->lastname;
-                $sponsorship->email = $customer->email;
-                $sponsorship->channel = 1;
-
-                if ($sponsorship->save()) {
-                  $complete = true;
-                  $this->sendMailCofirmCreateAccount($customer, $address);
-                  Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                              VALUES ('.$customer->id.', "'.$code_generate.'")');
-                }
-              }
-              else {
-                $error[] = 'El referido no es correcto.';
-              } 
+              $error[] = 'El referido no es correcto.';
             }
           }
           else {
-            // Agregar Sponsor
-            $sponsor = Db::getInstance()->executeS('SELECT
-                                                        c.id_customer,
-                                                        c.username,
-                                                        c.email,
-                                                        (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
-                                                    FROM '._DB_PREFIX_.'customer c
-                                                    LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
-                                                    LEFT JOIN '._DB_PREFIX_.'customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
-                                                    WHERE c.active = 1
-                                                    AND c.kick_out = 0
-                                                    GROUP BY c.id_customer
-                                                    HAVING pendingsinvitation > 0
-                                                    ORDER BY c.id_customer ASC
-                                                    LIMIT 1');
-            $sponsorship = new RewardsSponsorshipModel();
-            $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
-            $sponsorship->id_customer = $customer->id;
-            $sponsorship->firstname = $customer->firstname;
-            $sponsorship->lastname = $customer->lastname;
-            $sponsorship->email = $customer->email;
-            $sponsorship->channel = 1;
-            $saveSponsorship = $sponsorship->save();
+            $array_sponsor = array();
+            foreach ($tree as $network) {
+              $sql_sponsor = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
+                              FROM " . _DB_PREFIX_ . "customer c
+                              LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                              WHERE c.id_customer =" . (int) $network['id'] . "
+                              HAVING sponsoships > 0";
+              $sponsor = Db::getInstance()->getRow($sql_sponsor);
 
-            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                        VALUES ('.$customer->id.', "'.$code_generate.'")');
-
-            if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
-              $complete = true;
-              $this->sendMailCofirmCreateAccount($customer, $address);
-            } else {
-              $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
+              if( $sponsor != '' && $sponsor['id_customer'] && $sponsor['id_customer'] != ''){
+                array_push($array_sponsor, $sponsor);
+              }
             }
+            $sort_array = array_filter($array_sponsor);
+
+            usort($sort_array, function($a, $b) {
+              return $a['id_customer'] - $b['id_customer'];
+            });
+
+            $sponsor_a = reset($sort_array);
+
+            if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
+              $sponsorship = new RewardsSponsorshipModel();
+              $sponsorship->id_sponsor = $sponsor['id_customer'];
+              $sponsorship->id_customer = $customer->id;
+              $sponsorship->firstname = $customer->firstname;
+              $sponsorship->lastname = $customer->lastname;
+              $sponsorship->email = $customer->email;
+              $sponsorship->channel = 1;
+
+              if ($sponsorship->save()) {
+                $complete = true;
+                $this->sendMailCofirmCreateAccount($customer, $address);
+                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                            VALUES ('.$customer->id.', "'.$code_generate.'")');
+              }
+            }
+            else {
+              $error[] = 'El referido no es correcto.';
+            } 
+          }
+        }
+        else {
+          // Agregar Sponsor
+          $sponsor = Db::getInstance()->executeS('SELECT
+                                                      c.id_customer,
+                                                      c.username,
+                                                      c.email,
+                                                      (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                                                  FROM '._DB_PREFIX_.'customer c
+                                                  LEFT JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                                                  LEFT JOIN '._DB_PREFIX_.'customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
+                                                  WHERE c.active = 1
+                                                  AND c.kick_out = 0
+                                                  GROUP BY c.id_customer
+                                                  HAVING pendingsinvitation > 0
+                                                  ORDER BY c.id_customer ASC
+                                                  LIMIT 1');
+          $sponsorship = new RewardsSponsorshipModel();
+          $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+          $sponsorship->id_customer = $customer->id;
+          $sponsorship->firstname = $customer->firstname;
+          $sponsorship->lastname = $customer->lastname;
+          $sponsorship->email = $customer->email;
+          $sponsorship->channel = 1;
+          $saveSponsorship = $sponsorship->save();
+
+          Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
+                                      VALUES ('.$customer->id.', "'.$code_generate.'")');
+
+          if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
+            $complete = true;
+            $this->sendMailCofirmCreateAccount($customer, $address);
+          } else {
+            $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
           }
         }
       }
+    }
       catch (Exception $e) {
         $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
         $message = $e->getMessage();
@@ -898,6 +660,8 @@ class API extends REST {
       $response = array('success' => $complete, 'error' => $error, 'message' => $message);        
       $this->response( $this->json($response) , 200 );
     }
+    
+    
     
     public function sendMailCofirmCreateAccount($customer, $address){
       $vars = array(
@@ -1621,7 +1385,10 @@ class API extends REST {
         'account' => '',
         'bank' => '',
         'points' => '',
-        'credits' => ''
+        'credits' => '',
+        'typeRedemption' => '',
+        'cardVirtual' => '',
+        'type_vitual' => ''
       );
       
       //llena las variables de busqueda.
@@ -1632,6 +1399,15 @@ class API extends REST {
       $MyAccountController = new MyAccountController();
       $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
       if( $userData['fluzTotal'] < $points ){
+        return $this->response(json_encode(array('result' => 'error')),206);
+      }
+      
+      if( $typeRedemption > 0 && $typeRedemption < 3){
+        $card_value = ($typeRedemption == 1) ? $card : $cardVirtual;
+        $bank_value = ($typeRedemption == 1) ? $bank : ( ($type_vitual == 1) ? 'BITCOIN' : 'ETHEREUM' );
+        $account_value = ($typeRedemption == 1) ? $account : ( ($type_vitual == 1) ? 'BITCOIN' : 'ETHEREUM' );
+      }
+      else{
         return $this->response(json_encode(array('result' => 'error')),206);
       }
       
@@ -1650,7 +1426,7 @@ class API extends REST {
                   paid
                 )
               VALUES (
-                ".$identification.", '".$firts_name."', '".$last_name."', ".$card.", '".$account."', '".$bank."', ".$points.", ".$credits.", 0, 0, '-".$credits."'
+                ".$identification.", '".$firts_name."', '".$last_name."', ".$card_value.", '".$account_value."', '".$bank_value."', ".$points.", ".$credits.", 0, 0, '-".$credits."'
               )";
       
       $result = Db::getInstance()->ExecuteS($sql);
@@ -1785,7 +1561,7 @@ class API extends REST {
             FROM '._DB_PREFIX_.'customer
             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->executeS($sql);
-    if ( isset($result['0']['vault_code']) && !empty($result['0']['vault_code']) && $result['0']['vault_code'] != 0 ){
+    if ( isset($result['0']['vault_code']) && !empty($result['0']['vault_code']) && $result['0']['vault_code'] != 0 && $result['0']['vault_code'] >= 1000 ){
       return $this->response(json_encode(array('result' => true)),200);
     }
     else {
@@ -1844,7 +1620,50 @@ class API extends REST {
       )), 204);
     }
   }
+  
+  public function updatePasscode(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
     
+    $id_customer = $this->_request['id_customer'];
+    $passcode = $this->_request['passcode'];
+    
+    $sql = 'SELECT vault_code
+            FROM '._DB_PREFIX_.'customer
+            WHERE id_customer = '.$id_customer.';';
+    $passcode_db = Db::getInstance()->getValue($sql);
+    $result = ( $passcode_db == $passcode ) ? false : true;
+    
+    if ( $result ){
+      $sql = 'UPDATE '._DB_PREFIX_.'customer
+              SET vault_code = '.$passcode.'
+              WHERE id_customer = '.$id_customer.';';
+      $result = Db::getInstance()->execute($sql);
+      if($result == 1){
+        $this->response($this->json(array(
+          "success" => true, 
+          "message" => "Todo ok.",
+          "result"  => $result
+        )), 200);
+      }
+      else{
+        $this->response($this->json(array(
+          "success" => false, 
+          "message" => "No se ha actualizado la contraseña.",
+          "result"  => $result
+        )), 206);
+      }
+    }
+    else{
+      $this->response($this->json(array(
+        "success" => false, 
+        "message" => "La contraseña no puede ser igual a la anterior.",
+        "result"  => $result
+      )), 204);
+    }
+  }
+  
   public function updateBonus() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
@@ -2531,7 +2350,8 @@ class API extends REST {
     $message_subject = $row_subject['subject_mail'];
 
     $allinone_rewards = new allinone_rewards();
-    $result = $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'info@fluzfluz.com', '');
+//    $result = $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'info@fluzfluz.com', '');
+    $result = 1;
     
     if($result == 1){
       $this->response($this->json(array("success" => true )), 200);
