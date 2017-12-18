@@ -8,7 +8,10 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
             $fluzfluzcodes = new fluzfluzcodes_admin();
             echo $fluzfluzcodes->deleteCode( $_POST["product"], $_POST["id_product_code"] );
             break;
-        
+        case "deletecodeall":
+            $fluzfluzcodes = new fluzfluzcodes_admin();
+            echo $fluzfluzcodes->deleteCodeAll( $_POST["product"], $_POST["id_product_code"] );
+            break;
         default:
             echo 0;
     }
@@ -16,6 +19,11 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
 
 class fluzfluzcodes_admin {
     public function deleteCode( $product, $id_product_code ) {
+        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS( "DELETE FROM "._DB_PREFIX_."product_code WHERE id_product_code = '".$id_product_code."' AND id_product = '".$product."'" );
+        return $result;
+    }
+    
+    public function deleteCodeAll( $product, $id_product_code ) {
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS( "DELETE FROM "._DB_PREFIX_."product_code WHERE id_product_code = '".$id_product_code."' AND id_product = '".$product."'" );
         return $result;
     }

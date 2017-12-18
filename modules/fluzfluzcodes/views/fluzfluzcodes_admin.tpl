@@ -8,7 +8,14 @@
 	</div>
     {else}
         <form method="post">
-            <p>{l s = 'Total de codigos asignados al producto seleccionado' mod="fluzfluzcodes"}</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>{l s = 'Total de codigos asignados al producto seleccionado' mod="fluzfluzcodes"}</p>
+                </div>
+                <div class="col-lg-6">
+                    Elminar Codigos Disponibles<img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendActionAll('deletecode', '{$id_product}', '{$code.id_product_code}', '{$code.code}');">
+                </div>
+            </div>
             {foreach $totals as $total}
                 <span>{$total.estado}:&nbsp;</span><span>{$total.total}</span>
             {/foreach}
@@ -73,6 +80,30 @@
             }
         }
     }
+    
+    function sendActionAll(action, product, id_product_code, code) {
+        var msgError = "Se ha generado un error ejecutando la accion porfavor intente de nuevo.";
+        if ( action == "deletecodeall" && product != "" && id_product_code != "" ) {
+            conf = confirm( 'Confirma que desea eliminar el codigo '+code );
+            if ( conf == true ) {
+                $.ajax({
+                    method: "POST",
+                    url: "{$module_dir}ajax/fluzfluzcodes_admin.php",
+                    data: { action: action, product: product, id_product_code: id_product_code }
+                }).done(function(response) {
+                    if ( response != 0 ) {
+                        alert("El codigo ha sido eliminado exitosamente");
+                        location.reload();
+                    } else {
+                        alert( msgErrorr );
+                    }
+                }).fail(function() {
+                    alert( msgError );
+                });
+            }
+        }
+    }
+    
     $("#btnExport").click(function (e) {
         $(".action").remove();
         var result = "data:application/vnd.ms-excel,"+encodeURIComponent( $('#codes').html() );
