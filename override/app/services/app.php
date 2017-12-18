@@ -745,6 +745,7 @@ class API extends REST {
           $customer->active = 1;
           $customer->id_lang = Context::getContext()->language->id;
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+          $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
           $saveCustomer = $customer->add();
           $customer->updateGroup(array("3","4"));
 
