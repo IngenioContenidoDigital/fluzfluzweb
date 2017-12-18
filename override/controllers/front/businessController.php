@@ -257,6 +257,7 @@ class businessController extends FrontController {
                 $customer->id_lang = $this->context->customer->id_lang;
                 $customer->field_work = $this->context->customer->field_work;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+                $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->add();
                 
                 Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
@@ -541,6 +542,7 @@ class businessController extends FrontController {
                     $customer->phone = $datacustomer['Telefono Empleado'];
                     $customer->passwd = Tools::encrypt($datacustomer['cedula']);
                     $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+                    $customer->date_add = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                     //$customer->newsletter = $datacustomer['Newsletter (0/1)'];
                     //$customer->birthday = $datacustomer['Birthday (yyyy-mm-dd)'];
                     $customer->id_default_group = 4;
@@ -911,6 +913,7 @@ class businessController extends FrontController {
                             $customer->email = $datacustomer['Email'];
                             $customer->passwd = Tools::encrypt($datacustomer['cedula']);
                             $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+                            $customer->date_add = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->id_default_group = 4;
                             $customer->id_lang = $this->context->customer->id_lang;
                             $customer->field_work = $this->context->customer->field_work;

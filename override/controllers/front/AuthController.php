@@ -338,6 +338,7 @@ class AuthController extends AuthControllerCore
                 $customer->username =  Tools::getValue('username');
                 $customer->id_default_group = 4;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+                $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                 //$customer->add();
                 $customer->save();
 
@@ -599,7 +600,7 @@ class AuthController extends AuthControllerCore
 
                         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                         $customer->warning_kick_out = 0;
-
+                        
                         if ( $customExists ) {
                             $idCustom = Customer::getCustomersByEmail( Tools::getValue('email') );
                             $customer = new Customer($idCustom[0]['id_customer']);
@@ -611,6 +612,7 @@ class AuthController extends AuthControllerCore
                             $customer->kick_out = 0;
                             $customer->active=1;
                             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+60 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+                            $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                             $customer->update();
                             $customerLoaded = true;
