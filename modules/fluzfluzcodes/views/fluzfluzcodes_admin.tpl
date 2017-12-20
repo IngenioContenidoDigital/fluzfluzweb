@@ -8,7 +8,14 @@
 	</div>
     {else}
         <form method="post">
-            <p>{l s = 'Total de codigos asignados al producto seleccionado' mod="fluzfluzcodes"}</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>{l s = 'Total de codigos asignados al producto seleccionado' mod="fluzfluzcodes"}</p>
+                </div>
+                <div class="col-lg-6">
+                    Elminar Codigos Disponibles<img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendActionAll('deletecodeall', '{$id_product}', '{$code.id_product_code}', '{$code.code}');">
+                </div>
+            </div>
             {foreach $totals as $total}
                 <span>{$total.estado}:&nbsp;</span><span>{$total.total}</span>
             {/foreach}
@@ -22,6 +29,7 @@
                             <th style="text-align: center;"><strong>Estado</strong></th>
                             <th style="text-align: center;"><strong>Orden</strong></th>
                             <th style="text-align: center;"><strong>Fecha Creacion</strong></th>
+                            <th style="text-align: center;"><strong>Fecha Vencimiento</strong></th>
                             <th style="text-align: center;" class="action"><strong>Accion</strong></th>
                         </tr>
                     </thead>
@@ -33,6 +41,7 @@
                                 <td style="text-align: center;">{$code.estado}</td>
                                 <td style="text-align: center;">{$code.order}</td>
                                 <td style="text-align: center;">{$code.date_add}</td>
+                                <td style="text-align: center;">{$code.date_expiration}</td>
                                 <td style="text-align: center;" class="action">
                                     {if $code.order == ""}
                                         <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.id_product_code}', '{$code.code}');">
@@ -73,6 +82,31 @@
             }
         }
     }
+    
+    function sendActionAll(action, product) {
+        
+        var msgError = "Se ha generado un error ejecutando la accion porfavor intente de nuevo.";
+        if ( action === "deletecodeall" && product !== "" ) {
+            conf = confirm( 'Confirma que desea eliminar todos los codigos disponibles de este producto.');
+            if ( conf == true ) {
+                $.ajax({
+                    method: "POST",
+                    url: "{$module_dir}ajax/fluzfluzcodes_admin.php",
+                    data: { action: action, product: product }
+                }).done(function(response) {
+                    if ( response != 0 ) {
+                        alert("Los codigos han sido eliminados exitosamente");
+                        location.reload();
+                    } else {
+                        alert( msgErrorr );
+                    }
+                }).fail(function() {
+                    alert( msgError );
+                });
+            }
+        }
+    }
+    
     $("#btnExport").click(function (e) {
         $(".action").remove();
         var result = "data:application/vnd.ms-excel,"+encodeURIComponent( $('#codes').html() );
