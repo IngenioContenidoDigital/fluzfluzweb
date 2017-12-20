@@ -24,7 +24,11 @@ class fluzfluzcodes_admin {
     }
     
     public function deleteCodeAll( $product, $id_product_code ) {
-        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS( "DELETE FROM "._DB_PREFIX_."product_code WHERE id_product_code = '".$id_product_code."' AND id_product = '".$product."'" );
+        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS( "DELETE FROM "._DB_PREFIX_."product_code
+                                WHERE id_product = '".$product."' AND id_order = 0 AND (state IS NULL or state = 'Disponible' )" );
+        Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'stock_available SET quantity = 0
+                                    WHERE id_product = '.$product);
+        
         return $result;
     }
 }
