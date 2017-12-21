@@ -5,6 +5,7 @@ include_once('classes/order/Order.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
+include_once(_PS_MODULE_DIR_.'/bitpay/bitpay.php');
 
 class API extends REST {
 
@@ -2445,6 +2446,7 @@ class API extends REST {
                 'orderStatus' => $order_status
             ));
     
+    bitpay::writeDetails($order->id, $cart->id, $order->id, $order_status->name);
     $model = new Model();
     $return = $model->getObjectBitPay($cart, $order);
     $this->response(json_encode($return),200);
