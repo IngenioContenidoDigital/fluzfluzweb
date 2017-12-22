@@ -21,7 +21,7 @@ class reportliability extends ModuleGrid
         $this->columns = array(
             array(
                 'id' => 'id_customer',
-                'header' => $this->l('ID Customer'),
+                'header' => $this->l('Id Customer'),
                 'dataIndex' => 'id_customer',
                 'align' => 'center'
             ),
