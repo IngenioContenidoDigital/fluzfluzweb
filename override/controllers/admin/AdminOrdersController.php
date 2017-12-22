@@ -210,6 +210,9 @@ class AdminOrdersController extends AdminOrdersControllerCore
                         $productos = $row2['productos'];
                         
                         if(($order_state->id == 2 ) && (($orderValidation < $productos))){
+                            if($order->payment == 'bitpay'){
+                                    Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'order_bitcoin SET status = (SELECT name FROM '._DB_PREFIX_.'order_state_lang WHERE id_order_state = '.$order_state->id.' AND id_lang = '.$order->id_lang.') WHERE id_order = '.$order->id);
+                                }
                             Order::updateCodes($order, $method=2); 
                         }
                         
