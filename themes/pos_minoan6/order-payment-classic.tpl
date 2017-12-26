@@ -614,7 +614,8 @@
                                     {hook h="displayCartTotalPriceLabel"}
                                 </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding" style="text-align:right;">       
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text_left_padding" style="text-align:right;">  
+                            <input type='hidden' id="total_cart_bit" name="total_cart_bit" value="{$total_price}">
                             {if $use_taxes}
                                     <div colspan="5" class="price price_summary" id="total_price_container">
                                             <span id="total_price">{displayPrice price=$total_price}</span>
@@ -701,6 +702,12 @@
                     $('#paid_partial_fluz').css('opacity', '0.4');
                 }
             });
+            
+            var price_bitcoin = $('#total_cart_bit').val();
+            if(price_bitcoin <= 300000){
+                $('#panel_bitpay').css('pointer-events', 'none');
+                $('#panel_bitpay').css('opacity', '0.4');
+            }
         });
         
     </script>

@@ -640,7 +640,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 		/* Prevent division by zero */
 		$credits = 0;
 		if ((int)MyConf::get('RLOYALTY_TYPE', null, $id_template) == 0) {
-			$credits = floor(number_format($price, 2, '.', '') / (float)MyConf::get('RLOYALTY_POINT_RATE', null, $id_template)) * (float)MyConf::get('RLOYALTY_POINT_VALUE', null, $id_template);
+			$credits = round(number_format($price, 2, '.', '') / (float)MyConf::get('RLOYALTY_POINT_RATE', null, $id_template)) * (float)MyConf::get('RLOYALTY_POINT_VALUE', null, $id_template);
 		} else if ((int)MyConf::get('RLOYALTY_TYPE', null, $id_template) == 1) {
 			$credits = number_format($price, 2, '.', '') * (float)MyConf::get('RLOYALTY_PERCENTAGE', null, $id_template) / 100;
 		}
@@ -769,7 +769,7 @@ class RewardsLoyaltyPlugin extends RewardsGenericPlugin
 			$reward->id_customer = (int)$params['customer']->id;
 			$reward->id_order = (int)$params['order']->id;
                         $reward->id_cart = (int)$params['cart']->id;
-                        $reward->credits = floor($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/2);
+                        $reward->credits = round($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/2);
                         
                         /*if($discount > 0 && $porcentaje_desc != 0){
                             $reward->credits = floor(($reward->getRewardReadyForDisplay($credits, $this->context->currency->id)/2)*$porcentaje_desc);

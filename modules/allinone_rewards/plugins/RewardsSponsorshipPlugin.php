@@ -1559,7 +1559,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->id_order = (int)$order->id;
                                         $reward->id_cart = $order->id_cart;
 					$reward->id_reward_state = RewardsStateModel::getDefaultId();
-                                        $price = floor($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(2)/(count($sponsorships2)));
+                                        $price = round($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(2)/(count($sponsorships2)));
                                         
                                         /*if($discount > 0){
                                             $price = floor($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(2)/(count($sponsorships2))*$porcentaje_desc);
