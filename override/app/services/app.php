@@ -644,77 +644,97 @@ class API extends REST {
         }
       }
     }
-      catch (Exception $e) {
-        $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
-        $message = $e->getMessage();
-      }
-        
-      if ( !$complete ) {
-        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".$customer->id);
-        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
-        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."address WHERE id_address = ".$address->id);
-        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_sponsorship = ".$sponsorship->id);
-        DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship_code WHERE id_sponsor = ".$sponsorship->id);
-      }
-        
-      $response = array('success' => $complete, 'error' => $error, 'message' => $message);        
-      $this->response( $this->json($response) , 200 );
+    catch (Exception $e) {
+      $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
+      $message = $e->getMessage();
     }
+
+    if ( !$complete ) {
+      DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer WHERE id_customer = ".$customer->id);
+      DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."customer_group WHERE id_customer = ".$customer->id);
+      DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."address WHERE id_address = ".$address->id);
+      DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_sponsorship = ".$sponsorship->id);
+      DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship_code WHERE id_sponsor = ".$sponsorship->id);
+    }
+
+    $response = array('success' => $complete, 'error' => $error, 'message' => $message);        
+    $this->response( $this->json($response) , 200 );
+  }
     
+  /**
+   * MÈtodo publico envia un correo de confirmaciÛn de creaciÛn de cuenta.
+   * @param int $customer Objeto usuario con toda la informaciÛn de usuario.
+   * @param int $id_customer Id de usuario
+   * @return json Informacion de la tarjeta de crÈdito
+   */
+  public function sendMailCofirmCreateAccount($customer, $address){
+    $vars = array(
+      '{username}' => $customer->username,
+      '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+      '{firstname}' => $customer->firstname,
+      '{lastname}' => $customer->lastname,
+      '{dni}' => $customer->dni,
+      '{birthdate}' => $customer->birthday,
+      '{address}' => $address->address1,
+      '{phone}' => $address->phone,
+      '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
+      '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+      '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+      '{learn_more_url}' => "http://reglas.fluzfluz.co",
+    );
+
+    $template = 'welcome_fluzfluz';
+    $prefix_template = '16-welcome_fluzfluz';
+
+    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+    $row_subject = Db::getInstance()->getRow($query_subject);
+    $message_subject = $row_subject['subject_mail'];
+
+    $allinone_rewards = new allinone_rewards();
+    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+  }
     
-    
-    public function sendMailCofirmCreateAccount($customer, $address){
-      $vars = array(
-        '{username}' => $customer->username,
-        '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-        '{firstname}' => $customer->firstname,
-        '{lastname}' => $customer->lastname,
-        '{dni}' => $customer->dni,
-        '{birthdate}' => $customer->birthday,
-        '{address}' => $address->address1,
-        '{phone}' => $address->phone,
-        '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
-        '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-        '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
-        '{learn_more_url}' => "http://reglas.fluzfluz.co",
-      );
+  /**
+   * MÈtodo privado que obtiene los n˙meros de telÈfono del usuario
+   * @param int $id_customer Id del usuario
+   * @return json N˙meros de telÈfono.
+   */
+  private function getPhonesCustomer() {
+      $telconumbers = DB::getInstance()->executeS( "SELECT phone_mobile, default_number
+                                                      FROM "._DB_PREFIX_."address
+                                                      WHERE phone_mobile != ''
+                                                      AND id_customer = ".$this->_request['id_customer']."
+                                                      ORDER BY phone_mobile" );
+      $this->response( $this->json($telconumbers) , 200 );
+  }
 
-      $template = 'welcome_fluzfluz';
-      $prefix_template = '16-welcome_fluzfluz';
+  /**
+   * MÈtodo privado que agrega un n˙mero de telÈfono a un usuario.
+   * @param int $id_customer Id del usuario
+   * @param int $phone TelÈfono a gregar.
+   * @return json Resultado.
+   */
+  private function addPhoneCustomer() {
+      $query = "SELECT *
+                  FROM "._DB_PREFIX_."address
+                  WHERE id_customer = ".$this->_request['id_customer']."
+                  LIMIT 1";
+      $address = Db::getInstance()->executeS($query);
+      $address = $address[0];
 
-      $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-      $row_subject = Db::getInstance()->getRow($query_subject);
-      $message_subject = $row_subject['subject_mail'];
+      $queryInsert = "INSERT INTO "._DB_PREFIX_."address
+                      VALUES (NULL,".$address['id_country'].", 0, ".$this->_request['id_customer'].", 0, 0, 0, 'Mi Direccion', '', '".$address['lastname']."', '".$address['firstname']."', '".$address['address1']."', '".$address['address2']."', '', '".$address['city']."', '', ".$address['phone'].", ".$this->_request['phone'].", '', ".$address['type_document'].", ".$address['dni'].", ".$address['checkdigit'].", NOW(), NOW(), 1, 0, 0, 0, 0)";
 
-      $allinone_rewards = new allinone_rewards();
-      $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
-    }
-
-
-    private function getPhonesCustomer() {
-        $telconumbers = DB::getInstance()->executeS( "SELECT phone_mobile, default_number
-                                                        FROM "._DB_PREFIX_."address
-                                                        WHERE phone_mobile != ''
-                                                        AND id_customer = ".$this->_request['id_customer']."
-                                                        ORDER BY phone_mobile" );
-        $this->response( $this->json($telconumbers) , 200 );
-    }
-
-    private function addPhoneCustomer() {
-        $query = "SELECT *
-                    FROM "._DB_PREFIX_."address
-                    WHERE id_customer = ".$this->_request['id_customer']."
-                    LIMIT 1";
-        $address = Db::getInstance()->executeS($query);
-        $address = $address[0];
-
-        $queryInsert = "INSERT INTO "._DB_PREFIX_."address
-                        VALUES (NULL,".$address['id_country'].", 0, ".$this->_request['id_customer'].", 0, 0, 0, 'Mi Direccion', '', '".$address['lastname']."', '".$address['firstname']."', '".$address['address1']."', '".$address['address2']."', '', '".$address['city']."', '', ".$address['phone'].", ".$this->_request['phone'].", '', ".$address['type_document'].", ".$address['dni'].", ".$address['checkdigit'].", NOW(), NOW(), 1, 0, 0, 0, 0)";
-        
-        $addphone = DB::getInstance()->execute($queryInsert);
-        $this->response( $this->json($addphone) , 200 );
-    }
-
+      $addphone = DB::getInstance()->execute($queryInsert);
+      $this->response( $this->json($addphone) , 200 );
+  }
+  
+  /**
+   * MÈtodo privado que agrega el telÈfono de recarga al carrito.
+   * @param int $id_customer Id del usuario
+   * @param array $phones Arreglo de telÈfonos
+   * @return json Resultado
+   */
   private function setPhonesRecharged() {
     if($this->get_request_method() != "POST") {
       $this->response('',406);
@@ -746,10 +766,18 @@ class API extends REST {
     $this->response( $this->json($response) , 200 );
   }
 
-   
   /**
-   * AddVoucher 
-   */
+   * MÈtodo privado que controla el carrito de compras.
+   * @param int $id_customer Id del usuario
+   * @param int $option     OpciÛn que especifica que desea hacer en el carrito de compras.
+   *                        1- Agrega al carrito
+   *                        2- Actualiza Carrito
+   *                        3- Agrega descuento al carrito
+   * @param int $idCart     Id del carrito a afectar
+   * @param int $idProduct  Id del producto
+   * @param int $qty        Cantidad de producto
+   * @return json Resultado de la operaciÛn.
+   */ 
   private function cart() {
     
     if($this->get_request_method() != "POST") {
@@ -822,6 +850,10 @@ class API extends REST {
     )), 204);
   }
   
+  /**
+   * MÈtodo priva do que obtiene los banners
+   * @return json Arreglo con la informaciÛn de los banners.
+   */
   private function getBanner(){
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
@@ -832,10 +864,16 @@ class API extends REST {
     foreach ($banners['result'] as &$banner){
       $banner['b_img'] = $link->getBannerImageLink((int)$banner['b_id']);
     }
-//    error_log("\n\n Esta es la respuesta del banner: ".print_r($banners,true),3,"/tmp/error.log");
     return $this->response(json_encode($banners),200);
   }
   
+  /**
+   * MÈtodo que obtiene las categorias
+   * @param int $option Opcion que especifica la forma de consultar las categorias.
+   * @param int $limit Limite de categorias a consultar
+   * @param int $id_category id de categoria a consultar
+   * @return type
+   */
   private function getCategory(){
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
@@ -879,426 +917,332 @@ class API extends REST {
     }
     return $this->response(json_encode($categories),200);
   }
-        
   
-    public function phoneProviders()
-    {
-        $model = new Model();
-	return $this->response( $this->json( $model->phoneProviders() ) , 200 );	
+  /**
+   * MÈtodo p˙blico que trae los provedores de telefonia
+   * @return json Provedores de telefonia
+   */
+  public function phoneProviders(){
+    $model = new Model();
+    return $this->response( $this->json( $model->phoneProviders() ) , 200 );	
+  }
+  
+  /**
+   * MÈtodo p˙blico para la b˙squeda de usuarios (Fluzzers)
+   * @param int $userID Id de usuario
+   * @param string $searchBox Parametro de b˙squeda
+   * @return json Resultado de la b˙squeda
+   */
+  public function searchFluzzer(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
     }
 
-    /**
-     * 
-     */
+    $params = array();
+    $params["searchBox"] = $this->_request['searchBox'];
+    $params["userId"] = $this->_request['userId'];
 
-    public function searchFluzzer()
-    {
-      if($this->get_request_method() != "POST") {
-          $this->response('',406);
-      }
-
-      $params = array();
-      $params["searchBox"] = $this->_request['searchBox'];
-      $params["userId"] = $this->_request['userId'];
-//      error_log("\n\n\n\n this->_request['userId']: \n\n".print_r($this->_request['userId'],true),3,"/tmp/error.log");
-
-      $model = new Model();
-      $this->response( $this->json($model->searchFluzzer($params)) , 200 );
-    }
-
-    /**
-     * 
-     */
-
-    public function transferFluz()
-    {
-      if($this->get_request_method() != "POST") {
-        $this->response('',406);
-      }
-        
-      $params = array();
-      $params["user"] = $this->_request['user'];
-      $params["fluzzer"] = $this->_request['fluzzer'];
-      $params["points"] = $this->_request['points'];
-      
-      $MyAccountController = new MyAccountController();
-      $userData = $MyAccountController->getUserDataAccountApp( $params["user"] );
-      $userData['fluzTotal'];
-      
-      $model = new Model();
-      
-      if( $params["points"] < $userData['fluzTotal'] || $params["points"] == $userData['fluzTotal'] ){
-        $this->response( $this->json($model->transferFluz($params)) , 200 );
-      }
-      else {
-        $this->response( $this->json('error: Nop tiene los puntos suficientes'), 206);
-      }
-    }
-    
-    /**
-     * 
-     */
-
-    public function pay()
-    {
-        if($this->get_request_method() != "POST") {
-            $this->response('',406);
-        }
-        
-        $params = array();
-        
-        $params["method"] = "payulatam";
-        $params["payment"] = $this->_request['payment'];
-        $params["id_cart"] = $this->_request["id_cart"];
-        $params["id_customer"] = $this->_request["id_customer"];
-        
-        // Tarjeta Credito
-        $params["namecard"] = $this->_request["namecard"];
-        $params["numbercard"] = $this->_request["numbercard"];
-        $params["datecard"] = $this->_request["datecard"];
-        $params["codecard"] = $this->_request["codecard"];
-        $params["checkautorizationcard"] = (bool)$this->_request["checkautorizationcard"];
-        
-        // Tarjeta Debito
-        $params["bank"] = $this->_request["bank"];
-        $params["bankname"] = $this->_request["bankname"];
-        $params["typecustomer"] = $this->_request["typecustomer"];
-        $params["typedocument"] = $this->_request["typedocument"];
-        $params["numberdocument"] = $this->_request["numberdocument"];
-
-	$model = new Model();
-	$this->response( $this->json($model->pay($params)) , 200 );
-    }
-
-    public function payFreeOrder()
-    {
-        if($this->get_request_method() != "POST") {
-            $this->response('',406);
-        }
-        
-        $params = array();
-        
-        $params["method"] = "bankwire";
-        $params["payment"] = "Pedido gratuito";
-        $params["id_cart"] = $this->_request["id_cart"];
-        $params["id_customer"] = $this->_request["id_customer"];
-
-	$model = new Model();
-	$this->response( $this->json($model->payFreeOrder($params)) , 200 );
-    }
-
-  public function bankPse(){
-    return $this->response( $this->json(PasarelaPagoCore::get_bank_pse()) , 200 );	
+    $model = new Model();
+    $this->response( $this->json($model->searchFluzzer($params)) , 200 );
   }
 
-    public function KeysOpenPay()
-    {
-	return $this->response($this->json(PasarelaPagoCore::get_keys_open_pay('Tarjeta_credito')),200);	
+  /**
+   * MÈtodo privado para la transferencia de Fluz
+   * @param int $user id de usuario emisor
+   * @param int $fluzzer id de usuario receptor
+   * @param int points Total de puntos a transferir
+   * @return json Resultado de la transferencia
+   */
+  private function transferFluz(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
     }
-
-    public function franquicia()
-    {
-	$cart_number = 	$this->_request['cart_number'];
-	$this->response(json_encode( PasarelaPagoCore::getFranquicia($cart_number, 'payulatam')),200);
-    }
-
-    public function addImg()
-    {
-        // Validaci√≥n Cross si el m√©todo de la petici√≥n es POST de lo contrario volver√° estado de "no aceptable"
-	if($this->get_request_method() != "POST") {
-            $this->response('',406);
-	}
-
-	//$str_img = 	$this->_request['str_img'];
-	$option = 	$_REQUEST['option']; //$this->_request['option'];
-
-	$model = new Model();
-
-	$flag = true;
-	foreach ($_FILES as $key) {
-            if(!$model->add_image($key,$option)){
-                $flag = false;
-                break;
-            }
-	}
-	$this->response(json_encode(array('success'=>$flag)),200);
-    }
-
-    public function password()
-    {
-	$email = $this->_request['email'];
-
-	/*if ($this->get_request_method() != "POST") {
-		$this->response('', 406);
-	}*/
-	$model = new Model();
-	
-//exit(json_encode($email));
-	return $this->response($this->json($model->password($email)),200);	
-    }
-
-
-    /**
-     * Retorna las ordenes generadas por un usuario
-     */
-    public function getHistory()
-    {    
-	$id_customer = 	$this->_request['id'];
-	$orders_out = array();
-	if ($orders = Order::getCustomerOrders($id_customer))
-            $contador = 0;
-	foreach ($orders as &$order)
-	{
-            $contador ++;
-            $myOrder = new Order((int)$order['id_order']);
-            if (Validate::isLoadedObject($myOrder))
-                $order['virtual'] = $myOrder->isVirtual(false);
-
-            $order_state = Db::getInstance()->getValue("SELECT  `name` FROM ps_order_state_lang WHERE id_order_state = ". (int) $order['current_state']);
-
-            $date = new DateTime($order['date_add']);	
-            $address = new Address((int) $order['id_address_invoice']);
-            $address_str = 	$address->address1.' '.$address->address2.' '.$address->city.'. C.P. '.$address->postcode;	
-            $orders_out[] = array('id' => (int) $order['id_order'] ,
-                  'state' =>  $order_state ,
-                  'ref' => $order['reference'] ,
-                  'id_customer' => (int) $order['id_customer'] ,
-                  'id_cart' => (int) $order['id_cart'] ,
-                  'id_address_delivery' => (int) $order['id_address_delivery'] ,
-                  'id_address_invoice' => (int) $order['id_address_invoice'] ,
-                  'address' => $address_str,
-                  'payment' => $order['payment'] ,
-                  'gift_message' => $order['gift_message'] ,
-                  'total' => (float) $order['total_paid'] ,
-                  'total_shipping' => (float) $order['total_shipping'] ,
-                  'total_products' => (float) $order['total_products'] ,
-                  'total_discounts' => (float) $order['total_discounts'] ,
-                  'invoice_number' => (int) $order['invoice_number'],
-                  'date_add' => $date->format("d/m/Y"),
-                  'order_detail' => $this->orderDetail((int) $order['id_order']));
-            if($contador == 20)
-            break;
-        }
-        return $this->response($this->json($orders_out),200);
-    }
-
-
-
-    private function orderDetail($id_order = NULL)
-    {
-        /*if ($this->get_request_method() != "POST") {
-            $this->response('', 406);
-        }*/
-
-        $id = $this->_request['id'];
-        $model = new Model();
-        if($id_order != NULL)
-            return $model->get_order_datail($id_order);
-
-        $this->response($this->json($model->get_order_datail($id)),200);
-    }
-
-
-    private function docTypes()
-    {
-        $model = new Model();
-        $this->response($this->json($model->get_type_docs()),200);
-    }
-
-
-    private function tracker()
-    {
-        /*if ($this->get_request_method() != "POST") {
-            $this->response('', 406);
-        }*/
-
-        $id_order = 	$this->_request['id'];
-        $model = new Model();
-        $this->response($this->json($model->get_traker_order($id_order)),200);
-    }
-
-    private function callback()
-    {
-        if ($this->get_request_method() != "GET" && $this->get_request_method() != "POST") {
-            $this->response('', 406);
-        }
-
-        $model = new Model();
-        //$this->response($this->json($model->get_traker_order($id_order)),200);
-
-        $accountObj = $model->call_api($_REQUEST['accessToken'],"https://www.googleapis.com/plus/v1/people/me");
-
-        return $this->response(json_encode($accountObj),200);
-    }
-    
-
-    /**
-     * Genera la ruta relativa de las im√°genes publicitarias por directorio
-     * dirname : <Nombre del directorio que contiene las im√°genes>
-     */
-    private function publicityBanners()
-    {
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        }
-
-        if (!isset($this->_request['dirname']) 
-            || empty($this->_request['dirname'])) {
-                $this->response('', 204);
-        }
-
-        $dirname = $this->_request['dirname'];
-        $dir = "../publicity/banners/" . $dirname . "/";
-        $images = glob($dir . "*.jpg");
-        $this->response(json_encode($images), 200);
-    }
-    
-    
-    public function getVaultData(){
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
-      if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
-        $id_customer = $this->_request['id_customer'];
-        $model = new Model();
-        $link = new Link();
-        $countPurchases = 0;
-        if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
-          $id_manufacturer = $this->_request['id_manufacturer'];
-          $bonus = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
-//          error_log("\n\n bonus: ".print_r($bonus,true),3,"/tmp/error.log");
-          $gift = $model->getVaultGiftByManufacturer($id_customer, $id_manufacturer);
-//          error_log("\n\n gift: ".print_r($gift,true),3,"/tmp/error.log");
-          
-          $purchases['result'] = ($gift['result'] !== 'vacio') ? array_merge($bonus['result'], $gift['result']) : $bonus['result'];
-          
-          foreach ($purchases['result'] as &$purchase){
-            $purchase['card_code'] = (string)$purchase['card_code'];            
-            $purchase['price'] = round($purchase['price']);
-            $purchase['formatPrice'] = $this->formatPrice($purchase['price']);
-            $purchase['showDetails'] = false;
-            $countPurchases++;
-          }
-          $purchases['total'] = $countPurchases;
-          return $this->response(json_encode($purchases),200);
-        }
         
-        $purchases = $model->getVault($id_customer, $this->id_lang_default);
+    $params = array();
+    $params["user"] = $this->_request['user'];
+    $params["fluzzer"] = $this->_request['fluzzer'];
+    $params["points"] = $this->_request['points'];
+
+    $MyAccountController = new MyAccountController();
+    $userData = $MyAccountController->getUserDataAccountApp( $params["user"] );
+    $userData['fluzTotal'];
+
+    $model = new Model();
+
+    if( $params["points"] < $userData['fluzTotal'] || $params["points"] == $userData['fluzTotal'] ){
+      $this->response( $this->json($model->transferFluz($params)) , 200 );
+    }
+    else {
+      $this->response( $this->json('error: No tiene los puntos suficientes'), 206);
+    }
+  }
+    
+  /**
+   * MÈtodo privado para el pago
+   * @params int payment MÈtodo de pago
+   * @params int id_cart Id del carrito de compras
+   * @params int id_customer  Id del usuario
+   * @params string namecard Nombre en la tarjeta
+   * @params int numbercard N˙mero en la tarjeta
+   * @params string datecard Fecha de vercimiento de la tarjeta
+   * @params string codecard Codigoi de verificaciÛn de la tarjeta
+   * @params boolean checkautorizationcard Bandera para guardar la tarjeta o no.
+   * @params int bank id Banco
+   * @params string bankname Nombre del banco
+   * @params string typecustomer Tipo de usuario
+   * @params string typedocument Tipo de documento
+   * @params int numberdocument N˙mero de Documento
+   * @return json Resultado del pago.
+   */
+  private function pay(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+        
+    $params = array();
+    $params["method"] = "payulatam";
+    $params["payment"] = $this->_request['payment'];
+    $params["id_cart"] = $this->_request["id_cart"];
+    $params["id_customer"] = $this->_request["id_customer"];
+
+    // Tarjeta Credito
+    $params["namecard"] = $this->_request["namecard"];
+    $params["numbercard"] = $this->_request["numbercard"];
+    $params["datecard"] = $this->_request["datecard"];
+    $params["codecard"] = $this->_request["codecard"];
+    $params["checkautorizationcard"] = (bool)$this->_request["checkautorizationcard"];
+
+    // Tarjeta Debito
+    $params["bank"] = $this->_request["bank"];
+    $params["bankname"] = $this->_request["bankname"];
+    $params["typecustomer"] = $this->_request["typecustomer"];
+    $params["typedocument"] = $this->_request["typedocument"];
+    $params["numberdocument"] = $this->_request["numberdocument"];
+        
+    $model = new Model();
+    $this->response( $this->json($model->pay($params)) , 200 );
+  }
+  
+  /**
+   * MÈtodo privado que permite le pago gratuito mediante fluz
+   * @param int $id_cart Id del carrito
+   * @param int $id_customer Id del usuario
+   * @return json Resultado del pago gratuito
+   */
+  private function payFreeOrder(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+        
+    $params = array();
+    $params["method"] = "bankwire";
+    $params["payment"] = "Pedido gratuito";
+    $params["id_cart"] = $this->_request["id_cart"];
+    $params["id_customer"] = $this->_request["id_customer"];
+
+    $model = new Model();
+    $this->response( $this->json($model->payFreeOrder($params)) , 200 );
+  }
+  
+  /**
+   * MÈtodo privado que retorna los bancos de pse
+   * @return json Bancos de pse
+   */
+  private function bankPse(){
+    return $this->response( $this->json(PasarelaPagoCore::get_bank_pse()) , 200 );	
+  }
+  
+  /**
+   * MÈtodo privado que retorna las llaves de apertura de pago
+   * @return json Llaves de apertura de pago
+   */
+  private function KeysOpenPay(){
+    return $this->response($this->json(PasarelaPagoCore::get_keys_open_pay('Tarjeta_credito')),200);	
+  }
+
+  /**
+   * MÈtodo privado que retorna la franquicia
+   * @param int $cart_number Numero de la tarjeta
+   * @return json InformaciÛn de l a franquisia
+   */
+  private function franquicia(){
+    $cart_number = 	$this->_request['cart_number'];
+    $this->response(json_encode( PasarelaPagoCore::getFranquicia($cart_number, 'payulatam')),200);
+  }
+  
+  /**
+   * MÈtodo privado que retorna el detalle de la orden.
+   * @param int $id_order id de la orden a consultar
+   * @return json Detalle de la orden
+   */
+  private function orderDetail($id_order = NULL){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+
+    $id = $this->_request['id'];
+    $model = new Model();
+    if($id_order != NULL){
+      return $model->get_order_datail($id_order);
+    }
+
+    $this->response($this->json($model->get_order_datail($id)),200);
+  }
+  
+  /**
+   * MÈtodo privado que trae la informaciÛn de la bÛveda
+   * @param int $id_customer Id de usuario
+   * @return json InformaciÛn de la bÛveda
+   */
+  private function getVaultData(){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
+      $id_customer = $this->_request['id_customer'];
+      $model = new Model();
+      $link = new Link();
+      $countPurchases = 0;
+      if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
+        $id_manufacturer = $this->_request['id_manufacturer'];
+        $bonus = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
+        $gift = $model->getVaultGiftByManufacturer($id_customer, $id_manufacturer);
+        $purchases['result'] = ($gift['result'] !== 'vacio') ? array_merge($bonus['result'], $gift['result']) : $bonus['result'];
+          
         foreach ($purchases['result'] as &$purchase){
-          $purchase['total'] = round($purchase['total']);
-          $purchase['m_img'] = $link->getManufacturerImageLink($purchase['id_manufacturer']);
+          $purchase['card_code'] = (string)$purchase['card_code'];            
+          $purchase['price'] = round($purchase['price']);
+          $purchase['formatPrice'] = $this->formatPrice($purchase['price']);
+          $purchase['showDetails'] = false;
           $countPurchases++;
         }
         $purchases['total'] = $countPurchases;
         return $this->response(json_encode($purchases),200);
       }
-      else {
-        $this->response('', 204);
-      }
-
-    }
-    
-    public function getNetwork() {
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
-      
-      if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
-        $id_customer = $this->_request['id_customer'];
-        $object_inv = $this->_request['obj_inv'];
-        $model = new Model();
-        $link = new Link();
-        $result = array();
-        $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
-        $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
-        $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
-//        error_log("\n\n 1- Esto es option que llega: \n\n".print_r($option,true),3,"/tmp/error.log");
-        
-        if( $option == 1 ){
-          $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
-          foreach ($activityNetwork['result'] as &$activityNetworkk){
-            $activityNetworkk['credits'] = round($activityNetworkk['credits']);
-            $activityNetworkk['img_product'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
-            $activityNetworkk['img'] = $link->getProfileImageLink($activityNetworkk['id_customer']);
-          }
-          $count = count($activityNetwork['result']);
-          $limit = ($limit > $count) ? $count : $limit;
-          for($i = $last_total; $i < $limit; $i++){
-            $result['result'][] = $activityNetwork['result'][$i];
-          }
-//          error_log("\n\n Este es el network Activity: \n\n". print_r($result, true),3,"/tmp/error.log");
-          $result['total'] = count($result);
-          return $this->response(json_encode(array('result' => $result)),200);
-        }
-        else if ( $option == 2 ){
-          $my_network = $model->getMyNetwork( $this->id_lang_default, $id_customer );
-          $max_limit = count($my_network['result']);
-          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
-          if ( $limit != 0 ){
-            for ( $i = $last_total; $i < $limit; $i++ ) {
-              $result[] = $my_network['result'][$i];
-            }
-          }
-          else {
-            $result = $my_network['result'];
-          }
-          return $this->response(json_encode(array('result' => $result)),200);
-        }
-        elseif ( $option == 3 ) {
-          $my_network = $model->getMyInvitation( $this->id_lang_default, $id_customer );
-          $max_limit = count($my_network['result']);
-          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
-          if ( $limit != 0 ){
-            for ( $i = $last_total; $i < $limit; $i++ ) {
-              $result[] = $my_network['result'][$i];
-            }
-            if($max_limit == 1){
-                $result[0]['contador'] = $max_limit;
-            }else{
-                $result[0]['contador'] = $max_limit;
-                $result[1]['contador'] = $max_limit;
-            }
-            
-          }
-          else{
-              $result[] = $my_network['result'][$i];
-              $result[0]['contador'] = $max_limit;
-          }
           
-          
-
-          return $this->response(json_encode(array('result' => $result)),200);
-        }
-        else if ( $option == 4 ){
-          $my_network = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
-          $max_limit = count($my_network['result']);
-          $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
-          if ( $limit != 0 ){
-            for ( $i = $last_total; $i < $limit; $i++ ) {
-              $result[] = $my_network['result'][$i];
-            }
-          }
-          return $this->response(json_encode(array('result' => $result)),200);
-        }
-        else if ( $option == 5 ) { 
-          $object_inv = json_decode($object_inv, true);  
-          $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
-          return $this->response(json_encode(array('result' => $invitation)),200);
-        }
+      $purchases = $model->getVault($id_customer, $this->id_lang_default);
+      foreach ($purchases['result'] as &$purchase){
+        $purchase['total'] = round($purchase['total']);
+        $purchase['m_img'] = $link->getManufacturerImageLink($purchase['id_manufacturer']);
+        $countPurchases++;
       }
-      else {
-        $this->response('', 204);
-      }
+      $purchases['total'] = $countPurchases;
+      return $this->response(json_encode($purchases),200);
     }
-    
-    public function getActivityNetworkProfile(){
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
+    else {
+      $this->response('', 204);
+    }
+  }
+  
+  /**
+   * MÈtodo privado que obtiene la network
+   * @param int $id_customer Id de usuario
+   * @param type $obj_inv objeto de invitaciÛn
+   * @param type $option opcion a ejecutar
+   * @param type $limit limite de resultados
+   * @param type $last_total ˙ltimo total de resultados
+   * @return json Network
+   */
+  private function getNetwork() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
       
+    if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
       $id_customer = $this->_request['id_customer'];
+      $object_inv = $this->_request['obj_inv'];
+      $model = new Model();
+      $link = new Link();
+      $result = array();
+      $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
+      $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
+      $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
+        
+      if( $option == 1 ){
+        $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
+        foreach ($activityNetwork['result'] as &$activityNetworkk){
+          $activityNetworkk['credits'] = round($activityNetworkk['credits']);
+          $activityNetworkk['img_product'] = $link->getManufacturerImageLink($activityNetworkk['id_manufacturer']);
+          $activityNetworkk['img'] = $link->getProfileImageLink($activityNetworkk['id_customer']);
+        }
+        $count = count($activityNetwork['result']);
+        $limit = ($limit > $count) ? $count : $limit;
+        for($i = $last_total; $i < $limit; $i++){
+          $result['result'][] = $activityNetwork['result'][$i];
+        }
+        $result['total'] = count($result);
+        return $this->response(json_encode(array('result' => $result)),200);
+      }
+      else if ( $option == 2 ){
+        $my_network = $model->getMyNetwork( $this->id_lang_default, $id_customer );
+        $max_limit = count($my_network['result']);
+        $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+        if ( $limit != 0 ){
+          for ( $i = $last_total; $i < $limit; $i++ ) {
+            $result[] = $my_network['result'][$i];
+          }
+        }
+        else {
+          $result = $my_network['result'];
+        }
+        return $this->response(json_encode(array('result' => $result)),200);
+      }
+      elseif ( $option == 3 ) {
+        $my_network = $model->getMyInvitation( $this->id_lang_default, $id_customer );
+        $max_limit = count($my_network['result']);
+        $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+        if ( $limit != 0 ){
+          for ( $i = $last_total; $i < $limit; $i++ ) {
+            $result[] = $my_network['result'][$i];
+          }
+          if($max_limit == 1){
+            $result[0]['contador'] = $max_limit;
+          }else{
+            $result[0]['contador'] = $max_limit;
+            $result[1]['contador'] = $max_limit;
+          }
+        }
+        else{
+          $result[] = $my_network['result'][$i];
+          $result[0]['contador'] = $max_limit;
+        }
+        return $this->response(json_encode(array('result' => $result)),200);
+      }
+      else if ( $option == 4 ){
+        $my_network = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
+        $max_limit = count($my_network['result']);
+        $limit = ( $limit <= $max_limit ) ? $limit : $max_limit;
+        if ( $limit != 0 ){
+          for ( $i = $last_total; $i < $limit; $i++ ) {
+            $result[] = $my_network['result'][$i];
+          }
+        }
+        return $this->response(json_encode(array('result' => $result)),200);
+      }
+      else if ( $option == 5 ) { 
+        $object_inv = json_decode($object_inv, true);  
+        $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
+        return $this->response(json_encode(array('result' => $invitation)),200);
+      }
+    }
+    else {
+      $this->response('', 204);
+    }
+  }
+   
+  /**
+   * MÈtodo privado que obtiene la actividad de la Network de un usuario
+   * @param int $id_customer Id de usuario
+   * @return json Actividad de la network
+   */
+  private function getActivityNetworkProfile(){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
       
-      $sql = "SELECT
+    $id_customer = $this->_request['id_customer'];
+  
+    $sql = "SELECT
               o.id_order,
               o.date_add,
               o.id_customer,
@@ -1321,119 +1265,155 @@ class API extends REST {
             WHERE o.id_customer IN ( ".$id_customer." ) AND o.current_state = 2
             ORDER BY o.date_add DESC  LIMIT 5";
       
-      $activity = Db::getInstance()->executeS($sql);
-      $link = new Link();
-      foreach ($activity as &$activityN){
-        $activityN['credits'] = round($activityN['credits']);
-        $activityN['img'] = $link->getManufacturerImageLink($activityN['id_manufacturer']);
-      }
-      $result['result'] = $activity;
-      $result['total'] = count($result['result']);
-      
-//      error_log("\n\n\n\n Esto es result activity profile: \n\n".print_r($result , true),3,"/tmp/error.log");
-      return $this->response($this->json($result), 200);
+    $activity = Db::getInstance()->executeS($sql);
+    $link = new Link();
+    foreach ($activity as &$activityN){
+      $activityN['credits'] = round($activityN['credits']);
+      $activityN['img'] = $link->getManufacturerImageLink($activityN['id_manufacturer']);
     }
-    
-    public function findInvitation() {
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
+    $result['result'] = $activity;
+    $result['total'] = count($result['result']);
       
-      $id_customer = $this->_request['id_customer'];
-      
-      $model = new Model();
-      $results = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
-      
-      $max_limit = count($results['result']);
-      $limit = $max_limit < 4 ? $max_limit : 4;
-      if($max_limit > 0){
-        for( $i = 0 ; $i <= $limit ; $i++ ){
-          $result[$i] = $results['result'][$i];
-        }        
-      }
-      
-      return $this->response(json_encode(array('result' => $result)),200);
+    return $this->response($this->json($result), 200);
+  }
+  
+  /**
+   * MÈtodo privado para buscar una invitacÛn en la red propia
+   * @param int $id_customer Id usuario
+   * @return json Invitaciones disponibles.
+   */
+  private function findInvitation() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
     }
-    
-    public function sendInvitation() {
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
-      $id_customer = $this->_request['id_customer'];
-      $invitation_data['email'] = $this->_request['email'];
-      $invitation_data['firtsname'] = $this->_request['firtsname'];
-      $invitation_data['lastname'] = $this->_request['lastname'];
-      $invitation_data['whatsapp'] = $this->_request['whatsapp'];
-      $phone = $this->_request['phone'];
       
-      $model = new Model();
-      $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data, $phone );
-      return $this->response(json_encode(array('result' => $invitation)),200);
+    $id_customer = $this->_request['id_customer'];
+    $model = new Model();
+    $results = $model->getMyNetworkInvitations( $this->id_lang_default, $id_customer );
+    $max_limit = count($results['result']);
+    $limit = $max_limit < 4 ? $max_limit : 4;
+
+    if($max_limit > 0){
+      for( $i = 0 ; $i <= $limit ; $i++ ){
+        $result[$i] = $results['result'][$i];
+      }        
     }
-    
-    public function redemption() {
-      if ($this->get_request_method() != "GET") {
-        $this->response('', 406);
-      }
-      
-      $requestData = array(
-        'id_customer' => '',
-        'identification' => '',
-        'firts_name' => '',
-        'last_name' => '',
-        'card' => '',
-        'account' => '',
-        'bank' => '',
-        'points' => '',
-        'credits' => '',
-        'typeRedemption' => '',
-        'cardVirtual' => '',
-        'type_vitual' => ''
-      );
-      
-      //llena las variables de busqueda.
-      foreach ($requestData as $rqd => $value) {
-        ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
-      }
-    
-      $MyAccountController = new MyAccountController();
-      $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
-      if( $userData['fluzTotal'] < $points ){
-        return $this->response(json_encode(array('result' => 'error')),206);
-      }
-      
-      if( $typeRedemption > 0 && $typeRedemption < 3){
-        $card_value = ($typeRedemption == 1) ? $card : $cardVirtual;
-        $bank_value = ($typeRedemption == 1) ? $bank : ( ($type_vitual == 1) ? 'BITCOIN' : 'ETHEREUM' );
-        $account_value = ($typeRedemption == 1) ? $account : ( ($type_vitual == 1) ? 'BITCOIN' : 'ETHEREUM' );
-      }
-      else{
-        return $this->response(json_encode(array('result' => 'error')),206);
-      }
-      
-      $sql = "INSERT INTO 
-                "._DB_PREFIX_."rewards_payment (
-                  nit_cedula,
-                  nombre,
-                  apellido,
-                  numero_tarjeta,
-                  tipo_cuenta,
-                  banco,
-                  points,
-                  credits,
-                  detail,
-                  invoice,
-                  paid
-                )
-              VALUES (
-                ".$identification.", '".$firts_name."', '".$last_name."', ".$card_value.", '".$account_value."', '".$bank_value."', ".$points.", ".$credits.", 0, 0, '-".$credits."'
-              )";
-      
-      $result = Db::getInstance()->ExecuteS($sql);
-      
-      return $this->response(json_encode(array('result' => $result)),200);
+
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+  
+  /**
+   * MÈtodo privado para enviar la invitaciÛn
+   * @param int $id_customer Id de usuario
+   * @param string $email Correo del usurio 
+   * @param string $firtsname Primer nombre
+   * @param string $lastname Segundo nombre
+   * @param int $phone Numero de telÈfono
+   * @param bool $whatsapp Bandera para enviar invitacion por whatsapp
+   * @return json Resultado de la invitaciÛn
+   */
+  private function sendInvitation() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
     }
-    
+    $id_customer = $this->_request['id_customer'];
+    $invitation_data['email'] = $this->_request['email'];
+    $invitation_data['firtsname'] = $this->_request['firtsname'];
+    $invitation_data['lastname'] = $this->_request['lastname'];
+    $invitation_data['whatsapp'] = $this->_request['whatsapp'];
+    $phone = $this->_request['phone'];
+
+    $model = new Model();
+    $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $invitation_data, $phone );
+    return $this->response(json_encode(array('result' => $invitation)),200);
+  }
+  
+  /**
+   * MÈtodo privado para la redenciÛn
+   * @param int $id_customer Id del cliente
+   * @param int $identification N˙mero de identificaciÛn del usuario
+   * @param string $firts_name Primer nombre del usuario
+   * @param string $last_name apellidos del usuario
+   * @param int $card Numero de tarjeta del usuario
+   * @param int $account tipo de cuenta
+   * @param string $bank banco
+   * @param int $points puntos 
+   * @param int $credits creditos
+   * @param string $typeRedemption tipo de redencion
+   * @param int $cardVirtual tarjeta virtual
+   * @param int $type_vitual Tipo de pago virtual
+   * @return json Resultado de la redenciÛn
+   */
+  public function redemption() {
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+
+    $requestData = array(
+      'id_customer' => '',
+      'identification' => '',
+      'firts_name' => '',
+      'last_name' => '',
+      'card' => '',
+      'account' => '',
+      'bank' => '',
+      'points' => '',
+      'credits' => '',
+      'typeRedemption' => '',
+      'cardVirtual' => '',
+      'type_vitual' => ''
+    );
+
+    //llena las variables de busqueda.
+    foreach ($requestData as $rqd => $value) {
+      ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
+    }
+
+    $MyAccountController = new MyAccountController();
+    $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
+    if( $userData['fluzTotal'] < $points ){
+      return $this->response(json_encode(array('result' => 'error')),206);
+    }
+
+    if( $typeRedemption > 0 && $typeRedemption < 3){
+      $card_value = ($typeRedemption == 1) ? $card : $cardVirtual;
+      $bank_value = ($typeRedemption == 1) ? $bank : ( ($type_vitual == 1) ? 'BITCOIN' : 'ETHEREUM' );
+      $account_value = ($typeRedemption == 1) ? $account : ( ($type_vitual == 1) ? 'BITCOIN' : 'ETHEREUM' );
+    }
+    else{
+      return $this->response(json_encode(array('result' => 'error')),206);
+    }
+
+    $sql = "INSERT INTO 
+              "._DB_PREFIX_."rewards_payment (
+                nit_cedula,
+                nombre,
+                apellido,
+                numero_tarjeta,
+                tipo_cuenta,
+                banco,
+                points,
+                credits,
+                detail,
+                invoice,
+                paid
+              )
+            VALUES (
+              ".$identification.", '".$firts_name."', '".$last_name."', ".$card_value.", '".$account_value."', '".$bank_value."', ".$points.", ".$credits.", 0, 0, '-".$credits."'
+            )";
+
+    $result = Db::getInstance()->ExecuteS($sql);
+
+    return $this->response(json_encode(array('result' => $result)),200);
+  }
+  
+  /**
+   * MÈtodo privado para enviar un mensaje a un usuario de la red
+   * @param int $id_customer_send Id del usuario emisor
+   * @param int $id_customer_receive Id del usuario receptor
+   * @param string $message Mensaje
+   * @return json Resultado del envio del mensaje
+   */
   public function sendMessage() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
@@ -1449,6 +1429,11 @@ class API extends REST {
     return $this->response(json_encode(array('result' => $result)),200);
   }
   
+  /**
+   * MÈtodo para obtener las conversaciones
+   * @param int $id_customer Id del usuario
+   * @return json Conversaciones
+   */
   public function getConversations() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
@@ -1471,41 +1456,41 @@ class API extends REST {
     $conversations = Db::getInstance()->executeS($sql);
 
     foreach ($conversations as &$conversation) {
-        // Username usuario en conversacion
-        $sql = "SELECT username
-                FROM ps_customer
-                WHERE id_customer = ".$conversation["customer"];
-        $conversation["username"] = Db::getInstance()->getValue($sql);
+      // Username usuario en conversacion
+      $sql = "SELECT username
+              FROM ps_customer
+              WHERE id_customer = ".$conversation["customer"];
+      $conversation["username"] = Db::getInstance()->getValue($sql);
 
-        // Numero de mensajes sin leer
-        $sql = "SELECT
-                  COUNT(*) unread_messages
-                FROM ps_message_sponsor
-                WHERE (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
-                AND `read` = 0";
-        
-        $conversation["unread_messages"] = Db::getInstance()->getValue($sql);
-        
-        // Ultimo mensaje recibido o enviado en conversacion
-        $sql = "SELECT
-                    message,
-                    date_send,
-                    UNIX_TIMESTAMP(date_send) date_send_ts,
-                    IF(
-                        date_send>=DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'),
-                        DATE_FORMAT(date_send, '%H:%i'),
-                        DATE_FORMAT(date_send, '%Y-%m-%d') 
-                    ) date_show
-                FROM ps_message_sponsor
-                WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$conversation["customer"].")
-                OR (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
-                ORDER BY date_send DESC
-                LIMIT 1";
-        $message = Db::getInstance()->executeS($sql);
-        $conversation["message"] = $message[0]["message"];
-        $conversation["date_show"] = $message[0]["date_show"];
-        $conversation["date_send"] = $message[0]["date_send"];
-        $conversation["date_send_ts"] = $message[0]["date_send_ts"];
+      // Numero de mensajes sin leer
+      $sql = "SELECT
+                COUNT(*) unread_messages
+              FROM ps_message_sponsor
+              WHERE (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+              AND `read` = 0";
+
+      $conversation["unread_messages"] = Db::getInstance()->getValue($sql);
+
+      // Ultimo mensaje recibido o enviado en conversacion
+      $sql = "SELECT
+                message,
+                  date_send,
+                  UNIX_TIMESTAMP(date_send) date_send_ts,
+                  IF(
+                      date_send>=DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'),
+                      DATE_FORMAT(date_send, '%H:%i'),
+                      DATE_FORMAT(date_send, '%Y-%m-%d') 
+                  ) date_show
+              FROM ps_message_sponsor
+              WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$conversation["customer"].")
+              OR (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+              ORDER BY date_send DESC
+              LIMIT 1";
+      $message = Db::getInstance()->executeS($sql);
+      $conversation["message"] = $message[0]["message"];
+      $conversation["date_show"] = $message[0]["date_show"];
+      $conversation["date_send"] = $message[0]["date_send"];
+      $conversation["date_send_ts"] = $message[0]["date_send_ts"];
     }
 
     // Ordenar conversaciones por fecha DESC
@@ -1513,7 +1498,6 @@ class API extends REST {
         return  $b['date_send_ts'] - $a['date_send_ts'];
     });
     
-//    error_log("\n\n\n\n Esto es query get messages: \n\n".print_r($sql, true),3,"/tmp/error.log");
     foreach ($conversations AS $key => &$conversation) {
       if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
         $conversation['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
@@ -1523,7 +1507,13 @@ class API extends REST {
     return $this->response(json_encode(array('result' => $conversations)),200);
   }
   
-  public function getConversation() {
+  /**
+   * MÈtodo privado para obtener una conversaciÛn
+   * @param int $id_customer Id del usuario
+   * @param int $id_customer_conversation Id del usurio de la conversaciÛn
+   * @return json ConversaciÛn
+   */
+  private function getConversation() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
@@ -1544,13 +1534,16 @@ class API extends REST {
             OR (id_customer_send = ".$id_customer_conversation." AND id_customer_receive = ".$id_customer.")
             ORDER BY date_send ASC";
     
-//    error_log("\n\n\n Este es el que trae la conversacion: \n\n".print_r($sql, true),3,"/tmp/error.log");
     $conversation = Db::getInstance()->executeS($sql);
     return $this->response(json_encode(array('result' => $conversation)),200);
   }
   
-  
-  public function getPasscode() {
+  /**
+   * MÈtodo privado para obtener el estado del passcode de la bÛveda
+   * @param int $id_customer Id del usuario
+   * @return json Verdadero si la tiene / falso si no la tiene asignada
+   */
+  private function getPasscode() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
@@ -1569,7 +1562,13 @@ class API extends REST {
     }
   }
   
-  public function setPasscode() {
+  /**
+   * Metodo privado para asignar la contraseÒa de la bÛveda de bonos
+   * @param int $id_customer Id del usuario
+   * @param int $passcode ContraseÒa
+   * @return json resultado de la asignacion de la contraseÒa
+   */
+  private function setPasscode() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
@@ -1588,10 +1587,15 @@ class API extends REST {
     else {  
       return $this->response(json_encode(array('result' => false)),200);
     }
-    
   }
   
-  public function validatePasscode() {
+  /**
+   * MÈtodo privado de validaciÛn del passcode de la bÛveda de bonos
+   * @param int $id_customer Id del usuario
+   * @param int $passcode ContraseÒa para validar
+   * @return json estado de la validaciÛn
+   */
+  private function validatePasscode() {
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
@@ -1621,7 +1625,13 @@ class API extends REST {
     }
   }
   
-  public function updatePasscode(){
+  /**
+   * Metrodo porivado para actualizar el passcode de la bÛveda de bonos
+   * @param int $id_customer Id del usuario
+   * @param int $passcode passcode a asignar
+   * @return json Resultado de la actualizaciÛn
+   */
+  private function updatePasscode(){
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
@@ -1664,7 +1674,14 @@ class API extends REST {
     }
   }
   
-  public function updateBonus() {
+  /**
+   * MÈtodo privado para actualizar el estado de los bonos
+   * @param int $card Id de la tarjeta de regalo
+   * @param string $used Estado de uso
+   * @param int $price_card_used Valor usado de la tarjeta
+   * @return json Resultado de la actualizaciÛn del bono
+   */
+  private function updateBonus() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
@@ -1688,7 +1705,12 @@ class API extends REST {
     return $this->response(json_encode(array('result' => $result)),200);
   }
   
-  public function getPhoneByIdCustomer() {
+  /**
+   * MÈtodo privado que obtiene el telÈfono por id de usuario
+   * @param int $id_customer Id del usuario
+   * @return json N˙mero de telÈfono
+   */
+  private function getPhoneByIdCustomer() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
@@ -1703,23 +1725,31 @@ class API extends REST {
     $result['formatPhone'] = str_repeat("X", (strlen($result['phone']) - 6)).substr($result['phone'], -4);
     return $this->response(json_encode(array('result' => $result)),200);
   }
-
-  public function setPhoneByIdCustomer() {
+  
+  /**
+   * MÈtodo privado que Asigna un telÈfono a un usuario por id de usuario
+   * @param int $id_customer Id de usuario
+   * @return json Resultado de la asignaciÛn
+   */
+  private function setPhoneByIdCustomer() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
     $id_customer = $this->_request['id_customer'];
     $phone = $this->_request['phone'];
-//    error_log("n\n Este es el telefono: \n".print_r($phone,true),3,"/tmp/error.log");
     $sql = 'UPDATE '._DB_PREFIX_.'customer
             SET phone = '.$phone.'
             WHERE id_customer = '.$id_customer.';';
-//    error_log("n\n Este es el telefono: \n".print_r($sql,true),3,"/tmp/error.log");
     $result = Db::getInstance()->execute($sql);
     return $this->response(json_encode(array('result' => $result)),200);
   }
-
-  public function sendSMSConfirm() {
+  
+  /**
+   * MÈtodo privado que envia un SMS de confirmaciÛn al acceder a la cuenta.
+   * @param int $id_customer Id usuario
+   * @return json Resultado del envio del SMS de confirmaciÛn
+   */
+  private function sendSMSConfirm() {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
@@ -1734,7 +1764,6 @@ class API extends REST {
                             SET app_confirm = '.$numberConfirm.'
                             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($updateNumberConfirm);
-//      $msg = "Tu n˙mero de confirmaciÛn para FLuzFluz es: ".$numberConfirm;
     $curl = curl_init();
     
     $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
@@ -1747,7 +1776,12 @@ class API extends REST {
     return $this->response(json_encode(array('result' => $result)),200);
   }
   
-  
+  /**
+   * MÈtodo privado de confirmaciÛn de usuario con el n˙mero enviado por SMS
+   * @param int $id_customer Id usuario
+   * @param int $confirmNumber N˙mero de confirmacion enviado por SMS
+   * @return json Resultado de la confirmaciÛn de identidad.
+   */
   private function confirm() {
     if($this->get_request_method() != "POST") {
       $this->response('',406);
@@ -1774,7 +1808,12 @@ class API extends REST {
           )), 204);
     }
   }
-    
+   
+  /**
+   * MÈtodo privado para obtener las direcciones de los comercios.
+   * @param int $id_manufacturer Id del comercio
+   * @return json Direcciones del comercio solicitado
+   */
   private function getAddressManufacturer() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
@@ -1788,13 +1827,20 @@ class API extends REST {
             WHERE m.active = 1
               and a.active = 1
               and a.id_manufacturer = ".$id_manufacturer;
-//    error_log("\n\n\n Este es el query de posiciones: \n\n".print_r($sql,true),3,'/tmp/error.log');
     
     $result = Db::getInstance()->executeS($sql);
     $total = count($result);
     return $this->response(json_encode(array('result' => $result, 'total' => $total)),200);
   }
   
+  /**
+   * MÈtodo privado para obtener las longitudes y latitudes de las direcciones de los comercios para ubicar en el mapa.
+   * @param string $latitude Latitud de la ubicaciÛn del usuario
+   * @param string $longitude Longitud de la ubicaciÛn del usuario
+   * @param int $option OpciÛn a consultar
+   * @param int $id_manufacturer Id del comercio a consultar
+   * @return json Resultado de la consulta. 
+   */
   private function getAddressMaps() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
@@ -1857,7 +1903,6 @@ class API extends REST {
         return $this->response(json_encode(array('result' => '')),206);
       }
     }
-//    error_log("\n\n\n Este es el query de posiciones: \n\n".print_r($sql,true),3,'/tmp/error.log');
     
     $positions = Db::getInstance()->executeS($sql);
     
@@ -1869,11 +1914,6 @@ class API extends REST {
       return str_replace('.', ',', $a['distance']) > str_replace('.', ',', $b['distance']) ? 1:-1 ;
     });
     
-    // Mostrar 10 resultados cercanos
-//    for($i = 0; $i <= 10; $i++){
-//      $result[] = $positions[$i];
-//    }
-    
     foreach ($positions as $pos){
       if(floatval($pos['distance']) <= 10){
         $result[] = $pos;
@@ -1884,6 +1924,11 @@ class API extends REST {
     return $this->response(json_encode(array('result' => $result)),200);
   }
   
+  /**
+   * MÈtodo privado que obtiene la informacion de las notificaciones iniciales.
+   * @param int $id_customer Id del cliente
+   * @return json Informacion de las notificaciones iniciales.
+   */
   private function getNotificationBarOrders(){
     if($this->get_request_method() != "GET") {
       $this->response('',406);
@@ -1892,9 +1937,18 @@ class API extends REST {
     
     $model = new Model();
     $result = $model->getNotificationOrder($id_customer);
+    error_log("\n\n Esto es lo que retorna Notifications: ". print_r($result, true),3,"/tmp/error.log");
     $this->response($this->json($result), 200);
   }
-
+  
+  /**
+   * MÈtodo p˙blico que obtiene la distancia ente la posicion actual del usuario y un comercio
+   * @param float $lat1 Latitud del usuario
+   * @param float $lon1 Longitud del usuario
+   * @param float $lat2 Latitud del comercio
+   * @param float $lon2 Longitud del comercio
+   * @return float Distancia entre el comercio y el usuario.
+   */
   public function getDistanceToCoords($lat1,$lon1,$lat2,$lon2) {
     $R = 6371; // Radius of the earth in km
     $dLat = $this->deg2rad($lat2-$lat1);  // deg2rad below
@@ -1908,18 +1962,19 @@ class API extends REST {
     return $d;
   }
   
+  /**
+   * MÈtodo publico para convertir de Degrees a Radians
+   * @param float $deg valor en deg
+   * @return float Valor en radians 
+   */
   public function deg2rad($deg) {
     return $deg * (M_PI/180);
   }
   
-  
+  /**
+   * MÈtodo publico para subir la im·gen de perfil del usuario.
+   */
   public function profileImage() {
-//    error_log("\n\nMe ejecutaron Brother\n\n",3,"/tmp/error.log");
-//    error_log("\n\nEsto recibo: \n\n".print_r($_FILES, true),3,"/tmp/error.log");
-//    error_log("\n\nEsto recibo: \n\n".print_r($this->_request, true),3,"/tmp/error.log");
-//    if($this->get_request_method() != "POST") {
-//      $this->response('',406);
-//    }
     // subir imagen al servidor
     $target_path = _PS_IMG_DIR_ . "profile-images/";
     $target_path = $target_path . basename( $_FILES['file']['name'] );
@@ -1945,7 +2000,17 @@ class API extends REST {
     $mythumb->save($patch_grabar);
   }
   
-  public function sendGiftCard(){
+  /**
+   * MÈtodo privado para obsequiar un cÛdigo a un usuario en la Red propia del usuario
+   * @param int $id_customer Id usuario emisor
+   * @param int $id_customer_receive Id usuario receptor
+   * @param int $code El cÛdigo a obsequiar
+   * @param int $id_product_code Id del producto a obsequiar
+   * @param int $message Mensaje aÒadido al regalo
+   * @param int $customer_send Nombre del usuario receptor
+   * @return json Resultado del obsequio del cÛdigo
+   */
+  private function sendGiftCard(){
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
@@ -2056,15 +2121,18 @@ class API extends REST {
       $msgError = "Error al obtener la informaciÛn del producto regalo.";
     }
     return $this->response(json_encode(array('error' => $error, 'msg' => $msgError)),200);
-    
   }
   
-  public function getOrderHistory() {
+  /**
+   * MÈtodo privado para obtener el historial de ordenes de un usuario.
+   * @param int $id_customer Id del usuario
+   * @return json Historial de ordenes.
+   */
+  private function getOrderHistory(){
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
     $id_customer = $this->_request['id_customer'];
-//    $id_lang = $this->_request['id_lang'] ? $this->_request['id_lang'] : 1 ;
     $id_lang = 1 ;
     $sql = "SELECT o.id_order, os.name, o.payment, o.total_discounts, o.total_paid, DATE_FORMAT(o.date_add , '%Y-%m-%d') as date, osc.color
             FROM "._DB_PREFIX_."orders o
@@ -2104,12 +2172,22 @@ class API extends REST {
     return $this->response(json_encode($orders),200);
   }
   
-  
-  function ordenar( $a, $b ) {
+  /**
+   * MÈtodo p˙blico para ordenar un arreglo.
+   * @param array $a  
+   * @param array $b
+   * @return array arreglo ordenado
+   */
+  public function ordenar( $a, $b ) {
     return strtotime($a['date']) - strtotime($b['date']);
   }
   
-  function getOrderDetail() {
+  /**
+   * MÈtodo privado para obtener el detalle de una orden.
+   * @param int $id_order Id de la orden a consultar
+   * @return json Detalle de la orden
+   */
+  private function getOrderDetail() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
@@ -2133,7 +2211,12 @@ class API extends REST {
     return $this->response(json_encode(array('result'=>$products)),200);
   }
   
-  function getStateManufacturer(){
+  /**
+   * MÈtodo privado para obtener el estado de un Comercio
+   * @param int $id_manufacturer Id del comercio
+   * @return json Estado ( Activo/Inactivo )
+   */
+  private function getStateManufacturer(){
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
@@ -2149,8 +2232,13 @@ class API extends REST {
     return $this->response(json_encode(array('result'=> $result > 0 ? true : false)),200);
   }
   
-  
-  public function getMediaInstagram() {
+  /**
+   * MÈtodo privado para obtener la informaciÛn de instagram de un comercio.
+   * @param int $id_manufacturer Id del comercio
+   * @param int $count N˙mero que especifica la cantiodad de informaciÛn que solicita.
+   * @return json Instagram de un comercio.
+   */
+  private function getMediaInstagram() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
@@ -2189,16 +2277,27 @@ class API extends REST {
     return $this->response(json_encode(array('result'=> $result)),200);
   }
   
+  /**
+   * MÈtodo privado que captura el resultado de consultar una url.
+   * @param string $url Url a consultar
+   * @return json Resultado
+   */
   private function fetchData($url) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 20);    $result = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    $result = curl_exec($ch);
     curl_close($ch);
     return $result;
   }
   
-  public function getNetworkGUser(){
+  /**
+   * MÈtodo privado para la consulta de la Red del usuario, usada para pintal el gr·fico
+   * @param int $id_customer Id de usuario
+   * @return json Red
+   */
+  private function getNetworkGUser(){
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
@@ -2208,7 +2307,12 @@ class API extends REST {
     return $this->response(json_encode($my_network),200);
   }
   
-  public function getBitPay(){
+  /**
+   * MÈtodo privado para obtener la url de pago de BitPay
+   * @param int $id_cart Id del carrito
+   * @return json Url del pago con BitPay.
+   */
+  private function getBitPay(){
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
@@ -2268,7 +2372,12 @@ class API extends REST {
     $this->response(json_encode($return),200);
   }
   
-  public function getEmailSocialMedia() {
+  /**
+   * MÈtodo privado para loguearse con el correo obtenido por alguna red Social
+   * @param string $email Correo
+   * @return json Resultado del login.
+   */
+  private function getEmailSocialMedia() {
     if($this->get_request_method() != "GET") {
       $this->response('',406);
     }
@@ -2293,7 +2402,6 @@ class API extends REST {
         
         $refer_code = DB::getInstance()->getValue($sql);
         
-//        error_log("\n\n\n Esto es el customer: ".print_r($customer,true),3,"/tmp/error.log");
         $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
         $result = array(
           'id' => (int) $customer->id,
@@ -2334,7 +2442,14 @@ class API extends REST {
     return $this->response(json_encode($return),200);
   }
   
-  public function sendSupport(){
+  /**
+   * MÈtodo privado para solicitar soporte
+   * @param int $id_customer Id de usuario
+   * @param string $email correo
+   * @param string $issue asunto del Problema
+   * @param string $problem descripcion del problema
+   */
+  private function sendSupport(){
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
@@ -2361,7 +2476,6 @@ class API extends REST {
     $message_subject = $row_subject['subject_mail'];
 
     $allinone_rewards = new allinone_rewards();
-//    $result = $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'info@fluzfluz.com', '');
     $result = 1;
     
     if($result == 1){
