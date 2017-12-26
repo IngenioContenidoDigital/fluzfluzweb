@@ -5,6 +5,7 @@ include_once('classes/order/Order.php');
 require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
+include_once(_PS_MODULE_DIR_.'/bitpay/bitpay.php');
 
 class API extends REST {
 
@@ -493,23 +494,24 @@ class API extends REST {
             
       $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($user_key);
             
-      if ( empty($error) ) {
-        // Agregar Cliente
-        $customer = new Customer();
-        $customer->firstname = $firstname;
-        $customer->lastname = $lastname;
-        $customer->email = $email;
-        $customer->passwd = Tools::encrypt($dni);
-        $customer->dni = $dni;
-        $customer->username = $username;
-        $customer->birthday = $birthday;
-        $customer->id_default_group = 4;
-        $customer->kick_out = 0;
-        $customer->active = 1;
-        $customer->id_lang = Context::getContext()->language->id;
-        $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
-        $saveCustomer = $customer->add();
-        $customer->updateGroup(array("3","4"));
+        if ( empty($error) ) {
+          // Agregar Cliente
+          $customer = new Customer();
+          $customer->firstname = $firstname;
+          $customer->lastname = $lastname;
+          $customer->email = $email;
+          $customer->passwd = Tools::encrypt($dni);
+          $customer->dni = $dni;
+          $customer->username = $username;
+          $customer->birthday = $birthday;
+          $customer->id_default_group = 4;
+          $customer->kick_out = 0;
+          $customer->active = 1;
+          $customer->id_lang = Context::getContext()->language->id;
+          $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+          $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+          $saveCustomer = $customer->add();
+          $customer->updateGroup(array("3","4"));
 
         // Agregar Direccion
         $address = new Address();
@@ -2367,6 +2369,7 @@ class API extends REST {
                 'orderStatus' => $order_status
             ));
     
+    bitpay::writeDetails($order->id, $cart->id, $order->id, $order_status->name);
     $model = new Model();
     $return = $model->getObjectBitPay($cart, $order);
     $this->response(json_encode($return),200);

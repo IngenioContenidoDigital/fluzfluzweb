@@ -1,5 +1,6 @@
 <?php
 
+include_once(_PS_MODULE_DIR_.'/bitpay/bitpay.php');
 
 class bitpayPaymentModuleFrontController extends ModuleFrontController
 {
@@ -59,7 +60,8 @@ class bitpayPaymentModuleFrontController extends ModuleFrontController
                 'currency' => $this->context->currency,
                 'orderStatus' => $order_status
             ));
-    
+            
+    bitpay::writeDetails($order->id, $cart->id, $order->id, $order_status->name);
     echo $this->module->execPayment($cart, $order);
   }
 }

@@ -209,9 +209,10 @@ class MyAccountController extends MyAccountControllerCore
                                                 INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
                                                 INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
                                                 INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
-                                                INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+                                                INNER JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
                                                 WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
                                                 ORDER BY o.date_add DESC ");
+        
         foreach ($last_shopping_products as &$last_shopping_product) {
             $imgprofile = "";
             if ( file_exists(_PS_IMG_DIR_."profile-images/".$last_shopping_product['id_customer'].".png") ) {

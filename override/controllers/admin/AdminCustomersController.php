@@ -189,7 +189,9 @@ class AdminCustomersController extends AdminCustomersControllerCore
             FROM '._DB_PREFIX_.'orders o
             WHERE o.id_customer = a.id_customer
         ) as last_purchase';
-
+        
+        $this->_orderBy = 'id_customer';
+        $this->_orderWay = 'DESC';
         // Check if we can add a customer
         if (Shop::isFeatureActive() && (Shop::getContext() == Shop::CONTEXT_ALL || Shop::getContext() == Shop::CONTEXT_GROUP)) {
             $this->can_add_customer = false;
@@ -787,6 +789,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
     {
         $customer->id_shop = $this->context->shop->id;
         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+        $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
         $customer->warning_kick_out = 0;
     }
     
