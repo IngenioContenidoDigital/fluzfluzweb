@@ -889,7 +889,6 @@ class API extends REST {
     $link = new Link();
     if( $option == 1 ){
       $categories = $model->getCategoriesHome($this->id_lang_default, true, true, true, 3, 5, true);
-      //error_log("\n\nEntro a opcion 1: \n\n Categorias:\n\n".print_r($categories,true),3,"/tmp/error.log");
       
       foreach ($categories['result'] as $key => &$category) {
         $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
@@ -903,7 +902,6 @@ class API extends REST {
       }
     }
     else if( $option == 3 ){
-//      error_log("\n\nEntro a opcion 3: ",3,"/tmp/error.log");
       if (isset($this->_request['id_category']) && !empty($this->_request['id_category'])) {
         $id_category = $this->_request['id_category'];
       }
@@ -1939,7 +1937,6 @@ class API extends REST {
     
     $model = new Model();
     $result = $model->getNotificationOrder($id_customer);
-    error_log("\n\n Esto es lo que retorna Notifications: ". print_r($result, true),3,"/tmp/error.log");
     $this->response($this->json($result), 200);
   }
   
