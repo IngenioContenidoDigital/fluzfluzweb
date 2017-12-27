@@ -137,7 +137,7 @@ class kickoutCustomers {
         $query = "SELECT c.id_customer, c.username, c.email, SUM(r.credits) points
                     FROM "._DB_PREFIX_."customer c
                     LEFT JOIN "._DB_PREFIX_."rewards r ON ( c.id_customer = r.id_customer AND r.id_reward_state = 2 )
-                    WHERE c.id_customer = ".$customer['id'];
+                    WHERE c.optin = 1 AND c.field_work IS NULL AND c.id_customer = ".$customer['id'];
         $customerdata = Db::getInstance()->getRow($query);
         
         $contributor_count = Db::getInstance()->getValue("SELECT COUNT(*) contributor_count

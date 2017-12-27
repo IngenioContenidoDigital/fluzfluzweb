@@ -146,7 +146,7 @@ class LoyaltyModule extends ObjectModel
 		/* Prevent division by zero */
 		$points = 0;
 		if ($pointRate = (float)(Configuration::get('PS_LOYALTY_POINT_RATE')))
-			$points = floor(number_format($price, 2, '.', '') / $pointRate);
+			$points = round(number_format($price, 2, '.', '') / $pointRate);
 
 		return (int)$points;
 	}

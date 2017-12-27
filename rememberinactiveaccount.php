@@ -28,8 +28,10 @@ $query = "SELECT
             FROM "._DB_PREFIX_."customer c
             LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
             WHERE c.active = 1
-            AND c.kick_out = 0
+            AND c.kick_out = 0 AND
+            c.optin = 1 AND c.field_work IS NULL
             GROUP BY c.id_customer";
+
 $customers = Db::getInstance()->executeS($query);
 
 foreach ( $customers as $key => &$customer ) {
