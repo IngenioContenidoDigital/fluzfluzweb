@@ -54,6 +54,13 @@ ul.step li.step_todo span:after{display: none;}
     height: 40px;
 }
 
+.info-cash-div{
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #b3b3b3;
+    background: #f9f9f9;
+}
+
 .proceso{
     background: #FF8C00;
     width: 20% !important;

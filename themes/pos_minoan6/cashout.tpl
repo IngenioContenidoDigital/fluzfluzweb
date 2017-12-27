@@ -58,6 +58,10 @@
     {if $payment_button_allowed}
     <div id="rewards-step1">
         <input type="hidden" value="{$totalAvailable}" id="total_available">
+        <div class="row info-cash-div">
+            <span style="font-weight:bold; color:#000;">Nota: </span> Puedes solicitar la redenci&oacute;n de tus Fluz antes del d&iacute;a 23 del mes en curso. Ten presente que el pago de los Fluz a tu cuenta, ser&aacute; 
+            realizado el d&iacute;a 30 de cada mes o el primer d&iacute;a h&aacute;bil siguiente.
+        </div>
         <div class="row">    
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Fluz Totales: "}</span>
