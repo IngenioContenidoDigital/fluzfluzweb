@@ -2479,7 +2479,7 @@ class API extends REST {
     $message_subject = $row_subject['subject_mail'];
 
     $allinone_rewards = new allinone_rewards();
-    $result = 1;
+    $result = $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, 'info@fluzfluz.com', '');
     
     if($result == 1){
       $this->response($this->json(array("success" => true )), 200);
@@ -2490,6 +2490,35 @@ class API extends REST {
         "message" => "Ha ocurrido un error."
       )), 400);
     }
+  }
+  
+  /**
+   * Método privado que actualiza el Token de FCM
+   * @param int $id_customer Id de usuario
+   * @param string $token Token de fcm
+   * @return Json Resultado de la actualización
+   */
+  private function setTokenFCM() {
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    $token = $this->_request['token'];
+    
+    $sql = 'UPDATE '._DB_PREFIX_.'customer
+            SET token_fcm = "'.$token.'"
+            WHERE id_customer = '.$id_customer.';';
+    
+    $result = Db::getInstance()->execute($sql);
+    
+    if ($result  == 1){
+      return $this->response(json_encode(array('result' => true)),200);
+    }
+    else {  
+      return $this->response(json_encode(array('result' => false)),200);
+    }
+    
   }
   
 }
