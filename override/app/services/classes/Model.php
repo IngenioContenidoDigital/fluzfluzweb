@@ -2386,8 +2386,7 @@ return $responseObj;
 
           $allinone_rewards = new allinone_rewards();
           $allinone_rewards->sendMail((int)$id_lang, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
-          
-          
+                    
           $urlWhatsapp = "No hay whatsapp";
           if ( $whatsapp && $phone != "" ) {
             $urlWhatsapp = "https://api.whatsapp.com/send?phone=".$phone."&text=Hola ".$friend_firstname." ".$friend_lastname.", has sido invitado por ".$customer->username." a unirte a Fluz Fluz. Ingresa al siguiente link para aceptar la invitacion: ".str_replace("=", "%3D", $sponsorship->getSponsorshipMailLink());

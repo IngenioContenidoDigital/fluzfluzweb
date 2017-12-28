@@ -371,7 +371,7 @@ class API extends REST {
    * @return json Informacion de la tarjeta de crédito
    */
   private function sevedCreditCard(){
-    if($this->get_request_method() != "GET") {
+    if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
     
