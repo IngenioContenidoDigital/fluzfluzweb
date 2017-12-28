@@ -159,6 +159,10 @@ progress::-webkit-progress-value {
 
 .p-reactive-account{margin-bottom: 20px;}
 
+@media (min-width:1191px){
+   .footerPrueba{margin-top: 130px;}
+}
+
 @media (max-width:1190px){
     .footerPrueba{margin-top: 265px;}
 }
