@@ -69,6 +69,49 @@
     </script>
 {/literal}
 {capture name=path}{l s='My account'}{/capture}
+{if !empty($query_reactive)}
+    <div class='row container-reactive'>
+        <div class='row reactive-t'>
+            <div class="col-lg-6 col-sm-6 text-orientation">
+                <div class="title_reactive">Reactivaci&oacute;n de cuenta</div>
+                <div class="border-title border-title-responsive"></div>
+            </div>
+            <div class="col-lg-6 col-sm-6 img-orientation">
+                <img src="{$img_dir}icon/account-reactivation.png" class="img_reactive" />
+            </div>    
+        </div>
+        <div class="row p-reactive-account">
+            <div class="title-p-reactive">
+                &#191Por qu&eacute; fue suspendida mi cuenta?
+            </div>
+            <div>
+                <p class='p-text-reactive'>
+                    Para garantizar la actividad del network y asegurarnos que todos nuestros Fluzzers SIEMPRE ganen FLuz, es 
+                    necesario que realices m&iacute;nimo 2 compras al mes. &#191Qu&eacute; tal un caf&eacute; ma&ntilde;ana de camnino al trabajo? que tal 
+                    &#191tanquear tu carro? o quiz&aacute;s &#191Comprar algo de mercado de vuelta a casa? Por qu&eacute; no hacerlo utlizando Fluz Fluz y 
+                    ganar puntos que se canjean por dinero por comprar lo que igual ibas a comprar.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="title-p-reactive">
+                &#191Como reactivo mi cuenta?
+            </div>
+            <div>
+                <p class='p-text-reactive'>
+                    No te preocupes, hacerlo es muy sencillo. Haz clic en el sigueinte bot&oacute;n y ser&aacute;s re-ubicado en una nueva posici&oacute;n
+                    en el network de Fluz Fluz. Una vez seas reubicado. podr&aacute;s comenzar de nuevo a invitar a tus amigos y a hacer que tu network crezca.
+                    Recuerda que entre m&aacute;s personas tengas en tu network, m&aacute;s Fluz ganaras por las compras que ellos hagan.
+                </p>
+            </div>
+        </div>
+        <form method="post" action="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" id="form-reactive">
+            <button class='reactive-account' id="reactive-account" name="reactive-account">
+                Reactivar mi cuenta
+            </button>
+        </form>
+    </div>
+{else}
 <div class="row page-heading">
     <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">mis c&oacute;digos</h1>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding-min">
@@ -109,7 +152,6 @@
         </div>
     </div>
 </div>
-
 <h1 class="page-heading col-lg-12 col-md-12 col-sm-12 col-xs-12 efectMargin">{l s='My account'}</h1>
 {if isset($account_created)}
 	<p class="alert alert-success">
@@ -330,6 +372,7 @@
         </div>
     </div>
 </div>
+{/if}
 <ul class="footer_links clearfix" style="display: none;">
     <li>
         <a class="btn btn-default button button-small" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Home'}"><span><i class="icon-chevron-left"></i> {l s='Home'}</span></a>
