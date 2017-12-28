@@ -171,7 +171,7 @@
                                     {if $order_lastmonth != ''}
                                         {if $order_lastmonth['alert'] == 4}
                                             <div class="col-lg-12 banner-advertencia">
-                                                <p class="p-advertencia">{l s="Tu cuenta se encuentra actualmente cancelada."}</p>
+                                                <p class="p-advertencia">{l s="Tu cuenta ha sido desactivada temporalmente."}</p>
                                             </div>
                                         {/if}
 
