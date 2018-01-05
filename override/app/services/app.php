@@ -2518,6 +2518,18 @@ class API extends REST {
     
   }
   
+  private function reactiveAccount(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $id_customer = $this->_request['id_customer'];
+    
+    $model = new Model();
+    $result = $model->reactiveAccount($id_customer);
+    $this->response(json_encode(array('result' => $result)),200);
+  }
+  
 }
 
 
