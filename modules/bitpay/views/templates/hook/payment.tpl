@@ -9,7 +9,7 @@
     </p>
   </div>
 </div>-->
-<div class="col-xs-12" style="margin-top: 5px; padding-left: 0px;padding-right: 0px;">
+<div class="col-xs-12" style="margin-top: 5px; padding-left: 0px;padding-right: 0px;" id="panel_bitpay">
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">

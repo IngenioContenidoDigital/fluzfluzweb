@@ -40,6 +40,8 @@ class MyAccountController extends MyAccountControllerCore
     {
         FrontController::initContent();
         
+        $query_reactive = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'customer WHERE id_default_group = 2 AND kick_out = 1 AND id_customer ='.(int)$this->context->customer->id);
+        $this->context->smarty->assign('query_reactive', $query_reactive);
         
         $totals = RewardsModel::getAllTotalsByCustomer((int)$this->context->customer->id);
         $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
@@ -91,6 +93,49 @@ class MyAccountController extends MyAccountControllerCore
         $this->context->smarty->assign('imgprofile',$imgprofile);
 
         $this->context->smarty->assign('HOOK_CUSTOMER_ACCOUNT', Hook::exec('displayCustomerAccount'));
+        
+        if(Tools::isSubmit('reactive-account')){
+            $query = "SELECT
+                            c.id_customer,
+                            (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+                        FROM "._DB_PREFIX_."customer c
+                        LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+                        LEFT JOIN "._DB_PREFIX_."customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
+                        WHERE c.active = 1
+                        AND c.kick_out = 0
+                        AND c.autoaddnetwork = 0
+                        GROUP BY c.id_customer
+                        HAVING pendingsinvitation >=1 
+                        ORDER BY c.date_add ASC
+                        LIMIT 1";
+            $sponsor = Db::getInstance()->executeS($query);
+            $sponsor = $sponsor[0];
+            
+            if ( !empty($sponsor) && $sponsor['id_customer'] != "" )  {
+                
+                $customer = new Customer($this->context->customer->id);
+                $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
+                $customer->warning_kick_out = 0;
+                $customer->kick_out = 0;
+                $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                $customer->id_default_group = 4;
+                $customer->update();
+                
+                Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'customer_group SET id_group = 4 WHERE id_customer = '.$this->context->customer->id.' AND (id_group != 3 OR id_group != 4) LIMIT 1');
+                Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'customer_group SET id_group = 3 WHERE id_customer = '.$this->context->customer->id.' AND (id_group != 3 OR id_group != 4) LIMIT 1');
+
+                $sponsorship = new RewardsSponsorshipModel();
+                $sponsorship->id_sponsor = $sponsor['id_customer'];
+                $sponsorship->id_customer = $customer->id;
+                $sponsorship->firstname = $customer->firstname;
+                $sponsorship->lastname = $customer->lastname;
+                $sponsorship->channel = 1;
+                $sponsorship->email = $customer->email;
+                $sponsorship->save();
+                
+                Tools::redirect($this->context->link->getPageLink('my-account', true));
+            }
+        }
         
         // SPONSORS
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
@@ -201,7 +246,7 @@ class MyAccountController extends MyAccountControllerCore
                                                         m.id_manufacturer,
                                                         pl.link_rewrite,
                                                         p.price,
-                                                        od.points as credits
+                                                        r.credits as credits
                                                 FROM "._DB_PREFIX_."orders o
                                                 INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = ".$this->context->customer->id." )
                                                 INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
@@ -209,9 +254,10 @@ class MyAccountController extends MyAccountControllerCore
                                                 INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
                                                 INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
                                                 INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$this->context->language->id." )
-                                                INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+                                                INNER JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
                                                 WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
                                                 ORDER BY o.date_add DESC ");
+        
         foreach ($last_shopping_products as &$last_shopping_product) {
             $imgprofile = "";
             if ( file_exists(_PS_IMG_DIR_."profile-images/".$last_shopping_product['id_customer'].".png") ) {

@@ -55,3 +55,5 @@ admin2714/import/
 !/modules/reportliability/config.xml
 !/modules/reportliability/index.php
 /encryptcode.php
+config/settings.inc.php
+

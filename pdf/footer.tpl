@@ -72,6 +72,6 @@
     </tr>
     <tr><td></td></tr>
     <tr>
-        <td style="font-size: 7.5pt;">Resoluci&oacute;n Dian 320001411886 del 14 junio 2016, prefijo B rango 1-5000 autoriza impresa por computador<br>Proveedor software Ingenio contenido digital SAS NIT 900521885-1<br>Calle 12B No.8-03 OFC 308 Bogot&uacute;, Colombia <span style="color: #FDBB1D; font-size: 10pt; line-height: 0pt;">&curren;</span></td>
+        <td style="font-size: 7.5pt;">Resoluci&oacute;n Dian {if $number <= 5000}320001411886 del 14 junio 2016, prefijo B rango 1-5000 {else}18762005703303 del 17 Noviembre 2017, prefijo B rango 5001- 14998{/if} autoriza impresa por computador<br>Proveedor software Ingenio contenido digital SAS NIT 900521885-1<br>Calle 12B No.8-03 OFC 308 Bogot&uacute;, Colombia <span style="color: #FDBB1D; font-size: 10pt; line-height: 0pt;">&curren;</span></td>
     </tr>
 </table>

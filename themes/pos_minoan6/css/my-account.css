@@ -93,6 +93,110 @@ progress::-webkit-progress-value {
 	-webkit-animation: move 5s linear 0 infinite;
 }
 
+/*Css reactivacion de cuenta*/
+.title_reactive{
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Open Sans';    
+    color: #000;
+    letter-spacing: 2px;
+    padding: 15px;
+    padding-left: 0px;
+    font-size: 20px;
+}
+
+.border-title {
+    border-bottom: 2px solid #ef4136;
+    margin-left: 0px;
+    height: 5px;
+    margin-bottom: 20px;
+    width: 45px;
+}
+
+.title-p-reactive{
+    font-weight: bold;
+    color: #000;
+    font-family: 'Open Sans';    
+    letter-spacing: 1px;
+    font-size: 16px;
+}
+
+.reactive-t{
+    margin-top: 40px;
+}
+
+.p-text-reactive{
+    text-align: justify;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.reactive-account{
+    padding: 20px 5%;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-family: Montserrat;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #fff;
+    border: none;
+    background: #ef4136;
+    margin-top: 30px;
+}
+
+.img_reactive{
+    height: 200px; 
+    width: auto; 
+    text-align: center;}
+
+.img-orientation{
+    text-align: right;
+    padding-right: 0px;}
+
+.text-orientation{
+    margin-top: 60px;
+    padding-left: 0px;}
+
+.p-reactive-account{margin-bottom: 20px;}
+
+@media (min-width:1191px){
+   .footerPrueba{margin-top: 130px;}
+}
+
+@media (max-width:1190px){
+    .footerPrueba{margin-top: 265px;}
+}
+
+@media (max-width:900px){
+    .container-reactive{padding: 20px;}
+    .footerPrueba{margin-top: 430px;}
+    .blockFooterPay {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .reactive-t{margin-top: 0px;}
+}
+
+@media (max-width:600px){
+    .footerPrueba{margin-top: 825px;}
+    .reactive-t{margin-top: 0px;}
+    .text-orientation{margin-top: 0px;}
+}
+
+@media (max-width:420px){
+    .footerPrueba{margin-top: 875px;}
+    .reactive-t{margin-top: 0px;}
+    .text-orientation{margin-top: 0px;}
+}
+
+@media (max-width:320px){
+    .footerPrueba{margin-top: 995px;}
+    .reactive-t{margin-top: 0px;}
+    .text-orientation{margin-top: 0px;}
+    .title_reactive{letter-spacing: 1px; font-size: 15px;}
+}
+
+
 /* Div Actualizar Precio Tarjeta */
 .pPrice-used{
     color: #777 !important;

@@ -72,7 +72,7 @@ class Allinone_rewardsSponsorshipModuleFrontController extends ModuleFrontContro
             return substr($idTemporary, 0, 7).rand(100,999);
         }
         
-        public function generateIdCodeSponsorship($username) {
+        public static function generateIdCodeSponsorship($username) {
             
             return $username.rand(1,20);
             

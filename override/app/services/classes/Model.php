@@ -736,11 +736,11 @@ class Model extends PaymentModule {
      * 
      */ 
     public function sevedCreditCard($id_customer){
-        $card = Customer::getCard($id_customer);
-        $dateCard = explode("/",$card["date_expiration"]);
-        $card["date_expiration"] = $dateCard[1]."-".$dateCard[0];
-        $card["name_creditCard"] = $card["name_creditCard"] != "" ? $card["name_creditCard"] : "default";
-        return $card;
+      $card = Customer::getCard($id_customer);
+      $dateCard = explode("/",$card["date_expiration"]);
+      $card["date_expiration"] = $dateCard[1]."-".$dateCard[0];
+      $card["name_creditCard"] = $card["name_creditCard"] != "" ? $card["name_creditCard"] : "default";
+      return $card;
     }
     
     public function savepersonalinformation($args) {
@@ -2386,8 +2386,7 @@ return $responseObj;
 
           $allinone_rewards = new allinone_rewards();
           $allinone_rewards->sendMail((int)$id_lang, $template, $allinone_rewards->getL($message_subject), $vars, $friendEmail, $friendFirstName.' '.$friendLastName);
-          
-          
+                    
           $urlWhatsapp = "No hay whatsapp";
           if ( $whatsapp && $phone != "" ) {
             $urlWhatsapp = "https://api.whatsapp.com/send?phone=".$phone."&text=Hola ".$friend_firstname." ".$friend_lastname.", has sido invitado por ".$customer->username." a unirte a Fluz Fluz. Ingresa al siguiente link para aceptar la invitacion: ".str_replace("=", "%3D", $sponsorship->getSponsorshipMailLink());
@@ -2516,6 +2515,48 @@ return $responseObj;
 
     return $response;
   }
-            
+  
+  public function reactiveAccount($id_customer){
+    $query = "SELECT
+                c.id_customer,
+                (2 - COUNT(rs.id_sponsorship)) pendingsinvitation
+              FROM " . _DB_PREFIX_ . "customer c
+              LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
+              LEFT JOIN " . _DB_PREFIX_ . "customer_group cg ON ( c.id_customer = cg.id_customer AND cg.id_group = 4 )
+              WHERE c.active = 1
+              AND c.kick_out = 0
+              AND c.autoaddnetwork = 0
+              GROUP BY c.id_customer
+              HAVING pendingsinvitation >=1 
+              ORDER BY c.date_add ASC
+              LIMIT 1";
+    $sponsor = Db::getInstance()->executeS($query);
+    $sponsor = $sponsor[0];
+
+    if (!empty($sponsor) && $sponsor['id_customer'] != "") {
+      $customer = new Customer($id_customer);
+      $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
+      $customer->warning_kick_out = 0;
+      $customer->kick_out = 0;
+      $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+      $customer->id_default_group = 4;
+      $customer->update();
+
+      Db::getInstance()->execute('UPDATE ' . _DB_PREFIX_ . 'customer_group SET id_group = 4 WHERE id_customer = ' . $id_customer . ' AND (id_group != 3 OR id_group != 4) LIMIT 1');
+      Db::getInstance()->execute('UPDATE ' . _DB_PREFIX_ . 'customer_group SET id_group = 3 WHERE id_customer = ' . $id_customer . ' AND (id_group != 3 OR id_group != 4) LIMIT 1');
+
+      $sponsorship = new RewardsSponsorshipModel();
+      $sponsorship->id_sponsor = $sponsor['id_customer'];
+      $sponsorship->id_customer = $customer->id;
+      $sponsorship->firstname = $customer->firstname;
+      $sponsorship->lastname = $customer->lastname;
+      $sponsorship->channel = 1;
+      $sponsorship->email = $customer->email;
+      
+      $sponsorship->save();
+      return true;
+    }
+    return false;
+  }
 }
   

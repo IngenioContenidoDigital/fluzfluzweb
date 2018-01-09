@@ -57,7 +57,7 @@ class fluzfluzCodes extends Module{
                         pin_code pin ,
                         (CASE id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) estado,
                         (CASE id_order WHEN 0 THEN '' ELSE id_order END) `order`,
-                        date_add
+                        date_add, date_expiration
                     FROM "._DB_PREFIX_."product_code
                     WHERE id_product = ".Tools::getValue('id_product');
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);

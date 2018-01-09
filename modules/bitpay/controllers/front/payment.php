@@ -1,5 +1,6 @@
 <?php
 
+include_once(_PS_MODULE_DIR_.'/bitpay/bitpay.php');
 
 class bitpayPaymentModuleFrontController extends ModuleFrontController
 {
@@ -46,11 +47,21 @@ class bitpayPaymentModuleFrontController extends ModuleFrontController
     $order->current_state = 15;
     $order->conversion_rate = 1;
     $order->reference = $reference;
-    $order->add();
+    $order->add(); 
     
     $order_detail = new OrderDetail();
     $order_detail->createList($order, $cart, $order->getCurrentOrderState(), $cart->getProducts(), 0, true, 0);
-
+    $order_status = new OrderState((int)$order->current_state, (int)$this->context->language->id);
+    
+    Hook::exec('actionValidateOrder', array(
+                'cart' => $cart,
+                'order' => $order,
+                'customer' => $this->context->customer,
+                'currency' => $this->context->currency,
+                'orderStatus' => $order_status
+            ));
+            
+    bitpay::writeDetails($order->id, $cart->id, $order->id, $order_status->name);
     echo $this->module->execPayment($cart, $order);
   }
 }

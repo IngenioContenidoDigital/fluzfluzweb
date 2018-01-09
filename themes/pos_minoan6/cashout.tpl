@@ -58,6 +58,10 @@
     {if $payment_button_allowed}
     <div id="rewards-step1">
         <input type="hidden" value="{$totalAvailable}" id="total_available">
+        <div class="row info-cash-div">
+            <span style="font-weight:bold; color:#000;">Nota: </span> Puedes solicitar la redenci&oacute;n de tus Fluz antes del d&iacute;a 23 del mes en curso. Ten presente que el pago de los Fluz a tu cuenta, ser&aacute; 
+            realizado el d&iacute;a 30 de cada mes o el primer d&iacute;a h&aacute;bil siguiente.
+        </div>
         <div class="row">    
             <div class="cashoutDiv col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span class="cashoutTitle col-lg-6 col-md-6 col-sm-6 col-xs-6">{l s="Fluz Totales: "}</span>
@@ -310,80 +314,119 @@
             <fieldset class="cheque-style">
                 <div id="alert2" class="alert-validation2" style="display:none;">{l s="Ingrese sus Datos Completos"}</div>
                 <div class="row cheque-row" style="margin-top:40px;">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <label class="col-lg-12 required label-cheque" for="gover">{l s='Cedula o Nit'}</label>
-                        <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="typedocument" name="typedocument" class="col-lg-12 input-background" required>
-                                        <option value="" selected="selected">Seleccione tipo de Documento</option>
-                                        <option value="0">CC</option>
-                                        <option value="1">NIT</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-12 required label-cheque" for="gover">{l s='Cedula o Nit'}</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="typedocument" name="typedocument" class="col-lg-12 input-background" required>
+                                            <option value="" selected="selected">Seleccione tipo de Documento</option>
+                                            <option value="0">CC</option>
+                                            <option value="1">NIT</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 required" style="padding: 0;">
+                                <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">N&uacute;mero de Identificaci&oacute;n{*l s='N&uacute;mero de Identificaci&oacute;n'*}</label>
+                                <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
+                        </div>
+                        <div class="form-group required col-lg-3 col-md-3 col-xs-3 blockcheckdigit" style="display: none;">
+                                <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">{l s='Digito de Verificacion'}</label>
+                                <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isCheckDigit" id="checkdigit" name="checkdigit" oninput="if(value.length>1)value=value.slice(0,1)" value="{if isset($smarty.post.checkdigit)}{$smarty.post.checkdigit}{/if}"/>
+                        </div>    
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
+                            <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 required">
+                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
+                            <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 required" style="padding: 0;">
-                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">N&uacute;mero de Identificaci&oacute;n{*l s='N&uacute;mero de Identificaci&oacute;n'*}</label>
-                            <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isGoverNumber" id="gover" name="gover" value="{if isset($smarty.post.gover)}{$smarty.post.gover}{/if}"/>                                            
+                    <div class="row select_check_type" name="select_check_type" id="select_check_type">
+                        <div class='col-lg-10'>
+                            <input type="radio" id="banco" name="banco" value="0" checked="checked"> Pago en Efectivo
+                        </div>
+                        <div class='col-lg-10'>
+                            <input type="radio" id="bitcoin" name="banco" value="1"> Pago Moneda Virtual
+                        </div>    
                     </div>
-                    <div class="form-group required col-lg-3 col-md-3 col-xs-3 blockcheckdigit" style="display: none;">
-                            <label class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque" for="gover">{l s='Digito de Verificacion'}</label>
-                            <input type="number" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 is_required validate input-cash" data-validate="isCheckDigit" id="checkdigit" name="checkdigit" oninput="if(value.length>1)value=value.slice(0,1)" value="{if isset($smarty.post.checkdigit)}{$smarty.post.checkdigit}{/if}"/>
-                    </div>    
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="firstnameCard">{l s='Nombre'}</label>
-                        <input type="text" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="firstnameCard" name="firstnameCard" value="{if isset($smarty.post.firstnameCard)}{$smarty.post.firstnameCard}{/if}" required/>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 required">
-                        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 required label-cheque" for="lastnameCard">{l s='Apellido'}</label>
-                        <input type="text" class="col-lg-12 col-sm-12 col-md-12 col-xs-12 input-cash is_required validate" data-validate="isName" id="lastnameCard" name="lastnameCard" value="{if isset($smarty.post.lastnameCard)}{$smarty.post.lastnameCard}{/if}" required/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                        <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
-                        <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                        <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
-                        <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="pse_bank" name="pse_bank" onchange="bank();" class="col-lg-12 input-background" required>
-                                <option value="">Seleccione una entidad</option>
-                                <option value="BA">BANCO AGRARIO</option>
-                                <option value="BCS">BANCO CAJA SOCIAL</option>
-                                <option value="BCSD">BANCO CAJA SOCIAL DESARROLLO</option>
-                                <option value="BC">BANCO COLPATRIA UAT</option>
-                                <option value="BCAV">BANCO COMERCIAL AV VILLAS S.A.</option>
-                                <option value="BD">BANCO DAVIVIENDA</option>
-                                <option value="BB">BANCO BOGOTA</option>
-                                <option value="BBA">BANCO BANCOLOMBIA</option>
-                                <option value="BP">BANCO POPULAR</option>
-                                <option value="BBVA">BANCO BBVA COLOMBIA S.A.</option>
-                                <option value="BBVA">BANCO COOPERATIVO COOPCENTRAL</option>
-                                <option value="BBVA">BANCO COOMEVA S.A.</option>
-                                <option value="BBVA">BANCO CORPBANCA</option>
-                                <option value="BBVA">BANCO FALABELLA</option>
-                                <option value="BBVA">BANCO PSE</option>
-                                <option value="BBVA">BANCO PICHINCHA S.A.</option>
-                                <option value="BBVA">BANCO TEQUENDAMA</option>
-                                <option value="BBVA">BANCO PROCEDIT COLOMBIA</option>
-                                <option value="BBVA">BANCO GNB SUDAMERIS</option>
-                                <option value="BBVA">BANCO M A P G</option>
-                                <option value="BBVA">BANCO GNB COLOMBIA</option>
-                                <option value="BBVA">BANCO NVO_WLSD</option>
-                            </select> 
-                            <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                    <div class="row" id="select_bank_account">    
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="name_paid">
+                            <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">{l s='Numero de Cuenta Bancaria'}</label>
+                            <input type="text" name="numeroCard" id="numeroCard" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="select_bank">
+                            <label for="pse_bank" class="required col-lg-12 label-cheque">Banco</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank" name="pse_bank" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione una entidad</option>
+                                    <option value="BA">BANCO AGRARIO</option>
+                                    <option value="BCS">BANCO CAJA SOCIAL</option>
+                                    <option value="BCSD">BANCO CAJA SOCIAL DESARROLLO</option>
+                                    <option value="BC">BANCO COLPATRIA UAT</option>
+                                    <option value="BCAV">BANCO COMERCIAL AV VILLAS S.A.</option>
+                                    <option value="BD">BANCO DAVIVIENDA</option>
+                                    <option value="BB">BANCO BOGOTA</option>
+                                    <option value="BBA">BANCO BANCOLOMBIA</option>
+                                    <option value="BP">BANCO POPULAR</option>
+                                    <option value="BBVA">BANCO BBVA COLOMBIA S.A.</option>
+                                    <option value="BBVA">BANCO COOPERATIVO COOPCENTRAL</option>
+                                    <option value="BBVA">BANCO COOMEVA S.A.</option>
+                                    <option value="BBVA">BANCO CORPBANCA</option>
+                                    <option value="BBVA">BANCO FALABELLA</option>
+                                    <option value="BBVA">BANCO PSE</option>
+                                    <option value="BBVA">BANCO PICHINCHA S.A.</option>
+                                    <option value="BBVA">BANCO TEQUENDAMA</option>
+                                    <option value="BBVA">BANCO PROCEDIT COLOMBIA</option>
+                                    <option value="BBVA">BANCO GNB SUDAMERIS</option>
+                                    <option value="BBVA">BANCO M A P G</option>
+                                    <option value="BBVA">BANCO GNB COLOMBIA</option>
+                                    <option value="BBVA">BANCO NVO_WLSD</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
+                            <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione una entidad</option>
+                                    <option value="Cuenta Ahorros">CUENTA AHORROS</option>
+                                    <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
-                        <label for="pse_bank_account" class="required col-lg-12 label-cheque">Seleccion Tipo de Cuenta</label>
-                        <div class="col-lg-12"  style="padding-left:0px;">
-                            <select id="pse_bank_account" name="pse_bank_account" class="col-lg-12 input-background" required>
-                                <option value="">Seleccione una entidad</option>
-                                <option value="Cuenta Ahorros">CUENTA AHORROS</option>
-                                <option value="Cuenta Corriente">CUENTA CORRIENTE</option>
-                            </select> 
-                            <input type="hidden" value="" name="name_bank" id="name_bank"/>
+                    <div class='row' id="select_bank_bit" style="display:none;"> 
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="name_paid">
+                            <label for="numerot" class="required col-lg-12 col-md-12 col-sm-12 col-xs-12 label-cheque">Direcci&oacute;n de la Billetera</label>
+                            <input type="text" name="numeroCardBit" id="numeroCardBit" class="col-lg-12 col-xs-12 col-md-12 col-sm-12 input-cash is_required validate" required/>
                         </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
+                            <label for="pse_bank_bit" class="required col-lg-12 label-cheque">Nombre de billetera</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank_bit" name="pse_bank_bit" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione Tipo de Moneda Virtual</option>
+                                    <option value="BITCOIN">BITCOIN</option>
+                                    <option value="ETHEREUM">ETHEREUM</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank_virtual" id="name_bank_virtual"/>
+                            </div>
+                        </div>    
+                        <div class="col-lg-4 col-md-6 col-sm-6 style-bank">
+                            <label for="pse_bank_account_bit" class="required col-lg-12 label-cheque">Criptomoneda</label>
+                            <div class="col-lg-12"  style="padding-left:0px;">
+                                <select id="pse_bank_account_bit" name="pse_bank_account_bit" class="col-lg-12 input-background" required>
+                                    <option value="">Seleccione una entidad</option>
+                                    <option value="BITCOIN">BITCOIN</option>
+                                    <option value="ETHEREUM">ETHEREUM</option>
+                                </select> 
+                                <input type="hidden" value="" name="name_bank_virtual_p" id="name_bank_virtual_p"/>
+                            </div>
+                        </div>    
                     </div>
-                    
-        </div>    
+            </div>    
             </fieldset>
             <div class="col-lg-6" id="stepBack">
                 <a class="btn-order2 col-lg-6" id="step-back" name="step-back" style="float:left;">
@@ -431,15 +474,20 @@
                     <span class="col-lg-4 col-md-4 col-sm-4 col-xs-5 pstep3"><span id="total-valor"></span></span>
                 </div>
             </div>
-            <div class="col-lg-6" id="step2" style="display:none;">
-                <a class="btn-order2 col-lg-6" id="step2" name="step2" style="float:left;">
-                   <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
-                </a>
-            </div> 
-            <div class="col-lg-6 paid-btn">    
-                <input class="col-lg-6 button btn-cash" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment" style="float:right;">   
+            <div class="row">
+                <div class="col-lg-6" id="step2" style="display:none;">
+                    <a class="btn-order2 col-lg-6" id="step2" name="step2" style="float:left;">
+                       <i class="icon-chevron-left left"></i><span>{l s='Back'}</span>
+                    </a>
+                </div> 
+                <div class="col-lg-6 paid-btn">    
+                    <input class="col-lg-6 button btn-cash" type="submit" value="{l s='REQUEST DEPOSIT'}" name="submitPayment" id="submitPayment" style="float:right;">   
+                </div>
             </div>
         </form>
+        <div class="row text-certified">
+            "Para finalizar el proceso de redenci&oacute;n de tu dinero, debes enviar un correo a <span style="font-weight: bold; font-size: 14px; color: #ef4136;">info@fluzfluz.com</span> con asunto: Solicitud de redenci&oacute;n de dinero. All&iacute; debes adjuntar el certificado bancario de la cuenta a la que se realizar&aacute; el pago, nombre y c&eacute;dula del titular de la cuenta bancaria y nombre y c&eacute;dula del titular de la cuenta de Fluz Fluz. Esta informaci&oacute;n es necesaria para proceder con el pago."
+        </div>    
     </div>
     <!--<div id="payment" style="display:none;">
             <a onClick="$('#payment_form').toggle()">{l s='Payment of your available rewards'} <span>{displayPrice price=$pago currency=$payment_currency}</span></a>
@@ -496,6 +544,37 @@
         .page-heading{margin:0;}
         .breadcrumb{margin-left: 11%; font-size:12px;}
     </style>
+{/literal}
+{literal}
+    <script>
+        $(document).ready(function() {
+            //set initial state.
+            $("input[name=banco]:radio").change(function() {
+
+                var ischecked= $(this).is(':checked');
+                var val = $(this).val();
+                
+                if(ischecked){
+                  if(val == 1){
+                      //var a = $("#pse_bank_account option:selected").text();
+                    $('#pse_bank_bit').change(function() {
+                         var value2 = $('#pse_bank_bit option:selected').text();
+                         $("#pse_bank_account_bit").val(value2);
+                         $('#name_bank_virtual_p').val(value2);
+                         document.getElementById("pse_bank_account_bit").disabled = true;
+                    });
+                        $('#select_bank_account').hide();
+                        $('#select_bank_bit').show();
+                  }
+                  else
+                  {
+                        $('#select_bank_account').show();
+                        $('#select_bank_bit').hide();
+                  }    
+                }
+            });
+        });
+    </script>
 {/literal}
 {literal}
     <script>
@@ -556,33 +635,45 @@
                  $("#nextstep2").on( "click", function() {
                     
                     var bank = $( "#pse_bank option:selected" ).text();
+                    var bank_bit = $( "#pse_bank_bit option:selected" ).text();
                     var bank_account = $( "#pse_bank_account option:selected" ).text();
                     var name = $("#firstnameCard").val();
                     var lastname = $("#lastnameCard").val();
                     var num = $("#numeroCard").val();
+                    var numBit = $("#numeroCardBit").val();
                     var ced = $("#gover").val();
                     var url = document.getElementById("prueba").innerHTML;
-                    if ( name == "" || ced == "" || lastname == "" || num == "" || bank == "Seleccione una entidad") {
+                    if ( name == "" || ced == "" || lastname == "" || (num == "" && bank == "Seleccione una entidad" && numBit == "" && bank_bit == "Seleccione Tipo de Moneda Virtual")) {
                         document.getElementById('alert2').style.display = 'block';
                     }
                     else{
-                    $('#card-oculto').hide();
-                    $('#rewards-step1').hide();
-                    $('#stepBack').hide();
-                    document.getElementById('payment_cash').style.display = 'block';
-                    document.getElementById('step2').style.display = 'block';
-                    $("#nombre-customer").val(name);
-                    $("#lastname-customer").val(lastname);
-                    $("#numero_tarjeta").val(num);
-                    $("#bank_cash").val(bank);
-                    $("#nit_cedula").val(ced);
-                    $("#bank_account").val(bank_account);
-                    $('.second').removeClass('second-cash');
-                    $('.first').removeClass('first');
-                    $('.span-second').removeClass('span-cash');
-                    $('.span-confirmation').addClass('second-cash');
+                        $('#card-oculto').hide();
+                        $('#rewards-step1').hide();
+                        $('#stepBack').hide();
+                        document.getElementById('payment_cash').style.display = 'block';
+                        document.getElementById('step2').style.display = 'block';
+                        $("#nombre-customer").val(name);
+                        $("#lastname-customer").val(lastname);
+                        
+                        if(num == "" || bank == "Seleccione una entidad"){
+                            $("#bank_cash").val(bank_bit);
+                            $("#bank_account").val(bank_bit);
+                            $("#numero_tarjeta").val(numBit);
+                        }
+                        else
+                        {
+                            $("#bank_cash").val(bank);
+                            $("#bank_account").val(bank_account);
+                            $("#numero_tarjeta").val(num);
+                        }
+                        $("#nit_cedula").val(ced);
+                        $('.second').removeClass('second-cash');
+                        $('.first').removeClass('first');
+                        $('.span-second').removeClass('span-cash');
+                        $('.span-confirmation').addClass('second-cash');
                     }
 		 });
+                 
                  $("#step-back").on( "click", function() {
                     $('#rewards-step1').show();
                     $('#payment_form').hide();
@@ -593,6 +684,7 @@
                     $('.second').removeClass('second-cash');
                     $('.span-second').removeClass('span-cash');
 		 });
+                 
                  $("#step2").on( "click", function() {
                     $('#rewards-step1').hide();
                     $('#payment_cash').hide();
