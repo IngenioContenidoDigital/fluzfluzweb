@@ -38,16 +38,18 @@ class AdminEmailsController extends AdminEmailsControllerCore
             $this->noLink = true;
             $this->list_no_link = true;
             $this->explicitSelect = true;
-            $this->addRowAction('delete');
-            $this->addRowAction('resend');
             
-            /*$this->bulk_actions = array(
+            $this->addRowAction('resend');
+            $this->addRowAction('delete');
+            $this->addRowAction('view');
+            
+            $this->bulk_actions = array(
                 'delete' => array(
                     'text' => $this->l('Delete selected'),
                     'confirm' => $this->l('Delete selected items?'),
                     'icon' => 'icon-trash'
                 )
-            );*/
+            );
             foreach (Language::getLanguages() as $language) {
                 $languages[$language['id_lang']] = $language['name'];
             }
@@ -78,140 +80,187 @@ class AdminEmailsController extends AdminEmailsControllerCore
         foreach (Contact::getContacts($this->context->language->id) as $contact) {
             $arr[] = array('email_message' => $contact['id_contact'], 'name' => $contact['name']);
         }
-        $this->fields_options = array(
-            'email' => array(
-                'title' => $this->l('Email'),
-                'icon' => 'icon-envelope',
-                'fields' =>    array(
-                    'PS_MAIL_EMAIL_MESSAGE' => array(
-                        'title' => $this->l('Send email to'),
-                        'desc' => $this->l('Where customers send messages from the order page.'),
-                        'validation' => 'isUnsignedId',
-                        'type' => 'select',
-                        'cast' => 'intval',
-                        'identifier' => 'email_message',
-                        'list' => $arr
-                    ),
-                    'PS_MAIL_METHOD' => array(
-                        'title' => '',
-                        'validation' => 'isGenericName',
-                        'type' => 'radio',
-                        'required' => true,
-                        'choices' => array(
-                            3 => $this->l('Never send emails (may be useful for testing purposes)'),
-                            2 => $this->l('Set my own SMTP parameters (for advanced users ONLY)')
-                        )
-                    ),
-                    'PS_MAIL_TYPE' => array(
-                        'title' => '',
-                        'validation' => 'isGenericName',
-                        'type' => 'radio',
-                        'required' => true,
-                        'choices' => array(
-                            Mail::TYPE_HTML => $this->l('Send email in HTML format'),
-                            Mail::TYPE_TEXT => $this->l('Send email in text format'),
-                            Mail::TYPE_BOTH => $this->l('Both')
-                        )
-                    ),
-                    'PS_LOG_EMAILS' => array(
-                        'title' => $this->l('Log Emails'),
-                        'validation' => 'isBool',
-                        'cast' => 'intval',
-                        'type' => 'bool'
-                    ),
-                ),
-                'submit' => array('title' => $this->l('Save'))
-            ),
-            'smtp' => array(
-                'title' => $this->l('Email'),
-                'fields' =>    array(
-                    'PS_MAIL_DOMAIN' => array(
-                        'title' => $this->l('Mail domain name'),
-                        'hint' => $this->l('Fully qualified domain name (keep this field empty if you don\'t know).'),
-                        'empty' => true, 'validation' =>
-                        'isUrl',
-                        'type' => 'text',
-                    ),
-                    'PS_MAIL_SERVER' => array(
-                        'title' => $this->l('SMTP server'),
-                        'hint' => $this->l('IP address or server name (e.g. smtp.mydomain.com).'),
-                        'validation' => 'isGenericName',
-                        'type' => 'text',
-                    ),
-                    'PS_MAIL_USER' => array(
-                        'title' => $this->l('SMTP username'),
-                        'hint' => $this->l('Leave blank if not applicable.'),
-                        'validation' => 'isGenericName',
-                        'type' => 'text',
-                    ),
-                    'PS_MAIL_PASSWD' => array(
-                        'title' => $this->l('SMTP password'),
-                        'hint' => $this->l('Leave blank if not applicable.'),
-                        'validation' => 'isAnything',
-                        'type' => 'password',
-                        'autocomplete' => false
-                    ),
-                    'PS_MAIL_SMTP_ENCRYPTION' => array(
-                        'title' => $this->l('Encryption'),
-                        'hint' => $this->l('Use an encrypt protocol'),
-                        'desc' => extension_loaded('openssl') ? '' : '/!\\ '.$this->l('SSL does not seem to be available on your server.'),
-                        'type' => 'select',
-                        'cast' => 'strval',
-                        'identifier' => 'mode',
-                        'list' => array(
-                            array(
-                                'mode' => 'off',
-                                'name' => $this->l('None')
-                            ),
-                            array(
-                                'mode' => 'tls',
-                                'name' => $this->l('TLS')
-                            ),
-                            array(
-                                'mode' => 'ssl',
-                                'name' => $this->l('SSL')
+        
+        if($this->context->employee->id == 1 || $this->context->employee->id == 2)
+        {
+            $this->fields_options = array(
+                'email' => array(
+                    'title' => $this->l('Email'),
+                    'icon' => 'icon-envelope',
+                    'fields' =>    array(
+                        'PS_MAIL_EMAIL_MESSAGE' => array(
+                            'title' => $this->l('Send email to'),
+                            'desc' => $this->l('Where customers send messages from the order page.'),
+                            'validation' => 'isUnsignedId',
+                            'type' => 'select',
+                            'cast' => 'intval',
+                            'identifier' => 'email_message',
+                            'list' => $arr
+                        ),
+                        'PS_MAIL_METHOD' => array(
+                            'title' => '',
+                            'validation' => 'isGenericName',
+                            'type' => 'radio',
+                            'required' => true,
+                            'choices' => array(
+                                3 => $this->l('Never send emails (may be useful for testing purposes)'),
+                                2 => $this->l('Set my own SMTP parameters (for advanced users ONLY)')
                             )
                         ),
+                        'PS_MAIL_TYPE' => array(
+                            'title' => '',
+                            'validation' => 'isGenericName',
+                            'type' => 'radio',
+                            'required' => true,
+                            'choices' => array(
+                                Mail::TYPE_HTML => $this->l('Send email in HTML format'),
+                                Mail::TYPE_TEXT => $this->l('Send email in text format'),
+                                Mail::TYPE_BOTH => $this->l('Both')
+                            )
+                        ),
+                        'PS_LOG_EMAILS' => array(
+                            'title' => $this->l('Log Emails'),
+                            'validation' => 'isBool',
+                            'cast' => 'intval',
+                            'type' => 'bool'
+                        ),
                     ),
-                    'PS_MAIL_SMTP_PORT' => array(
-                        'title' => $this->l('Port'),
-                        'hint' => $this->l('Port number to use.'),
-                        'validation' => 'isInt',
-                        'type' => 'text',
-                        'cast' => 'intval',
-                        'class' => 'fixed-width-sm'
-                    ),
+                    'submit' => array('title' => $this->l('Save'))
                 ),
-                'submit' => array('title' => $this->l('Save'))
-            ),
-            'test' => array(
-                'title' =>    $this->l('Test your email configuration'),
-                'hide_multishop_checkbox' => true,
-                'fields' =>    array(
-                    'PS_SHOP_EMAIL' => array(
-                        'title' => $this->l('Send a test email to'),
-                        'type' => 'text',
-                        'id' => 'testEmail',
-                        'no_multishop_checkbox' => true
+                'smtp' => array(
+                    'title' => $this->l('Email'),
+                    'fields' =>    array(
+                        'PS_MAIL_DOMAIN' => array(
+                            'title' => $this->l('Mail domain name'),
+                            'hint' => $this->l('Fully qualified domain name (keep this field empty if you don\'t know).'),
+                            'empty' => true, 'validation' =>
+                            'isUrl',
+                            'type' => 'text',
+                        ),
+                        'PS_MAIL_SERVER' => array(
+                            'title' => $this->l('SMTP server'),
+                            'hint' => $this->l('IP address or server name (e.g. smtp.mydomain.com).'),
+                            'validation' => 'isGenericName',
+                            'type' => 'text',
+                        ),
+                        'PS_MAIL_USER' => array(
+                            'title' => $this->l('SMTP username'),
+                            'hint' => $this->l('Leave blank if not applicable.'),
+                            'validation' => 'isGenericName',
+                            'type' => 'text',
+                        ),
+                        'PS_MAIL_PASSWD' => array(
+                            'title' => $this->l('SMTP password'),
+                            'hint' => $this->l('Leave blank if not applicable.'),
+                            'validation' => 'isAnything',
+                            'type' => 'password',
+                            'autocomplete' => false
+                        ),
+                        'PS_MAIL_SMTP_ENCRYPTION' => array(
+                            'title' => $this->l('Encryption'),
+                            'hint' => $this->l('Use an encrypt protocol'),
+                            'desc' => extension_loaded('openssl') ? '' : '/!\\ '.$this->l('SSL does not seem to be available on your server.'),
+                            'type' => 'select',
+                            'cast' => 'strval',
+                            'identifier' => 'mode',
+                            'list' => array(
+                                array(
+                                    'mode' => 'off',
+                                    'name' => $this->l('None')
+                                ),
+                                array(
+                                    'mode' => 'tls',
+                                    'name' => $this->l('TLS')
+                                ),
+                                array(
+                                    'mode' => 'ssl',
+                                    'name' => $this->l('SSL')
+                                )
+                            ),
+                        ),
+                        'PS_MAIL_SMTP_PORT' => array(
+                            'title' => $this->l('Port'),
+                            'hint' => $this->l('Port number to use.'),
+                            'validation' => 'isInt',
+                            'type' => 'text',
+                            'cast' => 'intval',
+                            'class' => 'fixed-width-sm'
+                        ),
                     ),
+                    'submit' => array('title' => $this->l('Save'))
                 ),
-                'bottom' => '<div class="row"><div class="col-lg-9 col-lg-offset-3">
-					<div class="alert" id="mailResultCheck" style="display:none;"></div>
-				</div></div>',
-                'buttons' => array(
-                    array('title' => $this->l('Send a test email'),
-                        'icon' => 'process-icon-envelope',
-                        'name' => 'btEmailTest',
-                        'js' => 'verifyMail()',
-                        'class' => 'btn btn-default pull-right'
+                'test' => array(
+                    'title' =>    $this->l('Test your email configuration'),
+                    'hide_multishop_checkbox' => true,
+                    'fields' =>    array(
+                        'PS_SHOP_EMAIL' => array(
+                            'title' => $this->l('Send a test email to'),
+                            'type' => 'text',
+                            'id' => 'testEmail',
+                            'no_multishop_checkbox' => true
+                        ),
+                    ),
+                    'bottom' => '<div class="row"><div class="col-lg-9 col-lg-offset-3">
+                                            <div class="alert" id="mailResultCheck" style="display:none;"></div>
+                                    </div></div>',
+                    'buttons' => array(
+                        array('title' => $this->l('Send a test email'),
+                            'icon' => 'process-icon-envelope',
+                            'name' => 'btEmailTest',
+                            'js' => 'verifyMail()',
+                            'class' => 'btn btn-default pull-right'
+                        )
                     )
                 )
-            )
-        );
+            );
+        
         if (!defined('_PS_HOST_MODE_')) {
             $this->fields_options['email']['fields']['PS_MAIL_METHOD']['choices'][1] =
                 $this->l('Use PHP\'s mail() function (recommended; works in most cases)');
         }
+        
         ksort($this->fields_options['email']['fields']['PS_MAIL_METHOD']['choices']);
+        }
+    }
+    
+    public function initContent()
+    {
+        $this->initTabModuleList();
+        $this->initToolbar();
+        $this->initPageHeaderToolbar();
+        $this->addToolBarModulesListButton();
+        unset($this->toolbar_btn['save']);
+        $back = $this->context->link->getAdminLink('AdminDashboard');
+
+        $this->toolbar_btn['back'] = array(
+            'href' => $back,
+            'desc' => $this->l('Back to the dashboard')
+        );
+        
+        $id_mail = Tools::getValue('id_mail');
+        $query_mail = 'SELECT * FROM '._DB_PREFIX_.'mail m
+                   LEFT JOIN '._DB_PREFIX_.'customer c ON (m.recipient = c.email)
+                   WHERE id_mail = '.$id_mail;
+        $list_mail = Db::getInstance()->executeS($query_mail);
+        
+        $vars = json_decode($list_mail[0]['vars'], true);
+        $template = substr($list_mail[0]['template'], 3);
+        
+        //$template_vars = array_map(array('Tools', 'htmlentitiesDecodeUTF8'), $vars);
+        
+        // $this->content .= $this->renderOptions();
+
+        $this->context->smarty->assign(array(
+            'content' => $this->content,
+            'url_post' => self::$currentIndex.'&token='.$this->token,
+            'show_page_header_toolbar' => $this->show_page_header_toolbar,
+            'page_header_toolbar_title' => $this->page_header_toolbar_title,
+            'id_mail' => $id_mail,
+            'vars' => $vars,
+            'template' => $template,
+            'page_header_toolbar_btn' => $this->page_header_toolbar_btn
+        ));
+
+        return parent::initContent();
     }
 }
