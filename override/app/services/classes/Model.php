@@ -2558,5 +2558,72 @@ return $responseObj;
     }
     return false;
   }
+  
+  public function getConversations($id_customer){
+    // Lista de conversaciones
+    $sql = "SELECT CAST(
+                CONCAT(
+                    IF(id_customer_send=".$id_customer.",'',id_customer_send) , IF(id_customer_receive=".$id_customer.",'',id_customer_receive)
+                ) AS INT
+            ) AS customer
+            FROM ps_message_sponsor
+            WHERE (
+                (id_customer_receive=".$id_customer." AND id_customer_send<>".$id_customer.") OR (id_customer_receive<>".$id_customer." AND id_customer_send=".$id_customer.")
+            )
+            GROUP BY customer
+            ORDER BY customer";
+    $conversations = Db::getInstance()->executeS($sql);
+
+    foreach ($conversations as &$conversation) {
+      // Username usuario en conversacion
+      $sql = "SELECT username
+              FROM ps_customer
+              WHERE id_customer = ".$conversation["customer"];
+      $conversation["username"] = Db::getInstance()->getValue($sql);
+
+      // Numero de mensajes sin leer
+      $sql = "SELECT
+                COUNT(*) unread_messages
+              FROM ps_message_sponsor
+              WHERE (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+              AND `read` = 0";
+
+      $conversation["unread_messages"] = Db::getInstance()->getValue($sql);
+
+      // Ultimo mensaje recibido o enviado en conversacion
+      $sql = "SELECT
+                message,
+                  date_send,
+                  UNIX_TIMESTAMP(date_send) date_send_ts,
+                  IF(
+                      date_send>=DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'),
+                      DATE_FORMAT(date_send, '%H:%i'),
+                      DATE_FORMAT(date_send, '%Y-%m-%d') 
+                  ) date_show
+              FROM ps_message_sponsor
+              WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$conversation["customer"].")
+              OR (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+              ORDER BY date_send DESC
+              LIMIT 1";
+      $message = Db::getInstance()->executeS($sql);
+      $conversation["message"] = $message[0]["message"];
+      $conversation["date_show"] = $message[0]["date_show"];
+      $conversation["date_send"] = $message[0]["date_send"];
+      $conversation["date_send_ts"] = $message[0]["date_send_ts"];
+    }
+
+    // Ordenar conversaciones por fecha DESC
+    usort($conversations, function($a, $b) {
+        return  $b['date_send_ts'] - $a['date_send_ts'];
+    });
+    
+    foreach ($conversations AS $key => &$conversation) {
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $conversation['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
+    }
+    
+    return $conversations;
+  }
 }
   
