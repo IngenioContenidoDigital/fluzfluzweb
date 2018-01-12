@@ -46,44 +46,4 @@ class HelperList extends HelperListCore
            
             return $tpl->fetch();
     }
-    
-    public function displayDeleteLink($token = null, $id, $name = null)
-    {
-        $tpl = $this->createTemplate('list_action_delete.tpl');
-        if (!array_key_exists('Delete', self::$cache_lang)) {
-            self::$cache_lang['Delete'] = $this->l('Delete', 'Helper');
-        }
-        if (!array_key_exists('DeleteItem', self::$cache_lang)) {
-            self::$cache_lang['DeleteItem'] = $this->l('Delete selected item?', 'Helper', true, false);
-        }
-        if (!array_key_exists('Name', self::$cache_lang)) {
-            self::$cache_lang['Name'] = $this->l('Name:', 'Helper', true, false);
-        }
-        if (!is_null($name)) {
-            $name = addcslashes('\n\n'.self::$cache_lang['Name'].' '.$name, '\'');
-        }
-        $data = array(
-            $this->identifier => $id,
-            'href' => $this->currentIndex.'&'.$this->identifier.'='.$id.'&delete'.$this->table.'&token='.($token != null ? $token : $this->token),
-            'action' => self::$cache_lang['Delete'],
-        );
-        if ($this->specificConfirmDelete !== false) {
-            $data['confirm'] = !is_null($this->specificConfirmDelete) ? '\r'.$this->specificConfirmDelete : Tools::safeOutput(self::$cache_lang['DeleteItem'].$name);
-        }
-        $tpl->assign(array_merge($this->tpl_delete_link_vars, $data));
-        return $tpl->fetch();
-    }
-    
-    public function displayViewLink($token = null, $id, $name = null)
-    {
-        $tpl = $this->createTemplate('list_action_view.tpl');
-        if (!array_key_exists('View', self::$cache_lang)) {
-            self::$cache_lang['View'] = $this->l('View', 'Helper');
-        }
-        $tpl->assign(array(
-            'href' => $this->currentIndex.'&'.$this->identifier.'='.$id.'&view'.$this->table.'&token='.($token != null ? $token : $this->token),
-            'action' => self::$cache_lang['View'],
-        ));
-        return $tpl->fetch();
-    }
 }
