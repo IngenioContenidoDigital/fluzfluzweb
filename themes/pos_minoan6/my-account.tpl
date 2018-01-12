@@ -147,7 +147,7 @@
             <p class="titleFAQ">{l s='Have Question?'}</p>
             <div class="detail-support">
                 <a href="http://reglas.fluzfluz.co"><p class="link-more-information">Aprende c&oacute;mo redimir tus c&oacute;digos</p></a>
-                <a class="btn btn-default btn-account" href="http://reglas.fluzfluz.co"><span style="cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;">{l s="Preguntas Frecuentes"}</span></a>
+                <a class="btn btn-default btn-account" href="http://reglas.fluzfluz.co"><span style="cursor:pointer; font-size: 13px; color: #fff; font-family: 'Open Sans'; font-weight: 400; letter-spacing: 0; text-transform: uppercase;">{l s="Preguntas Frecuentes"}</span></a>
             </div>
         </div>
     </div>
@@ -384,10 +384,7 @@
         .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; font-size: 16px; line-height: 20px;}
         .page-heading-2{margin-bottom: 0px;padding: 0px;letter-spacing: 0px;font-family: 'Open Sans';font-size: 16px;line-height: 20px;}
         p.info-account{margin: 16px 0 24px 0; padding-left: 0px;font-family: 'Open Sans';font-weight: 400; letter-spacing: 0; font-size: 14px;}
-        .btn-account{font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;
-                        color: #fff;
-                        border: none;
-                        background: #ef4136;}
+        .btn-account{ font-size: 13px; font-family: 'Open Sans'; font-weight: 400; letter-spacing: 0; color: #fff; border: none; background: #ef4136;}
         .btn-design{text-align: right;}
         
         @media (max-width:1024px){
