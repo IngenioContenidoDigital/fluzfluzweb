@@ -146,7 +146,7 @@
         <div class="col-lg-2 col-md-2 col-sm-11 col-xs-12 textAccount">
             <p class="titleFAQ">{l s='Have Question?'}</p>
             <div class="detail-support">
-                <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">Aprende c&oacute;mo redimir tus c&oacute;digos</p></a>
+                <a href="http://reglas.fluzfluz.co"><p class="link-more-information">Aprende c&oacute;mo redimir tus c&oacute;digos</p></a>
                 <a class="btn btn-default btn-account" href="http://reglas.fluzfluz.co"><span style="cursor:pointer;font-size: 15px;color: #fff; font-family: 'Capitalized';font-weight: bold;">{l s="Preguntas Frecuentes"}</span></a>
             </div>
         </div>
@@ -198,9 +198,9 @@
     <div class="col-lg-3 col-md-3 col-sm-11 col-xs-12 textAccount2">
         <p class="titleFAQ">{l s='Need Support?'}</p>
         <div class="detail-support">
-            <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">{l s='Add a Credit or Debit Card'}</p></a>
-            <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">{l s='Change Email or Password'}</p></a>
-            <a href="http://reglas.fluzfluz.co"><p style="font-family: 'Capitalized';font-weight: bold;">{l s='Learn About the Network'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p class="link-more-information">{l s='Add a Credit or Debit Card'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p class="link-more-information">{l s='Change Email or Password'}</p></a>
+            <a href="http://reglas.fluzfluz.co"><p class="link-more-information">{l s='Learn About the Network'}</p></a>
         </div>    
     </div>
 </div>
@@ -383,7 +383,7 @@
     <style>
         .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; font-size: 16px; line-height: 20px;}
         .page-heading-2{margin-bottom: 0px;padding: 0px;letter-spacing: 0px;font-family: 'Open Sans';font-size: 16px;line-height: 20px;}
-        p.info-account{margin: 16px 0 24px 0; padding-left: 0px;font-family: 'Capitalized';font-weight: bold;}
+        p.info-account{margin: 16px 0 24px 0; padding-left: 0px;font-family: 'Open Sans';font-weight: 400; letter-spacing: 0; font-size: 14px;}
         .btn-account{font-size: 12px;font-family: 'Montserrat';font-weight: lighter;letter-spacing: 1px;
                         color: #fff;
                         border: none;

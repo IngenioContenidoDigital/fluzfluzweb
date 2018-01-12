@@ -4036,7 +4036,7 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
 .Cards:hover{background:#fff;}
 .popText{text-align:center; color:#000; font-size:18px; font-family:Josefin-Sans;}
 .infoCard{padding-left:5px; padding-right:0px; text-align: center;}
-.titleFAQ{font-family:'Montserrat' !important; font-size:15px; color:#686969; text-align:left; margin: 0 auto; text-transform:UPPERCASE; letter-spacing: 0px;}
+.titleFAQ{font-family:'Open Sans' !important; font-size:16px; color:#4e4e4e; font-weight: 400; text-align:left; margin: 0 auto; text-transform:UPPERCASE; letter-spacing: 0px;}
 .pFAQ{font-family:'Montserrat'; font-size:14px; color:#808184; text-align:center; margin-top:0;}
 .pFAQ>p {font-family:'Open Sans' !important; color:#808184; text-align:left; font-size: 12px; line-height: 15px;}
 #ex1Slider .slider-selection {background: #BABABA;}
