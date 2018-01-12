@@ -25,25 +25,4 @@
 
 {if isset($content)}
 	{$content}
-        <div id="formAddPaymentPanel" class="panel">
-            <div class="panel-heading">
-                    <i class="icon-envelope"></i>
-                    {l s="Email Enviado (muestra la informacion del email. Solo texto plano no editable)"}
-            </div>
-            <div class="t-email">
-                {l s='Plantilla Email: '}{$template}
-            </div>
-            {foreach from=$vars item=var}
-                <div class="row">
-                    {$var}
-                </div>
-            {/foreach}
-        </div>
 {/if}
-{literal}
-
-    <style>
-        .t-email{font-weight: bold; color: #000; text-transform: uppercase; margin-bottom: 20px;}
-    </style>
-    
-{/literal}
