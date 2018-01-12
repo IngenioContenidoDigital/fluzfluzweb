@@ -12,7 +12,7 @@
 <div class="col-xs-12" style="margin-top: 5px; padding-left: 0px;padding-right: 0px;" id="panel_bitpay">
     <div class="panel-group">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading" style="background: #fff;">
                 <h4 class="panel-title">
                     <a href="{$this_path}payment.php" title="{l s='Pay with BitPay' mod='bitpay'}">
                         {l s='Pay with Bitcoin' mod='bitpay'}
