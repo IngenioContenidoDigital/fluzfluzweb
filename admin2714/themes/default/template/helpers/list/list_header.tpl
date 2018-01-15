@@ -121,6 +121,11 @@
 	<input type="hidden" name="page" value="{$page|intval}"/>
 	<input type="hidden" name="selected_pagination" value="{$selected_pagination|intval}"/>
 	{block name="override_form_extra"}{/block}
+        {if $hookName == 'displayAdminPosslideshowListBefore'}
+            <div class="panel col-lg-12" style="font-weight:bold;font-size: 14px;">
+                (Opciones Vista - 0: Web, 1: Movil, 2: Web/Movil) - (Opciones Tipo Ruta - 0: Producto, 1: Categoria, 2: Url)
+            </div>
+        {/if}    
 	<div class="panel col-lg-12">
 		<div class="panel-heading">
 			{if isset($icon)}<i class="{$icon}"></i> {/if}{if is_array($title)}{$title|end}{else}{$title}{/if}

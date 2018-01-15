@@ -82,7 +82,29 @@
 {if isset($multiple) && isset($max_files)}
 	var {$id}_max_files = {$max_files - $files|count};
 {/if}
+    
+        $(document).ready(function(){
+            var selected = $( "#type_view option:selected" ).val();
+            if(selected === '0'){
+                  $('#type_route').hide();
+                  $('#link_app').hide(); 
+               }
+               
+            $('#type_view').change(function(){
 
+               var selected = $( "#type_view option:selected" ).val();
+
+               if(selected === '0'){
+                  $('#type_route').hide();
+                  $('#link_app').hide(); 
+               }
+               else{
+                  $('#type_route').show();
+                  $('#link_app').show();  
+                }
+
+            });
+        });
 	$(document).ready(function(){
 		$('#{$id}-selectbutton').click(function(e) {
 			$('#{$id}').trigger('click');
