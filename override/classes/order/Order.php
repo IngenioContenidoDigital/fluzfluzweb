@@ -621,7 +621,7 @@ class Order extends OrderCore
                 WHERE ro.orden IS NULL
                 GROUP BY o.id_order, od.product_id
                 ORDER BY o.id_order DESC";
-
+       
         $orders = Db::getInstance()->executeS($sql);
         
         foreach ( $orders as $order ) {
@@ -688,7 +688,7 @@ class Order extends OrderCore
                                     ".$nivel.",
                                     '".$order['estado']."',
                                     '".$order['pago']."',
-                                    '".$order['estado_payu']."',    
+                                    '".$order['state_payu']."',    
                                     ".number_format($order['total'], 6, '.', '').",
                                     ".number_format(($order['total'] - $order['pago_puntos']), 6, '.', '').",
                                     ".number_format($order['pago_puntos'], 6, '.', '').",
