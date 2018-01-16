@@ -337,6 +337,7 @@ class AuthController extends AuthControllerCore
                 $customer->phone =  Tools::getValue('phone_mobile');
                 $customer->username =  Tools::getValue('username');
                 $customer->id_default_group = 4;
+                $customer->active = 0;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                 //$customer->add();
@@ -581,7 +582,7 @@ class AuthController extends AuthControllerCore
                     }*/
                     // New Guest customer
                     $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
-                    $customer->active = 1;
+                    $customer->active = 0;
                     
                     // Validate exist username
                     if ( Customer::usernameExists( Tools::getValue("username") ) ) {
@@ -610,7 +611,7 @@ class AuthController extends AuthControllerCore
                             $customer->passwd = Tools::encrypt( Tools::getValue("passwd") );
                             $customer->dni = Tools::getValue("gover");
                             $customer->kick_out = 0;
-                            $customer->active=1;
+                            $customer->active=0;
                             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+60 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
