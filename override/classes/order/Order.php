@@ -396,6 +396,7 @@ class Order extends OrderCore
                                         <th>nivel</th>
                                         <th>estado</th>
                                         <th>pago</th>
+                                        <th>estado PayU</th>
                                         <th>total</th>
                                         <th>pago_pesos</th>
                                         <th>pago_puntos</th>
@@ -441,6 +442,7 @@ class Order extends OrderCore
                             <td>".$order['nivel']."</td>
                             <td>".$order['estado']."</td>
                             <td>".$order['pago']."</td>
+                            <td>".$order['estado_payu']."</td>
                             <td>".$order['total']."</td>
                             <td>".$order['pago_pesos']."</td>
                             <td>".$order['pago_puntos']."</td>
