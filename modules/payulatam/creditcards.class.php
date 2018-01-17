@@ -119,7 +119,7 @@ class CreditCardValidator {
 		'mastercard' => array(
 			'name'		=>	'MasterCard',
 			'active'	=> 	true,
-			'iinrange' 	=> 	'51-55',
+			'iinrange' 	=> 	'51-55, 22-27',
 			'length'	=> 	16
 		), 
 		'visa' => array(

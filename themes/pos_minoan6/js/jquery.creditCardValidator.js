@@ -63,7 +63,7 @@ IN THE SOFTWARE.
         valid_length: [16]
       }, {
         name: 'mastercard',
-        pattern: /^5[1-5]/,
+        pattern: /^(5[1-5]|2[2-7])/,
         valid_length: [16]
       }, {
         name: 'maestro',
