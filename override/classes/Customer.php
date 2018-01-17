@@ -172,7 +172,7 @@ class Customer extends CustomerCore
         return ObjectModel::update(true);
     }
     
-    public function getAddresses($id_lang)
+    public function getAddresses($id_lang = 1)
     {
         $share_order = (bool)Context::getContext()->shop->getGroup()->share_order;
         $cache_id = 'Customer::getAddresses'.(int)$this->id.'-'.(int)$id_lang.'-'.$share_order;
