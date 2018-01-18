@@ -532,7 +532,7 @@ display:inline-block;
     .block_b{ padding-left: 0px !important;padding-right: 0px !important;}
     .tablenetwork, .tablemessages{width: 100%;}
     .btn-moreload{width: 100%;}
-    .nameProfile{padding-right: 0px !important;}
+    .nameProfile{padding-right: 0px !important; text-align: left;}
     .banner-advertencia{height: 78px;}
     .banner-advertencia-month{height: 75px; min-height: 75px;}
     .banner-advertencia-month p {line-height: 16px;}

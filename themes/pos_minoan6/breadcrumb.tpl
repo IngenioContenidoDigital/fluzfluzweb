@@ -26,7 +26,7 @@
 <!-- Breadcrumb -->
 {if isset($smarty.capture.path)}{assign var='path' value=$smarty.capture.path}{/if}
 <div class="breadcrumb clearfix">
-    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 bread-style">
+    <div class="col-lg-7 col-md-6 col-sm-8 col-xs-10 bread-style">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7 bread-product" style="padding-right:0px;padding-left:0px;">
             <a class="home" href="{if isset($force_ssl) && $force_ssl}{$base_dir_ssl}{else}{$base_dir}{/if}" title="{l s='Return to Home'}">{l s="INICIO"}</a>
                 {if isset($path) AND $path}
@@ -65,7 +65,7 @@
         </div>    
     {/if}
     {if $page_name =='my-account' AND empty($query_reactive)}
-            <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 code-ref-style">
+            <div class="col-lg-5 col-md-6 col-sm-4 col-xs-12 code-ref-style">
                 <div class="col-lg-12 col-xs-12" style="padding-left:0px;">
                     <p class="p-ref">C&oacute;digo para Referidos: {$code}</p>
                 </div>

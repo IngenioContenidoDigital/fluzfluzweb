@@ -125,7 +125,7 @@ class IdentityController extends IdentityControllerCore
                     include_once(_PS_ROOT_DIR_.'/classes/Thumb.php');
                     $mythumb = new thumb();
                     $mythumb->loadImage($patch_grabar);
-                    $mythumb->crop(100, 100, 'center');
+                    $mythumb->crop(400, 400, 'center');
                     $mythumb->save($patch_grabar);
                 }
 
