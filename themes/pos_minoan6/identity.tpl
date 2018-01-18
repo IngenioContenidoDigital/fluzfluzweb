@@ -60,7 +60,7 @@
                         <p class="required requiredinfo"><sup>*</sup>{l s='Required field'}</p>
                         <div class="required form-group img-identity">
                             {if $imgprofile != ""}
-                                <img src="{$imgprofile}">
+                                <img src="{$imgprofile}" width="70" height="70" style="margin: 0 15px;">
                             {else}
                                 <img src="{$img_dir}icon/profile.png">
                             {/if}

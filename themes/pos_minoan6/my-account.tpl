@@ -113,8 +113,8 @@
     </div>
 {else}
 <div class="row page-heading">
-    <h1 class="page-heading-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">mis c&oacute;digos</h1>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding-min">
+    <h1 class="page-heading-2 col-lg-7 col-md-6 col-sm-6 col-xs-6">mis c&oacute;digos</h1>
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 padding-min">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-design">
             <a class="btn btn-default btn-account" href="/content/6-categorias">Comprar C&oacute;digos</a>
         </div>
@@ -381,6 +381,7 @@
 
 {literal}
     <style>
+        .padding-min { margin-left: 54px; }
         .page-heading{margin-bottom: 0px; padding: 0px;letter-spacing: 0px;font-family: 'Open Sans'; font-size: 16px; line-height: 20px;}
         .page-heading-2{margin-bottom: 0px;padding: 0px;letter-spacing: 0px;font-family: 'Open Sans';font-size: 16px;line-height: 20px;}
         p.info-account{margin: 16px 0 24px 0; padding-left: 0px;font-family: 'Open Sans';font-weight: 400; letter-spacing: 0; font-size: 14px;}
@@ -388,10 +389,12 @@
         .btn-design{text-align: right;}
         
         @media (max-width:1024px){
+            .padding-min{ margin-left: 0px; }
         }
         
         @media (max-width:768px){
             .btn-design{text-align: right;padding-left: 0px;}
+            .padding-min{ margin-left: 0px; }
         }
         
         @media(max-width:768px){
@@ -402,6 +405,7 @@
         @media (max-width:425px){
            .btn-reload{padding-left: 0px; width: 200px !important;}
            .btn-design-r{width: 166px;}
+           .padding-min{ margin-left: 0px; }
         }
         
         @media (max-width:420px){
@@ -410,7 +414,7 @@
         }
         
         @media(max-width:414px){
-            .padding-min{padding-left:0px;}
+            .padding-min{ padding-left: 0px; margin-left: 0px; }
         }
     </style>
 {/literal}
