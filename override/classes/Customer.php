@@ -281,6 +281,58 @@ class Customer extends CustomerCore
         }
     }
     
+    public static function CustomerExport( $date_from = "", $date_to = "" )
+    {      
+        $sql = "SELECT c.firstname, c.email, c.date_add, rs.id_sponsor, (SELECT cc.firstname  FROM "._DB_PREFIX_."customer cc WHERE cc.id_customer = rs.id_sponsor)  as Nombre_sponsor,
+        (SELECT cc.email  FROM "._DB_PREFIX_."customer cc WHERE cc.id_customer = rs.id_sponsor)  as email_sponsor
+        FROM "._DB_PREFIX_."customer c
+        LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON (rs.id_customer = c.id_customer)";
+        if ( $date_from != "" && $date_to != "" ) {
+            $sql .= " WHERE c.date_add BETWEEN '".$date_from." 00:00:00' and '".$date_to." 23:59:59'";
+        }
+        $sql .= " ORDER BY date_add DESC";
+        
+        $customers = Db::getInstance()->executeS($sql);
+        
+        $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Email</th> 
+                                        <th>fecha</th>
+                                        <th>id Sponsor</th>
+                                        <th>Nombre Sponsor</th>
+                                        <th>Email Sponsor</th>";
+        
+        $report .= "</tr>";
+        
+        foreach ( $customers as $customer ) {
+            
+            $report .= "<tr>
+                            <td>".$customer['firstname']."</td>
+                            <td>".$customer['email']."</td>
+                            <td>".$customer['date_add']."</td>
+                            <td>".$customer['id_sponsor']."</td>
+                            <td>".$customer['Nombre_sponsor']."</td>
+                            <td>".$customer['email_sponsor']."</td>";
+            
+            $report .= "</tr>";
+        }
+        
+        $report .= "         </table>
+                        </body>
+                    </html>";
+        header("Content-Type: application/vnd.ms-excel");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("content-disposition: attachment;filename=report_orders.xls");
+        die($report);
+    }
+    
     public function getStatisticsReward()
     {
         if (!$this->id) {
