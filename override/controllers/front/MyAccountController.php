@@ -330,7 +330,7 @@ class MyAccountController extends MyAccountControllerCore
       
         $id_lang = $id_lang != null ? $id_lang : $this->context->language->id;
         
-        $query = 'SELECT
+        $query = 'SELECT HIGH_PRIORITY SQL_CACHE,
                   PM.id_manufacturer AS id_manufacturer,
                   PM.`name` AS manufacturer_name,
                   PP.id_product AS id_product,
@@ -388,7 +388,7 @@ class MyAccountController extends MyAccountControllerCore
     public function getProfileCustomer($id_customer){
         
         
-        $query = 'SELECT username FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$id_customer;
+        $query = 'SELECT HIGH_PRIORITY SQL_CACHE username FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$id_customer;
         
         $row= Db::getInstance()->getRow($query);
         $name = $row['username'];
@@ -406,7 +406,7 @@ class MyAccountController extends MyAccountControllerCore
     
     public function orderQuantity($id = ''){
       $id_customer = ( $id == '') ? $this->context->customer->id : $id;
-      $query = "SELECT
+      $query = "SELECT HIGH_PRIORITY SQL_CACHE
                       c.id_customer,
                       c.date_kick_out,
                       DATE_FORMAT(c.date_kick_out,'%Y-%m-%d') date_kick_out_show,
@@ -461,7 +461,7 @@ class MyAccountController extends MyAccountControllerCore
     
     public function getPointsLastDays($id_customer){
      
-                $queryTop = 'SELECT ROUND(SUM(n.credits)) AS points
+                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE, ROUND(SUM(n.credits)) AS points
                             FROM ps_rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
@@ -504,7 +504,7 @@ class MyAccountController extends MyAccountControllerCore
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE, c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'

@@ -63,7 +63,7 @@ class Manufacturer extends ManufacturerCore
         }
 
         $manufacturers = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
-		SELECT m.*, ml.`description`, ml.`short_description`, p.price, (rp.`value`/100) as value
+		SELECT HIGH_PRIORITY SQL_CACHE, m.*, ml.`description`, ml.`short_description`, p.price, (rp.`value`/100) as value
 		FROM `'._DB_PREFIX_.'manufacturer` m
 		'.Shop::addSqlAssociation('manufacturer', 'm').'
                 LEFT JOIN `'._DB_PREFIX_.'product` as p ON (m.`id_manufacturer`= p.`id_manufacturer`)    

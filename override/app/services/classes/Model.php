@@ -1957,7 +1957,7 @@ return $responseObj;
   }
   
   public function getCategories($id_lang, $id_category, $limit = 0, $active = 1, $product_parent = 1, $random = false ) {
-    $sql = 'SELECT
+    $sql = 'SELECT HIGH_PRIORITY SQL_CACHE 
               p.id_manufacturer AS m_id,
               p.id_product AS pf_id,
               p.online_only,
