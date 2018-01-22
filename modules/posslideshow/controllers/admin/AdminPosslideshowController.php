@@ -96,8 +96,8 @@ class AdminPosslideshowController extends ModuleAdminController
     
     public function renderForm() {
         
-        $options_list[0] = array(id_value => 0, name_type => 'Producto');
-        $options_list[1] = array(id_value => 1, name_type => 'Categoria');
+        $options_list[0] = array(id_value => 0, name_type => 'Id Fabricante');
+        $options_list[1] = array(id_value => 1, name_type => 'Id Categoria');
         $options_list[2] = array(id_value => 2, name_type => 'Url');
         
         $type_view[0] = array(id_view => 0, name_view => 'Web');
