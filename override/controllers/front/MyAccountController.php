@@ -330,7 +330,7 @@ class MyAccountController extends MyAccountControllerCore
       
         $id_lang = $id_lang != null ? $id_lang : $this->context->language->id;
         
-        $query = 'SELECT HIGH_PRIORITY SQL_CACHE,
+        $query = 'SELECT HIGH_PRIORITY SQL_CACHE
                   PM.id_manufacturer AS id_manufacturer,
                   PM.`name` AS manufacturer_name,
                   PP.id_product AS id_product,
@@ -461,7 +461,7 @@ class MyAccountController extends MyAccountControllerCore
     
     public function getPointsLastDays($id_customer){
      
-                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE, ROUND(SUM(n.credits)) AS points
+                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE ROUND(SUM(n.credits)) AS points
                             FROM ps_rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
@@ -504,7 +504,7 @@ class MyAccountController extends MyAccountControllerCore
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE, c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'

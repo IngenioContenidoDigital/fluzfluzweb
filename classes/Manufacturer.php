@@ -241,7 +241,8 @@ class ManufacturerCore extends ObjectModel
     {
         if (!isset(self::$cacheName[$id_manufacturer])) {
             self::$cacheName[$id_manufacturer] = Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('
-				SELECT HIGH_PRIORITY SQL_CACHE, `name`
+				SELECT HIGH_PRIORITY SQL_CACHE 
+                                `name`
 				FROM `'._DB_PREFIX_.'manufacturer`
 				WHERE `id_manufacturer` = '.(int)$id_manufacturer.'
 				AND `active` = 1'
