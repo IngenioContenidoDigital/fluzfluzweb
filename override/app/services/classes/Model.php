@@ -1912,11 +1912,13 @@ return $responseObj;
     $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
     $sql = 'SELECT 
               psl.id_pos_slideshow AS b_id,
-              psl.link AS b_link,
-              psl.description AS b_name
+              ps.link_app AS b_link_app,
+              psl.description AS b_name,
+              ps.type_route,
+              ps.type_view
             FROM '._DB_PREFIX_.'pos_slideshow AS ps
             INNER JOIN '._DB_PREFIX_.'pos_slideshow_lang AS psl ON psl.id_pos_slideshow = ps.id_pos_slideshow
-            WHERE psl.id_lang = '.$id_lang.' AND ps.active = '.($active ? 1 : 0).';';
+            WHERE psl.id_lang = '.$id_lang.' AND ps.active = '.($active ? 1 : 0).' AND ps.type_view != 0;';
     
     $result = $db->executeS($sql);
     return array('result' => $result);
@@ -1947,6 +1949,18 @@ return $responseObj;
     return array('result' => $categories);
   }
   
+  public function getNameOneCategoryById($id_category){
+    $categoryInitial = Category::getRootCategories();
+    $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
+    foreach ($categories as $category){
+      if($category['id_category'] == $id_category){
+        return $category;
+      }
+    }
+    return false;
+  }
+
+
   public function array_random($arr, $num = 1) {
     shuffle($arr);
     $r = array();
