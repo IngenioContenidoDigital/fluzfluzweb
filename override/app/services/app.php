@@ -927,6 +927,16 @@ class API extends REST {
     return $this->response( $this->json( $model->phoneProviders() ) , 200 );	
   }
   
+  public function getNameOneCategoryById(){
+    if ($this->get_request_method() != "GET") {
+      $this->response('', 406);
+    }
+    $id_category = $this->_request['id_category'];
+    
+    $model = new Model();
+    return $this->response( $this->json( $model->getNameOneCategoryById($id_category) ) , 200 );	
+  }
+  
   /**
    * Método público para la búsqueda de usuarios (Fluzzers)
    * @param int $userID Id de usuario
