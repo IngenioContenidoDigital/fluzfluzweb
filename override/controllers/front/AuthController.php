@@ -41,7 +41,7 @@ class AuthController extends AuthControllerCore
         $this->addJqueryPlugin('typewatch');
         $this->addJS(array(
             _THEME_JS_DIR_.'tools/vatManagement.js',
-            _THEME_JS_DIR_.'tools/statesManagement.js',
+            //_THEME_JS_DIR_.'tools/statesManagement.js',
             _THEME_JS_DIR_.'authentication.js',
             _PS_JS_DIR_.'jquery/plugins/jquery.creditCardValidator.js',
             _PS_JS_DIR_.'validate.js'
@@ -80,7 +80,7 @@ class AuthController extends AuthControllerCore
             if (Configuration::get('PS_RESTRICT_DELIVERED_COUNTRIES')) {
                 $countries = Carrier::getDeliveredCountries($this->context->language->id, true, true);
             } else {
-                $countries = Country::getCountries($this->context->language->id, true);
+                $countries = Country::getCountries($this->context->language->id, true, true);
             }
             $this->context->smarty->assign(array(
                     'inOrderProcess' => true,
@@ -145,6 +145,21 @@ class AuthController extends AuthControllerCore
         }
     }
     
+    protected function assignCountries()
+    {
+        $this->id_country = (int)Tools::getCountry();
+        if (Configuration::get('PS_RESTRICT_DELIVERED_COUNTRIES')) {
+            $countries = Carrier::getDeliveredCountries($this->context->language->id, true, true);
+        } else {
+            $countries = Country::getCountries($this->context->language->id, false, true);
+        }
+        $this->context->smarty->assign(array(
+                'countries' => $countries,
+                'PS_REGISTRATION_PROCESS_TYPE' => Configuration::get('PS_REGISTRATION_PROCESS_TYPE'),
+                'sl_country' => (int)$this->id_country,
+                'vat_management' => Configuration::get('VATNUMBER_MANAGEMENT')
+            ));
+    }
     public function postProcess()
     {
         if (Tools::isSubmit('submitIdentity')) {

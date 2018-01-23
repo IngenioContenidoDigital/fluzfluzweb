@@ -23,6 +23,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 $(document).ready(function(){
+    $("#city option").hide();
+    
 	$(document).on('submit', '#create-account_form', function(e){
 		e.preventDefault();
 		submitFunction();
@@ -136,3 +138,11 @@ function submitFunction()
 		}
 	});
 }
+
+$(document).on('change', '#id_country', function() {
+    var country = $(this).val();
+    $("#city option").hide();
+    if (country) {
+        $("."+country).show();
+    }
+});
