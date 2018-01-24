@@ -1921,6 +1921,13 @@ return $responseObj;
             WHERE psl.id_lang = '.$id_lang.' AND ps.active = '.($active ? 1 : 0).' AND ps.type_view != 0;';
     
     $result = $db->executeS($sql);
+    $link = new Link();
+    foreach($result as &$banner){
+      if($banner['type_route'] == 0){
+        $banner['image_manufacturer'] = $link->getManufacturerImageLink($banner['b_link_app']);
+      }
+    }
+    
     return array('result' => $result);
   }
 
@@ -1989,7 +1996,8 @@ return $responseObj;
             AND p.product_parent = '.$product_parent.'
             AND p.active = '.$active.'
             GROUP BY p.id_product
-            ';
+          ';
+
     $sql .= ($random) ? 'ORDER BY RAND()' : ' ' ;        
     $sql .= ($limit > 0) ? ' LIMIT '.$limit.';' : ';' ;
     
