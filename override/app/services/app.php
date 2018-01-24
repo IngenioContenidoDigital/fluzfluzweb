@@ -492,7 +492,7 @@ class API extends REST {
         $error[] = 'El correo electronico se encuentra en uso.';
       }
             
-      $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($user_key);
+      $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
             
         if ( empty($error) ) {
           // Agregar Cliente

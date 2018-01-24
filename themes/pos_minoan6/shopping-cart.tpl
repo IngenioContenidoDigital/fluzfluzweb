@@ -259,6 +259,11 @@
 				{/foreach}
 			</div>
 		</div>
+        <div class="cart_navigation_extra">
+            <div id="HOOK_SHOPPING_CART_EXTRA">
+                <div id="HOOK_SHOPPING_CART_EXTRA">{if isset($HOOK_SHOPPING_CART_EXTRA)}{$HOOK_SHOPPING_CART_EXTRA}{/if}</div>
+            </div>
+        </div>
 	</div> <!-- end order-detail-content -->
         <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 cart_total_summary" id="cart_total_summary">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 title-summary">
@@ -451,11 +456,6 @@
 			{/if}
 		</div>
 	{/if}
-        <div class="cart_navigation_extra">
-		<div id="HOOK_SHOPPING_CART_EXTRA">
-			<div id="HOOK_SHOPPING_CART_EXTRA">{if isset($HOOK_SHOPPING_CART_EXTRA)}{$HOOK_SHOPPING_CART_EXTRA}{/if}</div>
-		</div>
-	</div>
         <br>
 	<!--<p class="cart_navigation clearfix">
 		{if !$opc}
