@@ -292,7 +292,7 @@
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-b">{l s='Cupo en Tienda'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title tienda-s" style="display:none;">{l s='Valor'}</div>
                                                                                 <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title title-none">{l s='% Ahorro'}</div>-->
-                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a ganar'}</div>
+                                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Fluz a comprar'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Precio en fluz'}</div>
                                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 item-list-title">{l s='Price'}</div>
                                                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 item-list-title"></div>
