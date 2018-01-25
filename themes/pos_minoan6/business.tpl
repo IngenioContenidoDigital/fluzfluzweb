@@ -94,7 +94,7 @@
 
 <div class="row title-row-business"> 
     <div class="col-lg-12"><span class="title-business" id="title-container"></span></div>
-    <div class="col-lg-6 margin-info">
+    <div class="col-lg-8 margin-info">
             <div id="quantity-users" class="col-lg-12"> Cantidad de Empleados: <span class="available-point"> {$all_fluz} </span></div>
             <div style="padding-left:0px;" id="available-point" class="col-lg-12 title-fluz">{l s="Fluz Totales: "}<span class="available-point">{$pointsAvailable}</span></div>
             <div style="padding-left:0px;" class="col-lg-12 title-fluz" id="title-fluz">{l s="Fluz en Dinero: "}
@@ -102,7 +102,7 @@
                 <span class="available-point"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </span>
             </div>
     </div>
-    <div class="col-lg-6 div-img">
+    <div class="col-lg-4 div-img">
         <img src="/img/business/{$id_customer}.png" class="img-business" />
         <div class="text-business">{$username}</div>
     </div>
