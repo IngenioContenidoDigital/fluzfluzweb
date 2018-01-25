@@ -235,7 +235,11 @@ div.uploader span.action{background: #c9b198 !important;}
 		background-image: -moz-linear-gradient(to bottom, rgb(234,236,238), transparent);
 }
 
-
+.block-information-csv { margin-top: 40px; color: #F15E55; font-style: italic; }
+.block-information-csv > #text-info { font-size: 14px; font-weight: bold; }
+.block-information-csv > #icon-info { font-style: normal; border: 1px solid red; border-radius: 50%; padding: 0 10px; font-size: 16px; font-weight: bold; }
+.block-information-csv > #list-info { color: #777777; margin-left: 17px; }
+.block-information-csv > #list-info > li { list-style: disc; }
 
 @keyframes cssload-width {
 	0%, 100% {
