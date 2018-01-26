@@ -159,6 +159,17 @@
         </div>
     </div>
 </div>
+<div class="row block-information-csv">
+    <div id="title-info">
+        <span id="text-info">Tips para importaciones CSV &nbsp;</span>
+        <span id="icon-info">!</span>
+    </div>
+    <ul id="list-info">
+        <li>El archivo CSV debe estar en formato de separaci&oacute;n por puntos y comas (;).</li>
+        <li>Todos los campos son requeridos (*).</li>
+        <li>Ning&uacute;n dato incluido en el archivo debe contener caracteres especiales o tildes (&aacute;&ntilde;/\&deg;|&not;^&quot;&amp;&lt;&gt;) entre otros.</li>
+    </ul>
+</div>
 <form method="post" id="trasnferbusiness" class="contenedorBusiness" name="trasnferbusiness">    
 <div class="row container-info-users" id="container-info-users">
     <div class="row pagination-header">

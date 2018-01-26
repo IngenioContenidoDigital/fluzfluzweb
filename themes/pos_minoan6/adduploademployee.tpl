@@ -48,16 +48,7 @@
         </div>    
     </div>
 </form>
-<div class="row block-information-csv">
-    <span id="text-info">Tener en cuenta: CSV</span>
-    <span id="icon-info">!</span>
-    <br>
-    <ul id="list-info">
-        <li>El archivo CSV debe estar en formato de separaci&oacute;n por puntos y comas (;).</li>
-        <li>Todos los campos son requeridos (*).</li>
-        <li>Ning&uacute;n dato incluido en el archivo debe contener caracteres especiales o tildes (&aacute;&ntilde;/\&deg;|&not;^&quot;&amp;&lt;&gt;) entre otros.</li>
-    </ul>
-</div>
+
 <form class="copy-form-csv" method="post" enctype="multipart/form-data" id="uploadcopyemployeebusiness" name="uploadcopyemployeebusiness">
     <div class="row row-upload">
         <div class="col-lg-12 title-browser">
