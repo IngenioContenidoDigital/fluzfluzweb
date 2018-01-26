@@ -3,7 +3,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
 
 .title-business{text-align: left;font-family: 'Open Sans'; font-weight: bold; font-size: 22px;}
-.panel-employee{margin-top: 40px;margin-bottom: 40px;padding: 10px;border-bottom: 1px solid;padding-left: 0;}
+.panel-employee{margin-top: 40px;margin-bottom: 15px;padding: 10px;border-bottom: 1px solid;padding-left: 0;}
 .item-employee{padding: 0px; cursor: pointer;}
 .item-search{padding: 0px; cursor: pointer; text-align: right;}
 .btn-default{background: transparent; border: none; padding: 0px;}
@@ -235,11 +235,21 @@ div.uploader span.action{background: #c9b198 !important;}
 		background-image: -moz-linear-gradient(to bottom, rgb(234,236,238), transparent);
 }
 
-.block-information-csv { margin-top: 40px; color: #F15E55; font-style: italic; }
-.block-information-csv > #text-info { font-size: 14px; font-weight: bold; }
-.block-information-csv > #icon-info { font-style: normal; border: 1px solid red; border-radius: 50%; padding: 0 10px; font-size: 16px; font-weight: bold; }
-.block-information-csv > #list-info { color: #777777; margin-left: 17px; }
-.block-information-csv > #list-info > li { list-style: disc; }
+.block-information-csv { margin-bottom: 20px; color: #F15E55; font-style: italic; text-align: center; cursor: pointer; }
+.block-information-csv > #title-info > #text-info { font-size: 14px; }
+.block-information-csv > #title-info > #icon-info { font-style: normal; border: 1px solid red; border-radius: 50%; padding: 0 10px; font-size: 16px; font-weight: bold; }
+.block-information-csv > #list-info { color: #777777; margin-left: 17px; display: none; }
+.block-information-csv:hover > #list-info { display: block; animation: fadeIn 1s; -webkit-animation: fadeIn 1s; }
+.block-information-csv:hover > #title-info { font-weight: bold; }
+
+@-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}  
+@keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}
 
 @keyframes cssload-width {
 	0%, 100% {
