@@ -2047,7 +2047,7 @@ return $responseObj;
               m.id_manufacturer,
               pl.link_rewrite,
               p.price,
-              od.points as credits
+              r.credits as credits
             FROM "._DB_PREFIX_."orders o
             INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = ".$id_customer." )
             INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
@@ -2055,13 +2055,11 @@ return $responseObj;
             INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
             INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
             INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$id_lang." )
-            INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+            INNER JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
             WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
-            AND o.date_add BETWEEN ADDDATE(NOW(),-30) AND NOW()
-            ORDER BY o.date_add DESC "
-            ;
+            ORDER BY o.date_add DESC ";
     $sql .= $limit != 0 ? ' LIMIT '.$limit : '';
-//    error_log("\n\n Este es el SQL: ".print_r($sql,true),3,"/tmp/error.log");
+    
     $last_shopping_products = $db->ExecuteS($sql);
     $result = $last_shopping_products;
     return array('result' => $result);
