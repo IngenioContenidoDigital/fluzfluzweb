@@ -48,7 +48,13 @@ class API extends REST {
       $this->response('', 406);
     }
 
-    $id_customer =  trim( $this->_request['userId']);
+    if( is_numeric(trim($this->_request['userId'])) ){
+      $id_customer = trim($this->_request['userId']);
+    }
+    else {
+      $this->response('', 202);
+    }
+    
     $context = Context::getContext();
     $MyAccountController = new MyAccountController();
     $userData = $MyAccountController->getUserDataAccountApp( $id_customer );
@@ -67,8 +73,15 @@ class API extends REST {
       $this->response('', 406);
     }
     
-    $id_customer = trim( $this->_request['id_customer']);
-    $id_profile = trim( $this->_request['id_profile']);
+    if( is_numeric(trim($this->_request['id_customer'])) &&
+        is_numeric(trim($this->_request['id_profile'])) ){
+      $id_customer = trim($this->_request['id_customer']);
+      $id_profile = trim( $this->_request['id_profile']);
+    }
+    else {
+      $this->response('', 202);
+    }
+    
     $model = new Model();
     $result = $model->getProfileById($id_customer, $id_profile);
     return $this->response($this->json($result), 200);
@@ -83,8 +96,12 @@ class API extends REST {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
+    
+    $id_customer = trim($this->_request['id_customer']);
+    if( !is_numeric(trim($id_customer)) ){
+      $this->response('', 202);
+    }
 
-    $id_customer =  trim( $this->_request['id_customer']);
     $model  = new Model();
     $result = $model->getMyInvitation($id_lang = 1, $id_customer );
     $result['total'] = count($result['result']);
@@ -119,6 +136,24 @@ class API extends REST {
   }
   
   /**
+   * Método privado que valida una latitud
+   * @param string $lat
+   * @return boolean
+   */
+  private function isLat($lat) {
+    return preg_match('/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/', trim($lat));
+  }
+  
+  /**
+   * Método privado que valida una latitud
+   * @param string $lat
+   * @return boolean
+   */
+  private function isLng($lng) {
+    return preg_match('/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/', trim($lng));
+  }
+  
+  /**
    * Método privado que busca comercios segun la ubicación en el mapa con su ubicación.
    * @param string $position['lat'] Latitud
    * @param string $position['lng'] Longitud
@@ -129,8 +164,12 @@ class API extends REST {
       $this->response('', 406);
     }
     
-    $position['lat'] =  round($this->_request['lat'], 6);;
-    $position['lng'] =  round($this->_request['lng'], 6);;
+    $position['lat'] =  round($this->_request['lat'], 6);
+    $position['lng'] =  round($this->_request['lng'], 6);
+    if( !$this->isLat($position['lat']) || !$this->isLng($position['lng']) ){
+      $this->response('', 202);
+    }
+    
     $query = 'SELECT GROUP_CONCAT(DISTINCT id_manufacturer)
               FROM  '._DB_PREFIX_.'address
               WHERE latitude = '.$position['lat'].' and longitude = '.$position['lng'];
@@ -178,9 +217,17 @@ class API extends REST {
       ${$rqd} = isset($this->_request[$rqd]) ? $this->_request[$rqd] : $value;
     }
     
+    if( !Validate::isCheckDigit(trim($option)) ||
+        !is_numeric($limit) ||
+        !is_numeric($lastTotal) ){
+      $this->response('', 202);
+    }
+    
+    $words = Search::sanitize($param, 1, false, 'es');
+    
     //Hace la busqueda
     $search = array();
-    $search = Search::findApp( $param, $option );
+    $search = Search::findApp( $words, $option );
     
     //Valida el resultado de la busqueda
     if (!isset($search['result']) || empty($search['result'])) {
@@ -260,7 +307,11 @@ class API extends REST {
         
     $email    = strtolower( trim( $this->_request['email'] ) );
     $password = trim( $this->_request['pwd'] );
-                
+    
+    if( !Validate::isEmail($email) || !Validate::isPasswd($password) ){
+      $this->response('', 202);
+    }
+    
     // Validaciones de entrada
     if(!empty($email) and !empty($password)) {
       if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -350,6 +401,10 @@ class API extends REST {
    * @return json Ciudades
    */
   private function cities(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    
     $model = new Model();
     return $this->response(json_encode($model->get_cities()),200);	
   }
@@ -360,7 +415,15 @@ class API extends REST {
    * @return json Informacion personal del id de cliente.
    */
   private function personalInformation(){
-    $id_customer = $this->_request['id_customer'];
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    
+    $id_customer = trim($this->_request['id_customer']);
+    if( !is_numeric(trim($id_customer)) ){
+      $this->response('', 202);
+    }
+    
     $model = new Model();
     return $this->response(json_encode($model->personalinformation($id_customer)),200);
   }
@@ -376,6 +439,9 @@ class API extends REST {
     }
     
     $id_customer = $this->_request['id_customer'];
+    if( !is_numeric(trim($id_customer)) ){
+      $this->response('', 202);
+    }
     $model = new Model();
     return $this->response(json_encode($model->sevedCreditCard($id_customer)),200);
   }
@@ -405,29 +471,79 @@ class API extends REST {
    * @params string city
    * @return json Resultado de la actualizacion de datos.
    */
-  private function savePersonalInformation(){       
+  private function savePersonalInformation(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    
     $params = array();
-    $params["id_customer"] = $this->_request['id_customer'];
-    $params["password"] = $this->_request['password'];
-    $params["password_new"] = $this->_request['password_new'];
-    $params["id_gender"] = $this->_request['id_gender'];
-    $params["firstname"] = $this->_request['firstname'];
-    $params["lastname"] = $this->_request['lastname'];
-    $params["email"] = $this->_request['email'];
-    $params["dni"] = $this->_request['dni'];
-    $params["birthday"] = $this->_request['birthday'];
-    $params["civil_status"] = $this->_request['civil_status'];
+    $params["id_customer"]       = $this->_request['id_customer'];
+    $params["password"]          = $this->_request['password'];
+    $params["password_new"]      = $this->_request['password_new'];
+    $params["id_gender"]         = $this->_request['id_gender'];
+    $params["firstname"]         = $this->_request['firstname'];
+    $params["lastname"]          = $this->_request['lastname'];
+    $params["email"]             = $this->_request['email'];
+    $params["dni"]               = $this->_request['dni'];
+    $params["birthday"]          = $this->_request['birthday'];
+    $params["civil_status"]      = $this->_request['civil_status'];
     $params["occupation_status"] = $this->_request['occupation_status'];
-    $params["field_work"] = $this->_request['field_work'];
-    $params["pet"] = $this->_request['pet'];
-    $params["pet_name"] = $this->_request['pet_name'];
-    $params["spouse_name"] = $this->_request['spouse_name'];
-    $params["children"] = $this->_request['children'];
-    $params["phone_provider"] = $this->_request['phone_provider'];
-    $params["phone"] = $this->_request['phone'];
-    $params["address1"] = $this->_request['address1'];
-    $params["address2"] = $this->_request['address2'];
-    $params["city"] = $this->_request['city'];
+    $params["field_work"]        = $this->_request['field_work'];
+    $params["pet"]               = $this->_request['pet'];
+    $params["pet_name"]          = $this->_request['pet_name'];
+    $params["spouse_name"]       = $this->_request['spouse_name'];
+    $params["children"]          = $this->_request['children'];
+    $params["phone_provider"]    = $this->_request['phone_provider'];
+    $params["phone"]             = $this->_request['phone'];
+    $params["address1"]          = $this->_request['address1'];
+    $params["address2"]          = $this->_request['address2'];
+    $params["city"]              = $this->_request['city'];
+//    error_log("\n\n Informacion personal: \n\n".print_r($params, true),3,"/tmp/error.log");
+    
+//    $error = 0;
+//    if( is_numeric(trim($params["id_customer"])) ){
+//      if( Validate::isPasswd(trim($params["password"])) ){
+//        if( (!empty(trim($params["password_new"])) && Validate::isPasswd(trim($params["password_new"]))) || empty(trim($params["password_new"])) ){
+//          if( !empty(trim($params["id_gender"])) && Validate::isCheckDigit($params["id_gender"]) ){
+//            if( !empty(trim($params["firstname"])) && Validate::isName($params["firstname"]) ){
+//              if( !empty(trim($params["lastname"])) && Validate::isName($params["lastname"]) ){
+//                if( !empty(trim($params["email"])) && Validate::isEmail($params["email"]) ){
+//                  if( !empty(trim($params["dni"])) && Validate::isDniLite($params["dni"]) ){
+//                    if( !empty(trim($params["birthday"])) && Validate::isDateFormat($params["birthday"]) ){
+//                      if( !empty(trim($params["civil_status"])) && Validate::isString($params["civil_status"]) ){
+//                        if( !empty(trim($params["occupation_status"])) && Validate::isString($params["occupation_status"]) ){
+//                          if( !empty(trim($params["field_work"])) && Validate::isString($params["field_work"]) ){
+//                            if( !empty(trim($params["pet"])) && Validate::isString($params["pet"]) ){
+//                              if( !empty(trim($params["pet_name"])) && Validate::isString($params["pet_name"]) ){
+//                                if( !empty(trim($params["spouse_name"])) && Validate::isString($params["spouse_name"]) ){
+//                                  if( !empty(trim($params["children"])) && is_numeric($params["children"]) ){
+//                                    if( !empty(trim($params["phone_provider"])) && Validate::isString($params["phone_provider"]) ){
+//                                      if( !empty(trim($params["phone"])) && Validate::isPhoneTelcoNumber($params["phone"]) ){
+//                                        if( !empty(trim($params["address1"])) && Validate::isAddress($params["address1"]) ){
+//                                          if( !empty(trim($params["address2"])) && Validate::isAddress($params["address2"]) ){
+//                                            if( !empty(trim($params["city"])) && !Validate::isCityName($params["city"]) ){
+//                                              $error = 21;
+//                                            }
+//                                          }else{$error = 20;}
+//                                        }else{$error = 19;}
+//                                      }else{$error = 18;}
+//                                    }else{$error = 17;}
+//                                  }else{$error = 16;}
+//                                }else{$error = 15;}
+//                              }else{$error = 14;}
+//                            }else{$error = 13;}
+//                          }else{$error = 12;}
+//                        }else{$error = 11;}
+//                      }else{$error = 10;}
+//                    }else{$error = 9;}
+//                  }else{$error = 8;}
+//                }else{$error = 7;}
+//              }else{$error = 6;}
+//            }else{$error = 5;}
+//          }else{$error = 4;}
+//        }else{$error = 3;}
+//      }else{$error = 2;}
+//    }else {$error = 1;}
 
     $model = new Model();
     $this->response( $this->json($model->savepersonalinformation($params)) , 200 );
@@ -506,7 +622,7 @@ class API extends REST {
           $customer->birthday = $birthday;
           $customer->id_default_group = 4;
           $customer->kick_out = 0;
-          $customer->active = 0;
+          $customer->active = 1;
           $customer->id_lang = Context::getContext()->language->id;
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
@@ -640,7 +756,7 @@ class API extends REST {
           if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
             $complete = true;
             $this->sendMailCofirmCreateAccount($customer, $address);
-          } else {
+          }else {
             $error[] = 'Se ha producido un error en el registro. Por favor verifica tus datos he intenta de nuevo.';
           }
         }
@@ -1167,7 +1283,7 @@ class API extends REST {
       $option = isset($this->_request['option']) && !empty($this->_request['option']) ? $this->_request['option'] : 0;
       $limit = (isset($this->_request['limit']) && !empty($this->_request['limit'])) ? $this->_request['limit'] : 0 ;
       $last_total = (isset($this->_request['last_total']) && !empty($this->_request['last_total'])) ? $this->_request['last_total'] : 0 ;
-        
+      
       if( $option == 1 ){
         $activityNetwork = $model->getActivityNetwork( $this->id_lang_default, $id_customer, $limit );
         foreach ($activityNetwork['result'] as &$activityNetworkk){
