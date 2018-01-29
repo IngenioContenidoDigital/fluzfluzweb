@@ -30,18 +30,20 @@
                             <th style="text-align: center;"><strong>Orden</strong></th>
                             <th style="text-align: center;"><strong>Fecha Creacion</strong></th>
                             <th style="text-align: center;"><strong>Fecha Vencimiento</strong></th>
+                            <th style="text-align: center;"><strong>No Lote</strong></th>
                             <th style="text-align: center;" class="action"><strong>Accion</strong></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody  id="table_code">
                         {foreach $codes as $code}
-                            <tr>
+                            <tr class="tr_codes-{$code.valid_date}" id="tr_codes" name="tr_codes">
                                 <td>{$code.code}</td>
                                 <td style="text-align: center;">{$code.pin}</td>
                                 <td style="text-align: center;">{$code.estado}</td>
                                 <td style="text-align: center;">{$code.order}</td>
                                 <td style="text-align: center;">{$code.date_add}</td>
                                 <td style="text-align: center;">{$code.date_expiration}</td>
+                                <td style="text-align: center;">{$code.no_lote}</td>
                                 <td style="text-align: center;" class="action">
                                     {if $code.order == ""}
                                         <img style="cursor: pointer;" title="{l s='Delete'}" src="../img/admin/delete.gif" onclick="sendAction('deletecode', '{$id_product}', '{$code.id_product_code}', '{$code.code}');">
@@ -58,7 +60,16 @@
         </form>
     {/if}
 </div>
+{literal}
 
+    <style>
+        .tr_codes-bueno{background: #ddf0de;}
+        .tr_codes-regular{background: #FDFF7C;}
+        .tr_codes-malo{background: #F36267;}
+        .bootstrap .table tbody>tr>td{background: transparent;}
+    </style>
+    
+{/literal}
 <script type="text/javascript">
     function sendAction(action, product, id_product_code, code) {
         var msgError = "Se ha generado un error ejecutando la accion porfavor intente de nuevo.";
