@@ -3,9 +3,13 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
 
 .title-business{text-align: left;font-family: 'Open Sans'; font-weight: bold; font-size: 22px;}
+#delete_employee:disabled { background: #ef4136; cursor: pointer; }
+.div-btn-delete { text-align: center; }
+.div-btn-delete-info { color: #EF4136; font-size: 10px; font-style: italic; }
+.pagination-header { margin-top: 15px; margin-bottom: 25px; }
 .panel-employee{margin-top: 40px;margin-bottom: 15px;padding: 10px;border-bottom: 1px solid;padding-left: 0;}
 .item-employee{padding: 0px; cursor: pointer;}
-.item-search{padding: 0px; cursor: pointer; text-align: right;}
+#busqueda { height: 32px!important; }
 .btn-default{background: transparent; border: none; padding: 0px;}
 .open .btn-default.dropdown-toggle{background: transparent; border: none; padding: 0px;}
 .back-business{background: #fff !important; color: #000; border: none;}
@@ -23,8 +27,8 @@
 .div-btn{padding: 0px;}
 .btn-save-table{padding: 7px 35px;color: white;font-weight: bold;background: #c9b198; border: none;}
 .btn-save-table:hover{padding: 7px 35px;color: white;font-weight: bold;background: #ef4136;border: none;}
-.btn-delete-employee{padding: 7px 35px;float: right;color: white;font-weight: bold;background:#ef4136; border: none;}
-.btn-delete-employee:hover{padding: 7px 35px;float: right;color: white;font-weight: bold;background: #c9b198;border: none;}
+.btn-delete-employee{width: 100%; padding: 7px 15px; color: white; font-weight: bold; background: #ef4136; border: none;}
+.btn-delete-employee:hover{ background: #c9b198; color: white; }
 .div-toggle{padding: 0px;}
 .content-item-users{padding: 0; text-align: center; font-weight: bold; font-size: 12px;}
 .content-info-users{padding: 15px; border-bottom: 1px solid #e5e5e5;}
@@ -47,8 +51,7 @@ div.uploader span.action{background: #c9b198 !important;}
 .btn-save-employee:hover{padding: 10px 15px;color: white;font-weight: bold;background: #ef4136;}
 
 /* PANEL UPLOAD EMPLOYEES */
-.row-upload{padding: 0px; margin-bottom: 10px; margin-top: 20px;}
-.row-upload-transfer{padding: 0px; margin-bottom: 10px;}
+.row-upload{padding: 0px; margin-bottom: 10px; margin-top: 10px;}
 .title-browser{padding-left: 0px;text-align: left;}
 .browse-div{padding-left: 0px;}
 .div-btn-submit{padding: 0px; margin-top: 10px;}
@@ -134,7 +137,6 @@ div.uploader span.action{background: #c9b198 !important;}
     font-weight: bold;
     border-left: solid 3px #92d097;}
 
-.div-btn-delete{padding-right: 0px;}
 .name_sponsor_delete{color: #000;
     font-weight: bold;
     font-size: 14px;
@@ -235,7 +237,7 @@ div.uploader span.action{background: #c9b198 !important;}
 		background-image: -moz-linear-gradient(to bottom, rgb(234,236,238), transparent);
 }
 
-.block-information-csv { margin-bottom: 20px; color: #F15E55; font-style: italic; text-align: center; cursor: pointer; }
+.block-information-csv { color: #F15E55; font-style: italic; text-align: center; cursor: pointer; }
 .block-information-csv > #title-info > #text-info { font-size: 14px; }
 .block-information-csv > #title-info > #icon-info { font-style: normal; border: 1px solid red; border-radius: 50%; padding: 0 10px; font-size: 16px; font-weight: bold; }
 .block-information-csv > #list-info { color: #777777; margin-left: 17px; display: none; }
