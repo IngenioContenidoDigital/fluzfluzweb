@@ -661,6 +661,7 @@
             </div>
             </div>                
         </div>
+        <div class="row bitpay-info"> BitPay solo est&aacute; disponible en compras superiores a $ 300.000 &oacute; $ 100 USD </div>
         <div id="prueba" style="display:none;">{$base_dir_ssl}</div>
         
         {*if $opc}
@@ -843,6 +844,12 @@
             text-align: center;
             margin-bottom: 10px;
         }
+        .bitpay-info{color:#000; padding: 5px; font-weight: bold;}
+        
+        @media (max-width: 425px){
+            .bitpay-info{color:#000; padding: 0px; font-weight: bold; text-align: center;}
+        }
+        
     </style>
 {/literal}
 {literal}

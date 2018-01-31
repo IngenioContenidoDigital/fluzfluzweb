@@ -421,7 +421,7 @@ class MyAccountController extends MyAccountControllerCore
                   FROM "._DB_PREFIX_."orders o
                   INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
                   WHERE o.current_state = 2
-                  AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out_show']." 00:00:00', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out_show']." 23:59:59' )
+                  AND ( o.date_add BETWEEN DATE_ADD((SELECT o.date_add FROM ps_orders o WHERE o.id_customer = '".$customer['id_customer']."' order by o.id_order DESC LIMIT 1), INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND NOW() )
                   AND id_customer = ".$customer['id_customer'];
       $purchases = Db::getInstance()->getValue($query);
 
