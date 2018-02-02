@@ -791,6 +791,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
         $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
         $customer->warning_kick_out = 0;
+        $customer->method_add = 'Web / Admin';    
     }
     
     public function ajaxProcessUpdateCustomerCode()

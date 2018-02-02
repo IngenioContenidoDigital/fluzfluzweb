@@ -60,7 +60,9 @@ class Customer extends CustomerCore
     public $vault_code;
     public $phone;
     public $app_confirm;
-    
+    public $method_add;
+
+
     public static $definition = array(
         'table' => 'customer',
         'primary' => 'id_customer',
@@ -114,6 +116,7 @@ class Customer extends CustomerCore
             'phone_provider' =>               array('type' => self::TYPE_STRING, 'validate' => 'isName', 'size' => 32),
             'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 4),
             'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 15),
+            'method_add' =>               array('type' => self::TYPE_STRING, 'size' => 155),
             'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
         ),  
     );

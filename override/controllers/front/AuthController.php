@@ -355,6 +355,7 @@ class AuthController extends AuthControllerCore
                 $customer->active = 0;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                $customer->method_add = 'Web / Referidos';                
                 //$customer->add();
                 $customer->save();
 
@@ -631,6 +632,7 @@ class AuthController extends AuthControllerCore
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                             $customer->update();
+                            $customer->method_add = 'Web';
                             $customerLoaded = true;
                         } else {
                             $customerLoaded = $customer->add();
@@ -976,8 +978,7 @@ class AuthController extends AuthControllerCore
         
         $vars = array(
                 '{username}' => $customer->username,
-                '{password}' => Tools::getValue("passwd"),
-                '{firstname}' => $customer->firstname,
+                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id),                '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
                 '{dni}' => $customer->dni,
                 '{birthdate}' => $customer->birthday,

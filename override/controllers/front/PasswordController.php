@@ -35,6 +35,8 @@ class PasswordController extends PasswordControllerCore
             } else {
                 $customer = new Customer();
                 $customer->getByemail($email);
+                $customer->active = 1;
+                $customer->update();
                 if (!Validate::isLoadedObject($customer)) {
                     $this->errors[] = Tools::displayError('There is no account registered for this email address.');
                 } elseif (!$customer->active) {
@@ -72,6 +74,8 @@ class PasswordController extends PasswordControllerCore
             if ($email) {
                 $customer = new Customer();
                 $customer->getByemail($email);
+                $customer->active = 1;
+                $customer->update();
                 if (!Validate::isLoadedObject($customer)) {
                     $this->errors[] = Tools::displayError('Customer account not found');
                 } elseif (!$customer->active) {
