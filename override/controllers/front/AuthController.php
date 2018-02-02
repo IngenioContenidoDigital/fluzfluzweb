@@ -176,7 +176,7 @@ class AuthController extends AuthControllerCore
         }
     }
     
-    protected function processSubmitLogin()
+    protected function processSubmitLogin($validate)
     {
         Hook::exec('actionBeforeAuthentication');
         $passwd = trim(Tools::getValue('passwd'));
@@ -198,7 +198,11 @@ class AuthController extends AuthControllerCore
             $customer = new Customer();
             $authentication = $customer->getByEmail(trim($email), trim($passwd));
             if (isset($authentication->active) && !$authentication->active) {
-                $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
+                if($validate == 1){
+                    $this->errors[] = Tools::displayError('Hemos enviado un correo para verificar tu cuenta.');
+                }else{
+                    $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
+                }
             } elseif (!$authentication || !$customer->id) {
                 $this->errors[] = Tools::displayError('Authentication failed.');
             /* VALIDACION COMPRA DE LICENCIA COMPLETA
@@ -410,7 +414,7 @@ class AuthController extends AuthControllerCore
                                 $this->context->smarty->assign('email_create', 1);
 
                                 $this->updateContext($customer);
-                                $this->processSubmitLogin();    
+                                $this->processSubmitLogin($validate = 1);    
 
                         } else {
                             $this->errors[] = 'no sponsor';
@@ -461,7 +465,7 @@ class AuthController extends AuthControllerCore
                                     $this->context->smarty->assign('email_create', 1);
                                     
                                     $this->updateContext($customer);
-                                    $this->processSubmitLogin();
+                                    $this->processSubmitLogin($validate = 1);
                                     //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : "my-account"));
                             }
                             else 
@@ -978,7 +982,8 @@ class AuthController extends AuthControllerCore
         
         $vars = array(
                 '{username}' => $customer->username,
-                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id),                '{firstname}' => $customer->firstname,
+                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
+                '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
                 '{dni}' => $customer->dni,
                 '{birthdate}' => $customer->birthday,

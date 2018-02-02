@@ -107,7 +107,12 @@ class PasswordController extends PasswordControllerCore
                         //if (Mail::Send($this->context->language->id, 'password', Mail::l('Your new password'), $mail_params, $customer->email, $customer->firstname.' '.$customer->lastname)) {
                         if($allinone_rewards->sendMail($this->context->language->id, $template, $allinone_rewards->getL($message_subject),$mail_params, $customer->email, $customer->firstname.' '.$customer->lastname))
                         {
-                            $this->context->smarty->assign(array('confirmation' => 1, 'customer_email' => $customer->email));
+                            if(Tools::getValue('valid_auth')==1){
+                                $this->context->smarty->assign(array('confirmation' => 3, 'customer_email' => $customer->email));
+                            }else{
+                                $this->context->smarty->assign(array('confirmation' => 1, 'customer_email' => $customer->email));
+                            }
+                            
                         } else {
                             $this->errors[] = Tools::displayError('An error occurred while sending the email.');
                         }

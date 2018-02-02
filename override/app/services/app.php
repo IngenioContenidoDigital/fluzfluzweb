@@ -788,7 +788,7 @@ class API extends REST {
   public function sendMailCofirmCreateAccount($customer, $address){
     $vars = array(
       '{username}' => $customer->username,
-      '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+      '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
       '{firstname}' => $customer->firstname,
       '{lastname}' => $customer->lastname,
       '{dni}' => $customer->dni,
