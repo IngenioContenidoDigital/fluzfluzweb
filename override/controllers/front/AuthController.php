@@ -273,6 +273,7 @@ class AuthController extends AuthControllerCore
         if($login_guest==2)
         {
             $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue('code_sponsor'));
+            $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($id_sponsor);
             
             if ( Tools::getValue('code_sponsor') == "" || empty($id_sponsor)) {
                 $this->errors[] = Tools::displayError('Codigo de Patrocino Incorrecto o No Existe. Por Favor valida tu Codigo.', false);
@@ -403,8 +404,8 @@ class AuthController extends AuthControllerCore
 
                                     $this->sendConfirmationMail($customer);
                                     
-                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                                VALUES ('.$customer->id.', "'.$code_generate.'")');    
+                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');    
 
                                     //AuthController::sendNotificationSponsor($customer->id);
                                    
@@ -455,8 +456,8 @@ class AuthController extends AuthControllerCore
 
                                     $this->sendConfirmationMail($customer);
                                     
-                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                                VALUES ('.$customer->id.', "'.$code_generate.'")');
+                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                                     
                                     //AuthController::sendNotificationSponsor($customer->id);
                                     
@@ -731,8 +732,8 @@ class AuthController extends AuthControllerCore
                                     $payment_module->validateOrder($cart->id, 2, 0, 'Pedido Gratuito');*/
                                     
                                     
-                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
+                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                                     
                                     $this->sendNotificationSponsor($customer->id);
                                     Tools::redirect($this->context->link->getPageLink('my-account', true));
