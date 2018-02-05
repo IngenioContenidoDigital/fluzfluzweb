@@ -2459,6 +2459,7 @@ class API extends REST {
     $order->current_state = 15;
     $order->conversion_rate = 1;
     $order->reference = $reference;
+    $order->method_add = 'Movil App';
     $order->add();
     
     $customer = new Customer($order->id_customer);

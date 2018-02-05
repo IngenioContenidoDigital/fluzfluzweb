@@ -149,6 +149,8 @@ abstract class PaymentModule extends PaymentModuleCore
                     $order->id_shop_group = (int)$this->context->shop->id_shop_group;
                     $order->secure_key = ($secure_key ? pSQL($secure_key) : pSQL($this->context->customer->secure_key));
                     $order->payment = $payment_method;
+                    $order->method_add = 'Web';
+                    
                     if (isset($this->name)) {
                         $order->module = $this->name;
                     }
