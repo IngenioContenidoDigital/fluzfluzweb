@@ -244,6 +244,7 @@ function markUsed(card,used) {
 }
 
 function myFunction(name, id_sponsor) {
+        
         $('#busqueda').val(name);
         $('#sponsor_identification').val(id_sponsor);
         $('#sponsor_name').val(name);
@@ -258,8 +259,7 @@ function send_gift(){
     var code_card = code_s.replace(/\s/g, '');
     var id_product_code = $('#card_product').val();
     var message = jQuery("textarea#send_comment").val();
-    console.log(id_customer_receive);
-    console.log(id_customer);
+    
     $.ajax({
         url : urlWalletController,
         type : 'POST',
