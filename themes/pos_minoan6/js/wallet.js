@@ -252,13 +252,14 @@ function myFunction(name, id_sponsor) {
 }
 
 function send_gift(){
-    var id_customer_receive = $('#id_sponsor_sel').val();
+    var id_customer_receive = $('#sponsor_identification').val();
     var id_customer = $("#id_customer").val();
     var code_s = $('#code').text();
     var code_card = code_s.replace(/\s/g, '');
     var id_product_code = $('#card_product').val();
     var message = jQuery("textarea#send_comment").val();
-    
+    console.log(id_customer_receive);
+    console.log(id_customer);
     $.ajax({
         url : urlWalletController,
         type : 'POST',
