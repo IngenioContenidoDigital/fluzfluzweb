@@ -244,6 +244,7 @@ function markUsed(card,used) {
 }
 
 function myFunction(name, id_sponsor) {
+        
         $('#busqueda').val(name);
         $('#sponsor_identification').val(id_sponsor);
         $('#sponsor_name').val(name);
@@ -252,7 +253,7 @@ function myFunction(name, id_sponsor) {
 }
 
 function send_gift(){
-    var id_customer_receive = $('#id_sponsor_sel').val();
+    var id_customer_receive = $('#sponsor_identification').val();
     var id_customer = $("#id_customer").val();
     var code_s = $('#code').text();
     var code_card = code_s.replace(/\s/g, '');

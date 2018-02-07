@@ -1305,7 +1305,8 @@ private function clearCart()
 
             $order = new Order();
             $order = new Order($order->getOrderByCartId($this->context->cart->id));
-
+            $order->method_add = 'Movil App';
+            
             $extra_vars = PasarelaPagoCore::get_extra_vars_payu($this->context->cart->id,$method,$customer->secure_key,$order->id);
 
             $this->context = Context::getContext(); // actualizar contexto

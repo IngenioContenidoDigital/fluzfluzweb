@@ -624,6 +624,7 @@ class API extends REST {
           $customer->kick_out = 0;
           $customer->active = 1;
           $customer->id_lang = Context::getContext()->language->id;
+          $customer->method_add = 'Movil App';
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
           $saveCustomer = $customer->add();
@@ -788,7 +789,7 @@ class API extends REST {
   public function sendMailCofirmCreateAccount($customer, $address){
     $vars = array(
       '{username}' => $customer->username,
-      '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+      '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
       '{firstname}' => $customer->firstname,
       '{lastname}' => $customer->lastname,
       '{dni}' => $customer->dni,
@@ -2458,6 +2459,7 @@ class API extends REST {
     $order->current_state = 15;
     $order->conversion_rate = 1;
     $order->reference = $reference;
+    $order->method_add = 'Movil App';
     $order->add();
     
     $customer = new Customer($order->id_customer);

@@ -1,8 +1,0 @@
-a:1:{s:256:"IFNULL(
-			(
-				SELECT right_column
-				FROM ps_theme t
-				LEFT JOIN ps_theme_meta tm ON ( t.id_theme = tm.id_theme )
-				LEFT JOIN ps_meta m ON ( m.id_meta = tm.id_meta )
-				WHERE t.id_theme =2
-				AND m.page = "module-allinone_rewards-sponsorship" ) ,";s:1:"0";}
