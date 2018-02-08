@@ -72,9 +72,6 @@ class OrderController extends OrderControllerCore
             }
         }
         
-        $query_validation = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'orders WHERE id_customer = '.$this->context->customer->id.' AND current_state = 2');
-        $this->context->smarty->assign('validate_credit', $query_validation);
-        
         foreach ($this->context->cart->getProducts() as $product) {
             
             $queryprueba = "SELECT p.id_product as id, p.type_currency , i.id_image as image_parent, p.save_dolar, p.price_shop, p.reference FROM "._DB_PREFIX_."product p
@@ -169,6 +166,7 @@ class OrderController extends OrderControllerCore
                 $this->setTemplate(_PS_THEME_DIR_.'order-carrier.tpl');
             break;
             case OrderController::STEP_PAYMENT:
+                
                 // Check that the conditions (so active) were accepted by the customer
                 $cgv = Tools::getValue('cgv') || $this->context->cookie->check_cgv;
                 if ($is_advanced_payment_api === false && Configuration::get('PS_CONDITIONS')

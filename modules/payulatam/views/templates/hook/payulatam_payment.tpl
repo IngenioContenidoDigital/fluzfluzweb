@@ -52,7 +52,6 @@
     </div>
     <div class="col-xs-12" style="padding-left: 0px;padding-right: 0px;">
         <div class="panel-group" id="accordion">
-            {if $validate_credit != 0}
             <div class="panel panel-default" id="payment_creditCard">
                 <div class="panel-heading" style="background:#fff;">
                     <h4 class="panel-title">
@@ -65,7 +64,6 @@
                     </div>
                 </div>
             </div>
-            {/if}        
             <div class="panel panel-default">
                 <div class="panel-heading" style="background:#fff;">
                     <h4 class="panel-title">
