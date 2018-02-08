@@ -28,6 +28,10 @@
 {assign var="idprod" value=$product.reference}
 {$product.id_product = $productsID.$idprod}
 <div class="row table-product-cart" id="product_{$product.id_product}_{$product.id_product_attribute}_{if $quantityDisplayed > 0}nocustom{else}0{/if}_{$product.id_address_delivery|intval}{if !empty($product.gift)}_gift{/if}" class="cart_item{if isset($productLast) && $productLast && (!isset($ignoreProductLast) || !$ignoreProductLast)} last_item{/if}{if isset($productFirst) && $productFirst} first_item{/if}{if isset($customizedDatas.$productId.$productAttributeId) AND $quantityDisplayed == 0} alternate_item{/if} address_{$product.id_address_delivery|intval} {if $odd}odd{else}even{/if}" style="padding:0px;">
+    <input type="hidden" value="{$productsPoints.$idprod}" id="pto_unit_fluz-{$product.id_product}" class="pto_unit_fluz-{$product.id_product}">
+    <input type="hidden" value="{$product.id_product}" id="id_product_p" class="id_product_p">
+    <input type="hidden" value="{$product.cart_quantity}" id="quantity_product_p" class="quantity_product_p">
+
     <div class="row" style="padding:0px;">
         {if !isset($noDeleteButton) || !$noDeleteButton}
             <div class="row cart_delete text-left" data-title="{l s='Delete'}" style="padding:0px;">
@@ -99,12 +103,14 @@
                 {if isset($product.attributes) && $product.attributes}<small><a href="{$link->getProductLink($product.id_product, $product.link_rewrite, $product.category, null, null, $product.id_shop, $product.id_product_attribute, false, false, true)|escape:'html':'UTF-8'}">{$product.attributes|@replace: $smarty.capture.sep:$smarty.capture.default|escape:'html':'UTF-8'}</a></small>{/if}
             </div>
             <div class="col-lg-5 col-md-6 col-sm-6 col-xs-7 div-query-cart"style="padding:0px;">
-                <ul class="price text-right div-query-cart" id="product_price_{$product.id_product}_{$product.id_product_attribute}{if $quantityDisplayed > 0}_nocustom{/if}_{$product.id_address_delivery|intval}{if !empty($product.gift)}_gift{/if}">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-3 price_value_product" style="font-size: 12px;color:#000; font-weight: bold;">Valor:</div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-9">
+                    <ul class="price text-right div-query-cart style_cart_product" id="product_price_{$product.id_product}_{$product.id_product_attribute}{if $quantityDisplayed > 0}_nocustom{/if}_{$product.id_address_delivery|intval}{if !empty($product.gift)}_gift{/if}">
                 {if !empty($product.gift)}
                         <li class="gift-icon">{l s='Gift!'}</li>
                 {else}
                 {if !$priceDisplay}
-                        <li class="price{if isset($product.is_discounted) && $product.is_discounted && isset($product.reduction_applies) && $product.reduction_applies} special-price{/if}" style="font-size: 12px;color:#000; font-weight: bold;">Valor: {convertPrice price=$product.price_wt}</li>
+                <li class="price{if isset($product.is_discounted) && $product.is_discounted && isset($product.reduction_applies) && $product.reduction_applies} special-price{/if}" style="font-size: 12px;color:#000; font-weight: bold;">{convertPrice price=$product.price_wt}</li>
                                 {else}
                	 	<li class="price{if isset($product.is_discounted) && $product.is_discounted && isset($product.reduction_applies) && $product.reduction_applies} special-price{/if}">{convertPrice price=$product.price}</li>
                                 {/if}
@@ -152,14 +158,14 @@
                                     {/if}
                         {/if}
                 </ul>
+                </div>
                 <div class="row div-price" style="padding:0px; margin-top: 20px;border-top:1px solid #d6d4d4; padding-top: 10px;">
                     <div class="col-lg-12 ptos_cart div-query-cart">
                         Precio en fluz: {$product.price/25}&nbsp;{l s="Fluz"}
                     </div>
                     <div class="col-lg-12 ptos_cart div-query-cart">
-                        Fluz a obtener: {$productsPoints.$idprod}&nbsp;{l s="Fluz"}
+                        Fluz a obtener: <span id="div-query-cart">{$productsPoints.$idprod}</span>&nbsp;{l s="Fluz"}
                     </div>
-                    <input type="hidden" value="{$productsPoints.$idprod}" id="pto_unit_fluz" class="pto_unit_fluz">
                 </div>
             </div>
         </div>
@@ -365,3 +371,12 @@
 	</td>
 
 </tr>-->
+{literal}
+
+    <style>
+        @media (max-width:425px){
+            .price_value_product{margin-top: 10px; padding-left: 0px;}
+        }
+    </style>
+    
+{/literal}
