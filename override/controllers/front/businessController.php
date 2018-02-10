@@ -60,6 +60,11 @@ class businessController extends FrontController {
         $list_business = $this->network();
         $total_users = (count($list_business));
         
+        $statistics = $this->statistics();
+        $this->context->smarty->assign('statistics', $statistics);
+        
+        $this->context->smarty->assign('s3', _S3_PATH_);
+        
         $this->context->smarty->assign('all_fluz', $total_users);
         $this->context->smarty->assign('network', $list_business);
         
@@ -69,9 +74,12 @@ class businessController extends FrontController {
         $this->context->smarty->assign('history_purchase', $history_purchase);
         
         /* Funciones Historial de Transferencias */
-        
         $history_transfer = $this->history_business();
         $this->context->smarty->assign('history_transfer', $history_transfer);
+        
+        /* Funciones Historial de Compras Fluz */
+        $history_fluz = $this->history_fluz();
+        $this->context->smarty->assign('history_fluz', $history_fluz);
         
         $this->setTemplate(_PS_THEME_DIR_ . 'business.tpl');
     }
@@ -174,6 +182,63 @@ class businessController extends FrontController {
             header("Expires: 0");
             header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
             header("content-disposition: attachment;filename=history_purchase.xls");
+            die($report);
+        }
+        
+        if(Tools::isSubmit('export-excel-shopping-fluz')){
+
+            $history_fluz = $this->history_fluz();
+            
+            $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>Referencia</th>
+                                        <th>Pago</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Total Fluz</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Prec. Unit</th>
+                                        <th>Fluz Unit</th>
+                                        <th>Total Producto</th>
+                                        <th>Total Fluz Producto</th>
+                                    </tr>";
+            
+            foreach ($history_fluz as $order)
+            {
+                foreach ($order['products'] as $details)
+                {
+                    $report .= "<tr>
+                                    <td>".$order['reference']."</td>
+                                    <td>".$order['payment']."</td>
+                                    <td>".$order['state']."</td>
+                                    <td>".$order['date']."</td>
+                                    <td>".$order['total']."</td>
+                                    <td>".$order['total_fluz']."</td>
+                                    <td>".$details['product_name']."</td>
+                                    <td>".$details['product_quantity']."</td>
+                                    <td>".round($details['product_price'])."</td>
+                                    <td>".$details['product_fluz']."</td>
+                                    <td>".round($details['product_price_total'])."</td>
+                                    <td>".$details['product_fluz_total']."</td>
+                                </tr>";
+                }
+            }
+            
+            $report .= "         </table>
+                        </body>
+                    </html>";    
+            
+            header("Content-Type: application/vnd.ms-excel");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("content-disposition: attachment;filename=history_purchase_fluz.xls");
             die($report);
         }
         
@@ -1173,6 +1238,115 @@ class businessController extends FrontController {
         return $list_business;
     }
     
+    function statistics(){
+        $statistics = array();
+        $network = $this->network();
+        
+        $ids = "";
+        foreach ($network as $customer) {
+            $ids = $ids.$customer['id_customer'].",";
+        }
+        $ids = substr( $ids, 0, -1 );
+       
+        $fechaingreso = new DateTime($this->context->customer->date_add);
+        $fechaactual = new DateTime();
+        $diferencia = $fechaingreso->diff($fechaactual);
+        $meses = ( $diferencia->y * 12 ) + $diferencia->m + 1;
+        $meses = $meses >= 12 ? 12 : $meses;
+        
+        for ($i = 0 ; $i <= $meses ; $i++) {
+            $date_sta = date("Y-m",strtotime("-".$i." month"));
+            
+            $query = "SELECT DATE_FORMAT(date_add,'%Y-%m') date, COUNT(id_customer) customers
+                        FROM "._DB_PREFIX_."customer
+                        WHERE id_customer IN (".$ids.")
+                        GROUP BY date
+                        HAVING date = '".$date_sta."'";
+            $customer_qty = Db::getInstance()->getRow($query);
+            
+            $query = "SELECT DATE_FORMAT(o.date_add,'%Y-%m') date, SUM(r.credits) fluz, SUM(r.credits)*c.value fluzcop
+                        FROM "._DB_PREFIX_."orders o
+                        INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.id_reward_state = 2 AND r.credits > 0 )
+                        LEFT JOIN "._DB_PREFIX_."configuration c ON ( c.name = 'REWARDS_VIRTUAL_VALUE_1' )
+                        WHERE o.id_customer IN (".$ids.")
+                        AND o.current_state = 2
+                        GROUP BY date
+                        HAVING date = '".$date_sta."'";
+            $fluz = Db::getInstance()->getRow($query);
+            
+            $query = "SELECT DATE_FORMAT(date_add,'%Y-%m') date, COUNT(id_order) orders
+                        FROM "._DB_PREFIX_."orders
+                        WHERE id_customer IN (".$ids.")
+                        AND current_state = 2
+                        GROUP BY date
+                        HAVING date = '".$date_sta."'";
+            $orders_qty = Db::getInstance()->getRow($query);
+            
+            $query = "SELECT SUM(od.product_price) total, COUNT(DISTINCT o.id_order) orders, c.name category
+                        FROM "._DB_PREFIX_."orders o
+                        INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                        INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
+                        INNER JOIN "._DB_PREFIX_."category_lang c ON ( p.id_category_default = c.id_category AND c.id_lang = 1 )
+                        WHERE o.id_customer IN (".$ids.")
+                        AND o.current_state = 2
+                        AND DATE_FORMAT(o.date_add,'%Y-%m') = '".$date_sta."'
+                        GROUP BY category
+                        ORDER BY orders DESC
+                        LIMIT 10";
+            $categories = Db::getInstance()->executeS($query);
+            
+            $query = "SELECT SUM(od.product_quantity) qty, m.name manufacturer, m.id_manufacturer, c.id_category, c.link_rewrite
+                        FROM "._DB_PREFIX_."orders o
+                        INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order )
+                        INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
+                        LEFT JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+                        LEFT JOIN "._DB_PREFIX_."category_lang c ON ( m.category = c.id_category AND c.id_lang = 1 )
+                        WHERE o.id_customer IN (".$ids.")
+                        AND o.current_state = 2
+                        AND DATE_FORMAT(o.date_add,'%Y-%m') = '".$date_sta."'
+                        GROUP BY manufacturer
+                        ORDER BY qty DESC
+                        LIMIT 5";
+            $manufacturers = Db::getInstance()->executeS($query);
+            
+            $date_arr = explode("-",$date_sta);
+            $month = $date_arr[1];
+            $year = $date_arr[0];
+            switch ($date_arr[1]) {
+                case "01": $month = "Enero"; break;
+                case "02": $month = "Febrero"; break;
+                case "03": $month = "Marzo"; break;
+                case "04": $month = "Abril"; break;
+                case "05": $month = "Mayo"; break;
+                case "06": $month = "Junio"; break;
+                case "07": $month = "Julio"; break;
+                case "08": $month = "Agosto"; break;
+                case "09": $month = "Septiembre"; break;
+                case "10": $month = "Octubre"; break;
+                case "11": $month = "Noviembre"; break;
+                case "12": $month = "Diciembre"; break;
+            }
+            
+            $statistics[$date_sta]['year'] = $year;
+            $statistics[$date_sta]['month'] = $month;
+            $statistics[$date_sta]['customers'] = $customer_qty['customers']=="" ? 0 : $customer_qty['customers'];
+            $statistics[$date_sta]['fluz'] = $fluz['fluz']=="" ? 0 : $fluz['fluz'];
+            $statistics[$date_sta]['fluzcop'] = $fluz['fluzcop']=="" ? 0 : $fluz['fluzcop'];
+            $statistics[$date_sta]['orders'] = $orders_qty['orders']=="" ? 0 : $orders_qty['orders'];
+            $statistics[$date_sta]['categories'] = $categories;
+            $statistics[$date_sta]['manufacturers'] = $manufacturers;
+        }
+        
+        $customers_qty_acu = 0;
+        $reversed = array_reverse($statistics);
+        foreach ($reversed as &$data) {
+            $data['customers'] = $customers_qty_acu += $data['customers'];
+        }
+
+        $statistics = array_reverse($reversed);        
+        return $statistics;
+    }
+    
     function  history_business(){
         $query_history = 'SELECT tf.id_transfers_fluz as id_transferencia, r.id_customer as id_cliente, c.firstname as nombre, c.lastname as apellido, DATE_FORMAT(tf.date_add, "%d/%m/%Y") as fecha_transferencia, 
                             (SELECT COUNT(r.id_transfer_fluz) FROM ps_rewards r WHERE r.id_transfer_fluz = tf.id_transfers_fluz AND r.reason = "TransferFluzBusiness") AS numero_empleados,
@@ -1184,6 +1358,51 @@ class businessController extends FrontController {
         $history_transfer = Db::getInstance()->executeS($query_history);
         
         return $history_transfer;
+    }
+    
+    function  history_fluz(){
+        $query_fluz = 'SELECT
+                            o.id_order,
+                            o.reference,
+                            o.payment,
+                            os.name state,
+                            DATE_FORMAT(o.date_add, "%d/%m/%Y") date
+                        FROM '._DB_PREFIX_.'orders o
+                        INNER JOIN '._DB_PREFIX_.'order_state_lang os ON ( o.current_state = os.id_order_state AND os.id_lang = 1 )
+                        LEFT JOIN '._DB_PREFIX_.'configuration c ON ( c.name = "REWARDS_VIRTUAL_VALUE_1" )
+                        WHERE o.id_customer = '.$this->context->customer->id.'
+                        ORDER BY o.date_add DESC';
+        $history_fluz = Db::getInstance()->executeS($query_fluz);
+        
+        foreach ($history_fluz as &$history) {
+            $query = 'SELECT
+                            od.product_id,
+                            od.product_reference,
+                            od.product_name,
+                            od.product_quantity,
+                            od.product_price,
+                            ((od.product_price/c.value)*(rp.value/100)) product_fluz,
+                            (od.product_price*od.product_quantity) product_price_total,
+                            (((od.product_price/c.value)*(rp.value/100))*od.product_quantity) product_fluz_total
+                        FROM '._DB_PREFIX_.'order_detail od
+                        INNER JOIN '._DB_PREFIX_.'rewards_product rp ON ( od.product_id = rp.id_product )
+                        LEFT JOIN '._DB_PREFIX_.'configuration c ON ( c.name = "REWARDS_VIRTUAL_VALUE_1" )
+                        WHERE od.product_reference LIKE "%mfluz%"
+                        AND od.id_order = '.$history['id_order'];
+            $history['products'] = Db::getInstance()->executeS($query);
+            
+            $total = 0;
+            $total_fluz = 0;
+            foreach ($history['products'] as $products) {
+                $total += $products['product_price_total'];
+                $total_fluz += $products['product_fluz_total'];
+            }
+            
+            $history['total'] = $total;
+            $history['total_fluz'] = $total_fluz;
+        }
+        
+        return $history_fluz;
     }
     
     function history_purchase_employee($list_business, $limit){
