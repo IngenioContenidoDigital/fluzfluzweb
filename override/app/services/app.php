@@ -624,6 +624,7 @@ class API extends REST {
           $customer->kick_out = 0;
           $customer->active = 1;
           $customer->id_lang = Context::getContext()->language->id;
+          $customer->method_add = 'Movil App';
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
           $saveCustomer = $customer->add();
@@ -788,7 +789,7 @@ class API extends REST {
   public function sendMailCofirmCreateAccount($customer, $address){
     $vars = array(
       '{username}' => $customer->username,
-      '{password}' =>  Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+      '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
       '{firstname}' => $customer->firstname,
       '{lastname}' => $customer->lastname,
       '{dni}' => $customer->dni,
@@ -954,12 +955,21 @@ class API extends REST {
       foreach ($cart['products'] as &$product) {
         $product['app_price_shop'] = $this->formatPrice($product['price_shop']);
         $product['app_total'] = $this->formatPrice($product['total']);
+        $sql = "SELECT date_add as date FROM "._DB_PREFIX_."cart_product WHERE id_cart = ".$cart['id']." and id_product = ".$product['id_product'];
+        $product['date'] = Db::getInstance()->getValue($sql);
         $product['app_price_in_points'] = $this->formatPrice($product['price_in_points']);
         $product['image_manufacturer'] = $link->getManufacturerImageLink($product['id_manufacturer']);
         $sql = "select online_only from "._DB_PREFIX_."product where id_product = ".$product['id_product'];
-        $product['online_only'] = Db::getInstance()->getValue($sql);;
+        $product['online_only'] = Db::getInstance()->getValue($sql);
       }
       $cart['app_total_price_in_points'] = $this->formatPrice($cart['total_price_in_points']);
+      $products =  $cart['products'];
+      usort($products, function($a1, $a2) {
+        $v1 = strtotime($a1['date']);
+        $v2 = strtotime($a2['date']);
+        return $v2 - $v1; // $v2 - $v1 to reverse direction
+      });
+      $cart['products'] = $products;
       $this->response($this->json($cart), 200);
     }
     $this->response($this->json(array(
@@ -2449,6 +2459,7 @@ class API extends REST {
     $order->current_state = 15;
     $order->conversion_rate = 1;
     $order->reference = $reference;
+    $order->method_add = 'Movil App';
     $order->add();
     
     $customer = new Customer($order->id_customer);

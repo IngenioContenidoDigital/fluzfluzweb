@@ -4230,6 +4230,9 @@ nav #social_block h4 { display: none; margin-bottom: 0; font-size: 21px; line-he
     
 }
 
+.priceCartShow{font-size: 12px;
+    color: #000;
+    font-weight: bold;}
 .rangeslider{padding:0px; margin-top: 12.1%;}
 .output{color:#ef4136; background:transparent; border:none; text-align:center;}
 .rangePrice{color:#414042;margin-top:5%;}

@@ -72,9 +72,6 @@ class OrderController extends OrderControllerCore
             }
         }
         
-        $query_validation = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'orders WHERE id_customer = '.$this->context->customer->id.' AND current_state = 2');
-        $this->context->smarty->assign('validate_credit', $query_validation);
-        
         foreach ($this->context->cart->getProducts() as $product) {
             
             $queryprueba = "SELECT p.id_product as id, p.type_currency , i.id_image as image_parent, p.save_dolar, p.price_shop, p.reference FROM "._DB_PREFIX_."product p
@@ -169,6 +166,7 @@ class OrderController extends OrderControllerCore
                 $this->setTemplate(_PS_THEME_DIR_.'order-carrier.tpl');
             break;
             case OrderController::STEP_PAYMENT:
+                
                 // Check that the conditions (so active) were accepted by the customer
                 $cgv = Tools::getValue('cgv') || $this->context->cookie->check_cgv;
                 if ($is_advanced_payment_api === false && Configuration::get('PS_CONDITIONS')
@@ -205,6 +203,8 @@ class OrderController extends OrderControllerCore
                         $this->context->customer->mylogout(); // If guest we clear the cookie for security reason
                         Tools::redirect('index.php?controller=guest-tracking&id_order='.urlencode($order->reference).'&email='.urlencode($email));
                     } else {
+                        $order = new Order((int)$id_order);
+                        $order->method_add = 'Web';
                         Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards SET id_reward_state=2, id_order='.$id_order.' WHERE id_customer = '.$this->context->customer->id.' AND id_cart='.$this->context->cart->id);
                         $qstate="UPDATE "._DB_PREFIX_."rewards SET id_reward_state= 2, id_cart = ".$this->context->cart->id." WHERE id_customer=".$this->context->customer->id." AND id_order=".$id_order; 
                         Db::getInstance()->execute($qstate);

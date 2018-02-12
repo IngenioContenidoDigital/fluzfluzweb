@@ -1510,7 +1510,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 	}
         /* ASIGNA LOS PUNTOS A LOS SPONSORS */
 	// Create all sponsorship rewards for an order
-	private function _createAllRewards($order, $customer)
+	private function _createAllRewards($order, $customer, $orderState)
 	{
 		// All sponsors who should get a reward
 		$sponsorships = RewardsSponsorshipModel::getSponsorshipAscendants($this->context->customer->id);
@@ -1558,7 +1558,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 					$reward->id_customer = (int)$sponsorship['id_customer'];
 					$reward->id_order = (int)$order->id;
                                         $reward->id_cart = $order->id_cart;
-					$reward->id_reward_state = RewardsStateModel::getDefaultId();
+					$reward->id_reward_state = $orderState;
                                         $price = round($reward->getRewardReadyForDisplay($price2, $this->context->currency->id)/(2)/(count($sponsorships2)));
                                         
                                         /*if($discount > 0){
@@ -1630,7 +1630,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 	// send notification to sponsor to inform them a sponsored placed an order
 	public function hookActionValidateOrder($params)
 	{
-		if (!Validate::isLoadedObject($customer = $params['customer']) || !Validate::isLoadedObject($order = $params['order']))
+            	if (!Validate::isLoadedObject($customer = $params['customer']) || !Validate::isLoadedObject($order = $params['order']))
 			die(Tools::displayError('Missing parameters for hookActionValidateOrder'));
 		// check if the customer has been sponsored
 		$sponsorship = new RewardsSponsorshipModel(RewardsSponsorshipModel::isSponsorised((int)$customer->id, true, true));
@@ -1651,7 +1651,7 @@ class RewardsSponsorshipPlugin extends RewardsGenericPlugin
 				$total_unlock = (float)$order->total_paid - (float)$order->total_shipping;
 			// Check if minimum is reached
 			if ($total_unlock >= (float)MyConf::get('RSPONSORSHIP_UNLOCK_GC_' . $order->id_currency, null, $id_template)) {
-				$this->_createAllRewards($order, $customer);
+				$this->_createAllRewards($order, $customer, $params['orderStatus']->id);
 				return true;
 			}
 		}

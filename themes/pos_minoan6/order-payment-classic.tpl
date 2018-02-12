@@ -565,8 +565,13 @@
                 </div>
                 
                 {foreach from=$products item=product}
+                {assign var="idprod" value=$product.reference}
                 <div class="row r-content-summary" id="r-content-summary">    
+                    <input type="hidden" value="{$productsPoints.$idprod}" id="pto_unit_fluz-{$product.id_product}" class="pto_unit_fluz-{$product.id_product}">
+                    <input type="hidden" value="{$product.id_product}" id="id_product_p" class="id_product_p">
+                    <input type="hidden" value="{$product.cart_quantity}" id="quantity_product_p" class="quantity_product_p">
                     <input type="hidden" class="validation_fluz" id="validation_fluz" name="validation_fluz" value="{$product.reference}">
+                    
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 font-merchant" style="padding: 0px; text-align: left; padding-left: 5px; text-transform: uppercase;">{$product.manufacturer_name}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;">{$product.price}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0px; text-align: center;">{$product.quantity}</div>
@@ -691,6 +696,7 @@
 {literal}
     <script>
         $(document).ready(function(){
+            pointsCurrent();
             $('.div_products').children('.r-content-summary').each(function (){
                 var reference = $('.validation_fluz').val();
                 var r_st = reference.substring(0,5);
@@ -711,6 +717,22 @@
             }
         });
         
+        function pointsCurrent(){
+    
+            var pts=0;
+            var total_p=0;
+            var quantity = 0;
+
+            $('.r-content-summary').each(function(){
+
+               var id_product = $(this).find(".id_product_p").val(); 
+               quantity = $(this).find(".quantity_product_p").val();
+               pts = $('.pto_unit_fluz-'+id_product).val();
+               total_p += parseInt(pts*quantity);
+               
+            });
+            $('#total_fluz_earned').html(total_p);
+        }
     </script>
 {/literal}
 {literal}
@@ -754,11 +776,7 @@
                var points=$('#avail_all').val();
                var use = $('#toUse').val();
                var prueba = document.getElementById("prueba").innerHTML;
-               console.log(totalCart);
-               console.log(credits);
-               console.log(points);
-               console.log(use);
-               console.log(prueba);
+               
                $.ajax({
                     method:"GET",
                     url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,

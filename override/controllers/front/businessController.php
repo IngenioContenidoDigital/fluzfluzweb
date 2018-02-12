@@ -242,6 +242,63 @@ class businessController extends FrontController {
             die($report);
         }
         
+        if(Tools::isSubmit('export-excel-shopping-fluz')){
+
+            $history_fluz = $this->history_fluz();
+            
+            $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>Referencia</th>
+                                        <th>Pago</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Total Fluz</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Prec. Unit</th>
+                                        <th>Fluz Unit</th>
+                                        <th>Total Producto</th>
+                                        <th>Total Fluz Producto</th>
+                                    </tr>";
+            
+            foreach ($history_fluz as $order)
+            {
+                foreach ($order['products'] as $details)
+                {
+                    $report .= "<tr>
+                                    <td>".$order['reference']."</td>
+                                    <td>".$order['payment']."</td>
+                                    <td>".$order['state']."</td>
+                                    <td>".$order['date']."</td>
+                                    <td>".$order['total']."</td>
+                                    <td>".$order['total_fluz']."</td>
+                                    <td>".$details['product_name']."</td>
+                                    <td>".$details['product_quantity']."</td>
+                                    <td>".round($details['product_price'])."</td>
+                                    <td>".$details['product_fluz']."</td>
+                                    <td>".round($details['product_price_total'])."</td>
+                                    <td>".$details['product_fluz_total']."</td>
+                                </tr>";
+                }
+            }
+            
+            $report .= "         </table>
+                        </body>
+                    </html>";    
+            
+            header("Content-Type: application/vnd.ms-excel");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("content-disposition: attachment;filename=history_purchase_fluz.xls");
+            die($report);
+        }
+        
         if (Tools::isSubmit('add-employee')) {
             
             $array_error = array();
@@ -309,7 +366,7 @@ class businessController extends FrontController {
             $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
             
             if (empty($error)) {
-
+                
                 $customer = new Customer();
                 $customer->firstname = $FirstNameEmployee;
                 $customer->lastname = $LastNameEmployee;
@@ -323,6 +380,7 @@ class businessController extends FrontController {
                 $customer->field_work = $this->context->customer->field_work;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                $customer->method_add = 'Web / Business';
                 $customer->add();
                 
                 Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
@@ -380,7 +438,7 @@ class businessController extends FrontController {
                             
                                 $vars = array(
                                 '{username}' => $customer->username,
-                                '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
                                 '{firstname}' => $customer->firstname,
                                 '{lastname}' => $customer->lastname,
                                 '{dni}' => $customer->dni,
@@ -448,7 +506,7 @@ class businessController extends FrontController {
                         
                         $vars = array(
                             '{username}' => $customer->username,
-                            '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                            '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
                             '{firstname}' => $customer->firstname,
                             '{lastname}' => $customer->lastname,
                             '{dni}' => $customer->dni,
@@ -613,6 +671,7 @@ class businessController extends FrontController {
                     $customer->id_default_group = 4;
                     $customer->id_lang = $this->context->customer->id_lang;
                     $customer->field_work = $this->context->customer->field_work;
+                    $customer->method_add = 'Web / Business';
                     $customer->add();
                     
                     Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
@@ -658,7 +717,7 @@ class businessController extends FrontController {
                             if ($sponsorship->save()) {
                                 $vars = array(
                                 '{username}' => $customer->username,
-                                '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id),                
                                 '{firstname}' => $customer->firstname,
                                 '{lastname}' => $customer->lastname,
                                 '{dni}' => $customer->dni,
@@ -726,7 +785,7 @@ class businessController extends FrontController {
 
                                 $vars = array(
                                 '{username}' => $customer->username,
-                                '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id),                
                                 '{firstname}' => $customer->firstname,
                                 '{lastname}' => $customer->lastname,
                                 '{dni}' => $customer->dni,
@@ -983,6 +1042,7 @@ class businessController extends FrontController {
                             $customer->id_lang = $this->context->customer->id_lang;
                             $customer->field_work = $this->context->customer->field_work;
                             $customer->phone = $datacustomer['Telefono Empleado'];
+                            $customer->method_add = 'Web / Business';
                             $customer->add();
                             
                             Db::getInstance()->execute('INSERT  INTO ps_customer_group (id_customer, id_group)  
@@ -1030,7 +1090,7 @@ class businessController extends FrontController {
                                     if ($sponsorship->save()) {
                                         $vars = array(
                                         '{username}' => $customer->username,
-                                        '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id),                
                                         '{firstname}' => $customer->firstname,
                                         '{lastname}' => $customer->lastname,
                                         '{dni}' => $customer->dni,
@@ -1093,7 +1153,7 @@ class businessController extends FrontController {
                                     if ($sponsorship->save()) {
                                         $vars = array(
                                         '{username}' => $customer->username,
-                                        '{password}' => Context::getContext()->link->getPageLink('password', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
+                                        '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id),                
                                         '{firstname}' => $customer->firstname,
                                         '{lastname}' => $customer->lastname,
                                         '{dni}' => $customer->dni,

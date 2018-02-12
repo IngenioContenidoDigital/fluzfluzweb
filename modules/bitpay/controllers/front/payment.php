@@ -47,6 +47,7 @@ class bitpayPaymentModuleFrontController extends ModuleFrontController
     $order->current_state = 15;
     $order->conversion_rate = 1;
     $order->reference = $reference;
+    $order->method_add = 'Web';
     $order->add(); 
     
     $order_detail = new OrderDetail();
