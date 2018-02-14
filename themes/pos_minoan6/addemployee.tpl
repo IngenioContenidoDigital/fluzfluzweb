@@ -22,11 +22,11 @@
         <div class="row row-form-employee">
             <div class="row required form-group">
                 <label class="col-lg-12 l-form-employee" for="firstname">{l s='Nombre'}</label>
-                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="firstname" name="firstname" value="{if isset($smarty.post.firstname)}{$smarty.post.firstname}{/if}" />
+                <input type="text" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="firstname" name="firstname" value="{if isset($smarty.post.firstname)}{$smarty.post.firstname}{/if}" />
             </div>
             <div class="row required form-group">
                 <label class="col-lg-12 l-form-employee" for="lastname">{l s='Apellido'}</label>
-                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="lastname" name="lastname" value="{if isset($smarty.post.lastname)}{$smarty.post.lastname}{/if}" />
+                <input type="text" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' class="col-lg-6 is_required validate form-employee" data-validate="isName" autocomplete="off" id="lastname" name="lastname" value="{if isset($smarty.post.lastname)}{$smarty.post.lastname}{/if}" />
             </div>
             <div class="row required form-group">
                 <label class="col-lg-12 l-form-employee" for="username">{l s='Username'}</label>
@@ -37,24 +37,39 @@
                 <input class="col-lg-6 is_required validate account_input form-employee" data-validate="isEmail" autocomplete="off" type="email" id="email" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|stripslashes}{/if}" />
             </div>
             <div class="row form-group">
-                <label  class="col-lg-12 l-form-employee" for="phone_invoice">Tel&eacute;fono</label>
-                <input type="text" class="col-lg-6 form-employee" name="phone_invoice" id="phone_invoice" autocomplete="off" value="{if isset($smarty.post.phone_invoice) && $smarty.post.phone_invoice}{$smarty.post.phone_invoice}{/if}" />
+                <label  class="col-lg-12 l-form-employee" for="phone_invoice">Celular</label>
+                <input type="number" class="col-lg-6 form-employee" name="phone_invoice" id="phone_invoice" autocomplete="off" value="{if isset($smarty.post.phone_invoice) && $smarty.post.phone_invoice}{$smarty.post.phone_invoice}{/if}" />
             </div>
             <div class="row required dni form-group">
                 <label class="col-lg-12 l-form-employee" for="dni">{l s='Cedula'}</label>
-                <input class="col-lg-6 is_required validate account_input form-employee" type="text" autocomplete="off" name="dni" id="dni" value="{if isset($smarty.post.dni)}{$smarty.post.dni}{/if}" />
+                <input class="col-lg-6 is_required validate account_input form-employee" type="number" autocomplete="off" name="dni" id="dni" value="{if isset($smarty.post.dni)}{$smarty.post.dni}{/if}" />
             </div>
             <div class="row required form-group">
                 <label class="col-lg-12 l-form-employee" for="address_customer">Direcci&oacute;n del Empleado</label>
                 <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="address_customer" name="address_customer" value="{if isset($smarty.post.address_customer)}{$smarty.post.address_customer}{/if}" />
             </div>
             <div class="row required form-group">
-                <label class="col-lg-12 l-form-employee" for="city">Ciudad</label>
-                <input type="text" class="col-lg-6 is_required validate form-employee" data-validate="isUser" autocomplete="off" id="city" name="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />
+                <label class="col-lg-12 l-form-employee" for="id_country">Pais</label>
+                <select name="id_country" id="id_country"  class="col-lg-6 is_required validate form-employee" autocomplete="off">
+                    <option value="" selected>-</option>
+                    {foreach from=$countries item=v}
+                        <option value="{$v.id_country}">{$v.name}</option>
+                    {/foreach}
+                </select>
             </div>
             <div class="row required form-group">
-                <label class="col-lg-12 l-form-employee" for="Amount">{l s='Monto (Fluz)'}</label>
-                <input class="col-lg-6 is_required validate form-employee" value="" type="number" min="1" max="{$pointsAvailable}" oninput="if(value>{$pointsAvailable})value={$pointsAvailable}" id="use_fluz_employee" autocomplete="off"/>
+                <label class="col-lg-12 l-form-employee" for="city">Ciudad</label>
+                <select id="city" name="city" class="col-lg-6 is_required validate form-employee" autocomplete="off">
+                    <option value="" selected>-</option>
+                    <option class="69" value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
+                    <option class="69" value="Medellin">Medell&iacute;n</option>
+                    <option class="69" value="Cali">{l s="Cali"}</option>
+                    <option class="69" value="Barranquilla">{l s="Barranquilla"}</option>
+                    <option class="69" value="Bucaramanga">{l s="Bucaramanga"}</option>
+                    {foreach from=$cities item=city}
+                        <option class="{$city.country}" value="{$city.ciudad}">{$city.ciudad}</option>
+                    {/foreach}
+                </select>
             </div>
         </div>
         <div class="row">        
@@ -74,6 +89,15 @@
 {literal}
 
     <script>
+        $("#city option").hide();
+        $(document).on('change', '#id_country', function() {
+            var country = $(this).val();
+            $("#city option").hide();
+            if (country) {
+                $("."+country).show();
+            }
+        });
+        
         $("#use_fluz_employee").on("keyup",function(event){
             var valor1=$('#ptosTotalOculto').val();
             var valor2=$('#use_fluz_employee').val();
