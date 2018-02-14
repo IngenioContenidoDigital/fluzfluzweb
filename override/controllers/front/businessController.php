@@ -65,6 +65,11 @@ class businessController extends FrontController {
         
         $this->context->smarty->assign('s3', _S3_PATH_);
         
+        $countries = Country::getCountries($this->context->language->id, false, true);
+        $this->context->smarty->assign('countries', $countries);
+        
+        $this->context->smarty->assign('cities', City::getCities());
+        
         $this->context->smarty->assign('all_fluz', $total_users);
         $this->context->smarty->assign('network', $list_business);
         
@@ -255,6 +260,7 @@ class businessController extends FrontController {
             $phone_user = Tools::getValue('phone_invoice');
             $address_customer = Tools::getValue('address_customer');
             $city_custom = Tools::getValue('city');
+            $id_country = Tools::getValue('id_country');
             
             $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
                                                     FROM '._DB_PREFIX_.'customer WHERE dni = "'.$passwordDni.'" ');
@@ -274,9 +280,11 @@ class businessController extends FrontController {
 
             if (empty($FirstNameEmployee) || empty($LastNameEmployee) || !Validate::isName($FirstNameEmployee) || !Validate::isName($LastNameEmployee)) {
                 $error['name'] = 'name invalid';
-            } elseif (Tools::isSubmit('add-employee') && !Validate::isEmail($EmailEmployee)) {
+            }
+            elseif (Tools::isSubmit('add-employee') && !Validate::isEmail($EmailEmployee)) {
                 $error['email'] = 'email invalid';
-            } elseif (empty($passwordDni)) {
+            }
+            elseif (empty($passwordDni)) {
                 $error['dni'] = 'No se ha ingresado correctamente el campo Cedula';
             }
             else if($valid_dni['dni'] > 0){
@@ -330,7 +338,7 @@ class businessController extends FrontController {
                         VALUES ( '.$customer->id.' ,3)');
                 
                 $address = new Address();
-                $address->id_country = 69;
+                $address->id_country = $id_country;
                 $address->dni = $customer->dni;
                 $address->id_customer = $customer->id;
                 $address->alias = 'Mi Direccion';

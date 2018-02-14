@@ -27,8 +27,8 @@
                         <div class="title col-lg-12">{$item.year} {$item.month}</div>
                         <br>
                         <div class="col-lg-12"><span>Cantidad Empleados: </span>{$item.customers}</div>
-                        <div class="col-lg-6"><span>Total Fluz Network: </span><br>{$item.fluz|round:0}</div>
-                        <div class="col-lg-6"><span>Total Network: </span><br>COP $ {$item.fluzcop|round:0}</div>
+                        <div class="col-lg-12"><span>Total Fluz Network: </span>{$item.fluz|round:0}</div>
+                        <div class="col-lg-12"><span>Total Network: </span>COP $ {$item.fluzcop|round:0}</div>
                         <div class="col-lg-12"><span>Total Transacciones: </span>{$item.orders}</div>
                         {if  $item.manufacturers|@count > 0} 
                             <div class="col-lg-12 title-manufacturers">Comercios Destacados</div>
