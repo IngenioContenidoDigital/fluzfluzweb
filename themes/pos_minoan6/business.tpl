@@ -139,10 +139,10 @@ p{*
         </button>
         <ul class="dropdown-menu back-business" role="menu">
             <li>
-                <a id="item-menu-add" role="menuitem" href="#">Agregar un Empleado</a>
+                <a id="item-menu-add" role="menuitem" href="#">Agregar Un Empleado</a>
             </li>
             <li>
-                <a id="item-menu-upload" role="menuitem" href="#">Agregar varios Empleados</a>
+                <a id="item-menu-upload" role="menuitem" href="#">Agregar Varios Empleados</a>
             </li>
         </ul>
     </div>
