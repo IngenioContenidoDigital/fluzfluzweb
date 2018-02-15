@@ -62,13 +62,13 @@
                             <div class="col-lg-12" style="margin-top: 25px;">&nbsp;</div>
                         {/if}
                     </div>
-            {if $borders == 3}
-                </div>
-                {$borders = 0}
-            {/if}
             {$borders = $borders + 1}
+            {if $borders == 4}
+                </div>
+                {$borders = 1}
+            {/if}
         {/foreach}
-        {if $borders == 1 || $borders == 2}
+        {if $borders != 4}
             </div>
         {/if}
     </div>
