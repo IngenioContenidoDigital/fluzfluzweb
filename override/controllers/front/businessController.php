@@ -313,7 +313,7 @@ class businessController extends FrontController {
             $username = Tools::getValue('username');
             $EmailEmployee = Tools::getValue('email');
             $passwordDni = Tools::getValue('dni');
-            $point_used_add = Tools::getValue('ptosusedhiddenadde');
+            $point_used_add = "";
             $phone_user = Tools::getValue('phone_invoice');
             $address_customer = Tools::getValue('address_customer');
             $city_custom = Tools::getValue('city');
