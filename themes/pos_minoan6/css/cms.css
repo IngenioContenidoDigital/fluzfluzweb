@@ -39,6 +39,8 @@ header:hover,nav:hover,aside:hover,footer:hover,section:hover,article:hover{
   cursor: pointer;
 }
 
+form#searchbox #search_button { margin-left: -4px; margin-top: 1px; }
+
 aside{
   width:32%;
   float:right;
@@ -315,7 +317,7 @@ margin-right: 0;
     .prueba{left: 170px;}
     .menuAccount{font-size:13px;}
     .save-product{font-size: 16px;text-align: right;padding-right: 0px;}
-    form#searchbox{position: initial !important;top: 0px !important;padding-left: 285px !important;}
+    form#searchbox{position: initial !important;top: 0px !important;}
     .container{ max-width: 1024px;}
     .containerFeatured{margin-bottom:0px !important; }
     .merchant-left{margin-left: 0px;}
@@ -396,7 +398,7 @@ margin-right: 0;
     .divTitleFeatured{width:98%;margin-top: 0px;}
     .owl-item{width: 224px !important;}
     .boxprevnext2 a{margin-top:0px;}
-    form#searchbox{position: initial !important;top: 0px !important;padding-left: 170px !important;}
+    form#searchbox{position: initial !important;top: 0px !important;}
     .btn-shop{margin-bottom: 60px !important;}
     .title-category{margin-top:120px !important; margin-bottom:0px !important;}
     .cont-category{margin-top: -21px;}
@@ -485,8 +487,8 @@ margin-right: 0;
     .icon-chevron-left:before{font-size:16px;}
     .icon-chevron-right:before{font-size:16px;}
     .banner-box{background-size:500px !important;}
-    form#searchbox{padding-left: 20px !important;}
-    form#searchbox input#search_query_block{max-width: 318px !important;}
+    form#searchbox{}
+    form#searchbox input#search_query_block{max-width: 275px !important;}
     .owl-carousel .owl-wrapper{    margin-left: 4px;}
     .section-cms{padding-left:0px !important; padding-right:0px !important;}
     .asideCategory{padding-left:0px !important; padding-right:0px !important;}
@@ -569,7 +571,7 @@ margin-right: 0;
 @media (max-width:375px){
     .menuSticky{ margin-bottom: 21px !important;}
     .banner2{margin-top: 60px !important;background-size: 450px !important;}
-    form#searchbox input#search_query_block {max-width: 273px !important;}
+    form#searchbox input#search_query_block {max-width: 225px !important;}
     .btn-shop {width: 36% !important;margin-bottom: 32px !important;}
     .breadcrumb{font-size: 10px;height: 45px;}
     .bread-style{padding-left: 10px !important;}
