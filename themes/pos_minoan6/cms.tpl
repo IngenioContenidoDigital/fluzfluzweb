@@ -116,8 +116,8 @@
     <style>
         .btn-shop{width: 50%;}
         .quick .icon-search:before{display: none;}
-        form#searchbox{position: initial !important; top: 0px !important;padding-left: 490px;}
-        form#searchbox input#search_query_block{margin-bottom: 0px !important;height: 39px; max-width: 380px; margin-right: 0px !important;}
+        form#searchbox{position: initial !important; top: 0px !important;}
+        form#searchbox input#search_query_block{margin-bottom: 0px !important;height: 39px; max-width: 335px; margin-right: 0px !important;}
         .button.button-small{background: #c9b198;padding: 11px 26px !important;}
         .menuSticky{margin-top: 0px !important;}
         .block {margin-bottom: 18px;margin-top: 18px;}
