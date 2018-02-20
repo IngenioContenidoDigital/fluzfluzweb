@@ -261,7 +261,7 @@ class oneall_social_login_tools
                                                 WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
                                                 AND method_add = "Backoffice" AND active = 1
                                                    ');
-                if($verified_reward[0]['id_reward_fluz'] != ''){
+                if($verified_reward[0]['id_rewards_distribute'] != ''){
 
                     $reward = new RewardsModel();
                     $reward->plugin = 'loyalty';
