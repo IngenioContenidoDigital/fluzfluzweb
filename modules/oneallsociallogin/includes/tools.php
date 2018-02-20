@@ -24,6 +24,9 @@
  */
 
 //OneAll Social Login Toolbox
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+
 class oneall_social_login_tools
 {
     const USER_AGENT = 'SocialLogin/1.9.1 PrestaShop/1.6.x.x (+http://www.oneall.com/)';
