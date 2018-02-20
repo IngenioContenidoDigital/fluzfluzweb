@@ -261,6 +261,7 @@ class oneall_social_login_tools
                                                 WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
                                                 AND method_add = "Backoffice" AND active = 1
                                                    ');
+
                 if($verified_reward[0]['id_reward_fluz'] != ''){
 
                     $reward = new RewardsModel();
@@ -270,8 +271,7 @@ class oneall_social_login_tools
                     $reward->credits = $verified_reward[0]['credits_back'];
                     $reward->reason = 'Recompensa FluzFluz';
                     $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
-                    $reward->add();
-
+                    $reward->add()      
                 }
                 
                 $vars = array(
