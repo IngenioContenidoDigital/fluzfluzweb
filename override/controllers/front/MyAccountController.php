@@ -137,6 +137,33 @@ class MyAccountController extends MyAccountControllerCore
             }
         }
         
+        $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$this->context->customer->id.' AND method_add = "'.$code.'"');
+
+        if(Tools::isSubmit('rewards-users')){
+            $rewards = Tools::getValue('input_reward');
+            $state = Tools::getValue('state_reward');
+            $method = Tools::getValue('code_reference');
+            
+            if(empty($verified_reward)){
+                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_distribute (credits, active, id_employee, id_customer, name, date_from, date_to, date_add, method_add)
+                                   VALUES ('.$rewards.', '.$state.', NULL ,'.$this->context->customer->id.',"'.$this->context->customer->firstname.'", " " , " ",  NOW(), "'.$method.'")');
+            
+                Tools::redirect($this->context->link->getPageLink('my-account', true));
+            }
+            else{
+                Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards_distribute SET credits = '.$rewards.', active = '.$state.', date_add = NOW()
+                                            WHERE id_customer = '.$this->context->customer->id.' AND method_add = "'.$method.'"');
+            
+                Tools::redirect($this->context->link->getPageLink('my-account', true));
+            }
+        }
+        $value_reward = $verified_reward[0]['credits'];
+        $this->context->smarty->assign('value_reward', $value_reward);
+
+        
+        $count_user_reward = count($verified_reward);
+        $this->context->smarty->assign('count_user_reward', $count_user_reward);
+        
         // SPONSORS
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();

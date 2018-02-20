@@ -123,6 +123,34 @@
         </div>
     </div>        
 </div>
+<div class="row page-heading">
+    <form method="post" action="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" id="form-rewards-users">
+        <input type="hidden" id="code_reference" name="code_reference" value="{$code}">
+        <input type="hidden" id="count_user_reward" name="count_user_reward" value="{$count_user_reward}">
+        <input type="hidden" id="value_reward" value="{$value_reward}">
+        <div class="row padding-left">
+            <div class="col-lg-6 title-rewards">
+                <h1 class="page-heading-2">Recompensa para Referidos nuevos (Fluz)</h1>
+            </div>
+        </div>
+        <div class="row title-rewards">
+            <div class="col-lg-6 title-rewards">
+                <input type="number" id="input_reward" name="input_reward"> 
+                <button class="btn-save-rewards" id="rewards-users" name="rewards-users"> Guardar </button>
+                {if $count_user_reward == 1}
+                    <button class="btn-edit-rewards" id="rewards-edit" name="rewards-edit"> Editar </button>
+                    <button class="btn-edit-rewards" id="rewards-cancel" name="rewards-cancel"> Cancelar </button>
+                {/if}    
+            </div>
+        </div>
+        <div class="row active-rewards">    
+            <div class="col-lg-6 radio-reward">
+                <input type="radio" name="state_reward" value="0"> <span class="text-r">Desactivar</span>
+                <input type="radio" name="state_reward" value="1" checked> <span span class="text-r">Activar</span>
+            </div>
+        </div>
+    </form>    
+</div>
 <div class="row">
     <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 info-account">{l s='View and Redeem your gift card purchases'}</p>
 </div>
@@ -578,6 +606,45 @@
                         }, 1);
                     }, 1000);    
                 });
+        });
+    </script>
+{/literal}
+{literal}
+    <script>
+        $(document).ready(function(){
+            var valid_form_reward = $('#count_user_reward').val();
+            var value_reward = $('#value_reward').val();
+            $('#rewards-cancel').hide();
+            if(valid_form_reward === "1"){
+                $('#input_reward').val(value_reward);
+                $('#input_reward').prop('disabled', true);
+                $('#rewards-users').prop('disabled', true);
+                $('#rewards-users').css('opacity', '0.5');
+                $('input[name=state_reward]').prop("disabled",true);
+                $('#rewards-cancel').hide();
+            }
+            
+            $('#rewards-edit').click(function(e){
+                $('#input_reward').val(value_reward);
+                $('#input_reward').prop('disabled', false);
+                $('#rewards-users').prop('disabled', false);
+                $('#rewards-users').css('opacity', '1');
+                $('input[name=state_reward]').prop("disabled",false);
+                $('#rewards-cancel').show();
+                $('#rewards-edit').hide();
+                e.preventDefault();
+            });
+            
+            $('#rewards-cancel').click(function(e){
+                $('#input_reward').val(value_reward);
+                $('#input_reward').prop('disabled', true);
+                $('#rewards-users').prop('disabled', true);
+                $('#rewards-users').css('opacity', '0.5');
+                $('input[name=state_reward]').prop("disabled",true);
+                $('#rewards-cancel').hide();
+                $('#rewards-edit').show();
+                e.preventDefault();
+            });
         });
     </script>
 {/literal}

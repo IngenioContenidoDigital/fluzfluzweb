@@ -5,7 +5,6 @@ class AdminFluzfluzRewardsControllerCore extends AdminController
     public function __construct()
     {
         $this->bootstrap = true;
-
         $this->context = Context::getContext();
 
         AdminController::__construct();
@@ -24,7 +23,7 @@ class AdminFluzfluzRewardsControllerCore extends AdminController
             'input' => array(
                 array(
                     'type' => 'select',
-                    'label' => $this->l('Tipo de visualizacion'),
+                    'label' => $this->l('Estado de la Recompensa'),
                     'name' => 'stateReward',
                     'required' => true,
                     'desc' => $this->l('Activado / Desactivado'),
@@ -78,8 +77,34 @@ class AdminFluzfluzRewardsControllerCore extends AdminController
 
     public function postProcess()
     {
+        switch ( Tools::getValue('action') ) {
+        
+            case 'modifyState':
+                $state_reward = Tools::getValue('state_value');
+                $id_reward = Tools::getValue('id_reward');
+                
+                if($state_reward == 0 || $state_reward == 1){
+                    
+                    $update = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards_distribute SET active = '.$state_reward.', date_add = NOW()
+                                            WHERE id_rewards_distribute = '.$id_reward.' AND method_add = "Backoffice"');
+                    
+                
+                    die($update);
+                }
+                else{
+                    
+                    $delete = Db::getInstance()->execute('DELETE FROM '._DB_PREFIX_.'rewards_distribute WHERE id_rewards_distribute = '.$id_reward.' AND method_add = "Backoffice"');
+                    die($delete);
+                }
+                
+                break;
+            default:
+                break;
+                
+        }
+        
         if (Tools::isSubmit('saveRewards')) {
-            $this->saveCustomerRewards(Tools::getValue('stateReward'),Tools::getValue('rewardsCustomer'),Tools::getValue('date_from'), Tools::getValue('date_to') );
+            $this->saveCustomerRewards(Tools::getValue('stateReward'),Tools::getValue('rewardsCustomer'),Tools::getValue('date_from'), Tools::getValue('date_to'), 'Backoffice' );
         }
     }
 
@@ -90,16 +115,26 @@ class AdminFluzfluzRewardsControllerCore extends AdminController
         $this->show_toolbar = false;
         $this->content .= $this->renderForm();
         $this->content .= $this->renderOptions();
+        
+        $reward_fluz = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE method_add = "Backoffice"');
+        
         $this->context->smarty->assign(array(
             'content' => $this->content,
+            'reward_fluz' => $reward_fluz,
             'url_post' => self::$currentIndex.'&token='.$this->token,
             'show_page_header_toolbar' => $this->show_page_header_toolbar,
             'page_header_toolbar_title' => $this->page_header_toolbar_title,
             'page_header_toolbar_btn' => $this->page_header_toolbar_btn
         ));
+        
+        AdminController::initContent();       
+        $this->setTemplate('controllers/rewards_fluz/content.tpl');   
     }
     
-    public function saveCustomerRewards($state,$rewards, $date_from = "", $date_to = ""){
+    public function saveCustomerRewards($state, $rewards, $date_from = "", $date_to = "", $method){
+        
+        Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_distribute (credits, active, id_employee, id_customer, name, date_from, date_to, date_add, method_add)
+                                   VALUES ('.$rewards.', '.$state.', '.$this->context->employee->id.',NULL,"'.$this->context->employee->firstname.'", "'.$date_from.'", "'.$date_to.'",  NOW(), "'.$method.'")');
         
         //insertar datos.
         

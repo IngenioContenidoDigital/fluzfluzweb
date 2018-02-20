@@ -53,6 +53,31 @@
 .close-advertencia-month{font-size: 18px; margin-left: 5px; cursor: pointer;}
 .close-advertencia-awesome{font-size: 18px; margin-left: 5px; cursor: pointer;}
 
+/* Rewards Users */
+.title-rewards{padding-left: 0px !important;}
+.title-rewards > h1{padding-left: 0px !important; font-size: 14px !important; 
+                    text-transform: initial !important;    padding: 5px;
+                    margin-bottom: 10px;}
+.padding-left{padding-left: 0px;}
+.btn-save-rewards{background: #ef4136; color: #fff; 
+                  font-size: 12px; font-weight: bold; 
+                  border: none; padding: 5px 15px;}
+
+.btn-edit-rewards{background: #fff; color: #ef4136; 
+                  font-size: 12px; font-weight: bold; 
+                  padding: 4.5px 15px; border: 1px solid #000;}
+
+#input_reward {
+    padding-bottom: 4px;
+    padding-top: 2px;
+    text-align: center;
+    font-size: 12px;
+}
+.active-rewards{margin-top: 10px;}
+.radio-reward{padding-left: 0px;}
+.text-r{font-size: 12px;
+    text-transform: initial;}
+
 
 /* my network feed */
 .pointstitlemnf { font-weight: bold; border-bottom: 1px solid #CDCED0; font-size: 13px; padding: 10px 7px; }
