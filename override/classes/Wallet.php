@@ -61,9 +61,12 @@ class WalletCore extends ObjectModel
         foreach ($cards as &$card) {
             $code = str_replace(' ', '', Encrypt::decrypt($card['secure_key'] , $card['card_code']));
 
+            $card['card_code'] = $code;
             $card['card_code_cry'] = $card['card_code'];
             $card['code_bar'] = Wallet::getCodebar($card['id_product'] , $code , $card['card_code_cry']);
-
+            
+            /*
+            // Separate code every 4 characters
             $i = 1;
             $cardcode = "";
             $code = str_split($code);
@@ -73,6 +76,7 @@ class WalletCore extends ObjectModel
                 $i++;
             }
             $card['card_code'] = $cardcode;
+            */
         }
         return $cards;
     }

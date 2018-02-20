@@ -52,7 +52,7 @@
     </div>
     <div class="col-xs-12" style="padding-left: 0px;padding-right: 0px;">
         <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="payment_creditCard">
                 <div class="panel-heading" style="background:#fff;">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Pagar con tarjeta de crédito</a>
@@ -60,7 +60,7 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse">
                     <div class="panel-body" style="background: #F9F9F8;">
-                        {include file="$tpl_dir../../modules/payulatam/views/templates/hook/credit_card.tpl"}
+                            {include file="$tpl_dir../../modules/payulatam/views/templates/hook/credit_card.tpl"}
                     </div>
                 </div>
             </div>

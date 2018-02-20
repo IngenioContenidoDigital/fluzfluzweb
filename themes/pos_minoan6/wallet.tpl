@@ -188,6 +188,7 @@
                         <button onclick="send_gift()" class="btn_send_gift" id="send-gift" name="send-gift"> Enviar Obsequio </button>
                     </div>
                 </div>
+                <input type="hidden" id="sponsor_identification" name="sponsor_identification" value=""/>
             </div>    
         </div>
     </div>

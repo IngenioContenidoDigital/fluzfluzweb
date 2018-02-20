@@ -44,11 +44,22 @@ class AdminPosslideshowController extends ModuleAdminController
                     'title' => $this->l('Title'),
                     'width' => 90,
                 ),
-                  'link' => array(
-                    'title' => $this->l('Link'),
+                'type_view' => array(
+                    'title' => $this->l('Vista'),
                     'width' => 90,
                 ),
-                
+                  'type_route' => array(
+                    'title' => $this->l('Tipo ruta'),
+                    'width' => 90,
+                ),
+                  'link' => array(
+                    'title' => $this->l('Link Web'),
+                    'width' => 90,
+                ),
+                'link_app' => array(
+                    'title' => $this->l('Link App'),
+                    'width' => 90,
+                ),
                 'description' => array(
                     'title' => $this->l('Desscription'),
                     'width' => '300',
@@ -85,6 +96,14 @@ class AdminPosslideshowController extends ModuleAdminController
     
     public function renderForm() {
         
+        $options_list[0] = array(id_value => 0, name_type => 'Id Fabricante');
+        $options_list[1] = array(id_value => 1, name_type => 'Id Categoria');
+        $options_list[2] = array(id_value => 2, name_type => 'Url');
+        
+        $type_view[0] = array(id_view => 0, name_view => 'Web');
+        $type_view[1] = array(id_view => 1, name_view => 'Movil');
+        $type_view[2] = array(id_view => 2, name_view => 'Web / Movil');
+        
         $this->fields_form = array(
             'tinymce' => true,
             'legend' => array(
@@ -100,11 +119,43 @@ class AdminPosslideshowController extends ModuleAdminController
 					'lang' => true,
                 ),
                 array(
+                    'type' => 'select',
+                    'label' => $this->l('Tipo de visualizacion'),
+                    'name' => 'type_view',
+                    'required' => true,
+                    'desc' => $this->l('choose type from your computer.'),
+                    'options' => array(
+                        'query' => $type_view,
+                        'id' => 'id_view',
+                        'name' => 'name_view'
+                    ),
+                    'hint' => $this->l('Selecciona el tipo de visualizacion. web, movil o web')
+                ), 
+                array(
+                    'type' => 'select',
+                    'label' => $this->l('Tipo de enrutamiento'),
+                    'name' => 'type_route',
+                    'required' => true,
+                    'desc' => $this->l('choose type from your computer.'),
+                    'options' => array(
+                        'query' => $options_list,
+                        'id' => 'id_value',
+                        'name' => 'name_type'
+                    ),
+                    'hint' => $this->l('Selecciona el tipo de enrutamiento. Producto, Categoria o Url')
+                ),
+                array(
                     'type' => 'text',
-                    'label' => $this->l('Link:'),
+                    'label' => $this->l('Link Web:'),
                     'name' => 'link',
                     'size' => 40,
-					 'lang' => true,
+                    'lang' => true,
+                ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('Link App:'),
+                    'name' => 'link_app',
+                    'size' => 40,
                 ),
                 array(
                     'type' => 'file',

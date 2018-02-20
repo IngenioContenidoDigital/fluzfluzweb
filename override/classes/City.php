@@ -46,9 +46,13 @@ class CityCore extends ObjectModel
 
     public static function getCities()
     {
-        $countries = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS("SELECT ciudad
-                                                                    FROM "._DB_PREFIX_."cities
-                                                                    WHERE (id_cities != 1005  AND id_cities !=  149 AND  id_cities != 126 AND id_cities != 1 AND id_cities != 845)    
+        $countries = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS("SELECT 69 AS country, ciudad
+                                                                    FROM "._DB_PREFIX_."cities c
+                                                                    WHERE (c.id_cities != 1005 AND c.id_cities != 149 AND c.id_cities != 126 AND c.id_cities != 1 AND c.id_cities != 845)
+                                                                    UNION
+                                                                    SELECT s.id_country AS country, name AS ciudad
+                                                                    FROM "._DB_PREFIX_."state s
+                                                                    WHERE s.id_state != 69
                                                                     ORDER BY ciudad");
         return $countries;
     }

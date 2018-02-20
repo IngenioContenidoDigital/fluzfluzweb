@@ -125,7 +125,7 @@ class IdentityController extends IdentityControllerCore
                     include_once(_PS_ROOT_DIR_.'/classes/Thumb.php');
                     $mythumb = new thumb();
                     $mythumb->loadImage($patch_grabar);
-                    $mythumb->crop(100, 100, 'center');
+                    $mythumb->crop(400, 400, 'center');
                     $mythumb->save($patch_grabar);
                 }
 
@@ -232,15 +232,17 @@ class IdentityController extends IdentityControllerCore
                                                         WHERE id_customer = ".$this->customer->id );
         $this->context->smarty->assign('telconumbers', $telconumbers);
         
-        $address = DB::getInstance()->executeS( "SELECT address1, address2, city
-                                                    FROM "._DB_PREFIX_."address
-                                                    WHERE id_customer = ".$this->customer->id."
-                                                    LIMIT 1" );
+        $address = DB::getInstance()->executeS( "SELECT a.id_country, a.address1, a.address2, a.city, c.name country
+                                                FROM "._DB_PREFIX_."address a
+                                                INNER JOIN "._DB_PREFIX_."country_lang c ON a.id_country = c.id_country
+                                                WHERE a.id_customer = ".$this->customer->id."
+                                                LIMIT 1" );
         $this->context->smarty->assign('address', $address[0]);
+        
+        $countries = Country::getCountries($this->context->language->id, false, true);
+        $this->context->smarty->assign('countries', $countries);
 
-        $cities = DB::getInstance()->executeS( "SELECT ciudad
-                                                FROM "._DB_PREFIX_."cities" );
-        $this->context->smarty->assign('cities', $cities);
+        $this->context->smarty->assign('cities', City::getCities());
         
         $imgprofile = "";
         if ( file_exists(_PS_IMG_DIR_."profile-images/".$this->context->customer->id.".png") ) {

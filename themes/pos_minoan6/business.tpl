@@ -94,7 +94,7 @@
 
 <div class="row title-row-business"> 
     <div class="col-lg-12"><span class="title-business" id="title-container"></span></div>
-    <div class="col-lg-6 margin-info">
+    <div class="col-lg-8 margin-info">
             <div id="quantity-users" class="col-lg-12"> Cantidad de Empleados: <span class="available-point"> {$all_fluz} </span></div>
             <div style="padding-left:0px;" id="available-point" class="col-lg-12 title-fluz">{l s="Fluz Totales: "}<span class="available-point">{$pointsAvailable}</span></div>
             <div style="padding-left:0px;" class="col-lg-12 title-fluz" id="title-fluz">{l s="Fluz en Dinero: "}
@@ -102,7 +102,7 @@
                 <span class="available-point"> {displayPrice price=$pointsAvailable * (int)Configuration::get('REWARDS_VIRTUAL_VALUE_1')|escape:'html':'UTF-8'} </span>
             </div>
     </div>
-    <div class="col-lg-6 div-img">
+    <div class="col-lg-4 div-img">
         <img src="/img/business/{$id_customer}.png" class="img-business" />
         <div class="text-business">{$username}</div>
     </div>
@@ -151,13 +151,17 @@
     <div class="col-lg-2 item-employee" style='text-align:center;'><a href="/inicio/485-precarga-de-saldo-fluzfluz.html">Comprar Fluz</a></div>
     <div class="col-lg-2 item-employee" id="history-transfer">Historial de Transferencia</div>
     <div class="col-lg-2 item-employee" id="history-purchase">Compras de Empleados</div>
-    <div class="col-lg-3 item-search">
-        <input type="hidden" value="{$id_customer}" id="id_customer"/>
-        <div id="example_filter" class="dataTables_filter">
-            <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Empleado'}" required>
-            <div id="resultados" class="result-find"></div>
-        </div>
+</div>
+<div class="row block-information-csv">
+    <div id="title-info">
+        <span id="text-info">Tips para importaciones CSV &nbsp;</span>
+        <span id="icon-info">!</span>
     </div>
+    <ul id="list-info">
+        <li>El archivo CSV debe estar en formato de separaci&oacute;n por puntos y comas (;).</li>
+        <li>Todos los campos son requeridos (*).</li>
+        <li>Ning&uacute;n dato incluido en el archivo debe contener caracteres especiales o tildes (&aacute;&ntilde;/\&deg;|&not;^&quot;&amp;&lt;&gt;) entre otros.</li>
+    </ul>
 </div>
 <form method="post" id="trasnferbusiness" class="contenedorBusiness" name="trasnferbusiness">    
 <div class="row container-info-users" id="container-info-users">
@@ -186,22 +190,30 @@
                     <div class="col-lg-5" id="ptosused"></div>
                 </div>
                 <div class="col-lg-7 row-upload-transfer" id="row-upload-transfer">
-                    <div class="col-lg-5 title-browser">
+                    <div class="col-lg-4 title-browser">
                         <div class="col-lg-12 title-panel-upload-transfer"> Importar CSV para Transferencia</div>
                         <div class="col-lg-12" style="font-size: 10px;"> Descargar <a href="../csvcustomer/carga_transfer_example.csv" class="link-down">CSV de Ejemplo</a></div>
                     </div>
-                    <div class="col-lg-7 browse-div">
+                    <div class="col-lg-8 browse-div">
                         <div class="col-lg-12 custom-file-upload">
                             <!--<label for="file">File: </label>--> 
                             <input type="file" name="file" id="file" />
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-7 div-btn-delete">
-                    <button class="myfancybox col-lg-6 btn btn-default btn-delete-employee" href="#confirmDelete" id="delete_employee">
+                <div class="col-lg-4 item-search">
+                    <input type="hidden" value="{$id_customer}" id="id_customer"/>
+                    <div id="example_filter" class="dataTables_filter">
+                        <input type="text" name="busqueda" id="busqueda" class="is_required validate form-control input-infopersonal textsearch" autocomplete="off" placeholder="{l s='Buscar Empleado'}" required>
+                        <div id="resultados" class="result-find"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 div-btn-delete">
+                    <button disabled class="myfancybox col-lg-6 btn btn-default btn-delete-employee" href="#confirmDelete" id="delete_employee">
                         <span> ELIMINAR EMPLEADO </span>
                     </button>
-                </div>   
+                    <span class="div-btn-delete-info">Ning&uacute;n usuario seleccionado</span>
+                </div>
             </div>
             <div class="col-lg-2 div-btn">
                 <button class="myfancybox btn btn-default btn-save-table" href="#confirmTransfer" id="save-info" name="save-info">
@@ -369,11 +381,14 @@
             var add = $('#item-menu-principal').text();
             var title = 'PANEL PRINCIPAL';
             $('#save-info').hide();
+            $('#busqueda').hide();
+            $('.div-btn-delete-info').hide();
             $('#option-list').html(add);
             $('#title-container').html(title);
             $('#amount-use').hide();
             $('#row-upload-transfer').hide();
             $('#delete_employee').hide();
+            $('.block-information-csv').hide();
             var select = $('select[name=select-distribute]').val()
             if(select == 'select-option'){
                 $('#container-List-employees').addClass("disabledbutton");
@@ -386,10 +401,13 @@
                     $('#container-List-employees').addClass("disabledbutton");
                     $('#amount-use').show();
                     $('#save-info').show();
+                    $('#busqueda').hide();
                     $('#error').css('display','none');
                     $('#success').css('display','none');
                     $('#row-upload-transfer').hide();
                     $('#delete_employee').hide();
+                    $('.block-information-csv').hide();
+                    $('.div-btn-delete-info').hide();
                     $('.r_clase').addClass('amount_unit');
                     $('.r_clase').removeClass('amount_edit');
                     $('.r_clase').val(0);
@@ -464,10 +482,13 @@
                     $('#amount-use').hide();
                     $('#row-upload-transfer').hide();
                     $('#save-info').show();
+                    $('#busqueda').show();
                     $(".amount_unit").prop('disabled', true);
                     $(".amount_unit").css('background', 'transparent');
                     $(".amount_unit").val(0);
-                    $('#delete_employee').hide();
+                    $('#delete_employee').show();
+                    $('.block-information-csv').hide();
+                    $('.div-btn-delete-info').show();
                     $('#error').css('display','none');
                     $('#success').css('display','none');
                     $('.check_user').click(function() {
@@ -479,7 +500,7 @@
                             var name = $('#name_employee-'+check_delete).html();
                             var lastname = $('#lastname_employee-'+check_delete).html();
                             
-                            $('#delete_employee').show();
+                            // $('#delete_employee').show();
                             $('#user_delete').html(name+' '+lastname);
                             $('#delete-info-process').click(function(){
                                 $.ajax({
@@ -495,7 +516,7 @@
                         }
                         else{
                             check_delete = "";
-                            $('#delete_employee').hide();
+                            // $('#delete_employee').hide();
                         }
                     });   
                     
@@ -569,8 +590,11 @@
                     $('#container-List-employees').addClass("disabledbutton");
                     $('#amount-use').hide();
                     $('#save-info').show();
+                    $('#busqueda').hide();
                     $('#row-upload-transfer').show();
                     $('#delete_employee').hide();
+                    $('.block-information-csv').show();
+                    $('.div-btn-delete-info').hide();
                     $('.r_clase').addClass('amount_unit');
                     $('.r_clase').removeClass('amount_edit');
                     $('.r_clase').val(0);
@@ -641,9 +665,12 @@
                     $('#error').css('display','none');
                     $('#success').css('display','none');
                     $('#delete_employee').hide();
+                    $('.block-information-csv').hide();
+                    $('.div-btn-delete-info').hide();
                     $('#container-List-employees').addClass("disabledbutton");
                     $('#amount-use').hide();
                     $('#save-info').hide();
+                    $('#busqueda').hide();
                     $('#row-upload-transfer').hide();
                     $('.r_clase').addClass('amount_unit');
                     $('.r_clase').removeClass('amount_edit');
@@ -662,6 +689,7 @@
                 $('#quantity-users').show();
                 $('#panel-allocation-history').hide();
                 $('#history_employee').hide();
+                $('.block-information-csv').hide();
                 $('#history-transfer').removeClass('active_btn');
                 $('#history-purchase').removeClass('active_btn');
             });
@@ -677,6 +705,7 @@
                 $('#quantity-users').hide();
                 $('#panel-allocation-history').hide();
                 $('#history_employee').hide();
+                $('.block-information-csv').hide();
                 $('#history-transfer').removeClass('active_btn');
                 $('#history-purchase').removeClass('active_btn');
             });
@@ -692,6 +721,7 @@
                 $('#panel-upload-employee').show();
                 $('#panel-allocation-history').hide();
                 $('#history_employee').hide();
+                $('.block-information-csv').show();
                 $('#history-transfer').removeClass('active_btn');
                 $('#history-purchase').removeClass('active_btn');
             });
@@ -724,6 +754,16 @@
                 $('#quantity-users').hide();
                 $('#history-transfer').removeClass('active_btn');
                 $('#history-purchase').addClass('active_btn');
+            });
+            
+            $('.check_user').click(function() {
+                if ($('.check_user').is(':checked') ) {
+                    $('#delete_employee').removeAttr("disabled");
+                    $('.div-btn-delete-info').hide();
+                } else {
+                    $('#delete_employee').attr("disabled",true);
+                    $('.div-btn-delete-info').show();
+                }
             });
             
         });

@@ -29,6 +29,7 @@ require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipCodeModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsModel.php');
 
 class AuthController extends AuthControllerCore
 {
@@ -41,7 +42,7 @@ class AuthController extends AuthControllerCore
         $this->addJqueryPlugin('typewatch');
         $this->addJS(array(
             _THEME_JS_DIR_.'tools/vatManagement.js',
-            _THEME_JS_DIR_.'tools/statesManagement.js',
+            //_THEME_JS_DIR_.'tools/statesManagement.js',
             _THEME_JS_DIR_.'authentication.js',
             _PS_JS_DIR_.'jquery/plugins/jquery.creditCardValidator.js',
             _PS_JS_DIR_.'validate.js'
@@ -80,7 +81,7 @@ class AuthController extends AuthControllerCore
             if (Configuration::get('PS_RESTRICT_DELIVERED_COUNTRIES')) {
                 $countries = Carrier::getDeliveredCountries($this->context->language->id, true, true);
             } else {
-                $countries = Country::getCountries($this->context->language->id, true);
+                $countries = Country::getCountries($this->context->language->id, true, true);
             }
             $this->context->smarty->assign(array(
                     'inOrderProcess' => true,
@@ -145,6 +146,21 @@ class AuthController extends AuthControllerCore
         }
     }
     
+    protected function assignCountries()
+    {
+        $this->id_country = (int)Tools::getCountry();
+        if (Configuration::get('PS_RESTRICT_DELIVERED_COUNTRIES')) {
+            $countries = Carrier::getDeliveredCountries($this->context->language->id, true, true);
+        } else {
+            $countries = Country::getCountries($this->context->language->id, false, true);
+        }
+        $this->context->smarty->assign(array(
+                'countries' => $countries,
+                'PS_REGISTRATION_PROCESS_TYPE' => Configuration::get('PS_REGISTRATION_PROCESS_TYPE'),
+                'sl_country' => (int)$this->id_country,
+                'vat_management' => Configuration::get('VATNUMBER_MANAGEMENT')
+            ));
+    }
     public function postProcess()
     {
         if (Tools::isSubmit('submitIdentity')) {
@@ -157,11 +173,11 @@ class AuthController extends AuthControllerCore
             $this->processSubmitAccount();
         }
         if (Tools::isSubmit('SubmitLogin')) {
-            $this->processSubmitLogin();
+            $this->processSubmitLogin($validate = 1);
         }
     }
     
-    protected function processSubmitLogin()
+    protected function processSubmitLogin($validate)
     {
         Hook::exec('actionBeforeAuthentication');
         $passwd = trim(Tools::getValue('passwd'));
@@ -183,7 +199,11 @@ class AuthController extends AuthControllerCore
             $customer = new Customer();
             $authentication = $customer->getByEmail(trim($email), trim($passwd));
             if (isset($authentication->active) && !$authentication->active) {
-                $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
+                if($validate == 1){
+                    $this->errors[] = Tools::displayError('Hemos enviado un correo para verificar tu cuenta.');
+                }else{
+                    $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
+                }
             } elseif (!$authentication || !$customer->id) {
                 $this->errors[] = Tools::displayError('Authentication failed.');
             /* VALIDACION COMPRA DE LICENCIA COMPLETA
@@ -254,6 +274,10 @@ class AuthController extends AuthControllerCore
         if($login_guest==2)
         {
             $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue('code_sponsor'));
+            $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($id_sponsor);
+            $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE method_add = "'.Tools::getValue('code_sponsor').'"');
+            $totals = RewardsModel::getAllTotalsByCustomer((int)$verified_reward[0]['id_customer']);
+            $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
             
             if ( Tools::getValue('code_sponsor') == "" || empty($id_sponsor)) {
                 $this->errors[] = Tools::displayError('Codigo de Patrocino Incorrecto o No Existe. Por Favor valida tu Codigo.', false);
@@ -337,8 +361,10 @@ class AuthController extends AuthControllerCore
                 $customer->phone =  Tools::getValue('phone_mobile');
                 $customer->username =  Tools::getValue('username');
                 $customer->id_default_group = 4;
+                $customer->active = 0;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                $customer->method_add = 'Web / Referidos';                
                 //$customer->add();
                 $customer->save();
 
@@ -382,8 +408,8 @@ class AuthController extends AuthControllerCore
 
                                     $this->sendConfirmationMail($customer);
                                     
-                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                                VALUES ('.$customer->id.', "'.$code_generate.'")');    
+                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');    
 
                                     //AuthController::sendNotificationSponsor($customer->id);
                                    
@@ -393,7 +419,7 @@ class AuthController extends AuthControllerCore
                                 $this->context->smarty->assign('email_create', 1);
 
                                 $this->updateContext($customer);
-                                $this->processSubmitLogin();    
+                                $this->processSubmitLogin($validate = 1);    
 
                         } else {
                             $this->errors[] = 'no sponsor';
@@ -434,8 +460,8 @@ class AuthController extends AuthControllerCore
 
                                     $this->sendConfirmationMail($customer);
                                     
-                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                                VALUES ('.$customer->id.', "'.$code_generate.'")');
+                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                                     
                                     //AuthController::sendNotificationSponsor($customer->id);
                                     
@@ -444,7 +470,7 @@ class AuthController extends AuthControllerCore
                                     $this->context->smarty->assign('email_create', 1);
                                     
                                     $this->updateContext($customer);
-                                    $this->processSubmitLogin();
+                                    $this->processSubmitLogin($validate = 1);
                                     //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : "my-account"));
                             }
                             else 
@@ -453,6 +479,27 @@ class AuthController extends AuthControllerCore
                             } 
                         }
                     }
+                    if(!empty($verified_reward) && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
+                        
+                        $reward = new RewardsModel();
+                        $reward->plugin = 'loyalty';
+                        $reward->id_customer = $customer->id;
+                        $reward->id_reward_state = 2;
+                        $reward->credits = $verified_reward[0]['credits'];
+                        $reward->reason = 'Recompensa Patrocinio';
+                        $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                        $reward->save();
+                        
+                        $reward_sponsor = new RewardsModel();
+                        $reward_sponsor->plugin = 'loyalty';
+                        $reward_sponsor->id_customer = $verified_reward[0]['id_customer'];
+                        $reward_sponsor->id_reward_state = 2;
+                        $reward_sponsor->credits = -$verified_reward[0]['credits'];
+                        $reward_sponsor->reason = 'Recompensa Patrocinio';
+                        $reward_sponsor->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                        $reward_sponsor->save();
+                    }
+                    
                 }
                 
                 else{
@@ -581,7 +628,7 @@ class AuthController extends AuthControllerCore
                     }*/
                     // New Guest customer
                     $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
-                    $customer->active = 1;
+                    $customer->active = 0;
                     
                     // Validate exist username
                     if ( Customer::usernameExists( Tools::getValue("username") ) ) {
@@ -610,14 +657,33 @@ class AuthController extends AuthControllerCore
                             $customer->passwd = Tools::encrypt( Tools::getValue("passwd") );
                             $customer->dni = Tools::getValue("gover");
                             $customer->kick_out = 0;
-                            $customer->active=1;
+                            $customer->active=0;
                             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+60 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                             $customer->update();
+                            $customer->method_add = 'Web';
                             $customerLoaded = true;
+                            
                         } else {
                             $customerLoaded = $customer->add();
+                            $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
+                                                WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
+                                                WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
+                                                AND method_add = "Backoffice" AND active = 1
+                                                   ');
+                            if($verified_reward[0]['id_reward_fluz'] != ''){
+                                
+                                $reward = new RewardsModel();
+                                $reward->plugin = 'loyalty';
+                                $reward->id_customer = $customer->id;
+                                $reward->id_reward_state = 2;
+                                $reward->credits = $verified_reward[0]['credits_back'];
+                                $reward->reason = 'Recompensa FluzFluz';
+                                $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                                $reward->add();
+                                
+                            }
                         }
 
                         if ( $customerLoaded ) {
@@ -709,8 +775,8 @@ class AuthController extends AuthControllerCore
                                     $payment_module->validateOrder($cart->id, 2, 0, 'Pedido Gratuito');*/
                                     
                                     
-                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                           VALUES ('.$customer->id.', "'.$code_generate.'")');
+                                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                                     
                                     $this->sendNotificationSponsor($customer->id);
                                     Tools::redirect($this->context->link->getPageLink('my-account', true));
@@ -767,6 +833,7 @@ class AuthController extends AuthControllerCore
                             else {
                                 Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
+                            $this->processSubmitLogin($validate = 1);
                         } else {
                             $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                         }
@@ -960,7 +1027,7 @@ class AuthController extends AuthControllerCore
         
         $vars = array(
                 '{username}' => $customer->username,
-                '{password}' => Tools::getValue("passwd"),
+                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
                 '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
                 '{dni}' => $customer->dni,

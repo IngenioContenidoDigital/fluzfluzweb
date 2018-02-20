@@ -60,7 +60,7 @@
                         <p class="required requiredinfo"><sup>*</sup>{l s='Required field'}</p>
                         <div class="required form-group img-identity">
                             {if $imgprofile != ""}
-                                <img src="{$imgprofile}">
+                                <img src="{$imgprofile}" width="70" height="70" style="margin: 0 15px;">
                             {else}
                                 <img src="{$img_dir}icon/profile.png">
                             {/if}
@@ -259,11 +259,20 @@
                             </label><br>
                             <input class="is_required form-control inputform enabled" disabled type="text" name="address1" id="address1" value="{$address.address1}" /><br>
                             <input class="is_required form-control inputform enabled" disabled type="text" name="address2" id="address2" value="{$address.address2}" /><br>
+                            <div class="dateBirthText">{$address.country}</div>
+                            <div class="dateBirthInput">
+                                <select id="id_country" name="id_country" class="form-control inputform enabled" disabled>
+                                    {foreach from=$countries item=country}
+                                        <option value="{$country.id_country}" {if ($country.id_country == $address.id_country)}selected="selected"{/if}>{$country.name}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <br>
                             <div class="dateBirthText">{$address.city}</div>
                             <div class="dateBirthInput">
                                 <select id="city" name="city" class="form-control inputform enabled" disabled>
                                     {foreach from=$cities item=city}
-                                        <option value="{$city.ciudad}" {if ($city.ciudad == $address.city)}selected="selected"{/if}>{$city.ciudad}</option>
+                                        <option class="{$city.country}" value="{$city.ciudad}" {if ($city.ciudad == $address.city)}selected="selected"{/if}>{$city.ciudad}</option>
                                     {/foreach}
                                 </select>
                             </div>
@@ -529,12 +538,24 @@
                 });
             });          
         });
+        
+        $(document).on('change', '#id_country', function() {
+            var country = $(this).val();
+            $("#city option").hide();
+            if (country) {
+                $("."+country).show();
+            }
+        });
     </script>
 {/literal}
 <script src="{$js_dir}jquery.creditCardValidator.js"></script>
 {literal}
     <script>
         $(function() {
+            $("#city option").hide();
+            var country = $("#id_country").val();
+            $("."+country).show();
+            
             $("#numbercard").validateCreditCard(function(result) {
                 switch ( result.card_type.name ) {
                     case 'visa':

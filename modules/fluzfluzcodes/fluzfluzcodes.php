@@ -57,7 +57,7 @@ class fluzfluzCodes extends Module{
                         pin_code pin ,
                         (CASE id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) estado,
                         (CASE id_order WHEN 0 THEN '' ELSE id_order END) `order`,
-                        date_add, date_expiration
+                        date_add, date_expiration, no_lote
                     FROM "._DB_PREFIX_."product_code
                     WHERE id_product = ".Tools::getValue('id_product');
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);
@@ -67,6 +67,26 @@ class fluzfluzCodes extends Module{
                     FROM "._DB_PREFIX_."product_code AS pc
                     WHERE id_product = ".Tools::getValue('id_product').") as rs GROUP BY rs.estado";
         $rtotal = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query2);
+        
+        foreach ($result as &$valid){
+            $valid_date = $valid['date_expiration'];
+            $date_now = date("Y-m-d");
+            $dias = (strtotime($date_now)-strtotime($valid_date))/86400;
+            $dias = abs($dias); 
+            $dias = floor($dias);	
+            
+            if($dias > 90 && ($valid['estado'] != 'Asignado')){
+                $valid['valid_date'] = 'bueno';
+            }
+            
+            else if (($dias >= 17 && $dias <= 90) && ($valid['estado'] != 'Asignado')){
+                $valid['valid_date'] = 'regular';
+            }
+            
+            else if($dias < 17 && ($valid['estado'] != 'Asignado')){
+                $valid['valid_date'] = 'malo';
+            }
+        }
         
         $this->context->smarty->assign('totals', $rtotal );
         $this->context->smarty->assign('codes', $result );
@@ -197,7 +217,7 @@ class fluzfluzCodes extends Module{
     public function uploadCodes(){
         $productCodes = array();
         $state = false;
-        $headers = array('Reference #','code', 'pin', 'date_exp');
+        $headers = array('Reference #','code', 'pin', 'date_exp', 'No_Lote');
         $handle = fopen($this->location.$this->folder.$this->nuevo_archivo, 'a+');
         $variable_conf = Configuration::get('PS_FLUZ_CODPRO_KEY');
         
@@ -210,7 +230,7 @@ class fluzfluzCodes extends Module{
                 $code = Encrypt::encrypt($variable_conf , $results[1]);
                 $lastdigits = substr($results[1], -4);
                 
-                $query1 = "INSERT INTO "._DB_PREFIX_."product_code (id_product,code,last_digits,pin_code,date_add, state, date_expiration) VALUES ('".$line['id_product']."','".$code."','".$lastdigits."','".$results[2]."',NOW(),'Disponible','".$results[3]."')";
+                $query1 = "INSERT INTO "._DB_PREFIX_."product_code (id_product,code,last_digits,pin_code,date_add, state, date_expiration, no_lote) VALUES ('".$line['id_product']."','".$code."','".$lastdigits."','".$results[2]."',NOW(),'Disponible','".$results[3]."','".$results[4]."')";
                 $run = Db::getInstance()->execute($query1);
                 
                 $query = "SELECT id_manufacturer

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding-left:0px;">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-11" style="padding-left:0px;">
         <div class="form-group marco">
             <div class="row">
                 <form>

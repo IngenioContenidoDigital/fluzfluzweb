@@ -1305,7 +1305,8 @@ private function clearCart()
 
             $order = new Order();
             $order = new Order($order->getOrderByCartId($this->context->cart->id));
-
+            $order->method_add = 'Movil App';
+            
             $extra_vars = PasarelaPagoCore::get_extra_vars_payu($this->context->cart->id,$method,$customer->secure_key,$order->id);
 
             $this->context = Context::getContext(); // actualizar contexto
@@ -1912,13 +1913,22 @@ return $responseObj;
     $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
     $sql = 'SELECT 
               psl.id_pos_slideshow AS b_id,
-              psl.link AS b_link,
-              psl.description AS b_name
+              ps.link_app AS b_link_app,
+              psl.description AS b_name,
+              ps.type_route,
+              ps.type_view
             FROM '._DB_PREFIX_.'pos_slideshow AS ps
             INNER JOIN '._DB_PREFIX_.'pos_slideshow_lang AS psl ON psl.id_pos_slideshow = ps.id_pos_slideshow
-            WHERE psl.id_lang = '.$id_lang.' AND ps.active = '.($active ? 1 : 0).';';
+            WHERE psl.id_lang = '.$id_lang.' AND ps.active = '.($active ? 1 : 0).' AND ps.type_view != 0;';
     
     $result = $db->executeS($sql);
+    $link = new Link();
+    foreach($result as &$banner){
+      if($banner['type_route'] == 0){
+        $banner['image_manufacturer'] = $link->getManufacturerImageLink($banner['b_link_app']);
+      }
+    }
+    
     return array('result' => $result);
   }
 
@@ -1947,6 +1957,18 @@ return $responseObj;
     return array('result' => $categories);
   }
   
+  public function getNameOneCategoryById($id_category){
+    $categoryInitial = Category::getRootCategories();
+    $categories = Category::getChildren($categoryInitial[0]['id_category'], 1);
+    foreach ($categories as $category){
+      if($category['id_category'] == $id_category){
+        return $category;
+      }
+    }
+    return false;
+  }
+
+
   public function array_random($arr, $num = 1) {
     shuffle($arr);
     $r = array();
@@ -1957,7 +1979,7 @@ return $responseObj;
   }
   
   public function getCategories($id_lang, $id_category, $limit = 0, $active = 1, $product_parent = 1, $random = false ) {
-    $sql = 'SELECT
+    $sql = 'SELECT HIGH_PRIORITY SQL_CACHE 
               p.id_manufacturer AS m_id,
               p.id_product AS pf_id,
               p.online_only,
@@ -1975,7 +1997,8 @@ return $responseObj;
             AND p.product_parent = '.$product_parent.'
             AND p.active = '.$active.'
             GROUP BY p.id_product
-            ';
+          ';
+
     $sql .= ($random) ? 'ORDER BY RAND()' : ' ' ;        
     $sql .= ($limit > 0) ? ' LIMIT '.$limit.';' : ';' ;
     
@@ -2025,7 +2048,7 @@ return $responseObj;
               m.id_manufacturer,
               pl.link_rewrite,
               p.price,
-              od.points as credits
+              r.credits as credits
             FROM "._DB_PREFIX_."orders o
             INNER JOIN "._DB_PREFIX_."rewards r ON ( o.id_order = r.id_order AND r.plugin = 'sponsorship' AND r.id_customer = ".$id_customer." )
             INNER JOIN "._DB_PREFIX_."customer c ON ( o.id_customer = c.id_customer )
@@ -2033,13 +2056,11 @@ return $responseObj;
             INNER JOIN "._DB_PREFIX_."product p ON ( od.product_id = p.id_product )
             INNER JOIN "._DB_PREFIX_."image i ON ( od.product_id = i.id_product AND i.cover = 1 )
             INNER JOIN "._DB_PREFIX_."product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = ".$id_lang." )
-            INNER JOIN ps_manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
+            INNER JOIN "._DB_PREFIX_."manufacturer m ON ( p.id_manufacturer = m.id_manufacturer )
             WHERE o.id_customer IN ( ".substr($stringidsponsors, 0, -1)." ) AND o.current_state = 2
-            AND o.date_add BETWEEN ADDDATE(NOW(),-30) AND NOW()
-            ORDER BY o.date_add DESC "
-            ;
+            ORDER BY o.date_add DESC ";
     $sql .= $limit != 0 ? ' LIMIT '.$limit : '';
-//    error_log("\n\n Este es el SQL: ".print_r($sql,true),3,"/tmp/error.log");
+    
     $last_shopping_products = $db->ExecuteS($sql);
     $result = $last_shopping_products;
     return array('result' => $result);
@@ -2557,6 +2578,73 @@ return $responseObj;
       return true;
     }
     return false;
+  }
+  
+  public function getConversations($id_customer){
+    // Lista de conversaciones
+    $sql = "SELECT CAST(
+                CONCAT(
+                    IF(id_customer_send=".$id_customer.",'',id_customer_send) , IF(id_customer_receive=".$id_customer.",'',id_customer_receive)
+                ) AS INT
+            ) AS customer
+            FROM ps_message_sponsor
+            WHERE (
+                (id_customer_receive=".$id_customer." AND id_customer_send<>".$id_customer.") OR (id_customer_receive<>".$id_customer." AND id_customer_send=".$id_customer.")
+            )
+            GROUP BY customer
+            ORDER BY customer";
+    $conversations = Db::getInstance()->executeS($sql);
+
+    foreach ($conversations as &$conversation) {
+      // Username usuario en conversacion
+      $sql = "SELECT username
+              FROM ps_customer
+              WHERE id_customer = ".$conversation["customer"];
+      $conversation["username"] = Db::getInstance()->getValue($sql);
+
+      // Numero de mensajes sin leer
+      $sql = "SELECT
+                COUNT(*) unread_messages
+              FROM ps_message_sponsor
+              WHERE (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+              AND `read` = 0";
+
+      $conversation["unread_messages"] = Db::getInstance()->getValue($sql);
+
+      // Ultimo mensaje recibido o enviado en conversacion
+      $sql = "SELECT
+                message,
+                  date_send,
+                  UNIX_TIMESTAMP(date_send) date_send_ts,
+                  IF(
+                      date_send>=DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'),
+                      DATE_FORMAT(date_send, '%H:%i'),
+                      DATE_FORMAT(date_send, '%Y-%m-%d') 
+                  ) date_show
+              FROM ps_message_sponsor
+              WHERE (id_customer_send = ".$id_customer." AND id_customer_receive = ".$conversation["customer"].")
+              OR (id_customer_send = ".$conversation["customer"]." AND id_customer_receive = ".$id_customer.")
+              ORDER BY date_send DESC
+              LIMIT 1";
+      $message = Db::getInstance()->executeS($sql);
+      $conversation["message"] = $message[0]["message"];
+      $conversation["date_show"] = $message[0]["date_show"];
+      $conversation["date_send"] = $message[0]["date_send"];
+      $conversation["date_send_ts"] = $message[0]["date_send_ts"];
+    }
+
+    // Ordenar conversaciones por fecha DESC
+    usort($conversations, function($a, $b) {
+        return  $b['date_send_ts'] - $a['date_send_ts'];
+    });
+    
+    foreach ($conversations AS $key => &$conversation) {
+      if ( file_exists(_PS_IMG_DIR_."profile-images/".(string)$id_customer.".png") ) {
+        $conversation['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$id_customer.".png";
+      }
+    }
+    
+    return $conversations;
   }
 }
   

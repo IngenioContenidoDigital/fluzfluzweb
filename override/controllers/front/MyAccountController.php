@@ -137,6 +137,33 @@ class MyAccountController extends MyAccountControllerCore
             }
         }
         
+        $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$this->context->customer->id.' AND method_add = "'.$code.'"');
+
+        if(Tools::isSubmit('rewards-users')){
+            $rewards = Tools::getValue('input_reward');
+            $state = Tools::getValue('state_reward');
+            $method = Tools::getValue('code_reference');
+            
+            if(empty($verified_reward)){
+                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_distribute (credits, active, id_employee, id_customer, name, date_from, date_to, date_add, method_add)
+                                   VALUES ('.$rewards.', '.$state.', NULL ,'.$this->context->customer->id.',"'.$this->context->customer->firstname.'", " " , " ",  NOW(), "'.$method.'")');
+            
+                Tools::redirect($this->context->link->getPageLink('my-account', true));
+            }
+            else{
+                Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'rewards_distribute SET credits = '.$rewards.', active = '.$state.', date_add = NOW()
+                                            WHERE id_customer = '.$this->context->customer->id.' AND method_add = "'.$method.'"');
+            
+                Tools::redirect($this->context->link->getPageLink('my-account', true));
+            }
+        }
+        $value_reward = $verified_reward[0]['credits'];
+        $this->context->smarty->assign('value_reward', $value_reward);
+
+        
+        $count_user_reward = count($verified_reward);
+        $this->context->smarty->assign('count_user_reward', $count_user_reward);
+        
         // SPONSORS
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
         $members = array();
@@ -330,7 +357,7 @@ class MyAccountController extends MyAccountControllerCore
       
         $id_lang = $id_lang != null ? $id_lang : $this->context->language->id;
         
-        $query = 'SELECT
+        $query = 'SELECT HIGH_PRIORITY SQL_CACHE
                   PM.id_manufacturer AS id_manufacturer,
                   PM.`name` AS manufacturer_name,
                   PP.id_product AS id_product,
@@ -388,7 +415,7 @@ class MyAccountController extends MyAccountControllerCore
     public function getProfileCustomer($id_customer){
         
         
-        $query = 'SELECT username FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$id_customer;
+        $query = 'SELECT HIGH_PRIORITY SQL_CACHE username FROM '._DB_PREFIX_.'customer WHERE id_customer='.(int)$id_customer;
         
         $row= Db::getInstance()->getRow($query);
         $name = $row['username'];
@@ -406,7 +433,7 @@ class MyAccountController extends MyAccountControllerCore
     
     public function orderQuantity($id = ''){
       $id_customer = ( $id == '') ? $this->context->customer->id : $id;
-      $query = "SELECT
+      $query = "SELECT HIGH_PRIORITY SQL_CACHE
                       c.id_customer,
                       c.date_kick_out,
                       DATE_FORMAT(c.date_kick_out,'%Y-%m-%d') date_kick_out_show,
@@ -421,7 +448,7 @@ class MyAccountController extends MyAccountControllerCore
                   FROM "._DB_PREFIX_."orders o
                   INNER JOIN "._DB_PREFIX_."order_detail od ON ( o.id_order = od.id_order AND od.product_reference NOT LIKE 'MFLUZ%' )
                   WHERE o.current_state = 2
-                  AND ( o.date_add BETWEEN DATE_ADD('".$customer['date_kick_out_show']." 00:00:00', INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND '".$customer['date_kick_out_show']." 23:59:59' )
+                  AND ( o.date_add BETWEEN DATE_ADD((SELECT o.date_add FROM ps_orders o WHERE o.id_customer = '".$customer['id_customer']."' order by o.id_order DESC LIMIT 1), INTERVAL ".($customer['warning_kick_out'] == 0 ? '-30' : '-60')." DAY)  AND NOW() )
                   AND id_customer = ".$customer['id_customer'];
       $purchases = Db::getInstance()->getValue($query);
 
@@ -461,7 +488,7 @@ class MyAccountController extends MyAccountControllerCore
     
     public function getPointsLastDays($id_customer){
      
-                $queryTop = 'SELECT ROUND(SUM(n.credits)) AS points
+                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE ROUND(SUM(n.credits)) AS points
                             FROM ps_rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) 
@@ -504,7 +531,7 @@ class MyAccountController extends MyAccountControllerCore
             $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
             
             foreach ($tree as $valor){
-                $queryTop = 'SELECT c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
+                $queryTop = 'SELECT HIGH_PRIORITY SQL_CACHE c.username AS username, s.product_reference AS reference, c.firstname AS name, c.lastname AS lastname, SUM(n.credits) AS points
                             FROM '._DB_PREFIX_.'rewards n 
                             LEFT JOIN '._DB_PREFIX_.'customer c ON (c.id_customer = n.id_customer) 
                             LEFT JOIN '._DB_PREFIX_.'order_detail s ON (s.id_order = n.id_order) WHERE n.id_customer='.$valor['id'].'

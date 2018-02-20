@@ -1140,35 +1140,35 @@
                                             <input type="text" class="is_required validate form-control" data-validate="isAddress" name="address2" id="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{/if}" />
                                             <span class="inline-infos">{l s='Apartment, suite, unit, building, floor, etc...'}</span>
                                     </div>*}
+                                    <div class="required select form-group">
+                                        <label class="required" for="id_country">{l s='Country'}</label>
+                                        <select name="id_country" id="id_country" class="form-control">
+                                            <option value="" selected>-</option>
+                                            {foreach from=$countries item=v}
+                                                <option value="{$v.id_country}">{$v.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
                                     <div class="required form-group">
                                         <label class="required" for="city">{l s='City'}</label>
                                         {*<input type="text" class="is_required validate form-control" data-validate="isCityName" name="city" id="city" value="{if isset($smarty.post.city)}{$smarty.post.city}{/if}" />*}
                                         <div id="container-city">
                                             <select name="city" id="city" class="form-control">
-                                                <option value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
-                                                <option value="Medellin">Medell&iacute;n</option>
-                                                    <option value="Cali">{l s="Cali"}</option>
-                                                    <option value="Barranquilla">{l s="Barranquilla"}</option>
-                                                    <option value="Bucaramanga">{l s="Bucaramanga"}</option>
+                                                <option value="" selected>-</option>
+                                                <option class="69" value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
+                                                <option class="69" value="Medellin">Medell&iacute;n</option>
+                                                <option class="69" value="Cali">{l s="Cali"}</option>
+                                                <option class="69" value="Barranquilla">{l s="Barranquilla"}</option>
+                                                <option class="69" value="Bucaramanga">{l s="Bucaramanga"}</option>
                                                 {foreach from=$cities item=city}
-                                                    <option value="{$city.ciudad}">{$city.ciudad}</option>
+                                                    <option class="{$city.country}" value="{$city.ciudad}">{$city.ciudad}</option>
                                                 {/foreach}
                                             </select>
                                         </div>
-                                        <div id="container-city-input">
+                                        {*<div id="container-city-input">
                                             <input name="city_input" id="city_input" class="form-control" />
-                                        </div>  
+                                        </div>*}
                                     </div>
-                                    <div class="required select form-group">
-                                        <label class="required" for="id_country">{l s='Country'}</label>
-                                        <select name="id_country" id="id_country" class="form-control">
-                                                <option value="">-</option>
-                                                <option value="69" selected="selected">Colombia</option>
-                                                {foreach from=$countries item=v}
-                                                <option value="{$v.id_country}">{$v.name}</option>
-                                                {/foreach}
-                                        </select>
-                                    </div>  
                                     <div>
                                         <a href="http://reglas.fluzfluz.co/terminos-y-condiciones" target="_blank" id="acceptterms" for="acceptterms">T&eacute;rminos y condiciones de Fluz Fluz</a>    
                                     </div>

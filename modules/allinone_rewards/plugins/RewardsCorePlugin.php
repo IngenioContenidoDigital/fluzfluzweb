@@ -1072,7 +1072,7 @@ class RewardsCorePlugin extends RewardsGenericPlugin
 
 		// Convertit les récompenses à l'état ReturnPeriodId en ValidationId si la date de retour est dépassée, et envoie les mails de rappel
 		if (!Configuration::get('REWARDS_USE_CRON')) {
-			RewardsModel::checkRewardsStates();
+			//RewardsModel::checkRewardsStates();
 			RewardsAccountModel::sendReminder();
 		}
 	}

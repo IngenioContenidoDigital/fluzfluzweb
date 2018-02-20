@@ -218,12 +218,12 @@ class AdminAddressesController extends AdminAddressesControllerCore
                     'col' => '4',
                     'default_value' => (int)$this->context->country->id,
                     'options' => array(
-                        'query' => Country::getCountries($this->context->language->id),
+                        'query' => Country::getCountries($this->context->language->id, false, true),
                         'id' => 'id_country',
                         'name' => 'name'
                     )
                 );
-                $temp_fields[] = array(
+                /*$temp_fields[] = array(
                     'type' => 'select',
                     'label' => $this->l('State'),
                     'name' => 'id_state',
@@ -234,7 +234,7 @@ class AdminAddressesController extends AdminAddressesControllerCore
                         'id' => 'id_state',
                         'name' => 'name'
                     )
-                );
+                );*/
             } elseif ($addr_field_item == 'phone') {
                 $temp_fields[] = array(
                     'type' => 'text',

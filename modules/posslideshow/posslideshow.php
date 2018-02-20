@@ -201,21 +201,27 @@ class Posslideshow extends Module {
                             $limit = 0;
                             $arraySlides = array();
                             foreach($slides  as $key => $slideArray) {
-                                if($limit == Configuration::get($this->name.'_qty_item')) break;
-                                $limit ++;
-                                 //echo "<pre>"; print_r($slideArray); 
-                                $newSlide = array();
-                                 foreach($slideArray as $k => $v) {
-                                     if($k=='image'){
-                                         $v = _S3_PATH_."home/".$slideArray['id_pos_slideshow'].".jpg";
+                                
+                                if($slideArray['type_view']==2 || $slideArray['type_view'] == 0){
+                                    
+                                    if($limit == Configuration::get($this->name.'_qty_item')) break;
+                                    $limit ++;
+                                     //echo "<pre>"; print_r($slideArray); 
+                                    $newSlide = array();
+                                     foreach($slideArray as $k => $v) {
+                                         if($k=='image'){
+                                             $v = _S3_PATH_."home/".$slideArray['id_pos_slideshow'].".jpg";
+                                         }
+                                         $newSlide[$k] = $v;
                                      }
-                                     $newSlide[$k] = $v;
-                                 }
-                                 $arraySlides[$key] = $newSlide;
+                                
+                                    $arraySlides[$key] = $newSlide;
+                                }
                             }
 
                         }
-						//echo "<Pre>"; print_r($arraySlides);
+			
+                        //echo "<Pre>"; print_r($arraySlides);
                         return $arraySlides;
         }
         private function _displayForm()

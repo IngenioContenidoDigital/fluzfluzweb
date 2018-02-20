@@ -47,7 +47,8 @@
             </button>
         </div>    
     </div>
-</form>  
+</form>
+
 <form class="copy-form-csv" method="post" enctype="multipart/form-data" id="uploadcopyemployeebusiness" name="uploadcopyemployeebusiness">
     <div class="row row-upload">
         <div class="col-lg-12 title-browser">

@@ -27,7 +27,7 @@ class Search extends SearchCore{
       $intersect_array = array();
       $score_array = array();
       $words = explode(' ', Search::sanitize($expr, $id_lang, false, $context->language->iso_code));
-
+      
       foreach ($words as $key => $word) {
         if (!empty($word) && strlen($word) >= (int)Configuration::get('PS_SEARCH_MINWORDLEN')) {
           $word = str_replace(array('%', '_'), array('\\%', '\\_'), $word);
