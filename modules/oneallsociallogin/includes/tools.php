@@ -207,7 +207,7 @@ class oneall_social_login_tools
                                                         LIMIT 1');
                 $sponsorship = new RewardsSponsorshipModel();
                 if(empty($data['user_sponsor_id'])){
-                    die('muere');
+
                     $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
                     $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
@@ -227,7 +227,7 @@ class oneall_social_login_tools
 
                     }
                 }else{
-                    die('mieresasdas');
+
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
                     array_shift($tree);
                     $count_array = count($tree);
@@ -269,7 +269,8 @@ class oneall_social_login_tools
                     }
                     
                     $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
-                    
+                    echo '<pre>';
+                    print_r($verified_reward);die();
                     if($verified_reward[0]['id_rewards_distribute'] != '' && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
                         
                         $reward = new RewardsModel();
