@@ -479,7 +479,7 @@ class AuthController extends AuthControllerCore
                             } 
                         }
                     }
-                    if($verified_reward[0]['id_rewards_distribute'] != '' && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
+                    if(!empty($verified_reward) && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
                         
                         $reward = new RewardsModel();
                         $reward->plugin = 'loyalty';

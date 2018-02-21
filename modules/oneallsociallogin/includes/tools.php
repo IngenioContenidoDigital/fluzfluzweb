@@ -268,23 +268,22 @@ class oneall_social_login_tools
                             }
                     }
                     
-                    $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
-                    echo '<pre>';
-                    print_r($verified_reward);die();
-                    if($verified_reward[0]['id_rewards_distribute'] != '' && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
+                    $verified_reward_sponsor = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
+
+                    if(!empty($verified_reward_sponsor) && $verified_reward_sponsor[0]['active'] == 1 && $totalAvailable >= $verified_reward_sponsor[0]['credits']){
                         
                         $reward = new RewardsModel();
                         $reward->plugin = 'loyalty';
                         $reward->id_customer = $customer->id;
                         $reward->id_reward_state = 2;
-                        $reward->credits = $verified_reward[0]['credits'];
+                        $reward->credits = $verified_reward_sponsor[0]['credits'];
                         $reward->reason = 'Registro Con Patrocinio';
                         $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                         $reward->save();
                         
                         $reward_sponsor = new RewardsModel();
                         $reward_sponsor->plugin = 'loyalty';
-                        $reward_sponsor->id_customer = $verified_reward[0]['id_customer'];
+                        $reward_sponsor->id_customer = $verified_reward_sponsor[0]['id_customer'];
                         $reward_sponsor->id_reward_state = 2;
                         $reward_sponsor->credits = -$verified_reward[0]['credits'];
                         $reward_sponsor->reason = 'Registro Con Patrocinio';
