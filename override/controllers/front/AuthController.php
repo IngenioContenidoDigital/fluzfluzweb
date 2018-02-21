@@ -486,7 +486,7 @@ class AuthController extends AuthControllerCore
                         $reward->id_customer = $customer->id;
                         $reward->id_reward_state = 2;
                         $reward->credits = $verified_reward[0]['credits'];
-                        $reward->reason = 'Recompensa Patrocinio';
+                        $reward->reason = 'Registro Con Patrocinio';
                         $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                         $reward->save();
                         
@@ -495,7 +495,7 @@ class AuthController extends AuthControllerCore
                         $reward_sponsor->id_customer = $verified_reward[0]['id_customer'];
                         $reward_sponsor->id_reward_state = 2;
                         $reward_sponsor->credits = -$verified_reward[0]['credits'];
-                        $reward_sponsor->reason = 'Recompensa Patrocinio';
+                        $reward_sponsor->reason = 'Registro Con Patrocinio';
                         $reward_sponsor->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                         $reward_sponsor->save();
                     }
@@ -679,7 +679,7 @@ class AuthController extends AuthControllerCore
                                 $reward->id_customer = $customer->id;
                                 $reward->id_reward_state = 2;
                                 $reward->credits = $verified_reward[0]['credits_back'];
-                                $reward->reason = 'Recompensa FluzFluz';
+                                $reward->reason = 'Registro Backoffice';
                                 $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                                 $reward->add();
                                 
