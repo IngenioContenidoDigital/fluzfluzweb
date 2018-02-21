@@ -206,7 +206,7 @@ class oneall_social_login_tools
                                                         ORDER BY c.id_customer ASC
                                                         LIMIT 1');
                 $sponsorship = new RewardsSponsorshipModel();
-                if(empty($data['user_sponsor_id'])){
+                if($data['user_sponsor_id'] == ""){
                     $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
                     $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
