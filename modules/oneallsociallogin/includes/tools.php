@@ -285,7 +285,7 @@ class oneall_social_login_tools
                         $reward_sponsor->plugin = 'loyalty';
                         $reward_sponsor->id_customer = $verified_reward_sponsor[0]['id_customer'];
                         $reward_sponsor->id_reward_state = 2;
-                        $reward_sponsor->credits = -$verified_reward[0]['credits'];
+                        $reward_sponsor->credits = -$verified_reward_sponsor[0]['credits'];
                         $reward_sponsor->reason = 'Registro Con Patrocinio';
                         $reward_sponsor->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                         $reward_sponsor->save();
@@ -297,24 +297,6 @@ class oneall_social_login_tools
                 $sponsorship->email = $customer->email;
                 $sponsorship->channel = 1;
                 $sponsorship->save();
-                
-                $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
-                                                WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
-                                                WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
-                                                AND method_add = "Backoffice" AND active = 1
-                                                   ');
-
-                if($verified_reward[0]['id_rewards_distribute'] != ''){
-
-                    $reward = new RewardsModel();
-                    $reward->plugin = 'loyalty';
-                    $reward->id_customer = $customer->id;
-                    $reward->id_reward_state = 2;
-                    $reward->credits = $verified_reward[0]['credits_back'];
-                    $reward->reason = 'Recompensa FluzFluz';
-                    $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
-                    $reward->add();
-                }
                 
                 $vars = array(
                     '{username}' => $customer->username,
