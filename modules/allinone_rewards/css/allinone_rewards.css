@@ -29,6 +29,36 @@
 .button_large:hover{background: #ef4136;}
 #reviveCancel{background: #ef4136 !important;}
 
+/* Rewards Users */
+.page-heading{margin-bottom: 0px; padding-bottom: 0px;}
+.rewards > h1{margin-bottom: 0px; padding-bottom: 0px;}
+.title-rewards{padding-left: 0px !important;}
+.title-rewards > h4{padding-left: 0px !important; font-size: 13px !important; 
+                    padding: 5px; font-weight: bold;
+                    margin-bottom: 0px;
+                    color: #666666;
+                    font-family: 'Open sans'; text-transform: uppercase;
+                    }
+.padding-left{padding-left: 0px;}
+.btn-save-rewards{background: #ef4136; color: #fff; 
+                  font-size: 12px; font-weight: bold; 
+                  border: none; padding: 5px 15px;}
+
+.btn-edit-rewards{background: #fff; color: #ef4136; 
+                  font-size: 12px; font-weight: bold; 
+                  padding: 4.5px 15px; border: 1px solid #000;}
+
+#input_reward {
+    padding-bottom: 4px;
+    padding-top: 2px;
+    text-align: center;
+    font-size: 12px;
+}
+.active-rewards{margin-top: 0px; margin-bottom: 10px;}
+.radio-reward{padding-left: 0px;}
+.text-r{font-size: 12px;
+    text-transform: initial;}
+
 /* pop up mensaje*/
 #myspecialcontent > div { margin-bottom: 15px; }
 .blockbutton { text-align: center; }

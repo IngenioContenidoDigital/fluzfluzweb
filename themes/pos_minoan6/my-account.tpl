@@ -123,34 +123,6 @@
         </div>
     </div>        
 </div>
-<div class="row page-heading">
-    <form method="post" action="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}" id="form-rewards-users">
-        <input type="hidden" id="code_reference" name="code_reference" value="{$code}">
-        <input type="hidden" id="count_user_reward" name="count_user_reward" value="{$count_user_reward}">
-        <input type="hidden" id="value_reward" value="{$value_reward}">
-        <div class="row padding-left">
-            <div class="col-lg-6 title-rewards">
-                <h1 class="page-heading-2">Recompensa para Referidos nuevos (Fluz)</h1>
-            </div>
-        </div>
-        <div class="row title-rewards">
-            <div class="col-lg-6 title-rewards">
-                <input type="number" id="input_reward" name="input_reward"> 
-                <button class="btn-save-rewards" id="rewards-users" name="rewards-users"> Guardar </button>
-                {if $count_user_reward == 1}
-                    <button class="btn-edit-rewards" id="rewards-edit" name="rewards-edit"> Editar </button>
-                    <button class="btn-edit-rewards" id="rewards-cancel" name="rewards-cancel"> Cancelar </button>
-                {/if}    
-            </div>
-        </div>
-        <div class="row active-rewards">    
-            <div class="col-lg-6 radio-reward">
-                <input type="radio" name="state_reward" value="0"> <span class="text-r">Desactivar</span>
-                <input type="radio" name="state_reward" value="1" checked> <span span class="text-r">Activar</span>
-            </div>
-        </div>
-    </form>    
-</div>
 <div class="row">
     <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 info-account">{l s='View and Redeem your gift card purchases'}</p>
 </div>
