@@ -207,6 +207,8 @@ class oneall_social_login_tools
                                                         LIMIT 1');
                 $sponsorship = new RewardsSponsorshipModel();
                 if($data['user_sponsor_id'] == ""){
+                                        die('muerew2');
+
                     $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
                     $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
@@ -226,6 +228,7 @@ class oneall_social_login_tools
 
                     }
                 }else{
+                    die('muere');
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
                     array_shift($tree);
                     $count_array = count($tree);
