@@ -14,7 +14,7 @@ $query_list_product = "SELECT  pc.id_product_code, pc.id_product, pl.`name`, pc.
     FROM ps_product_code pc
     INNER JOIN ps_product p ON ( pc.id_product = p.id_product )
     LEFT JOIN ps_product_lang pl ON (pl.id_product = pc.id_product)
-    WHERE pl.id_lang = 1 AND pc.state = 'Disponible' AND p.active = 1 AND (DATEDIFF(pc.date_expiration, NOW()) < 91 )";
+    WHERE pl.id_lang = 1 AND pc.state = 'Disponible' AND pc.id_order = 0 AND p.active = 1 AND (DATEDIFF(pc.date_expiration, NOW()) < 91 )";
 
 $list_product = DB::getInstance()->executeS($query_list_product);
 
@@ -64,7 +64,7 @@ $file_attachement['mime'] = 'application/vnd.ms-excel';
  
 $template = 'product_code';
 
-$list_mail[0] = array(firstname => 'Ricardo', lastname => '', email => 'Ricardo@fluzfluz.com');
+$list_mail[0] = array(firstname => 'Ricardo', lastname => '', email => 'ricardo@fluzfluz.com');
 $list_mail[1] = array(firstname => 'Eric', lastname => 'Johnson', email => 'info@fluzfluz.com');
 
 foreach ($list_mail as $customer){
