@@ -270,10 +270,8 @@ class oneall_social_login_tools
                     
                     $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
                     
-                    if(!empty($verified_reward) && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
-                        echo '<pre>';
-                        print_r($verified_reward);
-                        die();
+                    if($verified_reward[0]['id_rewards_distribute'] != '' && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
+                        
                         $reward = new RewardsModel();
                         $reward->plugin = 'loyalty';
                         $reward->id_customer = $customer->id;
