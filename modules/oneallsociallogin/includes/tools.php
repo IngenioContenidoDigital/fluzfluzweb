@@ -271,6 +271,7 @@ class oneall_social_login_tools
                     $verified_reward_sponsor = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
                     echo '<pre>';
                     print_r($verified_reward_sponsor);
+                    die();
                     if($verified_reward_sponsor[0]['id_rewards_distribute'] != '' && $verified_reward_sponsor[0]['active'] == 1 && $totalAvailable >= $verified_reward_sponsor[0]['credits']){
                         echo '<pre>';
                         print_r($verified_reward_sponsor);
