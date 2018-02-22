@@ -268,9 +268,9 @@ class oneall_social_login_tools
                             }
                     }
                     
-                    $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
+                    $verified_reward_sponsor = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
                     
-                    if($verified_reward[0]['id_rewards_distribute'] != '' && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
+                    if($verified_reward_sponsor[0]['id_rewards_distribute'] != '' && $verified_reward_sponsor[0]['active'] == 1 && $totalAvailable >= $verified_reward_sponsor[0]['credits']){
                         
                         $reward = new RewardsModel();
                         $reward->plugin = 'loyalty';
