@@ -29,6 +29,7 @@ require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipCodeModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsModel.php');
 
 class AuthController extends AuthControllerCore
 {
@@ -172,7 +173,7 @@ class AuthController extends AuthControllerCore
             $this->processSubmitAccount();
         }
         if (Tools::isSubmit('SubmitLogin')) {
-            $this->processSubmitLogin();
+            $this->processSubmitLogin($validate = 1);
         }
     }
     
@@ -274,6 +275,9 @@ class AuthController extends AuthControllerCore
         {
             $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue('code_sponsor'));
             $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($id_sponsor);
+            $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE method_add = "'.Tools::getValue('code_sponsor').'"');
+            $totals = RewardsModel::getAllTotalsByCustomer((int)$verified_reward[0]['id_customer']);
+            $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
             
             if ( Tools::getValue('code_sponsor') == "" || empty($id_sponsor)) {
                 $this->errors[] = Tools::displayError('Codigo de Patrocino Incorrecto o No Existe. Por Favor valida tu Codigo.', false);
@@ -475,6 +479,27 @@ class AuthController extends AuthControllerCore
                             } 
                         }
                     }
+                    if(!empty($verified_reward) && $verified_reward[0]['active'] == 1 && $totalAvailable >= $verified_reward[0]['credits']){
+                        
+                        $reward = new RewardsModel();
+                        $reward->plugin = 'loyalty';
+                        $reward->id_customer = $customer->id;
+                        $reward->id_reward_state = 2;
+                        $reward->credits = $verified_reward[0]['credits'];
+                        $reward->reason = 'Registro Con Patrocinio';
+                        $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                        $reward->save();
+                        
+                        $reward_sponsor = new RewardsModel();
+                        $reward_sponsor->plugin = 'loyalty';
+                        $reward_sponsor->id_customer = $verified_reward[0]['id_customer'];
+                        $reward_sponsor->id_reward_state = 2;
+                        $reward_sponsor->credits = -$verified_reward[0]['credits'];
+                        $reward_sponsor->reason = 'Registro Con Patrocinio';
+                        $reward_sponsor->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                        $reward_sponsor->save();
+                    }
+                    
                 }
                 
                 else{
@@ -639,8 +664,26 @@ class AuthController extends AuthControllerCore
                             $customer->update();
                             $customer->method_add = 'Web';
                             $customerLoaded = true;
+                            
                         } else {
                             $customerLoaded = $customer->add();
+                            $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
+                                                WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
+                                                WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
+                                                AND method_add = "Backoffice" AND active = 1
+                                                   ');
+                            if($verified_reward[0]['id_rewards_distribute'] != ''){
+                                
+                                $reward = new RewardsModel();
+                                $reward->plugin = 'loyalty';
+                                $reward->id_customer = $customer->id;
+                                $reward->id_reward_state = 2;
+                                $reward->credits = $verified_reward[0]['credits_back'];
+                                $reward->reason = 'Registro Backoffice';
+                                $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                                $reward->add();
+                                
+                            }
                         }
 
                         if ( $customerLoaded ) {
@@ -790,6 +833,7 @@ class AuthController extends AuthControllerCore
                             else {
                                 Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
+                            $this->processSubmitLogin($validate = 1);
                         } else {
                             $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                         }
