@@ -581,3 +581,42 @@
         });
     </script>
 {/literal}
+{literal}
+    <script>
+        $(document).ready(function(){
+            var valid_form_reward = $('#count_user_reward').val();
+            var value_reward = $('#value_reward').val();
+            $('#rewards-cancel').hide();
+            if(valid_form_reward === "1"){
+                $('#input_reward').val(value_reward);
+                $('#input_reward').prop('disabled', true);
+                $('#rewards-users').prop('disabled', true);
+                $('#rewards-users').css('opacity', '0.5');
+                $('input[name=state_reward]').prop("disabled",true);
+                $('#rewards-cancel').hide();
+            }
+            
+            $('#rewards-edit').click(function(e){
+                $('#input_reward').val(value_reward);
+                $('#input_reward').prop('disabled', false);
+                $('#rewards-users').prop('disabled', false);
+                $('#rewards-users').css('opacity', '1');
+                $('input[name=state_reward]').prop("disabled",false);
+                $('#rewards-cancel').show();
+                $('#rewards-edit').hide();
+                e.preventDefault();
+            });
+            
+            $('#rewards-cancel').click(function(e){
+                $('#input_reward').val(value_reward);
+                $('#input_reward').prop('disabled', true);
+                $('#rewards-users').prop('disabled', true);
+                $('#rewards-users').css('opacity', '0.5');
+                $('input[name=state_reward]').prop("disabled",true);
+                $('#rewards-cancel').hide();
+                $('#rewards-edit').show();
+                e.preventDefault();
+            });
+        });
+    </script>
+{/literal}

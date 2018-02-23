@@ -24,6 +24,9 @@
  */
 
 //OneAll Social Login Toolbox
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+
 class oneall_social_login_tools
 {
     const USER_AGENT = 'SocialLogin/1.9.1 PrestaShop/1.6.x.x (+http://www.oneall.com/)';
@@ -204,8 +207,27 @@ class oneall_social_login_tools
                                                         LIMIT 1');
                 $sponsorship = new RewardsSponsorshipModel();
                 if(empty($data['user_sponsor_id'])){
+
                     $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                    $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
+                                                WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
+                                                WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
+                                                AND method_add = "Backoffice" AND active = 1
+                                                   ');
+                    if($verified_reward[0]['id_rewards_distribute'] != ''){
+
+                        $reward = new RewardsModel();
+                        $reward->plugin = 'loyalty';
+                        $reward->id_customer = $customer->id;
+                        $reward->id_reward_state = 2;
+                        $reward->credits = $verified_reward[0]['credits_back'];
+                        $reward->reason = 'Registro Backoffice';
+                        $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                        $reward->add();
+
+                    }
                 }else{
+
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
                     array_shift($tree);
                     $count_array = count($tree);
@@ -245,6 +267,31 @@ class oneall_social_login_tools
                                 $sponsorship->id_sponsor = $sponsor['id_customer'];
                             }
                     }
+                    $totals = RewardsModel::getAllTotalsByCustomer((int)$data['user_sponsor_id']);
+                    $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
+            
+                    $verified_reward_sponsor = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE id_customer = '.$data['user_sponsor_id']);
+                    
+                    if($verified_reward_sponsor[0]['id_rewards_distribute'] != '' && $verified_reward_sponsor[0]['active'] == 1 && $totalAvailable >= $verified_reward_sponsor[0]['credits']){
+                        
+                        $reward = new RewardsModel();
+                        $reward->plugin = 'loyalty';
+                        $reward->id_customer = $customer->id;
+                        $reward->id_reward_state = 2;
+                        $reward->credits = $verified_reward_sponsor[0]['credits'];
+                        $reward->reason = 'Registro Con Patrocinio';
+                        $reward->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                        $reward->save();
+                        
+                        $reward_sponsor = new RewardsModel();
+                        $reward_sponsor->plugin = 'loyalty';
+                        $reward_sponsor->id_customer = $verified_reward_sponsor[0]['id_customer'];
+                        $reward_sponsor->id_reward_state = 2;
+                        $reward_sponsor->credits = -$verified_reward_sponsor[0]['credits'];
+                        $reward_sponsor->reason = 'Registro Con Patrocinio';
+                        $reward_sponsor->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+                        $reward_sponsor->save();
+                    }
                 }
                 $sponsorship->id_customer = $customer->id;
                 $sponsorship->firstname = $customer->firstname;
@@ -252,7 +299,7 @@ class oneall_social_login_tools
                 $sponsorship->email = $customer->email;
                 $sponsorship->channel = 1;
                 $sponsorship->save();
-
+                
                 $vars = array(
                     '{username}' => $customer->username,
                     '{password}' => $customer->dni,

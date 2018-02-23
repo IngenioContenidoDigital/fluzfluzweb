@@ -35,7 +35,7 @@ class ContactControllerCore extends FrontController
     */
     public function postProcess()
     {
-        if (Tools::isSubmit('submitMessage')) {
+        /*if (Tools::isSubmit('submitMessage')) {
             $extension = array('.txt', '.rtf', '.doc', '.docx', '.pdf', '.zip', '.png', '.jpeg', '.gif', '.jpg');
             $file_attachment = Tools::fileAttachment('fileUpload');
             $message = Tools::getValue('message'); // Html entities is not usefull, iscleanHtml check there is no bad html tags.
@@ -201,7 +201,7 @@ class ContactControllerCore extends FrontController
                     $this->context->smarty->assign('confirmation', 1);
                 }
             }
-        }
+        }*/
     }
 
     public function setMedia()
