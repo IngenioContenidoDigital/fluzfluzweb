@@ -1,0 +1,52 @@
+.block-banner { font-family: 'Open Sans'; background: #F14E38; margin-top: 15px; padding: 30px 0; color: white; }
+.block-banner > .text { font-size: 15px; padding: 50px; }
+.block-banner > .text > span { font-size: 20px; line-height: 30px; font-weight: bold; }
+.block-banner > .img { text-align: center; }
+.block-banner > .img > img { width: 100%; }
+
+.block-successfulregistration { font-family: 'Open Sans'; text-align: center; font-weight: bold; font-size: 15px; margin-top: 60px; border: 1px solid #72C279; color: #72C279; background: #f7f7fb; padding: 15px 25px; }
+.block-successfulregistration > a { border: 1px solid #72C279; color: white; background: #72C279; padding: 13px 60px; }
+
+.block-errors { font-family: 'Open Sans'; margin-top: 60px; border: 1px solid #F14E38; color: #F14E38; padding: 15px 25px; }
+.block-errors > span { color: #F14E38; }
+
+.block-form { font-family: 'Open Sans'; margin-top: 60px; }
+.block-form > span { font-size: 20px ; font-weight: bold; }
+.block-form > form { margin-top: 30px; }
+
+select, input { width: 100%!important; border: none!important; border-bottom: 1px solid #F14E38!important; }
+select { padding: 7px 15px!important; }
+input { padding: 17px 15px!important; }
+
+.form-check-label { margin-bottom: 0; margin-top: 4px; }
+
+#register { margin-top: 15px; background: #F14E38; border: 1px solid #F14E38; font-size: 14px; font-weight: bold; letter-spacing: 2px; }
+#register:hover { background: #C9B197; border: 1px solid #C9B197; }
+
+@media (max-width:1024px){
+
+}
+
+@media (max-width:768px){
+
+}
+
+@media (max-width:425px){
+
+}
+
+@media (max-width:375px){
+
+}
+
+@media (max-width:320px){
+
+}
+
+@media (max-width:277px){
+
+}
+
+@media (max-width:230px){
+
+}
