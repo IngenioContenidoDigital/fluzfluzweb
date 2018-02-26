@@ -422,8 +422,46 @@ class AdminStatsControllerCore extends AdminStatsTabController
         }
         return round($messages / $threads, 1);
     }
-
+    
     public static function getPurchases($date_from, $date_to, $granularity = false)
+    {
+        if ($granularity == 'day') {
+            $sales = array();
+            $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS('
+			SELECT LEFT(`invoice_date`, 10) as date, SUM(o.total_products) as sales
+			FROM `'._DB_PREFIX_.'orders` o
+			LEFT JOIN `'._DB_PREFIX_.'order_state` os ON o.current_state = os.id_order_state
+			WHERE `invoice_date` BETWEEN "'.pSQL($date_from).' 00:00:00" AND "'.pSQL($date_to).' 23:59:59" AND os.logable = 1
+			'.Shop::addSqlRestriction(false, 'o').'
+			GROUP BY LEFT(`invoice_date`, 10)');
+            foreach ($result as $row) {
+                $sales[strtotime($row['date'])] = $row['sales'];
+            }
+            return $sales;
+        } elseif ($granularity == 'month') {
+            $sales = array();
+            $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS('
+			SELECT LEFT(`invoice_date`, 7) as date, SUM(o.total_products) as sales
+			FROM `'._DB_PREFIX_.'orders` o
+			LEFT JOIN `'._DB_PREFIX_.'order_state` os ON o.current_state = os.id_order_state
+			WHERE `invoice_date` BETWEEN "'.pSQL($date_from).' 00:00:00" AND "'.pSQL($date_to).' 23:59:59" AND os.logable = 1
+			'.Shop::addSqlRestriction(false, 'o').'
+			GROUP BY LEFT(`invoice_date`, 7)');
+            foreach ($result as $row) {
+                $sales[strtotime($row['date'].'-01')] = $row['sales'];
+            }
+            return $sales;
+        } else {
+            return Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('
+			SELECT SUM(o.total_products)
+			FROM `'._DB_PREFIX_.'orders` o
+			LEFT JOIN `'._DB_PREFIX_.'order_state` os ON o.current_state = os.id_order_state
+			WHERE `invoice_date` BETWEEN "'.pSQL($date_from).' 00:00:00" AND "'.pSQL($date_to).' 23:59:59" AND os.logable = 1
+			'.Shop::addSqlRestriction(false, 'o'));
+        }
+    }
+
+    /*public static function getPurchases($date_from, $date_to, $granularity = false)
     {
         if ($granularity == 'day') {
             $purchases = array();
@@ -458,7 +496,7 @@ class AdminStatsControllerCore extends AdminStatsTabController
 			WHERE `invoice_date` BETWEEN "'.pSQL($date_from).' 00:00:00" AND "'.pSQL($date_to).' 23:59:59" AND os.logable = 1
 			'.Shop::addSqlRestriction(false, 'o'));
         }
-    }
+    }*/
 
     public static function getExpenses($date_from, $date_to, $granularity = false)
     {
