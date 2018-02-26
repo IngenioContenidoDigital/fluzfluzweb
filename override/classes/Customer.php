@@ -439,6 +439,43 @@ class Customer extends CustomerCore
 
         Hook::exec('actionCustomerLogoutAfter', array('customer' => $this));
     }
+    
+    public static function confirmCustomerSMS ($id_customer) {
+        $sql = "SELECT phone
+                FROM "._DB_PREFIX_."customer
+                WHERE id_customer = ".$id_customer.";";
+        $phone = Db::getInstance()->getValue($sql);
+        
+        $numberConfirm = rand(100000, 999999);
+        $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
+                                SET web_confirm = '.$numberConfirm.'
+                                WHERE id_customer = '.$id_customer.';';
+        $result = Db::getInstance()->execute($updateNumberConfirm);
+
+        $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        $result = ( $response == 1 ) ? true : false;
+        return $result;
+    }
+    
+    public static function validateCodeSMS ($id_customer,$code) {
+        $sql = "SELECT COUNT(*) valid
+                FROM "._DB_PREFIX_."customer
+                WHERE id_customer = ".$id_customer."
+                AND web_confirm = ".$code;
+        $valid = Db::getInstance()->executeS($sql);
+        
+        if ( $valid[0]['valid'] == 0 ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
 ?>

@@ -16,6 +16,8 @@
         <img src="https://fluzfluz.com/wp-content/uploads/2017/01/fluz-fluz-animation_web.gif">
     </div>
 </div>
+
+{* ERRORS *}
 {if $errorsform}
     <div class="block-errors row">
         <span style="font-weight: bold;">Se encontraron los siguientes errores: </span><br>
@@ -25,6 +27,8 @@
     </div>
     
 {/if}
+
+{* COMPLETE REGISTRATION *}
 {if $successfulregistration}
     <div class="block-successfulregistration row">
         <br>
@@ -35,7 +39,34 @@
         <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
         <br><br><br>
     </div>
-{else}
+{/if}
+
+{* SEND SMS *}
+{if $sendSMS}
+    <div class="block-form block-confirmsms row">
+        <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
+        <br>
+        <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
+        <form>
+            <div class="form-group">
+                <label for="codesms" class="required">C&oacute;digo</label>
+                <input type="text" placeholder="------" class="form-control" id="codesms" name="codesms" autocomplete="off">
+                <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
+            </div>
+            <div class="form-group" style="text-align: center;">
+                <button type="submit" class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
+            </div>
+            <div class="form-group" style="text-align: center;">
+                <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
+                <br>
+                <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
+            </div>
+        </form>
+    </div>
+{/if}
+
+{* FORM *}
+{if $viewform}
     <div class="block-form row">
         <span>Formulario de Registro</span>
         <br><br>
@@ -117,7 +148,7 @@
             <div class="form-group">
                 <label for="code_sponsor">C&oacute;digo de Patrocinio</label>
                 <input type="text" placeholder="-----" class="form-control" id="code_sponsor" name="code_sponsor">
-                <small class="form-text text-muted text-help">Si tienes un c&oacute;digo de patricinio, introducelo en el campo anterior (Opcional)</small>
+                <small class="form-text text-muted text-help">Si tienes un c&oacute;digo de patricinio, introducelo en el campo anterior (Opcional). El c&oacute;digo de patrocinio te lo dar&aacute; el fluzzer que te invit&oacute;.</small>
             </div>
             <div class="form-group">
                 <input type="checkbox" class="form-check-input" id="acceptterms" name="acceptterms">
