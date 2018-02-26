@@ -47,6 +47,11 @@
 				<dd class="data_value size_l"><span id="sales_score"></span></dd>
 				<dd class="dash_trend"><span id="sales_score_trends"></span></dd>
 		</dl>
+                <dl class="col-xs-4 col-lg-2 label-tooltip" onclick="selectDashtrendsChart(this, 'net_profits');" data-toggle="tooltip" data-original-title="{l s='Net profit is a measure of the profitability of a venture after accounting for all Ecommerce costs. You can provide these costs by clicking on the configuration icon right above here.' mod='dashtrends'}" data-placement="bottom">
+				<dt>{l s='Valor Ordenes' mod='dashtrends'}</dt>
+				<dd class="data_value size_l"><span id="net_profits_score"></span></dd>
+				<dd class="dash_trend"><span id="net_profits_score_trends"></span></dd>
+		</dl>
 		<dl class="col-xs-4 col-lg-2 label-tooltip" onclick="selectDashtrendsChart(this, 'orders');" data-toggle="tooltip" data-original-title="{l s='Total number of orders received within the date range that are considered validated.' mod='dashtrends'}" data-placement="bottom">
 				<dt>{l s='Orders' mod='dashtrends'}</dt>
 				<dd class="data_value size_l"><span id="orders_score"></span></dd>
@@ -66,11 +71,6 @@
 			<dt>{l s='Conversion Rate' mod='dashtrends'}</dt>
 			<dd class="data_value size_l"><span id="conversion_rate_score"></span></dd>
 			<dd class="dash_trend"><span id="conversion_rate_score_trends"></span></dd>
-		</dl>
-		<dl class="col-xs-4 col-lg-2 label-tooltip" onclick="selectDashtrendsChart(this, 'net_profits');" data-toggle="tooltip" data-original-title="{l s='Net profit is a measure of the profitability of a venture after accounting for all Ecommerce costs. You can provide these costs by clicking on the configuration icon right above here.' mod='dashtrends'}" data-placement="bottom">
-				<dt>{l s='Net Profit' mod='dashtrends'}</dt>
-				<dd class="data_value size_l"><span id="net_profits_score"></span></dd>
-				<dd class="dash_trend"><span id="net_profits_score_trends"></span></dd>
 		</dl>
 	</div>
 	<div id="dash_trends_chart1" class="chart with-transitions">

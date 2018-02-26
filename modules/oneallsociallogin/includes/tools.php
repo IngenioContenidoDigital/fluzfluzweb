@@ -229,9 +229,11 @@ class oneall_social_login_tools
                 }else{
 
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
+                    $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
+
                     array_shift($tree);
-                    $count_array = count($tree);
-                    if ($count_array < 2)
+                    //$count_array = count($tree);
+                    if ($sql_count_customer < 2)
                     {
                         $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                         FROM " . _DB_PREFIX_ . "customer c
