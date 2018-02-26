@@ -912,7 +912,7 @@ class AuthController extends AuthControllerCore
                     $this->errors[] = Tools::displayError('Invalid date of birth');
                 }*/
                 if (!count($this->errors)) {
-                    $customer->active = 1;
+                    $customer->active = 0;
                     // New Guest customer
                     if (Tools::isSubmit('is_new_customer')) {
                         $customer->is_guest = !Tools::getValue('is_new_customer', 1);

@@ -622,7 +622,7 @@ class API extends REST {
           $customer->birthday = $birthday;
           $customer->id_default_group = 4;
           $customer->kick_out = 0;
-          $customer->active = 1;
+          $customer->active = 0;
           $customer->id_lang = Context::getContext()->language->id;
           $customer->method_add = 'Movil App';
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
