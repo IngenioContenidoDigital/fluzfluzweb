@@ -271,6 +271,11 @@
                             <div class="dateBirthText">{$address.city}</div>
                             <div class="dateBirthInput">
                                 <select id="city" name="city" class="form-control inputform enabled" disabled>
+                                    <option class="69" value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
+                                    <option class="69" value="Medellin">Medell&iacute;n</option>
+                                    <option class="69" value="Cali">{l s="Cali"}</option>
+                                    <option class="69" value="Barranquilla">{l s="Barranquilla"}</option>
+                                    <option class="69" value="Bucaramanga">{l s="Bucaramanga"}</option>
                                     {foreach from=$cities item=city}
                                         <option class="{$city.country}" value="{$city.ciudad}" {if ($city.ciudad == $address.city)}selected="selected"{/if}>{$city.ciudad}</option>
                                     {/foreach}
