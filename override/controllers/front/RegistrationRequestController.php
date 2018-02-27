@@ -41,37 +41,41 @@ class RegistrationRequestController extends FrontController {
 
             if ( $typedocument == 0 ) {
                 if ( Validate::isIdentification($dni) ) {
-                    $errors[] = "Identificacion Incorrecta";
+                    $errors[] = "El numero de identificacion es incorrecto.";
                 }
             } 
 
             if ( $typedocument == 2 ){
                 if ( Validate::isIdentificationCE($dni) ) {
-                    $errors[] = "Identificacion Incorrecta";
+                    $errors[] = "El numero de identificacion es incorrecto.";
                 }
             }
 
             if ( Customer::dniExists($dni, $email) ) {
-                $errors[] = "Identificacion Existente";
+                $errors[] = "El numero de identificacion se encuentra en uso.";
             }
 
             if ( Customer::usernameExists($username) ) {
-                $errors[] = "Username Existente";
+                $errors[] = "El username se encuentra en uso.";
+            }
+            
+            if ( Customer::phoneExists($phone) ) {
+                $errors[] = "El numero celular se encuentra en uso.";
             }
 
             if ( !Validate::isEmail($email) ) {
-                $errors[] = "Email Incorrecto";
+                $errors[] = "El correo electronico es incorrecto.";
             }
 
             if ( Customer::customerExists($email) ) {
-                $errors[] = "Email Existente";
+                $errors[] = "El correo electronico se encuentra en uso.";
             }
             
             $id_sponsor = "";
             if ( $codesponsor != "" ) {
                 $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode($codesponsor);
                 if ( $id_sponsor == "" ) {
-                    $errors[] = "Codigo de Patrocinio Incorrecto";
+                    $errors[] = "El codigo de patrocinio es incorrecto.";
                 }
             }
             
@@ -118,6 +122,8 @@ class RegistrationRequestController extends FrontController {
                 
                 if ( $sendSMS ) {
                     $this->context->smarty->assign('id_customer', $customer->id);
+                    $this->context->smarty->assign('codesponsor', $codesponsor);
+                    $this->context->smarty->assign('id_sponsor', $id_sponsor);
                     $this->context->smarty->assign('sendSMS', true);
                 }
             } else {
@@ -125,24 +131,33 @@ class RegistrationRequestController extends FrontController {
             }
         } elseif (Tools::isSubmit('confirm')) {
             $id_customer = Tools::getValue('id_customer');
+            $codesponsor = Tools::getValue('codesponsor');
+            $id_sponsor = Tools::getValue('id_sponsor');
             $codesms = Tools::getValue('codesms');
             
             if ( Customer::validateCodeSMS($id_customer,$codesms) ) {
-                $this->continueRegistration($id_customer);
+                $this->continueRegistration($id_customer,$codesponsor,$id_sponsor);
                 $this->context->smarty->assign('successfulregistration', true);
             } else {
-                $errors[] = "Codigo Incorrecto";
-                $this->context->smarty->assign('id_customer', $id_customer);
+                $errors[] = "El codigo es incorrecto.";
+                $this->context->smarty->assign('id_customer', $customer->id);
+                $this->context->smarty->assign('codesponsor', $codesponsor);
+                $this->context->smarty->assign('id_sponsor', $id_sponsor);
                 $this->context->smarty->assign('sendSMS', true);
             }
         } elseif (Tools::isSubmit('resendSMS')) {
             $id_customer = Tools::getValue('id_customer');
+            $codesponsor = Tools::getValue('codesponsor');
+            $id_sponsor = Tools::getValue('id_sponsor');
+            
             $sendSMS = false;
             while ( !$sendSMS ) {
                 $sendSMS = Customer::confirmCustomerSMS($id_customer);
             }
             if ( $sendSMS ) {
-                $this->context->smarty->assign('id_customer', $id_customer);
+                $this->context->smarty->assign('id_customer', $customer->id);
+                $this->context->smarty->assign('codesponsor', $codesponsor);
+                $this->context->smarty->assign('id_sponsor', $id_sponsor);
                 $this->context->smarty->assign('sendSMS', true);
             }
         } else {
@@ -156,7 +171,7 @@ class RegistrationRequestController extends FrontController {
     
     public function postProcess() {  }
     
-    public function continueRegistration($id_customer) {
+    public function continueRegistration($id_customer,$codesponsor,$id_sponsor) {
         $customer = new Customer($id_customer);
         $address = $customer->getAddresses();
         $address1 = $address[0]['address1'];
@@ -168,8 +183,10 @@ class RegistrationRequestController extends FrontController {
             $tree = RewardsSponsorshipModel::_getTree($id_sponsor);
             array_shift($tree);
             $count_array = count($tree);
+            
+            $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
 
-            if ($count_array < 2) {
+            if ($sql_count_customer < 2) {
                 $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                             FROM " . _DB_PREFIX_ . "customer c
                             LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
