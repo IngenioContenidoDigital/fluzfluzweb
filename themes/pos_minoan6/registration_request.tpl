@@ -76,17 +76,17 @@
         <form>
             <div class="form-group">
                 <label for="firstname" class="required">Nombre</label>
-                <input type="text" placeholder="-----" class="form-control" id="firstname" name="firstname" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+                <input type="text" placeholder="-----" class="form-control" id="firstname" name="firstname" value="{$smarty.get.firstname}" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                 <small class="form-text text-muted text-help"></small>
             </div>
             <div class="form-group">
                 <label for="lastname" class="required">Apellido</label>
-                <input type="text" placeholder="-----" class="form-control" id="lastname" name="lastname" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+                <input type="text" placeholder="-----" class="form-control" id="lastname" name="lastname" value="{$smarty.get.lastname}" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
                 <small class="form-text text-muted text-help"></small>
             </div>
             <div class="form-group">
                 <label for="username" class="required">Username</label>
-                <input type="text" placeholder="-----" class="form-control" id="username" name="username">
+                <input type="text" placeholder="-----" class="form-control" id="username" name="username" value="{$smarty.get.username}">
                 <small class="form-text text-muted text-help">Solo letras y n&uacute;meros</small>
             </div>
             {*<div class="form-group">
@@ -96,17 +96,17 @@
             </div>*}
             <div class="form-group">
                 <label for="email" class="required">Correo Electr&oacute;nico</label>
-                <input type="email" placeholder="---@--.-" class="form-control" id="email" name="email">
+                <input type="email" placeholder="---@--.-" class="form-control" id="email" name="email" value="{$smarty.get.email}">
                 <small class="form-text text-muted text-help"></small>
             </div>
             <div class="form-group">
                 <label for="phone" class="required">Celular</label>
-                <input type="number" placeholder="-----" class="form-control" id="phone" name="phone">
+                <input type="number" placeholder="-----" class="form-control" id="phone" name="phone" value="{$smarty.get.phone}">
                 <small class="form-text text-muted text-help"></small>
             </div>
             <div class="form-group">
                 <label for="address" class="required">Direcci&oacute;n</label>
-                <input type="text" placeholder="-----" class="form-control" id="address" name="address">
+                <input type="text" placeholder="-----" class="form-control" id="address" name="address" value="{$smarty.get.address}">
                 <small class="form-text text-muted text-help"></small>
             </div>
             <div class="form-group">
@@ -138,18 +138,19 @@
                 <label for="typedocument" class="required">Tipo de Identificaci&oacute;n</label>
                 <select name="typedocument" id="typedocument">
                     <option value="0" selected="selected">Cedula de Ciudadan&iacute;a</option>
+                    <option value="1">NIT</option>
                     <option value="2">Cedula de Extranjer&iacute;a</option>
                 </select>
                 <small class="form-text text-muted text-help"></small>
             </div>
             <div class="form-group">
                 <label for="dni" class="required">N&uacute;mero de Identificaci&oacute;n</label>
-                <input type="number" placeholder="-----" class="form-control" id="dni" name="dni">
+                <input type="number" placeholder="-----" class="form-control" id="dni" name="dni" value="{$smarty.get.dni}">
                 <small class="form-text text-muted text-help"></small>
             </div>
             <div class="form-group">
                 <label for="code_sponsor">C&oacute;digo de Patrocinio</label>
-                <input type="text" placeholder="-----" class="form-control" id="code_sponsor" name="code_sponsor">
+                <input type="text" placeholder="-----" class="form-control" id="code_sponsor" name="code_sponsor" value="{$smarty.get.code_sponsor}">
                 <small class="form-text text-muted text-help">Si tienes un c&oacute;digo de patricinio, introducelo en el campo anterior (Opcional). El c&oacute;digo de patrocinio te lo dar&aacute; el fluzzer que te invit&oacute;.</small>
             </div>
             <div class="form-group">
