@@ -425,9 +425,11 @@ class businessController extends FrontController {
                     Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "rewards (id_reward_state, id_customer, id_order, id_cart, id_cart_rule, id_payment, credits, plugin, reason, date_add, date_upd, id_transfer_fluz)"
                         . "                          VALUES ('2', " . (int) $customer->id . ", 0,NULL,'0','0'," . $point_used_add . ",'loyalty','TransferFluzBusiness','" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "', " . (int) $id_transfer . ")");
                 }
-                $count_array = count($tree);
                 
-                if ($count_array < 2) {
+                $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
+                //$count_array = count($tree);
+                
+                if ($sql_count_customer < 2) {
                     $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                 FROM " . _DB_PREFIX_ . "customer c
                                 LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )
@@ -701,9 +703,10 @@ class businessController extends FrontController {
                     $address->active = 1;
                     $address->add();
                     
-                    $count_array = count($tree);
+                    //$count_array = count($tree);
+                    $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
 
-                    if ($count_array < 2) {
+                    if ($sql_count_customer < 2) {
 
                         $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                     FROM " . _DB_PREFIX_ . "customer c
@@ -1071,10 +1074,11 @@ class businessController extends FrontController {
                             $address->type_document = 0;
                             $address->active = 1;
                             $address->add();
+                            
+                            $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
+                            //$count_array = count($tree);
 
-                            $count_array = count($tree);
-
-                            if ($count_array < 2) {
+                            if ($sql_count_customer < 2) {
 
                                 $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                             FROM " . _DB_PREFIX_ . "customer c

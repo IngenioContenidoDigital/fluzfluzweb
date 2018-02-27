@@ -349,9 +349,10 @@ class AuthController extends AuthControllerCore
             if(!empty($id_sponsor) && empty($this->errors))
             {
                 $tree = RewardsSponsorshipModel::_getTree($id_sponsor);
+                $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
                 array_shift($tree);
-                $count_array = count($tree);
-
+                //$count_array = count($tree);
+                
                 $customer = new Customer();
                 $customer->firstname = Tools::getValue('customer_firstname');
                 $customer->lastname = Tools::getValue('customer_lastname');
@@ -388,7 +389,7 @@ class AuthController extends AuthControllerCore
 
                 if(empty($this->errors)){
 
-                        if ($count_array < 2)
+                        if ($sql_count_customer < 2)
                         {
                             $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                         FROM " . _DB_PREFIX_ . "customer c
@@ -629,7 +630,8 @@ class AuthController extends AuthControllerCore
                     // New Guest customer
                     $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                     $customer->active = 0;
-                    
+                    $customer->method_add = 'Web';
+
                     // Validate exist username
                     if ( Customer::usernameExists( Tools::getValue("username") ) ) {
                         $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
@@ -647,7 +649,8 @@ class AuthController extends AuthControllerCore
 
                         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                         $customer->warning_kick_out = 0;
-                        
+                        $customer->method_add = 'Web';
+
                         if ( $customExists ) {
                             $idCustom = Customer::getCustomersByEmail( Tools::getValue('email') );
                             $customer = new Customer($idCustom[0]['id_customer']);
@@ -909,7 +912,7 @@ class AuthController extends AuthControllerCore
                     $this->errors[] = Tools::displayError('Invalid date of birth');
                 }*/
                 if (!count($this->errors)) {
-                    $customer->active = 1;
+                    $customer->active = 0;
                     // New Guest customer
                     if (Tools::isSubmit('is_new_customer')) {
                         $customer->is_guest = !Tools::getValue('is_new_customer', 1);
