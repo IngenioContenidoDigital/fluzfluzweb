@@ -284,6 +284,18 @@ class Customer extends CustomerCore
         }
     }
     
+    public static function phoneExists($phone) {
+        $users = Db::getInstance()->getValue("SELECT COUNT(*)
+                                                FROM "._DB_PREFIX_."customer
+                                                WHERE phone = '".$phone."'
+                                                AND active = 1");
+        if ( $users > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public static function CustomerExport( $date_from = "", $date_to = "" )
     {      
         $sql = "SELECT c.firstname, c.email, c.date_add, rs.id_sponsor, (SELECT cc.firstname  FROM "._DB_PREFIX_."customer cc WHERE cc.id_customer = rs.id_sponsor)  as Nombre_sponsor,

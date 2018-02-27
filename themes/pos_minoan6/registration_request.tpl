@@ -52,6 +52,8 @@
                 <label for="codesms" class="required">C&oacute;digo</label>
                 <input type="text" placeholder="------" class="form-control" id="codesms" name="codesms" autocomplete="off">
                 <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
+                <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
+                <input type="hidden" name="id_sponsor" id="id_sponsor" value="{$id_sponsor}">
             </div>
             <div class="form-group" style="text-align: center;">
                 <button type="submit" class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
