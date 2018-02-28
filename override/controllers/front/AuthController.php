@@ -630,6 +630,7 @@ class AuthController extends AuthControllerCore
                     // New Guest customer
                     $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                     $customer->active = 0;
+                    $customer->phone =  Tools::getValue('phone_mobile');
                     $customer->method_add = 'Web';
 
                     // Validate exist username
@@ -661,11 +662,12 @@ class AuthController extends AuthControllerCore
                             $customer->dni = Tools::getValue("gover");
                             $customer->kick_out = 0;
                             $customer->active=0;
+                            $customer->phone =  Tools::getValue('phone_mobile');
                             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+60 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
-                            $customer->update();
                             $customer->method_add = 'Web';
+                            $customer->update();
                             $customerLoaded = true;
                             
                         } else {

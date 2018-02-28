@@ -35,7 +35,7 @@ class PasswordController extends PasswordControllerCore
             } else {
                 $customer = new Customer();
                 $customer->getByemail($email);
-                $customer->active = 0;
+                $customer->active = 1;
                 $customer->update();
                 if (!Validate::isLoadedObject($customer)) {
                     $this->errors[] = Tools::displayError('There is no account registered for this email address.');
