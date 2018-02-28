@@ -3915,6 +3915,9 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 @media (max-width: 768px) { .footer-container #footer .footer-block { margin-top: 20px; } }
 .footer-container #footer .payment-block .title-payment { margin-top: 30px; color: #fff; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; }
 .footer-container #footer .payment-block .payment img { max-width: 100%; }
+img[src="https://fluzfluz.co/img/cms/FluzFluz/bitpay.png"] {
+   display: none;
+}
 .footer-container #footer a:hover { color: #ee4a42; }
 .footer-container #footer p { color: #8e8e8e; line-height: 25px; }
 .footer-container #footer .logo-footer { margin-bottom: 30px; display: none;}
