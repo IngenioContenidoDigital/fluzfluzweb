@@ -157,6 +157,42 @@
 				</div> <!-- end pb-left-column -->
 				<!-- end left infos-->
 				<!-- center infos -->
+                
+                <div id="content-social-networks">
+                    <link rel="stylesheet" type="text/css" href="{$tpl_uri}css/font-awesome/font-awesome.css" />
+                    <link rel="stylesheet" type="text/css" href="{$tpl_uri}jssocials/jssocials.css" />
+                    <link rel="stylesheet" type="text/css" href="{$tpl_uri}jssocials/jssocials-theme-classic.css" />
+                    <div id="social-networks">
+                        <div id="shareIcons"></div>
+                    </div>
+                    <div id="share-social-networks">
+                        <span>Compartir</span>
+                    </div>
+                    <script src="{$tpl_uri}jssocials/jssocials.min.js"></script>
+                    {literal}
+                        <script>
+                            $("#shareIcons").jsSocials({
+                                shareIn: "popup",
+                                showCount: false,
+                                showLabel: false,
+                                shares: [
+                                    // { share: "email", label: "Email" },
+                                    { share: "twitter", label: "Twitter" },
+                                    { share: "facebook", label: "Facebook" },
+                                    { share: "googleplus", label: "Google +" },
+                                    { share: "linkedin", label: "LinkedIn" },
+                                    { share: "whatsapp", label: "Whatsapp" },
+                                    { share: "telegram", label: "Telegram" }
+                                ]
+                            });
+                            $("#share-social-networks").on('click', function () {
+                                $("#social-networks").toggle("slide");
+                            });
+                            $("#share-social-networks").click();
+                        </script>
+                    {/literal}
+                </div>
+                
 				<div class="pb-center-column col-lg-9 col-xs-12 col-sm-12 col-md-12">
 					{if $product->online_only}
 						<p class="online_only">{l s='Online only'}</p>
