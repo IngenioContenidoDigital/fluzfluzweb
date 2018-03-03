@@ -362,7 +362,7 @@ class AuthController extends AuthControllerCore
                 $customer->phone =  Tools::getValue('phone_mobile');
                 $customer->username =  Tools::getValue('username');
                 $customer->id_default_group = 4;
-                $customer->active = 0;
+                $customer->active = 1;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->method_add = 'Web / Referidos';                
