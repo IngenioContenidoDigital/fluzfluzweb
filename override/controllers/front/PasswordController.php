@@ -74,7 +74,7 @@ class PasswordController extends PasswordControllerCore
             if ($email) {
                 $customer = new Customer();
                 $customer->getByemail($email);
-                $customer->active = 0;
+                $customer->active = 1;
                 $customer->update();
                 if (!Validate::isLoadedObject($customer)) {
                     $this->errors[] = Tools::displayError('Customer account not found');
