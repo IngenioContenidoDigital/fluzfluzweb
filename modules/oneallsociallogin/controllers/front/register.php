@@ -227,7 +227,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                         $customer = new Customer($id_customer);
                                         $customer->active = 1;
                                         $customer->save();
-                                        
+                                        $this->context->smarty->assign('id_customer', $id_customer);
                                         $this->context->smarty->assign('successfulregistration', true);
                                     } else {
                                         $this->errors[] = "El codigo es incorrecto.";
@@ -250,6 +250,20 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                         $this->context->smarty->assign('id_sponsor', $id_sponsor);
                                         $this->context->smarty->assign('sendSMS', true);
                                     }
+                                }
+                                elseif (Tools::isSubmit('login_confirm')){
+                                    
+                                    $id_customer = Tools::getValue('id_customer');
+                                    if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
+                                        {
+                                                // Remove the data
+                                                unset ($this->context->cookie->oasl_data);
+
+                                                // A refresh is required to update the page
+                                                $back = trim (Tools::getValue ('back'));
+                                                $back = (!empty ($back) ? $back : oneall_social_login_tools::get_current_url ());
+                                                Tools::redirect ($back);
+                                        }
                                 }
 				// First call of the page.
 				else
