@@ -173,7 +173,7 @@ class AuthController extends AuthControllerCore
             $this->processSubmitAccount();
         }
         if (Tools::isSubmit('SubmitLogin')) {
-            $this->processSubmitLogin($validate = 1);
+            $this->processSubmitLogin();
         }
     }
     
@@ -199,11 +199,11 @@ class AuthController extends AuthControllerCore
             $customer = new Customer();
             $authentication = $customer->getByEmail(trim($email), trim($passwd));
             if (isset($authentication->active) && !$authentication->active) {
-                if($validate == 1){
+                /*if($validate == 1){
                     $this->errors[] = Tools::displayError('Hemos enviado un correo para verificar tu cuenta.');
-                }else{
+                }else{*/
                     $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
-                }
+                //}
             } elseif (!$authentication || !$customer->id) {
                 $this->errors[] = Tools::displayError('Authentication failed.');
             /* VALIDACION COMPRA DE LICENCIA COMPLETA
@@ -404,7 +404,7 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->lastname = $customer->lastname;
                                 $sponsorship->email = $customer->email;
                                 $sponsorship->channel = 1;
-                                $send = "";
+                                //$send = "";
                                 if ($sponsorship->save()) {
 
                                     $this->sendConfirmationMail($customer);
@@ -417,10 +417,20 @@ class AuthController extends AuthControllerCore
                                     }
                                 
                                 $this->create_account = true;
-                                $this->context->smarty->assign('email_create', 1);
+                                //$this->context->smarty->assign('email_create', 1);
+                                $sendSMS = false;
+                                while ( !$sendSMS ) {
+                                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                                }
 
+                                if ( $sendSMS ) {
+                                    $this->context->smarty->assign('id_customer', $customer->id);
+                                    $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                    $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                    $this->context->smarty->assign('sendSMS', true);
+                                }
                                 $this->updateContext($customer);
-                                $this->processSubmitLogin($validate = 1);    
+                                //$this->processSubmitLogin($validate = 1);    
 
                         } else {
                             $this->errors[] = 'no sponsor';
@@ -468,10 +478,23 @@ class AuthController extends AuthControllerCore
                                     
                                     }
                                     $this->create_account = true;
-                                    $this->context->smarty->assign('email_create', 1);
+                                    //$this->context->smarty->assign('email_create', 1);
+                                    
+                                    $sendSMS = false;
+                                    while ( !$sendSMS ) {
+                                        $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                                    }
+
+                                    if ( $sendSMS ) {
+                                        $this->context->smarty->assign('id_customer', $customer->id);
+                                        $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                        $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                        $this->context->smarty->assign('sendSMS', true);
+                                    }
                                     
                                     $this->updateContext($customer);
-                                    $this->processSubmitLogin($validate = 1);
+                                    //Tools::redirect('index.php?controller=authentication');
+                                    //$this->processSubmitLogin($validate = 1);
                                     //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : "my-account"));
                             }
                             else 
@@ -500,13 +523,12 @@ class AuthController extends AuthControllerCore
                         $reward_sponsor->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                         $reward_sponsor->save();
                     }
-                    
                 }
                 
                 else{
                     $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                 }    
-                
+                //Hook::exec('actionBeforeSubmitAccount');
             }
         else
             {
@@ -534,7 +556,7 @@ class AuthController extends AuthControllerCore
             }
 
             $this->create_account = true;
-            $this->context->smarty->assign('email_create', 1);
+            //$this->context->smarty->assign('email_create', 1);
 
             // New Guest customer
             if (!Tools::getValue('is_new_customer', 1) && !Configuration::get('PS_GUEST_CHECKOUT_ENABLED')) {
@@ -667,6 +689,19 @@ class AuthController extends AuthControllerCore
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                             $customer->method_add = 'Web';
+                            
+                            $sendSMS = false;
+                            while ( !$sendSMS ) {
+                                $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                            }
+
+                            if ( $sendSMS ) {
+                                $this->context->smarty->assign('id_customer', $customer->id);
+                                $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                $this->context->smarty->assign('sendSMS', true);
+                            }
+                            
                             $customer->update();
                             $customerLoaded = true;
                             
@@ -690,12 +725,23 @@ class AuthController extends AuthControllerCore
                                 
                             }
                         }
-
+                        
                         if ( $customerLoaded ) {
                             if (!$customer->is_guest) {
                                 if (!$this->sendConfirmationMail($customer)) {
                                     $this->errors[] = Tools::displayError('The email cannot be sent.');
                                 }
+                            }
+                            $sendSMS = false;
+                            while ( !$sendSMS ) {
+                                $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                            }
+
+                            if ( $sendSMS ) {
+                                $this->context->smarty->assign('id_customer', $customer->id);
+                                $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                $this->context->smarty->assign('sendSMS', true);
                             }
                             $this->updateContext($customer);
 
@@ -838,7 +884,8 @@ class AuthController extends AuthControllerCore
                             else {
                                 Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
-                            $this->processSubmitLogin($validate = 1);
+                            
+                            //$this->processSubmitLogin($validate = 1);
                         } else {
                             $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                         }

@@ -26,6 +26,7 @@
 //OneAll Social Login Toolbox
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+include_once(_PS_CLASS_DIR_.'Customer.php');
 
 class oneall_social_login_tools
 {
@@ -188,7 +189,18 @@ class oneall_social_login_tools
                 $address->type_document = $data['user_typedni'];
                 $address->active = 1;
                 $address->add();
-
+                
+                $sendSMS = false;
+                while ( !$sendSMS ) {
+                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                }
+                
+                if ( $sendSMS ) {
+                    $this->context->smarty->assign('id_customer', $customer->id);
+                    $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
+                    $this->context->smarty->assign('sendSMS', true);
+                }
+                
                 $sponsor = Db::getInstance()->executeS('SELECT
                                                             c.id_customer,
                                                             c.username,

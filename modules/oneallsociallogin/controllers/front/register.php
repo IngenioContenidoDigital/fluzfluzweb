@@ -180,6 +180,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                                 $data ['user_city'] = $city;
                                                 $data ['user_typedni'] = $typedni;
                                                 $data ['user_dni'] = $dni;
+                                                $data['user_code_sponsor'] = $code_sponsor;
 						
 						// Email flags.
 						$send_email_to_admin = ((Configuration::get ('OASL_EMAIL_ADMIN_DISABLE') != 1) ? true : false);
@@ -204,6 +205,41 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 						}
                                         }
 				}
+                                
+                                elseif (Tools::isSubmit('confirm')) {
+                                    $id_customer = Tools::getValue('id_customer');
+                                    $codesponsor = Tools::getValue('codesponsor');
+                                    $id_sponsor = Tools::getValue('id_sponsor');
+                                    $codesms = Tools::getValue('codesms');
+
+                                    if ( Customer::validateCodeSMS($id_customer,$codesms) ) {
+                                        $customer = new Customer($id_customer);
+                                        $customer->active = 1;
+                                        $customer->save();
+                                        
+                                        $this->context->smarty->assign('successfulregistration', true);
+                                    } else {
+                                        $errors[] = "El codigo es incorrecto.";
+                                        $this->context->smarty->assign('id_customer', $id_customer);
+                                        $this->context->smarty->assign('codesponsor', $codesponsor);
+                                        $this->context->smarty->assign('sendSMS', true);
+                                    }
+                                } elseif (Tools::isSubmit('resendSMS')) {
+                                    $id_customer = Tools::getValue('id_customer');
+                                    $codesponsor = Tools::getValue('codesponsor');
+                                    $id_sponsor = Tools::getValue('id_sponsor');
+
+                                    $sendSMS = false;
+                                    while ( !$sendSMS ) {
+                                        $sendSMS = Customer::confirmCustomerSMS($id_customer);
+                                    }
+                                    if ( $sendSMS ) {
+                                        $this->context->smarty->assign('id_customer', $id_customer);
+                                        $this->context->smarty->assign('codesponsor', $codesponsor);
+                                        $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                        $this->context->smarty->assign('sendSMS', true);
+                                    }
+                                }
 				// First call of the page.
 				else
 				{

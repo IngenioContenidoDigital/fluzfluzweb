@@ -91,6 +91,52 @@
                 </ol>
             </div>
 	{/if*}
+        {if $sendSMS}
+        {literal}
+            <style>
+                select, input { text-align: center; }
+            </style>
+        {/literal}
+        <div id="error_novalidos" style='display:none;'></div>
+        <div id="confirm_validos" style='display:none;'></div>
+        <div class="row block-form block-confirmsms">
+            <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
+            <br>
+            <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
+                <div class="form-group">
+                    <label for="codesms" class="required">C&oacute;digo</label>
+                    <input type="text" placeholder="------" class="" id="codesms" name="codesms" autocomplete="off">
+                    <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
+                    <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
+                    <input type="hidden" name="id_sponsor" id="id_sponsor" value="{$id_sponsor}">
+                </div>
+                <div class="form-group" style="text-align: center;">
+                    <button class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
+                </div>
+                
+                <div class="form-group" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
+                    <br>
+                    <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
+                </div>
+            
+        </div>
+        {* COMPLETE REGISTRATION *}
+        <a style="display:none;" class="myfancybox btn btn-default btn-account" href="#confirmCode" name="submitConfirm" id="submitConfirm">
+
+        </a>
+        <div style="display:none;" id="confirmCode" class="myfancybox">
+            <div class="row block-successfulregistration row">
+                    <br>
+                    Tu Registro Ha Sido Exitoso
+                <br><br><br>
+                <img src="{$img_dir}checked.png" />
+                <br><br><br><br>
+                <a id="clickOnload" href="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}">Continuar</a>
+                <br><br><br>
+            </div>
+        </div>        
+        {else}        
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">
                 <img src="{$img_dir}login/banner.jpg" id="banner_login" />
@@ -104,7 +150,7 @@
             <div id="video-signup" class="videoWrapper">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/VkPDA0YDMZQ" frameborder="0" allowfullscreen></iframe>
             </div>
-        </div>
+        </div>    
 	<div class="row sign-account">
             <div class="col-xs-12 col-sm-6 signup-account">
                 <div class="info-box">
@@ -203,6 +249,7 @@
                 </div>
             </div>
 	</div>
+        {/if}                    
         <div class="row container_tips">
             <div class="col-xs-12 col-sm-4 col-md-4">
                 <img src="{$img_dir}login/piggy-bank.jpg" class="icon_tip" />
@@ -1556,6 +1603,56 @@
                     sn.removeClass("stick");
                 }
             });
+            
+        $('#confirm').click(function(){
+            var sms = $('#codesms').val();
+            var customer = $('#id_customer').val();
+            $.ajax({
+                method:"POST",
+                url: "/activateaccount.php",
+                data: {'action': 'confirmCode', 'code': sms,'customer':customer},
+                success:function(response){
+                    console.log(response);
+                    if(response === 'true'){
+                        $('#error_novalidos').hide();
+                        $("#submitConfirm")[0].click();
+                    }
+                    else{
+                        $('#error_novalidos').show();
+                        $('#error_novalidos').html('El codigo ingresado es erroneo, Por favor verificar o comunicate con nosotros.');
+                    }
+                }
+            });
+            
+        });
+        
+        $('#resendSMS').click(function(){
+            var customer = $('#id_customer').val();
+            $.ajax({
+                method:"POST",
+                url: "/activateaccount.php",
+                data: {'action': 'resendCode','customer':customer},
+                success:function(response){
+                    response = 'true';
+                    console.log(response);
+
+                    if(response === 'true'){
+                        $('#confirm_validos').show();
+                        $('#confirm_validos').html('Se reenvio codigo para validar y activar tu cuenta. Si no lo recibes en los proximos minutos comunicate con nosotros.');
+                
+                    }
+                    else{
+                        $('#error_novalidos').show();
+                        $('#error_novalidos').html('No se realizo el reenvio del codigo por favor comunicate con nosotros.');
+                    }
+                }
+            });
+            
+        });
+        
+        $('#clickOnload').click(function(){
+            location.reload();
+        });
     </script>
 {/literal}
   
