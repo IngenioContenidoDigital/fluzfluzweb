@@ -126,6 +126,7 @@ class oneall_social_login_tools
             $customer->birthday = $data['user_birthdate'];
             $customer->username = $data['user_username'];
             $customer->dni = $data['user_dni'];
+            $customer->phone = $data['user_phone'];
             $customer->active = 0;
             $customer->passwd = Tools::encrypt($data['user_dni']);
             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
