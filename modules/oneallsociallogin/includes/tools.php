@@ -26,6 +26,7 @@
 //OneAll Social Login Toolbox
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+include_once(_PS_CLASS_DIR_.'Customer.php');
 
 class oneall_social_login_tools
 {
@@ -125,7 +126,7 @@ class oneall_social_login_tools
             $customer->birthday = $data['user_birthdate'];
             $customer->username = $data['user_username'];
             $customer->dni = $data['user_dni'];
-            $customer->active = 1;
+            $customer->active = 0;
             $customer->passwd = Tools::encrypt($data['user_dni']);
             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
             $customer->kick_out = 0;
@@ -188,7 +189,18 @@ class oneall_social_login_tools
                 $address->type_document = $data['user_typedni'];
                 $address->active = 1;
                 $address->add();
-
+                
+                $sendSMS = false;
+                while ( !$sendSMS ) {
+                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                }
+                
+                if ( $sendSMS ) {
+                    $this->context->smarty->assign('id_customer', $customer->id);
+                    $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
+                    $this->context->smarty->assign('sendSMS', true);
+                }
+                
                 $sponsor = Db::getInstance()->executeS('SELECT
                                                             c.id_customer,
                                                             c.username,
@@ -229,9 +241,11 @@ class oneall_social_login_tools
                 }else{
 
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
+                    $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
+
                     array_shift($tree);
-                    $count_array = count($tree);
-                    if ($count_array < 2)
+                    //$count_array = count($tree);
+                    if ($sql_count_customer < 2)
                     {
                         $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                         FROM " . _DB_PREFIX_ . "customer c

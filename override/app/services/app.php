@@ -2,7 +2,7 @@
 require_once('classes/Rest.inc.php');
 require_once('classes/Model.php');
 include_once('classes/order/Order.php');
-require_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 include_once(_PS_MODULE_DIR_.'/bitpay/bitpay.php');
@@ -622,7 +622,7 @@ class API extends REST {
           $customer->birthday = $birthday;
           $customer->id_default_group = 4;
           $customer->kick_out = 0;
-          $customer->active = 1;
+          $customer->active = 0;
           $customer->id_lang = Context::getContext()->language->id;
           $customer->method_add = 'Movil App';
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
@@ -651,10 +651,12 @@ class API extends REST {
           // Busca el sponsor.
           $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode($cod_refer);
           $tree = RewardsSponsorshipModel::_getTree($id_sponsor);
-          array_shift($tree);
-          $count_array = count($tree);
+          $sql_count_customer = Db::getInstance()->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'rewards_sponsorship WHERE id_sponsor = '.$tree[0]['id']);
 
-          if ($count_array < 2){
+          array_shift($tree);
+          //$count_array = count($tree);
+
+          if ($sql_count_customer < 2){
             $sql_sponsor = "SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                             FROM " . _DB_PREFIX_ . "customer c
                             LEFT JOIN " . _DB_PREFIX_ . "rewards_sponsorship rs ON ( c.id_customer = rs.id_sponsor )

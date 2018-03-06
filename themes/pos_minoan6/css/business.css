@@ -8,10 +8,11 @@
 .div-btn-delete-info { color: #EF4136; font-size: 10px; font-style: italic; }
 .pagination-header { margin-top: 15px; margin-bottom: 25px; }
 .panel-employee{margin-top: 40px;margin-bottom: 15px;padding: 10px;border-bottom: 1px solid;padding-left: 0;}
-.item-employee{padding: 0px; cursor: pointer;}
+.item-employee{padding: 0px; cursor: pointer; margin: 0 18px;}
 #busqueda { height: 32px!important; }
-.btn-default{background: transparent; border: none; padding: 0px;}
-.open .btn-default.dropdown-toggle{background: transparent; border: none; padding: 0px;}
+.btn-default{background: transparent; border: none; padding: 0px; color: #777777;}
+.btn-default .caret { border-top-color: #777777; }
+.btn-default:hover, .btn-default:active, .btn-default:focus { color: #ef4136!important; background-color: transparent!important; border-color: transparent!important; box-shadow: none!important; -webkit-box-shadow: none!important; }
 .back-business{background: #fff !important; color: #000; border: none;}
 .open > .back-business{margin-top: 11px !important;}
 #item-menu-principal{padding: 15px !important; color: #000;}

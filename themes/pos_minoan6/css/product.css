@@ -15,6 +15,23 @@
 
 .box-security img { width: auto; }
 
+#content-social-networks { text-align: right; }
+#share-social-networks, #social-networks { display: inline-block; vertical-align: middle; }
+#share-social-networks > span { border: 1px solid #EF4136; border-radius: 80px; color: #EF4136; padding: 10px 15px; margin-left: 10px; cursor: pointer; font-weight: bold; box-shadow: 2px 2px; }
+#shareIcons > .jssocials-shares > .jssocials-share-whatsapp, #shareIcons > .jssocials-shares > .jssocials-share-telegram { display: none; }
+@media (max-width: 470px) {
+    #shareIcons > .jssocials-shares > .jssocials-share-whatsapp, #shareIcons > .jssocials-shares > .jssocials-share-telegram { display: inline-block!important; }
+    #content-social-networks { text-align: center; margin-top: 20px; }
+    #share-social-networks, #social-networks { display: block; }
+    .jssocials-share { display: block!important; }
+    #share-social-networks { margin-top: 20px; }
+    .jssocials-share { margin: 0.3em!important; display: inline-block!important; }
+    #share-social-networks > span { margin-left: 0!important; }
+}
+@media (max-width: 769px) {
+    #content-social-networks { margin-right: 20px; }
+}
+
 .primary_block .pb-left-column img {width: 100%; height: auto; margin-top:7%;}
 
 a.fancybox-nav { outline: 0; }

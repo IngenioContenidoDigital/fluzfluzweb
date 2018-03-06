@@ -142,12 +142,15 @@ class Dashtrends extends Module
 			$refined_data['conversion_rate'][$date] = $refined_data['visits'][$date] ? $refined_data['orders'][$date] / $refined_data['visits'][$date] : 0;
 
 			$refined_data['net_profits'][$date] = 0;
-			if (isset($gross_data['total_paid_tax_excl'][$date]))
+                        0;
+			if (isset($gross_data['total_purchases'][$date]))
+				$refined_data['net_profits'][$date] += $gross_data['total_purchases'][$date];
+			/*if (isset($gross_data['total_paid_tax_excl'][$date]))
 				$refined_data['net_profits'][$date] += $gross_data['total_paid_tax_excl'][$date];
 			if (isset($gross_data['total_purchases'][$date]))
 				$refined_data['net_profits'][$date] -= $gross_data['total_purchases'][$date];
 			if (isset($gross_data['total_expenses'][$date]))
-				$refined_data['net_profits'][$date] -= $gross_data['total_expenses'][$date];
+				$refined_data['net_profits'][$date] -= $gross_data['total_expenses'][$date];*/
 		}
 		return $refined_data;
 	}

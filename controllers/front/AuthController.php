@@ -452,7 +452,7 @@ class AuthControllerCore extends FrontController
 
                 // New Guest customer
                 $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
-                $customer->active = 1;
+                $customer->active = 0;
 
                 if (!count($this->errors)) {
                     if ($customer->add()) {
@@ -578,7 +578,7 @@ class AuthControllerCore extends FrontController
             }
 
             if (!count($this->errors)) {
-                $customer->active = 1;
+                $customer->active = 0;
                 // New Guest customer
                 if (Tools::isSubmit('is_new_customer')) {
                     $customer->is_guest = !Tools::getValue('is_new_customer', 1);

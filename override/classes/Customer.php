@@ -284,6 +284,18 @@ class Customer extends CustomerCore
         }
     }
     
+    public static function phoneExists($phone) {
+        $users = Db::getInstance()->getValue("SELECT COUNT(*)
+                                                FROM "._DB_PREFIX_."customer
+                                                WHERE phone = '".$phone."'
+                                                AND active = 1");
+        if ( $users > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public static function CustomerExport( $date_from = "", $date_to = "" )
     {      
         $sql = "SELECT c.firstname, c.email, c.date_add, rs.id_sponsor, (SELECT cc.firstname  FROM "._DB_PREFIX_."customer cc WHERE cc.id_customer = rs.id_sponsor)  as Nombre_sponsor,
@@ -438,6 +450,43 @@ class Customer extends CustomerCore
         $this->logged = 0;
 
         Hook::exec('actionCustomerLogoutAfter', array('customer' => $this));
+    }
+    
+    public static function confirmCustomerSMS ($id_customer) {
+        $sql = "SELECT phone
+                FROM "._DB_PREFIX_."customer
+                WHERE id_customer = ".$id_customer.";";
+        $phone = Db::getInstance()->getValue($sql);
+        
+        $numberConfirm = rand(100000, 999999);
+        $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
+                                SET web_confirm = '.$numberConfirm.'
+                                WHERE id_customer = '.$id_customer.';';
+        $result = Db::getInstance()->execute($updateNumberConfirm);
+
+        $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        $result = ( $response == 1 ) ? true : false;
+        return $result;
+    }
+    
+    public static function validateCodeSMS ($id_customer,$code) {
+        $sql = "SELECT COUNT(*) valid
+                FROM "._DB_PREFIX_."customer
+                WHERE id_customer = ".$id_customer."
+                AND web_confirm = ".$code;
+        $valid = Db::getInstance()->executeS($sql);
+        
+        if ( $valid[0]['valid'] == 0 ) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
