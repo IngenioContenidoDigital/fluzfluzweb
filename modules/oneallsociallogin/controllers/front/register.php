@@ -26,6 +26,7 @@
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
+include_once(_PS_CLASS_DIR_.'Customer.php');
 
 class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontController
 {
@@ -219,7 +220,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                         
                                         $this->context->smarty->assign('successfulregistration', true);
                                     } else {
-                                        $errors[] = "El codigo es incorrecto.";
+                                        $this->errors [] = "El codigo es incorrecto.";
                                         $this->context->smarty->assign('id_customer', $id_customer);
                                         $this->context->smarty->assign('codesponsor', $codesponsor);
                                         $this->context->smarty->assign('sendSMS', true);
