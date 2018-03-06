@@ -191,17 +191,6 @@ class oneall_social_login_tools
                 $address->active = 1;
                 $address->add();
                 
-                $sendSMS = false;
-                while ( !$sendSMS ) {
-                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                }
-                
-                if ( $sendSMS ) {
-                    $this->context->smarty->assign('id_customer', $customer->id);
-                    $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
-                    $this->context->smarty->assign('sendSMS', true);
-                }
-                
                 $sponsor = Db::getInstance()->executeS('SELECT
                                                             c.id_customer,
                                                             c.username,
@@ -239,6 +228,19 @@ class oneall_social_login_tools
                         $reward->add();
 
                     }
+                    
+                    
+                    $sendSMS = false;
+                    while ( !$sendSMS ) {
+                        $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                    }
+
+                    if ( $sendSMS ) {
+                        $this->context->smarty->assign('id_customer', $customer->id);
+                        $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
+                        $this->context->smarty->assign('sendSMS', true);
+                    }
+
                 }else{
 
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
@@ -256,6 +258,18 @@ class oneall_social_login_tools
                         if (!empty($sponsor)) {
                             $sponsorship->id_sponsor = $sponsor['id_customer'];
                         }
+                        
+                        $sendSMS = false;
+                        while ( !$sendSMS ) {
+                            $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                        }
+
+                        if ( $sendSMS ) {
+                            $this->context->smarty->assign('id_customer', $customer->id);
+                            $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
+                            $this->context->smarty->assign('sendSMS', true);
+                        }
+                
                     }
                     else{
                         $array_sponsor = array();
@@ -281,6 +295,18 @@ class oneall_social_login_tools
                             if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
                                 $sponsorship->id_sponsor = $sponsor['id_customer'];
                             }
+                            
+                        $sendSMS = false;
+                        while ( !$sendSMS ) {
+                            $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                        }
+
+                        if ( $sendSMS ) {
+                            $this->context->smarty->assign('id_customer', $customer->id);
+                            $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
+                            $this->context->smarty->assign('sendSMS', true);
+                        }
+
                     }
                     $totals = RewardsModel::getAllTotalsByCustomer((int)$data['user_sponsor_id']);
                     $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
