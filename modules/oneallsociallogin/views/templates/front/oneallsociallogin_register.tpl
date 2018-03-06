@@ -34,19 +34,6 @@
     {include file="$tpl_dir./errors.tpl"}
 {/if}
 
-{* COMPLETE REGISTRATION *}
-{if $successfulregistration}
-    <div class="block-successfulregistration row">
-        <br>
-        Tu Registro Ha Sido Exitoso
-        <br><br><br>
-        <img src="{$img_dir}checked.png" />
-        <br><br><br><br>
-        <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
-        <br><br><br>
-    </div>
-{/if}
-
 {* SEND SMS *}
 {if $sendSMS}
     <div class="block-form block-confirmsms row">
@@ -71,6 +58,18 @@
             </div>
         </form>
     </div>
+
+{* COMPLETE REGISTRATION *}
+{elseif $successfulregistration}
+    <div class="block-successfulregistration row">
+        <br>
+        Tu Registro Ha Sido Exitoso
+        <br><br><br>
+        <img src="{$img_dir}checked.png" />
+        <br><br><br><br>
+        <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
+        <br><br><br>
+    </div>                
 {else}
 <div id="oneallsociallogin">
     <form id="account-creation_form" action="{$oasl_register}" method="post" class="box">
