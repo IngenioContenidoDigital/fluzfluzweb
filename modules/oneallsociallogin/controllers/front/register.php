@@ -193,6 +193,16 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                                 Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
                                                                 VALUES ('.$id_customer.', "'.$code_generate.'")');
                                                 
+                                                $sendSMS = false;
+                                                while ( !$sendSMS ) {
+                                                    $sendSMS = Customer::confirmCustomerSMS($id_customer);
+                                                }
+
+                                                if ( $sendSMS ) {
+                                                    $this->context->smarty->assign('id_customer', $id_customer);
+                                                    $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                                    $this->context->smarty->assign('sendSMS', true);
+                                                }
 						// Login the customer.
 						/*if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
 						{

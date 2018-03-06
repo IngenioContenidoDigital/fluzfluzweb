@@ -229,18 +229,6 @@ class oneall_social_login_tools
 
                     }
                     
-                    
-                    $sendSMS = false;
-                    while ( !$sendSMS ) {
-                        $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                    }
-
-                    if ( $sendSMS ) {
-                        $this->context->smarty->assign('id_customer', $customer->id);
-                        $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
-                        $this->context->smarty->assign('sendSMS', true);
-                    }
-
                 }else{
 
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
@@ -258,18 +246,6 @@ class oneall_social_login_tools
                         if (!empty($sponsor)) {
                             $sponsorship->id_sponsor = $sponsor['id_customer'];
                         }
-                        
-                        $sendSMS = false;
-                        while ( !$sendSMS ) {
-                            $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                        }
-
-                        if ( $sendSMS ) {
-                            $this->context->smarty->assign('id_customer', $customer->id);
-                            $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
-                            $this->context->smarty->assign('sendSMS', true);
-                        }
-                
                     }
                     else{
                         $array_sponsor = array();
@@ -355,17 +331,6 @@ class oneall_social_login_tools
                 $allinone_rewards = new allinone_rewards();
                 $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
                 
-                $sendSMS = false;
-                while ( !$sendSMS ) {
-                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                }
-
-                if ( $sendSMS ) {
-                    $this->context->smarty->assign('id_customer', $customer->id);
-                    $this->context->smarty->assign('codesponsor', $data['user_code_sponsor']);
-                    $this->context->smarty->assign('sendSMS', true);
-                }
-
                 // Tie the tokens to the newly created member.
                 if (self::link_tokens_to_id_customer($customer->id, $data['user_token'], $data['identity_token'], $data['identity_provider']))
                 {
