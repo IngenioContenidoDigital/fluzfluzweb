@@ -251,12 +251,6 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                         $this->context->smarty->assign('sendSMS', true);
                                     }
                                 }
-                                elseif (Tools::isSubmit('login_confirm')){
-                                    
-                                    $id_customer = Tools::getValue('id_customer');
-                                    oneall_social_login_tools::login_customer($id_customer);
-                                    
-                                }
 				// First call of the page.
 				else
 				{

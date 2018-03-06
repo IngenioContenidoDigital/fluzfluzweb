@@ -61,19 +61,15 @@
 
 {* COMPLETE REGISTRATION *}
 {elseif $successfulregistration}
-    <form>
-        <div class="block-successfulregistration row">
-            <br>
-            Tu Registro Ha Sido Exitoso
-            <br><br><br>
-            <img src="{$img_dir}checked.png" />
-            <br><br><br><br>
-            <div class="form-group" style="text-align: center;">
-                <button type="submit" class="btn btn-primary" name="login_confirm" id="login_confirm">Continuar</button>
-            </div>
-            <br><br><br>
-        </div>      
-    </form>    
+    <div class="block-successfulregistration row">
+        <br>
+        Tu Registro Ha Sido Exitoso
+        <br><br><br>
+        <img src="{$img_dir}checked.png" />
+        <br><br><br><br>
+        <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
+        <br><br><br>
+    </div>      
     {literal}    
         <style>
             #oneallsociallogin{display:none;}
@@ -179,8 +175,6 @@
 
     #register, #confirm { margin-top: 15px; background: #F14E38; border: 1px solid #F14E38; font-size: 14px; font-weight: bold; letter-spacing: 2px; }
     #register:hover, #confirm:hover { background: #C9B197; border: 1px solid #C9B197; }
-    #register, #login_confirm { margin-top: 15px; background: #F14E38; border: 1px solid #F14E38; font-size: 14px; font-weight: bold; letter-spacing: 2px; }
-    #register:hover, #login_confirm:hover { background: #C9B197; border: 1px solid #C9B197; }
     #resendSMS { padding: 6px 24px; margin-top: 5px; margin-bottom: 5px; margin-left: 3px; background: #C9B197; border: 1px solid #C9B197; font-size: 14px; font-weight: bold; letter-spacing: 2px; }
     #resendSMS:hover { background: #F14E38; border: 1px solid #F14E38; }
     #error_novalidos{    
