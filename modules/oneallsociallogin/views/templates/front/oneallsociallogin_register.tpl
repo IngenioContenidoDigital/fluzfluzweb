@@ -67,7 +67,9 @@
         <br><br><br>
         <img src="{$img_dir}checked.png" />
         <br><br><br><br>
-        <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
+        <div class="form-group" style="text-align: center;">
+            <button type="submit" class="btn btn-primary" name="login_confirm" id="login_confirm">Continuar</button>
+        </div>
         <br><br><br>
     </div>      
     {literal}    
