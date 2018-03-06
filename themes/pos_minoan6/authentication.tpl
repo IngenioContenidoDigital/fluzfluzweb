@@ -1637,6 +1637,7 @@
                     console.log(response);
 
                     if(response === 'true'){
+                        $('#error_novalidos').hide();
                         $('#confirm_validos').show();
                         $('#confirm_validos').html('Se reenvio codigo para validar y activar tu cuenta. Si no lo recibes en los proximos minutos comunicate con nosotros.');
                 

@@ -230,7 +230,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                         
                                         $this->context->smarty->assign('successfulregistration', true);
                                     } else {
-                                        $this->errors [] = "El codigo es incorrecto.";
+                                        $this->errors[] = "El codigo es incorrecto.";
                                         $this->context->smarty->assign('id_customer', $id_customer);
                                         $this->context->smarty->assign('codesponsor', $codesponsor);
                                         $this->context->smarty->assign('sendSMS', true);
