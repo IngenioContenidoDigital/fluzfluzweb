@@ -69,7 +69,12 @@
         <br><br><br><br>
         <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
         <br><br><br>
-    </div>                
+    </div>      
+    {literal}    
+        <style>
+            #oneallsociallogin{display:none;}
+        </style>
+    {/literal}    
 {else}
 <div id="oneallsociallogin">
     <form id="account-creation_form" action="{$oasl_register}" method="post" class="box">
