@@ -906,6 +906,7 @@ class AuthController extends AuthControllerCore
                             }
                             // else : redirection to the account
                             else {
+                                $this->sendConfirmationMail($customer);
                                 $this->processSubmitLogin();
                                 //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
