@@ -124,6 +124,11 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                         if ( Customer::usernameExists($username) ) {
                                             $this->errors[] = Tools::displayError('El nombre de usuario se encuentra en uso.');
                                         }
+                    
+                                        //validate existe phone mobile
+                                        if ( Customer::phoneExists($phone) ) {
+                                            $this->errors[] = Tools::displayError('El numero de telefono ya se encuentra en uso.');
+                                        }
 
                                         // Make sure the address is not empty.
 					if (strlen ($address) == 0)
