@@ -463,8 +463,9 @@ class Customer extends CustomerCore
                                 SET web_confirm = '.$numberConfirm.'
                                 WHERE id_customer = '.$id_customer.';';
         $result = Db::getInstance()->execute($updateNumberConfirm);
-
-        $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
+        
+        $message_text= "Fluz Fluz te da la bienvenida!!! Tu codigo de verificacion es: ";
+        $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".urlencode($message_text.$numberConfirm)."&longMessage=true";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);

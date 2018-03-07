@@ -95,6 +95,7 @@
         {literal}
             <style>
                 select, input { text-align: center; }
+                .alert.alert-danger{display:none;}
             </style>
         {/literal}
         <div id="error_novalidos" style='display:none;'></div>
@@ -1644,6 +1645,7 @@
                     }
                     else{
                         $('#error_novalidos').show();
+                        $('#confirm_validos').hide();
                         $('#error_novalidos').html('No se realizo el reenvio del codigo por favor comunicate con nosotros.');
                     }
                 }

@@ -29,10 +29,7 @@
     T&oacute;mate un minuto para revisar y completar la informaci&oacute;n de tu cuenta. Una vez que hayas revisado tus datos, tu cuenta estar&aacute; lista para usar.
 </p>
 
-{* ERRORS *}
-{if $errorsform}
-    {include file="$tpl_dir./errors.tpl"}
-{/if}
+{include file="$tpl_dir./errors.tpl"}
 
 {* SEND SMS *}
 {if $sendSMS}
