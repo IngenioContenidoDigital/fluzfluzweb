@@ -173,11 +173,11 @@ class AuthController extends AuthControllerCore
             $this->processSubmitAccount();
         }
         if (Tools::isSubmit('SubmitLogin')) {
-            $this->processSubmitLogin($validate = 1);
+            $this->processSubmitLogin();
         }
     }
     
-    protected function processSubmitLogin($validate)
+    protected function processSubmitLogin()
     {
         Hook::exec('actionBeforeAuthentication');
         $passwd = trim(Tools::getValue('passwd'));
@@ -199,11 +199,11 @@ class AuthController extends AuthControllerCore
             $customer = new Customer();
             $authentication = $customer->getByEmail(trim($email), trim($passwd));
             if (isset($authentication->active) && !$authentication->active) {
-                if($validate == 1){
+                /*if($validate == 1){
                     $this->errors[] = Tools::displayError('Hemos enviado un correo para verificar tu cuenta.');
-                }else{
+                }else{*/
                     $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
-                }
+                //}
             } elseif (!$authentication || !$customer->id) {
                 $this->errors[] = Tools::displayError('Authentication failed.');
             /* VALIDACION COMPRA DE LICENCIA COMPLETA
@@ -273,11 +273,27 @@ class AuthController extends AuthControllerCore
         
         if($login_guest==2)
         {
+            
             $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue('code_sponsor'));
             $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($id_sponsor);
             $verified_reward = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'rewards_distribute WHERE method_add = "'.Tools::getValue('code_sponsor').'"');
             $totals = RewardsModel::getAllTotalsByCustomer((int)$verified_reward[0]['id_customer']);
             $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
+            
+            // Validate exist username
+            if ( Customer::usernameExists( Tools::getValue("username") ) ) {
+                $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
+            }
+
+            // Validate dni
+            if ( Customer::dniExists( Tools::getValue("gover"),Tools::getValue('email') ) ) {
+                $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
+            }
+
+            //validate existe phone mobile
+            if ( Customer::phoneExists(Tools::getValue('phone_mobile')) ) {
+                $this->errors[] = Tools::displayError('El numero de telefono ya se encuentra en uso.');
+            }
             
             if ( Tools::getValue('code_sponsor') == "" || empty($id_sponsor)) {
                 $this->errors[] = Tools::displayError('Codigo de Patrocino Incorrecto o No Existe. Por Favor valida tu Codigo.', false);
@@ -404,7 +420,7 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->lastname = $customer->lastname;
                                 $sponsorship->email = $customer->email;
                                 $sponsorship->channel = 1;
-                                $send = "";
+                                //$send = "";
                                 if ($sponsorship->save()) {
 
                                     $this->sendConfirmationMail($customer);
@@ -417,10 +433,20 @@ class AuthController extends AuthControllerCore
                                     }
                                 
                                 $this->create_account = true;
-                                $this->context->smarty->assign('email_create', 1);
+                                //$this->context->smarty->assign('email_create', 1);
+                                $sendSMS = false;
+                                while ( !$sendSMS ) {
+                                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                                }
 
+                                if ( $sendSMS ) {
+                                    $this->context->smarty->assign('id_customer', $customer->id);
+                                    $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                    $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                    $this->context->smarty->assign('sendSMS', true);
+                                }
                                 $this->updateContext($customer);
-                                $this->processSubmitLogin($validate = 1);    
+                                //$this->processSubmitLogin($validate = 1);    
 
                         } else {
                             $this->errors[] = 'no sponsor';
@@ -468,10 +494,23 @@ class AuthController extends AuthControllerCore
                                     
                                     }
                                     $this->create_account = true;
-                                    $this->context->smarty->assign('email_create', 1);
+                                    //$this->context->smarty->assign('email_create', 1);
+                                    
+                                    $sendSMS = false;
+                                    while ( !$sendSMS ) {
+                                        $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                                    }
+
+                                    if ( $sendSMS ) {
+                                        $this->context->smarty->assign('id_customer', $customer->id);
+                                        $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                        $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                        $this->context->smarty->assign('sendSMS', true);
+                                    }
                                     
                                     $this->updateContext($customer);
-                                    $this->processSubmitLogin($validate = 1);
+                                    //Tools::redirect('index.php?controller=authentication');
+                                    //$this->processSubmitLogin($validate = 1);
                                     //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : "my-account"));
                             }
                             else 
@@ -500,13 +539,12 @@ class AuthController extends AuthControllerCore
                         $reward_sponsor->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                         $reward_sponsor->save();
                     }
-                    
                 }
                 
                 else{
                     $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                 }    
-                
+                //Hook::exec('actionBeforeSubmitAccount');
             }
         else
             {
@@ -534,7 +572,7 @@ class AuthController extends AuthControllerCore
             }
 
             $this->create_account = true;
-            $this->context->smarty->assign('email_create', 1);
+            //$this->context->smarty->assign('email_create', 1);
 
             // New Guest customer
             if (!Tools::getValue('is_new_customer', 1) && !Configuration::get('PS_GUEST_CHECKOUT_ENABLED')) {
@@ -637,22 +675,28 @@ class AuthController extends AuthControllerCore
                     if ( Customer::usernameExists( Tools::getValue("username") ) ) {
                         $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
                     }
-
+                    
                     // Validate dni
                     if ( Customer::dniExists( Tools::getValue("gover"),Tools::getValue('email') ) ) {
                         $this->errors[] = Tools::displayError('El numero de identificacion ya se encuentra en uso.');
+                    }
+                    
+                    //validate existe phone mobile
+                    if ( Customer::phoneExists(Tools::getValue('phone_mobile')) ) {
+                        $this->errors[] = Tools::displayError('El numero de telefono ya se encuentra en uso.');
                     }
 
                     if (!count($this->errors)) {
 
                         $customerLoaded = false;
                         $customExists = Customer::customerExists( Tools::getValue('email') );
-
+                        
                         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                         $customer->warning_kick_out = 0;
                         $customer->method_add = 'Web';
 
                         if ( $customExists ) {
+                            
                             $idCustom = Customer::getCustomersByEmail( Tools::getValue('email') );
                             $customer = new Customer($idCustom[0]['id_customer']);
                             $customer->username = Tools::getValue("username");
@@ -667,11 +711,24 @@ class AuthController extends AuthControllerCore
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                             $customer->method_add = 'Web';
+                            
+                            $sendSMS = false;
+                            while ( !$sendSMS ) {
+                                $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                            }
+
+                            if ( $sendSMS ) {
+                                $this->context->smarty->assign('id_customer', $customer->id);
+                                $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                $this->context->smarty->assign('sendSMS', true);
+                            }
+                            
                             $customer->update();
                             $customerLoaded = true;
                             
                         } else {
-                            $customerLoaded = $customer->add();
+                            $customerLoaded = $customer->save();
                             $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
@@ -690,12 +747,25 @@ class AuthController extends AuthControllerCore
                                 
                             }
                         }
-
+                        
                         if ( $customerLoaded ) {
-                            if (!$customer->is_guest) {
+                            /*if (!$customer->is_guest) {
                                 if (!$this->sendConfirmationMail($customer)) {
+                                    die('entra aqui 1');
                                     $this->errors[] = Tools::displayError('The email cannot be sent.');
                                 }
+                            }*/
+                            
+                            $sendSMS = false;
+                            while ( !$sendSMS ) {
+                                $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                            }
+
+                            if ( $sendSMS ) {
+                                $this->context->smarty->assign('id_customer', $customer->id);
+                                $this->context->smarty->assign('codesponsor', $code_sponsor);
+                                $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                $this->context->smarty->assign('sendSMS', true);
                             }
                             $this->updateContext($customer);
 
@@ -783,8 +853,8 @@ class AuthController extends AuthControllerCore
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                                     
-                                    $this->sendNotificationSponsor($customer->id);
-                                    Tools::redirect($this->context->link->getPageLink('my-account', true));
+                                    //$this->sendNotificationSponsor($customer->id);
+                                    //Tools::redirect($this->context->link->getPageLink('my-account', true));
                                 }
 
                                 /*$customer = new Customer($cart->id_customer);
@@ -836,9 +906,12 @@ class AuthController extends AuthControllerCore
                             }
                             // else : redirection to the account
                             else {
-                                Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
+                                $this->sendConfirmationMail($customer);
+                                $this->processSubmitLogin();
+                                //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
-                            $this->processSubmitLogin($validate = 1);
+                            
+                            //$this->processSubmitLogin($validate = 1);
                         } else {
                             $this->errors[] = Tools::displayError('An error occurred while creating your account.');
                         }
@@ -846,7 +919,6 @@ class AuthController extends AuthControllerCore
                     }
 
                 }
-
             } 
             else {
                 // if registration type is in one step, we save the address

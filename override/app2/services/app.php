@@ -444,7 +444,9 @@ class API extends REST {
       $this->response('', 202);
     }
     $model = new Model();
-    return $this->response(json_encode($model->sevedCreditCard($id_customer)),200);
+    $result['success'] = true;
+    $result['card'] = $model->sevedCreditCard($id_customer);
+    return $this->response(json_encode($result),200);
   }
 
   /**
@@ -580,7 +582,6 @@ class API extends REST {
       $lastname = $this->_request['last_name'];
       $email = $this->_request['email'];
       $phone = $this->_request['phone'];
-      error_log("\n\n esto es el phone: ".print_r($phone,true),3,"/tmp/error.log");
       $birthday = $this->_request['date'];
       $addres1 = $this->_request['address'];
       $city = $this->_request['city'];
@@ -787,7 +788,6 @@ class API extends REST {
     }
 
     $response = array('success' => $complete, 'error' => $error, 'message' => $message);
-    error_log("\n\n esto es el response: ".print_r($response,true),3,"/tmp/error.log");
     $this->response( $this->json($response) , 200 );
   }
     
@@ -1283,12 +1283,13 @@ class API extends REST {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
+    
     if (isset($this->_request['id_customer']) && !empty($this->_request['id_customer'])) {
       $id_customer = $this->_request['id_customer'];
       $model = new Model();
       $link = new Link();
       $countPurchases = 0;
-      if (isset($this->_request['id_manufacturer']) && !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != null) {
+      if ( !empty($this->_request['id_manufacturer']) && $this->_request['id_manufacturer'] != 'undefined' && $this->_request['id_manufacturer'] != 'null' ) {
         $id_manufacturer = $this->_request['id_manufacturer'];
         $bonus = $model->getVaultByManufacturer($id_customer, $id_manufacturer);
         $gift = $model->getVaultGiftByManufacturer($id_customer, $id_manufacturer);
@@ -1304,7 +1305,7 @@ class API extends REST {
         $purchases['total'] = $countPurchases;
         return $this->response(json_encode($purchases),200);
       }
-          
+      
       $purchases = $model->getVault($id_customer, $this->id_lang_default);
       foreach ($purchases['result'] as &$purchase){
         $purchase['total'] = round($purchase['total']);
@@ -1924,8 +1925,8 @@ class API extends REST {
                             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($updateNumberConfirm);
     $curl = curl_init();
-    
-    $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
+    $message_text= "Fluz Fluz te da la bienvenida!!! Tu codigo de verificacion es: ";
+    $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".urlencode($message_text.$numberConfirm)."&longMessage=true";
     $send_sms = null;
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
@@ -2343,9 +2344,9 @@ class API extends REST {
       $date['date_to_display'] = $meses[ ((int)substr($date['date'], 0, 2))-1 ]." de ".substr($date['date'], 3, 7);
       foreach ($orders as &$order){
         if ( $date['date'] == date('m-Y', strtotime($order['date'])) ) {
-          $order[total_order] = $this->formatPrice($order[total_paid] + $order[total_discounts]);
-          $order[total_discounts] = $this->formatPrice($order[total_discounts]);
-          $order[total_paid] =  $this->formatPrice($order[total_paid]);
+          $order['total_order'] = $this->formatPrice($order['total_paid'] + $order['total_discounts']);
+          $order['total_discounts'] = $this->formatPrice($order['total_discounts']);
+          $order['total_paid'] =  $this->formatPrice($order['total_paid']);
           $dates[$key]['orders'][] = $order;
         }
       }

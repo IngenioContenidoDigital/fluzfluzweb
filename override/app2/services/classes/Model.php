@@ -2020,7 +2020,7 @@ return $responseObj;
   }
   
   public function getVault($id_customer, $id_lang){
-    $result = MyAccountController::getProductsByManufacturer($id_customer, $id_lang);
+    $result = MyAccountController::getProductsByManufacturer( $id_customer, $id_lang);
     return array('result' => $result);
   }
   
@@ -2545,7 +2545,6 @@ return $responseObj;
 
     curl_close($curl);
 
-    error_log("\n\n\n\n Esto es lo que retorna el model getObjectBitPay: ".print_r($response, true),3,"/tmp/error.log");
     return $response;
   }
   
