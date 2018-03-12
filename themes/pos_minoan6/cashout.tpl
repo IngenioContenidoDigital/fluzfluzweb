@@ -346,9 +346,9 @@
                         <div class='col-lg-10'>
                             <input type="radio" id="banco" name="banco" value="0" checked="checked"> Pago en Efectivo
                         </div>
-                        <div class='col-lg-10'>
+                        <!--<div class='col-lg-10'>
                             <input type="radio" id="bitcoin" name="banco" value="1"> Pago Moneda Virtual
-                        </div>    
+                        </div>-->    
                     </div>
                     <div class="row" id="select_bank_account">    
                         <div class="col-lg-4 col-md-6 col-sm-6 style-bank" id="name_paid">

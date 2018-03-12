@@ -191,6 +191,7 @@
                     <li><a href="{$link->getPageLink('business', true)|escape:'html':'UTF-8'}" title="{l s='Business'}"><img src="{$img_dir}icon/network.png" class="imgSponsor" /><span class="spanSponsor">{l s='Panel de la Empresa'}</span></a></li>
                 {/if}
             {/foreach}    
+            <li><a href="{$link->getPageLink('calculatorfluz', true)|escape:'html':'UTF-8'}" title="{l s='Calculadora Fluz Fluz'}"><img src="{$img_dir}icon/rewards.png" class="imgSponsor" style="padding:0;"/><span class="spanSponsor">{l s='Calculadora Fluz Fluz'}</span></a></li>
             <li><a href="{$link->getPageLink('index', true, NULL, "mylogout")|escape:'html'}" title="{l s='Sign out'}"><img src="{$img_dir}icon/signOut.png" class="imgSponsor" style="padding:0;"/><span class="spanSponsor">{l s='Sign out'}</span></a></li>
         </ul>
     </div>
