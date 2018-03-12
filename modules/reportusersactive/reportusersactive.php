@@ -26,12 +26,6 @@ class reportusersactive extends ModuleGrid
                 'align' => 'center'
             ),
             array(
-                'id' => 'gender',
-                'header' => $this->l('Genero'),
-                'dataIndex' => 'gender',
-                'align' => 'center'
-            ),
-            array(
                 'id' => 'name_complete',
                 'header' => $this->l('Nombre'),
                 'dataIndex' => 'name_complete',
@@ -41,6 +35,12 @@ class reportusersactive extends ModuleGrid
                 'id' => 'email',
                 'header' => $this->l('Email'),
                 'dataIndex' => 'email',
+                'align' => 'center'
+            ),
+            array(
+                'id' => 'date_add',
+                'header' => $this->l('Inscripcion'),
+                'dataIndex' => 'date_add',
                 'align' => 'center'
             ),
             array(
@@ -63,13 +63,13 @@ class reportusersactive extends ModuleGrid
             ),
             array(
                 'id' => 'phone',
-                'header' => $this->l('Telefono'),
+                'header' => $this->l('Telefono 1'),
                 'dataIndex' => 'phone',
                 'align' => 'center'
             ),
             array(
                 'id' => 'phone_mobile',
-                'header' => $this->l('Telefono Movil'),
+                'header' => $this->l('Telefono 2'),
                 'dataIndex' => 'phone_mobile',
                 'align' => 'center'
             ),
@@ -88,9 +88,9 @@ class reportusersactive extends ModuleGrid
     public function getData()
     {
         $date_between = $this->getDate();
+
         $this->query = "SELECT
                             c.id_customer,
-                            gl.name gender,
                             CONCAT(c.firstname,' ',c.lastname) name_complete,
                             c.email,
                             (SELECT COUNT(o.id_order)
@@ -99,17 +99,18 @@ class reportusersactive extends ModuleGrid
                             AND o.current_state = 2) ordenes,
                             a.city,
                             IFNULL((SELECT SUM(credits)
-                            FROM ps_rewards
+                            FROM "._DB_PREFIX_."rewards
                             WHERE id_customer = c.id_customer
                             AND id_reward_state = 2),0) fluz,
                             a.phone,
-                            a.phone_mobile
+                            a.phone_mobile,
+                            c.date_add
                         FROM "._DB_PREFIX_."customer c
                         INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer )
                         INNER JOIN "._DB_PREFIX_."address a ON ( c.id_customer = a.id_customer )
-                        LEFT JOIN "._DB_PREFIX_."gender_lang gl ON ( c.id_gender = gl.id_gender AND gl.id_lang = 1 )
                         WHERE c.active = 1
                         AND c.kick_out = 0
+                        AND c.date_add BETWEEN ".$date_between."
                         GROUP BY c.id_customer";
 
         $list = Db::getInstance()->executeS($this->query);
