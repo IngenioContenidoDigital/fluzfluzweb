@@ -593,7 +593,7 @@ class Order extends OrderCore
                         CONCAT(c.firstname,' ',c.lastname) cliente,
                         c.username,
                         pp.orderIdPayu AS id_payu,
-                        pp.extras AS state_payu,
+                        pr.message AS state_payu,
                         ob.id_payment,
                         c.email,
                         osl.name estado,
@@ -618,6 +618,7 @@ class Order extends OrderCore
                 LEFT JOIN "._DB_PREFIX_."rewards_product rp ON ( od.product_id = rp.id_product )
                 LEFT JOIN "._DB_PREFIX_."report_orders ro ON ( o.id_order = ro.orden )
                 LEFT JOIN "._DB_PREFIX_."pagos_payu pp ON ( pp.id_cart = o.id_cart )    
+                LEFT JOIN "._DB_PREFIX_."log_payu_response pr ON ( pr.orderIdPayu = pp.orderIdPayu )    
                 LEFT JOIN "._DB_PREFIX_."product_supplier ps ON ( od.product_id = ps.id_product )
                 LEFT JOIN "._DB_PREFIX_."order_bitcoin ob ON ( o.id_order = ob.id_order )    
                 WHERE ro.orden IS NULL
