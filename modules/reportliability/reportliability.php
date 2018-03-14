@@ -127,7 +127,7 @@ class reportliability extends ModuleGrid
                 'dataIndex' => 'fluz_spent',
                 'align' => 'center'
             ),
-            array(
+            /*array(
                 'id' => 'fluz_last_month_COP',
                 'header' => $this->l('Fluz Last Month COP'),
                 'dataIndex' => 'fluz_last_month_COP',
@@ -138,7 +138,7 @@ class reportliability extends ModuleGrid
                 'header' => $this->l('Fluz Last Month'),
                 'dataIndex' => 'fluz_last_month',
                 'align' => 'center'
-            ),
+            ),*/
             array(
                 'id' => 'fluz_current_COP',
                 'header' => $this->l('Fluz Current COP'),
@@ -177,22 +177,22 @@ class reportliability extends ModuleGrid
                             c.lastname,
                             c.email,
                             c.dni,
-                            IFNULL(fluz_granted*".$rewards_value.",0) AS fluz_granted_COP,
-                            IFNULL(fluz_granted,0) AS fluz_granted,
-                            IFNULL(fluz_sponsorship*".$rewards_value.",0) AS fluz_sponsorship_COP, 
-                            IFNULL(fluz_sponsorship,0) AS fluz_sponsorship,
-                            IFNULL(transfer_in*".$rewards_value.",0) AS transfer_in_COP,
-                            IFNULL(transfer_in,0) AS transfer_in,
-                            IFNULL(transfer_out*".$rewards_value.",0) AS transfer_out_COP,
-                            IFNULL(transfer_out,0) AS transfer_out,
-                            IFNULL(cash_out_fluz*".$rewards_value.",0) AS cash_out_fluz_COP,
-                            IFNULL(cash_out_fluz,0) AS cash_out_fluz,
-                            IFNULL(fluz_spent*".$rewards_value.",0) AS fluz_spent_COP,
-                            IFNULL(fluz_spent,0) AS fluz_spent,
-                            IFNULL(fluz_current*".$rewards_value.",0) AS fluz_current_COP,
-                            IFNULL(fluz_current,0) AS fluz_current,
-                            IFNULL(fluz_last_month*".$rewards_value.",0) AS fluz_last_month_COP,
-                            IFNULL(fluz_last_month,0) AS fluz_last_month
+                            ROUND(IFNULL(fluz_granted*".$rewards_value.",0)) AS fluz_granted_COP,
+                            ROUND(IFNULL(fluz_granted,0)) AS fluz_granted,
+                            ROUND(IFNULL(fluz_sponsorship*".$rewards_value.",0)) AS fluz_sponsorship_COP, 
+                            ROUND(IFNULL(fluz_sponsorship,0)) AS fluz_sponsorship,
+                            ROUND(IFNULL(transfer_in*".$rewards_value.",0)) AS transfer_in_COP,
+                            ROUND(IFNULL(transfer_in,0)) AS transfer_in,
+                            ROUND(IFNULL(transfer_out*".$rewards_value.",0)) AS transfer_out_COP,
+                            ROUND(IFNULL(transfer_out,0)) AS transfer_out,
+                            ROUND(IFNULL(cash_out_fluz*".$rewards_value.",0)) AS cash_out_fluz_COP,
+                            ROUND(IFNULL(cash_out_fluz,0)) AS cash_out_fluz,
+                            ROUND(IFNULL(fluz_spent*".$rewards_value.",0)) AS fluz_spent_COP,
+                            ROUND(IFNULL(fluz_spent,0)) AS fluz_spent,
+                            ROUND(IFNULL(fluz_current*".$rewards_value.",0)) AS fluz_current_COP,
+                            ROUND(IFNULL(fluz_current,0)) AS fluz_current,
+                            ROUND(IFNULL(fluz_last_month*".$rewards_value.",0)) AS fluz_last_month_COP,
+                            ROUND(IFNULL(fluz_last_month,0)) AS fluz_last_month
                         FROM ps_customer AS c
                         LEFT JOIN (
                             SELECT r.id_customer, SUM(r.credits) AS fluz_granted
