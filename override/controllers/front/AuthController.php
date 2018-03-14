@@ -404,7 +404,8 @@ class AuthController extends AuthControllerCore
                 $address->add();
 
                 if(empty($this->errors)){
-
+                $this->processCustomerNewsletter($customer);
+                
                         if ($sql_count_customer < 2)
                         {
                             $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
@@ -1098,7 +1099,32 @@ class AuthController extends AuthControllerCore
             }
         }
     }
+    
+    protected function processCustomerNewsletter(&$customer)
+    {
+        $blocknewsletter = Module::isInstalled('blocknewsletter') && $module_newsletter = Module::getInstanceByName('blocknewsletter');
+        if ($blocknewsletter && $module_newsletter->active && !Tools::getValue('newsletter')) {
+            require_once _PS_MODULE_DIR_.'blocknewsletter/blocknewsletter.php';
+            if (is_callable(array($module_newsletter, 'isNewsletterRegistered')) && $module_newsletter->isNewsletterRegistered(Tools::getValue('email')) == Blocknewsletter::GUEST_REGISTERED) {
+                /* Force newsletter registration as customer as already registred as guest */
+                $_POST['newsletter'] = 1;
+            }
+        }
+
+        if (Tools::getValue('newsletter')) {
+            $customer->newsletter = 1;
+            $customer->ip_registration_newsletter = pSQL(Tools::getRemoteAddr());
+            $customer->newsletter_date_add = pSQL(date('Y-m-d H:i:s'));
+            $customer->update();
+            /** @var Blocknewsletter $module_newsletter */
+            if ($blocknewsletter && $module_newsletter->active) {
+                $module_newsletter->confirmSubscription(Tools::getValue('email'));
+            }
+        }
+    }
+    
     protected function sendConfirmationMail(Customer $customer)
+            
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
         

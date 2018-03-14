@@ -1213,7 +1213,7 @@
                                     <br/>
                                     {if isset($newsletter) && $newsletter}
                                             <div class="col-lg-12 col-md-12 checkbox">
-                                                    <input type="checkbox" name="newsletter" id="newsletter" value="1" {if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1} checked="checked"{/if} />
+                                                    <input type="checkbox" name="newsletter" id="newsletter" value="1" {*if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1*} checked="checked"{*/if*} />
                                                     <label for="newsletter">Reg&iacute;strate en nuestro bolet&iacute;n</label>
                                                     {if array_key_exists('newsletter', $field_required)}
                                                             <sup> *</sup>
