@@ -116,6 +116,18 @@ class reportliability extends ModuleGrid
                 'align' => 'center'
             ),
             array(
+                'id' => 'fluz_spent_COP',
+                'header' => $this->l('Fluz Spent COP'),
+                'dataIndex' => 'fluz_spent_COP',
+                'align' => 'center'
+            ),
+            array(
+                'id' => 'fluz_spent',
+                'header' => $this->l('Fluz Spent'),
+                'dataIndex' => 'fluz_spent',
+                'align' => 'center'
+            ),
+            /*array(
                 'id' => 'fluz_last_month_COP',
                 'header' => $this->l('Fluz Last Month COP'),
                 'dataIndex' => 'fluz_last_month_COP',
@@ -126,17 +138,17 @@ class reportliability extends ModuleGrid
                 'header' => $this->l('Fluz Last Month'),
                 'dataIndex' => 'fluz_last_month',
                 'align' => 'center'
-            ),
+            ),*/
             array(
-                'id' => 'fluz_spent_COP',
-                'header' => $this->l('Fluz Spent COP'),
-                'dataIndex' => 'fluz_spent_COP',
+                'id' => 'fluz_current_COP',
+                'header' => $this->l('Fluz Current COP'),
+                'dataIndex' => 'fluz_current_COP',
                 'align' => 'center'
             ),
             array(
-                'id' => 'fluz_spent',
-                'header' => $this->l('Fluz Spent'),
-                'dataIndex' => 'fluz_spent',
+                'id' => 'fluz_current',
+                'header' => $this->l('Fluz Current'),
+                'dataIndex' => 'fluz_current',
                 'align' => 'center'
             ),
         );
@@ -165,20 +177,22 @@ class reportliability extends ModuleGrid
                             c.lastname,
                             c.email,
                             c.dni,
-                            IFNULL(fluz_granted*".$rewards_value.",0) AS fluz_granted_COP,
-                            IFNULL(fluz_granted,0) AS fluz_granted,
-                            IFNULL(fluz_sponsorship*".$rewards_value.",0) AS fluz_sponsorship_COP, 
-                            IFNULL(fluz_sponsorship,0) AS fluz_sponsorship,
-                            IFNULL(transfer_in*".$rewards_value.",0) AS transfer_in_COP,
-                            IFNULL(transfer_in,0) AS transfer_in,
-                            IFNULL(transfer_out*".$rewards_value.",0) AS transfer_out_COP,
-                            IFNULL(transfer_out,0) AS transfer_out,
-                            IFNULL(cash_out_fluz*".$rewards_value.",0) AS cash_out_fluz_COP,
-                            IFNULL(cash_out_fluz,0) AS cash_out_fluz,
-                            IFNULL(fluz_last_month*".$rewards_value.",0) AS fluz_last_month_COP,
-                            IFNULL(fluz_last_month,0) AS fluz_last_month,
-                            IFNULL(fluz_spent*".$rewards_value.",0) AS fluz_spent_COP,
-                            IFNULL(fluz_spent,0) AS fluz_spent
+                            ROUND(IFNULL(fluz_granted*".$rewards_value.",0)) AS fluz_granted_COP,
+                            ROUND(IFNULL(fluz_granted,0)) AS fluz_granted,
+                            ROUND(IFNULL(fluz_sponsorship*".$rewards_value.",0)) AS fluz_sponsorship_COP, 
+                            ROUND(IFNULL(fluz_sponsorship,0)) AS fluz_sponsorship,
+                            ROUND(IFNULL(transfer_in*".$rewards_value.",0)) AS transfer_in_COP,
+                            ROUND(IFNULL(transfer_in,0)) AS transfer_in,
+                            ROUND(IFNULL(transfer_out*".$rewards_value.",0)) AS transfer_out_COP,
+                            ROUND(IFNULL(transfer_out,0)) AS transfer_out,
+                            ROUND(IFNULL(cash_out_fluz*".$rewards_value.",0)) AS cash_out_fluz_COP,
+                            ROUND(IFNULL(cash_out_fluz,0)) AS cash_out_fluz,
+                            ROUND(IFNULL(fluz_spent*".$rewards_value.",0)) AS fluz_spent_COP,
+                            ROUND(IFNULL(fluz_spent,0)) AS fluz_spent,
+                            ROUND(IFNULL(fluz_current*".$rewards_value.",0)) AS fluz_current_COP,
+                            ROUND(IFNULL(fluz_current,0)) AS fluz_current,
+                            ROUND(IFNULL(fluz_last_month*".$rewards_value.",0)) AS fluz_last_month_COP,
+                            ROUND(IFNULL(fluz_last_month,0)) AS fluz_last_month
                         FROM ps_customer AS c
                         LEFT JOIN (
                             SELECT r.id_customer, SUM(r.credits) AS fluz_granted
@@ -189,7 +203,7 @@ class reportliability extends ModuleGrid
                         LEFT JOIN (
                             SELECT r1.id_customer, SUM(r1.credits) AS fluz_sponsorship 
                             FROM ps_rewards AS r1 
-                            WHERE r1.id_reward_state=2 AND r1.`plugin`='sponsorship'  AND r1.date_add BETWEEN ".$date_between." AND r1.id_transfer_fluz IS NULL AND r1.id_cashout IS NULL
+                            WHERE r1.credits>=0 AND r1.id_reward_state=2 AND r1.`plugin`='sponsorship' AND r1.date_add BETWEEN ".$date_between." AND r1.id_transfer_fluz IS NULL AND r1.id_cashout IS NULL
                             GROUP BY r1.id_customer
                         ) AS fluz_network ON fluz_network.id_customer=c.id_customer 
                         LEFT JOIN (
@@ -199,13 +213,13 @@ class reportliability extends ModuleGrid
                             GROUP BY r2.id_customer
                         ) AS transfer_in ON transfer_in.id_customer=c.id_customer 
                         LEFT JOIN (
-                            SELECT r5.id_customer, SUM(r5.credits) AS transfer_out
+                            SELECT r5.id_customer, ABS(SUM(r5.credits)) AS transfer_out
                             FROM ps_rewards AS r5 
                             WHERE r5.credits<0 AND r5.id_reward_state=2 AND r5.date_add BETWEEN ".$date_between." AND r5.id_transfer_fluz > 0
                             GROUP BY r5.id_customer
                         ) AS transfer_out ON transfer_out.id_customer=c.id_customer 
                         LEFT JOIN (
-                            SELECT r6.id_customer, SUM(r6.credits) AS cash_out_fluz
+                            SELECT r6.id_customer, ABS(SUM(r6.credits)) AS cash_out_fluz
                             FROM ps_rewards AS r6 
                             WHERE r6.id_reward_state=2 AND r6.id_cashout IS NOT NULL AND r6.date_upd BETWEEN ".$date_between." 
                             GROUP BY r6.id_customer
@@ -213,11 +227,17 @@ class reportliability extends ModuleGrid
                         LEFT JOIN (
                             SELECT r3.id_customer, SUM(r3.credits) AS fluz_last_month
                             FROM ps_rewards AS r3 
-                            WHERE r3.id_reward_state=2 AND r3.date_add <= DATE_ADD(".$date_last_month.", INTERVAL -1 MONTH)
+                            WHERE r3.id_reward_state=2 AND r3.date_add BETWEEN DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'), INTERVAL -1 MONTH) AND DATE_FORMAT(NOW(),'%Y-%m-%d')
                             GROUP BY r3.id_customer
                         ) AS last_month ON last_month.id_customer=c.id_customer
                         LEFT JOIN (
-                            SELECT r4.id_customer, SUM(r4.credits) AS fluz_spent
+                            SELECT r7.id_customer, SUM(r7.credits) AS fluz_current
+                            FROM ps_rewards AS r7
+                            WHERE r7.id_reward_state=2
+                            GROUP BY r7.id_customer
+                        ) AS fluz_current ON fluz_current.id_customer=c.id_customer
+                        LEFT JOIN (
+                            SELECT r4.id_customer, ABS(SUM(r4.credits)) AS fluz_spent
                             FROM ps_rewards AS r4
                             WHERE r4.credits<0 AND r4.id_reward_state=2 AND r4.`plugin`='loyalty' AND r4.date_add BETWEEN ".$date_between." AND r4.id_transfer_fluz IS NULL AND r4.id_cashout IS NULL 
                             GROUP BY r4.id_customer

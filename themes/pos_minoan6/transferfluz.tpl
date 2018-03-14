@@ -245,6 +245,7 @@
             $('#progress-bar').show();
             $('#progress-bar').css('margin-top','30px');
             $('.row-btn-modal').css('margin-top','70px');
+            $('#submit_modal_fluz').prop('disabled', true);
             $.ajax({
                 url : urlTransferController,
                 type : 'POST',
@@ -276,22 +277,21 @@
            var name_sponsor = $('#sponsor_name').val();
            var pto_parcial = $('#pt_parciales').val();
            var id_sponsor = $('#sponsor_identification').val();
+           
            if(name_sponsor == ''){
                $('#error_novalidos').show();
                $('#error_novalidos').html('El campo fluzzer destino no puede ser vacio. Por favor verificar los datos.');
                $('#submitFluz').removeClass('myfancybox');
-               //location.reload();
-               e.preventDefault();
+               location.reload();
            }
            if(pto_parcial== ''){
                $('#error_novalidos').show();
                $('#error_novalidos').html('El campo Cantidad de fluz a transferir no puede ser vacio. Por favor verificar los datos.');
                $('#submitFluz').removeClass('myfancybox');
-               //location.reload();
-               e.preventDefault();
+               location.reload();
            }
            
-           $.ajax({
+           /*$.ajax({
                 url : urlTransferController,
                 type : 'POST',
                 data : 'action=transferfluz&point_part='+pto_parcial+'&sponsor_identification='+id_sponsor,
@@ -301,7 +301,7 @@
                         $('#error_novalidos').html('No es correcto el valor ingresado para redimir. Por Favor verificar valor.');
                     }
                 }
-            });
+            });*/
         });
     </script>
 {/literal}
