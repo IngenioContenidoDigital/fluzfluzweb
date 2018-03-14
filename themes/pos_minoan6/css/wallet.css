@@ -158,6 +158,8 @@ div.radio { margin-right: 10px; }
     #sortby>li { width: 50%; }
     .cardview-info>div { width: 100%; text-align: center; }
     .cardview-info>div>.img-manufacturer { width: 50%; margin-bottom: 10px; }
+    .cardview-price>div:last-child>.cardinfo { color: #000; margin-bottom: 0px !important; }
+    .cardview-price>div:last-child>.price { font-size: 16px !important; }
 }
 
 @media (max-width:280px) {
@@ -168,5 +170,6 @@ div.radio { margin-right: 10px; }
     #btnupt-value { padding: 2px; }
     .cardviewupt-used>div { padding: 0; }
     .cardviewupt-used>div:first-child { text-align: left; }
-    .cardview-price>div:last-child>.price { font-size: 24px; }
+    .cardview-price>div:last-child>.cardinfo { color: #000; margin-bottom: 0px !important; }
+    .cardview-price>div:last-child>.price { font-size: 16px !important; }
 }

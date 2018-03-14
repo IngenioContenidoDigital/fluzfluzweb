@@ -572,7 +572,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
                     'disabled' =>  (bool)!Configuration::get('PS_CUSTOMER_NWSL'),
                     'hint' => $this->l('This customer will receive your newsletter via email.')
                 ),
-                array(
+                /*array(
                     'type' => 'switch',
                     'label' => $this->l('Opt-in'),
                     'name' => 'optin',
@@ -593,7 +593,7 @@ class AdminCustomersController extends AdminCustomersControllerCore
                     ),
                     'disabled' =>  (bool)!Configuration::get('PS_CUSTOMER_OPTIN'),
                     'hint' => $this->l('This customer will receive your ads via email.')
-                ),
+                ),*/
                 $field_kick_out,
                 $img_business,
                 array(

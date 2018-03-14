@@ -92,7 +92,6 @@ class businessController extends FrontController {
     public function postProcess() {
 
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
-        array_shift($tree);
         
         if(Tools::isSubmit('export-excel')){
             
@@ -426,6 +425,7 @@ class businessController extends FrontController {
                         $error['sponsor'] = 'no sponsor';
                     }
                 } else {
+                    array_shift($tree);
                     $array_sponsor = array();
                     foreach ($tree as $network) {
                         $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
@@ -702,7 +702,8 @@ class businessController extends FrontController {
                         }
                     }
                     else {
-
+                        
+                        array_shift($tree);
                         $array_p['id'] = $customer->id;
                         array_push($tree, $array_p);
                         $array_sponsor = array();
@@ -1072,10 +1073,12 @@ class businessController extends FrontController {
                                 }
                             }
                             else {
+                                
+                                array_shift($tree);
                                 $array_p['id'] = $customer->id;
                                 array_push($tree, $array_p);
-
                                 $array_sponsor = array();
+                                
                                 foreach ($tree as $network) {
                                     $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
                                             FROM " . _DB_PREFIX_ . "customer c
