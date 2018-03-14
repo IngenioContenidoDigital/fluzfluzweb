@@ -180,14 +180,9 @@
                                     </button>
                                 </p>
                                 <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:right;padding-left:0px;'>
-                                    <button class="button btn btn-default button-medium-business">
-                                        <span>
-                                            <i class="icon-briefcase left" style='font-size: 20px;'></i>
-                                            <a href="{$link->getPageLink('authentication?back=business', true)|escape:'html':'UTF-8'}">
-                                                {l s='Empresas'}
-                                            </a>    
-                                        </span>
-                                    </button>
+                                    <a class="btn btn-default button-medium-business" href="{$link->getPageLink('authentication?back=business', true)|escape:'html':'UTF-8'}">
+                                       <i class="icon-briefcase left"> </i>{l s='Empresas'}
+                                    </a>    
                                 </p>
                             </div>
                             <!--<div class="col-lg-6" style="padding-right:0px; float: right;">
@@ -223,14 +218,9 @@
                         <div class="row">
                             <p>Si tienes un c&oacute;digo de Referido, Ingresa Aqu&iacute;</p>
                             <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:left;padding-left:0px;'>
-                                <button class="button btn btn-default button-medium-business">
-                                    <span>
-                                        <i class="icon-briefcase left" style='font-size: 20px;'></i>
-                                        <a href="{$link->getPageLink('authentication', true, false, 'create_account=2')|escape:'html':'UTF-8'}">
-                                            {l s='Registro Referidos'}
+                                        <a href="{$link->getPageLink('authentication', true, false, 'create_account=2')|escape:'html':'UTF-8'}" class="button-medium-business">
+                                            <i class="icon-briefcase left" style='font-size: 20px;'></i> {l s='Registro Referidos'}
                                         </a> 
-                                    </span>
-                                </button>
                             </p>
                         </div>
                         <div class="row">

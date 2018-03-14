@@ -31,6 +31,9 @@
 @media (max-width: 769px) {
     #content-social-networks { margin-right: 20px; }
 }
+@media (max-width: 2600px) and (min-width: 1451px) {
+    #content-social-networks { margin-right: 20px; }
+}
 
 .primary_block .pb-left-column img {width: 100%; height: auto; margin-top:7%;}
 
