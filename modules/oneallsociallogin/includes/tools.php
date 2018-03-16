@@ -117,7 +117,10 @@ class oneall_social_login_tools
         if (is_array($data) && !empty($data['user_token']) && !empty($data['identity_token']))
         {
             $password = Tools::passwdGen();
-
+            $call_prefix = Db::getInstance()->getValue("SELECT call_prefix
+                FROM "._DB_PREFIX_."country
+                WHERE id_country= ".$data['id_country']);
+            
             // Build customer fields.
             $customer = new Customer();
             $customer->firstname = $data['user_first_name'];
@@ -126,7 +129,7 @@ class oneall_social_login_tools
             $customer->birthday = $data['user_birthdate'];
             $customer->username = $data['user_username'];
             $customer->dni = $data['user_dni'];
-            $customer->phone = $data['user_phone'];
+            $customer->phone = $call_prefix.$data['user_phone'];
             $customer->active = 0;
             $customer->passwd = Tools::encrypt($data['user_dni']);
             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
@@ -308,7 +311,7 @@ class oneall_social_login_tools
                 
                 $vars = array(
                     '{username}' => $customer->username,
-                    '{password}' => $customer->dni,
+                    '{password}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id.'&sendSMS=1'),
                     '{firstname}' => $customer->firstname,
                     '{lastname}' => $customer->lastname,
                     '{dni}' => $customer->dni,
