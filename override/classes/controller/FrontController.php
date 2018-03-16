@@ -83,9 +83,21 @@ class FrontController extends FrontControllerCore
         if ($id_cart = (int)$this->recoverCart()) {
             $this->context->cookie->id_cart = (int)$id_cart;
         }
-
+        
+        $id_customer = Tools::getValue("id_customer");
+        $id_country = Tools::getValue("id_country");
+        
+        if($id_customer!=''){
+            $sendSMS = false;
+            while( !$sendSMS ) {
+                $sendSMS = Customer::confirmCustomerSMS($id_customer);
+            }
+            if ( $sendSMS ) {
+                Tools::redirect('index.php?controller=authentication&sendSMS='.$id_customer);
+            }
+        }
+        
         $variable= Tools::getValue("s");
-            
         if ($variable != ""){
             $this->_checkSponsorshipLink();
         }

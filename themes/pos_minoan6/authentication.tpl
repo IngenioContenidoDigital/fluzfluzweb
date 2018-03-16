@@ -100,6 +100,8 @@
         {/literal}
         <div id="error_novalidos" style='display:none;'></div>
         <div id="confirm_validos" style='display:none;'></div>
+        <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
+
         <div class="row block-form block-confirmsms">
             <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
             <br>
@@ -129,14 +131,25 @@
         <div style="display:none;" id="confirmCode" class="myfancybox">
             <div class="row block-successfulregistration row">
                     <br>
-                    Tu Registro Ha Sido Exitoso
+                    Tu Registro Ha Sido Exitoso. Por Favor Logueate con tu Usuario y Contrase&ntilde;a
                 <br><br><br>
                 <img src="{$img_dir}checked.png" />
                 <br><br><br><br>
                 <a id="clickOnload" href="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}">Continuar</a>
                 <br><br><br>
             </div>
-        </div>        
+        </div>   
+        {elseif $sendSMSconfirm}
+        <div class="row block-form block-confirmsms">
+            <br>
+            <label>Se ha enviado un correo electronico a tu direccion email</label>
+            <div class="row block-successfulregistration row">
+                <br>
+                    Activa Tu Cuenta desde tu correo.
+                <br><br><br>
+                <img src="{$img_dir}checked.png" />
+            </div>
+        </div>
         {else}        
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">
@@ -1534,6 +1547,7 @@
         margin-top: 35px !important;
         width: 127.5% !important;
         margin-left: -14% !important;
+        display:none;
        }
        
        div.account_creation {
@@ -1644,7 +1658,8 @@
         });
         
         $('#clickOnload').click(function(){
-            location.reload();
+            var url = document.getElementById("url_fluz").innerHTML;
+            window.location.replace(""+url+"mi-cuenta");
         });
     </script>
 {/literal}

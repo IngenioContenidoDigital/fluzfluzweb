@@ -119,6 +119,30 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="required" for="oasl_id_country">Pais <sup>*</sup></label>
+                    <div style="max-width: 271px;" class="select-form">
+                    <select name="oasl_id_country" id="oasl_id_country" class="form-control" style="max-width: 100%;">
+                            <option value="">-</option>
+                            {foreach from=$countries item=v}
+                            <option value="{$v.id_country}"{if (isset($smarty.post.id_country) AND $smarty.post.id_country == $v.id_country) OR (!isset($smarty.post.id_country) && $sl_country == $v.id_country)} selected="selected"{/if}>{$v.name}</option>
+                            {/foreach}
+                    </select>
+                    </div>
+                </div>      
+                <div class="form-group">
+                    <label for="oasl_city">Ciudad <sup>*</sup></label>
+                    <select id="oasl_city" name="oasl_city" class="is_required form-control">
+                        <option value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
+                        <option value="Medellin">Medell&iacute;n</option>
+                        <option value="Cali">{l s="Cali"}</option>
+                        <option value="Barranquilla">{l s="Barranquilla"}</option>
+                        <option value="Bucaramanga">{l s="Bucaramanga"}</option>
+                        {foreach from=$cities item=city}
+                            <option value="{$city.ciudad}">{$city.ciudad}</option>
+                        {/foreach}
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="oasl_typedni">Tipo identificaci&oacute;n <sup>*</sup></label>
                     <select class="is_required form-control" id="oasl_typedni" name="oasl_typedni">
                         <option value="0" selected="selected">Cedula de Ciudadan&iacute;a</option>

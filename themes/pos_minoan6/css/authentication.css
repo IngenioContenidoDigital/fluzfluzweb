@@ -140,7 +140,7 @@ input { height: 38px !important;}
     color: #fff;
     font-weight: bold;
     text-align: center;
-    margin-top: 2px; padding: 5px;}
+    margin-top: 20px; padding: 5px;}
 
 #confirm_validos{    
     padding: 0;
@@ -148,7 +148,7 @@ input { height: 38px !important;}
     color: #fff;
     font-weight: bold;
     text-align: center;
-    margin-top: 2px; padding: 5px;}
+    margin-top: 20px; padding: 5px;}
 
 @media (max-width:990px){
     .first-inscription{display: block;}
