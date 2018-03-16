@@ -50,7 +50,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 		}
                 
                 $this->context->smarty->assign('cities', City::getCities());
-		
+		$this->context->smarty->assign('countries', Country::getCountries(1));
 		// Did an error occur?
 		$have_error = true;
 		
