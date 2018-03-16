@@ -116,19 +116,6 @@
                     <input type="text" class="is_required form-control" id="oasl_phone" name="oasl_phone" value="{if isset($smarty.post.oasl_phone)}{$smarty.post.oasl_phone|stripslashes}{elseif $oasl_populate == '1'}{$oasl_phone}{/if}" />
                 </div>
                 <div class="form-group">
-                    <label for="oasl_city">Ciudad <sup>*</sup></label>
-                    <select id="oasl_city" name="oasl_city" class="is_required form-control">
-                        <option value="Bogota, D.C.">Bogot&aacute;, D.C.</option>
-                        <option value="Medellin">Medell&iacute;n</option>
-                        <option value="Cali">{l s="Cali"}</option>
-                        <option value="Barranquilla">{l s="Barranquilla"}</option>
-                        <option value="Bucaramanga">{l s="Bucaramanga"}</option>
-                        {foreach from=$cities item=city}
-                            <option value="{$city.ciudad}">{$city.ciudad}</option>
-                        {/foreach}
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="required" for="oasl_id_country">Pais <sup>*</sup></label>
                     <div style="max-width: 271px;" class="select-form">
                     <select name="oasl_id_country" id="oasl_id_country" class="form-control" style="max-width: 100%;">
