@@ -55,7 +55,17 @@
             </div>
         </form>
     </div>
-
+{elseif $sendSMSconfirm}
+<div class="row block-form block-confirmsms">
+    <br>
+    <label>Se ha enviado un correo electronico a tu direccion email</label>
+    <div class="row block-successfulregistration row">
+        <br>
+            Activa Tu Cuenta desde tu correo.
+        <br><br><br>
+        <img src="{$img_dir}checked.png" />
+    </div>
+</div>
 {* COMPLETE REGISTRATION *}
 {elseif $successfulregistration}
     <div class="block-successfulregistration row">
