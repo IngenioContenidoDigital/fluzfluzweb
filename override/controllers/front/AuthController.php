@@ -90,9 +90,9 @@ class AuthController extends AuthControllerCore
                     'countries' => $countries
                 ));
         }
-        if (Tools::getValue('m')) {
+        if (Tools::getValue('id_customer')) {
             $this->context->smarty->assign('sendSMS',true);
-            $this->context->smarty->assign('id_customer',Tools::getValue('m'));
+            $this->context->smarty->assign('id_customer',Tools::getValue('id_customer'));
         }
         if (Tools::getValue('create_account')) {
             $this->context->smarty->assign('email_create', 1);

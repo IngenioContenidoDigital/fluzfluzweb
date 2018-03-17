@@ -63,10 +63,10 @@ class FrontController extends FrontControllerCore
         }
 
         // If account created with the 2 steps register process, remove 'account_created' from cookie
-        ////if (isset($this->context->cookie->account_created)) {
-            //$this->context->smarty->assign('account_created', 1);
+        if (isset($this->context->cookie->account_created)) {
+            $this->context->smarty->assign('account_created', 1);
             unset($this->context->cookie->account_created);
-        ////}
+        }
        // echo '<pre>';
         //print_r($this->context->cookie->account_created);
         //die();
@@ -87,7 +87,6 @@ class FrontController extends FrontControllerCore
         }
         
         $id_customer = Tools::getValue("m");
-        setcookie('sms',$id_customer);
         $variable= Tools::getValue("s");
         
         if ($variable != ""){
