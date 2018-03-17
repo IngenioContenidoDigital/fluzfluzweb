@@ -31,7 +31,7 @@ class FrontController extends FrontControllerCore
 {
     public function init()
     {
-        //setcookie('sms',$_GET['id_customer']);
+        setcookie('social',$_GET['id_customer']);
         /**
          * Globals are DEPRECATED as of version 1.5.0.1
          * Use the Context object to access objects instead.
@@ -105,8 +105,16 @@ class FrontController extends FrontControllerCore
             if ( $sendSMS ) {
                 $this->context->smarty->assign('sendSMS',true);
                 $this->context->smarty->assign('id_customer',$_COOKIE['sms']);
-                unset($_COOKIE['sms']);
-                setcookie('sms', '', time()+30,'/');
+            }
+        }
+        elseif(isset($_COOKIE['social'])){
+            $sendSMS = false;
+            while ( !$sendSMS ) {
+                $sendSMS = Customer::confirmCustomerSMS($id_customer);
+            }
+            if ( $sendSMS ) {
+                $this->context->smarty->assign('sendSMS',true);
+                $this->context->smarty->assign('id_customer',$_COOKIE['social']);
             }
         }
         /* Theme is missing */
