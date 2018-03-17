@@ -51,6 +51,7 @@ class AuthController extends AuthControllerCore
     
     public function initContent()
     {
+        setcookie('sms',$_GET['id_customer']);
         FrontController::initContent();
         $this->context->smarty->assign('genders', Gender::getGenders());
         $this->assignDate();
@@ -89,10 +90,6 @@ class AuthController extends AuthControllerCore
                     'sl_country' => (int)$this->id_country,
                     'countries' => $countries
                 ));
-        }
-        if (Tools::getValue('id_customer')) {
-            $this->context->smarty->assign('sendSMS',true);
-            $this->context->smarty->assign('id_customer',Tools::getValue('id_customer'));
         }
         if (Tools::getValue('create_account')) {
             $this->context->smarty->assign('email_create', 1);
