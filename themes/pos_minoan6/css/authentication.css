@@ -110,6 +110,9 @@ p + .required { font-weight: bold; }
 .block-banner > .img { text-align: center; }
 .block-banner > .img > img { width: 100%; }
 
+.block-successfulregistration2 { font-family: 'Open Sans'; text-align: center; font-weight: bold; font-size: 15px; margin-top: 0px; border: 1px solid #72C279; color: #72C279; background: #f7f7fb; padding: 15px 25px; }
+.block-successfulregistration2 > a { border: 1px solid #72C279; color: white; background: #72C279; padding: 13px 60px; }
+
 .block-successfulregistration { font-family: 'Open Sans'; text-align: center; font-weight: bold; font-size: 15px; margin-top: 60px; border: 1px solid #72C279; color: #72C279; background: #f7f7fb; padding: 15px 25px; }
 .block-successfulregistration > a { border: 1px solid #72C279; color: white; background: #72C279; padding: 13px 60px; }
 
