@@ -31,6 +31,7 @@ class FrontController extends FrontControllerCore
 {
     public function init()
     {
+        setcookie('sms',$_GET['id_customer']);
         /**
          * Globals are DEPRECATED as of version 1.5.0.1
          * Use the Context object to access objects instead.
@@ -43,7 +44,7 @@ class FrontController extends FrontControllerCore
         }
 
         self::$initialized = true;
-
+        
         parent::init();
 
         // If current URL use SSL, set it true (used a lot for module redirect)
@@ -86,7 +87,7 @@ class FrontController extends FrontControllerCore
             $this->context->cookie->id_cart = (int)$id_cart;
         }
         
-        $id_customer = Tools::getValue("m");
+        $id_customer = $_COOKIE['sms'];
         $variable= Tools::getValue("s");
         
         if ($variable != ""){

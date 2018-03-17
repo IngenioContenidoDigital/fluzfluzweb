@@ -51,7 +51,6 @@ class AuthController extends AuthControllerCore
     
     public function initContent()
     {
-        setcookie('sms',$_GET['id_customer']);
         FrontController::initContent();
         $this->context->smarty->assign('genders', Gender::getGenders());
         $this->assignDate();
