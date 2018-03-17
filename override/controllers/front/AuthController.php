@@ -1085,7 +1085,8 @@ class AuthController extends AuthControllerCore
             
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
-        
+        setcookie('sms',$customer->id);
+
         $vars = array(
                 '{username}' => $customer->username,
                 '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, '&id_customer='.(int)$customer->id.'&sendSMS=1'),                
