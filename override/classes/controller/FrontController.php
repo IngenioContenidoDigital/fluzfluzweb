@@ -109,7 +109,7 @@ class FrontController extends FrontControllerCore
         elseif(isset($_COOKIE['social'])){
             $sendSMS = false;
             while ( !$sendSMS ) {
-                $sendSMS = Customer::confirmCustomerSMS($_COOKIE['social']);
+                $sendSMS = Customer::confirmCustomerSMS(Tools::getValue('id_customer'));
             }
             if ( $sendSMS ) {
                 $this->context->smarty->assign('sendSMS',true);
