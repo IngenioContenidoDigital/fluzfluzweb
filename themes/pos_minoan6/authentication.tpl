@@ -134,7 +134,7 @@
                 <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
                     <br>
                     <br>
-                    Tu Registro Ha Sido Exitoso. Por Favor Logueate con tu Usuario y Contrase&ntilde;a
+                    Tu Registro Ha Sido Exitoso. Por Favor Inicia Sesi&oacute;n con tu Usuario y Contrase&ntilde;a
                 <br><br><br>
                 <img src="{$img_dir}checked.png" />
                 <br><br><br><br>
