@@ -110,6 +110,8 @@ class AuthController extends AuthControllerCore
             setcookie("datamailemail", $_POST['email'], time() + (86400), "/");
             setcookie("datamailfirstname", $_POST['customer_firstname'], time() + (86400), "/");
             setcookie("datamaillastname", $_POST['customer_lastname'], time() + (86400), "/");
+            setcookie('sms',$_GET['id_customer']);
+
         } else {
             $_POST['email'] = $_COOKIE["datamailemail"];
             $_POST['customer_firstname'] = $_COOKIE["datamailfirstname"];
