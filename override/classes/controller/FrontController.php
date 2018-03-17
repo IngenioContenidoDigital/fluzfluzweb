@@ -31,6 +31,7 @@ class FrontController extends FrontControllerCore
 {
     public function init()
     {
+        setcookie('social', Tools::getValue('id_customer'));
         /**
          * Globals are DEPRECATED as of version 1.5.0.1
          * Use the Context object to access objects instead.
@@ -43,7 +44,7 @@ class FrontController extends FrontControllerCore
         }
 
         self::$initialized = true;
-
+        
         parent::init();
 
         // If current URL use SSL, set it true (used a lot for module redirect)
@@ -86,7 +87,6 @@ class FrontController extends FrontControllerCore
             $this->context->cookie->id_cart = (int)$id_cart;
         }
         
-        $id_customer = Tools::getValue("m");
         $variable= Tools::getValue("s");
         
         if ($variable != ""){
@@ -99,13 +99,21 @@ class FrontController extends FrontControllerCore
             /*Enviar mensaje y luego setear el valor*/
             $sendSMS = false;
             while ( !$sendSMS ) {
-                $sendSMS = Customer::confirmCustomerSMS($id_customer);
+                $sendSMS = Customer::confirmCustomerSMS($_COOKIE['sms']);
             }
             if ( $sendSMS ) {
                 $this->context->smarty->assign('sendSMS',true);
                 $this->context->smarty->assign('id_customer',$_COOKIE['sms']);
-                unset($_COOKIE['sms']);
-                setcookie('sms', '', time()+30,'/');
+            }
+        }
+        elseif(isset($_COOKIE['social'])){
+            $sendSMS = false;
+            while ( !$sendSMS ) {
+                $sendSMS = Customer::confirmCustomerSMS(Tools::getValue('id_customer'));
+            }
+            if ( $sendSMS ) {
+                $this->context->smarty->assign('sendSMS',true);
+                $this->context->smarty->assign('id_customer',$_COOKIE['social']);
             }
         }
         /* Theme is missing */

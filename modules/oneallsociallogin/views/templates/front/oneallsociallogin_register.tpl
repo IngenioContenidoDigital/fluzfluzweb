@@ -85,7 +85,7 @@
         <br><br><br>
         <img src="{$img_dir}checked.png" />
         <br><br><br><br>
-        <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
+        <a id="clickOnload" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
         <br><br><br>
     </div>      
     {literal}    
@@ -226,3 +226,13 @@
         text-align: center;
         margin-top: 2px; padding: 5px;}
 </style>
+{literal}
+    <script>
+        $('#clickOnload').click(function(){
+            document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            var url = document.getElementById("url_fluz").innerHTML;
+            window.location.replace(""+url+"mi-cuenta");
+        });
+    </script>
+{/literal}

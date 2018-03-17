@@ -311,7 +311,7 @@ class oneall_social_login_tools
                 
                 $vars = array(
                     '{username}' => $customer->username,
-                    '{password}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id.'&sendSMS=1'),
+                    '{password}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id),
                     '{firstname}' => $customer->firstname,
                     '{lastname}' => $customer->lastname,
                     '{dni}' => $customer->dni,
