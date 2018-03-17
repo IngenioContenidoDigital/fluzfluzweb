@@ -26,6 +26,7 @@
 //OneAll Social Login Toolbox
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_ . 'allinone_rewards/models/RewardsModel.php');
+include_once(_PS_CLASS_DIR_.'Customer.php');
 
 class oneall_social_login_tools
 {
@@ -116,7 +117,10 @@ class oneall_social_login_tools
         if (is_array($data) && !empty($data['user_token']) && !empty($data['identity_token']))
         {
             $password = Tools::passwdGen();
-
+            $call_prefix = Db::getInstance()->getValue("SELECT call_prefix
+                FROM "._DB_PREFIX_."country
+                WHERE id_country= ".$data['id_country']);
+            
             // Build customer fields.
             $customer = new Customer();
             $customer->firstname = $data['user_first_name'];
@@ -125,6 +129,7 @@ class oneall_social_login_tools
             $customer->birthday = $data['user_birthdate'];
             $customer->username = $data['user_username'];
             $customer->dni = $data['user_dni'];
+            $customer->phone = $call_prefix.$data['user_phone'];
             $customer->active = 0;
             $customer->passwd = Tools::encrypt($data['user_dni']);
             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
@@ -188,7 +193,7 @@ class oneall_social_login_tools
                 $address->type_document = $data['user_typedni'];
                 $address->active = 1;
                 $address->add();
-
+                
                 $sponsor = Db::getInstance()->executeS('SELECT
                                                             c.id_customer,
                                                             c.username,
@@ -226,6 +231,7 @@ class oneall_social_login_tools
                         $reward->add();
 
                     }
+                    
                 }else{
 
                     $tree = RewardsSponsorshipModel::_getTree($data['user_sponsor_id']);
@@ -268,6 +274,7 @@ class oneall_social_login_tools
                             if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
                                 $sponsorship->id_sponsor = $sponsor['id_customer'];
                             }
+                            
                     }
                     $totals = RewardsModel::getAllTotalsByCustomer((int)$data['user_sponsor_id']);
                     $totalAvailable = round(isset($totals[RewardsStateModel::getValidationId()]) ? (float)$totals[RewardsStateModel::getValidationId()] : 0);
@@ -304,7 +311,7 @@ class oneall_social_login_tools
                 
                 $vars = array(
                     '{username}' => $customer->username,
-                    '{password}' => $customer->dni,
+                    '{password}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id),
                     '{firstname}' => $customer->firstname,
                     '{lastname}' => $customer->lastname,
                     '{dni}' => $customer->dni,

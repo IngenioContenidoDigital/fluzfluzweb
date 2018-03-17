@@ -91,6 +91,79 @@
                 </ol>
             </div>
 	{/if*}
+        {if $sendSMS}
+        {literal}
+            <style>
+                select, input { text-align: center; }
+                .alert.alert-danger{display:none;}
+                .img-responsive{margin: 0 auto !important;}
+            </style>
+        {/literal}
+        <div id="error_novalidos" style='display:none;'></div>
+        <div id="confirm_validos" style='display:none;'></div>
+        <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
+
+        <div class="row block-form block-confirmsms">
+            <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
+            <br>
+            <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
+                <div class="form-group">
+                    <label for="codesms" class="required">C&oacute;digo</label>
+                    <input type="text" placeholder="------" class="" id="codesms" name="codesms" autocomplete="off">
+                    <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
+                    <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
+                    <input type="hidden" name="id_sponsor" id="id_sponsor" value="{$id_sponsor}">
+                </div>
+                <div class="form-group" style="text-align: center;">
+                    <button class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
+                </div>
+                
+                <div class="form-group" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
+                    <br>
+                    <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
+                </div>
+            
+        </div>
+        {* COMPLETE REGISTRATION *}
+        <a style="display:none;" class="myfancybox btn btn-default btn-account" href="#confirmCode" name="submitConfirm" id="submitConfirm">
+
+        </a>
+        <div style="display:none;" id="confirmCode" class="myfancybox">
+            <div class="row block-successfulregistration2 row">
+                <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+                    <br>
+                    <br>
+                    Tu Registro Ha Sido Exitoso. Por Favor Inicia Sesi&oacute;n con tu Usuario y Contrase&ntilde;a
+                <br><br><br>
+                <img src="{$img_dir}checked.png" />
+                <br><br><br><br>
+                <a id="clickOnload" href="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}">Continuar</a>
+                <br><br><br>
+            </div>
+        </div>   
+        {elseif $sendSMSconfirm}
+        <div class="row block-form block-confirmsms">
+            <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+            <br>
+            <label style="font-weight:bold; text-transform: uppercase;">Se ha enviado un correo electronico a tu direccion email</label>
+            <div class="row block-successfulregistration row">
+                <br>
+                    Activa Tu Cuenta desde tu correo.
+                <br><br><br>
+                <img src="{$img_dir}checked.png" />
+                <br><br><br>
+            </div>
+        </div>
+        {literal}
+            <style>
+                .breadcrumb{display:none !important;}
+                .header-container{display:none !important;}
+                .footer-container #footer{display: none !important;}
+                .img-responsive{margin: 0 auto !important;}
+            </style>
+        {/literal}        
+        {else}        
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">
                 <img src="{$img_dir}login/banner.jpg" id="banner_login" />
@@ -104,7 +177,7 @@
             <div id="video-signup" class="videoWrapper">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/VkPDA0YDMZQ" frameborder="0" allowfullscreen></iframe>
             </div>
-        </div>
+        </div>    
 	<div class="row sign-account">
             <div class="col-xs-12 col-sm-6 signup-account">
                 <div class="info-box">
@@ -133,14 +206,9 @@
                                     </button>
                                 </p>
                                 <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:right;padding-left:0px;'>
-                                    <button class="button btn btn-default button-medium-business">
-                                        <span>
-                                            <i class="icon-briefcase left" style='font-size: 20px;'></i>
-                                            <a href="{$link->getPageLink('authentication?back=business', true)|escape:'html':'UTF-8'}">
-                                                {l s='Empresas'}
-                                            </a>    
-                                        </span>
-                                    </button>
+                                    <a class="btn btn-default button-medium-business" href="{$link->getPageLink('authentication?back=business', true)|escape:'html':'UTF-8'}">
+                                       <i class="icon-briefcase left"> </i>{l s='Empresas'}
+                                    </a>    
                                 </p>
                             </div>
                             <!--<div class="col-lg-6" style="padding-right:0px; float: right;">
@@ -176,14 +244,9 @@
                         <div class="row">
                             <p>Si tienes un c&oacute;digo de Referido, Ingresa Aqu&iacute;</p>
                             <p class="submit col-lg-6 col-sm-6 col-md-6 col-xs-6" style='text-align:left;padding-left:0px;'>
-                                <button class="button btn btn-default button-medium-business">
-                                    <span>
-                                        <i class="icon-briefcase left" style='font-size: 20px;'></i>
-                                        <a href="{$link->getPageLink('authentication', true, false, 'create_account=2')|escape:'html':'UTF-8'}">
-                                            {l s='Registro Referidos'}
+                                        <a href="{$link->getPageLink('authentication', true, false, 'create_account=2')|escape:'html':'UTF-8'}" class="button-medium-business">
+                                            <i class="icon-briefcase left" style='font-size: 20px;'></i> {l s='Registro Referidos'}
                                         </a> 
-                                    </span>
-                                </button>
                             </p>
                         </div>
                         <div class="row">
@@ -203,6 +266,7 @@
                 </div>
             </div>
 	</div>
+        {/if}                    
         <div class="row container_tips">
             <div class="col-xs-12 col-sm-4 col-md-4">
                 <img src="{$img_dir}login/piggy-bank.jpg" class="icon_tip" />
@@ -1175,7 +1239,7 @@
                                     <br/>
                                     {if isset($newsletter) && $newsletter}
                                             <div class="col-lg-12 col-md-12 checkbox">
-                                                    <input type="checkbox" name="newsletter" id="newsletter" value="1" {if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1} checked="checked"{/if} />
+                                                    <input type="checkbox" name="newsletter" id="newsletter" value="1" {*if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1*} checked="checked"{*/if*} />
                                                     <label for="newsletter">Reg&iacute;strate en nuestro bolet&iacute;n</label>
                                                     {if array_key_exists('newsletter', $field_required)}
                                                             <sup> *</sup>
@@ -1496,6 +1560,7 @@
         margin-top: 35px !important;
         width: 127.5% !important;
         margin-left: -14% !important;
+        display:none;
        }
        
        div.account_creation {
@@ -1556,6 +1621,62 @@
                     sn.removeClass("stick");
                 }
             });
+            
+        $('#confirm').click(function(){
+            var sms = $('#codesms').val();
+            var customer = $('#id_customer').val();
+            $.ajax({
+                method:"POST",
+                url: "/activateaccount.php",
+                data: {'action': 'confirmCode', 'code': sms,'customer':customer},
+                success:function(response){
+                    console.log(response);
+                    if(response === 'true'){
+                        $('#error_novalidos').hide();
+                        $("#submitConfirm")[0].click();
+                    }
+                    else{
+                        $('#error_novalidos').show();
+                        $('#error_novalidos').html('El codigo ingresado es erroneo, Por favor verificar o comunicate con nosotros.');
+                    }
+                }
+            });
+            
+        });
+        
+        $('#resendSMS').click(function(){
+            var customer = $('#id_customer').val();
+            $.ajax({
+                method:"POST",
+                url: "/activateaccount.php",
+                data: {'action': 'resendCode','customer':customer},
+                success:function(response){
+                    response = 'true';
+                    console.log(response);
+
+                    if(response === 'true'){
+                        $('#error_novalidos').hide();
+                        $('#confirm_validos').show();
+                        $('#confirm_validos').html('Se reenvio codigo para validar y activar tu cuenta. Si no lo recibes en los proximos minutos comunicate con nosotros.');
+                
+                    }
+                    else{
+                        $('#error_novalidos').show();
+                        $('#confirm_validos').hide();
+                        $('#error_novalidos').html('No se realizo el reenvio del codigo por favor comunicate con nosotros.');
+                    }
+                }
+            });
+            
+        });
+        
+        $('#clickOnload').click(function(){
+            document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            var url = document.getElementById("url_fluz").innerHTML;
+            window.location.replace(""+url+"mi-cuenta");
+        });
+        
     </script>
 {/literal}
   

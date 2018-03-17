@@ -26,6 +26,8 @@
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
+include_once(_PS_CLASS_DIR_.'Customer.php');
+include_once(_PS_CLASS_DIR_.'Country.php');
 
 class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontController
 {
@@ -49,7 +51,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 		}
                 
                 $this->context->smarty->assign('cities', City::getCities());
-		
+		$this->context->smarty->assign('countries', Country::getCountries(1));
 		// Did an error occur?
 		$have_error = true;
 		
@@ -81,6 +83,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$city = trim (Tools::getValue ('oasl_city'));
 					$typedni = trim (Tools::getValue ('oasl_typedni'));
 					$dni = trim (Tools::getValue ('oasl_dni'));
+                                        $id_country = trim (Tools::getValue ('oasl_id_country'));
 					$newsletter = 1;
 					$code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
                                         
@@ -122,6 +125,11 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                         // Validate exist username
                                         if ( Customer::usernameExists($username) ) {
                                             $this->errors[] = Tools::displayError('El nombre de usuario se encuentra en uso.');
+                                        }
+                    
+                                        //validate existe phone mobile
+                                        if ( Customer::phoneExists($phone) ) {
+                                            $this->errors[] = Tools::displayError('El numero de telefono ya se encuentra en uso.');
                                         }
 
                                         // Make sure the address is not empty.
@@ -180,7 +188,8 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                                 $data ['user_city'] = $city;
                                                 $data ['user_typedni'] = $typedni;
                                                 $data ['user_dni'] = $dni;
-						
+                                                $data['user_code_sponsor'] = $code_sponsor;
+						$data['id_country'] = $id_country;
 						// Email flags.
 						$send_email_to_admin = ((Configuration::get ('OASL_EMAIL_ADMIN_DISABLE') != 1) ? true : false);
 						$send_email_to_customer = ((Configuration::get ('OASL_EMAIL_CUSTOMER_DISABLE') != 1) ? true : false);
@@ -191,8 +200,10 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                                 Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
                                                                 VALUES ('.$id_customer.', "'.$code_generate.'")');
                                                 
+                                                
+                                                $this->context->smarty->assign('sendSMSconfirm', true);
 						// Login the customer.
-						if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
+						/*if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
 						{
 							// Remove the data
 							unset ($this->context->cookie->oasl_data);
@@ -201,9 +212,44 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 							$back = trim (Tools::getValue ('back'));
 							$back = (!empty ($back) ? $back : oneall_social_login_tools::get_current_url ());
 							Tools::redirect ($back);
-						}
+						}*/
                                         }
 				}
+                                
+                                elseif (Tools::isSubmit('confirm')) {
+                                    $id_customer = Tools::getValue('id_customer');
+                                    $codesponsor = Tools::getValue('codesponsor');
+                                    $id_sponsor = Tools::getValue('id_sponsor');
+                                    $codesms = Tools::getValue('codesms');
+
+                                    if ( Customer::validateCodeSMS($id_customer,$codesms) ) {
+                                        $customer = new Customer($id_customer);
+                                        $customer->active = 1;
+                                        $customer->save();
+                                        $this->context->smarty->assign('id_customer', $id_customer);
+                                        $this->context->smarty->assign('successfulregistration', true);
+                                    } else {
+                                        $this->errors[] = "El codigo es incorrecto.";
+                                        $this->context->smarty->assign('id_customer', $id_customer);
+                                        $this->context->smarty->assign('codesponsor', $codesponsor);
+                                        $this->context->smarty->assign('sendSMS', true);
+                                    }
+                                } elseif (Tools::isSubmit('resendSMS')) {
+                                    $id_customer = Tools::getValue('id_customer');
+                                    $codesponsor = Tools::getValue('codesponsor');
+                                    $id_sponsor = Tools::getValue('id_sponsor');
+
+                                    $sendSMS = false;
+                                    while ( !$sendSMS ) {
+                                        $sendSMS = Customer::confirmCustomerSMS($id_customer);
+                                    }
+                                    if ( $sendSMS ) {
+                                        $this->context->smarty->assign('id_customer', $id_customer);
+                                        $this->context->smarty->assign('codesponsor', $codesponsor);
+                                        $this->context->smarty->assign('id_sponsor', $id_sponsor);
+                                        $this->context->smarty->assign('sendSMS', true);
+                                    }
+                                }
 				// First call of the page.
 				else
 				{

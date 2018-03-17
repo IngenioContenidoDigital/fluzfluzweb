@@ -22,7 +22,7 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{*capture name=path}{l s='Contact'}{/capture}
+{capture name=path}{l s='Contact'}{/capture}
 <h1 class="page-heading bottom-indent">
 	{l s='Customer service'} - {if isset($customerThread) && $customerThread}{l s='Your reply'}{else}{l s='Contact us'}{/if}
 </h1>
@@ -152,4 +152,4 @@
 	</form>
 {/if}
 {addJsDefL name='contact_fileDefaultHtml'}{l s='No file selected' js=1}{/addJsDefL}
-{addJsDefL name='contact_fileButtonHtml'}{l s='Choose File' js=1}{/addJsDefL*}
+{addJsDefL name='contact_fileButtonHtml'}{l s='Choose File' js=1}{/addJsDefL}
