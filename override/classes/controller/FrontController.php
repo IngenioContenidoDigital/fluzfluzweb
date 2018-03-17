@@ -87,7 +87,6 @@ class FrontController extends FrontControllerCore
             $this->context->cookie->id_cart = (int)$id_cart;
         }
         
-        $id_customer = $_COOKIE['sms'];
         $variable= Tools::getValue("s");
         
         if ($variable != ""){
@@ -100,7 +99,7 @@ class FrontController extends FrontControllerCore
             /*Enviar mensaje y luego setear el valor*/
             $sendSMS = false;
             while ( !$sendSMS ) {
-                $sendSMS = Customer::confirmCustomerSMS($id_customer);
+                $sendSMS = Customer::confirmCustomerSMS($_COOKIE['sms']);
             }
             if ( $sendSMS ) {
                 $this->context->smarty->assign('sendSMS',true);
@@ -110,7 +109,7 @@ class FrontController extends FrontControllerCore
         elseif(isset($_COOKIE['social'])){
             $sendSMS = false;
             while ( !$sendSMS ) {
-                $sendSMS = Customer::confirmCustomerSMS($id_customer);
+                $sendSMS = Customer::confirmCustomerSMS($_COOKIE['social']);
             }
             if ( $sendSMS ) {
                 $this->context->smarty->assign('sendSMS',true);

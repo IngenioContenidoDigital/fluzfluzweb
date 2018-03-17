@@ -1672,6 +1672,7 @@
         
         $('#clickOnload').click(function(){
             document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             var url = document.getElementById("url_fluz").innerHTML;
             window.location.replace(""+url+"mi-cuenta");
         });
