@@ -57,8 +57,9 @@
     </div>
 {elseif $sendSMSconfirm}
 <div class="row block-form block-confirmsms">
+    <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
     <br>
-    <label>Se ha enviado un correo electronico a tu direccion email</label>
+    <label style="font-weight:bold; text-transform: uppercase;">Se ha enviado un correo electronico a tu direccion email</label>
     <div class="row block-successfulregistration row">
         <br>
             Activa Tu Cuenta desde tu correo.
@@ -66,11 +67,21 @@
         <img src="{$img_dir}checked.png" />
     </div>
 </div>
+{literal}
+    <style>
+        .breadcrumb{display:none !important;}
+        .header-container{display:none !important;}
+        .footer-container #footer{display: none !important;}
+        .img-responsive{margin: 0 auto !important;}
+    </style>
+{/literal}
 {* COMPLETE REGISTRATION *}
 {elseif $successfulregistration}
-    <div class="block-successfulregistration row">
+    <div class="block-successfulregistration2 row">
+        <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
         <br>
-        Tu Registro Ha Sido Exitoso
+        <br>
+        Tu Registro Ha Sido Exitoso..
         <br><br><br>
         <img src="{$img_dir}checked.png" />
         <br><br><br><br>
@@ -80,6 +91,7 @@
     {literal}    
         <style>
             #oneallsociallogin{display:none;}
+            .img-responsive{margin: 0 auto !important;}
         </style>
     {/literal}    
 {else}
@@ -173,6 +185,9 @@
 
     .block-successfulregistration { font-family: 'Open Sans'; text-align: center; font-weight: bold; font-size: 15px; margin-top: 60px; border: 1px solid #72C279; color: #72C279; background: #f7f7fb; padding: 15px 25px; }
     .block-successfulregistration > a { border: 1px solid #72C279; color: white; background: #72C279; padding: 13px 60px; }
+    
+    .block-successfulregistration2 { font-family: 'Open Sans'; text-align: center; font-weight: bold; font-size: 15px; margin-top: 0px; border: 1px solid #72C279; color: #72C279; background: #f7f7fb; padding: 15px 25px; }
+    .block-successfulregistration2 > a { border: 1px solid #72C279; color: white; background: #72C279; padding: 13px 60px; }
 
     .block-errors { font-family: 'Open Sans'; margin-top: 60px; border: 1px solid #F14E38; color: #F14E38; padding: 15px 25px; }
     .block-errors > span { color: #F14E38; font-size: 15px; }

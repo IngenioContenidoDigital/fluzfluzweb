@@ -27,6 +27,7 @@ include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 include_once(_PS_CLASS_DIR_.'Customer.php');
+include_once(_PS_CLASS_DIR_.'Country.php');
 
 class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontController
 {

@@ -96,6 +96,7 @@
             <style>
                 select, input { text-align: center; }
                 .alert.alert-danger{display:none;}
+                .img-responsive{margin: 0 auto !important;}
             </style>
         {/literal}
         <div id="error_novalidos" style='display:none;'></div>
@@ -129,7 +130,9 @@
 
         </a>
         <div style="display:none;" id="confirmCode" class="myfancybox">
-            <div class="row block-successfulregistration row">
+            <div class="row block-successfulregistration2 row">
+                <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+                    <br>
                     <br>
                     Tu Registro Ha Sido Exitoso. Por Favor Logueate con tu Usuario y Contrase&ntilde;a
                 <br><br><br>
@@ -141,15 +144,25 @@
         </div>   
         {elseif $sendSMSconfirm}
         <div class="row block-form block-confirmsms">
+            <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
             <br>
-            <label>Se ha enviado un correo electronico a tu direccion email</label>
+            <label style="font-weight:bold; text-transform: uppercase;">Se ha enviado un correo electronico a tu direccion email</label>
             <div class="row block-successfulregistration row">
                 <br>
                     Activa Tu Cuenta desde tu correo.
                 <br><br><br>
                 <img src="{$img_dir}checked.png" />
+                <br><br><br>
             </div>
         </div>
+        {literal}
+            <style>
+                .breadcrumb{display:none !important;}
+                .header-container{display:none !important;}
+                .footer-container #footer{display: none !important;}
+                .img-responsive{margin: 0 auto !important;}
+            </style>
+        {/literal}        
         {else}        
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">
@@ -1658,9 +1671,11 @@
         });
         
         $('#clickOnload').click(function(){
+            document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             var url = document.getElementById("url_fluz").innerHTML;
             window.location.replace(""+url+"mi-cuenta");
         });
+        
     </script>
 {/literal}
   
