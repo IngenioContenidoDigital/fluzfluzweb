@@ -31,7 +31,7 @@ class FrontController extends FrontControllerCore
 {
     public function init()
     {
-        setcookie('social',$_GET['id_customer']);
+        setcookie('social', Tools::getValue('id_customer'));
         /**
          * Globals are DEPRECATED as of version 1.5.0.1
          * Use the Context object to access objects instead.
