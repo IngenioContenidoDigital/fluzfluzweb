@@ -87,6 +87,7 @@ class FrontController extends FrontControllerCore
         }
         
         $id_customer = Tools::getValue("m");
+        setcookie('sms',$id_customer);
         $variable= Tools::getValue("s");
         
         if ($variable != ""){

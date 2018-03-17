@@ -308,7 +308,6 @@ class oneall_social_login_tools
                 $sponsorship->email = $customer->email;
                 $sponsorship->channel = 1;
                 $sponsorship->save();
-                //setcookie('sms',$customer->id);
                 
                 $vars = array(
                     '{username}' => $customer->username,
