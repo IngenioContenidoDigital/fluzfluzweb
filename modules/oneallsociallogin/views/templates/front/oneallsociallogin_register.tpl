@@ -226,7 +226,7 @@
         text-align: center;
         margin-top: 2px; padding: 5px;}
 </style>
-{*literal}
+{literal}
     <script>
         $('#clickOnload').click(function(){
             document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -234,4 +234,4 @@
             window.location.replace(""+url+"mi-cuenta");
         });
     </script>
-{/literal*}
+{/literal}
