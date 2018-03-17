@@ -110,8 +110,6 @@ class AuthController extends AuthControllerCore
             setcookie("datamailemail", $_POST['email'], time() + (86400), "/");
             setcookie("datamailfirstname", $_POST['customer_firstname'], time() + (86400), "/");
             setcookie("datamaillastname", $_POST['customer_lastname'], time() + (86400), "/");
-            setcookie('sms',1);
-
         } else {
             $_POST['email'] = $_COOKIE["datamailemail"];
             $_POST['customer_firstname'] = $_COOKIE["datamailfirstname"];
@@ -427,7 +425,7 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->channel = 1;
                                 //$send = "";
                                 if ($sponsorship->save()) {
-                                    //setcookie('sms',$customer->id);
+                                    setcookie('sms',$customer->id);
                                     $this->sendConfirmationMail($customer);
                                     
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
@@ -478,7 +476,7 @@ class AuthController extends AuthControllerCore
 
                                 if ($sponsorship->save()) {
                                     //$this->context->cookie->id_customer = $customer->id;
-                                    //setcookie('sms',$customer->id);
+                                    setcookie('sms',$customer->id);
                                     //$this->context->cookie->sms = 1;
 
                                     $this->sendConfirmationMail($customer);
@@ -865,7 +863,7 @@ class AuthController extends AuthControllerCore
                             }
                             // else : redirection to the account
                             else {
-                                //setcookie('sms',$customer->id);
+                                setcookie('sms',$customer->id);
                                 $this->context->smarty->assign('sendSMSconfirm', true);
                                 $this->sendConfirmationMail($customer);
                                 $this->processSubmitLogin();
@@ -1087,11 +1085,10 @@ class AuthController extends AuthControllerCore
             
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
-        setcookie('sms',$customer->id);
-
+        
         $vars = array(
                 '{username}' => $customer->username,
-                '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, '&id_customer='.(int)$customer->id.'&sendSMS=1'),                
+                '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id.'&sendSMS=1'),                
                 '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
                 '{dni}' => $customer->dni,
