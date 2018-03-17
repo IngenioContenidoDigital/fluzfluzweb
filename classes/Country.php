@@ -140,7 +140,7 @@ class CountryCore extends ObjectModel
                         $countries[$row['id_country']]['states'][] = $row;
                 }
             }
-        }
+	}
         return $countries;
     }
 

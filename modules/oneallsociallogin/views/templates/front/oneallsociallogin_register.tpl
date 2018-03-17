@@ -55,21 +55,43 @@
             </div>
         </form>
     </div>
-
+{elseif $sendSMSconfirm}
+<div class="row block-form block-confirmsms">
+    <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+    <br>
+    <label style="font-weight:bold; text-transform: uppercase;">Se ha enviado un correo electronico a tu direccion email</label>
+    <div class="row block-successfulregistration row">
+        <br>
+            Activa Tu Cuenta desde tu correo.
+        <br><br><br>
+        <img src="{$img_dir}checked.png" />
+    </div>
+</div>
+{literal}
+    <style>
+        .breadcrumb{display:none !important;}
+        .header-container{display:none !important;}
+        .footer-container #footer{display: none !important;}
+        .img-responsive{margin: 0 auto !important;}
+    </style>
+{/literal}
 {* COMPLETE REGISTRATION *}
 {elseif $successfulregistration}
-    <div class="block-successfulregistration row">
+    <div class="block-successfulregistration2 row">
+        <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
         <br>
-        Tu Registro Ha Sido Exitoso
+        <br>
+        Tu Registro Ha Sido Exitoso..
         <br><br><br>
         <img src="{$img_dir}checked.png" />
         <br><br><br><br>
-        <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
+        <a id="clickOnload" href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">Continuar</a>
         <br><br><br>
     </div>      
     {literal}    
         <style>
             #oneallsociallogin{display:none;}
+            .img-responsive{margin: 0 auto !important;}
         </style>
     {/literal}    
 {else}
@@ -105,6 +127,17 @@
                     <label for="oasl_phone">Tel&eacute;fono <sup>*</sup></label>
                     <input type="text" class="is_required form-control" id="oasl_phone" name="oasl_phone" value="{if isset($smarty.post.oasl_phone)}{$smarty.post.oasl_phone|stripslashes}{elseif $oasl_populate == '1'}{$oasl_phone}{/if}" />
                 </div>
+                <div class="form-group">
+                    <label class="required" for="oasl_id_country">Pais <sup>*</sup></label>
+                    <div style="max-width: 271px;" class="select-form">
+                    <select name="oasl_id_country" id="oasl_id_country" class="form-control" style="max-width: 100%;">
+                            <option value="">-</option>
+                            {foreach from=$countries item=v}
+                            <option value="{$v.id_country}"{if (isset($smarty.post.id_country) AND $smarty.post.id_country == $v.id_country) OR (!isset($smarty.post.id_country) && $sl_country == $v.id_country)} selected="selected"{/if}>{$v.name}</option>
+                            {/foreach}
+                    </select>
+                    </div>
+                </div>      
                 <div class="form-group">
                     <label for="oasl_city">Ciudad <sup>*</sup></label>
                     <select id="oasl_city" name="oasl_city" class="is_required form-control">
@@ -152,6 +185,9 @@
 
     .block-successfulregistration { font-family: 'Open Sans'; text-align: center; font-weight: bold; font-size: 15px; margin-top: 60px; border: 1px solid #72C279; color: #72C279; background: #f7f7fb; padding: 15px 25px; }
     .block-successfulregistration > a { border: 1px solid #72C279; color: white; background: #72C279; padding: 13px 60px; }
+    
+    .block-successfulregistration2 { font-family: 'Open Sans'; text-align: center; font-weight: bold; font-size: 15px; margin-top: 0px; border: 1px solid #72C279; color: #72C279; background: #f7f7fb; padding: 15px 25px; }
+    .block-successfulregistration2 > a { border: 1px solid #72C279; color: white; background: #72C279; padding: 13px 60px; }
 
     .block-errors { font-family: 'Open Sans'; margin-top: 60px; border: 1px solid #F14E38; color: #F14E38; padding: 15px 25px; }
     .block-errors > span { color: #F14E38; font-size: 15px; }
@@ -190,3 +226,13 @@
         text-align: center;
         margin-top: 2px; padding: 5px;}
 </style>
+{literal}
+    <script>
+        $('#clickOnload').click(function(){
+            document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            var url = document.getElementById("url_fluz").innerHTML;
+            window.location.replace(""+url+"mi-cuenta");
+        });
+    </script>
+{/literal}
