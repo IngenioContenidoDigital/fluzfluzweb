@@ -427,7 +427,10 @@ class AuthController extends AuthControllerCore
                                 if ($sponsorship->save()) {
                                     setcookie('sms',$customer->id);
                                     $this->sendConfirmationMail($customer);
-                                    
+                                    if (isset($_COOKIE['sms'])) {
+                                        unset($_COOKIE['sms']);
+                                        setcookie('sms', '', time() - 3600, '/');
+                                    }
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');    
                                     
@@ -478,8 +481,11 @@ class AuthController extends AuthControllerCore
                                     //$this->context->cookie->id_customer = $customer->id;
                                     setcookie('sms',$customer->id);
                                     //$this->context->cookie->sms = 1;
-
                                     $this->sendConfirmationMail($customer);
+                                    if (isset($_COOKIE['sms'])) {
+                                        unset($_COOKIE['sms']);
+                                        setcookie('sms', '', time() - 3600, '/');
+                                    }
                                     
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
@@ -866,6 +872,10 @@ class AuthController extends AuthControllerCore
                                 setcookie('sms',$customer->id);
                                 $this->context->smarty->assign('sendSMSconfirm', true);
                                 $this->sendConfirmationMail($customer);
+                                if (isset($_COOKIE['sms'])) {
+                                    unset($_COOKIE['sms']);
+                                    setcookie('sms', '', time() - 3600, '/');
+                                }
                                 $this->processSubmitLogin();
                                 //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
