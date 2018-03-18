@@ -98,9 +98,13 @@ class FrontController extends FrontControllerCore
         elseif(isset($_COOKIE['sms'])){
             /*Enviar mensaje y luego setear el valor*/
             $sendSMS = false;
-            while ( !$sendSMS ) {
+            //while ( !$sendSMS ) {
                 $sendSMS = Customer::confirmCustomerSMS($_COOKIE['sms']);
-            }
+                if (isset($_COOKIE['sms'])) {
+                    unset($_COOKIE['sms']);
+                    setcookie('sms', '', time() - 3600, '/');
+                }
+            //}
             if ( $sendSMS ) {
                 $this->context->smarty->assign('sendSMS',true);
                 $this->context->smarty->assign('id_customer',$_COOKIE['sms']);
@@ -108,9 +112,13 @@ class FrontController extends FrontControllerCore
         }
         elseif(isset($_COOKIE['social'])){
             $sendSMS = false;
-            while ( !$sendSMS ) {
+            //while ( !$sendSMS ) {
                 $sendSMS = Customer::confirmCustomerSMS(Tools::getValue('id_customer'));
-            }
+                if (isset($_COOKIE['social'])) {
+                    unset($_COOKIE['social']);
+                    setcookie('social', '', time() - 3600, '/');
+                }
+            //}
             if ( $sendSMS ) {
                 $this->context->smarty->assign('sendSMS',true);
                 $this->context->smarty->assign('id_customer',$_COOKIE['social']);
