@@ -438,7 +438,7 @@ class API extends REST {
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
-    
+     
     $id_customer = $this->_request['id_customer'];
     if( !is_numeric(trim($id_customer)) ){
       $this->response('', 202);
