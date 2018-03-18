@@ -1951,7 +1951,7 @@ class API extends REST {
     $phone = Db::getInstance()->getValue($sql);
     $numberConfirm = rand(100000, 999999);
     $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
-                            SET app_confirm = '.$numberConfirm.'
+                            SET web_confirm = '.$numberConfirm.'
                             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($updateNumberConfirm);
     $curl = curl_init();
@@ -2002,7 +2002,7 @@ class API extends REST {
     $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
     $id_customer = $this->_request['id_customer'];
 
-    $sql = "SELECT app_confirm
+    $sql = "SELECT web_confirm
           FROM "._DB_PREFIX_."customer
           WHERE id_customer = ".$id_customer.";";
 
