@@ -94,10 +94,7 @@ class FrontController extends FrontControllerCore
         if ($variable != ""){
             $this->_checkSponsorshipLink();
         }
-        elseif($this->auth && !$this->context->customer->isLogged($this->guestAllowed)){
-            Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection: ''));
-        }
-        elseif(isset($_COOKIE['sms'])){
+        elseif(isset($_COOKIE['sms'])){            
             /*Enviar mensaje y luego setear el valor*/
             if(strlen($_COOKIE['sms'])>0){
                 $sendSMS = false;
@@ -112,6 +109,9 @@ class FrontController extends FrontControllerCore
                 $this->context->smarty->assign('sendSMS',true);
                 $this->context->smarty->assign('id_customer',$cs);
             }
+        }
+        elseif($this->auth && !$this->context->customer->isLogged($this->guestAllowed)){
+            Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection: ''));
         }
         /* Theme is missing */
         if (!is_dir(_PS_THEME_DIR_)) {
