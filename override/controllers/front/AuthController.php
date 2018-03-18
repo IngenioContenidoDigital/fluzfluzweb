@@ -425,12 +425,12 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->channel = 1;
                                 //$send = "";
                                 if ($sponsorship->save()) {
-                                    setcookie('sms',$customer->id);
+                                    //setcookie('sms',$customer->id);
                                     $this->sendConfirmationMail($customer);
-                                    if (isset($_COOKIE['sms'])) {
+                                    /*if (isset($_COOKIE['sms'])) {
                                         unset($_COOKIE['sms']);
                                         setcookie('sms', '', time() - 3600, '/');
-                                    }
+                                    }*/
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');    
                                     
@@ -479,13 +479,13 @@ class AuthController extends AuthControllerCore
 
                                 if ($sponsorship->save()) {
                                     //$this->context->cookie->id_customer = $customer->id;
-                                    setcookie('sms',$customer->id);
+                                    //setcookie('sms',$customer->id);
                                     //$this->context->cookie->sms = 1;
                                     $this->sendConfirmationMail($customer);
-                                    if (isset($_COOKIE['sms'])) {
+                                    /*if (isset($_COOKIE['sms'])) {
                                         unset($_COOKIE['sms']);
                                         setcookie('sms', '', time() - 3600, '/');
-                                    }
+                                    }*/
                                     
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
@@ -869,13 +869,13 @@ class AuthController extends AuthControllerCore
                             }
                             // else : redirection to the account
                             else {
-                                setcookie('sms',$customer->id);
+                                //setcookie('sms',$customer->id);
                                 $this->context->smarty->assign('sendSMSconfirm', true);
                                 $this->sendConfirmationMail($customer);
-                                if (isset($_COOKIE['sms'])) {
+                                /*if (isset($_COOKIE['sms'])) {
                                     unset($_COOKIE['sms']);
                                     setcookie('sms', '', time() - 3600, '/');
-                                }
+                                }*/
                                 $this->processSubmitLogin();
                                 //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }

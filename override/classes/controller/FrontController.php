@@ -31,6 +31,9 @@ class FrontController extends FrontControllerCore
 {
     public function init()
     {
+        if(Tools::getValue('sendSMS')=='1'){
+            setcookie('sms', Tools::getValue('id_customer'));
+        }
         /**
          * Globals are DEPRECATED as of version 1.5.0.1
          * Use the Context object to access objects instead.
@@ -43,7 +46,7 @@ class FrontController extends FrontControllerCore
         }
 
         self::$initialized = true;
-
+        
         parent::init();
 
         // If current URL use SSL, set it true (used a lot for module redirect)
@@ -63,11 +66,13 @@ class FrontController extends FrontControllerCore
         }
 
         // If account created with the 2 steps register process, remove 'account_created' from cookie
-        if (isset($this->context->cookie->account_created)) {
-            $this->context->smarty->assign('account_created', 1);
+        ////if (isset($this->context->cookie->account_created)) {
+            //$this->context->smarty->assign('account_created', 1);
             unset($this->context->cookie->account_created);
-        }
-
+        ////}
+       // echo '<pre>';
+        //print_r($this->context->cookie->account_created);
+        //die();
         ob_start();
 
         // Init cookie language
@@ -83,16 +88,31 @@ class FrontController extends FrontControllerCore
         if ($id_cart = (int)$this->recoverCart()) {
             $this->context->cookie->id_cart = (int)$id_cart;
         }
-
+        
         $variable= Tools::getValue("s");
-            
+        
         if ($variable != ""){
             $this->_checkSponsorshipLink();
         }
-        else if ($this->auth && !$this->context->customer->isLogged($this->guestAllowed)){
-            Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection : ''));
+        elseif($this->auth && !$this->context->customer->isLogged($this->guestAllowed)){
+            Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection: ''));
         }
-       
+        elseif(isset($_COOKIE['sms'])){
+            /*Enviar mensaje y luego setear el valor*/
+            if(strlen($_COOKIE['sms'])>0){
+                $sendSMS = false;
+                while ( !$sendSMS ) {
+                    $sendSMS = Customer::confirmCustomerSMS($_COOKIE['sms']);
+                }
+            }
+            if ( $sendSMS ) {
+                $cs = $_COOKIE['sms'];
+                unset($_COOKIE['sms']);
+                setcookie('sms', '', time() - 7200, '/'); // empty value and old timestamp
+                $this->context->smarty->assign('sendSMS',true);
+                $this->context->smarty->assign('id_customer',$cs);
+            }
+        }
         /* Theme is missing */
         if (!is_dir(_PS_THEME_DIR_)) {
             throw new PrestaShopException((sprintf(Tools::displayError('Current theme unavailable "%s". Please check your theme directory name and permissions.'), basename(rtrim(_PS_THEME_DIR_, '/\\')))));
@@ -391,10 +411,23 @@ class FrontController extends FrontControllerCore
         $this->context->currency = $currency;
     }
     
+    /*public function confirmSendSMS(){
+        
+        if (Tools::getValue('sendSMS')) {
+            
+           Tools::redirect('index.php?controller=authentication&sendSMS=1');
+        }
+        
+    }*/
+    
+    /*private function _confirmSms(){
+        //die(Tools::getValue('m'));
+        
+    }*/
+    
     private function _checkSponsorshipLink()
 	{
 		if (Tools::getValue('s')) {
-                    
 			$sponsor = null;
 			$id_template = 0;
 			$sponsorship = new RewardsSponsorshipModel(RewardsSponsorshipModel::decodeSponsorshipMailLink(Tools::getValue('s')));
@@ -425,8 +458,9 @@ class FrontController extends FrontControllerCore
 		}
 	}
         
-        public function initContent()
+    public function initContent()
     {
+        
         $this->process();
 
         if (!isset($this->context->cart)) {
