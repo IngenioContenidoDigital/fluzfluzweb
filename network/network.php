@@ -8,7 +8,3 @@ $network = Db::getInstance()->ExecuteS("SELECT id_sponsor, id_customer
 
 echo json_encode($network);
 die();
-<<<<<<< HEAD
-=======
-
->>>>>>> 22fd723bf61629b7e47221de4b87b9d187264bf4

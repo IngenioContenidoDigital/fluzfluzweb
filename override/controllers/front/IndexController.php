@@ -27,7 +27,7 @@
 class IndexController extends IndexControllerCore
 {
   //public $php_self = 'index';
-    public $php_self = 'my-account';
+  public $php_self = 'my-account';
     
     public function initContent()
     {
