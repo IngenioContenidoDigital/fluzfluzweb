@@ -27,6 +27,7 @@ include_once(_PS_MODULE_DIR_.'/allinone_rewards/allinone_rewards.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
 include_once(_PS_MODULE_DIR_.'/allinone_rewards/controllers/front/sponsorship.php');
 include_once(_PS_CLASS_DIR_.'Customer.php');
+include_once(_PS_CLASS_DIR_.'Country.php');
 
 class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontController
 {
@@ -50,7 +51,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 		}
                 
                 $this->context->smarty->assign('cities', City::getCities());
-		
+		$this->context->smarty->assign('countries', Country::getCountries(1));
 		// Did an error occur?
 		$have_error = true;
 		
@@ -82,6 +83,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$city = trim (Tools::getValue ('oasl_city'));
 					$typedni = trim (Tools::getValue ('oasl_typedni'));
 					$dni = trim (Tools::getValue ('oasl_dni'));
+                                        $id_country = trim (Tools::getValue ('oasl_id_country'));
 					$newsletter = 1;
 					$code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
                                         
@@ -187,7 +189,7 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                                 $data ['user_typedni'] = $typedni;
                                                 $data ['user_dni'] = $dni;
                                                 $data['user_code_sponsor'] = $code_sponsor;
-						
+						$data['id_country'] = $id_country;
 						// Email flags.
 						$send_email_to_admin = ((Configuration::get ('OASL_EMAIL_ADMIN_DISABLE') != 1) ? true : false);
 						$send_email_to_customer = ((Configuration::get ('OASL_EMAIL_CUSTOMER_DISABLE') != 1) ? true : false);
@@ -198,16 +200,8 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
                                                 Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
                                                                 VALUES ('.$id_customer.', "'.$code_generate.'")');
                                                 
-                                                $sendSMS = false;
-                                                while ( !$sendSMS ) {
-                                                    $sendSMS = Customer::confirmCustomerSMS($id_customer);
-                                                }
-
-                                                if ( $sendSMS ) {
-                                                    $this->context->smarty->assign('id_customer', $id_customer);
-                                                    $this->context->smarty->assign('codesponsor', $code_sponsor);
-                                                    $this->context->smarty->assign('sendSMS', true);
-                                                }
+                                                
+                                                $this->context->smarty->assign('sendSMSconfirm', true);
 						// Login the customer.
 						/*if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
 						{
