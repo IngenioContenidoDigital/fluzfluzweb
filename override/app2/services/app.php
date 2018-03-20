@@ -438,7 +438,7 @@ class API extends REST {
     if($this->get_request_method() != "POST") {
       $this->response('',406);
     }
-    
+     
     $id_customer = $this->_request['id_customer'];
     if( !is_numeric(trim($id_customer)) ){
       $this->response('', 202);
@@ -582,14 +582,15 @@ class API extends REST {
       $lastname = $this->_request['last_name'];
       $email = $this->_request['email'];
       $phone = $this->_request['phone'];
-      $birthday = $this->_request['date'];
+      $birthday = !empty($this->_request['date']) ? $this->_request['date'] : null;
       $addres1 = $this->_request['address'];
       $city = $this->_request['city'];
       $type_dni = $this->_request['type_identification'];
       $dni = $this->_request['number_identification'];
       $username = $this->_request['user_name'];
-      $addres2 = $this->_request['address2'];        
+      $addres2 = !empty($this->_request['address2']) ? $this->_request['address2']: null;
       $cod_refer = $this->_request['cod_refer'];
+      $password = $this->_request['password'];
 
       $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
                                               FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
@@ -624,7 +625,7 @@ class API extends REST {
           $customer->firstname = $firstname;
           $customer->lastname = $lastname;
           $customer->email = $email;
-          $customer->passwd = Tools::encrypt($dni);
+          $customer->passwd = Tools::encrypt($password);
           $customer->dni = $dni;
           $customer->username = $username;
           $customer->birthday = $birthday;
@@ -682,7 +683,7 @@ class API extends REST {
               $sponsorship->email = $customer->email;
               $sponsorship->channel = 1;
               $send = "";
-
+                   
               if ($sponsorship->save()) {
                 $complete = true;
                 $this->sendMailCofirmCreateAccount($customer, $address);
@@ -715,10 +716,10 @@ class API extends REST {
             });
 
             $sponsor_a = reset($sort_array);
-
+            
             if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
               $sponsorship = new RewardsSponsorshipModel();
-              $sponsorship->id_sponsor = $sponsor['id_customer'];
+              $sponsorship->id_sponsor = $sponsor_a['id_customer'];
               $sponsorship->id_customer = $customer->id;
               $sponsorship->firstname = $customer->firstname;
               $sponsorship->lastname = $customer->lastname;
@@ -786,8 +787,35 @@ class API extends REST {
       DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship WHERE id_sponsorship = ".$sponsorship->id);
       DB::getInstance()->execute("DELETE FROM "._DB_PREFIX_."rewards_sponsorship_code WHERE id_sponsor = ".$sponsorship->id);
     }
+    
+    $sql = "SELECT code
+                  FROM ps_rewards_sponsorship_code
+                  WHERE id_sponsor = ".$customer->id;
+        
+    $refer_code = DB::getInstance()->getValue($sql);
+    $gender = $customer->id_gender  == 1 ? 'M' : ($customer->id_gender  == 2 ? 'F' : "");
+    $customerData = array(
+      'id' => (int) $customer->id,
+      'lastname' => $customer->lastname,
+      'firstname' => $customer->firstname,
+      'email' => $customer->email,
+      'newsletter' => (bool)$customer->newsletter,
+      'dni' => $customer->dni,
+      'gender' => $gender,
+      'birthday' => $customer->birthday,
+      'website' => $customer->website,
+      'company' => $customer->company,
+      'active' => $customer->active,
+      'kick_out' => $customer->kick_out,
+      'manual_inactivation' => $customer->manual_inactivation,
+      'days_inactive' => $customer->days_inactive,
+      'autoaddnetwork' => $customer->autoaddnetwork,
+      'dni' => $customer->dni,
+      'phone' => $customer->phone,
+      'refer_code' => $refer_code,
+      'success' => TRUE);
 
-    $response = array('success' => $complete, 'error' => $error, 'message' => $message);
+    $response = array('success' => $complete, 'error' => $error, 'message' => $message, 'customer' => $customerData);
     $this->response( $this->json($response) , 200 );
   }
     
@@ -798,9 +826,11 @@ class API extends REST {
    * @return json Informacion de la tarjeta de crédito
    */
   public function sendMailCofirmCreateAccount($customer, $address){
+    error_log("\n\n\n\n Este es el usuario al método que envia el correo: ".print_r($customer,true),3,"/tmp/error.log");
     $vars = array(
       '{username}' => $customer->username,
-      '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
+      '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id),
+//      '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
       '{firstname}' => $customer->firstname,
       '{lastname}' => $customer->lastname,
       '{dni}' => $customer->dni,
@@ -821,7 +851,7 @@ class API extends REST {
     $message_subject = $row_subject['subject_mail'];
 
     $allinone_rewards = new allinone_rewards();
-    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $sponsorship->email, $customer->firstname.' '.$customer->lastname);
+    $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject),$vars, $customer->email, $customer->firstname.' '.$customer->lastname);
   }
     
   /**
@@ -1921,7 +1951,7 @@ class API extends REST {
     $phone = Db::getInstance()->getValue($sql);
     $numberConfirm = rand(100000, 999999);
     $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
-                            SET app_confirm = '.$numberConfirm.'
+                            SET web_confirm = '.$numberConfirm.'
                             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($updateNumberConfirm);
     $curl = curl_init();
@@ -1972,13 +2002,20 @@ class API extends REST {
     $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
     $id_customer = $this->_request['id_customer'];
 
-    $sql = "SELECT app_confirm
+    $sql = "SELECT web_confirm
           FROM "._DB_PREFIX_."customer
           WHERE id_customer = ".$id_customer.";";
 
     $app_confirm = Db::getInstance()->getValue($sql);
     
     if( $code == $app_confirm ){
+      
+      $sql = 'UPDATE '._DB_PREFIX_.'customer
+            SET active = 1
+            WHERE id_customer = '.$id_customer.';';
+      
+      $result = Db::getInstance()->execute($sql);
+      
       $this->response($this->json(array(
                 "success" => true,
                 "error" => 0,

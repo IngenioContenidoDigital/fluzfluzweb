@@ -96,10 +96,13 @@
             <style>
                 select, input { text-align: center; }
                 .alert.alert-danger{display:none;}
+                .img-responsive{margin: 0 auto !important;}
             </style>
         {/literal}
         <div id="error_novalidos" style='display:none;'></div>
         <div id="confirm_validos" style='display:none;'></div>
+        <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
+
         <div class="row block-form block-confirmsms">
             <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
             <br>
@@ -127,16 +130,39 @@
 
         </a>
         <div style="display:none;" id="confirmCode" class="myfancybox">
-            <div class="row block-successfulregistration row">
+            <div class="row block-successfulregistration2 row">
+                <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
                     <br>
-                    Tu Registro Ha Sido Exitoso
+                    <br>
+                    Tu Registro Ha Sido Exitoso. Por Favor Inicia Sesi&oacute;n con tu Usuario y Contrase&ntilde;a
                 <br><br><br>
                 <img src="{$img_dir}checked.png" />
                 <br><br><br><br>
                 <a id="clickOnload" href="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}">Continuar</a>
                 <br><br><br>
             </div>
-        </div>        
+        </div>   
+        {elseif $sendSMSconfirm}
+        <div class="row block-form block-confirmsms">
+            <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+            <br>
+            <label style="font-weight:bold; text-transform: uppercase;">Se ha enviado un correo electronico a tu direccion email</label>
+            <div class="row block-successfulregistration row">
+                <br>
+                    Activa Tu Cuenta desde tu correo.
+                <br><br><br>
+                <img src="{$img_dir}checked.png" />
+                <br><br><br>
+            </div>
+        </div>
+        {literal}
+            <style>
+                .breadcrumb{display:none !important;}
+                .header-container{display:none !important;}
+                .footer-container #footer{display: none !important;}
+                .img-responsive{margin: 0 auto !important;}
+            </style>
+        {/literal}        
         {else}        
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">
@@ -1213,7 +1239,7 @@
                                     <br/>
                                     {if isset($newsletter) && $newsletter}
                                             <div class="col-lg-12 col-md-12 checkbox">
-                                                    <input type="checkbox" name="newsletter" id="newsletter" value="1" {if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1} checked="checked"{/if} />
+                                                    <input type="checkbox" name="newsletter" id="newsletter" value="1" {*if isset($smarty.post.newsletter) AND $smarty.post.newsletter == 1*} checked="checked"{*/if*} />
                                                     <label for="newsletter">Reg&iacute;strate en nuestro bolet&iacute;n</label>
                                                     {if array_key_exists('newsletter', $field_required)}
                                                             <sup> *</sup>
@@ -1534,6 +1560,7 @@
         margin-top: 35px !important;
         width: 127.5% !important;
         margin-left: -14% !important;
+        display:none;
        }
        
        div.account_creation {
@@ -1644,8 +1671,12 @@
         });
         
         $('#clickOnload').click(function(){
-            location.reload();
+            document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            var url = document.getElementById("url_fluz").innerHTML;
+            window.location.replace(""+url+"mi-cuenta");
         });
+        
     </script>
 {/literal}
   

@@ -467,12 +467,33 @@ class Customer extends CustomerCore
         $message_text= "Fluz Fluz te da la bienvenida!!! Tu codigo de verificacion es: ";
         $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".urlencode($message_text.$numberConfirm)."&longMessage=true";
 
-        $curl = curl_init();
+        /*$curl = curl_init();
+        $headers = array(
+                "Content-Type: text/xml; charset=utf-8"
+        );
+        curl_setopt($curl,CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_URL, $url);
         $response = curl_exec($curl);
-        curl_close($curl);
+        curl_close($curl);*/
+        
+        $args = array ('username'=>'Api_A91ON', 'password'=>'WBZ45NA8Z3');
+        $opts = array(
+          'http' => array(
+            'method'=>'POST', 
+            'header'=>'Content-Type: application/xml', 
+            'content'=>http_build_query($args)
+          )
+        );
 
-        $result = ( $response == 1 ) ? true : false;
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+        
+        $xml=simplexml_load_string($result);
+        $items   = $xml->data;
+        $response = json_decode(json_encode($items), TRUE)['acceptreport'];
+
+        
+        $result = ( $response['statuscode'] == 0 ) ? true : false;
         return $result;
     }
     

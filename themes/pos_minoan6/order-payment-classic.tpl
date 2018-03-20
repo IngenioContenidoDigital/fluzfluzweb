@@ -666,7 +666,7 @@
             </div>
             </div>                
         </div>
-        <div class="row bitpay-info"> BitPay solo est&aacute; disponible en compras superiores a $ 300.000 &oacute; $ 100 USD </div>
+        <!--<div class="row bitpay-info"> BitPay solo est&aacute; disponible en compras superiores a $ 300.000 &oacute; $ 100 USD </div>-->
         <div id="prueba" style="display:none;">{$base_dir_ssl}</div>
         
         {*if $opc}

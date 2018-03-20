@@ -68,7 +68,6 @@ class AuthController extends AuthControllerCore
         if($login_guest==2){
            $this->context->smarty->assign('login_guest',$login_guest);
         }
-
         if (!empty($key)) {
             $back .= (strpos($back, '?') !== false ? '&' : '?').'key='.$key;
         }
@@ -270,6 +269,9 @@ class AuthController extends AuthControllerCore
         $login_guest = Tools::getValue('login_code');
         $user_key = Tools::getValue('username');
         $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($user_key);
+        $call_prefix = Db::getInstance()->getValue("SELECT call_prefix
+                FROM "._DB_PREFIX_."country
+                WHERE id_country= ".Tools::getValue('id_country'));
         
         if($login_guest==2)
         {
@@ -375,10 +377,10 @@ class AuthController extends AuthControllerCore
                 $customer->email = Tools::getValue('email');
                 $customer->passwd = Tools::encrypt(Tools::getValue('passwd'));
                 $customer->dni = Tools::getValue('gover');
-                $customer->phone =  Tools::getValue('phone_mobile');
+                $customer->phone =  $call_prefix.Tools::getValue('phone_mobile');
                 $customer->username =  Tools::getValue('username');
                 $customer->id_default_group = 4;
-                $customer->active = 1;
+                $customer->active = 0;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->method_add = 'Web / Referidos';                
@@ -389,7 +391,7 @@ class AuthController extends AuthControllerCore
                         VALUES ( '.$customer->id.' ,3)');
 
                 $address = new Address();
-                $address->id_country = 69;
+                $address->id_country = Tools::getValue('id_country');
                 $address->dni = $customer->dni;
                 $address->id_customer = $customer->id;
                 $address->alias = 'Mi Direccion';
@@ -404,7 +406,8 @@ class AuthController extends AuthControllerCore
                 $address->add();
 
                 if(empty($this->errors)){
-
+                $this->processCustomerNewsletter($customer);
+                
                         if ($sql_count_customer < 2)
                         {
                             $sponsor = Db::getInstance()->getRow("SELECT c.id_customer, c.username, c.firstname, c.lastname, c.email, (2-COUNT(rs.id_sponsorship) ) sponsoships
@@ -422,29 +425,20 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->channel = 1;
                                 //$send = "";
                                 if ($sponsorship->save()) {
-
+                                    //setcookie('sms',$customer->id);
                                     $this->sendConfirmationMail($customer);
-                                    
+                                    /*if (isset($_COOKIE['sms'])) {
+                                        unset($_COOKIE['sms']);
+                                        setcookie('sms', '', time() - 3600, '/');
+                                    }*/
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');    
-
+                                    
+                                    $this->context->smarty->assign('sendSMSconfirm', true);
                                     //AuthController::sendNotificationSponsor($customer->id);
-                                   
                                     }
                                 
                                 $this->create_account = true;
-                                //$this->context->smarty->assign('email_create', 1);
-                                $sendSMS = false;
-                                while ( !$sendSMS ) {
-                                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                                }
-
-                                if ( $sendSMS ) {
-                                    $this->context->smarty->assign('id_customer', $customer->id);
-                                    $this->context->smarty->assign('codesponsor', $code_sponsor);
-                                    $this->context->smarty->assign('id_sponsor', $id_sponsor);
-                                    $this->context->smarty->assign('sendSMS', true);
-                                }
                                 $this->updateContext($customer);
                                 //$this->processSubmitLogin($validate = 1);    
 
@@ -484,30 +478,23 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->channel = 1;
 
                                 if ($sponsorship->save()) {
-
+                                    //$this->context->cookie->id_customer = $customer->id;
+                                    //setcookie('sms',$customer->id);
+                                    //$this->context->cookie->sms = 1;
                                     $this->sendConfirmationMail($customer);
+                                    /*if (isset($_COOKIE['sms'])) {
+                                        unset($_COOKIE['sms']);
+                                        setcookie('sms', '', time() - 3600, '/');
+                                    }*/
                                     
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                                     
+                                    $this->context->smarty->assign('sendSMSconfirm', true);
                                     //AuthController::sendNotificationSponsor($customer->id);
                                     
                                     }
                                     $this->create_account = true;
-                                    //$this->context->smarty->assign('email_create', 1);
-                                    
-                                    $sendSMS = false;
-                                    while ( !$sendSMS ) {
-                                        $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                                    }
-
-                                    if ( $sendSMS ) {
-                                        $this->context->smarty->assign('id_customer', $customer->id);
-                                        $this->context->smarty->assign('codesponsor', $code_sponsor);
-                                        $this->context->smarty->assign('id_sponsor', $id_sponsor);
-                                        $this->context->smarty->assign('sendSMS', true);
-                                    }
-                                    
                                     $this->updateContext($customer);
                                     //Tools::redirect('index.php?controller=authentication');
                                     //$this->processSubmitLogin($validate = 1);
@@ -668,7 +655,7 @@ class AuthController extends AuthControllerCore
                     // New Guest customer
                     $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                     $customer->active = 0;
-                    $customer->phone =  Tools::getValue('phone_mobile');
+                    $customer->phone =  $call_prefix.Tools::getValue('phone_mobile');
                     $customer->method_add = 'Web';
 
                     // Validate exist username
@@ -712,18 +699,6 @@ class AuthController extends AuthControllerCore
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
                             $customer->method_add = 'Web';
                             
-                            $sendSMS = false;
-                            while ( !$sendSMS ) {
-                                $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                            }
-
-                            if ( $sendSMS ) {
-                                $this->context->smarty->assign('id_customer', $customer->id);
-                                $this->context->smarty->assign('codesponsor', $code_sponsor);
-                                $this->context->smarty->assign('id_sponsor', $id_sponsor);
-                                $this->context->smarty->assign('sendSMS', true);
-                            }
-                            
                             $customer->update();
                             $customerLoaded = true;
                             
@@ -756,17 +731,6 @@ class AuthController extends AuthControllerCore
                                 }
                             }*/
                             
-                            $sendSMS = false;
-                            while ( !$sendSMS ) {
-                                $sendSMS = $customer->confirmCustomerSMS($customer->id);
-                            }
-
-                            if ( $sendSMS ) {
-                                $this->context->smarty->assign('id_customer', $customer->id);
-                                $this->context->smarty->assign('codesponsor', $code_sponsor);
-                                $this->context->smarty->assign('id_sponsor', $id_sponsor);
-                                $this->context->smarty->assign('sendSMS', true);
-                            }
                             $this->updateContext($customer);
 
                             if ($this->context->cookie->id_cart)
@@ -869,7 +833,6 @@ class AuthController extends AuthControllerCore
                                         '{bankwire_details}' => nl2br(Configuration::get('BANK_WIRE_DETAILS')),
                                         '{bankwire_address}' => nl2br(Configuration::get('BANK_WIRE_ADDRESS'))
                                 );
-                                //Tools::redirect('index.php?controller=order-confirmation&id_cart='.$cart->id.'&id_module='.$payment->id.'&id_order='.$payment->currentOrder.'&key='.$customer->secure_key);
                                 Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                                 $query = 'SELECT COUNT(id_order) FROM `'._DB_PREFIX_.'orders` WHERE `id_customer` = '.(int)$customer->id;
                                 $countOrder = Db::getInstance()->getValue($query);
@@ -906,7 +869,13 @@ class AuthController extends AuthControllerCore
                             }
                             // else : redirection to the account
                             else {
+                                //setcookie('sms',$customer->id);
+                                $this->context->smarty->assign('sendSMSconfirm', true);
                                 $this->sendConfirmationMail($customer);
+                                /*if (isset($_COOKIE['sms'])) {
+                                    unset($_COOKIE['sms']);
+                                    setcookie('sms', '', time() - 3600, '/');
+                                }*/
                                 $this->processSubmitLogin();
                                 //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
@@ -1098,13 +1067,38 @@ class AuthController extends AuthControllerCore
             }
         }
     }
+    
+    protected function processCustomerNewsletter(&$customer)
+    {
+        $blocknewsletter = Module::isInstalled('blocknewsletter') && $module_newsletter = Module::getInstanceByName('blocknewsletter');
+        if ($blocknewsletter && $module_newsletter->active && !Tools::getValue('newsletter')) {
+            require_once _PS_MODULE_DIR_.'blocknewsletter/blocknewsletter.php';
+            if (is_callable(array($module_newsletter, 'isNewsletterRegistered')) && $module_newsletter->isNewsletterRegistered(Tools::getValue('email')) == Blocknewsletter::GUEST_REGISTERED) {
+                /* Force newsletter registration as customer as already registred as guest */
+                $_POST['newsletter'] = 1;
+            }
+        }
+
+        if (Tools::getValue('newsletter')) {
+            $customer->newsletter = 1;
+            $customer->ip_registration_newsletter = pSQL(Tools::getRemoteAddr());
+            $customer->newsletter_date_add = pSQL(date('Y-m-d H:i:s'));
+            $customer->update();
+            /** @var Blocknewsletter $module_newsletter */
+            if ($blocknewsletter && $module_newsletter->active) {
+                $module_newsletter->confirmSubscription(Tools::getValue('email'));
+            }
+        }
+    }
+    
     protected function sendConfirmationMail(Customer $customer)
+            
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
         
         $vars = array(
                 '{username}' => $customer->username,
-                '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),                
+                '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id.'&sendSMS=1'),                
                 '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
                 '{dni}' => $customer->dni,
