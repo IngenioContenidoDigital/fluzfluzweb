@@ -425,7 +425,7 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->channel = 1;
                                 //$send = "";
                                 if ($sponsorship->save()) {
-                                    //setcookie('sms',$customer->id);
+                                    setcookie('sms', Tools::getValue('id_customer'), time() + 60*60*24, '/');
                                     $this->sendConfirmationMail($customer);
                                     /*if (isset($_COOKIE['sms'])) {
                                         unset($_COOKIE['sms']);
@@ -479,7 +479,7 @@ class AuthController extends AuthControllerCore
 
                                 if ($sponsorship->save()) {
                                     //$this->context->cookie->id_customer = $customer->id;
-                                    //setcookie('sms',$customer->id);
+                                    setcookie('sms', Tools::getValue('id_customer'), time() + 60*60*24, '/');
                                     //$this->context->cookie->sms = 1;
                                     $this->sendConfirmationMail($customer);
                                     /*if (isset($_COOKIE['sms'])) {
@@ -1096,9 +1096,16 @@ class AuthController extends AuthControllerCore
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
         
+        if (isset($_SERVER['HTTPS'])) {
+            $link_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+        }
+        else{
+            $link_url = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+        }    
+            
         $vars = array(
                 '{username}' => $customer->username,
-                '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id.'&sendSMS=1'),                
+                '{password}' =>  $link_url,                
                 '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
                 '{dni}' => $customer->dni,

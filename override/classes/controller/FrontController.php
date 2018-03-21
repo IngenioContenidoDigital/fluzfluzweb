@@ -31,9 +31,6 @@ class FrontController extends FrontControllerCore
 {
     public function init()
     {
-        if(Tools::getValue('sendSMS')=='1'){
-            setcookie('sms', Tools::getValue('id_customer'));
-        }
         /**
          * Globals are DEPRECATED as of version 1.5.0.1
          * Use the Context object to access objects instead.
@@ -94,23 +91,7 @@ class FrontController extends FrontControllerCore
         if ($variable != ""){
             $this->_checkSponsorshipLink();
         }
-        elseif(isset($_COOKIE['sms'])){            
-            /*Enviar mensaje y luego setear el valor*/
-            if(strlen($_COOKIE['sms'])>0){
-                $sendSMS = false;
-                while ( !$sendSMS ) {
-                    $sendSMS = Customer::confirmCustomerSMS($_COOKIE['sms']);
-                }
-            }
-            if ( $sendSMS ) {
-                $cs = $_COOKIE['sms'];
-                unset($_COOKIE['sms']);
-                setcookie('sms', '', time() - 7200, '/'); // empty value and old timestamp
-                $this->context->smarty->assign('sendSMS',true);
-                $this->context->smarty->assign('id_customer',$cs);
-            }
-        }
-        elseif($this->auth && !$this->context->customer->isLogged($this->guestAllowed)){
+        elseif($this->auth && !$this->context->customer->isLogged($this->guestAllowed) ){
             Tools::redirect('index.php?controller=authentication'.($this->authRedirection ? '&back='.$this->authRedirection: ''));
         }
         /* Theme is missing */

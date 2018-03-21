@@ -91,6 +91,35 @@
                 </ol>
             </div>
 	{/if*}
+        <div id="pop">
+            <div class="row block-form block-confirmsms">
+                <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
+                <br>
+                <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
+                    <div class="form-group">
+                        <label for="codesms" class="required">C&oacute;digo</label>
+                        <input type="text" placeholder="------" class="" id="codesms" name="codesms" autocomplete="off">
+                        <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
+                        <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
+                        <input type="hidden" name="id_sponsor" id="id_sponsor" value="{$id_sponsor}">
+                    </div>
+                    <div class="form-group" style="text-align: center;">
+                        <button class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
+                    </div>
+
+                    <div class="form-group" style="text-align: center;">
+                        <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
+                        <br>
+                        <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
+                    </div>
+
+            </div>
+        </div>
+        
+        
+        
+        
+        
         {if $sendSMS}
         {literal}
             <style>
@@ -103,28 +132,7 @@
         <div id="confirm_validos" style='display:none;'></div>
         <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
 
-        <div class="row block-form block-confirmsms">
-            <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
-            <br>
-            <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
-                <div class="form-group">
-                    <label for="codesms" class="required">C&oacute;digo</label>
-                    <input type="text" placeholder="------" class="" id="codesms" name="codesms" autocomplete="off">
-                    <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
-                    <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
-                    <input type="hidden" name="id_sponsor" id="id_sponsor" value="{$id_sponsor}">
-                </div>
-                <div class="form-group" style="text-align: center;">
-                    <button class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
-                </div>
-                
-                <div class="form-group" style="text-align: center;">
-                    <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
-                    <br>
-                    <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
-                </div>
-            
-        </div>
+        
         {* COMPLETE REGISTRATION *}
         <a style="display:none;" class="myfancybox btn btn-default btn-account" href="#confirmCode" name="submitConfirm" id="submitConfirm">
 
@@ -1630,6 +1638,7 @@
                 url: "/activateaccount.php",
                 data: {'action': 'confirmCode', 'code': sms,'customer':customer},
                 success:function(response){
+                    $('#pop').hide();
                     console.log(response);
                     if(response === 'true'){
                         $('#error_novalidos').hide();
@@ -1672,10 +1681,38 @@
         
         $('#clickOnload').click(function(){
             document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             var url = document.getElementById("url_fluz").innerHTML;
             window.location.replace(""+url+"mi-cuenta");
         });
+        
+        $(document).ready(function(){
+            $('#pop').hide();
+            var c = $.urlParam('sendSMS')
+            if (c.length>0){
+                $('#id_customer').val($.urlParam('id_customer'));
+                $.ajax({
+                    method:"POST",
+                    url: "/sendSMS.php",
+                    data:{"id_customer":$.urlParam('id_customer')},
+                    success:function(response){
+                        $('#pop').show();
+                    }
+                    
+                })
+            }else{
+                $('#pop').hide();
+            }
+        })
+        
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results==null){
+               return null;
+            }
+            else{
+               return decodeURI(results[1]) || 0;
+            }
+        }
         
     </script>
 {/literal}
