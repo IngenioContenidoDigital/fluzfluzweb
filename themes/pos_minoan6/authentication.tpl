@@ -91,44 +91,41 @@
                 </ol>
             </div>
 	{/if*}
-        {if $sendSMS}
-        {literal}
-            <style>
-                select, input { text-align: center; }
-                .alert.alert-danger{display:none;}
-                .img-responsive{margin: 0 auto !important;}
-            </style>
-        {/literal}
-        <div id="error_novalidos" style='display:none;'></div>
-        <div id="confirm_validos" style='display:none;'></div>
-        <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
+        <!-- POP UP FORMULARIO DE CONFIRMACION -->
+        
+        <a style="display:none;" class="myfancybox btn btn-default btn-account" href="#pop" name="submitPopup" id="submitPopup"></a>
+        <div style="display:none;" id="pop"  class="myfancybox">
+            <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
+            <div id="error_novalidos" style='display:none;'></div>
+            <div id="confirm_validos" style='display:none;'></div>
+            <div class="row block-form2 block-confirmsms">
+                <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
+                <br>
+                <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
+                    <div class="form-group">
+                        <label for="codesms" class="required">C&oacute;digo</label>
+                        <input style="text-align:center;" type="text" placeholder="------" class="" id="codesms" name="codesms" autocomplete="off">
+                        <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
+                        <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
+                    </div>
+                    <div class="form-group" style="text-align: center;">
+                        <button class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
+                    </div>
 
-        <div class="row block-form block-confirmsms">
-            <span>Se ha enviado un c&oacute;digo de confirmaci&oacute;n a tu n&uacute;mero c&eacute;lular</span>
-            <br>
-            <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
-                <div class="form-group">
-                    <label for="codesms" class="required">C&oacute;digo</label>
-                    <input type="text" placeholder="------" class="" id="codesms" name="codesms" autocomplete="off">
-                    <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
-                    <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
-                    <input type="hidden" name="id_sponsor" id="id_sponsor" value="{$id_sponsor}">
-                </div>
-                <div class="form-group" style="text-align: center;">
-                    <button class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
-                </div>
-                
-                <div class="form-group" style="text-align: center;">
-                    <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
-                    <br>
-                    <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
-                </div>
-            
+                    <div class="form-group" style="text-align: center;">
+                        <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
+                        <br>
+                        <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
+                    </div>
+
+            </div>
         </div>
+        
+        <!-- POPUP REGISTRO EXITOSO -->
+        
+        <div id="url_fluz" style="display:none;">{$base_dir_ssl}</div>    
         {* COMPLETE REGISTRATION *}
-        <a style="display:none;" class="myfancybox btn btn-default btn-account" href="#confirmCode" name="submitConfirm" id="submitConfirm">
-
-        </a>
+        <a style="display:none;" class="myfancybox btn btn-default btn-account" href="#confirmCode" name="submitConfirm" id="submitConfirm"></a>
         <div style="display:none;" id="confirmCode" class="myfancybox">
             <div class="row block-successfulregistration2 row">
                 <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
@@ -141,8 +138,9 @@
                 <a id="clickOnload" href="{$link->getPageLink('authentication', true)|escape:'html':'UTF-8'}">Continuar</a>
                 <br><br><br>
             </div>
-        </div>   
-        {elseif $sendSMSconfirm}
+        </div> 
+                
+        {if $sendSMSconfirm}
         <div class="row block-form block-confirmsms">
             <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
             <br>
@@ -155,14 +153,6 @@
                 <br><br><br>
             </div>
         </div>
-        {literal}
-            <style>
-                .breadcrumb{display:none !important;}
-                .header-container{display:none !important;}
-                .footer-container #footer{display: none !important;}
-                .img-responsive{margin: 0 auto !important;}
-            </style>
-        {/literal}        
         {else}        
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">
@@ -1547,7 +1537,14 @@
         $("#account-creation_form").validate();
     </script>
 {/literal}
-
+{literal}
+    <style>
+        .breadcrumb{display:none !important;}
+        .header-container{display:none !important;}
+        .footer-container #footer{display: none !important;}
+        .img-responsive{margin: 0 auto !important;}
+    </style>
+{/literal}   
 {literal}
     <style>
        h2{ font-size: 20px !important; 
@@ -1630,14 +1627,18 @@
                 url: "/activateaccount.php",
                 data: {'action': 'confirmCode', 'code': sms,'customer':customer},
                 success:function(response){
+                    $('#pop').hide();
                     console.log(response);
                     if(response === 'true'){
                         $('#error_novalidos').hide();
                         $("#submitConfirm")[0].click();
                     }
                     else{
+                        $('#submitPopup')[0].click();
+                        $('#confirm_validos').hide();
                         $('#error_novalidos').show();
                         $('#error_novalidos').html('El codigo ingresado es erroneo, Por favor verificar o comunicate con nosotros.');
+                        $('#codesms').focus();
                     }
                 }
             });
@@ -1658,11 +1659,12 @@
                         $('#error_novalidos').hide();
                         $('#confirm_validos').show();
                         $('#confirm_validos').html('Se reenvio codigo para validar y activar tu cuenta. Si no lo recibes en los proximos minutos comunicate con nosotros.');
-                
+                        $('#codesms').focus();
                     }
                     else{
                         $('#error_novalidos').show();
                         $('#confirm_validos').hide();
+                        $('#codesms').focus();
                         $('#error_novalidos').html('No se realizo el reenvio del codigo por favor comunicate con nosotros.');
                     }
                 }
@@ -1672,9 +1674,47 @@
         
         $('#clickOnload').click(function(){
             document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             var url = document.getElementById("url_fluz").innerHTML;
             window.location.replace(""+url+"mi-cuenta");
+        });
+        
+        $.urlParam = function(sParam){
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        }
+                    
+        $(document).ready(function(){
+            
+            $('#pop').hide();
+            var c = $.urlParam('id_customer')
+            //var id_customer = $.cookie('sms');
+            //console.log(id_customer);
+            if (c.length > 0){
+                $('#id_customer').val(c);
+                $.ajax({
+                    method:"POST",
+                    url: "/sendSMS.php",
+                    data:{"id_customer":c},
+                    success:function(response){
+                        $('#submitPopup')[0].click();
+                        $('#codesms').focus();
+                        //$.removeCookie("sms");
+                    }
+                    
+                })
+            }else{
+                $('#pop').hide();
+            }
         });
         
     </script>
