@@ -31,33 +31,6 @@
 
 {include file="$tpl_dir./errors.tpl"}
 
-{* SEND SMS *}
-<a style="display:none;" class="myfancybox btn btn-default btn-account" href="#pop" name="submitPopup" id="submitPopup"></a>
-<div style="display:none;" id="pop"  class="myfancybox">
-    <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
-    <div id="error_novalidos" style='display:none;'></div>
-    <div id="confirm_validos" style='display:none;'></div>
-    <div class="row block-form2 block-confirmsms">
-        <label>Ingresalo a continuaci&oacute;n para completar t&uacute; registro</label>
-        <form>
-            <div class="form-group">
-                <label for="codesms" class="required">C&oacute;digo</label>
-                <input type="text" placeholder="------" class="form-control" id="codesms" name="codesms" autocomplete="off">
-                <input type="hidden" name="id_customer" id="id_customer" value="{$id_customer}">
-                <input type="hidden" name="codesponsor" id="codesponsor" value="{$codesponsor}">
-                <input type="hidden" name="id_sponsor" id="id_sponsor" value="{$id_sponsor}">
-            </div>
-            <div class="form-group" style="text-align: center;">
-                <button type="submit" class="btn btn-primary" name="confirm" id="confirm">Confirmar Registro</button>
-            </div>
-            <div class="form-group" style="text-align: center;">
-                <button type="submit" class="btn btn-primary" name="resendSMS" id="resendSMS">Reenviar Codigo</button>
-                <br>
-                <small class="form-text text-muted text-help">Si no has recibido un c&oacute;digo luego de 10 minutos, pulsa en el anterior bot&oacute;n</small>
-            </div>
-        </form>
-    </div>
-</div>
 {if $sendSMSconfirm}
 <div class="row block-form block-confirmsms">
     <img class="logo img-responsive" src="https://fluzfluz.co/img/fluzfluz-logo-1464806235.jpg" alt="FluzFluz" width="356" height="94">
@@ -229,41 +202,3 @@
         text-align: center;
         margin-top: 2px; padding: 5px;}
 </style>
-{literal}
-    <script>
-        
-        $.urlParam = function(sParam){
-            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
-
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : sParameterName[1];
-                }
-            }
-        }
-                    
-        $(document).ready(function(){
-            $('#pop').hide();
-            var c = $.urlParam('id_customer')
-            if (c.length > 0){
-                    $('#submitPopup')[0].click();
-                    $('#codesms').focus();
-                })
-            }else{
-                $('#pop').hide();
-            }
-        });
-        
-        $('#clickOnload').click(function(){
-            document.cookie = 'sms' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            document.cookie = 'social' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            var url = document.getElementById("url_fluz").innerHTML;
-            window.location.replace(""+url+"mi-cuenta");
-        });
-    </script>
-{/literal}
