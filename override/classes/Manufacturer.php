@@ -293,27 +293,27 @@ class Manufacturer extends ManufacturerCore
         $json = $this->fetchData($url);
         $data = json_decode($json, true);
         
-        if( !isset($data['user']['media']['nodes']) ) {
+        if( !isset($data['graphql']['user']['edge_owner_to_timeline_media']['edges']) ) {
             return array();
         }
         
         $return = array();
         $i = 0;
         
-        foreach( $data['user']['media']['nodes'] as $post ) {
+        foreach( $data['graphql']['user']['edge_owner_to_timeline_media']['edges'] as $post ) {
             $return[] = array(
                 'link' => 'https://www.instagram.com/'.$this->instagram,
-                'type' => $post['__typename'],
-                'img-small' => $post['thumbnail_resources'][0]['src'],
-                'img-medium' => $post['thumbnail_resources'][1]['src'],
-                'img-large' => $post['thumbnail_resources'][4]['src'],
+                'type' => $post['node']['__typename'],
+                'img-small' => $post['node']['thumbnail_resources'][0]['src'],
+                'img-medium' => $post['node']['thumbnail_resources'][1]['src'],
+                'img-large' => $post['node']['thumbnail_resources'][4]['src'],
             );
             $i++;
             if( $i >= $count ) {
                 break;
             }
         }
-
+        
         return $return;
     }
     
