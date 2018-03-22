@@ -54,7 +54,7 @@ div.radio { margin-right: 10px; }
 .cardviewupt-instructions>.btn-info { width: 100%; background: #F15E54; border: 1px solid #F15E54; margin-top: 3px; text-align: left; }
 .cardviewupt-instructions>div { border: 1px solid #E8E8E8; padding: 10px; }
 .cardviewupt-instructions>.btn-info>.icon-plus, .cardviewupt-instructions>.btn-info>.icon-minus { float: right!important; margin-top: 3px; }
-.cardview-price>div>.price { font-size: 18px; }
+.cardview-price>div>.price { font-size: 16px; }
 .filter-view>div { float: right; }
 .used-value>div>p { margin: 0; }
 .viewdetailcard { display: none; }
@@ -130,9 +130,9 @@ div.radio { margin-right: 10px; }
     .cardview-price { padding-top: 0; }
     .cardview-price>div:first-child { padding: 15px 0px; }
     .cardview-price>div:last-child { padding: 20px 0px; }
-    .cardview-price>div:last-child>.cardinfo { color: #000; margin-bottom: 10px; }
+    .cardview-price>div:last-child>.cardinfo { color: #000; margin-bottom: 0px;padding-top: 10px;}
     .cardview-price>div:first-child>.cardinfo { color: #000; }
-    .cardview-price>div:last-child>.price { color: #000; font-size: 20px; font-size: 30px; font-weight: initial; letter-spacing: 2px; }
+    .cardview-price>div:last-child>.price { color: #000; font-size: 18px;font-weight: initial; letter-spacing: 2px; padding-top: 15px;padding-bottom: 20px;}
     .cardviewupt-used>div:first-child { text-align: right; margin-bottom: 20px; }
     .cardviewupt-used>div:last-child { text-align: left; }
     .cardviewupt-price { text-align: center; }
@@ -159,7 +159,7 @@ div.radio { margin-right: 10px; }
     .cardview-info>div { width: 100%; text-align: center; }
     .cardview-info>div>.img-manufacturer { width: 50%; margin-bottom: 10px; }
     .cardview-price>div:last-child>.cardinfo { color: #000; margin-bottom: 0px !important; }
-    .cardview-price>div:last-child>.price { font-size: 16px !important; }
+    .cardview-price>div:last-child>.price { font-size: 16px !important; padding: 15px 0px;}
 }
 
 @media (max-width:280px) {
@@ -171,5 +171,5 @@ div.radio { margin-right: 10px; }
     .cardviewupt-used>div { padding: 0; }
     .cardviewupt-used>div:first-child { text-align: left; }
     .cardview-price>div:last-child>.cardinfo { color: #000; margin-bottom: 0px !important; }
-    .cardview-price>div:last-child>.price { font-size: 16px !important; }
+    .cardview-price>div:last-child>.price { font-size: 12px !important; }
 }

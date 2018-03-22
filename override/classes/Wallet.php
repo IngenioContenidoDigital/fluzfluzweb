@@ -19,6 +19,7 @@ class WalletCore extends ObjectModel
                         PC.send_gift, 
                         PC.id_product, 
                         PC.code AS card_code, 
+                        PC.pin_code,
                         PC.used,
                         PC.price_card_used,
                         PL.name AS product_name,
