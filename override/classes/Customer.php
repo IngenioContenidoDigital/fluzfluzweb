@@ -460,7 +460,7 @@ class Customer extends CustomerCore
         
         $numberConfirm = rand(100000, 999999);
         $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
-                                SET web_confirm = '.$numberConfirm.'
+                                SET sms_confirm = '.$numberConfirm.'
                                 WHERE id_customer = '.$id_customer.';';
         $result = Db::getInstance()->execute($updateNumberConfirm);
         
@@ -501,7 +501,7 @@ class Customer extends CustomerCore
         $sql = "SELECT COUNT(*) valid
                 FROM "._DB_PREFIX_."customer
                 WHERE id_customer = ".$id_customer."
-                AND web_confirm = ".$code;
+                AND sms_confirm = ".$code;
         $valid = Db::getInstance()->executeS($sql);
         
         if ( $valid[0]['valid'] == 0 ) {

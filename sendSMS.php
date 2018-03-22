@@ -13,7 +13,7 @@ $sql = "SELECT phone
         
         $numberConfirm = rand(100000, 999999);
         $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
-                                SET web_confirm = '.$numberConfirm.'
+                                SET sms_confirm = '.$numberConfirm.'
                                 WHERE id_customer = '.$id_customer.';';
         $result = Db::getInstance()->execute($updateNumberConfirm);
         
