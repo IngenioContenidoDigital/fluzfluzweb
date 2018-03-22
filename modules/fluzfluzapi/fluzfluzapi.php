@@ -123,6 +123,7 @@ PRIMARY KEY (`id_webservice_external_log`))";
                 ON od.product_id = wep.id_product 
                 WHERE od.id_order=".$params['id_order'];
             $products = Db::getInstance()->executeS($sql);
+            
             $total=Db::getInstance()->numRows();
             
             $query_name = 'SELECT c.username as username, c.email as email FROM '._DB_PREFIX_.'orders o
@@ -132,85 +133,89 @@ PRIMARY KEY (`id_webservice_external_log`))";
             
             if($total>0){
                 foreach($products as $product){
-                    $sclient = new CSoap($product['id_webservice_external']);
-
-                    $acproduct= new Product($product['id_product']);
+                    for ($quantity = 1; $quantity <= $product['product_quantity']; $quantity++) {
                     
-                    $getnumber="SELECT wet.phone_mobile, wep.id_operator 
-                        FROM ps_orders AS o 
-                        INNER JOIN ps_webservice_external_telco AS wet ON o.id_cart = wet.id_cart 
-                        INNER JOIN ps_order_detail AS od ON o.id_order = od.id_order 
-                        INNER JOIN ps_webservice_external_product AS wep ON od.product_id = wep.id_product  
-                        WHERE o.id_order =".$params['id_order'];
-                    
-                    $number=Db::getInstance()->getRow($getnumber);
+                        $sclient = new CSoap($product['id_webservice_external']);
 
-                    $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "DeviceType",3);
-                    $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "Platform",1);
-                    $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "Amount",intval($acproduct->price_shop));
-                    $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "ExternalTransactionReference",$params['id_order']."-".time());
-                    $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "MNO",$number['id_operator']);
-                    $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "Recipient",$number['phone_mobile']);
-                    $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "WalletType","Stock");
-                    
-                    $response=$sclient->doRequest('http://api.movilway.net/schema/extended/IExtendedAPI/TopUp',$sclient->request);
+                        $acproduct= new Product($product['id_product']);
 
-                    if(!is_numeric($response)){
-                        $xml = simplexml_load_string($response);
-                        $xml->registerXPathNamespace('res', 'http://api.movilway.net/schema/extended');
-                        $response=array();
-                        foreach($xml->xpath('//res:*') as $item){
-                            if(((string)$item->getName())!=='responsemessage'){
-                                $response[strtolower((string)$item->getName())]=(string)$item;
-                            }
-                        }
-                        $insert ="INSERT INTO "._DB_PREFIX_."webservice_external_log (id_webservice_external, id_order, id_product, mobile_phone, action, request, response_code, response_message, date_add, date_upd) "
-                            . "VALUES ('".$product['id_webservice_external']."', '".$params['id_order']."', '".$product['id_product']."', '".$number['phone_mobile']."', 'http://api.movilway.net/schema/extended/IExtendedAPI/TopUp', '".$sclient->request."', '".(int)$response['responsecode']."', '".$response['responsemessage']."', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."')";
-                        if((int)$response['responsecode']==0){
-                            $chainsql="SELECT "._DB_PREFIX_."customer.id_customer, "._DB_PREFIX_."customer.secure_key 
-                    FROM "._DB_PREFIX_."webservice_external_log INNER JOIN "._DB_PREFIX_."orders ON "._DB_PREFIX_."webservice_external_log.id_order = "._DB_PREFIX_."orders.id_order INNER JOIN "._DB_PREFIX_."customer ON "._DB_PREFIX_."orders.id_customer = "._DB_PREFIX_."customer.id_customer 
-                        WHERE "._DB_PREFIX_."webservice_external_log.id_order =".$params['id_order'];
-                            $chainrow= Db::getInstance()->getRow($chainsql);
-                            
-                            set_time_limit(5000);
-                            $chain = Encrypt::encrypt($chainrow['secure_key'] , $number['phone_mobile']);
-                            
-                            $code = "INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add, encry) VALUES ('".$product['id_product']."', '".$chain."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."', 1)";
-                            Db::getInstance()->execute($code);
-                            
-                            $template = 'order_conf_telco_sucess';
-                            $prefix_template = 'order_conf_telco_sucess';
+                        $getnumber="SELECT wet.phone_mobile, wep.id_operator 
+                            FROM ps_orders AS o 
+                            INNER JOIN ps_webservice_external_telco AS wet ON o.id_cart = wet.id_cart 
+                            INNER JOIN ps_order_detail AS od ON o.id_order = od.id_order 
+                            INNER JOIN ps_webservice_external_product AS wep ON od.product_id = wep.id_product  
+                            WHERE o.id_order =".$params['id_order'];
 
-                            $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                            $row_subject = Db::getInstance()->getRow($query_subject);
-                            $message_subject = $row_subject['subject_mail'];
-
-                            $vars = array(
-                                    '{username}' => $user[0]['username'],
-                                    '{Recharged}' => $number['phone_mobile']
-                                );
-
-                            Mail::Send(1, $template, $message_subject, $vars, $user[0]['email'], $user[0]['username'], Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),NULL, NULL, dirname(__FILE__).'/mails/', false);
-                        }
-                    }else{
-                        $insert ="INSERT INTO "._DB_PREFIX_."webservice_external_log (id_webservice_external, id_order, id_product, mobile_phone, action, request, response_code, response_message, date_add, date_upd) "
-                            . "VALUES ('".$product['id_webservice_external']."', '".$params['id_order']."', '".$product['id_product']."', '".$number['phone_mobile']."', 'http://api.movilway.net/schema/extended/IExtendedAPI/TopUp', '".$sclient->request."', '-1', 'Transaccion sin respuesta luego de 90s', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."')";
+                        $number=Db::getInstance()->getRow($getnumber);
                         
-                        $template = 'order_conf_telco_failed';
-                        $prefix_template = 'order_conf_telco_failed';
+                        $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "DeviceType",3);
+                        $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "Platform",1);
+                        $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "Amount",intval($acproduct->price_shop));
+                        $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "ExternalTransactionReference",$params['id_order']."-".time()."-".$quantity);
+                        $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "MNO",$number['id_operator']);
+                        $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "Recipient",$number['phone_mobile']);
+                        $sclient->request=$sclient->setValue($sclient->request, "TopUpRequest", "WalletType","Stock");
 
-                        $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
-                        $row_subject = Db::getInstance()->getRow($query_subject);
-                        $message_subject = $row_subject['subject_mail'];
-                        
-                        $vars = array(
-                                '{username}' => $user[0]['username'],
-                                '{Recharged}' => $number['phone_mobile']
-                            );
-                        
-                        Mail::Send(1, $template, $message_subject, $vars, $user[0]['email'], $user[0]['username'], Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),NULL, NULL, dirname(__FILE__).'/mails/', false);
-                    }                    
-                    Db::getInstance()->execute($insert);
+                        $response=$sclient->doRequest('http://api.movilway.net/schema/extended/IExtendedAPI/TopUp',$sclient->request);
+                        if ($number['phone_mobile'] != ''){
+                            if(!is_numeric($response)){
+                                $xml = simplexml_load_string($response);
+                                $xml->registerXPathNamespace('res', 'http://api.movilway.net/schema/extended');
+                                $response=array();
+                                foreach($xml->xpath('//res:*') as $item){
+                                    if(((string)$item->getName())!=='responsemessage'){
+                                        $response[strtolower((string)$item->getName())]=(string)$item;
+                                    }
+                                }
+                                $insert ="INSERT INTO "._DB_PREFIX_."webservice_external_log (id_webservice_external, id_order, id_product, mobile_phone, action, request, response_code, response_message, date_add, date_upd) "
+                                    . "VALUES ('".$product['id_webservice_external']."', '".$params['id_order']."', '".$product['id_product']."', '".$number['phone_mobile']."', 'http://api.movilway.net/schema/extended/IExtendedAPI/TopUp', '".$sclient->request."', '".(int)$response['responsecode']."', '".$response['responsemessage']."', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."')";
+                                if((int)$response['responsecode']==0){
+                                    $chainsql="SELECT "._DB_PREFIX_."customer.id_customer, "._DB_PREFIX_."customer.secure_key 
+                            FROM "._DB_PREFIX_."webservice_external_log INNER JOIN "._DB_PREFIX_."orders ON "._DB_PREFIX_."webservice_external_log.id_order = "._DB_PREFIX_."orders.id_order INNER JOIN "._DB_PREFIX_."customer ON "._DB_PREFIX_."orders.id_customer = "._DB_PREFIX_."customer.id_customer 
+                                WHERE "._DB_PREFIX_."webservice_external_log.id_order =".$params['id_order'];
+                                    $chainrow= Db::getInstance()->getRow($chainsql);
+
+                                    set_time_limit(5000);
+                                    $chain = Encrypt::encrypt($chainrow['secure_key'] , $number['phone_mobile']);
+
+                                    $code = "INSERT INTO "._DB_PREFIX_."product_code (id_product, code, id_order, used, date_add, encry) VALUES ('".$product['id_product']."', '".$chain."', '".$params['id_order']."', '2', '".date('Y-m-d H:i:s')."', 1)";
+                                    Db::getInstance()->execute($code);
+
+                                    $template = 'order_conf_telco_sucess';
+                                    $prefix_template = 'order_conf_telco_sucess';
+
+                                    $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                                    $row_subject = Db::getInstance()->getRow($query_subject);
+                                    $message_subject = $row_subject['subject_mail'];
+
+                                    $vars = array(
+                                            '{username}' => $user[0]['username'],
+                                            '{Recharged}' => $number['phone_mobile']
+                                        );
+
+                                    Mail::Send(1, $template, $message_subject, $vars, $user[0]['email'], $user[0]['username'], Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),NULL, NULL, dirname(__FILE__).'/mails/', false);
+                                }
+                            }else{
+                                $insert ="INSERT INTO "._DB_PREFIX_."webservice_external_log (id_webservice_external, id_order, id_product, mobile_phone, action, request, response_code, response_message, date_add, date_upd) "
+                                    . "VALUES ('".$product['id_webservice_external']."', '".$params['id_order']."', '".$product['id_product']."', '".$number['phone_mobile']."', 'http://api.movilway.net/schema/extended/IExtendedAPI/TopUp', '".$sclient->request."', '-1', 'Transaccion sin respuesta luego de 90s', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."')";
+
+                                $template = 'order_conf_telco_failed';
+                                $prefix_template = 'order_conf_telco_failed';
+
+                                $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
+                                $row_subject = Db::getInstance()->getRow($query_subject);
+                                $message_subject = $row_subject['subject_mail'];
+
+                                $vars = array(
+                                        '{username}' => $user[0]['username'],
+                                        '{Recharged}' => $number['phone_mobile']
+                                    );
+
+                                Mail::Send(1, $template, $message_subject, $vars, $user[0]['email'], $user[0]['username'], Configuration::get('PS_SHOP_EMAIL'), Configuration::get('PS_SHOP_NAME'),NULL, NULL, dirname(__FILE__).'/mails/', false);
+                            }                    
+                            Db::getInstance()->execute($insert);
+                        }    
+                    }
                 }
             }
       }
