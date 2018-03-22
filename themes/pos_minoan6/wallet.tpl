@@ -45,11 +45,13 @@
                     <div class="col-xs-5 col-sm-3 col-md-3 col-lg-3 col1">
                         <img src="{$s3}m/{$card.id_manufacturer}.jpg" class="img-manufacturer"/>
                     </div>
-                    <div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 col2">
+                    <div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 col2" style='padding:0px; font-size: 11px;font-weight: bold;'>
                         <span class="name-manufacturer">{$card.manufacturer}</span>
                         <br>
-                        {if $card.send_gift != 1}
+                        {if $card.send_gift != 1 AND $card.pin_code == ''}
                             <span class="">{$card.card_code}</span>
+                        {elseif $card.send_gift != 1 AND $card.pin_code != ''}  
+                            <span class="">{$card.card_code} - {$card.pin_code}</span>
                         {else}
                             <span class="">{l s="Bono Obsequiado"}</span>
                         {/if}
@@ -117,7 +119,7 @@
                     <p class="cardinfo">Valor:</p>
                     <p class="price" id="value"></p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style='padding:0px;'>
                     <p class="cardinfo">Código Asociado:</p>
                     <p class="price" id="code"></p>
                 </div>
