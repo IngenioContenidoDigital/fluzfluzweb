@@ -309,9 +309,16 @@ class oneall_social_login_tools
                 $sponsorship->channel = 1;
                 $sponsorship->save();
                 
+                if (isset($_SERVER['HTTPS'])) {
+                    $link_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+                }
+                else{
+                    $link_url = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+                }
+                
                 $vars = array(
                     '{username}' => $customer->username,
-                    '{password}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id),
+                    '{password}' => $link_url,
                     '{firstname}' => $customer->firstname,
                     '{lastname}' => $customer->lastname,
                     '{dni}' => $customer->dni,
