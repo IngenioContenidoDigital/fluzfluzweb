@@ -404,7 +404,7 @@ class Customer extends CustomerCore
     
     public static function percentProfileComplete($id_customer) {
         $fields_complete = 0;
-        $fields_information = 18;
+        $fields_information = 17;
 
         $customer = new Customer($id_customer); 
         $address = $customer->getAddresses();
@@ -427,7 +427,7 @@ class Customer extends CustomerCore
         /* 15 */ if ( $customer->phone_provider != "" ) { $fields_complete++; }
         /* 16 */ if ( $address['phone'] != "" ) { $fields_complete++; }
         /* 17 */ if ( $address['address1'] != "" ) { $fields_complete++; }
-        /* 18 */ if ( $address['address2'] != "" ) { $fields_complete++; }
+        /* 18 if ( $address['address2'] != "" ) { $fields_complete++; }*/ 
         /* 19 */ if ( $address['city'] != "" ) { $fields_complete++; }
         
         return round( ($fields_complete*100)/$fields_information );
