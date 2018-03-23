@@ -425,12 +425,8 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->channel = 1;
                                 //$send = "";
                                 if ($sponsorship->save()) {
-                                    //setcookie('sms',$customer->id);
+                                    //setcookie('sms', Tools::getValue('id_customer'), time() + 60*60*24, '/');
                                     $this->sendConfirmationMail($customer);
-                                    /*if (isset($_COOKIE['sms'])) {
-                                        unset($_COOKIE['sms']);
-                                        setcookie('sms', '', time() - 3600, '/');
-                                    }*/
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');    
                                     
@@ -478,14 +474,8 @@ class AuthController extends AuthControllerCore
                                 $sponsorship->channel = 1;
 
                                 if ($sponsorship->save()) {
-                                    //$this->context->cookie->id_customer = $customer->id;
-                                    //setcookie('sms',$customer->id);
-                                    //$this->context->cookie->sms = 1;
+                                    //setcookie('sms', $customer->id);
                                     $this->sendConfirmationMail($customer);
-                                    /*if (isset($_COOKIE['sms'])) {
-                                        unset($_COOKIE['sms']);
-                                        setcookie('sms', '', time() - 3600, '/');
-                                    }*/
                                     
                                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
@@ -872,10 +862,7 @@ class AuthController extends AuthControllerCore
                                 //setcookie('sms',$customer->id);
                                 $this->context->smarty->assign('sendSMSconfirm', true);
                                 $this->sendConfirmationMail($customer);
-                                /*if (isset($_COOKIE['sms'])) {
-                                    unset($_COOKIE['sms']);
-                                    setcookie('sms', '', time() - 3600, '/');
-                                }*/
+                                
                                 $this->processSubmitLogin();
                                 //Tools::redirect('index.php?controller='.(($this->authRedirection !== false) ? urlencode($this->authRedirection) : 'my-account'));
                             }
@@ -1096,9 +1083,16 @@ class AuthController extends AuthControllerCore
     {
         if (!Configuration::get('PS_CUSTOMER_CREATION_EMAIL')) {
         
+        if (isset($_SERVER['HTTPS'])) {
+            $link_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+        }
+        else{
+            $link_url = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+        }    
+            
         $vars = array(
                 '{username}' => $customer->username,
-                '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id.'&sendSMS=1'),                
+                '{password}' =>  $link_url,                
                 '{firstname}' => $customer->firstname,
                 '{lastname}' => $customer->lastname,
                 '{dni}' => $customer->dni,

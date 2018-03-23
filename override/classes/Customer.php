@@ -59,7 +59,7 @@ class Customer extends CustomerCore
     public $phone_provider;
     public $vault_code;
     public $phone;
-    public $app_confirm;
+    public $sms_confirm;
     public $method_add;
 
 
@@ -117,7 +117,7 @@ class Customer extends CustomerCore
             'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 4),
             'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 15),
             'method_add' =>               array('type' => self::TYPE_STRING, 'size' => 155),
-            'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
+            'sms_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
         ),  
     );
     
@@ -404,7 +404,7 @@ class Customer extends CustomerCore
     
     public static function percentProfileComplete($id_customer) {
         $fields_complete = 0;
-        $fields_information = 18;
+        $fields_information = 17;
 
         $customer = new Customer($id_customer); 
         $address = $customer->getAddresses();
@@ -427,7 +427,7 @@ class Customer extends CustomerCore
         /* 15 */ if ( $customer->phone_provider != "" ) { $fields_complete++; }
         /* 16 */ if ( $address['phone'] != "" ) { $fields_complete++; }
         /* 17 */ if ( $address['address1'] != "" ) { $fields_complete++; }
-        /* 18 */ if ( $address['address2'] != "" ) { $fields_complete++; }
+        /* 18 if ( $address['address2'] != "" ) { $fields_complete++; }*/ 
         /* 19 */ if ( $address['city'] != "" ) { $fields_complete++; }
         
         return round( ($fields_complete*100)/$fields_information );
@@ -460,7 +460,7 @@ class Customer extends CustomerCore
         
         $numberConfirm = rand(100000, 999999);
         $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
-                                SET web_confirm = '.$numberConfirm.'
+                                SET sms_confirm = '.$numberConfirm.'
                                 WHERE id_customer = '.$id_customer.';';
         $result = Db::getInstance()->execute($updateNumberConfirm);
         
@@ -501,7 +501,7 @@ class Customer extends CustomerCore
         $sql = "SELECT COUNT(*) valid
                 FROM "._DB_PREFIX_."customer
                 WHERE id_customer = ".$id_customer."
-                AND web_confirm = ".$code;
+                AND sms_confirm = ".$code;
         $valid = Db::getInstance()->executeS($sql);
         
         if ( $valid[0]['valid'] == 0 ) {
