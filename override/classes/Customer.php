@@ -59,7 +59,7 @@ class Customer extends CustomerCore
     public $phone_provider;
     public $vault_code;
     public $phone;
-    public $app_confirm;
+    public $sms_confirm;
     public $method_add;
 
 
@@ -117,7 +117,7 @@ class Customer extends CustomerCore
             'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 4),
             'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 15),
             'method_add' =>               array('type' => self::TYPE_STRING, 'size' => 155),
-            'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
+            'sms_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
         ),  
     );
     
