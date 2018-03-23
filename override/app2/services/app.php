@@ -1951,15 +1951,11 @@ class API extends REST {
     $sql = "SELECT phone
             FROM "._DB_PREFIX_."customer
             WHERE id_customer = ".$id_customer.";";
-    error_log("\n\n\n sql: ".print_r($sql, true),3,"/tmp/error.log");
     $phone = Db::getInstance()->getValue($sql);
-    error_log("\n\n\n phone: ".print_r($phone, true),3,"/tmp/error.log");
     $numberConfirm = rand(100000, 999999);
-    error_log("\n\n\n numberConfirm: ".print_r($numberConfirm, true),3,"/tmp/error.log");
     $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
                             SET sms_confirm = '.$numberConfirm.'
                             WHERE id_customer = '.$id_customer.';';
-    error_log("\n\n\n updateNumberConfirm: ".print_r($updateNumberConfirm, true),3,"/tmp/error.log");
     $result = Db::getInstance()->execute($updateNumberConfirm);
     $curl = curl_init();
     $message_text= "Fluz Fluz te da la bienvenida!!! Tu codigo de verificacion es: ";
