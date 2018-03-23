@@ -115,14 +115,20 @@
                 </div>
             </div>
             <div class="row cardview-price">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style='padding:0px;'>
                     <p class="cardinfo">Valor:</p>
                     <p class="price" id="value"></p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style='padding:0px;'>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style='padding:0px;text-align:center;'>
                     <p class="cardinfo">Código Asociado:</p>
                     <p class="price" id="code"></p>
                 </div>
+                {if $cards.0.pin_code != ''}
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 div-pin" style='padding:0px;text-align:right;'>
+                        <p class="cardinfo">Pin:</p>
+                        <p class="price" id="pin"></p>
+                    </div>
+                {/if}
             </div>
             <div class="row used-value">
                 <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 text-center">
