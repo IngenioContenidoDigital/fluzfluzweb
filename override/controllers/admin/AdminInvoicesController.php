@@ -49,6 +49,10 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
     
     public function initFormByDateExcel()
     {
+        $commerce = array();
+        $commerce = Supplier::getSuppliers();
+        array_unshift($commerce, array("id_supplier" => "","name" => "-"));
+        
         $this->fields_form = array(
             'legend' => array(
                 'title' => $this->l('Excel por fecha'),
@@ -70,6 +74,18 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                     'maxlength' => 10,
                     'required' => true,
                     'hint' => $this->l('Format: 2012-12-31 (inclusive).')
+                ),
+                array(
+                    'type' => 'select',
+                    'options' => array(
+                        'query' => $commerce,
+                        'id' => 'id_supplier',
+                        'name' => 'name'
+                    ),
+                    'label' => $this->l('Comercio'),
+                    'name' => 'commerce',
+                    'required' => false,
+                    'hint' => $this->l('Opcional')
                 )
             ),
             'submit' => array(
@@ -112,80 +128,104 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
             
             $date_from = Tools::getValue('date_from_ex');
             $date_to = Tools::getValue('date_to_ex');
+            $commerce = Tools::getValue('commerce');
             
             $query_excel = 'SELECT
-                            -- o.id_order,
-                            oi.number factura_venta,
-                            o.date_add fecha,
-                            CONCAT(c.firstname," ",c.lastname) nombre_cliente,
-                            a.phone telefono_cliente_1,
-                            a.phone_mobile telefono_cliente_2,
-                            c.dni identificacion_cliente,
-                            c.email email_cliente,
-                            CONCAT(a.address1," | ",a.address2) direccion_cliente,
-                            a.city ciudad,
-                            pl.name producto,
-                            od.product_quantity cantidad,
-                            od.product_reference ref,
-                            od.product_price vr_pesos,
-                            o.total_paid valor_total
+                                o.id_order,
+                                oi.number factura_venta,
+                                o.date_add fecha,
+                                CONCAT(c.firstname," ",c.lastname) nombre_cliente,
+                                a.phone telefono_cliente_1,
+                                a.phone_mobile telefono_cliente_2,
+                                c.dni identificacion_cliente,
+                                c.email email_cliente,
+                                CONCAT(a.address1," | ",a.address2) direccion_cliente,
+                                a.city ciudad,
+                                od.product_name producto,
+                                od.product_quantity cantidad,
+                                od.product_reference referencia,
+                                s.name comercio,
+                                ROUND(od.product_price) valor_unit,
+                                ROUND(od.product_price * od.product_quantity) valor_total,
+                                ROUND(IF(o.total_discounts_tax_incl<=product_price*od.product_quantity,o.total_discounts_tax_incl,product_price*od.product_quantity)) total_paid_fluz,
+                                ROUND(IF(op.amount<=product_price*od.product_quantity,op.amount,product_price*od.product_quantity)) total_paid,
+                                ROUND(o.total_paid) valor_real
                             FROM ps_orders o
                             LEFT JOIN ps_order_invoice oi ON ( o.id_order = oi.id_order )
                             LEFT JOIN ps_customer c ON ( o.id_customer = c.id_customer )
                             LEFT JOIN ps_address a ON ( o.id_customer = a.id_customer AND (a.phone != "" OR a.phone_mobile != "") )
                             LEFT JOIN ps_order_detail od ON ( o.id_order = od.id_order )
-                            LEFT JOIN ps_product_lang pl ON ( od.product_id = pl.id_product AND pl.id_lang = 1 )
+                            LEFT JOIN ps_order_payment op ON ( o.reference = op.order_reference )
+                            LEFT JOIN ps_product p ON ( p.id_product = od.product_id )
+                            LEFT JOIN ps_supplier s ON ( p.id_supplier = s.id_supplier )
                             WHERE o.date_add BETWEEN "'.$date_from.'" AND "'.$date_to.'"
                             AND o.current_state = 2
+                            '.($commerce!="" ? " AND s.id_supplier = ".$commerce." " : "" ).'
                             GROUP BY o.id_order, od.id_order_detail, o.id_customer
                             ORDER BY oi.number';
-            
+
             $invoice_excel = Db::getInstance()->executeS($query_excel);
             
             $report = "<html>
                         <head>
                             <meta http-equiv=Content-Type content=text/html; charset=iso-8859-1 />
                         </head>
-                            <body>
-                                <table>
-                                    <tr>
-                                        <th>factura_venta</th>
-                                        <th>fecha</th>
-                                        <th>nombre_cliente</th>
-                                        <th>telefono_cliente_1</th>
-                                        <th>telefono_cliente_2</th>
-                                        <th>identificacion_cliente</th>
-                                        <th>email_cliente</th>
-                                        <th>direccion_cliente</th>
-                                        <th>ciudad</th>
-                                        <th>producto</th>
-                                        <th>cantidad</th>
-                                        <th>ref</th>
-                                        <th>vr_pesos</th>
-                                        <th>valor_total</th>
-                                        ";
-            
-            $report .= "</tr>";
+                        <body>
+                            <table>
+                                <tr>
+                                    <th>orden</th>
+                                    <th>factura_venta</th>
+                                    <th>fecha</th>
+                                    <th>nombre_cliente</th>
+                                    <th>telefono_cliente_1</th>
+                                    <th>telefono_cliente_2</th>
+                                    <th>identificacion_cliente</th>
+                                    <th>email_cliente</th>
+                                    <th>direccion_cliente</th>
+                                    <th>ciudad</th>
+                                    <th>producto</th>
+                                    <th>referencia</th>
+                                    <th>comercio</th>
+                                    <th>cantidad</th>
+                                    <th>valor_unitario</th>
+                                    <th>valor_total</th>
+                                    <th>valor_pagado_fluz</th>
+                                    <th>valor_pagado</th>
+                                    <th>valor_real</th>
+                                    <th>recarga</th>
+                                    <th>fecha_inicial</th>
+                                    <th>fecha_final</th>
+                                </tr>";
             
             foreach ($invoice_excel as $data)
                 {
                     $report .= "<tr>
-                            <td>".$data['factura_venta']."</td>
-                            <td>".$data['fecha']."</td>
-                            <td>".$data['nombre_cliente']."</td>
-                            <td>".$data['telefono_cliente_1']."</td>
-                            <td>".$data['telefono_cliente_2']."</td>
-                            <td>".$data['identificacion_cliente']."</td>    
-                            <td>".$data['email_cliente']."</td>
-                            <td>".$data['direccion_cliente']."</td>
-                            <td>".$data['ciudad']."</td>
-                            <td>".$data['producto']."</td>
-                            <td>".$data['cantidad']."</td>
-                            <td>".$data['ref']."</td>
-                            <td>".$data['vr_pesos']."</td>
-                            <td>".$data['valor_total']."</td>";
+                                    <td>".$data['id_order']."</td>
+                                    <td>".$data['factura_venta']."</td>
+                                    <td>".$data['fecha']."</td>
+                                    <td>".$data['nombre_cliente']."</td>
+                                    <td>".$data['telefono_cliente_1']."</td>
+                                    <td>".$data['telefono_cliente_2']."</td>
+                                    <td>".$data['identificacion_cliente']."</td>    
+                                    <td>".$data['email_cliente']."</td>
+                                    <td>".$data['direccion_cliente']."</td>
+                                    <td>".$data['ciudad']."</td>
+                                    <td>".$data['producto']."</td>
+                                    <td>".$data['referencia']."</td>
+                                    <td>".$data['comercio']."</td>
+                                    <td>".$data['cantidad']."</td>
+                                    <td>".$data['valor_unit']."</td>
+                                    <td>".$data['valor_total']."</td>
+                                    <td>".$data['total_paid_fluz']."</td>
+                                    <td>".$data['total_paid']."</td>
+                                    <td>".$data['valor_real']."</td>
+                                    <td>".(($data['total_paid_fluz'] == 0 && $data['total_paid'] == 0) ? 'Si' : 'No')."</td>
+                                    <td>".$date_from."</td>
+                                    <td>".$date_to."</td>
+                                </tr>";
                 }
-            $report .= "         </table>
+                
+            $report .= "    </table>
                         </body>
                     </html>";    
             
