@@ -310,7 +310,7 @@ class API extends REST {
     $password = trim( $this->_request['pwd'] );
     
     if( !Validate::isEmail($email) || !Validate::isPasswd($password) ){
-      $this->response('', 202);
+      $this->response($this->json(array('error'=> 1)), 200);
     }
     
     // Validaciones de entrada
@@ -319,7 +319,7 @@ class API extends REST {
         $customer = new Customer();
         $authentication = $customer->getByEmail($email, $password);
         if (!$authentication || !$customer->id) {
-          $this->response(array('success'=>FALSE), 204);	// Si no hay registros, estado "No Content"
+          $this->response($this->json(array('success'=>false, 'error'=> 2)), 200);	// Si no hay registros, estado "No Content"
         }
         else {
           $context = Context::getContext();
@@ -373,6 +373,7 @@ class API extends REST {
                 'dni' => $customer->dni,
                 'phone' => $customer->phone,
                 'refer_code' => $refer_code,
+                'error' => 0,
                 'success' => TRUE);
 
           $this->response($this->json($array), 200);
@@ -382,9 +383,10 @@ class API extends REST {
 
     // Si las entradas son inv�lidas, mensaje de estado "Bad Request" y la razon
     $this->response($this->json(array(
-      "success" => false, 
+      "success" => false,
+      "error" => 3,
       "message" => "Dirección de correo electrónico o contraseña no válidos"
-    )), 400);
+    )), 200);
   }
   
   /**
@@ -591,7 +593,7 @@ class API extends REST {
       $addres2 = !empty($this->_request['address2']) ? $this->_request['address2']: null;
       $cod_refer = $this->_request['cod_refer'];
       $password = $this->_request['password'];
-
+      
       $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
                                               FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
 
@@ -638,6 +640,7 @@ class API extends REST {
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
           $saveCustomer = $customer->add();
+          error_log("\n\n\n Add Customer: ".print_r($saveCustomer,true),3,"/tmp/error.log");
           $customer->updateGroup(array("3","4"));
 
         // Agregar Direccion
@@ -815,7 +818,7 @@ class API extends REST {
       'refer_code' => $refer_code,
       'success' => TRUE);
 
-    $response = array('success' => $complete, 'error' => $error, 'message' => $message, 'customer' => $customerData);
+    $response = array('success' => $complete, 'error' => $error, 'message' => $message, 'customer' => ($complete)?$customerData:'');
     $this->response( $this->json($response) , 200 );
   }
     
@@ -1943,7 +1946,7 @@ class API extends REST {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
-    $id_customer = $this->_request['id_customer'];
+    $id_customer = (int)$this->_request['id_customer'];
     
     $sql = "SELECT phone
             FROM "._DB_PREFIX_."customer
@@ -1951,7 +1954,7 @@ class API extends REST {
     $phone = Db::getInstance()->getValue($sql);
     $numberConfirm = rand(100000, 999999);
     $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
-                            SET web_confirm = '.$numberConfirm.'
+                            SET sms_confirm = '.$numberConfirm.'
                             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($updateNumberConfirm);
     $curl = curl_init();
@@ -2002,12 +2005,11 @@ class API extends REST {
     $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
     $id_customer = $this->_request['id_customer'];
 
-    $sql = "SELECT web_confirm
+    $sql = "SELECT sms_confirm
           FROM "._DB_PREFIX_."customer
           WHERE id_customer = ".$id_customer.";";
 
     $app_confirm = Db::getInstance()->getValue($sql);
-    
     if( $code == $app_confirm ){
       
       $sql = 'UPDATE '._DB_PREFIX_.'customer
