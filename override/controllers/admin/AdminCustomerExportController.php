@@ -84,6 +84,10 @@ class AdminCustomerExportControllerCore extends AdminController
                     $network['date_add'] = $row_sql['date_add'];
                 }
                 
+                usort($tree, function($a, $b) {
+                    return $a['level'] - $b['level'];
+                });
+                
                 die (json_encode($tree));
                 break;
             case 'searchUser':
