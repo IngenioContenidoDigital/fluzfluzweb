@@ -160,7 +160,7 @@ function renderViewCard(key, card) {
     else if(card.send_gift === null && card.pin_code !== ''){
         $("#code").html( card.card_code);
         $('#pin').html(card.pin_code);
-        $('#send_gift').show();
+        $('#send_gift').hide();
         $('#img-code').show();
         $('.cardviewupt-used').show();
     }
