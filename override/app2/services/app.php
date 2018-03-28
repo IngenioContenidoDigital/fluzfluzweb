@@ -411,7 +411,46 @@ class API extends REST {
     $model = new Model();
     return $this->response(json_encode($model->get_cities()),200);	
   }
-
+  
+  /**
+   * Método privado que retorna los paices.
+   * @return json Paices
+   */
+  private function getCountries(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    $model = new Model();
+    return $this->response(json_encode($model->getCountries()),200);	
+  }
+  
+  /**
+   * Método privado que retorna los Departamentos.
+   * @return json Departamentos
+   */
+  private function getDepartament(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    $model = new Model();
+    return $this->response(json_encode($model->getDepartament()),200);	
+  }
+  
+  /**
+   * Método privado que retorna las cidades de un departamento.
+   * param $dpto String Departamento
+   * @return json cidades
+   */
+  private function getCitiesByDepartment(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    $dpto = trim($this->_request['dpto']);
+    $model = new Model();
+    return $this->response(json_encode($model->getCities($dpto)),200);	
+  }
+    
+  
   /**
    * Método privado que retorna la información personal del usuario por id de cliente.
    * @param int $id_cliente
@@ -586,6 +625,8 @@ class API extends REST {
       $phone = $this->_request['phone'];
       $birthday = !empty($this->_request['date']) ? $this->_request['date'] : null;
       $addres1 = $this->_request['address'];
+      $country = $this->_request['country'];
+      $dpto = $this->_request['dpto'];
       $city = $this->_request['city'];
       $type_dni = $this->_request['type_identification'];
       $dni = $this->_request['number_identification'];
@@ -643,9 +684,9 @@ class API extends REST {
           error_log("\n\n\n Add Customer: ".print_r($saveCustomer,true),3,"/tmp/error.log");
           $customer->updateGroup(array("3","4"));
 
-        // Agregar Direccion
+        // Agregar Direccion  
         $address = new Address();
-        $address->id_country = 69;
+        $address->id_country = $country;
         $address->dni = $customer->dni;
         $address->id_customer = $customer->id;
         $address->alias = 'Mi Direccion';
@@ -1930,11 +1971,29 @@ class API extends REST {
     }
     $id_customer = $this->_request['id_customer'];
     $phone = $this->_request['phone'];
-    $sql = 'UPDATE '._DB_PREFIX_.'customer
-            SET phone = '.$phone.'
-            WHERE id_customer = '.$id_customer.';';
-    $result = Db::getInstance()->execute($sql);
-    return $this->response(json_encode(array('result' => $result)),200);
+    
+    $valid_phone = Db::getInstance()->getRow('SELECT COUNT(phone)  as phone 
+                                              FROM '._DB_PREFIX_.'customer 
+                                              WHERE phone = "'.$phone.'" ');
+    if ($valid_phone['phone'] > 0){
+      $error['error'] = 1;
+      $error['msg'] = utf8_encode('El número de teléfono registrado ya está en uso.');
+    }
+    else{
+      $sql = 'UPDATE '._DB_PREFIX_.'customer
+              SET phone = '.$phone.'
+              WHERE id_customer = '.$id_customer.';';
+      $result = Db::getInstance()->execute($sql);
+      if($result){
+        $error['error'] = 0;
+        $error['msg'] = utf8_encode('Se registro el número correctamente.');
+      }
+      else {
+        $error['error'] = 2;
+        $error['msg'] = utf8_encode('Ha ocurrido un error al intentar actualizar el número, por favor intenta nuevamente.');
+      }
+    }
+    return $this->response(json_encode(array('success' => true, 'error'=> $error)),200);
   }
   
   /**

@@ -707,7 +707,40 @@ class Model extends PaymentModule {
         $result['cities'] = array_merge($primary_city, Db::getInstance()->ExecuteS($query2)) ;
         $result['success'] = count($result['cities'] )> 0?true:false ;
         return $result;
-    }     /**
+    }
+    
+    public function getCountries(){
+      $sql = "SELECT c.id_country,  cl.`name`
+              FROM "._DB_PREFIX_."country c
+              INNER JOIN "._DB_PREFIX_."country_lang cl ON (cl.id_country = c.id_country)
+              WHERE c.contains_states = 1 and cl.id_lang = 1";
+
+      $result['countries'] = Db::getInstance()->ExecuteS($sql) ;
+      $result['success'] = count($result['countries'] )> 0?true:false ;
+      return $result;
+    }
+    
+    public function getDepartament(){
+      $sql = "SELECT DISTINCT departamento as name
+              FROM "._DB_PREFIX_."cities
+              ORDER BY departamento";
+      $result['departament'] = Db::getInstance()->ExecuteS($sql) ;
+      $result['success'] = count($result['departament'] )> 0?true:false ;
+      return $result;
+    }
+    
+    public function getCities($dpto){
+      $sql = "SELECT DISTINCT ciudad AS name
+              FROM "._DB_PREFIX_."cities
+              WHERE departamento = '".$dpto."'
+              ORDER BY ciudad";
+      
+      $result['cities'] = Db::getInstance()->ExecuteS($sql) ;
+      $result['success'] = count($result['cities'] )> 0?true:false ;
+      return $result;
+    }
+    
+    /**
      * 
      */ 
     public function personalinformation($id_customer){
