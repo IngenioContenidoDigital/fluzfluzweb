@@ -92,6 +92,15 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                 'title' => $this->l('Generar Excel por fecha'),
                 'id' => 'submitPrintExcel',
                 'icon' => 'process-icon-download-alt'
+            ),
+            'buttons' => array(
+                'submitPrintPDFCommerce' => array(
+                    'title' => $this->l('Generar PDF por fecha y comercio'),
+                    'name' => 'submitPrintPDFCommerce',
+                    'type' => 'submit',
+                    'class' => 'btn btn-default pull-right',
+                    'icon' => 'process-icon-download-alt'
+                )
             )
         );
         
@@ -124,6 +133,13 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                 $this->errors[] = $this->l('No invoice has been found for this period.');
             }
         } 
+        elseif (Tools::isSubmit('submitPrintPDFCommerce')) {
+            $date_from = Tools::getValue('date_from_ex');
+            $date_to = Tools::getValue('date_to_ex');
+            $commerce = Tools::getValue('commerce');
+            
+            $this->pdfCommerce($commerce,$date_from,$date_to);
+        }
         elseif (Tools::isSubmit('submitAddinvoice')) {
             
             $date_from = Tools::getValue('date_from_ex');
@@ -251,5 +267,141 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
         } else {
             parent::postProcess();
         }
+    }
+    
+    public function pdfCommerce($commerce,$date_from,$date_to) {
+        
+        $query = 'SELECT
+                        UPPER(s.name) commerce,
+                        od.product_reference product,
+                        ROUND(od.product_price) price_unit,
+                        SUM(od.product_quantity) quantity,
+                        ROUND(od.product_price*SUM(od.product_quantity)) price_total
+                    FROM ps_orders o
+                    INNER JOIN ps_order_detail od ON o.id_order = od.id_order
+                    INNER JOIN ps_product p ON od.product_id = p.id_product
+                    INNER JOIN ps_supplier s ON p.id_supplier = s.id_supplier
+                    WHERE o.date_add BETWEEN "'.$date_from.'" AND "'.$date_to.'"
+                    AND s.id_supplier = '.$commerce.'
+                    GROUP BY od.product_reference
+                    ORDER BY od.product_reference';
+        $data = Db::getInstance()->executeS($query);
+        
+        $grand_total = 0;
+        $qty_total = 0;
+        $table_prods = "";
+        $name_commerce = $data[0]["commerce"];
+        
+        foreach ($data as $product) {
+            $table_prods .= "<tr>
+                                <td>".$product['product']."</td>
+                                <td>$ ".$product['price_unit']."</td>
+                                <td>".$product['quantity']."</td>
+                                <td>$ ".$product['price_total']."</td>
+                            </tr>";
+            
+            $qty_total =+ $product['quantity'];
+            $grand_total =+ $product['price_total'];
+        }
+
+        require_once(_PS_TOOL_DIR_.'tcpdf/config/lang/eng.php');
+        require_once(_PS_TOOL_DIR_.'tcpdf/tcpdf.php');
+
+        // create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set default header data
+        $pdf->SetHeaderData(PDF_HEADER_LOGO, 70, "", "Fluz Fluz Colombia SAS\nNIT.900.961.325-6", array(201,177,151), array(201,177,151));
+        $pdf->setFooterData(array(201,177,151), array(201,177,151));
+
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // set default font subsetting mode
+        $pdf->setFontSubsetting(true);
+
+        // Add a page
+        // This method has several options, check the source code documentation for more information.
+        $pdf->AddPage();
+
+        // set text shadow effect
+        $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+
+        // Set some content to print
+        $html = <<<EOD
+                <table style="text-align: right; font-size: 10;">
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Fecha Inicial: &nbsp;&nbsp;&nbsp; $date_from</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha Final: &nbsp;&nbsp;&nbsp; $date_to</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr style="text-align: center; color: #F15E54; font-size: 15; font-weight: bold;">
+                        <td>$name_commerce</td>
+                    </tr>
+                </table>
+                <table style="text-align: right;">
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr style="color: #C9B197;">
+                        <td>Producto</td>
+                        <td>Valor Unitario</td>
+                        <td>Cantidad</td>
+                        <td>Valor Total</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                </table>
+                <table style="text-align: right; border-bottom: 1px solid #F15E54; border-top: 1px solid #F15E54;">
+                    $table_prods
+                </table>
+                <table style="text-align: right; color: #F15E54; font-size: 13;">
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total: $ $grand_total</td>
+                    </tr>
+                </table>
+EOD;
+
+        // Print text using writeHTMLCell()
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+        // Close and output PDF document
+        // This method has several options, check the source code documentation for more information.
+        $pdf->Output('commerce.pdf', 'I');
     }
 }
