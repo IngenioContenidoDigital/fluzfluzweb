@@ -117,7 +117,7 @@ class RegistrationRequestController extends FrontController {
                 
                 $sendSMS = false;
                 while ( !$sendSMS ) {
-                    $sendSMS = $customer->confirmCustomerSMS($customer->id);
+                    $sendSMS = $customer->confirmCustomerSMSRegistrationRequest($customer->id);
                 }
                 
                 if ( $sendSMS ) {
@@ -152,7 +152,7 @@ class RegistrationRequestController extends FrontController {
             
             $sendSMS = false;
             while ( !$sendSMS ) {
-                $sendSMS = Customer::confirmCustomerSMS($id_customer);
+                $sendSMS = Customer::confirmCustomerSMSRegistrationRequest($id_customer);
             }
             if ( $sendSMS ) {
                 $this->context->smarty->assign('id_customer', $customer->id);
