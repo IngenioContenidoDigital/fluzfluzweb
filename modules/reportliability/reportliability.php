@@ -140,6 +140,18 @@ class reportliability extends ModuleGrid
                 'align' => 'center'
             ),*/
             array(
+                'id' => 'fluz_before_COP',
+                'header' => $this->l('Fluz Before COP'),
+                'dataIndex' => 'fluz_before_COP',
+                'align' => 'center'
+            ),
+            array(
+                'id' => 'fluz_before',
+                'header' => $this->l('Fluz Before'),
+                'dataIndex' => 'fluz_before',
+                'align' => 'center'
+            ),
+            array(
                 'id' => 'fluz_current_COP',
                 'header' => $this->l('Fluz Current COP'),
                 'dataIndex' => 'fluz_current_COP',
@@ -166,7 +178,8 @@ class reportliability extends ModuleGrid
     public function getData()
     {
         $date_between = $this->getDate();
-        $date_last_month = substr($date_between, -22);
+        $date_last_month = substr($date_between, 0, -27);
+        //error_log("\n\n date: \n\n".$date_last_month."\n\n",3,"c:/xampp/apache/logs/error.log");
         
         $rewards_value = Configuration::get("REWARDS_VIRTUAL_VALUE_1");
         
@@ -192,7 +205,9 @@ class reportliability extends ModuleGrid
                             ROUND(IFNULL(fluz_current*".$rewards_value.",0)) AS fluz_current_COP,
                             ROUND(IFNULL(fluz_current,0)) AS fluz_current,
                             ROUND(IFNULL(fluz_last_month*".$rewards_value.",0)) AS fluz_last_month_COP,
-                            ROUND(IFNULL(fluz_last_month,0)) AS fluz_last_month
+                            ROUND(IFNULL(fluz_last_month,0)) AS fluz_last_month,
+                            ROUND(IFNULL(fluz_before*".$rewards_value.",0)) AS fluz_before_COP,
+                            ROUND(IFNULL(fluz_before,0)) AS fluz_before
                         FROM ps_customer AS c
                         LEFT JOIN (
                             SELECT r.id_customer, SUM(r.credits) AS fluz_granted
@@ -236,6 +251,13 @@ class reportliability extends ModuleGrid
                             WHERE r7.id_reward_state=2
                             GROUP BY r7.id_customer
                         ) AS fluz_current ON fluz_current.id_customer=c.id_customer
+                        LEFT JOIN (
+                            SELECT r8.id_customer, SUM(r8.credits) AS fluz_before
+                            FROM ps_rewards AS r8
+                            WHERE r8.id_reward_state=2
+                            AND r8.date_add < ".$date_last_month."
+                            GROUP BY r8.id_customer
+                        ) AS fluz_before ON fluz_before.id_customer=c.id_customer
                         LEFT JOIN (
                             SELECT r4.id_customer, ABS(SUM(r4.credits)) AS fluz_spent
                             FROM ps_rewards AS r4
