@@ -109,8 +109,8 @@ class WalletCore extends ObjectModel
                         DATE_FORMAT(PP.expiration, '%d/%m/%Y') AS expiration,
                         C.secure_key
                 FROM "._DB_PREFIX_."product_code PC
-                LEFT JOIN "._DB_PREFIX_."order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
-                LEFT JOIN "._DB_PREFIX_."orders PO ON POD.id_order = PO.id_order
+                INNER JOIN "._DB_PREFIX_."order_detail POD ON PC.id_order = POD.id_order AND PC.id_product = POD.product_id
+                INNER JOIN "._DB_PREFIX_."orders PO ON POD.id_order = PO.id_order
                 INNER JOIN "._DB_PREFIX_."product PP ON PC.id_product = PP.id_product
                 INNER JOIN "._DB_PREFIX_."product_lang PL ON PP.id_product = PL.id_product
                 LEFT JOIN "._DB_PREFIX_."manufacturer M on PP.id_manufacturer = M.id_manufacturer

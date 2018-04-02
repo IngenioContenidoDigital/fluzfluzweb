@@ -1971,11 +1971,29 @@ class API extends REST {
     }
     $id_customer = $this->_request['id_customer'];
     $phone = $this->_request['phone'];
-    $sql = 'UPDATE '._DB_PREFIX_.'customer
-            SET phone = '.$phone.'
-            WHERE id_customer = '.$id_customer.';';
-    $result = Db::getInstance()->execute($sql);
-    return $this->response(json_encode(array('result' => $result)),200);
+    
+    $valid_phone = Db::getInstance()->getRow('SELECT COUNT(phone)  as phone 
+                                              FROM '._DB_PREFIX_.'customer 
+                                              WHERE phone = "'.$phone.'" ');
+    if ($valid_phone['phone'] > 0){
+      $error['error'] = 1;
+      $error['msg'] = utf8_encode('El número de teléfono registrado ya está en uso.');
+    }
+    else{
+      $sql = 'UPDATE '._DB_PREFIX_.'customer
+              SET phone = '.$phone.'
+              WHERE id_customer = '.$id_customer.';';
+      $result = Db::getInstance()->execute($sql);
+      if($result){
+        $error['error'] = 0;
+        $error['msg'] = utf8_encode('Se registro el número correctamente.');
+      }
+      else {
+        $error['error'] = 2;
+        $error['msg'] = utf8_encode('Ha ocurrido un error al intentar actualizar el número, por favor intenta nuevamente.');
+      }
+    }
+    return $this->response(json_encode(array('success' => true, 'error'=> $error)),200);
   }
   
   /**
