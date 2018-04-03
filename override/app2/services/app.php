@@ -1841,22 +1841,14 @@ class API extends REST {
             FROM '._DB_PREFIX_.'customer
             WHERE id_customer = '.$id_customer.';';
     $passcode_db = Db::getInstance()->getValue($sql);
-    $result = ( $passcode_db == $passcode ) ? true : false;
-    
-    if ( $result == true ){
-      $this->response($this->json(array(
-        "success" => true, 
-        "message" => "Todo ok.",
-        "result"  => $result
-      )), 200);
-    }
-    else {
-      $this->response($this->json(array(
-        "success" => false, 
-        "message" => "La contraseña no coincide.",
-        "result"  => $result
-      )), 200);
-    }
+    $message = ( (int)$passcode_db == (int)$passcode ) ? "Todo ok." : utf8_encode("La contraseña no coincide.");
+    $error = ( (int)$passcode_db == (int)$passcode ) ? 0 : 1;
+
+    $this->response($this->json(array(
+      "success" => true, 
+      "error"   => $error,
+      "message" => $message
+    )), 200);
   }
   
   /**
