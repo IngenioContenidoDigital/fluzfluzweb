@@ -448,11 +448,11 @@
                                                                     <input type="hidden" name="submitDiscount" />
                                                                     {if count($discounts)}
                                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">
-                                                                            <button type="button" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
+                                                                            <button type="button" name="submitAddDiscount2" id="submitAddDiscount2" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
                                                                         </div>
                                                                     {else}
                                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">
-                                                                            <button type="button" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Apply'}</span></button></p>
+                                                                            <button type="button" name="submitAddDiscount2" id="submitAddDiscount2" class="btn-cart"><span>{l s='Apply'}</span></button></p>
                                                                         </div>
                                                                     {/if}    
                                                                 </fieldset>
@@ -464,7 +464,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="panel panel-default" id="paid_partial_fluz" style="margin-top:5px;margin-bottom: 0px;">
+                        <div class="panel panel-default" id="paid_partial_fluz" style="margin-top:5px;margin-bottom: 0px;">
                             <div class="panel-heading" style="background:#fff;">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Pago Parcial con Fluz</a>
@@ -544,6 +544,67 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="panel panel-default" id="paid_code_fluz" style="margin-top:5px;margin-bottom: 0px;">
+                            <div class="panel-heading" style="background:#fff;">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Pago con C&oacute;digo Fluz</a>
+                                </h4>
+                            </div>
+                            <div id="collapseFive" class="panel-collapse collapse">
+                                <div class="panel-body" style="background: #F9F9F8;">
+                                    <div class="alternate_item">
+                                        <div class="row">
+                                        {if $voucherAllowed}
+                                            <td colspan="2" id="cart_voucher" class="cart_voucher">
+                                                <div id="cart_voucher" class="table_block">
+                                                    {if $voucherAllowed}
+                                                        <form action="{if $opc}{$link->getPageLink('order-opc', true)}{else}{$link->getPageLink('order', true)}{/if}" method="post" id="voucher">
+                                                            <fieldset>
+                                                                <div class="info-cash text-code col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                                                                    <span> C&oacute;digo Fluz: </span>
+                                                                </div>
+                                                                {if count($discounts)}
+                                                                    <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
+                                                                        <input type="text" id="discount_name" class="output-cash col-lg-12 col-md-6 col-sm-6 col-xs-5" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" style="padding:0px; padding-left: 10px;height: 35px;margin-top: -5px;"/>
+                                                                    </div>
+                                                                    <input type="hidden" name="submitDiscount" />
+                                                                    <div class="info-cash col-lg-4 col-md-6 col-sm-6 col-xs-6" style="margin-top:12px;">
+                                                                        <button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Aplicar'}</span></button>
+                                                                    </div>
+                                                                {else}
+                                                                    <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
+                                                                        <input type="text" id="discount_name" class="output-cash col-lg-12 col-md-6 col-sm-6 col-xs-5" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" style="padding:0px; padding-left: 10px;height: 35px;margin-top: -5px;"/>
+                                                                    </div>
+                                                                    <input type="hidden" name="submitDiscount" />
+                                                                    <div class="info-cash col-lg-4 col-md-6 col-sm-6 col-xs-6" style="margin-top:12px;">
+                                                                        <button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Aplicar'}</span></button>
+                                                                    </div>
+                                                                {/if}
+                                                            </fieldset>
+                                                        </form>
+                                                    {/if}
+                                                </div>
+                                            </td>
+                                        {/if}
+                                        </div>
+                                        <div  class="row history_method bold pto-disponible" style="text-align:center;">
+                                            <input type="hidden" value="{$totalAvailable}" id="ptosTotalOculto"/>
+                                        </div>
+                                        <input type="hidden" id="cavail_all" value="{$totalAvailableCurrency}" />
+                                        <input type="hidden" id="avail_all" value="{$totalAvailable}" />
+                                        <div class="cart_total_price" style="display:none;">
+                                            <div colspan="3" class="price" id="total_price_container">
+                                                <input type="hidden" id="total_price" class="tprice" data-selenium-total-price="{$total_price}">{displayPrice price=$total_price}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4" style="font-size: 10px;"> 
+                                            <input type="hidden" id="cavail" value="{$totalAvailableCurrency}" />
+                                            <input type="hidden" id="avail" value="{$totalAvailable}" />
+                                        </div>       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>            
                         <div id="HOOK_PAYMENT">
                             {$HOOK_PAYMENT}
                         </div>            
@@ -594,7 +655,11 @@
                                     {continue}
                             {/if}
                                     <div class="row cart_discount {if $discount@last}last_item{elseif $discount@first}first_item{else}item{/if}" id="cart_discount_{$discount.id_discount}">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cart_discount_name text_left_padding">{l s="Descuento en Fluz"}</div>
+                                        {if $discount.description == 'Recompensa Fluz'}
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cart_discount_name text_left_padding">{l s="Descuento mis Fluz"}</div>
+                                        {else}
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cart_discount_name text_left_padding">{l s="Descuento Codigo Fluz"}</div>
+                                        {/if}
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 cart_discount_price text_left_padding">
                                                     <span class="price-discount price">{if !$priceDisplay}{displayPrice price=$discount.value_real*-1}{else}{displayPrice price=$discount.value_tax_exc*-1}{/if}</span>
                                             </div>
@@ -769,7 +834,7 @@
         });
     </script>
     <script>
-           $('#submitAddDiscount').click(function(){
+           $('#submitAddDiscount2').click(function(){
                $(this).attr("disabled","disabled");
                var totalCart=$('.tprice').attr("data-selenium-total-price");
                var credits=$('#cavail_all').val();
@@ -805,7 +870,6 @@
                          method:"GET",
                          url: ''+prueba+'module/allinone_rewards/rewards?transform-credits=true&ajax=true&credits='+credits+'&price='+totalCart+'&points='+points+'&use='+use,
                          success:function(response){
-                           console.log('entra a respuesta');
                            $('#discount_name').val(response);
                            $('input[name="submitDiscount"]').val(response);
                            $('#voucher').submit();

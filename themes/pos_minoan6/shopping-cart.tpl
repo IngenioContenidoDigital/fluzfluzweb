@@ -287,7 +287,11 @@
                                     {continue}
                             {/if}
                                     <div class="row cart_discount {if $discount@last}last_item{elseif $discount@first}first_item{else}item{/if}" id="cart_discount_{$discount.id_discount}">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-5 cart_discount_name text_left_padding title-queries-summary">{l s="Descuento en Fluz"}</div>
+                                        {if $discount.description == 'Recompensa Fluz'}
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cart_discount_name text_left_padding">{l s="Descuento mis Fluz"}</div>
+                                        {else}
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 cart_discount_name text_left_padding">{l s="Descuento Codigo Fluz"}</div>
+                                        {/if}
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 cart_discount_price text_left_padding">
                                                     <span class="price-discount price">{if !$priceDisplay}{displayPrice price=$discount.value_real*-1}{else}{displayPrice price=$discount.value_tax_exc*-1}{/if}</span>
                                             </div>
