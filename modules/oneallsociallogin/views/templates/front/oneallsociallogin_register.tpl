@@ -22,6 +22,10 @@
 *
 *}
 
+<div>
+    <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0074/8440.js" async="async"></script>
+</div>
+
 {capture name=path}{l s='Create an account' mod='oneallsociallogin'}{/capture}
 
 <h1 class="page-heading bottom-indent">Te has conectado con {l s='%s!' sprintf=$identity_provider mod='oneallsociallogin'}</h1>
