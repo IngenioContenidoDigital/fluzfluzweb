@@ -151,8 +151,6 @@ class PayuCreditCard extends PayUControllerWS {
                                         "value":' . $params[4]['amount'] . ',
                                         "currency":"'.$currency.'"
                                     },
-<<<<<<< HEAD
-=======
                                     "TX_TAX": {
                                        "value": 0,
                                        "currency":"' . $currency . '"
@@ -161,7 +159,6 @@ class PayuCreditCard extends PayUControllerWS {
                                        "value": 0,
                                        "currency":"' . $currency . '"
                                     }
->>>>>>> 401b86e9ad3d46bb624c0d33f5fd920ebfdb871f
                                 },
                                 "buyer": {
                                     "fullName": "'.$customer->firstname.' '.$customer->lastname.'",
