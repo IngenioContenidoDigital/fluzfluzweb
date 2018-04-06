@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Open+Sans);
 
-$url_0: url(http://jquerycreditcardvalidator.com/images/images.png);
+/*$url_0: url(http://jquerycreditcardvalidator.com/images/images.png);*/
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline;}
 
@@ -3773,6 +3773,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 .slider-cash{padding-left:0px; padding-right:0px;margin-top:20px; margin-bottom:20px;margin-left:20px;}
 .info-cash{margin-top:18px; margin-bottom:18px;}
 .money-cash{padding-left:0px; padding-right:0px;}
+.text-code{text-transform: uppercase;color: #000;}
 .cash-point{font-size:11px;}
 .shopping_cart, .pos-setting, .header_userinfo { text-align: left; }
 .cashout-money{color: #ef4136;text-align: right;font-size: 24px;float: right;margin-top: 5px;margin-bottom: 15px;}

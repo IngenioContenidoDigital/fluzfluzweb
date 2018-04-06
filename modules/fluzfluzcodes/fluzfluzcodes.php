@@ -71,9 +71,10 @@ class fluzfluzCodes extends Module{
         foreach ($result as &$valid){
             $valid_date = $valid['date_expiration'];
             $date_now = date("Y-m-d");
-            $dias = (strtotime($date_now)-strtotime($valid_date))/86400;
-            $dias = abs($dias); 
-            $dias = floor($dias);	
+            
+            $dias = (strtotime($valid_date)-strtotime($date_now))/86400;
+            //$dias = abs($dias); 
+            //$dias = floor($dias);
             
             if($dias > 90 && ($valid['estado'] != 'Asignado')){
                 $valid['valid_date'] = 'bueno';
@@ -87,7 +88,6 @@ class fluzfluzCodes extends Module{
                 $valid['valid_date'] = 'malo';
             }
         }
-        
         $this->context->smarty->assign('totals', $rtotal );
         $this->context->smarty->assign('codes', $result );
         $this->context->smarty->assign('id_product', Tools::getValue('id_product') );

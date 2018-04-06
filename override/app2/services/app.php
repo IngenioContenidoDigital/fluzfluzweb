@@ -310,7 +310,7 @@ class API extends REST {
     $password = trim( $this->_request['pwd'] );
     
     if( !Validate::isEmail($email) || !Validate::isPasswd($password) ){
-      $this->response('', 202);
+      $this->response($this->json(array('error'=> 1)), 200);
     }
     
     // Validaciones de entrada
@@ -319,7 +319,7 @@ class API extends REST {
         $customer = new Customer();
         $authentication = $customer->getByEmail($email, $password);
         if (!$authentication || !$customer->id) {
-          $this->response(array('success'=>FALSE), 204);	// Si no hay registros, estado "No Content"
+          $this->response($this->json(array('success'=>false, 'error'=> 2)), 200);	// Si no hay registros, estado "No Content"
         }
         else {
           $context = Context::getContext();
@@ -373,6 +373,7 @@ class API extends REST {
                 'dni' => $customer->dni,
                 'phone' => $customer->phone,
                 'refer_code' => $refer_code,
+                'error' => 0,
                 'success' => TRUE);
 
           $this->response($this->json($array), 200);
@@ -382,9 +383,10 @@ class API extends REST {
 
     // Si las entradas son inválidas, mensaje de estado "Bad Request" y la razon
     $this->response($this->json(array(
-      "success" => false, 
+      "success" => false,
+      "error" => 3,
       "message" => "DirecciÃ³n de correo electrÃ³nico o contraseÃ±a no vÃ¡lidos"
-    )), 400);
+    )), 200);
   }
   
   /**
@@ -409,7 +411,46 @@ class API extends REST {
     $model = new Model();
     return $this->response(json_encode($model->get_cities()),200);	
   }
-
+  
+  /**
+   * Método privado que retorna los paices.
+   * @return json Paices
+   */
+  private function getCountries(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    $model = new Model();
+    return $this->response(json_encode($model->getCountries()),200);	
+  }
+  
+  /**
+   * Método privado que retorna los Departamentos.
+   * @return json Departamentos
+   */
+  private function getDepartament(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    $model = new Model();
+    return $this->response(json_encode($model->getDepartament()),200);	
+  }
+  
+  /**
+   * Método privado que retorna las cidades de un departamento.
+   * param $dpto String Departamento
+   * @return json cidades
+   */
+  private function getCitiesByDepartment(){
+    if($this->get_request_method() != "POST") {
+      $this->response('',406);
+    }
+    $dpto = trim($this->_request['dpto']);
+    $model = new Model();
+    return $this->response(json_encode($model->getCities($dpto)),200);	
+  }
+    
+  
   /**
    * Método privado que retorna la información personal del usuario por id de cliente.
    * @param int $id_cliente
@@ -584,6 +625,8 @@ class API extends REST {
       $phone = $this->_request['phone'];
       $birthday = !empty($this->_request['date']) ? $this->_request['date'] : null;
       $addres1 = $this->_request['address'];
+      $country = $this->_request['country'];
+      $dpto = $this->_request['dpto'];
       $city = $this->_request['city'];
       $type_dni = $this->_request['type_identification'];
       $dni = $this->_request['number_identification'];
@@ -591,7 +634,7 @@ class API extends REST {
       $addres2 = !empty($this->_request['address2']) ? $this->_request['address2']: null;
       $cod_refer = $this->_request['cod_refer'];
       $password = $this->_request['password'];
-
+      
       $valid_dni = Db::getInstance()->getRow('SELECT COUNT(dni) as dni 
                                               FROM '._DB_PREFIX_.'customer WHERE dni = "'.$dni.'" ');
 
@@ -638,11 +681,12 @@ class API extends REST {
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
           $saveCustomer = $customer->add();
+          error_log("\n\n\n Add Customer: ".print_r($saveCustomer,true),3,"/tmp/error.log");
           $customer->updateGroup(array("3","4"));
 
-        // Agregar Direccion
+        // Agregar Direccion  
         $address = new Address();
-        $address->id_country = 69;
+        $address->id_country = $country;
         $address->dni = $customer->dni;
         $address->id_customer = $customer->id;
         $address->alias = 'Mi Direccion';
@@ -815,7 +859,7 @@ class API extends REST {
       'refer_code' => $refer_code,
       'success' => TRUE);
 
-    $response = array('success' => $complete, 'error' => $error, 'message' => $message, 'customer' => $customerData);
+    $response = array('success' => $complete, 'error' => $error, 'message' => $message, 'customer' => ($complete)?$customerData:'');
     $this->response( $this->json($response) , 200 );
   }
     
@@ -1927,11 +1971,29 @@ class API extends REST {
     }
     $id_customer = $this->_request['id_customer'];
     $phone = $this->_request['phone'];
-    $sql = 'UPDATE '._DB_PREFIX_.'customer
-            SET phone = '.$phone.'
-            WHERE id_customer = '.$id_customer.';';
-    $result = Db::getInstance()->execute($sql);
-    return $this->response(json_encode(array('result' => $result)),200);
+    
+    $valid_phone = Db::getInstance()->getRow('SELECT COUNT(phone)  as phone 
+                                              FROM '._DB_PREFIX_.'customer 
+                                              WHERE phone = "'.$phone.'" ');
+    if ($valid_phone['phone'] > 0){
+      $error['error'] = 1;
+      $error['msg'] = utf8_encode('El número de teléfono registrado ya está en uso.');
+    }
+    else{
+      $sql = 'UPDATE '._DB_PREFIX_.'customer
+              SET phone = '.$phone.'
+              WHERE id_customer = '.$id_customer.';';
+      $result = Db::getInstance()->execute($sql);
+      if($result){
+        $error['error'] = 0;
+        $error['msg'] = utf8_encode('Se registro el número correctamente.');
+      }
+      else {
+        $error['error'] = 2;
+        $error['msg'] = utf8_encode('Ha ocurrido un error al intentar actualizar el número, por favor intenta nuevamente.');
+      }
+    }
+    return $this->response(json_encode(array('success' => true, 'error'=> $error)),200);
   }
   
   /**
@@ -1943,7 +2005,7 @@ class API extends REST {
     if ($this->get_request_method() != "GET") {
       $this->response('', 406);
     }
-    $id_customer = $this->_request['id_customer'];
+    $id_customer = (int)$this->_request['id_customer'];
     
     $sql = "SELECT phone
             FROM "._DB_PREFIX_."customer
@@ -1951,7 +2013,7 @@ class API extends REST {
     $phone = Db::getInstance()->getValue($sql);
     $numberConfirm = rand(100000, 999999);
     $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
-                            SET web_confirm = '.$numberConfirm.'
+                            SET sms_confirm = '.$numberConfirm.'
                             WHERE id_customer = '.$id_customer.';';
     $result = Db::getInstance()->execute($updateNumberConfirm);
     $curl = curl_init();
@@ -2002,12 +2064,11 @@ class API extends REST {
     $code =  trim( $code != NULL ? $code : $this->_request['confirmNumber']);
     $id_customer = $this->_request['id_customer'];
 
-    $sql = "SELECT web_confirm
+    $sql = "SELECT sms_confirm
           FROM "._DB_PREFIX_."customer
           WHERE id_customer = ".$id_customer.";";
 
     $app_confirm = Db::getInstance()->getValue($sql);
-    
     if( $code == $app_confirm ){
       
       $sql = 'UPDATE '._DB_PREFIX_.'customer

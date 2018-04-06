@@ -59,7 +59,7 @@ class Customer extends CustomerCore
     public $phone_provider;
     public $vault_code;
     public $phone;
-    public $app_confirm;
+    public $sms_confirm;
     public $method_add;
 
 
@@ -117,7 +117,7 @@ class Customer extends CustomerCore
             'vault_code' =>               array('type' => self::TYPE_INT, 'validate' => 'isInt', 'size' => 4),
             'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 15),
             'method_add' =>               array('type' => self::TYPE_STRING, 'size' => 155),
-            'app_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
+            'sms_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
         ),  
     );
     
@@ -404,7 +404,7 @@ class Customer extends CustomerCore
     
     public static function percentProfileComplete($id_customer) {
         $fields_complete = 0;
-        $fields_information = 18;
+        $fields_information = 17;
 
         $customer = new Customer($id_customer); 
         $address = $customer->getAddresses();
@@ -427,7 +427,7 @@ class Customer extends CustomerCore
         /* 15 */ if ( $customer->phone_provider != "" ) { $fields_complete++; }
         /* 16 */ if ( $address['phone'] != "" ) { $fields_complete++; }
         /* 17 */ if ( $address['address1'] != "" ) { $fields_complete++; }
-        /* 18 */ if ( $address['address2'] != "" ) { $fields_complete++; }
+        /* 18 if ( $address['address2'] != "" ) { $fields_complete++; }*/ 
         /* 19 */ if ( $address['city'] != "" ) { $fields_complete++; }
         
         return round( ($fields_complete*100)/$fields_information );
@@ -494,6 +494,29 @@ class Customer extends CustomerCore
 
         
         $result = ( $response['statuscode'] == 0 ) ? true : false;
+        return $result;
+    }
+    
+    public static function confirmCustomerSMSRegistrationRequest ($id_customer) {
+        $sql = "SELECT phone
+                FROM "._DB_PREFIX_."customer
+                WHERE id_customer = ".$id_customer.";";
+        $phone = Db::getInstance()->getValue($sql);
+        
+        $numberConfirm = rand(100000, 999999);
+        $updateNumberConfirm = 'UPDATE '._DB_PREFIX_.'customer
+                                SET sms_confirm = '.$numberConfirm.'
+                                WHERE id_customer = '.$id_customer.';';
+        $result = Db::getInstance()->execute($updateNumberConfirm);
+
+        $url = Configuration::get('APP_SMS_URL').$phone."&messagedata=".$numberConfirm;
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        $result = ( $response == 1 ) ? true : false;
         return $result;
     }
     

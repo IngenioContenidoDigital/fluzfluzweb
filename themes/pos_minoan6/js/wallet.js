@@ -145,7 +145,6 @@ function renderViewCard(key, card) {
         $("#expiration").html( card.date_expiration );
         $('#vencimiento').show();
     }
-    console.log(card.pin_code);
     if(card.send_gift === 2){
         $("#code").html( card.card_code );
         $('#send_gift').hide();
@@ -159,8 +158,9 @@ function renderViewCard(key, card) {
         $('.cardviewupt-used').show();
     }
     else if(card.send_gift === null && card.pin_code !== ''){
-        $("#code").html( card.card_code + " - " +  card.pin_code);
-        $('#send_gift').show();
+        $("#code").html( card.card_code);
+        $('#pin').html(card.pin_code);
+        $('#send_gift').hide();
         $('#img-code').show();
         $('.cardviewupt-used').show();
     }

@@ -646,7 +646,7 @@ class AuthController extends AuthControllerCore
                     $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                     $customer->active = 0;
                     $customer->phone =  $call_prefix.Tools::getValue('phone_mobile');
-                    $customer->method_add = 'Web';
+                    $customer->method_add = 'Web/invitacion';
 
                     // Validate exist username
                     if ( Customer::usernameExists( Tools::getValue("username") ) ) {
@@ -670,7 +670,7 @@ class AuthController extends AuthControllerCore
                         
                         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                         $customer->warning_kick_out = 0;
-                        $customer->method_add = 'Web';
+                        $customer->method_add = 'Web/invitacion';
 
                         if ( $customExists ) {
                             
@@ -683,11 +683,11 @@ class AuthController extends AuthControllerCore
                             $customer->dni = Tools::getValue("gover");
                             $customer->kick_out = 0;
                             $customer->active=0;
-                            $customer->phone =  Tools::getValue('phone_mobile');
+                            $customer->phone =  $call_prefix.Tools::getValue('phone_mobile');
                             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+60 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
                             $customer->birthday = (empty($_POST['years']) ? '' : (int)Tools::getValue('years').'-'.(int)Tools::getValue('months').'-'.(int)Tools::getValue('days'));
-                            $customer->method_add = 'Web';
+                            $customer->method_add = 'Web/reingreso';
                             
                             $customer->update();
                             $customerLoaded = true;
