@@ -446,15 +446,21 @@
                                                                 <fieldset>
                                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                                     <input type="hidden" name="submitDiscount" />
-                                                                    {if count($discounts)}
-                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">
-                                                                            <button type="button" name="submitAddDiscount2" id="submitAddDiscount2" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
-                                                                        </div>
-                                                                    {else}
-                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">
-                                                                            <button type="button" name="submitAddDiscount2" id="submitAddDiscount2" class="btn-cart"><span>{l s='Apply'}</span></button></p>
-                                                                        </div>
-                                                                    {/if}    
+                                                                    {foreach $discounts as $discount}
+                                                                        {if $discount.method == 'rewards'}
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">
+                                                                                <button type="button" name="submitAddDiscount2" id="submitAddDiscount2" class="btn-cart" disabled><span>{l s='Apply'}</span></button></p>
+                                                                            </div>
+                                                                            {literal}
+                                                                                <style>
+                                                                                    .btn_available{display:none;}
+                                                                                </style>
+                                                                            {/literal}
+                                                                        {/if}   
+                                                                    {/foreach}
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart btn_available">
+                                                                                <button type="button" name="submitAddDiscount2" id="submitAddDiscount2" class="btn-cart btn_available"><span>{l s='Apply'}</span></button></p>
+                                                                            </div>
                                                                 </fieldset>
                                                             </form>
                                                         {/if}
@@ -523,17 +529,23 @@
                                                                 <fieldset>
                                                                     <input type="text" id="discount_name" class="form-control" style="display:none;" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}"/>
                                                                     <input type="hidden" name="submitDiscount" />
-                                                                            {if count($discounts)}
-                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">    
-                                                                                <input type="hidden" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off" disabled/>
-                                                                                <button type="button" name="submitLabel" id="submitLabel" class="btn-cart" disabled><span>{l s='Aplicar'}</span></button>
-                                                                            </div>
-                                                                            {else}
-                                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">    
-                                                                                <input type="hidden" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off"/>
-                                                                                <button type="button" name="submitLabel" id="submitLabel" class="btn-cart"><span>{l s='Aplicar'}</span></button>
-                                                                            </div>
-                                                                            {/if}
+                                                                            {foreach $discounts as $discount}
+                                                                                {if $discount.method == 'rewards'}
+                                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart">    
+                                                                                        <input type="hidden" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off" disabled/>
+                                                                                        <button type="button" name="submitLabel" id="submitLabel" class="btn-cart" disabled><span>{l s='Aplicar'}</span></button>
+                                                                                    </div>
+                                                                                    {literal}
+                                                                                        <style>
+                                                                                            .btn_available{display:none;}
+                                                                                        </style>
+                                                                                    {/literal}
+                                                                                {/if}
+                                                                            {/foreach}
+                                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 div-btn-cart btn_available">    
+                                                                                    <input type="hidden" min="1" max="{$totalAvailable}" oninput="if(value>{$totalAvailable})value={$totalAvailable}" id="toUse" style="text-align:right;" autocomplete="off"/>
+                                                                                    <button type="button" name="submitLabel" id="submitLabel" class="btn-cart"><span>{l s='Aplicar'}</span></button>
+                                                                                </div>
                                                                 </fieldset>
                                                             </form>
                                                         {/if}
@@ -563,23 +575,31 @@
                                                                 <div class="info-cash text-code col-lg-3 col-md-6 col-sm-6 col-xs-6">
                                                                     <span> C&oacute;digo Fluz: </span>
                                                                 </div>
-                                                                {if count($discounts)}
-                                                                    <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
-                                                                        <input type="text" id="discount_name" class="output-cash col-lg-12 col-md-6 col-sm-6 col-xs-5" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" style="padding:0px; padding-left: 10px;height: 35px;margin-top: -5px;"/>
-                                                                    </div>
-                                                                    <input type="hidden" name="submitDiscount" />
-                                                                    <div class="info-cash col-lg-4 col-md-6 col-sm-6 col-xs-6" style="margin-top:12px;">
-                                                                        <button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Aplicar'}</span></button>
-                                                                    </div>
-                                                                {else}
-                                                                    <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
-                                                                        <input type="text" id="discount_name" class="output-cash col-lg-12 col-md-6 col-sm-6 col-xs-5" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" style="padding:0px; padding-left: 10px;height: 35px;margin-top: -5px;"/>
-                                                                    </div>
-                                                                    <input type="hidden" name="submitDiscount" />
-                                                                    <div class="info-cash col-lg-4 col-md-6 col-sm-6 col-xs-6" style="margin-top:12px;">
-                                                                        <button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Aplicar'}</span></button>
-                                                                    </div>
-                                                                {/if}
+                                                                {foreach $discounts as $discount}
+                                                                    {if $discount.method == 'code'}
+                                                                        <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
+                                                                            <input type="text" id="discount_name" class="output-cash col-lg-12 col-md-6 col-sm-6 col-xs-5" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" style="padding:0px; padding-left: 10px;height: 35px;margin-top: -5px;" disabled/>
+                                                                        </div>
+                                                                        <input type="hidden" name="submitDiscount" />
+                                                                        <div class="info-cash col-lg-4 col-md-6 col-sm-6 col-xs-6" style="margin-top:12px;">
+                                                                            <button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart" disabled><span>{l s='Aplicar'}</span></button>
+                                                                        </div>
+                                                                        {literal}
+                                                                            <style>
+                                                                                .fluz_code{display:none;}
+                                                                            </style>
+                                                                        {/literal}
+                                                                    {/if}
+                                                                {/foreach}
+                                                                    <div class="fluz_code">
+                                                                        <div class="info-cash col-lg-5 col-md-6 col-sm-6 col-xs-6">
+                                                                            <input type="text" id="discount_name" class="output-cash col-lg-12 col-md-6 col-sm-6 col-xs-5" name="discount_name" value="{if isset($discount_name) && $discount_name}{$discount_name}{/if}" style="padding:0px; padding-left: 10px;height: 35px;margin-top: -5px;"/>
+                                                                        </div>
+                                                                        <input type="hidden" name="submitDiscount" />
+                                                                        <div class="info-cash col-lg-4 col-md-6 col-sm-6 col-xs-6" style="margin-top:12px;">
+                                                                            <button type="submit" name="submitAddDiscount" id="submitAddDiscount" class="btn-cart"><span>{l s='Aplicar'}</span></button>
+                                                                        </div>
+                                                                    </div>    
                                                             </fieldset>
                                                         </form>
                                                     {/if}
