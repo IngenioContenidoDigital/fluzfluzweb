@@ -144,15 +144,15 @@ class PayuPse extends PayUControllerWS{
                                         "value":' . $params[4]['amount'] . ',
                                         "currency":"' . $currency . '"
                                     },
-				     "TX_TAX": {
-               				"value": 0,
-               				"currency": "'.$currency.'"
-         			    },
-            			    "TX_TAX_RETURN_BASE": {
-               				"value": 0,
-               				"currency": "'.$currency.'"
-         			    }
-                                }
+                                    "TX_TAX": {
+                                       "value": 0,
+                                       "currency":"' . $currency . '"
+                                    },
+                                    "TX_TAX_RETURN_BASE": {
+                                       "value": 0,
+                                       "currency":"' . $currency . '"
+                                    }
+				}
                             },
                             "payer":{
                                 "fullName":"' . $this->context->customer->firstname . ' ' . $this->context->customer->lastname . '",
