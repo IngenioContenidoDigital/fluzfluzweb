@@ -150,6 +150,14 @@ class PayuCreditCard extends PayUControllerWS {
                                     "TX_VALUE":{
                                         "value":' . $params[4]['amount'] . ',
                                         "currency":"'.$currency.'"
+                                    },
+				    "TX_TAX": {
+                                        "value": 0,
+                                        "currency": "'.$currency.'"
+                                    },
+                                    "TX_TAX_RETURN_BASE": {
+                                        "value": 0,
+                                        "currency": "'.$currency.'"
                                     }
                                 },
                                 "buyer": {
