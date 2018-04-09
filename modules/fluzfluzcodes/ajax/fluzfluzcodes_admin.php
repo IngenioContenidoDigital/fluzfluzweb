@@ -20,6 +20,10 @@ if ( isset($_POST) && !empty($_POST) && isset($_POST["action"]) && !empty($_POST
 class fluzfluzcodes_admin {
     public function deleteCode( $product, $id_product_code ) {
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS( "DELETE FROM "._DB_PREFIX_."product_code WHERE id_product_code = '".$id_product_code."' AND id_product = '".$product."'" );
+        $quantity_product = Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('SELECT COUNT(*) FROM '._DB_PREFIX_.'product_code WHERE id_product = '.$product.' AND state = "Disponible" AND encry = 0');
+        $update_quantity_product = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'stock_available SET quantity = '.$quantity_product.'
+                                    WHERE id_product = '.$product);
+        
         return $result;
     }
     
