@@ -1557,7 +1557,6 @@
         margin-top: 35px !important;
         width: 127.5% !important;
         margin-left: -14% !important;
-        display:none;
        }
        
        div.account_creation {

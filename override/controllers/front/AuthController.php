@@ -198,11 +198,7 @@ class AuthController extends AuthControllerCore
             $customer = new Customer();
             $authentication = $customer->getByEmail(trim($email), trim($passwd));
             if (isset($authentication->active) && !$authentication->active) {
-                /*if($validate == 1){
-                    $this->errors[] = Tools::displayError('Hemos enviado un correo para verificar tu cuenta.');
-                }else{*/
                     $this->errors[] = Tools::displayError('Your account isn\'t available at this time, please contact us');
-                //}
             } elseif (!$authentication || !$customer->id) {
                 $this->errors[] = Tools::displayError('Authentication failed.');
             /* VALIDACION COMPRA DE LICENCIA COMPLETA
