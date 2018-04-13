@@ -128,7 +128,7 @@
 {literal}
     <style>
         .resultados{color: #000; border-bottom: 1px solid #CBCBCB;padding: 5px;text-align: left; cursor: pointer;}
-        .calendar{display: none !important;}
+        #calendar{display: none !important;}
     </style>
 {/literal}
     
