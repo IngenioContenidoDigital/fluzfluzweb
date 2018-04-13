@@ -659,9 +659,9 @@ class API extends REST {
       } elseif ($valid_phone['phone'] > 0){
         $error[] = utf8_encode('El número de teléfono registrado ya está en uso.');
       }
-            
+      
       $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
-            
+      
         if ( empty($error) ) {
           // Agregar Cliente
           $customer = new Customer();
@@ -680,6 +680,7 @@ class API extends REST {
           $customer->method_add = 'Movil App';
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
+          $customer->referral_code = $cod_refer;
           $saveCustomer = $customer->add();
           error_log("\n\n\n Add Customer: ".print_r($saveCustomer,true),3,"/tmp/error.log");
           $customer->updateGroup(array("3","4"));
@@ -731,8 +732,9 @@ class API extends REST {
               if ($sponsorship->save()) {
                 $complete = true;
                 $this->sendMailCofirmCreateAccount($customer, $address);
-                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                            VALUES ('.$customer->id.', "'.$code_generate.'")');
+                
+                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                            VALUES ('.$customer->id.', "'.$cod_refer.'", "'.$code_generate.'")');
               }
             }
             else {
@@ -807,8 +809,9 @@ class API extends REST {
           $sponsorship->channel = 1;
           $saveSponsorship = $sponsorship->save();
 
-          Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                      VALUES ('.$customer->id.', "'.$code_generate.'")');
+          
+          Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                      VALUES ('.$customer->id.', NULL, "'.$customer->referral_code.'")');
 
           if ( $saveCustomer && $saveAddress && $saveSponsorship ) {
             $complete = true;
@@ -2816,6 +2819,40 @@ class API extends REST {
     $result['success']=true;
     
     $this->response(json_encode(array('result' => $result)),200);
+  }
+  
+  public function openDeeplink(){
+    if($this->get_request_method() != "GET") {
+      $this->response('',406);
+    }
+    
+    $option = $this->_request['option'];
+    $params = $this->_request['params'];
+    
+    if($option == 1){
+      $sql = "SELECT p.id_product, p.id_manufacturer as m_id, m.name as m_name
+              FROM "._DB_PREFIX_."product p
+              INNER JOIN "._DB_PREFIX_."manufacturer m ON (p.id_manufacturer = m.id_manufacturer)
+              WHERE p.product_parent = 1 and p.id_product = ".$params;
+      
+      $result = Db::getInstance()->getRow($sql);
+      $link = new Link();
+      $result['image_manufacturer'] = $this->protocol . $link->getManufacturerImageLink($result['m_id']);
+    }
+    else if($option == 2){
+      $model = new Model();
+      $link = new Link();
+      $categories = $model->getCategoriesHome($this->id_lang_default, true, false, true, 0, 0, false);
+      foreach ($categories['result'] as $key => &$category) {
+        if( $params == $category['id_category'] ){
+          $category['img_category'] = $link->getCategoryImageLink($category['id_category']);
+          $result = $category;
+        }
+      }
+    }
+    
+    return $this->response($this->json($result), 200);
+    
   }
   
 }
