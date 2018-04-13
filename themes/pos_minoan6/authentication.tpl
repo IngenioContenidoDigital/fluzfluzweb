@@ -22,6 +22,9 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
+<div>
+    <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0074/8440.js" async="async"></script>
+</div>
 <button class="myfancybox btn btn-default btn-account" href="#validate_navigator" name="click_navigator" id="click_navigator" style="display:none;"></button>
 <div style="display:none;">
     <div id="validate_navigator" class="myfancybox">
@@ -1557,7 +1560,6 @@
         margin-top: 35px !important;
         width: 127.5% !important;
         margin-left: -14% !important;
-        display:none;
        }
        
        div.account_creation {

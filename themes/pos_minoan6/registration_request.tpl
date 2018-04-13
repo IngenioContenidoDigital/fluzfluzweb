@@ -1,3 +1,6 @@
+<div>
+    <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0074/8440.js" async="async"></script>
+</div>
 <div class="block-banner row">
     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text">
         <span>&iexcl;Somos el &Uacute;NICO Club De Compras dig&iacute;tal Gratuito Que Te Permite GANAR Y AHORRAR En Tus Gastos Del Mes!</span>

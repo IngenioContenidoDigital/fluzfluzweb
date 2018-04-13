@@ -273,15 +273,17 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
         
         $query = 'SELECT
                         UPPER(s.name) commerce,
+                        od.product_name,
                         od.product_reference product,
                         ROUND(od.product_price) price_unit,
                         SUM(od.product_quantity) quantity,
                         ROUND(od.product_price*SUM(od.product_quantity)) price_total
                     FROM ps_orders o
-                    INNER JOIN ps_order_detail od ON o.id_order = od.id_order
-                    INNER JOIN ps_product p ON od.product_id = p.id_product
-                    INNER JOIN ps_supplier s ON p.id_supplier = s.id_supplier
+                    LEFT JOIN ps_order_detail od ON o.id_order = od.id_order
+                    LEFT JOIN ps_product p ON od.product_id = p.id_product
+                    LEFT JOIN ps_supplier s ON p.id_supplier = s.id_supplier
                     WHERE o.date_add BETWEEN "'.$date_from.'" AND "'.$date_to.'"
+                    AND o.current_state = 2
                     AND s.id_supplier = '.$commerce.'
                     GROUP BY od.product_reference
                     ORDER BY od.product_reference';
@@ -293,16 +295,17 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
         $name_commerce = $data[0]["commerce"];
         
         foreach ($data as $product) {
-            $table_prods .= "<tr>
-                                <td>".$product['product']."</td>
-                                <td>$ ".$product['price_unit']."</td>
-                                <td>".$product['quantity']."</td>
-                                <td>$ ".$product['price_total']."</td>
-                            </tr>";
+            $table_prods .= '<tr>
+                                <td colspan="2">'.$product['product_name'].'</td>
+                                <td>$ '.number_format($product['price_unit'], 0, '', '.').'</td>
+                                <td>'.$product['quantity'].'</td>
+                                <td>$ '.number_format($product['price_total'], 0, '', '.').'</td>
+                            </tr>';
             
-            $qty_total =+ $product['quantity'];
-            $grand_total =+ $product['price_total'];
+            $qty_total += $product['quantity'];
+            $grand_total += $product['price_total'];
         }
+        $grand_total = number_format($grand_total, 0, '', '.');
 
         require_once(_PS_TOOL_DIR_.'tcpdf/config/lang/eng.php');
         require_once(_PS_TOOL_DIR_.'tcpdf/tcpdf.php');
@@ -364,24 +367,24 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                         <td>$name_commerce</td>
                     </tr>
                 </table>
-                <table style="text-align: right;">
+                <table style="text-align: center;">
                     <tr>
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                     <tr>
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                     <tr style="color: #C9B197;">
-                        <td>Producto</td>
+                        <td colspan="2">Producto</td>
                         <td>Valor Unitario</td>
                         <td>Cantidad</td>
                         <td>Valor Total</td>
                     </tr>
                     <tr>
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                     </tr>
                 </table>
-                <table style="text-align: right; border-bottom: 1px solid #F15E54; border-top: 1px solid #F15E54;">
+                <table style="text-align: center; border-bottom: 1px solid #F15E54; border-top: 1px solid #F15E54; font-size: 12;">
                     $table_prods
                 </table>
                 <table style="text-align: right; color: #F15E54; font-size: 13;">

@@ -85,7 +85,6 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 					$dni = trim (Tools::getValue ('oasl_dni'));
                                         $id_country = trim (Tools::getValue ('oasl_id_country'));
 					$newsletter = 1;
-					$code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
                                         
                                         // Validate Id Sponsor
                                         $id_sponsor = RewardsSponsorshipCodeModel::getIdSponsorByCode(Tools::getValue ('oasl_code_sponsor'));
@@ -197,10 +196,6 @@ class OneAllSocialLoginRegisterModuleFrontController extends ModuleFrontControll
 						// Create a new account.                                                
 						$id_customer = oneall_social_login_tools::create_customer_from_data ($data, $send_email_to_admin, $send_email_to_customer);
 						
-                                                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                                                VALUES ('.$id_customer.', "'.$code_generate.'")');
-                                                
-                                                
                                                 $this->context->smarty->assign('sendSMSconfirm', true);
 						// Login the customer.
 						/*if (!empty ($id_customer) and oneall_social_login_tools::login_customer ($id_customer))
