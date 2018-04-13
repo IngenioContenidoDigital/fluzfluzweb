@@ -379,7 +379,9 @@ class AuthController extends AuthControllerCore
                 $customer->active = 0;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
-                $customer->method_add = 'Web / Referidos';                
+                $customer->method_add = 'Web / Referidos';    
+                $customer->referral_code = $code_generate;
+                
                 //$customer->add();
                 $customer->save();
 
@@ -643,7 +645,7 @@ class AuthController extends AuthControllerCore
                     $customer->active = 0;
                     $customer->phone =  $call_prefix.Tools::getValue('phone_mobile');
                     $customer->method_add = 'Web/invitacion';
-
+                    $customer->referral_code = $code_generate;
                     // Validate exist username
                     if ( Customer::usernameExists( Tools::getValue("username") ) ) {
                         $this->errors[] = Tools::displayError('El nombre de usuario ya se encuentra en uso.');
@@ -667,7 +669,8 @@ class AuthController extends AuthControllerCore
                         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                         $customer->warning_kick_out = 0;
                         $customer->method_add = 'Web/invitacion';
-
+                        $customer->referral_code = $code_generate;
+                        
                         if ( $customExists ) {
                             
                             $idCustom = Customer::getCustomersByEmail( Tools::getValue('email') );
@@ -689,6 +692,9 @@ class AuthController extends AuthControllerCore
                             $customerLoaded = true;
                             
                         } else {
+                            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', NULL, "'.$customer->referral_code.'")');
+                            
                             $customerLoaded = $customer->save();
                             $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
@@ -716,7 +722,7 @@ class AuthController extends AuthControllerCore
                                     $this->errors[] = Tools::displayError('The email cannot be sent.');
                                 }
                             }*/
-                            
+                                    
                             $this->updateContext($customer);
 
                             if ($this->context->cookie->id_cart)

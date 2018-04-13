@@ -400,7 +400,16 @@ class Cart extends CartCore
                 unset($cart_rules[$key]);
             }
         }
-
+        
+        foreach ($cart_rules as &$cart_rule){
+            if($cart_rule['obj']->name == 'Recompensa Fluz'){
+                $cart_rule['method'] = 'rewards';
+            }
+            else{
+                $cart_rule['method'] = 'code';
+            }
+        }
+        
         $summary = array(
             'delivery' => $delivery,
             'delivery_state' => State::getNameById($delivery->id_state),
