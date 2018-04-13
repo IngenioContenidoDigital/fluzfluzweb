@@ -122,6 +122,7 @@ class oneall_social_login_tools
                 WHERE id_country= ".$data['id_country']);
             
             $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($data['user_username']);
+            $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($data['user_sponsor_id']);
 
             // Build customer fields.
             $customer = new Customer();
@@ -252,7 +253,6 @@ class oneall_social_login_tools
                                         WHERE c.id_customer =".$data['user_sponsor_id']);
 
                         if (!empty($sponsor)) {
-                            $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($sponsor['id_customer']);
                             $sponsorship->id_sponsor = $sponsor['id_customer'];
                             Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
@@ -280,7 +280,6 @@ class oneall_social_login_tools
                             $sponsor_a = reset($sort_array);
 
                             if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
-                                $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($sponsor['id_customer']);
                                 $sponsorship->id_sponsor = $sponsor['id_customer'];
                                 Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
                                                                 VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
