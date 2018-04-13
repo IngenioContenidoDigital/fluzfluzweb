@@ -61,6 +61,7 @@ class Customer extends CustomerCore
     public $phone;
     public $sms_confirm;
     public $method_add;
+    public $referral_code;
 
 
     public static $definition = array(
@@ -118,6 +119,7 @@ class Customer extends CustomerCore
             'phone' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 15),
             'method_add' =>               array('type' => self::TYPE_STRING, 'size' => 155),
             'sms_confirm' =>               array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat', 'size' => 6),
+            'referral_code' =>               array('type' => self::TYPE_STRING, 'size' => 255),
         ),  
     );
     

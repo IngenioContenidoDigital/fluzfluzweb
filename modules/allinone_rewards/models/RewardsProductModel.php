@@ -86,7 +86,7 @@ class RewardsProductModel extends ObjectModel
 	}
 
 	// renvoie la récompense attribuée pour ce produit dans la devise du panier
-	static public function getProductReward($id_product, $price, $quantity, $id_currency, $id_template)
+	static public function getProductReward($id_product, $price, $quantity, $id_currency, $id_template=1)
 	{
             	if (self::isProductRewarded($id_product, $id_template)) {
 			$multiplier = (float)MyConf::get('RLOYALTY_MULTIPLIER', null, $id_template);
