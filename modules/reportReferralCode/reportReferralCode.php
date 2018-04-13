@@ -5,10 +5,6 @@ if (!defined('_PS_VERSION_'))
 
 class reportReferralCode extends ModuleGrid
 {
-    private $html;
-    //private $query;
-    private $columns;
-
     public function __construct(){
         $this->name = 'reportReferralCode';
         $this->tab = 'analytics_stats';
@@ -43,13 +39,7 @@ class reportReferralCode extends ModuleGrid
         $this->context->smarty->assign(array(
             'displayName' => $this->displayName,
         ));
-
-        $engine_params = array(
-            'id' => 'id_customer',
-            'title' => $this->displayName,
-            'columns' => $this->columns
-        );
-
+        
         return $this->display(__FILE__, 'views/reportReferral_admin.tpl');
         //return $this->html;
     }

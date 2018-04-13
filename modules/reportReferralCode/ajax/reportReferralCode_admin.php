@@ -1,7 +1,8 @@
 <?php
 include_once('../../../config/config.inc.php');
 include_once('../../../config/defines.inc.php');
-
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsSponsorshipModel.php');
+include_once(_PS_MODULE_DIR_.'/allinone_rewards/models/RewardsModel.php');
 
 switch (Tools::getValue('action')) {
     case 'searchCode':
@@ -32,54 +33,28 @@ switch (Tools::getValue('action')) {
         break;
     case 'clickSearch':
         $code_referral = Tools::getValue('referral_code');
-
-        $email_sponsors = Db::getInstance()->executeS('SELECT c.email, c.date_add 
-                            FROM '._DB_PREFIX_.'rewards_sponsorship_code rsc
-                            INNER JOIN '._DB_PREFIX_.'customer c ON (rsc.id_sponsor = c.id_customer)
-                            WHERE rsc.code_sponsor = "'.$code_referral.'"');
-
-        die (json_encode($email_sponsors));
-        break; 
-    case 'exportFunc':
-        $code_referral = Tools::getValue('referral_code');
-        $email_sponsors = Db::getInstance()->executeS('SELECT c.firstname, c.email, c.date_add 
+        $id_customer = Tools::getValue('id_customer');
+        $tree = RewardsSponsorshipModel::_getTree($id_customer);
+        
+        $email_sponsors = Db::getInstance()->executeS('SELECT c.email, c.date_add, c.id_customer
                             FROM '._DB_PREFIX_.'rewards_sponsorship_code rsc
                             INNER JOIN '._DB_PREFIX_.'customer c ON (rsc.id_sponsor = c.id_customer)
                             WHERE rsc.code_sponsor = "'.$code_referral.'"');
         
-        
-        $report = "<html>
-                        <head>
-                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
-                        </head>
-                            <body>
-                                <table>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Email</th> 
-                                        <th>fecha</th>";
-        
-        $report .= "</tr>";
-        
-        foreach ( $email_sponsors as $customer ) {
-            
-            $report .= "<tr>
-                            <td>".$customer['firstname']."</td>
-                            <td>".$customer['email']."</td>
-                            <td>".$customer['date_add']."</td>";
-            
-            $report .= "</tr>";
+        foreach ($email_sponsors as &$network){
+            foreach ($tree as $x){
+                if($x['id'] == $network['id_customer']){
+                    $network['level_sponsorship'] = $x['level'];
+                }
+            }
         }
         
-        $report .= "         </table>
-                        </body>
-                    </html>";
-        header("Content-Type: application/vnd.ms-excel");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("content-disposition: attachment;filename=report_referralCodes.xls");
-        die(true);
-        break;
+        usort($email_sponsors, function($a, $b) {
+            return $a['level_sponsorship'] - $b['level_sponsorship'];
+        });
+        
+        die (json_encode($email_sponsors));
+        break; 
     default:
         break;
 }

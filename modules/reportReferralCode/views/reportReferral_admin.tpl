@@ -3,6 +3,7 @@
                 <i class="icon-group"></i>
                 {l s='Emails Codigo Referidos (Solo usuarios Activos)'}
         </div>
+    <form method="post">
         <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" style="margin-bottom: 20px;">
             <input type="hidden" id="id_customer" name="id_customer" value="{if $id_member != ""}{$id_member}{else}{/if}"/>
             <input type="hidden" id="customer_name" name="customer_name" value="{if $name_member != ""}{$name_member}{else}{/if}"/>
@@ -27,6 +28,7 @@
                     <tr>
                         <th><span class="title_box">{l s='Email Registrado'}</span></th>
                         <th><span class="title_box">{l s='Dia Ingreso'}</span></th>
+                        <th><span class="title_box">{l s='Nivel Fluzzer'}</span></th>
                     </tr>
                 </thead>
                 <tbody id="table-c" class="result-network">
@@ -35,8 +37,9 @@
             </table>
         </div>
         <div class="btn btn-default export-csv">
-            <a onclick="exportFunc();" type="submit" name="btnExport" id="btnExport"><i class="icon-cloud-upload"></i> Exportar a excel</a>
-        </div>            
+            <a href='#' id="btnExport"><i class="icon-cloud-upload"></i> Exportar a excel</a>
+        </div>  
+    </form>
 </div>
 <script type="text/javascript">
         $(document).ready(function(e){
@@ -82,10 +85,11 @@
         
         function searchFunc() {
             var referral_code = $('#customer_name').val();
+            var id_customer = $('#id_customer').val();
             $.ajax({
                     type : 'POST',
                     url: "{$module_dir}ajax/reportReferralCode_admin.php",
-                    data:'action=clickSearch&referral_code='+referral_code,
+                    data:'action=clickSearch&referral_code='+referral_code+'&id_customer='+id_customer,
                     success: function(data){
                     if(data != ""){
                         $("#table-c").empty();
@@ -95,6 +99,7 @@
                             content += "<tr>";
                             content += '<td>' +data[key].email+ '</td>';
                             content += '<td>' +data[key].date_add+ '</td>';
+                            content += '<td>' +data[key].level_sponsorship+ '</td>';
                             content += "</tr>";
                         })
                         
@@ -109,17 +114,12 @@
             });
         }
         
-        function exportFunc() {
-            var referral_code = $('#customer_name').val();
-            $.ajax({
-                type : 'POST',
-                url: "{$module_dir}ajax/reportReferralCode_admin.php",
-                data:'action=exportFunc&referral_code='+referral_code,
-                success: function(data){
-                    
-                }
-            });
-        }
+        $("#btnExport").click(function (e) {
+            var result = "data:application/vnd.ms-excel,"+encodeURIComponent($('#table-customer-net').html());
+            this.href = result;
+            this.download = "EmailCodigoReferencia.xls";
+            location.reload();
+        });
         
         function cleanCustomer(){
             location.reload();
@@ -128,6 +128,7 @@
 {literal}
     <style>
         .resultados{color: #000; border-bottom: 1px solid #CBCBCB;padding: 5px;text-align: left; cursor: pointer;}
+        .calendar{display: none !important;}
     </style>
 {/literal}
     
