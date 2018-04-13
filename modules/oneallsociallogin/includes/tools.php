@@ -121,6 +121,9 @@ class oneall_social_login_tools
                 FROM "._DB_PREFIX_."country
                 WHERE id_country= ".$data['id_country']);
             
+            $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($data['user_username']);
+            $code_sponsor = RewardsSponsorshipCodeModel::getCodeSponsorById($data['user_sponsor_id']);
+
             // Build customer fields.
             $customer = new Customer();
             $customer->firstname = $data['user_first_name'];
@@ -138,7 +141,7 @@ class oneall_social_login_tools
             $customer->id_default_group = 4;
             $customer->method_add = $data['identity_provider'];
             $customer->id_lang = Context::getContext()->language->id;
-
+            $customer->referral_code = $code_generate;
             //Opted for the newsletter?
             if (!empty($data['user_newsletter']))
             {
@@ -214,6 +217,9 @@ class oneall_social_login_tools
                 if(empty($data['user_sponsor_id'])){
 
                     $sponsorship->id_sponsor = $sponsor[0]['id_customer'];
+                    Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', NULL, "'.$customer->referral_code.'")');
+                            
                     $verified_reward = Db::getInstance()->executeS('SELECT *, SUM(credits) as credits_back FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE date_from BETWEEN (SELECT date_from FROM '._DB_PREFIX_.'rewards_distribute 
                                                 WHERE method_add = "Backoffice" AND active = 1 ORDER BY date_from ASC LIMIT 1) AND NOW() 
@@ -248,6 +254,8 @@ class oneall_social_login_tools
 
                         if (!empty($sponsor)) {
                             $sponsorship->id_sponsor = $sponsor['id_customer'];
+                            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                         }
                     }
                     else{
@@ -273,6 +281,8 @@ class oneall_social_login_tools
 
                             if (!empty($sponsor_a) && ($sponsor_a['sponsoships'] > 0)) {
                                 $sponsorship->id_sponsor = $sponsor['id_customer'];
+                                Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                                                VALUES ('.$customer->id.', "'.$code_sponsor.'", "'.$code_generate.'")');
                             }
                             
                     }

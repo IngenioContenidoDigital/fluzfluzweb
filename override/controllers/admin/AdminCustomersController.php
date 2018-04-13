@@ -92,6 +92,9 @@ class AdminCustomersController extends AdminCustomersControllerCore
             'email' => array(
                 'title' => $this->l('Email address')
             ),
+            'referral_code' => array(
+                'title' => $this->l('Codigo Referido')
+            ),
             'days_inactive' => array(
                 'title' => $this->l('Dias Inactividad')
             ),
@@ -184,7 +187,8 @@ class AdminCustomersController extends AdminCustomersControllerCore
             FROM '._DB_PREFIX_.'rewards_sponsorship_kick_out rsk
             WHERE rsk.id_customer = a.id_customer
             GROUP BY rsk.id_customer
-        ) as date_kick_out, (
+        ) as date_kick_out, 
+        (
             SELECT MAX(o.date_add)
             FROM '._DB_PREFIX_.'orders o
             WHERE o.id_customer = a.id_customer
