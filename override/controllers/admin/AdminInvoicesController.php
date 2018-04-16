@@ -347,24 +347,25 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
 
         // Set some content to print
         $html = <<<EOD
-                <table style="text-align: right; font-size: 10;">
+                <table>
                     <tr>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                     <tr>
-                        <td>Fecha Inicial: &nbsp;&nbsp;&nbsp; $date_from</td>
+                        <td rowspan="2" style="line-height: 7px; font-size: 13; font-weight: bold; text-align: left;">Reporte de Ventas</td>
+                        <td style="text-align: right; font-size: 10;">Fecha Inicial: &nbsp;&nbsp;&nbsp; $date_from</td>
                     </tr>
                     <tr>
-                        <td>Fecha Final: &nbsp;&nbsp;&nbsp; $date_to</td>
+                        <td style="text-align: right; font-size: 10;">Fecha Final: &nbsp;&nbsp;&nbsp; $date_to</td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                     <tr style="text-align: center; color: #F15E54; font-size: 15; font-weight: bold;">
-                        <td>$name_commerce</td>
+                        <td colspan="2">$name_commerce</td>
                     </tr>
                 </table>
                 <table style="text-align: center;">
