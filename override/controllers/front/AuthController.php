@@ -379,7 +379,7 @@ class AuthController extends AuthControllerCore
                 $customer->active = 0;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
-                $customer->method_add = 'Web / Referidos';    
+                $customer->method_add = 'Referral Code Web';    
                 $customer->referral_code = $code_generate;
                 
                 //$customer->add();
@@ -644,7 +644,7 @@ class AuthController extends AuthControllerCore
                     $customer->is_guest = (Tools::isSubmit('is_new_customer') ? !Tools::getValue('is_new_customer', 1) : 0);
                     $customer->active = 0;
                     $customer->phone =  $call_prefix.Tools::getValue('phone_mobile');
-                    $customer->method_add = 'Web/invitacion';
+                    $customer->method_add = 'Web Register';
                     $customer->referral_code = $code_generate;
                     // Validate exist username
                     if ( Customer::usernameExists( Tools::getValue("username") ) ) {
@@ -668,7 +668,7 @@ class AuthController extends AuthControllerCore
                         
                         $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+30 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                         $customer->warning_kick_out = 0;
-                        $customer->method_add = 'Web/invitacion';
+                        $customer->method_add = 'Web Register';
                         $customer->referral_code = $code_generate;
                         
                         if ( $customExists ) {
