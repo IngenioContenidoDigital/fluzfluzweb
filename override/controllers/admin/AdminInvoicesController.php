@@ -275,12 +275,13 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                         UPPER(s.name) commerce,
                         od.product_name,
                         od.product_reference product,
-                        ROUND(od.product_price) price_unit,
+                        ROUND(ps.price_shop) price_unit,
                         SUM(od.product_quantity) quantity,
-                        ROUND(od.product_price*SUM(od.product_quantity)) price_total
+                        ROUND(ps.price_shop*SUM(od.product_quantity)) price_total
                     FROM ps_orders o
                     LEFT JOIN ps_order_detail od ON o.id_order = od.id_order
                     LEFT JOIN ps_product p ON od.product_id = p.id_product
+                    LEFT JOIN ps_product_shop ps ON od.product_id = ps.id_product
                     LEFT JOIN ps_supplier s ON p.id_supplier = s.id_supplier
                     WHERE o.date_add BETWEEN "'.$date_from.'" AND "'.$date_to.'"
                     AND o.current_state = 2
