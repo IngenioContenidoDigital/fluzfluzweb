@@ -682,6 +682,7 @@ class AuthController extends AuthControllerCore
                             $customer->dni = Tools::getValue("gover");
                             $customer->kick_out = 0;
                             $customer->active=0;
+                            $customer->days_inactive = 0;
                             $customer->phone =  $call_prefix.Tools::getValue('phone_mobile');
                             $customer->date_kick_out = date ( 'Y-m-d H:i:s' , strtotime ( '+60 day' , strtotime ( date("Y-m-d H:i:s") ) ) );
                             $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
