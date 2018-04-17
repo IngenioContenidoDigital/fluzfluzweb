@@ -29,7 +29,7 @@ $query = "SELECT
             LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
             WHERE c.active = 1
             AND c.kick_out = 0 AND
-            c.optin = 1 AND c.field_work IS NULL
+            c.field_work IS NULL
             GROUP BY c.id_customer";
 
 $customers = Db::getInstance()->executeS($query);
@@ -98,7 +98,7 @@ foreach ( $customers as $key => &$customer ) {
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
-        case 90:
+        case 180:
             $subject = "Tu cuenta fue Cancelada.";
             $template = 'cancellation_account';
             $message_1 = "";

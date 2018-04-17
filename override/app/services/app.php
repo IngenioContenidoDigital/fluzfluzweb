@@ -624,7 +624,11 @@ class API extends REST {
           $customer->kick_out = 0;
           $customer->active = 0;
           $customer->id_lang = Context::getContext()->language->id;
-          $customer->method_add = 'Movil App';
+          if(!empty($cod_refer)){
+            $customer->method_add = 'Referral Code APP';
+          }else{
+            $customer->method_add = 'Movil App Register';
+          }
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
           $saveCustomer = $customer->add();
