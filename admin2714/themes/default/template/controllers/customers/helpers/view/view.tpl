@@ -166,12 +166,12 @@
 						<div class="col-lg-9">
 							<p class="form-control-static">
 								{if $customer->kick_out}
-									<span class="label label-success">
+									<span class="label label-danger">
 										<i class="icon-check"></i>
 										{l s='Expulsado'}
 									</span>
 								{else}
-									<span class="label label-danger">
+									<span class="label label-success">
 										<i class="icon-remove"></i>
 										{l s='No Expulsado'}
 									</span>
