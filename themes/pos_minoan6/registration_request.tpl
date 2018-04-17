@@ -35,7 +35,7 @@
 {if $successfulregistration}
     <div class="block-successfulregistration row">
         <br>
-        Tu Registro Ha Sido Exitoso
+        Tu Registro Ha Sido Exitoso, Activa Tu Cuenta Desde El Email De Bienvenida
         <br><br><br>
         <img src="{$img_dir}checked.png" />
         <br><br><br><br>
@@ -92,11 +92,11 @@
                 <input type="text" placeholder="-----" class="form-control" id="username" name="username" value="{$smarty.get.username}">
                 <small class="form-text text-muted text-help">Solo letras y n&uacute;meros</small>
             </div>
-            {*<div class="form-group">
+            <div class="form-group">
                 <label for="password" class="required">Contrase&ntilde;a</label>
                 <input type="password" placeholder="-----" class="form-control" id="password" name="password">
                 <small class="form-text text-muted text-help"></small>
-            </div>*}
+            </div>
             <div class="form-group">
                 <label for="email" class="required">Correo Electr&oacute;nico</label>
                 <input type="email" placeholder="---@--.-" class="form-control" id="email" name="email" value="{$smarty.get.email}">
@@ -182,7 +182,7 @@
             var firstname = $("#firstname").val();
             var lastname = $("#lastname").val();
             var username = $("#username").val();
-            //var password = $("#password").val();
+            var password = $("#password").val();
             var email = $("#email").val();
             var phone = $("#phone").val();
             var address = $("#address").val();
@@ -196,7 +196,7 @@
                 firstname != "" &&
                 lastname != "" &&
                 username != "" &&
-                //password != "" &&
+                password != "" &&
                 email != "" &&
                 phone != "" &&
                 address != "" &&

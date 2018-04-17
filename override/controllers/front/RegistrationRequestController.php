@@ -29,7 +29,7 @@ class RegistrationRequestController extends FrontController {
             $firstname = Tools::getValue('firstname');
             $lastname = Tools::getValue('lastname');
             $username = Tools::getValue('username');
-            //$password = Tools::getValue('password');
+            $password = Tools::getValue('password');
             $email = Tools::getValue('email');
             $phone = Tools::getValue('phone');
             $address1 = Tools::getValue('address');
@@ -84,7 +84,7 @@ class RegistrationRequestController extends FrontController {
                 $customer->firstname = $firstname;
                 $customer->lastname = $lastname;
                 $customer->email = $email;
-                $customer->passwd = Tools::encrypt($username);
+                $customer->passwd = Tools::encrypt($password);
                 $customer->dni = $dni;
                 $customer->phone = $phone;
                 $customer->username = $username;
@@ -94,9 +94,10 @@ class RegistrationRequestController extends FrontController {
                 $customer->active = 0;
                 $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
                 $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
-                $customer->method_add = 'Web / SolicitudRegistro';                
+                $customer->method_add = 'Web / SolicitudRegistro';
+                $customer->referral_code = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($username);
                 $customer->add();
-                Db::getInstance()->Execute("INSERT INTO "._DB_PREFIX_."customer_group VALUES (".$customer->id.",3), (".$customer->id.",4)");
+                $customer->addGroups(array((int)Configuration::get('PS_CUSTOMER_GROUP')));
                 
                 $address = new Address();
                 $address->id_customer = $customer->id;
@@ -114,29 +115,20 @@ class RegistrationRequestController extends FrontController {
                 $address->active = 1;
                 $address->add();
                 
-                
-                $sendSMS = false;
-                while ( !$sendSMS ) {
-                    $sendSMS = $customer->confirmCustomerSMSRegistrationRequest($customer->id);
-                }
-                
-                if ( $sendSMS ) {
-                    $this->context->smarty->assign('id_customer', $customer->id);
-                    $this->context->smarty->assign('codesponsor', $codesponsor);
-                    $this->context->smarty->assign('id_sponsor', $id_sponsor);
-                    $this->context->smarty->assign('sendSMS', true);
-                }
+                $this->continueRegistration($customer->id,$codesponsor,$id_sponsor);
+                $this->context->smarty->assign('successfulregistration', true);
             } else {
                 $this->context->smarty->assign('viewform', true);
             }
-        } elseif (Tools::isSubmit('confirm')) {
+        }
+        /*elseif (Tools::isSubmit('confirm')) {
             $id_customer = Tools::getValue('id_customer');
             $codesponsor = Tools::getValue('codesponsor');
             $id_sponsor = Tools::getValue('id_sponsor');
             $codesms = Tools::getValue('codesms');
             
             if ( Customer::validateCodeSMS($id_customer,$codesms) ) {
-                $this->continueRegistration($id_customer,$codesponsor,$id_sponsor);
+                $this->continueRegistration($customer->id,$codesponsor,$id_sponsor);
                 $this->context->smarty->assign('successfulregistration', true);
             } else {
                 $errors[] = "El codigo es incorrecto.";
@@ -160,7 +152,8 @@ class RegistrationRequestController extends FrontController {
                 $this->context->smarty->assign('id_sponsor', $id_sponsor);
                 $this->context->smarty->assign('sendSMS', true);
             }
-        } else {
+        }*/
+        else {
             $this->context->smarty->assign('viewform', true);
         }
         
@@ -176,8 +169,8 @@ class RegistrationRequestController extends FrontController {
         $address = $customer->getAddresses();
         $address1 = $address[0]['address1'];
         
-        $customer->active = 1;
-        $customer->update();
+        /*$customer->active = 1;
+        $customer->update();*/
         
         if ( $codesponsor != "" && $id_sponsor != "" ) {
             $tree = RewardsSponsorshipModel::_getTree($id_sponsor);
@@ -203,9 +196,8 @@ class RegistrationRequestController extends FrontController {
                     $send = "";
                     $sponsorship->save();
 
-                    $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($customer->username);
                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
-                                                VALUES ('.$customer->id.', "'.$codesponsor.'", "'.$code_generate.'")');
+                                                VALUES ('.$customer->id.', "'.$codesponsor.'", "'.$customer->referral_code.'")');
                 }
             } else {
                 $array_sponsor = array();
@@ -237,10 +229,9 @@ class RegistrationRequestController extends FrontController {
                     $sponsorship->email = $customer->email;
                     $sponsorship->channel = 1;
                     $sponsorship->save();
-
-                    $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($customer->username);
+                    
                     Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
-                                                VALUES ('.$customer->id.', "'.$codesponsor.'", "'.$code_generate.'")');
+                                                VALUES ('.$customer->id.', "'.$codesponsor.'", "'.$customer->referral_code.'")');
                 }
             }
         } else {
@@ -268,76 +259,27 @@ class RegistrationRequestController extends FrontController {
             $sponsorship->email = $customer->email;
             $sponsorship->save();
 
-            $code_generate = Allinone_rewardsSponsorshipModuleFrontController::generateIdCodeSponsorship($customer->username);
-            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code)
-                                        VALUES ('.$customer->id.', "'.$code_generate.'")');
+            Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'rewards_sponsorship_code (id_sponsor, code_sponsor, code)
+                                        VALUES ('.$customer->id.', NULL, "'.$customer->referral_code.'")');
         }
 
-        $link = new Link();
-        $merchants_featured = Manufacturer::getManufacturersFeatured();
-        $merchant = array_slice($merchants_featured, 0, 4);
-        $table_merchants_featured = '<table cellspacing="10">
-                                        <tr>
-                                            <td>
-                                                <a href="'.$link->getProductLink($merchant[0]['id_product'], $merchant[0]['link_rewrite']).'" title="'.$merchant[0]['name'].'">
-                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[0]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
-                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
-                                                            <div style="display: table-cell; vertical-align: middle;">
-                                                                <img src="'._S3_PATH_.'m/'.$merchant[0]['id_manufacturer'].'.jpg" alt="'.$merchant[0]['name'].'" title="'.$merchant[0]['name'].'" style="max-width: 70%;">
-                                                            </div>    
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="'.$link->getProductLink($merchant[1]['id_product'], $merchant[1]['link_rewrite']).'" title="'.$merchant[1]['name'].'">
-                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[1]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
-                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
-                                                            <div style="display: table-cell; vertical-align: middle;">
-                                                                <img src="'._S3_PATH_.'m/'.$merchant[1]['id_manufacturer'].'.jpg" alt="'.$merchant[1]['name'].'" title="'.$merchant[1]['name'].'" style="max-width: 70%;">
-                                                            </div>    
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="'.$link->getProductLink($merchant[2]['id_product'], $merchant[2]['link_rewrite']).'" title="'.$merchant[2]['name'].'">
-                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[2]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
-                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
-                                                            <div style="display: table-cell; vertical-align: middle;">
-                                                                <img src="'._S3_PATH_.'m/'.$merchant[2]['id_manufacturer'].'.jpg" alt="'.$merchant[2]['name'].'" title="'.$merchant[2]['name'].'" style="max-width: 70%;">
-                                                            </div>    
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="'.$link->getProductLink($merchant[3]['id_product'], $merchant[3]['link_rewrite']).'" title="'.$merchant[3]['name'].'">
-                                                    <div style="background: url('._S3_PATH_.'m/m/'.$merchant[3]['id_manufacturer'].'.jpg) no-repeat; background-size: 100% 100%;">
-                                                        <div style="height: 232px; display: table; text-align: center; min-width: 100%; padding: 10px;">
-                                                            <div style="display: table-cell; vertical-align: middle;">
-                                                                <img src="'._S3_PATH_.'m/'.$merchant[3]['id_manufacturer'].'.jpg" alt="'.$merchant[3]['name'].'" title="'.$merchant[3]['name'].'" style="max-width: 70%;">
-                                                            </div>    
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </table>';
+        if (isset($_SERVER['HTTPS'])) {
+            $link_url = 'https://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+        }
+        else{
+            $link_url = 'http://'.Configuration::get('PS_SHOP_DOMAIN').'/es/inicio-sesion?back=my-account&id_customer='.(int)$customer->id.'&sendSMS=1';
+        } 
 
         $vars = array(
             '{username}' => $customer->username,
-            //'{password}' =>  $password,
-            '{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),
+            '{password}' =>  $link_url,
+            //'{password}' =>  Context::getContext()->link->getPageLink('password', true, null, 'token='.$customer->secure_key.'&id_customer='.(int)$customer->id.'&valid_auth=1'),
             '{firstname}' => $customer->firstname,
             '{lastname}' => $customer->lastname,
             '{dni}' => $customer->dni,
             '{birthdate}' => $customer->birthday,
             '{address}' => $address1,
             '{phone}' => $customer->phone,
-            '{merchants_featured}' => $table_merchants_featured,
             '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
             '{shop_url}' => Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
             '{shop_url_personal}' => Context::getContext()->link->getPageLink('identity', true, Context::getContext()->language->id, null, false, Context::getContext()->shop->id),
@@ -345,9 +287,11 @@ class RegistrationRequestController extends FrontController {
         );
         $template = 'welcome_fluzfluz';
         $prefix_template = '16-welcome_fluzfluz';
+        
         $query_subject = 'SELECT subject_mail FROM '._DB_PREFIX_.'mail_send WHERE name_mail ="'.$prefix_template.'"';
         $row_subject = Db::getInstance()->getRow($query_subject);
         $message_subject = $row_subject['subject_mail'];
+        
         $allinone_rewards = new allinone_rewards();
         $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($message_subject), $vars, $customer->email, $customer->username);
         
