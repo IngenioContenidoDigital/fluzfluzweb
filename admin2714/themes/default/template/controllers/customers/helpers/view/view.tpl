@@ -161,6 +161,24 @@
 							</p>
 						</div>
 					</div>
+                                        <div class="row">
+						<label class="control-label col-lg-3">{l s='Kick Out'}</label>
+						<div class="col-lg-9">
+							<p class="form-control-static">
+								{if $customer->kick_out}
+									<span class="label label-danger">
+										<i class="icon-check"></i>
+										{l s='Expulsado'}
+									</span>
+								{else}
+									<span class="label label-success">
+										<i class="icon-remove"></i>
+										{l s='No Expulsado'}
+									</span>
+								{/if}
+							</p>
+						</div>
+					</div>                
 				</div>
 				{if $customer->isGuest()}
 					{l s='This customer is registered as a Guest.'}
