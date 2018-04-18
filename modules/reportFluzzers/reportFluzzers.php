@@ -40,8 +40,9 @@ class reportFluzzers extends ModuleGraph
 		$this->name = 'reportFluzzers';
 		$this->tab = 'analytics_stats';
 		$this->version = '1.3.1';
-		$this->author = 'PrestaShop';
+		$this->author = 'Ingenio Contenido Digital SAS';
 		$this->need_instance = 0;
+                $this->bootstrap = true;
 
 		parent::__construct();
 
@@ -51,9 +52,10 @@ class reportFluzzers extends ModuleGraph
 	}
 
 	public function install()
-	{
-		return (parent::install() && $this->registerHook('AdminStatsModules'));
-	}
+        {
+            return (parent::install() &&
+                $this->registerHook('AdminStatsModules'));
+        }
 
 	public function hookAdminStatsModules()
 	{
