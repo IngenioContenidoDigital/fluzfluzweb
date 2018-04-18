@@ -275,12 +275,13 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                         UPPER(s.name) commerce,
                         od.product_name,
                         od.product_reference product,
-                        ROUND(od.product_price) price_unit,
+                        ROUND(ps.price_shop) price_unit,
                         SUM(od.product_quantity) quantity,
-                        ROUND(od.product_price*SUM(od.product_quantity)) price_total
+                        ROUND(ps.price_shop*SUM(od.product_quantity)) price_total
                     FROM ps_orders o
                     LEFT JOIN ps_order_detail od ON o.id_order = od.id_order
                     LEFT JOIN ps_product p ON od.product_id = p.id_product
+                    LEFT JOIN ps_product_shop ps ON od.product_id = ps.id_product
                     LEFT JOIN ps_supplier s ON p.id_supplier = s.id_supplier
                     WHERE o.date_add BETWEEN "'.$date_from.'" AND "'.$date_to.'"
                     AND o.current_state = 2
@@ -347,24 +348,25 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
 
         // Set some content to print
         $html = <<<EOD
-                <table style="text-align: right; font-size: 10;">
+                <table>
                     <tr>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                     <tr>
-                        <td>Fecha Inicial: &nbsp;&nbsp;&nbsp; $date_from</td>
+                        <td rowspan="2" style="line-height: 7px; font-size: 13; font-weight: bold; text-align: left;">Reporte de Ventas</td>
+                        <td style="text-align: right; font-size: 10;">Fecha Inicial: &nbsp;&nbsp;&nbsp; $date_from</td>
                     </tr>
                     <tr>
-                        <td>Fecha Final: &nbsp;&nbsp;&nbsp; $date_to</td>
+                        <td style="text-align: right; font-size: 10;">Fecha Final: &nbsp;&nbsp;&nbsp; $date_to</td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                     <tr style="text-align: center; color: #F15E54; font-size: 15; font-weight: bold;">
-                        <td>$name_commerce</td>
+                        <td colspan="2">$name_commerce</td>
                     </tr>
                 </table>
                 <table style="text-align: center;">
