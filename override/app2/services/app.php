@@ -680,7 +680,7 @@ class API extends REST {
           $customer->method_add = 'Movil App';
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
-          $customer->referral_code = $cod_refer;
+          $customer->referral_code = $code_generate;
           $saveCustomer = $customer->add();
           $customer->updateGroup(array("3","4"));
 
