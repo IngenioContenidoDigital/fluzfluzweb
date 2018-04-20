@@ -680,9 +680,8 @@ class API extends REST {
           $customer->method_add = 'Movil App';
           $customer->date_kick_out = date('Y-m-d H:i:s', strtotime('+30 day', strtotime(date("Y-m-d H:i:s"))));
           $customer->date_add = date('Y-m-d H:i:s', strtotime('+0 day', strtotime(date("Y-m-d H:i:s"))));
-          $customer->referral_code = $cod_refer;
+          $customer->referral_code = $code_generate;
           $saveCustomer = $customer->add();
-          error_log("\n\n\n Add Customer: ".print_r($saveCustomer,true),3,"/tmp/error.log");
           $customer->updateGroup(array("3","4"));
 
         // Agregar Direccion  
@@ -873,7 +872,7 @@ class API extends REST {
    * @return json Informacion de la tarjeta de crédito
    */
   public function sendMailCofirmCreateAccount($customer, $address){
-    error_log("\n\n\n\n Este es el usuario al método que envia el correo: ".print_r($customer,true),3,"/tmp/error.log");
+    
     $vars = array(
       '{username}' => $customer->username,
       '{password}' =>  Context::getContext()->link->getPageLink('index', true, Context::getContext()->language->id, 'id_customer='.(int)$customer->id),
@@ -1484,7 +1483,7 @@ class API extends REST {
       }
       else if ( $option == 5 ) { 
         $object_inv = json_decode($object_inv, true);  
-        $invitation = $model->getSendInvitation( $this->id_lang_default, $id_customer, $object_inv );
+        $invitation = $model->sendInvitation( $this->id_lang_default, $id_customer, $object_inv );
         return $this->response(json_encode(array('result' => $invitation)),200);
       }
     }
