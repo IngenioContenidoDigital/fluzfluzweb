@@ -156,6 +156,11 @@
                 <br><br><br>
             </div>
         </div>
+        {literal}        
+        <style>
+            .alert.alert-danger{display: none;}
+        </style>
+        {/literal}
         {else}        
         <div class="row banner-container">
             <div class="col-xs-12 col-sm-12 signup-account">

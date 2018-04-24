@@ -57,7 +57,7 @@ class fluzfluzCodes extends Module{
                         pin_code pin ,
                         (CASE id_order WHEN 0 THEN 'Disponible' ELSE 'Asignado' END) estado,
                         (CASE id_order WHEN 0 THEN '' ELSE id_order END) `order`,
-                        date_add, date_expiration, no_lote
+                        date_add, date_expiration, no_lote, send_gift
                     FROM "._DB_PREFIX_."product_code
                     WHERE id_product = ".Tools::getValue('id_product');
         $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->ExecuteS($query1);
@@ -69,6 +69,11 @@ class fluzfluzCodes extends Module{
         $rtotal = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query2);
         
         foreach ($result as &$valid){
+            
+            if($valid['send_gift'] != ''){
+               $valid['estado'] = 'Obsequiado';
+            }
+            
             $valid_date = $valid['date_expiration'];
             $date_now = date("Y-m-d");
             
