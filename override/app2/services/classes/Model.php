@@ -2282,7 +2282,12 @@ return $responseObj;
             $members[$counter]['id'] = $sponsor['id'];
             $members[$counter]['dateadd'] = date_format( date_create( $customer->date_add ) ,"d/m/y");
             $members[$counter]['level'] = $sponsor['level'];
-            $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+            if( file_exists(_PS_IMG_DIR_."profile-images/".(string)$sponsor['id'].".png") ){
+              $members[$counter]['img'] = "http://".Configuration::get('PS_SHOP_DOMAIN')."/img/profile-images/".(string)$sponsor['id'].".png";
+            }
+            else {
+              $members[$counter]['img'] = false;
+            }
             $points = Db::getInstance()->ExecuteS($sql);
             $members[$counter]['points'] = round($points[0]['points']);  
           }
@@ -2390,7 +2395,7 @@ return $responseObj;
       $whatsapp         = $invitation_data['whatsapp'];
       
       $error = '0';
-      $slq = 'SELECT COUNT(rs.id_sponsorship) as contador
+      $sql = 'SELECT COUNT(rs.id_sponsorship) as contador
               FROM '._DB_PREFIX_.'rewards_sponsorship rs 
               WHERE id_sponsor = '.$id_customer;
       
