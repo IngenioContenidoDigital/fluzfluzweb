@@ -174,7 +174,7 @@ class AdminInvoicesController extends AdminInvoicesControllerCore
                             LEFT JOIN ps_order_payment op ON ( o.reference = op.order_reference )
                             LEFT JOIN ps_product p ON ( p.id_product = od.product_id )
                             LEFT JOIN ps_supplier s ON ( p.id_supplier = s.id_supplier )
-                            WHERE o.date_add BETWEEN "'.$date_from.'" AND "'.$date_to.'"
+                            WHERE o.date_add BETWEEN "'.$date_from.' 00:00:00" AND "'.$date_to.' 23:59:59"
                             AND o.current_state = 2
                             '.($commerce!="" ? " AND s.id_supplier = ".$commerce." " : "" ).'
                             GROUP BY o.id_order, od.id_order_detail, o.id_customer
