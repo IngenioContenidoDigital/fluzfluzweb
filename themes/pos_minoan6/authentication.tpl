@@ -1701,9 +1701,12 @@
         }
                     
         $(document).ready(function(){
-            
+            /*var cookie = getCookie('sms');
+            if (cookie !== undefined) {
+                var c = cookie;
+            }*/
             $('#pop').hide();
-            var c = $.urlParam('id_customer')
+            var c = $.urlParam('id_customer');
             //var id_customer = $.cookie('sms');
             //console.log(id_customer);
             if (c.length > 0){

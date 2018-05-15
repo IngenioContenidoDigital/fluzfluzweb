@@ -259,6 +259,7 @@ class MyAccountController extends MyAccountControllerCore
         // MEMBERS FEED
         $stringidsponsors = "";
         $tree = RewardsSponsorshipModel::_getTree($this->context->customer->id);
+        
         foreach ($tree as $sponsor) {
             $stringidsponsors .= $sponsor['id'].",";
         }
@@ -267,6 +268,7 @@ class MyAccountController extends MyAccountControllerCore
                                                         o.date_add,
                                                         o.id_customer,
                                                         c.username name_customer,
+                                                        od.points as points,
                                                         pl.id_product,
                                                         i.id_image,
                                                         m.name name_product,
