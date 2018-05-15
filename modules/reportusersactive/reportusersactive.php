@@ -110,8 +110,8 @@ class reportusersactive extends ModuleGrid
                         INNER JOIN "._DB_PREFIX_."address a ON ( c.id_customer = a.id_customer )
                         WHERE c.active = 1
                         AND c.kick_out = 0
-                        AND c.date_add <= ".$date_between."
-                        GROUP BY c.id_customer";
+                        AND c.date_add BETWEEN ".$date_between."
+                        GROUP BY c.date_add ASC";
 
         $list = Db::getInstance()->executeS($this->query);
 
