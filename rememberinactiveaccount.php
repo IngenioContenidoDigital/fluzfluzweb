@@ -108,7 +108,7 @@ foreach ( $customers as $key => &$customer ) {
             break;
     } 
     
-    /*if ( $subject != "" && $template != "cancellation_account" ) {
+    if ( $subject != "" && $template != "cancellation_account" ) {
         if ( $customer['days_inactive'] != "NULL" ) {            
             $existNotificationInactive = Db::getInstance()->getValue("SELECT COUNT(*) FROM "._DB_PREFIX_."notification_inactive WHERE id_customer = ".$customer['id_customer']);
             if ( $existNotificationInactive == 0 ) {
@@ -123,7 +123,7 @@ foreach ( $customers as $key => &$customer ) {
         $contributor_count = Db::getInstance()->getValue("SELECT COUNT(*) contributor_count FROM "._DB_PREFIX_."customer WHERE active = 1");
         $points_count = Db::getInstance()->getValue("SELECT SUM(credits) points_count FROM "._DB_PREFIX_."rewards WHERE id_reward_state = 2");
 
-        /*$vars = array(
+        $vars = array(
             '{username}' => $customer['username'],
             '{days_inactive}' => $customer['days_inactive'],
             '{message}' => $message_1,
@@ -153,18 +153,18 @@ foreach ( $customers as $key => &$customer ) {
             $allinone_rewards = new allinone_rewards();
             $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($subject), $vars, $customer['email'],$customer['username'], $file_attachement);
                 
-            Mail::Send(
+            /*Mail::Send(
                 Context::getContext()->language->id,
                 $template,
                 $subject,
                 $vars,
                 $customer['email'],
                 $customer['username']
-            );
+            );*/
         }
-    }*/
+    }
 }
 
-/*if ( $execute_kickout ) {
+if ( $execute_kickout ) {
     require_once(_PS_ROOT_DIR_.'/kickoutcustomers.php');
-}*/
+}
