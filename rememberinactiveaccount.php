@@ -86,19 +86,19 @@ foreach ( $customers as $key => &$customer ) {
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
-        case 59:
+        case 55:
             $subject = "Alerta de Cancelacion de cuenta en Fluz Fluz.";
             $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
-        case 60:
+        case 59:
             $subject = "Tu cuenta sera Cancelada.";
             $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
-        case 180:
+        case $customer['days_inactive'] > 60:
             $subject = "Tu cuenta fue Cancelada.";
             $template = 'cancellation_account';
             $message_1 = "";
