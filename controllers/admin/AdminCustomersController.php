@@ -698,7 +698,7 @@ class AdminCustomersControllerCore extends AdminController
         if (!($customer = $this->loadObject())) {
             return;
         }
-
+        
         $this->context->customer = $customer;
         $gender = new Gender($customer->id_gender, $this->context->language->id);
         $gender_image = $gender->getImage();
