@@ -30,7 +30,7 @@ class kickoutCustomers {
         $query = "SELECT rs.id_customer id, rs.*
                     FROM "._DB_PREFIX_."customer c
                     INNER JOIN "._DB_PREFIX_."rewards_sponsorship rs ON ( c.id_customer = rs.id_customer)
-                    WHERE c.kick_out = 1 AND c.field_work IS NULL";
+                    WHERE c.kick_out = 1 AND c.field_work IS NULL LIMIT 1";
         return ( Db::getInstance()->executeS($query) );
     }
 
