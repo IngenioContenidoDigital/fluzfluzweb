@@ -153,6 +153,9 @@
                 {l s='Resumen de Orden'}
             </h1>
         <div class="border-title"></div>
+        {if $order->current_state == 15}
+            <div class="row information-pending">Hemos recibido tu solicitud de compra. Te informamos que tu transacci&oacute;n est&aacute; siendo procesada por nuestra pasarela de pagos y tu banco. La aprobaci&oacute;n o rechazo depende de tu entidad financiera y ser&aacute; recibida m&aacute;ximo en las 4 horas siguientes. Si tienes alguna inquietud adicional, por favor comun&iacute;cate con tu entidad financiera.</div>
+        {/if}
         <div class="row" style="padding:0px;margin-bottom: 25px;">
             <div class="row r-summary">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 0px; text-align: left;"> Comerciante </div>

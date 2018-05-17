@@ -39,6 +39,7 @@ and open the template in the editor.
 .title-margin{margin-bottom: 30px; border: 1px solid #e5e5e5;}
 .padding-title{padding: 10px;}
 .left-title{text-align: right;}
+.information-pending { line-height: 15px; font-size: 12px; margin-bottom: 20px; padding: 7px; color: #ef4130; border: 1px solid #ef4130; text-align: justify; }
 
 /*progress bar*/
 .bs-wizard {margin-top: 0px;}
