@@ -10,7 +10,7 @@ executePending();
 
 
 function executePending(){
-    $query="SELECT * FROM "._DB_PREFIX_."webservice_external_log WHERE (response_code <> 0 AND response_code <> 9)";
+    $query="SELECT * FROM "._DB_PREFIX_."webservice_external_log WHERE response_code <> 0";
     $requests = Db::getInstance()->executeS($query);
     foreach($requests as $request){
         $pclient = new CSoap($request['id_webservice_external']);
