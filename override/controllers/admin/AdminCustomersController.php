@@ -72,23 +72,23 @@ class AdminCustomersController extends AdminCustomersControllerCore
                 'align' => 'text-center',
                 'class' => 'fixed-width-xs'
             ),
-            'title' => array(
+            /*'title' => array(
                 'title' => $this->l('Social title'),
                 'filter_key' => 'a!id_gender',
                 'type' => 'select',
                 'list' => $titles_array,
                 'filter_type' => 'int',
                 'order_key' => 'gl!name'
-            ),
+            ),*/
             'username' => array(
                 'title' => $this->l('username')
             ),
-            'firstname' => array(
+            /*'firstname' => array(
                 'title' => $this->l('First name')
             ),
             'lastname' => array(
                 'title' => $this->l('Last name')
-            ),
+            ),*/
             'email' => array(
                 'title' => $this->l('Email address')
             ),
@@ -109,14 +109,14 @@ class AdminCustomersController extends AdminCustomersControllerCore
         }
 
         $this->fields_list = array_merge($this->fields_list, array(
-            'total_spent' => array(
+            /*'total_spent' => array(
                 'title' => $this->l('Sales'),
                 'type' => 'price',
                 'search' => false,
                 'havingFilter' => true,
                 'align' => 'text-right',
                 'badge_success' => true
-            ),
+            ),*/
             /*'active' => array(
                 'title' => $this->l('Enabled'),
                 'align' => 'text-center',
@@ -161,7 +161,10 @@ class AdminCustomersController extends AdminCustomersControllerCore
                 'type' => 'datetime',
                 'search' => false,
                 'havingFilter' => true
-            )
+            ),
+            'token_fcm' => array(
+                'title' => $this->l('Token Fcm'),
+            ),
         ));
 
         $this->shopLinkType = 'shop';
