@@ -70,23 +70,23 @@ foreach ( $customers as $key => &$customer ) {
         case 0:
             $customer['days_inactive'] = "NULL";
             break;
-        case 30:
+        case $customer['days_inactive'] > 30:
             $subject = "Tus 2 compras minimas del mes!";
             $message_1 = "Fluz Fluz desea recordarte que no has realizado tus 2 compras m&iacute;nimas mensuales para permanecer activo.";
             $message_3 = "Para m&aacute;s informaci&oacute;n puedes ingresar a";
             break;
-        case 45:
+        case $customer['days_inactive'] > 45:
             $subject = "Para gozar de los beneficios Fluz Fuz, recuerda realizar tus 2 compras minimas!";
             $message_1 = "Fluz Fluz desea recordarte que no has realizado tus 2 compras m&iacute;nimas mensuales para permanecer activo.";
             $message_3 = "Para m&aacute;s informaci&oacute;n puedes ingresar a";
             break;
-        case 52:
+        case $customer['days_inactive'] > 52:
             $subject = "Olvidaste hacer tus 2 compras minimas en Fluz Fluz.";
             $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
-        case 55:
+        case $customer['days_inactive'] > 55:
             $subject = "Alerta de Cancelacion de cuenta en Fluz Fluz.";
             $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
