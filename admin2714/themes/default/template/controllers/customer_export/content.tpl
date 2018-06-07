@@ -69,6 +69,20 @@
             </table>
         </div>          
 </div>
+<div class="panel">
+        <div class="panel-heading">
+                <i class="icon-group"></i>
+                {l s='Exportar Base de Datos Usuario'}
+        </div>     
+        <div>
+            <form method="post" >
+                <button type="submit" id="btn_save" name="btn_save" class="btn btn-default">
+                        <i class="icon-save"></i>
+                        {l s='Exportar Usuarios'}
+                </button>
+            </form>
+        </div>
+</div>
 {literal}
     <script>
         $(document).ready(function(e){

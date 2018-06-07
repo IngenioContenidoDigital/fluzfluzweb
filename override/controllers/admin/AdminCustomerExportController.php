@@ -61,6 +61,10 @@ class AdminCustomerExportControllerCore extends AdminController
             Customer::CustomerExport( Tools::getValue('date_from'), Tools::getValue('date_to') );
         }
         
+        if (Tools::isSubmit('btn_save')) {
+            Customer::CustomerExportDB();
+        }
+        
         switch ( Tools::getValue('action') ) {
         
             case 'clickSearch':

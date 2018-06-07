@@ -350,6 +350,91 @@ class Customer extends CustomerCore
         die($report);
     }
     
+    public static function CustomerExportDB()
+    {      
+        $sql = "SELECT c.firstname, c.id_customer, c.email, c.referral_code, c.dni, ad.address1, c.phone, ( SELECT SUM(r.credits)
+                    FROM "._DB_PREFIX_."rewards r
+                    WHERE r.id_customer = c.id_customer
+                    AND r.id_reward_state = 2
+                    ) points, 
+                c.date_add, c.birthday, c.active, c.kick_out, ad.city, 
+                (SELECT COUNT(o.id_order) 
+                FROM "._DB_PREFIX_."orders o
+                WHERE o.id_customer = c.id_customer AND o.current_state = 2) orders, c.method_add,
+                rs.id_sponsor, (SELECT cc.firstname  FROM "._DB_PREFIX_."customer cc WHERE cc.id_customer = rs.id_sponsor)  as Nombre_sponsor,
+        (SELECT cc.email  FROM "._DB_PREFIX_."customer cc WHERE cc.id_customer = rs.id_sponsor)  as email_sponsor
+        FROM "._DB_PREFIX_."customer c
+        LEFT JOIN "._DB_PREFIX_."rewards_sponsorship rs ON (rs.id_customer = c.id_customer)
+        LEFT JOIN "._DB_PREFIX_."address ad ON (c.id_customer = ad.id_customer)";
+        $sql .= " GROUP BY c.id_customer";
+        $sql .= " ORDER BY c.id_customer ASC";
+        
+        
+        $customers = Db::getInstance()->executeS($sql);
+        
+        $report = "<html>
+                        <head>
+                            <meta http-equiv=?Content-Type? content=?text/html; charset=utf-8? />
+                        </head>
+                            <body>
+                                <table>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>id Customer</th>
+                                        <th>Email</th>
+                                        <th>Referral Code</th>
+                                        <th>Government ID</th>
+                                        <th>Phone</th>
+                                        <th>Fluz Balance</th>
+                                        <th>Address</th>
+                                        <th>Registration Date</th>
+                                        <th>Date of Birth</th>
+                                        <th>Estado</th>
+                                        <th>Kick Out</th>
+                                        <th>City</th>
+                                        <th>Purchases</th>
+                                        <th>Metodo Add</th>
+                                        <th>id Sponsor</th>
+                                        <th>Nombre Sponsor</th>
+                                        <th>Email Sponsor</th>";
+        
+        $report .= "</tr>";
+        
+        foreach ( $customers as $customer ) {
+            
+            $report .= "<tr>
+                            <td>".$customer['firstname']."</td>
+                            <td>".$customer['id_customer']."</td>    
+                            <td>".$customer['email']."</td>
+                            <td>".$customer['referral_code']."</td>
+                            <td>".$customer['dni']."</td>
+                            <td>".$customer['phone']."</td>    
+                            <td>".$customer['points']."</td>
+                            <td>".$customer['address1']."</td>
+                            <td>".$customer['date_add']."</td>
+                            <td>".$customer['birthday']."</td>
+                            <td>".$customer['active']."</td>
+                            <td>".$customer['kick_out']."</td>
+                            <td>".$customer['city']."</td>
+                            <td>".$customer['orders']."</td>
+                            <td>".$customer['method_add']."</td>
+                            <td>".$customer['id_sponsor']."</td>
+                            <td>".$customer['Nombre_sponsor']."</td>
+                            <td>".$customer['email_sponsor']."</td>";
+            
+            $report .= "</tr>";
+        }
+        
+        $report .= "         </table>
+                        </body>
+                    </html>";
+        header("Content-Type: application/vnd.ms-excel");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("content-disposition: attachment;filename=report_customers.xls");
+        die($report);
+    }
+    
     public function getStatisticsReward()
     {
         if (!$this->id) {
