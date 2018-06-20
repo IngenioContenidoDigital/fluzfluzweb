@@ -9,7 +9,8 @@ include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 $execute_kickout = false;
 
-$query = "SELECT
+/*$query = "SELECT
+                count(c.id_customer),
                 c.id_customer,
                 c.username,
                 c.email,
@@ -30,7 +31,11 @@ $query = "SELECT
             WHERE c.active = 1
             AND c.kick_out = 0 AND
             c.field_work IS NULL
-            GROUP BY c.id_customer";
+            GROUP BY c.id_customer";*/
+
+$query = 'SELECT c.* FROM '._DB_PREFIX_.'customer c 
+        INNER JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON (rs.id_customer = c.id_customer)
+        WHERE c.days_inactive > 60 AND field_work IS NULL AND c.kick_out = 0';
 
 $customers = Db::getInstance()->executeS($query);
 
@@ -70,23 +75,23 @@ foreach ( $customers as $key => &$customer ) {
         case 0:
             $customer['days_inactive'] = "NULL";
             break;
-        case $customer['days_inactive'] > 30:
+        case 30:
             $subject = "Tus 2 compras minimas del mes!";
             $message_1 = "Fluz Fluz desea recordarte que no has realizado tus 2 compras m&iacute;nimas mensuales para permanecer activo.";
             $message_3 = "Para m&aacute;s informaci&oacute;n puedes ingresar a";
             break;
-        case $customer['days_inactive'] > 45:
+        case 45:
             $subject = "Para gozar de los beneficios Fluz Fuz, recuerda realizar tus 2 compras minimas!";
             $message_1 = "Fluz Fluz desea recordarte que no has realizado tus 2 compras m&iacute;nimas mensuales para permanecer activo.";
             $message_3 = "Para m&aacute;s informaci&oacute;n puedes ingresar a";
             break;
-        case $customer['days_inactive'] > 52:
+        case 52:
             $subject = "Olvidaste hacer tus 2 compras minimas en Fluz Fluz.";
             $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
-        case $customer['days_inactive'] > 55:
+        case 55:
             $subject = "Alerta de Cancelacion de cuenta en Fluz Fluz.";
             $message_1 = "Fluz Fluz desea recordarte que debido a que no realizaste tus 2 compras m&iacute;nimas mensuales el mes pasado, es necesario que te pongas al d&iacute;a; es decir, debes realizar las 2 compras del mes pasado y las 2 compras de este mes para permanecer activo. En caso contrario, el sistema desactivara t&uacute; cuenta de Fluz Fluz y tu espacio lo ocupar&aacute; un nuevo Fluzzer.";
             $message_2 = "Pd: Si ya relizaste tus compras y estas al d&iacute;a, haz caso omiso de esta notificaci&oacute;n.";
@@ -107,7 +112,6 @@ foreach ( $customers as $key => &$customer ) {
             Db::getInstance()->execute("UPDATE "._DB_PREFIX_."customer SET kick_out = 1 WHERE id_customer = ".$customer['id_customer']);
             break;
     } 
-    
     if ( $subject != "" && $template != "cancellation_account" ) {
         if ( $customer['days_inactive'] != "NULL" ) {            
             $existNotificationInactive = Db::getInstance()->getValue("SELECT COUNT(*) FROM "._DB_PREFIX_."notification_inactive WHERE id_customer = ".$customer['id_customer']);
