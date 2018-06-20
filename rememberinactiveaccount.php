@@ -104,8 +104,6 @@ foreach ( $customers as $key => &$customer ) {
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
         case $customer['days_inactive'] > 60:
-		echo '<pre>';
-		print_r($customer);
             $subject = "Tu cuenta fue Cancelada.";
             $template = 'cancellation_account';
             $message_1 = "";
