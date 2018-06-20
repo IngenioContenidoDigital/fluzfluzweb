@@ -28,7 +28,7 @@ $execute_kickout = false;
                 ) points
             FROM "._DB_PREFIX_."customer c
             LEFT JOIN "._DB_PREFIX_."orders o ON ( c.id_customer = o.id_customer )
-            WHERE c.active = 1
+            WHERE (c.active = 1 OR c.active = 0)
             AND c.kick_out = 0 AND
             c.field_work IS NULL
             GROUP BY c.id_customer";*/
@@ -104,6 +104,8 @@ foreach ( $customers as $key => &$customer ) {
             $message_3 = "M&aacute;s informaci&oacute;n en";
             break;
         case $customer['days_inactive'] > 60:
+		echo '<pre>';
+		print_r($customer);
             $subject = "Tu cuenta fue Cancelada.";
             $template = 'cancellation_account';
             $message_1 = "";
@@ -154,8 +156,8 @@ foreach ( $customers as $key => &$customer ) {
             $file_attachement[1]['name'] = 'Guia Rapida Fluz Fluz.pdf';
             $file_attachement[1]['mime'] = 'application/pdf';
             
-            $allinone_rewards = new allinone_rewards();
-            $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($subject), $vars, $customer['email'],$customer['username'], $file_attachement);
+           $allinone_rewards = new allinone_rewards();
+           $allinone_rewards->sendMail(Context::getContext()->language->id, $template, $allinone_rewards->getL($subject), $vars, $customer['email'],$customer['username'], $file_attachement);
                 
             /*Mail::Send(
                 Context::getContext()->language->id,
