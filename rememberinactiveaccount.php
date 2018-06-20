@@ -9,7 +9,7 @@ include_once('./modules/allinone_rewards/allinone_rewards.php');
 
 $execute_kickout = false;
 
-/*$query = "SELECT
+$query = "SELECT
                 count(c.id_customer),
                 c.id_customer,
                 c.username,
@@ -31,11 +31,11 @@ $execute_kickout = false;
             WHERE (c.active = 1 OR c.active = 0)
             AND c.kick_out = 0 AND
             c.field_work IS NULL
-            GROUP BY c.id_customer";*/
+            GROUP BY c.id_customer";
 
-$query = 'SELECT c.* FROM '._DB_PREFIX_.'customer c 
+/*$query = 'SELECT c.* FROM '._DB_PREFIX_.'customer c 
         INNER JOIN '._DB_PREFIX_.'rewards_sponsorship rs ON (rs.id_customer = c.id_customer)
-        WHERE c.days_inactive > 60 AND field_work IS NULL AND c.kick_out = 0';
+        WHERE c.days_inactive > 60 AND field_work IS NULL AND c.kick_out = 0';*/
 
 $customers = Db::getInstance()->executeS($query);
 
