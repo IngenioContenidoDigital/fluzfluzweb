@@ -172,3 +172,4 @@ foreach ( $customers as $key => &$customer ) {
 if ( $execute_kickout ) {
     require_once(_PS_ROOT_DIR_.'/kickoutcustomers.php');
 }
+
